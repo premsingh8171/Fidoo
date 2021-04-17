@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".views.home.HomeFragment">
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardBackgroundColor="@color/white"
+            android:layout_marginTop="350dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:cardCornerRadius="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/icon_info" />
+
+                <TextView
+                    android:id="@+id/order_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@id/icon"
+                    android:text="Please wait while we confirm your order" />
+
+
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/topLay"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/backIconnTrack"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="5dp"
+                android:src="@drawable/arrow_backward"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="@font/proxima"
+                android:text="Order Status"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="#70000000"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topLay" />
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bottomLay"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            tools:context=".view.ui.home.HomeMapActivity" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottomLay"
+            android:layout_width="0dp"
+            android:layout_height="400dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="@drawable/rounded_corner_bottom_sheet">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="5dp"
+                app:cardElevation="8dp"
+                app:cardCornerRadius="10dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/bottom_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_corner_bottom_sheet">
+
+                    <RelativeLayout
+                        android:id="@+id/current_order_details_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_order_id_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ORDER ID"
+                            android:fontFamily="@font/proxima"/>
+
+                        <TextView
+                            android:id="@+id/tv_order_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_order_id_label"
+                            android:layout_marginTop="15dp"
+                            android:text="123456"
+                            android:fontFamily="@font/proxima"
+                            android:textColor="@color/colorPrimary"/>
+
+                        <TextView
+                            android:id="@+id/tv_delivery_boy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/proxima"
+                            android:text="Bhim Singh"
+                            android:layout_alignParentEnd="true" />
+
+                        <TextView
+                            android:id="@+id/tv_delivery_boy_call"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Call now"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@id/tv_delivery_boy"
+                            android:layout_marginTop="15dp"
+                            android:padding="5dp"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPrimary"/>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/separator_one"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        app:layout_constraintTop_toBottomOf="@id/current_order_details_lay"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/background"/>
+
+                    <RelativeLayout
+                        android:id="@+id/address_details_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/separator_one"
+                        android:padding="20dp"
+                        android:background="@color/white">
+
+
+                        <TextView
+                            android:id="@+id/tv_address_detail_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Order Status"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/proxima"
+                            android:visibility="gone"/>
+
+                        <LinearLayout
+                            android:id="@+id/locations_lay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_below="@id/tv_address_detail_label"
+                            android:layout_marginTop="15dp">
+
+                            <ImageView
+                                android:id="@+id/order_confirm_pointer"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/location_target_icon"/>
+
+                            <View
+                                android:id="@+id/vertical_line_between_two_location"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:background="@drawable/dotted_vertical_line"
+                                android:alpha="0.5"/>
+
+
+                            <ImageView
+                                android:id="@+id/delivery_partner_confirmed_pointer"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/location_target_icon"
+                                app:tint="@color/grey" />
+
+                            <View
+                                android:id="@+id/vertical_line_between_two_location_second"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:background="@drawable/dotted_vertical_line"
+                                android:alpha="0.5"/>
+
+                            <ImageView
+                                android:id="@+id/img_to_location"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/location_target_icon"
+                                app:tint="@color/grey"
+                                android:layout_marginTop="2dp"/>
+
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/address_detail_lay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/locations_lay"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginStart="20dp">
+
+                            <TextView
+                                android:id="@+id/tv_order_confirmed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Order Confirmed"
+                                android:fontFamily="@font/proxima"
+                                android:layout_alignParentTop="true"/>
+
+                            <TextView
+                                android:id="@+id/tv_we_will_assign_delivery_partner_soon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="We will assign delivery partner soon"
+                                android:textColor="@color/grey"
+                                android:layout_below="@id/tv_order_confirmed"
+                                android:fontFamily="@font/proxima"/>
+
+                            <TextView
+                                android:id="@+id/tv_order_picked"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Delivery partner en route to pickup"
+                                android:layout_below="@id/tv_we_will_assign_delivery_partner_soon"
+                                android:layout_marginTop="40dp"
+                                android:fontFamily="@font/proxima"/>
+
+                            <TextView
+                                android:id="@+id/tv_order_picked_details"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="address detail"
+                                android:textColor="@color/grey"
+                                android:layout_below="@id/tv_order_picked"
+                                android:fontFamily="@font/proxima"/>
+
+
+                            <TextView
+                                android:id="@+id/tv_order_delivery"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Delivery partner en route to deliver"
+                                android:layout_marginTop="30dp"
+                                android:fontFamily="@font/proxima"
+                                android:layout_below="@+id/tv_order_picked_details" />
+
+                            <TextView
+                                android:id="@+id/tv_your_order_is_on_the_way"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="address detail"
+                                android:textColor="@color/grey"
+                                android:layout_below="@id/tv_order_delivery"
+                                android:fontFamily="@font/proxima"/>
+
+
+
+                        </RelativeLayout>
+
+
+
+
+
+                    </RelativeLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/button_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent">
+
+                        <TextView
+                            android:id="@+id/orderDetailsTxt"
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/black_full_rounded_empty"
+                            android:fontFamily="@font/metropolis_regular"
+                            android:gravity="center"
+                            android:text="Order Details"
+                            android:textColor="@android:color/black"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@+id/cancelBtn"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/cancelBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/red_full_rounded_empty"
+                            android:fontFamily="@font/metropolis_regular"
+                            android:gravity="center"
+                            android:text="Cancel Order"
+                            android:textColor="#ff0010"
+                            app:layout_constraintLeft_toRightOf="@+id/orderDetailsTxt"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/waitingLay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="70dp"
+            android:background="#60000000"
+            android:clickable="true"
+            android:elevation="6dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/metropolis_semi_bold"
+                android:text="Order is being accepting.."
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/cancelOrderBtn"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginBottom="50dp"
+                android:background="@drawable/red_rounded_solid"
+                android:gravity="center"
+                android:text="CANCEL ORDER"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--<androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/view">
+
+            <LinearLayout
+                android:id="@+id/bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:behavior_hideable="true"
+                app:behavior_peekHeight="0dp"
+                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+                app:layout_constraintTop_toBottomOf="@+id/tabLayout">
+
+                <RelativeLayout
+                    android:id="@+id/transLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#50000000">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="250dp"
+                        android:layout_marginBottom="60dp"
+                        android:background="@drawable/white_rounded_solid"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center_horizontal">
+
+                            <TextView
+                                android:id="@+id/product_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="15dp"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/metropolisbold"
+                                android:text="Customization"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <ImageView
+                                android:id="@+id/filterIcon"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginHorizontal="15dp" />
+
+                        </RelativeLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="15dp"
+                            android:fontFamily="@font/metropolis_regular"
+                            android:text="Choose your customization"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="12sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@android:color/darker_gray" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/customItemsRecyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center"
+
+                            />
+                    </LinearLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@android:color/white"
+                        android:elevation="5dp"
+                        android:fadingEdgeLength="2dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/add_remove_lay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:background="#30000000"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+
+                            <TextView
+                                android:id="@+id/minusLay"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:gravity="center"
+                                android:text="-"
+                                android:textSize="20dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintLeft_toRightOf="@+id/countValue"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+                            <TextView
+                                android:id="@+id/countValue"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:gravity="center"
+                                android:text="1"
+                                android:textColor="@android:color/black"
+                                android:textSize="20dp"
+                                app:layout_constraintLeft_toRightOf="@+id/minusLay"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+                            <TextView
+                                android:id="@+id/plusLay"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_marginRight="5dp"
+                                android:gravity="center"
+                                android:text="+"
+                                android:textSize="20dp"
+                                app:cardCornerRadius="8dp"
+                                app:layout_constraintLeft_toRightOf="@+id/countValue"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+
+                            android:id="@+id/customAddBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:background="@drawable/black_full_rounded_empty"
+                            android:fontFamily="@font/metropolis_regular"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:paddingHorizontal="15dp"
+                            android:paddingVertical="7dp"
+                            android:text="@string/_50_000"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ImageView
+                        android:id="@+id/placesDown"
+                        android:layout_width="280dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="85dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

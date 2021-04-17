@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/categoryLay"
+    android:layout_width="100dp"
+    android:layout_height="170dp"
+    android:padding="5dp"
+    android:elevation="@dimen/margin_5dp"
+    android:background="@drawable/bg_white_corner_round"
+    android:layout_margin="5dp">
+
+
+    <ImageView
+        android:id="@+id/imageLay"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/profile_icon" />
+
+    <TextView
+        android:id="@+id/catName"
+        android:layout_width="80sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="2"
+        android:text="Grocery"
+        android:fontFamily="@font/proxima"
+        android:textAlignment="center"
+        android:layout_below="@id/imageLay"
+        android:layout_centerInParent="true"/>
+
+
+</RelativeLayout>

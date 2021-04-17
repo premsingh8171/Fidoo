@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.HomeFragment"
+        android:background="#FBFBFB">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/topLay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/white"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
+            android:elevation="10dp"
+            android:outlineSpotShadowColor="@color/white">
+
+            <ImageView
+                android:id="@+id/routeIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/loc_icon"
+                android:padding="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="15dp"
+                app:tint="#339347"/>
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="You are in"
+                android:fontFamily="@font/proxima"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toRightOf="@+id/routeIcon"
+                app:layout_constraintRight_toLeftOf="@+id/cartIcon"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="5dp" />
+
+            <TextView
+                android:id="@+id/userAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:fontFamily="@font/proxima"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@android:color/darker_gray"
+                android:textSize="17sp"
+                app:layout_constraintLeft_toRightOf="@+id/routeIcon"
+                app:layout_constraintRight_toLeftOf="@+id/cartIcon"
+                app:layout_constraintTop_toBottomOf="@+id/text"
+                android:layout_marginStart="5dp"/>
+
+            <ImageView
+                android:id="@+id/cartIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="15dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="5dp"
+                android:src="@drawable/cart_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/profileIconn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/colorHint"/>
+
+            <TextView
+                android:id="@+id/cartCountTxt"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/grey_rounded_solid"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="9sp"
+                android:visibility="gone"
+                app:layout_constraintRight_toLeftOf="@+id/profileIconn"
+                app:layout_constraintTop_toTopOf="@+id/cartIcon" />
+
+            <ImageView
+                android:id="@+id/profileIconn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/profile_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="#70000000"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topLay"
+            android:visibility="gone"/>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="15dp"
+                    app:cardCornerRadius="8dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.smarteist.autoimageslider.SliderView
+                        android:id="@+id/sliderView"
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp"
+                        app:sliderAnimationDuration="600"
+                        app:sliderIndicatorAnimationDuration="600"
+                        app:sliderIndicatorGravity="center_horizontal|bottom"
+                        app:sliderIndicatorMargin="15dp"
+                        app:sliderIndicatorOrientation="horizontal"
+                        app:sliderIndicatorPadding="3dp"
+                        app:sliderIndicatorRadius="1dp"
+                        app:sliderIndicatorSelectedColor="#5A5A5A"
+                        app:sliderIndicatorUnselectedColor="#FFF"
+                        app:sliderScrollTimeInSec="1"
+                        app:sliderStartAutoCycle="true" />
+
+
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/home_question_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    app:layout_constraintTop_toBottomOf="@id/cardView"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="@dimen/margin_16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="What you want to order today?"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/proxima"/>
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="100dp"
+                        android:baselineAlignBottom="false"
+                        android:src="@drawable/arrow_forward" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoryRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginStart="9dp"
+                    android:clipChildren="true"
+                    android:overScrollMode="never"
+                    app:layout_constraintTop_toBottomOf="@id/home_question_lay"
+                    app:layoutManager="com.fidoo.user.utils.CardSliderLayoutManager"
+                    app:viewUpdater="com.fidoo.user.adapter.CardsUpdater">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/categorySmallRecyclerview"
+                    app:layout_constraintTop_toBottomOf="@id/categoryRecyclerView"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoriesRecyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/categorySmallRecyclerview"
+                    android:visibility="gone"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/standalone_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    app:layout_constraintTop_toBottomOf="@+id/categoriesRecyclerView"
+                    android:background="#2B2B94"
+                    android:padding="30dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:background="@drawable/corner_radius"
+                        app:layout_constraintCircleRadius="30dp">
+
+
+                        <TextView
+                            android:id="@+id/tv_pickup_drop"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pickup and Drop"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/proxima"
+                            android:textSize="20sp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="40dp"/>
+
+                        <TextView
+                            android:id="@+id/tv_leave_delivery_hassel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Leave the delivery hassel to us"
+                            app:layout_constraintTop_toBottomOf="@id/tv_pickup_drop"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:fontFamily="@font/proxima"
+                            android:textColor="@color/white"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_delivery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/corner_radius_button"
+                            android:fontFamily="@font/proxima"
+                            android:text="pickup"
+                            android:textColor="@color/white"
+                            android:layout_marginStart="20dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:backgroundTint="#2B2B94"
+                            app:layout_constraintTop_toBottomOf="@id/tv_leave_delivery_hassel" />
+
+                        <ImageView
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/drop"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="1:1"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/delivery_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="330dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/standalone_section"
+                    tools:layout_editor_absoluteX="0dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@id/delivery_lay"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="15dp">
+
+                        <TextView
+                            android:id="@+id/tv_quick_delivery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Quick Delivery"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/delivery_lay"
+                            android:fontFamily="@font/proxima"
+                            android:textSize="30sp"
+                            android:textColor="#339347"
+                            android:layout_marginTop="60dp"
+                            android:layout_marginStart="20dp"/>
+
+                        <TextView
+                            android:id="@+id/tv_doorstep"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="at your doorstep"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_quick_delivery"
+                            android:fontFamily="@font/proxima"
+                            android:textColor="@color/black"
+                            android:textSize="20dp"
+                            android:layout_marginStart="20dp"/>
+
+                        <TextView
+                            android:id="@+id/tv_main_content"
+                            android:layout_width="238dp"
+                            android:layout_height="46dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="30dp"
+                            android:fontFamily="@font/proxima"
+                            android:text="Home delivery from restaurants, café, medicine, electronics and groceries."
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_doorstep" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="300dp"
+                        android:src="@drawable/delivery"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginTop="20dp"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

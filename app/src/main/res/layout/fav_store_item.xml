@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/store_lay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="15dp"
+    android:background="@color/white">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/productImg"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="fitXY"
+        app:shapeAppearanceOverlay="@style/RoundedSequare"
+        android:src="@mipmap/ic_launcher"
+        android:layout_margin="15dp" />
+
+    <TextView
+        android:id="@+id/storeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/productImg"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/proxima"
+        android:maxLines="1"
+        android:text="@string/lorem_ipasum"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_marginStart="15dp"/>
+
+    <TextView
+        android:id="@+id/closing_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_like"
+        android:fontFamily="@font/proxima"
+        android:maxLines="1"
+        android:text="closing time"
+        android:layout_marginEnd="15dp"
+        android:textSize="11sp"
+        android:layout_marginStart="10dp"
+        android:layout_alignBaseline="@id/cuisine_types"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/cuisine_types"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/storeName"
+        android:fontFamily="@font/proxima"
+        android:maxLines="1"
+        android:text="@string/healthy_food_salads_italian"
+        android:textSize="11sp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="@dimen/margin_10dp"/>
+
+
+
+
+    <ImageView
+        android:id="@+id/btn_like"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/ic_heart"
+        android:layout_marginBottom="10dp"
+        android:layout_alignEnd="@id/storeName"
+        android:layout_below="@id/productImg"/>
+
+
+    <View
+        android:id="@+id/v1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/cuisine_types"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorGray"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/locationLyt"
+        android:layout_below="@id/v1"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="6">
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/open_close_status"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/open"
+            android:textSize="12sp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"/>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="15dp">
+
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/location_icon"
+                android:contentDescription="TODO"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_location"
+                android:text="@string/_1_2km"
+                android:textSize="12sp"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/colorTextGray"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/bookmark_icon"
+                android:contentDescription="TODO"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_recommended"
+                android:text="@string/recommend"
+                android:textSize="12sp"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/colorTextGray"/>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/bookmark_icon"
+                android:contentDescription="TODO"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_deliveryTime"
+                android:text="@string/_30_min"
+                android:textSize="12sp"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/colorTextGray"/>
+
+
+        </LinearLayout>
+
+   </LinearLayout>
+
+    <View
+        android:id="@+id/v2"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/locationLyt"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorGray"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+
+</RelativeLayout>

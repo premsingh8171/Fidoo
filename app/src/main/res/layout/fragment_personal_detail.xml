@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.PersonalDetailFragment"
+    android:layout_margin="20dp">
+
+
+    <TextView
+        android:id="@+id/tv_personalDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/personal_details"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/lato"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ed_fullname"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/et_round_new"
+        android:layout_below="@id/tv_personalDetails"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/lato"
+        android:hint="@string/kanhiya_bisht"
+        android:padding="10dp"
+        android:textColorHint="@color/colorHint"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"/>
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ed_email"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/et_round_new"
+        android:layout_below="@id/ed_fullname"
+        android:fontFamily="@font/lato"
+        android:hint="kanhiyabisht255@gmail.com"
+        android:padding="10dp"
+        android:textColorHint="@color/colorHint"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"/>
+
+
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ed_phone"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/et_round_new"
+        android:layout_below="@id/ed_email"
+        android:fontFamily="@font/lato"
+        android:hint="+91- 7893216548"
+        android:padding="10dp"
+        android:maxLength="10"
+        android:textColorHint="@color/colorHint"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"/>
+
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_signIn"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ed_phone"
+        android:layout_marginTop="20dp"
+        android:padding="20dp"
+        android:text="Save"
+        android:fontFamily="@font/lato"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/colorPrimary"
+        app:cornerRadius="25dp" />
+
+</RelativeLayout>

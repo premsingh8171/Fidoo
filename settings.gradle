@@ -1,0 +1,4 @@
+include ':syrow'
+include ':app-release'
+include ':app'
+rootProject.name = "Twiclo Redesigned"

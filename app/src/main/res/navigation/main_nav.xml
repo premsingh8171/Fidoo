@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.fidoo.user.ui.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_sendPacketFragment"
+            app:destination="@id/sendPacketFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.fidoo.user.ui.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.fidoo.user.ui.OrdersFragment"
+        android:label="fragment_orders"
+        tools:layout="@layout/fragment_orders" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.fidoo.user.ui.ProfileFragment"
+        android:label="ProfileFragment" />
+
+    <dialog
+        android:id="@+id/itemsBottomSheetFragment"
+        android:name="com.fidoo.user.ui.ItemsBottomSheetFragment"
+        android:label="ItemsBottomSheetFragment" >
+
+        <action
+            android:id="@+id/action_itemsBottomSheetFragment_to_sendPacketFragment"
+            app:destination="@id/sendPacketFragment" />
+
+    </dialog>
+
+    <fragment
+        android:id="@+id/sendPacketFragment"
+        android:name="com.fidoo.user.ui.SendPacketFragment"
+        android:label="SendPacketFragment" >
+
+        <action
+            android:id="@+id/action_sendPacketFragment_to_itemsBottomSheetFragment"
+            app:destination="@id/itemsBottomSheetFragment" />
+
+    </fragment>
+
+</navigation>
