@@ -34,6 +34,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         setContentView(R.layout.activity_order_details)
         statusBarTransparent()
         viewmodel = ViewModelProviders.of(this).get(OrderDetailsViewModel::class.java)
+
         backIcon.setOnClickListener {
 
 
@@ -110,7 +111,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                             orderStatusValue.text = "In Progress"
                         }else
                             if (user.orderStatus.equals("10")) {
-                                orderStatusValue.text = "Out of delivery"
+                                orderStatusValue.text = "Out for delivery"
                             } else
                                 if (user.orderStatus.equals("8")) {
                                     orderStatusValue.text = "Rejected"

@@ -90,5 +90,26 @@ public class SearchModel {
         @Expose
         public String deliveryTime;
 
+        @SerializedName("customize_item")
+        @Expose
+        public List<CustomizeItem> customizeItem = null;
+
+
+    }
+    public class CustomizeItem {
+
+        @SerializedName("id")
+        @Expose
+        public String id;
+        @SerializedName("sub_cat_name")
+        @Expose
+        public String subCatName;
+        @SerializedName("price")
+        @Expose
+        public String price;
+        @SerializedName("product_customize_id")
+        @Expose
+        public String productCustomizeId;
+
     }
 }

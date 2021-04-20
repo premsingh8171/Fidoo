@@ -175,7 +175,8 @@ interface BackEndApi {
         @Field("addRemoveType") addRemoveType: String?,
         @Field("is_customize") is_customize: String?,
         @Field("product_customize_id") product_customize_id: String?,
-        @Field("cart_id") cart_id: String?
+        @Field("cart_id") cart_id: String?,
+        @Field("customize_sub_cat_id[]") customize_sub_cat_id: ArrayList<String>?
     ): Call<com.fidoo.user.data.model.AddRemoveCartModel>
 
     @FormUrlEncoded

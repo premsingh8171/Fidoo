@@ -214,7 +214,8 @@
                                 android:id="@+id/order_confirm_pointer"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/location_target_icon"/>
+                                android:src="@drawable/location_target_icon"
+                                app:tint="@color/grey"/>
 
                             <View
                                 android:id="@+id/vertical_line_between_two_location"

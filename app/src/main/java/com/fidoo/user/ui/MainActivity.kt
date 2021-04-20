@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.fidoo.user.R
+import com.fidoo.user.utils.BaseActivity
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.GoogleApiClient
@@ -34,7 +35,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class MainActivity : com.fidoo.user.utils.BaseActivity(), android.location.LocationListener, LocationListener,
+class MainActivity : BaseActivity(), android.location.LocationListener, LocationListener,
     GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener {
 

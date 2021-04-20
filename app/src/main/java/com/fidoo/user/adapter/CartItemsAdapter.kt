@@ -16,16 +16,15 @@ import kotlinx.android.synthetic.main.review_popup.view.*
 
 
 class CartItemsAdapter(
-    val con: Context,
-    val cart: MutableList<com.fidoo.user.data.model.CartModel.Cart>,
-    val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
-    val adapterClick: AdapterClick
-) :
-    RecyclerView.Adapter<CartItemsAdapter.UserViewHolder>() {
+        val con: Context,
+        val cart: MutableList<com.fidoo.user.data.model.CartModel.Cart>,
+        val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
+        val adapterClick: AdapterClick
+) : RecyclerView.Adapter<CartItemsAdapter.UserViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.cart_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.cart_item, parent, false)
     )
 
     override fun getItemCount() = cart.size
@@ -50,17 +49,13 @@ class CartItemsAdapter(
 
                 }
                 tempp = tempp!! + cart.get(position).offerPrice.toDouble()
-                var itemPrice: Double = cart.get(position).quantity.toString()
-                    .toDouble() * tempp
-                holder.priceTxt.text =
-                    con.resources.getString(R.string.ruppee) + itemPrice.toString()
+                var itemPrice: Double = cart.get(position).quantity.toString().toDouble() * tempp
+                holder.priceTxt.text = con.resources.getString(R.string.ruppee) + itemPrice.toString()
                 Log.e("items", items.toString())
                 items = items!!.substring(0, items.length - 2)
             } else{
-                var itemPrice: Int = cart.get(position).quantity.toString()
-                    .toInt() * cart.get(position).offerPrice.toString().toInt()
-                holder.priceTxt.text =
-                    con.resources.getString(R.string.ruppee) + itemPrice.toString()
+                var itemPrice: Int = cart.get(position).quantity.toString().toInt() * cart.get(position).offerPrice.toString().toInt()
+                holder.priceTxt.text = con.resources.getString(R.string.ruppee) + itemPrice.toString()
             }
         }
 
@@ -71,9 +66,9 @@ class CartItemsAdapter(
             holder.customitemName.visibility = View.GONE
         }
         Glide.with(con)
-            .load(cart.get(position).productImage)
-            .fitCenter()
-            .into(holder.productImg)
+                .load(cart.get(position).productImage)
+                .fitCenter()
+                .into(holder.productImg)
 
 
         holder.deleteIcon.setOnClickListener {
@@ -86,8 +81,7 @@ class CartItemsAdapter(
 
                 if (cart.get(position).customizeItem.size != 0) {
                     adapterCartAddRemoveClick.onAddItemClick(cart.get(position).productId, items, cart.get(position).offerPrice,cart.get(position).is_customize,cart.get(position).customizeItem.get(0).productCustomizeId, cart[position].cart_id
-                    )}
-                else{
+                    )} else{
                     adapterCartAddRemoveClick.onAddItemClick(
                         cart.get(position).productId,
                         items,
@@ -119,11 +113,11 @@ class CartItemsAdapter(
                         )}
                     else{
                         adapterCartAddRemoveClick.onRemoveItemClick(
-                            cart.get(position).productId,
-                            cart.get(position).quantity,
-                            cart.get(position).is_customize,
-                            "",
-                            cart[position].cart_id
+                                cart.get(position).productId,
+                                cart.get(position).quantity,
+                                cart.get(position).is_customize,
+                                "",
+                                cart[position].cart_id
                         )
                     }
                 }
@@ -140,10 +134,10 @@ class CartItemsAdapter(
 
                 if (count > 0) {
                     var itemPrice: Int =
-                        count.toString().toInt() * cart.get(position).offerPrice.toString().toInt()
+                            count.toString().toInt() * cart.get(position).offerPrice.toString().toInt()
 
                     holder.priceTxt.text =
-                        con.resources.getString(R.string.ruppee) + itemPrice.toString()
+                            con.resources.getString(R.string.ruppee) + itemPrice.toString()
                 }
             }
 
@@ -167,8 +161,7 @@ class CartItemsAdapter(
 
         val mDialogView = LayoutInflater.from(con).inflate(R.layout.review_popup, null)
         //AlertDialogBuilder
-        val mBuilder = AlertDialog.Builder(con)
-            .setView(mDialogView)
+        val mBuilder = AlertDialog.Builder(con).setView(mDialogView)
         /// .setTitle("Login Form")
         //show dialog
         val mAlertDialogg = mBuilder.show()

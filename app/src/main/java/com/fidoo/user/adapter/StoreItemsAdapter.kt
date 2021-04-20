@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
+import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
@@ -22,7 +23,6 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.store_product.view.*
 
 class StoreItemsAdapter(
-
     val con: Context,
     private val adapterClick: AdapterClick,
     private val productList: ArrayList<com.fidoo.user.data.model.StoreDetailsModel.Product>,
@@ -34,7 +34,8 @@ class StoreItemsAdapter(
     var adapterAddRemoveClick: AdapterAddRemoveClick,
     private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
     val id: Int,
-    private val storeID: String
+    private val storeID: String,
+    private val cartId: String
 
 ) : RecyclerView.Adapter<StoreItemsAdapter.UserViewHolder>() {
 
@@ -51,23 +52,23 @@ class StoreItemsAdapter(
 
 
         val index = productList[position]
+        Log.e("CART ID", cartId)
 
         Log.d("kb cat postion", "" + productList[position])
 //        Log.d("kb cat postion",""+categotyList[position].product[position])
 
         // holder.offerPrice.paintFlags = holder.offerPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         //holder.offerPrice.text = con.resources.getString(R.string.ruppee) + "" + product.get(position).price
-        holder.priceAfterDiscount.text =
-            con.resources.getString(R.string.ruppee) + "" + index.offerPrice
+        holder.priceAfterDiscount.text = con.resources.getString(R.string.ruppee) + "" + index.offerPrice
         //holder.qty.text = product[position].weight + product[position].unit
         //holder.storeName.isSelected = true
         //holder.ratingTxtValue.text = storerating
         holder.itemName.text = index.productName
         //  holder.itemName.visibility=View.INVISIBLE
         Glide.with(con)
-            .load(index.image)
-            .fitCenter()
-            .into(holder.storeImg)
+                .load(index.image)
+                .fitCenter()
+                .into(holder.storeImg)
         if (index.image == "") {
             // TODO
         }
@@ -92,17 +93,15 @@ class StoreItemsAdapter(
             holder.add_new_lay.visibility = View.GONE
             holder.add_remove_lay.visibility = View.VISIBLE
 
-            val tempProductListModel =
-                com.fidoo.user.data.model.TempProductListModel()
+            val tempProductListModel = com.fidoo.user.data.model.TempProductListModel()
             tempProductListModel.productId = index.productId
             tempProductListModel.price = index.offerPrice
             tempProductListModel.quantity = index.cartQuantity.toString()
             tempProductList!!.add(tempProductListModel)
-            var customIdsList: ArrayList<String>? = null
+            val customIdsList: ArrayList<String>?
 
             customIdsList = ArrayList()
-            val addCartInputModel =
-                com.fidoo.user.data.model.AddCartInputModel()
+            val addCartInputModel = AddCartInputModel()
             addCartInputModel.productId = index.productId
             addCartInputModel.quantity = index.cartQuantity.toString()
             addCartInputModel.message = "add product"
@@ -112,11 +111,13 @@ class StoreItemsAdapter(
             Log.e("llll", Gson().toJson(tempProductList))
             // Toast.makeText(con, tempProductList, Toast.LENGTH_LONG).show()
 
-            for (i in 0 until tempProductList!!.size){
+            count = index.cartQuantity
+
+            /*for (i in 0 until tempProductList!!.size){
                 if (tempProductList!![i].productId == productList[position].productId){
                     count = tempProductList!![i].quantity.toInt()
                 }
-            }
+            }*/
 
             //count = index.cartQuantity
             holder.countValue.text = index.cartQuantity.toString()
@@ -160,7 +161,7 @@ class StoreItemsAdapter(
                                 index.offerPrice,
                                 index.isCustomize,
                                 index.customizeItem[position].productCustomizeId,
-                                ""
+                                productList[position].cartId
                             )
                         } else {
                             adapterCartAddRemoveClick.onAddItemClick(
@@ -169,7 +170,7 @@ class StoreItemsAdapter(
                                 index.offerPrice,
                                 index.isCustomize,
                                 "",
-                                ""
+                                productList[position].cartId
                             )
                         }
                     }
@@ -178,10 +179,11 @@ class StoreItemsAdapter(
                     count++
                     holder.countValue.text = count.toString()
                     adapterAddRemoveClick.onItemAddRemoveClick(
-                        index.productId,
-                        count.toString(),
-                        "add",
-                        index.offerPrice, ""
+                            index.productId,
+                            count.toString(),
+                            "add",
+                            index.offerPrice, "",
+                        productList[position].cartId
                     )
                 }
             }
@@ -189,6 +191,8 @@ class StoreItemsAdapter(
             holder.add_new_lay.setOnClickListener {
                 if (com.fidoo.user.data.session.SessionTwiclo(con).isLoggedIn) {
                     if (index.isCustomize.equals("1")) {
+                        count++
+                        holder.countValue.text = count.toString()
                         adapterClick.onItemClick(
                             index.productId,
                             "custom",
@@ -196,7 +200,7 @@ class StoreItemsAdapter(
                             index.offerPrice,
                             index.is_customize_quantity,
                             "",
-                            ""
+                            productList[position].cartId
                         )
                     } else {
                         count++
@@ -204,17 +208,12 @@ class StoreItemsAdapter(
                         holder.add_new_lay.visibility = View.GONE
                         holder.add_remove_lay.visibility = View.VISIBLE
 
-                        if (com.fidoo.user.data.session.SessionTwiclo(
-                                con
-                            ).storeId.equals(storeID) || com.fidoo.user.data.session.SessionTwiclo(
-                                con
-                            ).storeId.equals(
-                                ""
-                            )
+                        if (com.fidoo.user.data.session.SessionTwiclo(con).storeId.equals(storeID) || com.fidoo.user.data.session.SessionTwiclo(con).storeId.equals("")
                         ) {
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                 index.productId, count.toString(), "add",
-                                index.offerPrice, ""
+                                index.offerPrice, "",
+                                productList[position].cartId
                             )
 
                         } else {
@@ -229,8 +228,12 @@ class StoreItemsAdapter(
                             builder.setPositiveButton("Yes") { _, _ ->
                                 adapterAddRemoveClick.clearCart()
                                 adapterAddRemoveClick.onItemAddRemoveClick(
-                                    index.productId, count.toString(), "add",
-                                    index.offerPrice, storeID
+                                    index.productId,
+                                    count.toString(),
+                                    "add",
+                                    index.offerPrice,
+                                    storeID,
+                                    productList[position].cartId
                                 )
 
 
@@ -285,7 +288,7 @@ class StoreItemsAdapter(
                                     count.toString(),
                                     index.isCustomize,
                                     index.customizeItem[0].productCustomizeId,
-                                    ""
+                                    productList[position].cartId
                                 )
                             } else {
                                 adapterCartAddRemoveClick.onRemoveItemClick(
@@ -293,7 +296,7 @@ class StoreItemsAdapter(
                                     count.toString(),
                                     index.isCustomize,
                                     "",
-                                    ""
+                                    productList[position].cartId
                                 )
                             }
                         }
@@ -303,7 +306,7 @@ class StoreItemsAdapter(
 
                 } else {
 
-                    if (count >= 0) {
+                    if (count > 0) {
                         count--
                         holder.countValue.text = count.toString()
                         if (count == 0) {
@@ -314,16 +317,18 @@ class StoreItemsAdapter(
                                 count.toString(),
                                 "remove",
                                 index.offerPrice,
-                                ""
+                                "",
+                                productList[position].cartId
                             )
-                            adapterAddRemoveClick.clearCart() // clearingt the cart if item quantity becomes zero
+                            //adapterAddRemoveClick.clearCart() // clearing the cart if item quantity becomes zero
                         } else {
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                 index.productId,
                                 count.toString(),
                                 "remove",
                                 index.offerPrice,
-                                ""
+                                "",
+                                productList[position].cartId
                             )
                         }
                     }

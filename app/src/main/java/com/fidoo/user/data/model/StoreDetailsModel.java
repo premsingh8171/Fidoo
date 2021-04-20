@@ -141,6 +141,10 @@ public class StoreDetailsModel {
         @Expose
         public Integer cartQuantity;
 
+        @SerializedName("cart_id")
+        @Expose
+        public String cartId;
+
         @SerializedName("in_out_of_stock_status")
         @Expose
         public String in_out_of_stock_status;

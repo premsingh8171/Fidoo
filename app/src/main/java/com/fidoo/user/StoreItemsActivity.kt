@@ -12,10 +12,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fidoo.user.adapter.StoreCustomItemsAdapter
 import com.fidoo.user.adapter.StoreItemsAdapter
+import com.fidoo.user.data.model.*
+import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.*
 import com.fidoo.user.ui.MainActivity.Companion.addCartTempList
 import com.fidoo.user.ui.MainActivity.Companion.tempProductList
+import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.showAlertDialog
+import com.fidoo.user.viewmodels.CartViewModel
 import com.fidoo.user.viewmodels.StoreDetailsViewModel
 import com.fidoo.user.viewmodels.TrackViewModel
 import com.google.android.gms.maps.GoogleMap
@@ -24,18 +28,21 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.activity_store_items.tv_deliveryTime
 import kotlinx.android.synthetic.main.activity_store_items.tv_location
+import java.lang.NumberFormatException
 
-class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
-    AdapterClick,
-    CustomCartAddRemoveClick,
-    AdapterCustomRadioClick,
-    AdapterAddRemoveClick,
-    AdapterCartAddRemoveClick {
+class StoreItemsActivity :
+        BaseActivity(),
+        AdapterClick,
+        CustomCartAddRemoveClick,
+        AdapterCustomRadioClick,
+        AdapterAddRemoveClick,
+        AdapterCartAddRemoveClick {
 
-    private var categoryy: ArrayList<com.fidoo.user.data.model.CustomListModel>? = null
-    private var mModelDataTemp: com.fidoo.user.data.model.CustomizeProductResponseModel? = null
+    private var categoryy: ArrayList<CustomListModel>? = null
+    private var mModelDataTemp: CustomizeProductResponseModel? = null
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
-    var customIdsListTemp: ArrayList<com.fidoo.user.data.model.CustomCheckBoxModel>? = null
+    var customIdsListTemp: ArrayList<CustomCheckBoxModel>? = null
+    var cartViewModel: CartViewModel? = null
     var viewmodel: StoreDetailsViewModel? = null
     var distanceViewModel: TrackViewModel? = null
     var customIdsList: ArrayList<String>? = null
@@ -47,7 +54,7 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
     var tempCount: String? = ""
     var count: Int = 1
     private lateinit var mMap: GoogleMap
-
+    var cartId: String = ""
     var storeID: String? = null
 
     companion object {
@@ -75,14 +82,15 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
 
         viewmodel = ViewModelProviders.of(this).get(StoreDetailsViewModel::class.java)
+        cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
 
         tv_location.text = intent.getStringExtra("store_location")
 
         cartIcon.setOnClickListener {
-            if (com.fidoo.user.data.session.SessionTwiclo(this).isLoggedIn) {
+            if (SessionTwiclo(this).isLoggedIn) {
                 startActivity(
                     Intent(this, CartActivity::class.java).putExtra(
-                        "store_id", com.fidoo.user.data.session.SessionTwiclo(
+                        "store_id", SessionTwiclo(
                             this
                         ).storeId
                     )
@@ -106,21 +114,18 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
             }
             Log.e("customIdsList", customIdsList.toString())
 
-            if (com.fidoo.user.data.session.SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || com.fidoo.user.data.session.SessionTwiclo(
-                    this
-                ).storeId.equals("")) {
+            if (SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || SessionTwiclo(this).storeId.equals("")) {
                 showIOSProgress()
-                com.fidoo.user.data.session.SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
+                SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
 
-                /*    viewmodel!!.addToCartApi(
+                   /* viewmodel!!.addToCartApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        tempProductId!!, countValue.text.toString(), "", "1", customIdsList!!
-                    ) */
+                       "", countValue.text.toString(), "", "1", customIdsList!!
+                    )*/
 
                 addCartTempList!!.clear()
-                val addCartInputModel =
-                    com.fidoo.user.data.model.AddCartInputModel()
+                val addCartInputModel = AddCartInputModel()
                 addCartInputModel.productId = tempProductId
                 addCartInputModel.quantity = countValue.text.toString()
                 addCartInputModel.message = "add product"
@@ -129,8 +134,8 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
                 addCartTempList!!.add(addCartInputModel)
 
                 viewmodel!!.addToCartApi(
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
                     addCartTempList!!,
                     ""
                 )
@@ -159,38 +164,31 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
         }
 
-        viewmodel?.getStoreDetails(
-            com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-            com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
-            intent.getStringExtra("storeId"),
-            "",
-            intent.getStringExtra("catId")
-
-        )
-
         if (isNetworkConnected) {
-            if (com.fidoo.user.data.session.SessionTwiclo(this).isLoggedIn) {
+            if (SessionTwiclo(this).isLoggedIn) { 
                 viewmodel?.getStoreDetails(
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    intent.getStringExtra("storeId"),
-                    "",
-                    intent.getStringExtra("catId")
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        intent.getStringExtra("storeId"),
+                        "",
+                        intent.getStringExtra("catId")
 
                 )
             } else {
                 viewmodel?.getStoreDetails(
-                    "",
-                    "",
-                    intent.getStringExtra("storeId"),
-                    "",
-                    intent.getStringExtra("catId")
+                        "",
+                        "",
+                        intent.getStringExtra("storeId"),
+                        "",
+                        intent.getStringExtra("catId")
 
                 )
             }
         } else {
             showInternetToast()
         }
+
+
 
         viewmodel?.getStoreDetailsApi?.observe(this, Observer { storeData ->
             dismissIOSProgress()
@@ -200,8 +198,8 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
             Log.e("store details response", Gson().toJson(storeData))
 
 
-            val productList: ArrayList<com.fidoo.user.data.model.StoreDetailsModel.Product> = ArrayList()
-            val catList: ArrayList<com.fidoo.user.data.model.StoreDetailsModel.Category> = ArrayList()
+            val productList: ArrayList<StoreDetailsModel.Product> = ArrayList()
+            val catList: ArrayList<StoreDetailsModel.Category> = ArrayList()
 
 
 
@@ -211,7 +209,7 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
                 for (j in 0 until storeData.category[i].product.size) {
 //                    var catObj = storeData.category[i]
 //                    catList.add(catObj)
-                    var productData = storeData.category[i].product[j]
+                    val productData = storeData.category[i].product[j]
                     productList.add(productData)
                 }
             }
@@ -235,8 +233,19 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
             storeItemsRecyclerview.setHasFixedSize(true)
             val adapter = storeID?.let {
                 StoreItemsAdapter(
-                    this, this, productList, catList, "", "", "3.5", "5",
-                    this, this, 0, it
+                    this,
+                    this,
+                    productList,
+                    catList,
+                    "",
+                    "",
+                    "3.5",
+                    "5",
+                    this,
+                    this,
+                    0,
+                    it,
+                    productList[0].cartId
                 )
             }
             storeItemsRecyclerview.adapter = adapter
@@ -270,11 +279,11 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
                 }
             }
 
-            if (com.fidoo.user.data.session.SessionTwiclo(this).isLoggedIn) {
+            if (SessionTwiclo(this).isLoggedIn) {
 
                 viewmodel?.getCartCountApi(
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken
                 )
             }
 
@@ -290,10 +299,10 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
             Log.e("cart response", Gson().toJson(user))
             if (isNetworkConnected) {
-                if (com.fidoo.user.data.session.SessionTwiclo(this).isLoggedIn) {
+                if (SessionTwiclo(this).isLoggedIn) {
                     viewmodel?.getStoreDetails(
-                        com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                        com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
                         intent.getStringExtra("storeId"),
                         "",
                         intent.getStringExtra("catId")
@@ -326,22 +335,17 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
                 if (isNetworkConnected) {
                     //showIOSProgress()
-                    if (com.fidoo.user.data.session.SessionTwiclo(this).isLoggedIn) {
+                    if (SessionTwiclo(this).isLoggedIn) {
                         viewmodel?.getStoreDetails(
-                            com.fidoo.user.data.session.SessionTwiclo(
-                                this
-                            ).loggedInUserDetail.accountId,
-                            com.fidoo.user.data.session.SessionTwiclo(
-                                this
-                            ).loggedInUserDetail.accessToken,
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
                             intent.getStringExtra("storeId"),
                             "0",
                             intent.getStringExtra("catId")
 
                         )
                     } else {
-                        viewmodel?.getStoreDetails(
-                            "",
+                        viewmodel?.getStoreDetails("",
                             "",
                             intent.getStringExtra("storeId"),
                             "0",
@@ -357,8 +361,8 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
                 //showIOSProgress()
                 viewmodel?.getStoreDetails(
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
                     intent.getStringExtra("storeId"),
                     "",
                     intent.getStringExtra("catId")
@@ -380,7 +384,7 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
             dismissIOSProgress()
             if (!user.error) {
                 val mModelData: com.fidoo.user.data.model.CartCountModel = user
-                com.fidoo.user.data.session.SessionTwiclo(this).storeId = mModelData.store_id
+                SessionTwiclo(this).storeId = mModelData.store_id
                 Log.e("Store ID", mModelData.store_id)
                 Log.e("countResponse", Gson().toJson(mModelData))
                 tempProductList
@@ -418,7 +422,7 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
             if (tempType.equals("custom")) {
                 if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                    behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                    behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     //searchLay.visibility = View.GONE
                 } else {
                     //searchLay.visibility = View.VISIBLE
@@ -430,16 +434,16 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
             }
             viewmodel?.getCartCountApi(
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken
             )
             //showToast(mModelData.message)
             if (isNetworkConnected) {
                 //showIOSProgress()
-                if (com.fidoo.user.data.session.SessionTwiclo(this).isLoggedIn) {
+                if (SessionTwiclo(this).isLoggedIn) {
                     viewmodel?.getStoreDetails(
-                        com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                        com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
                         intent.getStringExtra("storeId"),
                         "",
                         intent.getStringExtra("catId")
@@ -470,8 +474,7 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
             for (i in 0 until mModelDataTemp?.category?.size!!) {
                 if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
-                    var customListModel: com.fidoo.user.data.model.CustomListModel? =
-                        com.fidoo.user.data.model.CustomListModel()
+                    var customListModel: CustomListModel? = CustomListModel()
                     customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
                     customListModel.id = mModelDataTemp?.category?.get(i)!!.subCat[0].id.toInt()
                     customListModel.price = mModelDataTemp?.category?.get(i)!!.subCat[0].price
@@ -495,7 +498,13 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
             }
             Log.e("tempPrice", tempPrice.toString())
 
-            tempPrice = tempOfferPrice!!.toDouble() + tempPrice!!
+            try {
+                tempPrice = tempOfferPrice!!.toDouble() + tempPrice!!
+            }catch (e: NumberFormatException){
+                Log.e("Exception", e.toString())
+            }
+
+
             //tempPrice = tempPrice!! + plusMinusPrice
             //showToast(tempPrice.toString())
             Log.e("tempPriceTotal", tempPrice.toString())
@@ -503,11 +512,11 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
             customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
 
             val adapter = StoreCustomItemsAdapter(
-                this,
-                mModelDataTemp?.category!!,
-                this,
-                categoryy,
-                this
+                    this,
+                    mModelDataTemp?.category!!,
+                    this,
+                    categoryy,
+                    this
             )
             customItemsRecyclerview.layoutManager = LinearLayoutManager(this)
             customItemsRecyclerview.setHasFixedSize(true)
@@ -519,23 +528,23 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
             // dismissIOSProgress()
 
             Log.e("stores response", Gson().toJson(user))
-            /* if (tempType.equals("custom")) {
+            if (tempType.equals("custom")) {
 
-                 viewmodel!!.addToCartApi(
-                     SessionTwiclo(this).loggedInUserDetail.accountId,
-                     SessionTwiclo(this).loggedInUserDetail.accessToken,
-                     addCartTempList!!,
-                     ""
-                 )
-             } else {
-                 viewmodel!!.addToCartApi(
-                     SessionTwiclo(this).loggedInUserDetail.accountId,
-                     SessionTwiclo(this).loggedInUserDetail.accessToken,
-                     addCartTempList!!,
-                     ""
+                viewmodel!!.addToCartApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        addCartTempList!!,
+                        ""
+                )
+            } else {
+                viewmodel!!.addToCartApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        addCartTempList!!,
+                        ""
 
-                 )
-             }*/
+                )
+            }
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
@@ -544,8 +553,8 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
     override fun clearCart() {
         viewmodel?.clearCartApi(
-            com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-            com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken
         )
     }
 
@@ -568,10 +577,10 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
         builder.setMessage("Do you want to discard the previous selection?")
         builder.setIcon(android.R.drawable.ic_dialog_alert)
         //performing positive action
-        builder.setPositiveButton("Yes") { dialogInterface, which ->
+        builder.setPositiveButton("Yes") { _, _ ->
             viewmodel?.clearCartApi(
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken
             )
             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
         }
@@ -593,10 +602,10 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
         Log.d("OnRESUME", "RESUME")
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        if (com.fidoo.user.data.session.SessionTwiclo(this).isLoggedIn) {
+        if (SessionTwiclo(this).isLoggedIn) {
             viewmodel?.getCartCountApi(
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken
             )
         }
 
@@ -604,22 +613,22 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
         if (isNetworkConnected) {
             //showIOSProgress()
-            if (com.fidoo.user.data.session.SessionTwiclo(this).isLoggedIn) {
+            if (SessionTwiclo(this).isLoggedIn) {
                 viewmodel?.getStoreDetails(
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    intent.getStringExtra("storeId"),
-                    "",
-                    intent.getStringExtra("catId")
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        intent.getStringExtra("storeId"),
+                        "",
+                        intent.getStringExtra("catId")
 
                 )
             } else {
                 viewmodel?.getStoreDetails(
-                    "",
-                    "",
-                    intent.getStringExtra("storeId"),
-                    "",
-                    intent.getStringExtra("catId")
+                        "",
+                        "",
+                        intent.getStringExtra("storeId"),
+                        "",
+                        intent.getStringExtra("catId")
 
                 )
             }
@@ -632,13 +641,13 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
 
     override fun onItemClick(
-        productId: String?,
-        type: String?,
-        count: String?,
-        offerPrice: String?,
-        customize_count: Int?,
-        productType: String?,
-        cart_id: String?
+            productId: String?,
+            type: String?,
+            count: String?,
+            offerPrice: String?,
+            customize_count: Int?,
+            productType: String?,
+            cart_id: String?
     ) {
         /*  if (behavior?.getState() != BottomSheetBehavior.STATE_EXPANDED) {
               behavior?.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -660,11 +669,8 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
         if (type == "custom") {
             if (mCustomizeCount == 0) {
                 customIdsListTemp?.clear()
-                //showToast(mCustomizeCount.toString())
-                /*if (customAddBtn.text !=tempOfferPrice){
-                    customAddBtn.text = tempOfferPrice
-                }
-                customAddBtn.text = tempOfferPrice*/
+
+
                 if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                     behavior.state = BottomSheetBehavior.STATE_EXPANDED
                     //searchLay.visibility = View.GONE
@@ -672,15 +678,15 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
                 } else {
                     //searchLay.visibility = View.VISIBLE
                     behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-                    //customAddBtn.text = offerPrice
+
                 }
                 //  tempProductId = productId
                 //showIOSProgress()
                 customIdsList!!.clear()
                 if (productId != null) {
                     viewmodel?.customizeProductApi(
-                        com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                        com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken, productId
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken, productId
                     )
                 }
             } else {
@@ -704,15 +710,11 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
                     //  tempProductId = productId
                     //showIOSProgress()
-                    //customIdsList!!.clear()
+                    customIdsList!!.clear()
                     if (productId != null) {
                         viewmodel?.customizeProductApi(
-                            com.fidoo.user.data.session.SessionTwiclo(
-                                this
-                            ).loggedInUserDetail.accountId,
-                            com.fidoo.user.data.session.SessionTwiclo(
-                                this
-                            ).loggedInUserDetail.accessToken, productId
+                                SessionTwiclo(this).loggedInUserDetail.accountId,
+                                SessionTwiclo(this).loggedInUserDetail.accessToken, productId
                         )
                     }
                     //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
@@ -742,24 +744,20 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
         } else {
 
-            if (com.fidoo.user.data.session.SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || com.fidoo.user.data.session.SessionTwiclo(
-                    this
-                ).storeId.equals("")
+            if (SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || SessionTwiclo(this).storeId.equals("")
             ) {
                 Log.e("intent store id", intent.getStringExtra("storeId").toString())
-                com.fidoo.user.data.session.SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
-                Log.e("  store id", com.fidoo.user.data.session.SessionTwiclo(
-                    this
-                ).storeId.toString())
+                SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
+                Log.e("  store id", SessionTwiclo(this).storeId.toString())
                 //showIOSProgress()
 
                 viewmodel!!.addToCartApi(
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    addCartTempList!!,
-                    ""
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        addCartTempList!!,
+                        ""
                 )
-                com.fidoo.user.data.session.SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
+                SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
             } else {
                 clearCartPopup()
             }
@@ -771,8 +769,7 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
             if (productId != null) {
                 customIdsList!!.add(productId)
             }
-            val customCheckBoxModel =
-                com.fidoo.user.data.model.CustomCheckBoxModel()
+            val customCheckBoxModel = CustomCheckBoxModel()
             customCheckBoxModel.id = productId
             customCheckBoxModel.price = price
             customIdsListTemp!!.add(customCheckBoxModel)
@@ -858,8 +855,7 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
             categoryy!!.get(tempAddEditId!!.toInt()).id = checkedId!!.toInt()
             categoryy!!.get(tempAddEditId.toInt()).price = tempPrice
         } else {
-            var customListModel: com.fidoo.user.data.model.CustomListModel? =
-                com.fidoo.user.data.model.CustomListModel()
+            var customListModel: CustomListModel? = CustomListModel()
             customListModel!!.category = tempCat
             customListModel.id = checkedId!!.toInt()
             customListModel.price = tempPrice
@@ -881,7 +877,8 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
         count: String?,
         type: String?,
         price: String?,
-        sid: String?
+        sid: String?,
+        cartId: String?
     ) {
 
         Log.d("count", count!!)
@@ -890,20 +887,19 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
         //showIOSProgress()
         //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
 
+
         if (type.equals("add")) {
             cartIcon.setImageResource(R.drawable.cart_icon)
 
             if (tempProductList!!.size == 0) {
                 //customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
-                val tempProductListModel =
-                    com.fidoo.user.data.model.TempProductListModel()
+                val tempProductListModel = TempProductListModel()
                 tempProductListModel.productId = productId
                 tempProductListModel.quantity = count
                 tempProductListModel.price = price
                 tempProductList!!.add(tempProductListModel)
 
-                val addCartInputModel =
-                    com.fidoo.user.data.model.AddCartInputModel()
+                val addCartInputModel = AddCartInputModel()
                 addCartInputModel.productId = productId
                 addCartInputModel.quantity = count
                 addCartInputModel.message = "add product"
@@ -911,24 +907,23 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
                 addCartInputModel.isCustomize = "0"
                 addCartTempList!!.add(addCartInputModel)
 
-                viewmodel!!.addToCartApi(
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    addCartTempList!!,
-                    ""
-
-                )
-
-
-                //ll_view_cart.visibility = View.VISIBLE // to show bottom cart bar if add is clicked for the first time in non-customized items
+                if (cartId != null) {
+                    viewmodel!!.addToCartApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        addCartTempList!!,
+                        ""
+                    )
+                }
+                tempProductList!!.clear()
             } else {
                 var check: String = ""
                 var tempPos: Int = 0
 
-                for (i in 0 until tempProductList!!.size) {
+                for (i in 0 until tempProductList!!.size - 1) {
                     Log.e("check1", tempProductList!!.get(i).productId)
-                    Log.e("check2", productId!!)
-                    if (tempProductList!!.get(i).productId.equals(productId)) {
+                    Log.e("check2", productId)
+                    if (tempProductList!![i].productId.equals(productId)) {
                         check = "edit"
                         tempPos = i
                         //tempProductList!!.get(i).quantity = count
@@ -942,29 +937,26 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
                 } else {
 
-                    val tempProductListModel =
-                        com.fidoo.user.data.model.TempProductListModel()
+                    val tempProductListModel = TempProductListModel()
                     tempProductListModel.productId = productId
                     tempProductListModel.quantity = count
                     tempProductListModel.price = price
                     tempProductList!!.add(tempProductListModel)
-                    val addCartInputModel =
-                        com.fidoo.user.data.model.AddCartInputModel()
+                    val addCartInputModel = AddCartInputModel()
                     addCartInputModel.productId = productId
                     addCartInputModel.quantity = count
                     addCartInputModel.message = "add product"
                     addCartInputModel.customizeSubCatId = customIdsList!!
                     addCartInputModel.isCustomize = "0"
                     addCartTempList!!.add(addCartInputModel)
-
-                    viewmodel!!.addToCartApi(
-                        com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                        com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        addCartTempList!!,
-                        ""
-
-                    )
                 }
+
+                viewmodel!!.addToCartApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    addCartTempList!!,
+                    ""
+                )
             }
 
 
@@ -973,20 +965,20 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
             var check = "edit"
             var checkPos = 0
             Log.e("check1", Gson().toJson(tempProductList!!))
-            for (i in 0 until tempProductList!!.size) {
+            for (i in 0 until tempProductList!!.size - 1) {
                 if (tempProductList!![i].productId.equals(productId)) {
                     if (count == "0") {
                         check = "remove"
+                        checkPos = i
 
                         break
                         //  addCartTempList!!.removeAt(i)
                         //   tempProductList!!.removeAt(i)
 
                     }
-                    checkPos = i
 
 
-                /*else {
+                    /*else {
                     tempProductList!!.get(i).quantity = count
                     addCartTempList!!.get(i).quantity = count
                 }*/
@@ -998,10 +990,29 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
                 //ll_view_cart.visibility = View.GONE // to hide the bottom cart bar if non-customized item quantity becomes zero
                 addCartTempList!!.removeAt(checkPos)
                 tempProductList!!.removeAt(checkPos)
+                customIdsList!!.clear()
+
+
 
             } else {
                 tempProductList!![checkPos].quantity = count
                 addCartTempList!![checkPos].quantity = count
+
+                if (cartId != null) {
+                    viewmodel?.addRemoveCartDetails(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        productId,
+                        "remove",
+                        "0",
+                        "",
+                        cartId,
+                        customIdsList!!
+                    )
+                }
+
+
+
             }
 
         }
@@ -1011,10 +1022,7 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
         var bottomPrice: Double? = 0.0
         var bottomCount: Int? = 0
         for (i in 0 until tempProductList!!.size) {
-            bottomPrice =
-                bottomPrice!! + (tempProductList!!.get(i).price.toDouble() * tempProductList!!.get(
-                    i
-                ).quantity.toInt())
+            bottomPrice = bottomPrice!! + (tempProductList!!.get(i).price.toDouble() * tempProductList!!.get(i).quantity.toInt())
             bottomCount = bottomCount!! + tempProductList!!.get(i).quantity.toInt()
         }
         //txt_price_.text = resources.getString(R.string.ruppee) + bottomPrice.toString()
@@ -1063,29 +1071,32 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
                 //searchLay.visibility = View.VISIBLE
             }
 
-            //  tempProductId = productId
+            //tempProductId = productId
             //showIOSProgress()
             customIdsList!!.clear()
             viewmodel?.customizeProductApi(
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!
             )
             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
         }
 
         //performing negative action
-        builder.setNegativeButton("REPEAT") { dialogInterface, which ->
+        builder.setNegativeButton("REPEAT") { _, which ->
             //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
             //showIOSProgress()
             viewmodel?.addRemoveCartDetails(
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
                 productId!!,
                 "add",
                 isCustomize!!,
                 prodcustCustomizeId!!,
-                ""
+                cartId,
+                customIdsList!!
             )
+
+
 
         }
         // Create the AlertDialog
@@ -1107,15 +1118,18 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
         } else {
             //showIOSProgress()
-            viewmodel?.addRemoveCartDetails(
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
-                productId!!,
-                "remove",
-                isCustomize!!,
-                prodcustCustomizeId!!,
-                ""
-            )
+            if (cart_id != null) {
+                viewmodel?.addRemoveCartDetails(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    productId!!,
+                    "remove",
+                    isCustomize!!,
+                    prodcustCustomizeId!!,
+                    cart_id,
+                    customIdsList!!
+                )
+            }
         }
     }
 
@@ -1149,14 +1163,14 @@ class StoreItemsActivity : com.fidoo.user.utils.BaseActivity(),
 
     override fun onPause() {
         super.onPause()
-        if (com.fidoo.user.data.session.SessionTwiclo(this).isLoggedIn) {
-            viewmodel!!.addToCartApi(
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
-                addCartTempList!!,
-                ""
+        if (SessionTwiclo(this).isLoggedIn) {
+           /* viewmodel!!.addToCartApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    addCartTempList!!,
+                    ""
 
-            )
+            )*/
         }
 
     }

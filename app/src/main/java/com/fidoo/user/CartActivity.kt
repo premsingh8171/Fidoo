@@ -42,10 +42,10 @@ import org.json.JSONObject
 import java.io.File
 
 class CartActivity : BaseActivity(),
-    AdapterCartAddRemoveClick,
-    AdapterClick,
-    CustomCartAddRemoveClick,
-    AdapterCustomRadioClick, PaymentResultListener {
+        AdapterCartAddRemoveClick,
+        AdapterClick,
+        CustomCartAddRemoveClick,
+        AdapterCustomRadioClick, PaymentResultListener {
 
     var viewmodel: CartViewModel? = null
     var totalAmount: Double = 0.0
@@ -285,6 +285,47 @@ class CartActivity : BaseActivity(),
             }
         }
 
+        customAddBtn.setOnClickListener {
+            if (isNetworkConnected) {
+                var mCartId: String? = null
+                for (i in 0..categoryy!!.size - 1) {
+                    customIdsList!!.add(categoryy!!.get(i).id.toString())
+                }
+
+                viewmodel?.getCartDetailsResponse?.observe(this , Observer { user->
+                    val mCartModelData : CartModel = user
+                    for (i in 0 until user.cart.size) {
+                        mCartId = mCartModelData.cart[i].cart_id
+                    }
+
+
+                })
+                Log.e("customIdsList", customIdsList.toString())
+                showIOSProgress()
+                SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
+
+                addCartTempList!!.clear()
+                val addCartInputModel = AddCartInputModel()
+                addCartInputModel.productId = tempProductId
+                addCartInputModel.quantity = countValuee.text.toString()
+                addCartInputModel.message = "add product"
+                addCartInputModel.customizeSubCatId = customIdsList!!
+                addCartInputModel.isCustomize = "1"
+                addCartTempList!!.add(addCartInputModel)
+                viewmodel!!.addToCartApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    addCartTempList!!,
+                    mCartId!!
+
+                )
+            } else {
+                showInternetToast()
+            }
+
+
+        }
+
 
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
             dismissIOSProgress()
@@ -389,20 +430,18 @@ class CartActivity : BaseActivity(),
                     noOfItems = 0
                     //nameLabel.text = user.cart.get(0).storeName
                     for (i in 0 until mModelData.cart.size) {
-                        noOfItems += mModelData.cart.get(i).quantity.toString().toInt()
+                        noOfItems += mModelData.cart[i].quantity.toString().toInt()
                     }
                     var tempp: Double? = 0.0
                     for (i in 0 until mModelData.cart.size) {
                         tempp = 0.0
                         for (j in 0 until mModelData.cart[i].customizeItem.size) {
-                            tempp =
-                                tempp!! + mModelData.cart.get(i).customizeItem.get(j).price.toDouble()
+                            tempp = tempp!! + mModelData.cart[i].customizeItem.get(j).price.toDouble()
 
                         }
-                        tempp = tempp!! + mModelData.cart.get(i).offerPrice.toDouble()
+                        tempp = tempp!! + mModelData.cart[i].offerPrice.toDouble()
 
-                        totalAmount += (mModelData.cart.get(i).quantity.toString()
-                            .toDouble() * tempp)
+                        totalAmount += (mModelData.cart[i].quantity.toString().toDouble() * tempp)
                         //showToast(""+totalAmount)
                     }
 
@@ -628,21 +667,14 @@ class CartActivity : BaseActivity(),
                     } else {
                         if (isNetworkConnected) {
                             showIOSProgress()
-                            viewmodel?.orderPlaceApi(
-                                SessionTwiclo(
-                                    this
-                                ).loggedInUserDetail.accountId,
-                                SessionTwiclo(
-                                    this
-                                ).loggedInUserDetail.accessToken,
-                                finalPrice.toFloat().toString(),
-                                deliveryOption,
-                                SessionTwiclo(
-                                    this
-                                ).userAddressId,
-                                "",
-                                ed_delivery_instructions.text.toString(),
-                                isSelected
+                            viewmodel?.orderPlaceApi(SessionTwiclo(this).loggedInUserDetail.accountId,
+                                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                    finalPrice.toFloat().toString(),
+                                    deliveryOption,
+                                    SessionTwiclo(this).userAddressId,
+                                    "",
+                                    ed_delivery_instructions.text.toString(),
+                                    isSelected
                             )
 
                         } else {
@@ -653,14 +685,14 @@ class CartActivity : BaseActivity(),
                 } else {
                     showIOSProgress()
                     viewmodel?.orderPlaceApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        finalPrice.toFloat().toString(),
-                        deliveryOption,
-                        SessionTwiclo(this).userAddressId,
-                        "",
-                        ed_delivery_instructions.text.toString(),
-                        isSelected
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            finalPrice.toFloat().toString(),
+                            deliveryOption,
+                            SessionTwiclo(this).userAddressId,
+                            "",
+                            ed_delivery_instructions.text.toString(),
+                            isSelected
                     )
                 }
             }
@@ -680,32 +712,8 @@ class CartActivity : BaseActivity(),
                         showToast("This Store/Item is not available at this moment")
                     }
                 }else{
-                    val builder = AlertDialog.Builder(this)
-                    //set title for alert dialog
-                    builder.setTitle("Are you sure you want to cancel")
-                    //set message for alert dialog
-                    builder.setMessage("After you click on proceed, this order won't be cancelled")
-                    // builder.setIcon(android.R.drawable.ic_dialog_alert)
-
-                    //performing positive action
-                    builder.setPositiveButton("Proceed") { _, _ ->
-
-                        startPayment()
-                        tempOrderId = user.orderId
-                        //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
-                    }
-
-                    //performing negative action
-                    builder.setNegativeButton("I am not sure!") { _, _ ->
-                        //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
-                    }
-                    // Create the AlertDialog
-                    val alertDialog: AlertDialog = builder.create()
-                    // Set other dialog properties
-                    alertDialog.setCancelable(true)
-                    alertDialog.show()
-
-
+                    startPayment()
+                    tempOrderId = user.orderId
                 }
                 //launchPayUMoneyFlow()
 
@@ -713,12 +721,12 @@ class CartActivity : BaseActivity(),
             } else {
                 if (isNetworkConnected) {
                     viewmodel?.paymentApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        user.orderId,
-                        "",
-                        "",
-                        "cash"
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            user.orderId,
+                            "",
+                            "",
+                            "cash"
                     )
 
                 } else {
@@ -733,6 +741,7 @@ class CartActivity : BaseActivity(),
     }
 
     private fun startPayment() {
+
         /*
          * Instantiate Checkout
          */
@@ -740,49 +749,39 @@ class CartActivity : BaseActivity(),
         val co = Checkout()
         //var razorpayId = "qwerty"
 
-        viewmodel?.orderPlaceResponse?.observe(this, Observer { OrderPlaceModel->
-            val razorpayOrderId = OrderPlaceModel()?.razorPayOrderId
-            Log.e("RAZORPAY", OrderPlaceModel.razorPayOrderId)
 
+        val razorpayOrderId = OrderPlaceModel().razorPayOrderId
+
+        try {
+            val options = JSONObject()
+            options.put("name", "FIDOO")
+            options.put("description", "Charges")
+            //You can omit the image option to fetch the image from dashboard
+            options.put("image", "https://fidoo.in/include/assets/front/img/logo_sticky.svg")
+            options.put("theme.color", "#339347");
+            options.put("currency", "INR")
+            options.put("order_id", razorpayOrderId)
+            //Log.e("RAZORPAY", "")
+            var amount = 0.0f
             try {
-                val options = JSONObject()
-                options.put("name", "FIDOO")
-                options.put("description", "Charges")
-                //You can omit the image option to fetch the image from dashboard
-                options.put("image", "https://fidoo.in/include/assets/front/img/logo_sticky.svg")
-                options.put("theme.color", "#339347");
-                options.put("currency", "INR")
-                options.put("order_id", razorpayOrderId)
-                //Log.e("RAZORPAY", "")
-                var amount = 0.0
-                try {
-                    Log.e("totalAmount", totalAmount.toString())
-                    amount = totalAmount
-                    //showToast(""+amount)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                options.put("amount", amount*100)
-
-                val prefill = JSONObject()
-                prefill.put("email", SessionTwiclo(
-                    this
-                ).profileDetail.account.emailid)
-                prefill.put("contact", SessionTwiclo(
-                    this
-                ).profileDetail.account.country_code+ SessionTwiclo(
-                    this
-                ).profileDetail.account.userName)
-
-                options.put("prefill", prefill)
-                co.open(activity, options)
-            }catch (e: java.lang.Exception){
-                Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_LONG).show()
+                Log.e("totalAmount", totalAmount.toString())
+                amount = totalAmount.toFloat()
+                //showToast(""+amount)
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
+            options.put("amount", amount*100)
 
+            val prefill = JSONObject()
+            prefill.put("email", SessionTwiclo(this).profileDetail.account.emailid)
+            prefill.put("contact", SessionTwiclo(this).profileDetail.account.country_code+ SessionTwiclo(this).profileDetail.account.userName)
 
-        })
+            options.put("prefill", prefill)
+            co.open(activity, options)
+        }catch (e: java.lang.Exception){
+            Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_LONG).show()
+            e.printStackTrace()
+        }
 
 
 
@@ -800,12 +799,12 @@ class CartActivity : BaseActivity(),
         try{
             Toast.makeText(this, "Payment Successful", Toast.LENGTH_LONG).show()
             viewmodel?.paymentApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                tempOrderId,
-                razorpayPaymentId!!,
-                "",
-                "online"
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    tempOrderId,
+                    razorpayPaymentId!!,
+                    "",
+                    "online"
             )
 
 
@@ -869,7 +868,8 @@ class CartActivity : BaseActivity(),
                         "add",
                         isCustomize,
                         productCustomizeId,
-                        cart_id
+                        cart_id,
+                        customIdsList!!
                     )
 
                 }
@@ -887,7 +887,8 @@ class CartActivity : BaseActivity(),
                     "add",
                     isCustomize,
                     productCustomizeId,
-                    cart_id!!
+                    cart_id!!,
+                    customIdsList!!
                 )
 
             }
@@ -908,7 +909,8 @@ class CartActivity : BaseActivity(),
                 "remove",
                 isCustomize,
                 productCustomizeId,
-                cart_id
+                cart_id,
+                customIdsList!!
             )
         }
 

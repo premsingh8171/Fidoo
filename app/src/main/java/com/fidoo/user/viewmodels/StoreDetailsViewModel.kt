@@ -56,7 +56,7 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
             })
     }
 
-    fun addRemoveCartDetails(accountId: String, accessToken: String, product_id: String, addRemoveType: String, is_customize: String, product_customize_id: String, cart_id: String) {
+    fun addRemoveCartDetails(accountId: String, accessToken: String, product_id: String, addRemoveType: String, is_customize: String, product_customize_id: String, cart_id: String, customize_sub_cat_id: ArrayList<String>) {
 
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).addRemoveCartApi(
@@ -66,7 +66,8 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
             addRemoveType = addRemoveType,
             is_customize = is_customize,
             product_customize_id = product_customize_id,
-            cart_id = cart_id
+            cart_id = cart_id,
+            customize_sub_cat_id = customize_sub_cat_id
         )
             .enqueue(object : Callback<AddRemoveCartModel> {
 

@@ -1,6 +1,5 @@
 package com.fidoo.user.adapter
 
-import `in`.cioc.support.activity.ChatRoomActivity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -60,7 +59,7 @@ class OrdersAdapter(
             holder.loc_icon.visibility = View.VISIBLE
             holder.storeName.text = orders[position].storeName
         }
-        //  0:failed, 1:success, 2: cancel, 3 delivered, 4: received, 5: in progress, 6: out of delivery ,11:preparing
+        //  0:failed, 1:success, 2: cancel, 3 delivered, 4: received, 5: in progress, 6: Out for delivery ,11:preparing
         if (orders[position].orderStatus.equals("0")) {
             holder.buttonValue.visibility = View.GONE
             holder.orderStatusTxt.text = "Failed"
@@ -131,7 +130,7 @@ class OrdersAdapter(
             if (orders[position].serviceTypeId == "4"){
 
 
-                con.startActivity(Intent(con, ChatRoomActivity::class.java).putExtra("APIKey", "gS0Bcjk3qQye7BbQQt+TsO4uT3Ja8zBVGzaNTQRfmNY="))
+//                con.startActivity(Intent(con, ChatRoomActivity::class.java).putExtra("APIKey", "gS0Bcjk3qQye7BbQQt+TsO4uT3Ja8zBVGzaNTQRfmNY="))
             }else  if (orders[position].orderStatus.equals("3")) {
                 if (orders[position].is_rate_to_driver.equals("0")) {
                     buyPopup(adapterReviewClick, orders[position].orderId)

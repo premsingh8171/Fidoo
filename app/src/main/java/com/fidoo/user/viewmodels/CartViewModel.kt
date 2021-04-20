@@ -167,7 +167,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
     }
 
 
-    fun addRemoveCartDetails(accountId: String, accessToken: String, product_id: String, addRemoveType: String, is_customize: String, product_customize_id: String, cart_id: String) {
+    fun addRemoveCartDetails(accountId: String, accessToken: String, product_id: String, addRemoveType: String, is_customize: String, product_customize_id: String, cart_id: String,  customize_sub_cat_id: ArrayList<String>) {
 
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).addRemoveCartApi(
@@ -177,7 +177,8 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
             addRemoveType = addRemoveType,
             is_customize = is_customize,
             product_customize_id = product_customize_id,
-            cart_id = cart_id
+            cart_id = cart_id,
+            customize_sub_cat_id = customize_sub_cat_id
         )
             .enqueue(object : Callback<com.fidoo.user.data.model.AddRemoveCartModel> {
 

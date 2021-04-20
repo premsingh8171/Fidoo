@@ -14,8 +14,8 @@ android {
         applicationId "com.fidoo.user"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -49,21 +49,6 @@ android {
 }
 
 dependencies {
-
-    //Syrow Dependencies
-    implementation 'com.loopj.android:android-async-http:1.4.9'
-    implementation 'de.hdodenhof:circleimageview:2.2.0'
-    implementation 'io.crossbar.autobahn:autobahn-android:18.5.1'
-    implementation 'com.android.volley:volley:1.1.1'
-    implementation 'com.github.Cloudist:ImageViewer:1.1.5'
-    implementation 'me.relex:photodraweeview:1.1.3'
-    implementation 'com.facebook.fresco:fresco:0.14.1'
-    implementation 'com.4ert:audioview:0.4'
-    implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.github.uDevel:widgetlab:0.9.7'
-
-
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -75,14 +60,12 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     implementation 'androidx.wear:wear:1.1.0'
-    implementation project(path: ':syrow')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "androidx.preference:preference-ktx:1.1.1"
 
     implementation 'com.github.GoodieBag:Pinview:v1.4'
-    compileOnly 'com.google.android.wearable:wearable:2.8.1'
 
     def fragment_version = "1.3.2"
 
