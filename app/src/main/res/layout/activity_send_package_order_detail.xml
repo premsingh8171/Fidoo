@@ -428,7 +428,7 @@
                 android:id="@+id/tv_place_order"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Place Order | 100"
+                android:text=""
                 android:textColor="@color/white"
                 android:background="@drawable/corner_radius_green"
                 android:textAlignment="center"

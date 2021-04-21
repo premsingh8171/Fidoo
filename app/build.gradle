@@ -14,8 +14,8 @@ android {
         applicationId "com.fidoo.user"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 4
+        versionName "1.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -25,7 +25,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -139,4 +139,7 @@ dependencies {
     //Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+
+    //For in-app updates
+    implementation 'com.github.SanojPunchihewa:InAppUpdater:1.0.5'
 }

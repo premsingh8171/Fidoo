@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
     var fragmentHomeBinding: FragmentHomeBinding? = null
     private var currentPosition = 0
     private var layoutManger: com.fidoo.user.utils.CardSliderLayoutManager? = null
-    private val pics = intArrayOf(R.drawable.food, R.drawable.grocery, R.drawable.grocery)
+    private val pics = intArrayOf(R.drawable.food, R.drawable.grocery, R.drawable.grocery, R.drawable.meat)
     private val sliderAdapter = com.fidoo.user.adapter.SliderAdapter(
         pics, 20, OnCardClickListener()
     )
@@ -79,12 +79,14 @@ class HomeFragment : Fragment() {
 
                 viewmodel?.getBanners(
                     com.fidoo.user.data.session.SessionTwiclo(context).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(context).loggedInUserDetail.accessToken
+                    com.fidoo.user.data.session.SessionTwiclo(context).loggedInUserDetail.accessToken,
+                    "1"
                 )
             }else{
                 viewmodel?.getBanners(
                     "",
-                    ""
+                    "",
+                    "1"
                 )
             }
 

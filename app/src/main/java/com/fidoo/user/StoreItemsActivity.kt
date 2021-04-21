@@ -102,6 +102,8 @@ class StoreItemsActivity :
 
         }
 
+
+
         backIcon.setOnClickListener {
             finish()
         }
@@ -118,7 +120,7 @@ class StoreItemsActivity :
                 showIOSProgress()
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
 
-                   /* viewmodel!!.addToCartApi(
+                    /* viewmodel!!.addToCartApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
                        "", countValue.text.toString(), "", "1", customIdsList!!
@@ -599,6 +601,8 @@ class StoreItemsActivity :
     override fun onResume() {
         super.onResume()
         storeID = intent.getStringExtra("storeId")!!
+        tv_cuisnes.text = intent.getStringExtra("cuisine_types")
+        tv_distance.text = intent.getStringExtra("distance") + "kms"
 
         Log.d("OnRESUME", "RESUME")
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -990,7 +994,20 @@ class StoreItemsActivity :
                 //ll_view_cart.visibility = View.GONE // to hide the bottom cart bar if non-customized item quantity becomes zero
                 addCartTempList!!.removeAt(checkPos)
                 tempProductList!!.removeAt(checkPos)
-                customIdsList!!.clear()
+                //customIdsList!!.clear()
+
+                if (cartId != null) {
+                    viewmodel?.addRemoveCartDetails(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        productId,
+                        "remove",
+                        "0",
+                        "",
+                        cartId,
+                        customIdsList!!
+                    )
+                }
 
 
 

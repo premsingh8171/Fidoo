@@ -42,10 +42,10 @@ import org.json.JSONObject
 import java.io.File
 
 class CartActivity : BaseActivity(),
-        AdapterCartAddRemoveClick,
-        AdapterClick,
-        CustomCartAddRemoveClick,
-        AdapterCustomRadioClick, PaymentResultListener {
+    AdapterCartAddRemoveClick,
+    AdapterClick,
+    CustomCartAddRemoveClick,
+    AdapterCustomRadioClick, PaymentResultListener {
 
     var viewmodel: CartViewModel? = null
     var totalAmount: Double = 0.0
@@ -294,9 +294,14 @@ class CartActivity : BaseActivity(),
 
                 viewmodel?.getCartDetailsResponse?.observe(this , Observer { user->
                     val mCartModelData : CartModel = user
-                    for (i in 0 until user.cart.size) {
-                        mCartId = mCartModelData.cart[i].cart_id
+                    if (user.cart.size != 0){
+                        for (i in 0 until user.cart.size) {
+                            mCartId = mCartModelData.cart[i].cart_id
+                        }
+                    }else{
+
                     }
+
 
 
                 })
@@ -653,7 +658,7 @@ class CartActivity : BaseActivity(),
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
-        tv_place_order.setOnClickListener {
+        cart_payment_lay.setOnClickListener {
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
             } else {
@@ -668,13 +673,13 @@ class CartActivity : BaseActivity(),
                         if (isNetworkConnected) {
                             showIOSProgress()
                             viewmodel?.orderPlaceApi(SessionTwiclo(this).loggedInUserDetail.accountId,
-                                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                    finalPrice.toFloat().toString(),
-                                    deliveryOption,
-                                    SessionTwiclo(this).userAddressId,
-                                    "",
-                                    ed_delivery_instructions.text.toString(),
-                                    isSelected
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                finalPrice.toFloat().toString(),
+                                deliveryOption,
+                                SessionTwiclo(this).userAddressId,
+                                "",
+                                ed_delivery_instructions.text.toString(),
+                                isSelected
                             )
 
                         } else {
@@ -685,14 +690,14 @@ class CartActivity : BaseActivity(),
                 } else {
                     showIOSProgress()
                     viewmodel?.orderPlaceApi(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            finalPrice.toFloat().toString(),
-                            deliveryOption,
-                            SessionTwiclo(this).userAddressId,
-                            "",
-                            ed_delivery_instructions.text.toString(),
-                            isSelected
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        finalPrice.toFloat().toString(),
+                        deliveryOption,
+                        SessionTwiclo(this).userAddressId,
+                        "",
+                        ed_delivery_instructions.text.toString(),
+                        isSelected
                     )
                 }
             }
@@ -721,12 +726,12 @@ class CartActivity : BaseActivity(),
             } else {
                 if (isNetworkConnected) {
                     viewmodel?.paymentApi(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            user.orderId,
-                            "",
-                            "",
-                            "cash"
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        user.orderId,
+                        "",
+                        "",
+                        "cash"
                     )
 
                 } else {
@@ -799,12 +804,12 @@ class CartActivity : BaseActivity(),
         try{
             Toast.makeText(this, "Payment Successful", Toast.LENGTH_LONG).show()
             viewmodel?.paymentApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    tempOrderId,
-                    razorpayPaymentId!!,
-                    "",
-                    "online"
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                tempOrderId,
+                razorpayPaymentId!!,
+                "",
+                "online"
             )
 
 

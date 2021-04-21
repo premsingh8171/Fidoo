@@ -23,7 +23,8 @@ interface BackEndApi {
     @POST("homeBanner.inc.php")
     fun getBannersApi(
         @Field("accountId") accountId: String?,
-        @Field("accessToken") accessToken: String?
+        @Field("accessToken") accessToken: String?,
+        @Field("isNewApp") isNewApp: String?
 
     ): Call<com.fidoo.user.data.model.BannerModel>
 
@@ -43,7 +44,7 @@ interface BackEndApi {
         @Field("store_id") store_id: String?,
         @Field("cat_search") cat_search: String?
 
-    ): Call<com.fidoo.user.data.model.StoreCategoriesModel>
+    ): Call<StoreCategoriesModel>
 
     @FormUrlEncoded
     @POST("storeList.inc.php")

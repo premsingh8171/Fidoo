@@ -25,7 +25,7 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
 
         var storeName: TextView? = view.storeName
         var storeImg = view.productImg
-        //var locText = view.locText
+        var location = view.tv_location
         //var ratingTxt = view.ratingTxt
         var deliveryTimeTxt: TextView? = view.tv_deliveryTime
         var mainLay: RelativeLayout? = view.store_lay
@@ -58,7 +58,7 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
         }
         // format the java.util.Date object to the desired format
 
-
+        holder.closingTimeText.text = "Closing Time: "+SimpleDateFormat("hh:mm aa").format(date)
         holder.storeName?.text  = storeList[position].name
         //holder.locText.text = storeList[position].address
         if (storeList[position].rating == ""){
@@ -75,6 +75,7 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
 
             }else if (storeList[position].open_close_status.equals("0")){
                 holder.onOffText?.text = "Offline"
+                holder.onOffText?.setTextColor(Color.rgb(240, 0, 0))
                 holder.onOffText?.visibility = View.VISIBLE
             }
 
@@ -85,6 +86,8 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
         }
 
         holder.deliveryTimeTxt?.text = storeList[position].delivery_time + " minutes"
+        holder.location?.text = storeList[position].distance + "kms"
+
 
         Glide.with(context)
             .load(storeList[position].image)
@@ -95,12 +98,15 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
             if (storeList[position].status.equals("1")) {
                 if (storeList[position].open_close_status.equals("1")) {
                     if (storeList[position].has_product_categories.equals("1")) {
-                        /*context.startActivity(
-                            Intent(con, CategoriesActivity::class.java).putExtra(
-                                "storeId",
-                                storeList[position].id
-                            ).putExtra("storeName", storeList.get(position).name)
-                        )*/
+                        context.startActivity(
+                            Intent(context, StoreItemsActivity::class.java)
+                                .putExtra("storeId", storeList[position].id)
+                                .putExtra("storeName", storeList.get(position).name)
+                                .putExtra("store_location", storeList[position].address)
+                                .putExtra("delivery_time", storeList[position].delivery_time)
+                                .putExtra("cuisine_types", storeList[position].cuisines.joinToString (separator = ", "))
+                                .putExtra("distance", storeList[position].distance)
+                        )
                     } else {
 
                         context.startActivity(
@@ -110,6 +116,7 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
                                 .putExtra("store_location", storeList[position].address)
                                 .putExtra("delivery_time", storeList[position].delivery_time)
                                 .putExtra("cuisine_types", storeList[position].cuisines.joinToString (separator = ", "))
+                                .putExtra("distance", storeList[position].distance)
                         )
                     }
                 } else if (storeList[position].open_close_status.equals("0")) {

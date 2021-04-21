@@ -66,9 +66,9 @@ class CartItemsAdapter(
             holder.customitemName.visibility = View.GONE
         }
         Glide.with(con)
-                .load(cart.get(position).productImage)
-                .fitCenter()
-                .into(holder.productImg)
+            .load(cart.get(position).productImage)
+            .fitCenter()
+            .into(holder.productImg)
 
 
         holder.deleteIcon.setOnClickListener {
@@ -113,9 +113,9 @@ class CartItemsAdapter(
                         )}
                     else{
                         adapterCartAddRemoveClick.onRemoveItemClick(
-                                cart.get(position).productId,
-                                cart.get(position).quantity,
-                                cart.get(position).is_customize,
+                                cart[position].productId,
+                                cart[position].quantity,
+                                cart[position].is_customize,
                                 "",
                                 cart[position].cart_id
                         )

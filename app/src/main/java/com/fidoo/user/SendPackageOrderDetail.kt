@@ -150,14 +150,29 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                 }
 
             }else{
-                sendPackagesViewModel?.paymentApi(
+                /*sendPackagesViewModel?.paymentApi(
                     com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
                     com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
                     it.orderId,
                     razorpayId,
                     "",
                     "cash"
-                )
+                )*/
+
+                showToast("Order placed successfully")
+                // startActivity(Intent(this, OrderDetailsActivity::class.java).putExtra("orderId",user.orderId).putExtra("type",""))
+                //showToast(user.message)
+                AwesomeDialog.build(this)
+                    .title("Congratulations")
+                    .body("Order Id: " + it.orderId + "\n\nOrder Placed Successfully!",)
+                    .icon(R.drawable.ic_congrts)
+                    .position(AwesomeDialog.POSITIONS.CENTER)
+                    .onPositive("Go to Home", buttonBackgroundColor = R.color.colorPrimary) {
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finishAffinity()
+                    }
+
+
             }
 
         })

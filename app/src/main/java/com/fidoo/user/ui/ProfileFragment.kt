@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -41,21 +42,44 @@ class ProfileFragment : Fragment() {
         viewmodel = ViewModelProvider(requireActivity()).get(LogoutViewModel::class.java)
 
         mView.tv_yourAddresses.setOnClickListener {
-            startActivity(Intent(context, SavedAddressesActivity::class.java))
+            if (SessionTwiclo(requireContext()).isLoggedIn){
+                startActivity(Intent(context, SavedAddressesActivity::class.java))
+            }else{
+                Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
+            }
+
         }
 
         mView.tv_aboutUs.setOnClickListener {
             startActivity(Intent(context, AboutUsActivity::class.java).putExtra("about_us", "about_us"))
         }
 
+        if (SessionTwiclo(requireContext()).isLoggedIn){
+            mView.action_logout.visibility = View.VISIBLE
+            mView.textView6.visibility = View.VISIBLE
+            mView.tv_name.visibility = View.VISIBLE
+            mView.tv_hi.visibility = View.VISIBLE
+        }else{
+            mView.action_logout.visibility = View.GONE
+            mView.textView6.visibility = View.GONE
+            mView.tv_name.visibility = View.GONE
+            mView.tv_hi.visibility = View.GONE
+        }
+
         mView.action_logout.setOnClickListener {
 
-            viewmodel?.logoutapi(
-                SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
-                SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
-            )
+            if (SessionTwiclo(requireContext()).isLoggedIn){
+                viewmodel?.logoutapi(
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
+                )
 
-            startActivity(Intent(context, LoginActivity::class.java))
+                startActivity(Intent(context, SplashActivity::class.java))
+            }else{
+                Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
+            }
+
+
         }
 
         viewmodel?.getlogoutResponse?.observe(requireActivity(), Observer { user ->
@@ -73,4 +97,6 @@ class ProfileFragment : Fragment() {
 
         return mView
     }
+
+
 }

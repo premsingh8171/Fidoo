@@ -44,10 +44,10 @@
                 android:maxLines="2"
                 android:text="Daily Grocery"
                 android:fontFamily="@font/metropolisbold"
-
                 android:textColor="@android:color/black"
                 app:layout_constraintLeft_toRightOf="@+id/storeImg"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/orderStatusTxt"
                 android:layout_width="wrap_content"
@@ -59,9 +59,8 @@
                 android:maxLines="1"
                 android:text=""
                 android:fontFamily="@font/metropolisbold"
-
                 android:textColor="@android:color/black"
-              app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -262,7 +261,7 @@
                 android:paddingVertical="10dp"
                 android:text="Track Order"
                 android:fontFamily="@font/metropolis_regular"
-                android:textColor="@android:color/white"
+                android:textColor="#339347"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/totalPriceLabel" />
 
