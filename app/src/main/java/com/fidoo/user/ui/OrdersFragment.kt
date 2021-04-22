@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.fidoo.user.R
 import com.fidoo.user.adapter.OrdersAdapter
 import com.fidoo.user.data.model.MyOrdersModel
+import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentOrdersBinding
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterReviewClick
@@ -63,11 +64,18 @@ class OrdersFragment : Fragment(),
             Log.wtf("IOS_error_starting", ex.cause!!)
         }
 
+
         if ((activity as MainActivity).isNetworkConnected) {
-            viewmodel?.getMyOrders(
-                com.fidoo.user.data.session.SessionTwiclo(activity).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(activity).loggedInUserDetail.accessToken
-            )
+            if (SessionTwiclo(requireContext()).isLoggedIn){
+                viewmodel?.getMyOrders(
+                    SessionTwiclo(activity).loggedInUserDetail.accountId,
+                    SessionTwiclo(activity).loggedInUserDetail.accessToken
+                )
+            }else{
+                fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+                Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
+            }
+
 
 
         } else {
@@ -102,6 +110,7 @@ class OrdersFragment : Fragment(),
                 val mModelData: MyOrdersModel = user
                 Log.e("ordersResponse", Gson().toJson(mModelData))
                 if (mModelData.orders != null) {
+
                     val adapter = OrdersAdapter(mmContext, mModelData.orders, this, this)
                     fragmentOrdersBinding?.ordersRecyclerView?.layoutManager = GridLayoutManager(
                         context,
@@ -111,6 +120,7 @@ class OrdersFragment : Fragment(),
                     fragmentOrdersBinding?.ordersRecyclerView?.adapter = adapter
 
                     fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
+
                 } else {
                     fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
                     // Toast.makeText(context,"No Orders", Toast.LENGTH_SHORT).show()
@@ -134,8 +144,8 @@ class OrdersFragment : Fragment(),
             Log.e("ordersResponse", Gson().toJson(mModelData))
             Toast.makeText(context, user.message, Toast.LENGTH_SHORT).show()
             viewmodel?.getMyOrders(
-                com.fidoo.user.data.session.SessionTwiclo(activity).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(activity).loggedInUserDetail.accessToken
+                SessionTwiclo(activity).loggedInUserDetail.accountId,
+                SessionTwiclo(activity).loggedInUserDetail.accessToken
             )
 
         })

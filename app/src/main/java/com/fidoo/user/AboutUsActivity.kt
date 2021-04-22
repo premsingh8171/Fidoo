@@ -18,7 +18,7 @@ class AboutUsActivity : AppCompatActivity() {
 
         // this will load the url of the website
         if (intent.getStringExtra("about_us").equals("about_us")){
-            aboutUsWebView.loadUrl("https://fidoo.in/about-us")
+            aboutUsWebView.loadUrl("https://fidoo.in/our-story")
         }else{
             aboutUsWebView.loadUrl("https://fidoo.in/privacy-policy")
         }

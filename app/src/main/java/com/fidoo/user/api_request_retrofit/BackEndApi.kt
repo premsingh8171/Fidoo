@@ -23,7 +23,8 @@ interface BackEndApi {
     @POST("homeBanner.inc.php")
     fun getBannersApi(
         @Field("accountId") accountId: String?,
-        @Field("accessToken") accessToken: String?
+        @Field("accessToken") accessToken: String?,
+        @Field("isNewApp") isNewApp: String?
 
     ): Call<BannerModel>
 

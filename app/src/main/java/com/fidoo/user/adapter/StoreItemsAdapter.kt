@@ -73,6 +73,12 @@ class StoreItemsAdapter(
             // TODO
         }
 
+        if (productList[position].isCustomize == "1"){
+            holder.customizable.visibility = View.VISIBLE
+        }else{
+            holder.customizable.visibility = View.GONE
+        }
+
         var count: Int = 0
 
         if (productList[position].isNonveg.equals("0")) {
@@ -409,6 +415,7 @@ class StoreItemsAdapter(
         var vegIcon = view.veg_icon
         var add_new_lay = view.add_item_lay
         var stock_status = view.tv_stock_status
+        var customizable = view.tv_customizable
     }
 
 

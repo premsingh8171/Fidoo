@@ -22,6 +22,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.fidoo.user.R
+import com.fidoo.user.data.model.TempProductListModel
+import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.utils.BaseActivity
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -29,6 +31,8 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.*
 import com.google.firebase.FirebaseApp
 import com.robin.locationgetter.EasyLocation
+import com.sanojpunchihewa.updatemanager.UpdateManager
+import com.sanojpunchihewa.updatemanager.UpdateManagerConstant
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
@@ -58,6 +62,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         private lateinit var locationCallback : LocationCallback
         val MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
         private var locationManager : LocationManager? = null
+
+        // Declare the UpdateManager
+        var mUpdateManager: UpdateManager? = null
     }
 
 
@@ -68,6 +75,15 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         FirebaseApp.initializeApp(this)
+
+
+
+
+
+        // Initialize the Update Manager with the Activity and the Update Mode
+        mUpdateManager = UpdateManager.Builder(this).mode(UpdateManagerConstant.IMMEDIATE)
+
+        mUpdateManager?.start()
 
 
 
@@ -90,8 +106,8 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         bottomNavigationView.setupWithNavController(navController)
         checkLocation()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        tempProductList = ArrayList<com.fidoo.user.data.model.TempProductListModel>()
-        addCartTempList = ArrayList<com.fidoo.user.data.model.AddCartInputModel>()
+        tempProductList = ArrayList()
+        addCartTempList = ArrayList()
 
         //ToDO
 //        if (SessionTwiclo(this).profileDetail != null && SessionTwiclo(this).profileDetail.account != null) {
@@ -113,13 +129,13 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                         "Location_lat_lng",
                         " latitude ${location.latitude} longitude ${location.longitude}"
                     )
-                    com.fidoo.user.data.session.SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(
+                    SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(
                         location.latitude,
                         location.longitude
                     )
-                    com.fidoo.user.data.session.SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
-                    com.fidoo.user.data.session.SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
-                    userAddress?.text = com.fidoo.user.data.session.SessionTwiclo(
+                    SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
+                    SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
+                    userAddress?.text = SessionTwiclo(
                         this@MainActivity
                     ).userAddress
 
@@ -128,7 +144,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
 
 
-        if (com.fidoo.user.data.session.SessionTwiclo(this).userAddress.equals("")) {
+        if (SessionTwiclo(this).userAddress.equals("")) {
             try {
                 // Request location updates
                 //locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
@@ -168,13 +184,13 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                         "Location_lat_lng",
                         " latitude ${location.latitude} longitude ${location.longitude}"
                     )
-                    com.fidoo.user.data.session.SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(
+                    SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(
                         location.latitude,
                         location.longitude
                     )
-                    com.fidoo.user.data.session.SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
-                    com.fidoo.user.data.session.SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
-                    userAddress?.text = com.fidoo.user.data.session.SessionTwiclo(
+                    SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
+                    SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
+                    userAddress?.text = SessionTwiclo(
                         this@MainActivity
                     ).userAddress
                 }
@@ -182,7 +198,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         } else {
 
-            userAddress?.text = com.fidoo.user.data.session.SessionTwiclo(
+            userAddress?.text = SessionTwiclo(
                 this@MainActivity
             ).userAddress
         }
@@ -332,13 +348,13 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                             .addOnSuccessListener {
                                 // Got last known location. In some rare situations this can be null.
                                 Log.e("ll", ll.toString())
-                                com.fidoo.user.data.session.SessionTwiclo(
+                                SessionTwiclo(
                                     this
                                 ).userAddress = getGeoAddressFromLatLong(
                                     ll!!.latitude,
                                     ll!!.longitude
                                 )
-                                userAddress?.text = com.fidoo.user.data.session.SessionTwiclo(
+                                userAddress?.text = SessionTwiclo(
                                     this
                                 ).userAddress
 
@@ -346,13 +362,13 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                         ll = LocationServices.FusedLocationApi.getLastLocation(gac!!)
                         if (ll != null) {
                             Log.e("ll", ll.toString())
-                            com.fidoo.user.data.session.SessionTwiclo(
+                            SessionTwiclo(
                                 this
                             ).userAddress = getGeoAddressFromLatLong(
                                 ll!!.latitude,
                                 ll!!.longitude
                             )
-                            userAddress?.text = com.fidoo.user.data.session.SessionTwiclo(
+                            userAddress?.text = SessionTwiclo(
                                 this
                             ).userAddress
                             //updateUI(ll!!)
@@ -526,13 +542,13 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                 "LastLocation: " + (ll?.toString() ?: "NO LastLocation")
             )
             if (ll != null) {
-                com.fidoo.user.data.session.SessionTwiclo(this).userAddress = getGeoAddressFromLatLong(
+                SessionTwiclo(this).userAddress = getGeoAddressFromLatLong(
                     ll!!.latitude,
                     ll!!.longitude
                 )
-                com.fidoo.user.data.session.SessionTwiclo(this).userLat = ll!!.latitude.toString()
-                com.fidoo.user.data.session.SessionTwiclo(this).userLng = ll!!.longitude.toString()
-                userAddress?.text = com.fidoo.user.data.session.SessionTwiclo(
+                SessionTwiclo(this).userLat = ll!!.latitude.toString()
+                SessionTwiclo(this).userLng = ll!!.longitude.toString()
+                userAddress?.text = SessionTwiclo(
                     this
                 ).userAddress
 

@@ -48,6 +48,8 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
             resendApi()
         }
 
+        mView.tv_phone.text = mData.mobile
+
 
         mView.btn_continue.setOnClickListener(View.OnClickListener {
             if (mView.otp_view.otp.equals("")) {

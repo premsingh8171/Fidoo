@@ -45,11 +45,11 @@ class HomeFragmentViewModel(application: Application) : AndroidViewModel(applica
 
     }
 
-    fun getBanners(accountId: String, accessToken: String) {
+    fun getBanners(accountId: String, accessToken: String, isNewApp: String) {
 
    // progressDialog?.value = true
     WebServiceClient.client.create(BackEndApi::class.java).getBannersApi(
-        accountId = accountId, accessToken = accessToken
+        accountId = accountId, accessToken = accessToken, isNewApp = isNewApp
     )
         .enqueue(this)
 

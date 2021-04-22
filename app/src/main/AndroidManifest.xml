@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TwicloRedesigned"
         tools:replace="android:allowBackup,android:name,android:theme,android:icon">
-        <activity android:name=".AboutUsActivity"></activity>
+        <activity android:name=".GroceryItemsActivity"></activity>
+        <activity android:name=".AboutUsActivity" />
         <activity android:name=".SendPackageOrderDetail" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

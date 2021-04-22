@@ -78,6 +78,10 @@ public class StoreListingModel {
         @Expose
         public List<String> cuisines = null;
 
+        @SerializedName("delivery_distance")
+        @Expose
+        public String distance;
+
     }
 
 }
