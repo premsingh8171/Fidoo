@@ -15,7 +15,7 @@ class AddressViewModel(application: Application) : AndroidViewModel(application)
       var addAddressResponse: MutableLiveData<com.fidoo.user.data.model.AddAddressModel>? = null
       var editAddressResponse: MutableLiveData<com.fidoo.user.data.model.AddAddressModel>? = null
       var deleteAddressResponse: MutableLiveData<com.fidoo.user.data.model.DeleteAddressModel>? = null
-    var failureResponse: MutableLiveData<String>? = null
+      var failureResponse: MutableLiveData<String>? = null
 
     init {
         getAddressesResponse = MutableLiveData<com.fidoo.user.data.model.GetAddressModel>()

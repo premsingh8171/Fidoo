@@ -75,6 +75,7 @@ public  abstract class BaseActivity extends AppCompatActivity implements Handler
 
         super.onDestroy();
     }
+
     public List<LatLng> decodePoly(String encoded) {
         List<LatLng> poly = new ArrayList<>();
         int index = 0, len = encoded.length();

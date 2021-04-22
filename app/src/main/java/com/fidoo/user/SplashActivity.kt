@@ -1,13 +1,20 @@
 package com.fidoo.user
 
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
+import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.databinding.ActivitySplashBinding
+import com.fidoo.user.utils.BaseActivity
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessaging
 
 
-class SplashActivity : com.fidoo.user.utils.BaseActivity() {
+class SplashActivity : BaseActivity() {
 
 
-    //  private  lateinit var splashBinding: ActivitySplashBinding
+    private  lateinit var splashBinding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,18 +24,18 @@ class SplashActivity : com.fidoo.user.utils.BaseActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
 
-//        FirebaseApp.initializeApp();
-//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-//            if (!task.isSuccessful) {
-//                Log.w("Token", "Fetching FCM registration token failed", task.exception)
-//                return@OnCompleteListener
-//            }
-//            // Get new FCM registration token
-//            val token = task.result
-//            SessionTwiclo(this).deviceToken=token
-//            // Log and toast
-//            Log.d("Token", token.toString())
-//        })
+        FirebaseApp.initializeApp(this)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("Token", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            // Get new FCM registration token
+            val token = task.result
+            SessionTwiclo(this).deviceToken=token
+            // Log and toast
+            Log.d("Token", token.toString())
+        })
     }
 
 }

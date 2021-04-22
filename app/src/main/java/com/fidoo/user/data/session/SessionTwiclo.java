@@ -48,6 +48,7 @@ public class SessionTwiclo {
         editor.commit();
 
     }
+
     public String getUserAddressId() {
         return pref.getString("user_address_id", "");
     }
@@ -57,6 +58,7 @@ public class SessionTwiclo {
         editor.commit();
 
     }
+
     public String getUserLat() {
         return pref.getString("user_lat", "");
     }

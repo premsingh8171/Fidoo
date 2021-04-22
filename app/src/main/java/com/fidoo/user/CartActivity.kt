@@ -300,6 +300,7 @@ class CartActivity : BaseActivity(),
 
 
                 })
+
                 Log.e("customIdsList", customIdsList.toString())
                 showIOSProgress()
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")

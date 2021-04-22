@@ -12,8 +12,6 @@ class AboutUsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_about_us)
 
 
-
-
         // WebViewClient allows you to handle
         // onPageFinished and override Url loading.
         aboutUsWebView.webViewClient = WebViewClient()
