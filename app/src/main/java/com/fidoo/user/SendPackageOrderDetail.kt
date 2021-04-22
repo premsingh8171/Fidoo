@@ -25,7 +25,7 @@ import org.json.JSONObject
 class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResultListener {
 
     var sendPackagesViewModel: SendPackagesViewModel? = null
-    var sendPackagesModel: com.fidoo.user.data.model.SendPackagesModel?=null
+    var sendPackagesModel: SendPackagesModel?=null
     var paymentMode: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {

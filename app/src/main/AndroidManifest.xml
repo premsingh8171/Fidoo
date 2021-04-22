@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TwicloRedesigned"
         tools:replace="android:allowBackup,android:name,android:theme,android:icon">
-        <activity android:name=".GroceryItemsActivity"></activity>
+        <activity android:name=".grocery.activity.GroceryItemsActivity"></activity>
         <activity android:name=".AboutUsActivity" />
         <activity android:name=".SendPackageOrderDetail" />
         <!--

@@ -1,7 +1,8 @@
-package com.fidoo.user
+package com.fidoo.user.grocery.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.fidoo.user.R
 
 class GroceryItemsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

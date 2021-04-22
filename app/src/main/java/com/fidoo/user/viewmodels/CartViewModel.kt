@@ -55,8 +55,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
 
     fun addToCartApi(accountId: String, accessToken: String, products: ArrayList<AddCartInputModel>, cart_id: String) {
 
-        var addCartInputModelFinal =
-            AddCartInputModelFinal()
+        var addCartInputModelFinal = AddCartInputModelFinal()
         addCartInputModelFinal.accessToken = accessToken
         addCartInputModelFinal.accountId = accountId
         addCartInputModelFinal.cart_id = cart_id

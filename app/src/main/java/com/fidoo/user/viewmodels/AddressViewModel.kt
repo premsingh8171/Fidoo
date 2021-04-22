@@ -5,23 +5,24 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
+import com.fidoo.user.data.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AddressViewModel(application: Application) : AndroidViewModel(application), Callback<com.fidoo.user.data.model.GetAddressModel> {
+class AddressViewModel(application: Application) : AndroidViewModel(application), Callback<GetAddressModel> {
 
-      var getAddressesResponse: MutableLiveData<com.fidoo.user.data.model.GetAddressModel>? = null
-      var addAddressResponse: MutableLiveData<com.fidoo.user.data.model.AddAddressModel>? = null
-      var editAddressResponse: MutableLiveData<com.fidoo.user.data.model.AddAddressModel>? = null
-      var deleteAddressResponse: MutableLiveData<com.fidoo.user.data.model.DeleteAddressModel>? = null
+      var getAddressesResponse: MutableLiveData<GetAddressModel>? = null
+      var addAddressResponse: MutableLiveData<AddAddressModel>? = null
+      var editAddressResponse: MutableLiveData<AddAddressModel>? = null
+      var deleteAddressResponse: MutableLiveData<DeleteAddressModel>? = null
       var failureResponse: MutableLiveData<String>? = null
 
     init {
-        getAddressesResponse = MutableLiveData<com.fidoo.user.data.model.GetAddressModel>()
-        addAddressResponse = MutableLiveData<com.fidoo.user.data.model.AddAddressModel>()
-        editAddressResponse = MutableLiveData<com.fidoo.user.data.model.AddAddressModel>()
-        deleteAddressResponse = MutableLiveData<com.fidoo.user.data.model.DeleteAddressModel>()
+        getAddressesResponse = MutableLiveData<GetAddressModel>()
+        addAddressResponse = MutableLiveData<AddAddressModel>()
+        editAddressResponse = MutableLiveData<AddAddressModel>()
+        deleteAddressResponse = MutableLiveData<DeleteAddressModel>()
         failureResponse = MutableLiveData<String>()
 
     }
@@ -56,15 +57,15 @@ class AddressViewModel(application: Application) : AndroidViewModel(application)
             is_default = is_default,
             phone_no = phone_number
         )
-            .enqueue(object : Callback<com.fidoo.user.data.model.AddAddressModel> {
+            .enqueue(object : Callback<AddAddressModel> {
 
-                override fun onResponse(call: Call<com.fidoo.user.data.model.AddAddressModel>, response: Response<com.fidoo.user.data.model.AddAddressModel>) {
+                override fun onResponse(call: Call<AddAddressModel>, response: Response<AddAddressModel>) {
                    // progressDialog?.value = false
                     addAddressResponse?.value = response.body()
 
                 }
 
-                override fun onFailure(call: Call<com.fidoo.user.data.model.AddAddressModel>, t: Throwable) {
+                override fun onFailure(call: Call<AddAddressModel>, t: Throwable) {
                     failureResponse?.value="Something went wrong"
                 }
             })
@@ -90,15 +91,15 @@ class AddressViewModel(application: Application) : AndroidViewModel(application)
             address_id = address_id,
             is_default = is_default
         )
-            .enqueue(object : Callback<com.fidoo.user.data.model.AddAddressModel> {
+            .enqueue(object : Callback<AddAddressModel> {
 
-                override fun onResponse(call: Call<com.fidoo.user.data.model.AddAddressModel>, response: Response<com.fidoo.user.data.model.AddAddressModel>) {
+                override fun onResponse(call: Call<AddAddressModel>, response: Response<AddAddressModel>) {
                    // progressDialog?.value = false
                     editAddressResponse?.value = response.body()
 
                 }
 
-                override fun onFailure(call: Call<com.fidoo.user.data.model.AddAddressModel>, t: Throwable) {
+                override fun onFailure(call: Call<AddAddressModel>, t: Throwable) {
                     failureResponse?.value="Something went wrong"
                 }
             })
@@ -110,25 +111,25 @@ class AddressViewModel(application: Application) : AndroidViewModel(application)
         WebServiceClient.client.create(BackEndApi::class.java).deleteAddressApi(
             accountId = accountId, accessToken = accessToken, address_id = address_id
         )
-            .enqueue(object : Callback<com.fidoo.user.data.model.DeleteAddressModel> {
+            .enqueue(object : Callback<DeleteAddressModel> {
 
-                override fun onResponse(call: Call<com.fidoo.user.data.model.DeleteAddressModel>, response: Response<com.fidoo.user.data.model.DeleteAddressModel>) {
+                override fun onResponse(call: Call<DeleteAddressModel>, response: Response<DeleteAddressModel>) {
                    // progressDialog?.value = false
                     deleteAddressResponse?.value = response.body()
 
                 }
 
-                override fun onFailure(call: Call<com.fidoo.user.data.model.DeleteAddressModel>, t: Throwable) {
+                override fun onFailure(call: Call<DeleteAddressModel>, t: Throwable) {
                     failureResponse?.value="Something went wrong"
                 }
             })
     }
-    override fun onResponse(call: Call<com.fidoo.user.data.model.GetAddressModel>?, response: Response<com.fidoo.user.data.model.GetAddressModel>?) {
+    override fun onResponse(call: Call<GetAddressModel>?, response: Response<GetAddressModel>?) {
         getAddressesResponse?.value = response?.body()
 
     }
 
-    override fun onFailure(call: Call<com.fidoo.user.data.model.GetAddressModel>?, t: Throwable?) {
+    override fun onFailure(call: Call<GetAddressModel>?, t: Throwable?) {
         failureResponse?.value="Something went wrong"
     }
 
