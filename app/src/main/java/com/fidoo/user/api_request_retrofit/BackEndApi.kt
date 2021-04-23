@@ -1,6 +1,7 @@
 package com.fidoo.user.api_request_retrofit
 
 import com.fidoo.user.data.model.*
+import com.fidoo.user.grocery.model.getGroceryProducts.GroceryProductsResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -69,6 +70,15 @@ interface BackEndApi {
         @Field("cat_id") cat_id: String?
 
     ): Call<StoreDetailsModel>
+
+//for grocery
+    @FormUrlEncoded
+    @POST("getGroceryProducts.inc.php")
+    fun getGroceryProducts(
+            @Field("accountId") accountId: String?,
+            @Field("accessToken") accessToken: String?,
+            @Field("store_id") store_id: String?,
+    ): Call<GroceryProductsResponse>
 
     @FormUrlEncoded
     @POST("searchStoreProduct.inc.php")

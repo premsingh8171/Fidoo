@@ -13,7 +13,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 
 class SplashActivity : BaseActivity() {
 
-
     private  lateinit var splashBinding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,18 +23,18 @@ class SplashActivity : BaseActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
 
-        FirebaseApp.initializeApp(this)
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("Token", "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-            // Get new FCM registration token
-            val token = task.result
-            SessionTwiclo(this).deviceToken=token
-            // Log and toast
-            Log.d("Token", token.toString())
-        })
+//        FirebaseApp.initializeApp(this)
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+//            if (!task.isSuccessful) {
+//                Log.w("Token", "Fetching FCM registration token failed", task.exception)
+//                return@OnCompleteListener
+//            }
+//            // Get new FCM registration token
+//            val token = task.result
+//            SessionTwiclo(this).deviceToken=token
+//            // Log and toast
+//            Log.d("Token", token.toString())
+//        })
     }
 
 }

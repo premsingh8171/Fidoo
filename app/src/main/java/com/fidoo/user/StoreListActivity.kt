@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fidoo.user.adapter.StoreAdapter
+import com.fidoo.user.data.model.*
+import com.fidoo.user.data.session.*
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.viewmodels.StoreListingViewModel
 import com.google.gson.Gson
@@ -18,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_store_list.*
 class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
     var storeListingViewModel: StoreListingViewModel? = null
-    var storeList: MutableList<com.fidoo.user.data.model.StoreListingModel.StoreList>? = null
+    var storeList: MutableList<StoreListingModel.StoreList>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,13 +39,13 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
         intent.getStringExtra("serviceId")?.let {
             if (isNetworkConnected) {
-                if (com.fidoo.user.data.session.SessionTwiclo(this).isLoggedIn){
+                if (SessionTwiclo(this).isLoggedIn){
                     storeListingViewModel!!.getStores(
-                        com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                        com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
+                       SessionTwiclo(this).loggedInUserDetail.accountId,
+                       SessionTwiclo(this).loggedInUserDetail.accessToken,
                         it,
-                        com.fidoo.user.data.session.SessionTwiclo(this).userLat,
-                        com.fidoo.user.data.session.SessionTwiclo(this).userLng,
+                       SessionTwiclo(this).userLat,
+                       SessionTwiclo(this).userLng,
                         "",
                         ""
                     )
@@ -52,8 +54,8 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
                         "",
                         "",
                         it,
-                        com.fidoo.user.data.session.SessionTwiclo(this).userLat,
-                        com.fidoo.user.data.session.SessionTwiclo(this).userLng,
+                       SessionTwiclo(this).userLat,
+                       SessionTwiclo(this).userLng,
                         "",
                         ""
                     )
@@ -75,7 +77,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
                 //calculateEstimatedDeliveryTime(storeLat, storeLong)
 
                 Log.e("stores response", Gson().toJson(user))
-                val mModelData: com.fidoo.user.data.model.StoreListingModel = user
+                val mModelData: StoreListingModel = user
                 //mDistanceStartTemp = mModelData.distance_start
                 //mDistanceEndTemp = mModelData.distance_end
                 storeList = mModelData.storeList

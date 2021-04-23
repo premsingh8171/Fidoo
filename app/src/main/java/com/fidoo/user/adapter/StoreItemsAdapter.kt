@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
-import com.fidoo.user.data.model.AddCartInputModel
+import com.fidoo.user.data.model.*
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
@@ -23,23 +23,23 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.store_product.view.*
 
 class StoreItemsAdapter(
-    val con: Context,
-    private val adapterClick: AdapterClick,
-    private val productList: ArrayList<com.fidoo.user.data.model.StoreDetailsModel.Product>,
-    val catList: ArrayList<com.fidoo.user.data.model.StoreDetailsModel.Category>,
-    var weight: String,
-    var unit: String,
-    var storerating: String,
-    var service_id: String,
-    var adapterAddRemoveClick: AdapterAddRemoveClick,
-    private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
-    val id: Int,
-    private val storeID: String,
-    private val cartId: String
+        val con: Context,
+        private val adapterClick: AdapterClick,
+        private val productList: ArrayList<StoreDetailsModel.Product>,
+        val catList: ArrayList<StoreDetailsModel.Category>,
+        var weight: String,
+        var unit: String,
+        var storerating: String,
+        var service_id: String,
+        var adapterAddRemoveClick: AdapterAddRemoveClick,
+        private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
+        val id: Int,
+        private val storeID: String,
+        private val cartId: String
 
 ) : RecyclerView.Adapter<StoreItemsAdapter.UserViewHolder>() {
 
-    var arraylist: ArrayList<com.fidoo.user.data.model.StoreDetailsModel.Product> = ArrayList()
+    var arraylist: ArrayList<StoreDetailsModel.Product> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.store_product, parent, false)
@@ -99,7 +99,7 @@ class StoreItemsAdapter(
             holder.add_new_lay.visibility = View.GONE
             holder.add_remove_lay.visibility = View.VISIBLE
 
-            val tempProductListModel = com.fidoo.user.data.model.TempProductListModel()
+            val tempProductListModel = TempProductListModel()
             tempProductListModel.productId = index.productId
             tempProductListModel.price = index.offerPrice
             tempProductListModel.quantity = index.cartQuantity.toString()

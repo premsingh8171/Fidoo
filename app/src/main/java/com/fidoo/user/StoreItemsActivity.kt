@@ -233,6 +233,7 @@ class StoreItemsActivity :
 
             storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)
             storeItemsRecyclerview.setHasFixedSize(true)
+
             val adapter = storeID?.let {
                 StoreItemsAdapter(
                     this,

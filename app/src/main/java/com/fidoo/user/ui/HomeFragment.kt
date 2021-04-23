@@ -202,7 +202,6 @@ class HomeFragment : Fragment() {
 
                         val categoryAdapter = CategoryAdapter(requireActivity(), mModelData.serviceList)
                         fragmentHomeBinding?.categorySmallRecyclerview?.layoutManager = GridLayoutManager(activity,1, GridLayoutManager.HORIZONTAL,false)
-
                         fragmentHomeBinding?.categorySmallRecyclerview?.setHasFixedSize(true)
                         fragmentHomeBinding?.categorySmallRecyclerview?.adapter = categoryAdapter
                     }

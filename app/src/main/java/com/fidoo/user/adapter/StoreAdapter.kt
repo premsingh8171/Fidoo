@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
 import com.fidoo.user.StoreItemsActivity
+import com.fidoo.user.grocery.activity.GroceryItemsActivity
 import kotlinx.android.synthetic.main.fav_store_item.view.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -99,7 +100,7 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
                 if (storeList[position].open_close_status.equals("1")) {
                     if (storeList[position].has_product_categories.equals("1")) {
                         context.startActivity(
-                            Intent(context, StoreItemsActivity::class.java)
+                            Intent(context, GroceryItemsActivity::class.java)
                                 .putExtra("storeId", storeList[position].id)
                                 .putExtra("storeName", storeList.get(position).name)
                                 .putExtra("store_location", storeList[position].address)
@@ -108,7 +109,6 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
                                 .putExtra("distance", storeList[position].distance)
                         )
                     } else {
-
                         context.startActivity(
                             Intent(context, StoreItemsActivity::class.java)
                                 .putExtra("storeId", storeList[position].id)
