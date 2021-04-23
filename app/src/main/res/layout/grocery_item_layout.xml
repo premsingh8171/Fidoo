@@ -31,7 +31,22 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/grocery_item_tv"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_5dp"
+            android:text="Banana" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_5dp"
+            android:text="100" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/stock_status"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_5dp"
             android:text="Banana" />
@@ -42,17 +57,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_10dp"
-            android:background="@drawable/grocery_add"
+            android:background="@drawable/black_rounded_solid"
             android:orientation="horizontal"
             android:visibility="visible">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/margin_10dp"
                 android:src="@drawable/ic_add"
-                app:tint="@color/colorGreenText" />
+                app:tint="@color/colorPrimary" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -63,7 +78,7 @@
                 android:layout_marginEnd="@dimen/margin_10dp"
                 android:padding="@dimen/margin_5dp"
                 android:text="Add Item"
-                android:textColor="@color/colorGreenText"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_14sp" />
 
 
@@ -74,24 +89,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_10dp"
-            android:background="@drawable/grocery_add"
+            android:background="@drawable/black_rounded_solid"
             android:orientation="horizontal"
             android:visibility="gone">
 
             <ImageView
                 android:id="@+id/subt_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/margin_10dp"
                 android:padding="@dimen/margin_2dp"
                 android:src="@drawable/minus_sign"
-                app:tint="@color/colorGreenText" />
+                app:tint="@color/colorPrimary" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/qua_txt"
                 android:layout_width="35dp"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/margin_10dp"
                 android:layout_marginEnd="@dimen/margin_10dp"
@@ -102,13 +117,13 @@
 
             <ImageView
                 android:id="@+id/add_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_10dp"
                 android:padding="@dimen/margin_2dp"
                 android:src="@drawable/ic_add"
-                app:tint="@color/colorGreenText" />
+                app:tint="@color/colorPrimary" />
         </LinearLayout>
 
 

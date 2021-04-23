@@ -45,8 +45,9 @@ class GroceryItemsActivity : AppCompatActivity() {
             ).loggedInUserDetail.accessToken, store_id
         )
 
-        viewmodel?.GroceryProductsResponse?.observe(this, Observer { grocery ->
+        viewmodel?.GroceryProductsResponse?.observe(this, { grocery ->
             dismissIOSProgress()
+            linear_progress_indicator.visibility = View.GONE
 
             if (!grocery.error) {
                 val catList: ArrayList<Category> = ArrayList()
