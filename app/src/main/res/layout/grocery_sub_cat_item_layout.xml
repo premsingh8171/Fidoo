@@ -3,11 +3,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentEnd="true"
-    android:background="@drawable/round_box"
-    android:layout_margin="@dimen/margin_5dp"
     android:id="@+id/grocery_sub_cons">
 
     <TextView
+        android:maxLines="1"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:id="@+id/grocery_sub_tv"
