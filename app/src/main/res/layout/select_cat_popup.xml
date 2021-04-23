@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center">
+
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/margin_20dp"
+        android:layout_marginRight="@dimen/margin_20dp"
+        android:id="@+id/layoutCoupon"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_500dp"
+        android:layout_centerVertical="true"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/rectangle_shap">
+
+        <TextView
+            android:id="@+id/txtError"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="Select category"
+            android:textStyle="bold"
+            android:drawableEnd="@drawable/arrow_downward"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:textColor="@color/colorPrimary"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_below="@+id/txtError">
+
+            <androidx.recyclerview.widget.RecyclerView
+                app:spanCount="1"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:id="@+id/catRecyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+</RelativeLayout>

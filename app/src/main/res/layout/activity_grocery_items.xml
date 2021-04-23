@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightGray"
     tools:context=".grocery.activity.GroceryItemsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,7 +93,7 @@
             android:layout_height="2dp"
             android:layout_below="@id/tv_categories"
             android:layout_marginTop="20dp"
-            android:background="#fbfbfb" />
+            android:background="@color/colorHint" />
 
 
     </RelativeLayout>
@@ -120,6 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2">
 
             </androidx.recyclerview.widget.RecyclerView>
@@ -137,11 +139,11 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:rotation="270"
                 android:id="@+id/sub_cat_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="1">
 
             </androidx.recyclerview.widget.RecyclerView>
