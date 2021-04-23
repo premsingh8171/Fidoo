@@ -24,7 +24,6 @@ import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 class GroceryItemAdapter(
     var context: Context,
     var list: ArrayList<Product>,
-    var groceryItemClick:GroceryItemClick,
     var adapterAddRemoveClick: AdapterAddRemoveClick,
     private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
     val id: Int,
@@ -45,6 +44,7 @@ class GroceryItemAdapter(
         holder.itemView.grocery_item_tv.text = list.get(position).product_name
         holder.itemView.qua_txt.text = list.get(position).cart_quantity.toString()
         holder.itemView.tv_price.text = context.resources.getString(R.string.ruppee) + "" + list[position].offer_price
+        holder.itemView.tv_unit.text = list[position].weight + list[position].unit
 
 
 
@@ -84,7 +84,7 @@ class GroceryItemAdapter(
             }*/
 
             //count = index.cartQuantity
-            holder.itemView.tv_price.text = list[position].cart_quantity.toString()
+            holder.itemView.qua_txt.text = list[position].cart_quantity.toString()
         }
 
         Glide.with(context)
@@ -101,15 +101,24 @@ class GroceryItemAdapter(
 
                 if (SessionTwiclo(context).isLoggedIn){
                     count++
+                    holder.itemView.qua_txt.text = count.toString()
                     //groceryItemClick.onItemClick(position,list.get(position))
                     holder.itemView.add_itemll.visibility=View.GONE
                     holder.itemView.minusplus_ll.visibility=View.VISIBLE
-                    count=1
-                    notifyItemRemoved(position)
+                    //count=1
+                    //notifyItemRemoved(position)
 
                     if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals("")
                     ) {
                         // Adapter Click
+                        adapterAddRemoveClick.onItemAddRemoveClick(
+                            list[position].product_id,
+                            count.toString(),
+                            "add",
+                            list[position].offer_price,
+                            storeID,
+                            ""
+                        )
 
                     } else {
 
@@ -192,14 +201,14 @@ class GroceryItemAdapter(
                 }
 
                 holder.itemView.qua_txt.text = count.toString()
-                groceryItemClick.onItemSub(position,count,list.get(position))
+                //groceryItemClick.onItemSub(position,count,list.get(position))
             }
 
             holder.itemView.add_img.setOnClickListener {
                 count++
 
                 holder.itemView.qua_txt.text = count.toString()
-                groceryItemClick.onItemAdd(position,count, list[position])
+                //groceryItemClick.onItemAdd(position,count, list[position])
 
                 adapterAddRemoveClick.onItemAddRemoveClick(
                     list[position].product_id,

@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.fidoo.user.ChatActivity
 import com.fidoo.user.R
 import com.fidoo.user.adapter.ItemsAdapter
 import com.fidoo.user.ui.MainActivity
@@ -55,14 +56,14 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         }
 
         supportCall.setOnClickListener {
-            val dialIntent = Intent(Intent.ACTION_DIAL)
+            /*val dialIntent = Intent(Intent.ACTION_DIAL)
             dialIntent.data = Uri.parse("tel:" + com.fidoo.user.data.session.SessionTwiclo(
                 this
             ).profileDetail.account.support_number)
-            startActivity(dialIntent)
+            startActivity(dialIntent)*/
 
             // Syrow API for chat Support
-            //startActivity(Intent(this,ChatRoomActivity::class.java)).putExtra("APIKey", "-----Key----")
+            startActivity(Intent(this, ChatActivity::class.java))
 
         }
 

@@ -29,27 +29,50 @@
                 android:src="@drawable/about_icon" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/grocery_item_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_5dp"
-            android:text="Banana" />
+        <RelativeLayout
+            android:id="@+id/item_detail_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_5dp"
-            android:text="100" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/grocery_item_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_5dp"
+                android:text="Banana"
+                android:maxLines="1"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_5dp"
+                android:text="100"
+                android:layout_below="@id/grocery_item_tv"/>
 
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/stock_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_5dp"
-            android:text="Banana" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stock_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_5dp"
+                android:text="Out of Stock"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_5dp"
+                android:text="1gm"
+                android:layout_alignTop="@id/tv_price"
+                android:layout_alignParentEnd="true"/>
+
+
+
+        </RelativeLayout>
+
+
 
 
         <LinearLayout
@@ -59,7 +82,8 @@
             android:layout_marginLeft="@dimen/margin_10dp"
             android:background="@drawable/black_rounded_solid"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:gravity="center_horizontal">
 
             <ImageView
                 android:layout_width="15dp"

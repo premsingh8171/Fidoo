@@ -1,6 +1,7 @@
 package com.fidoo.user.grocery.activity
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -10,11 +11,16 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import com.fidoo.user.CartActivity
+import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
+import com.fidoo.user.data.model.AddCartInputModel
+import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.grocery.adapter.GroceryCategoryAdapter
 import com.fidoo.user.grocery.adapter.GroceryItemAdapter
@@ -23,17 +29,43 @@ import com.fidoo.user.grocery.model.getGroceryProducts.Category
 import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.grocery.model.getGroceryProducts.Subcategory
 import com.fidoo.user.grocery.viewmodel.GroceryProductsViewModel
+import com.fidoo.user.interfaces.AdapterAddRemoveClick
+import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
+import com.fidoo.user.interfaces.AdapterClick
+import com.fidoo.user.ui.MainActivity
+import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_grocery_items.*
+import kotlinx.android.synthetic.main.activity_grocery_items.backIcon
+import kotlinx.android.synthetic.main.activity_grocery_items.linear_progress_indicator
+import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.select_cat_popup.*
 import org.w3c.dom.Text
 
-class GroceryItemsActivity : AppCompatActivity() {
+class GroceryItemsActivity : BaseActivity(), AdapterClick,
+    AdapterAddRemoveClick,
+    AdapterCartAddRemoveClick {
     var viewmodel: GroceryProductsViewModel? = null
     lateinit var recyclerView: RecyclerView
     val catList: ArrayList<Category> = ArrayList()
     var selectAreaDiolog:Dialog?=null
     lateinit var catrecyclerView: RecyclerView
+
+    var customIdsList: ArrayList<String>? = null
+
+    var tempProductId: String? = ""
+    var mCustomizeCount: Int? = 0
+    var tempOfferPrice: String? = ""
+    var tempPrice: Double? = 0.0
+    var tempType: String? = ""
+    var tempCount: String? = ""
+    var count: Int = 1
+    private lateinit var mMap: GoogleMap
+    var cartId: String = ""
+    var storeID: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +73,27 @@ class GroceryItemsActivity : AppCompatActivity() {
         viewmodel = ViewModelProviders.of(this).get(GroceryProductsViewModel::class.java)
         recyclerView = findViewById(R.id.grocery_item_rv)
         val store_id = intent.getStringExtra("storeId")
+
+        MainActivity.tempProductList = ArrayList()
+        MainActivity.addCartTempList = ArrayList()
+
+        customIdsList = ArrayList()
+
+        cartIcon_grocery.setOnClickListener {
+            if (SessionTwiclo(this).isLoggedIn) {
+                startActivity(
+                    Intent(this, CartActivity::class.java).putExtra(
+                        "store_id", SessionTwiclo(
+                            this
+                        ).storeId
+                    )
+                )
+            } else {
+                showLoginDialog("Please login to proceed")
+
+            }
+
+        }
 
         //Here we have called Api of getGroceryProducts
         viewmodel?.getGroceryProductsFun(
@@ -50,7 +103,7 @@ class GroceryItemsActivity : AppCompatActivity() {
         )
 
         //Here we have got api response from observer
-        viewmodel?.GroceryProductsResponse?.observe(this, Observer { grocery ->
+        viewmodel?.GroceryProductsResponse?.observe(this, { grocery ->
             dismissIOSProgress()
             linear_progress_indicator.visibility=View.GONE
             if (!grocery.error) {
@@ -87,10 +140,66 @@ class GroceryItemsActivity : AppCompatActivity() {
 
         })
 
-        viewmodel?.failureResponse?.observe(this, Observer {
+        viewmodel?.failureResponse?.observe(this, {
 
         })
         //end observer
+
+        viewmodel?.clearCartResponse?.observe(this, { user ->
+            // dismissIOSProgress()
+
+            Log.e("stores response", Gson().toJson(user))
+            if (tempType.equals("custom")) {
+
+                viewmodel!!.addToCartApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    MainActivity.addCartTempList!!,
+                    ""
+                )
+            } else {
+                viewmodel!!.addToCartApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    MainActivity.addCartTempList!!,
+                    ""
+
+                )
+            }
+            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+        })
+
+        viewmodel?.addToCartResponse?.observe(this, { user ->
+            dismissIOSProgress()
+            Log.e("stores response", Gson().toJson(user))
+            val mModelData: com.fidoo.user.data.model.AddToCartModel = user
+
+            viewmodel?.getCartCountApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken
+            )
+            //showToast(mModelData.message)
+            if (isNetworkConnected) {
+                //showIOSProgress()
+                if (SessionTwiclo(this).isLoggedIn) {
+                    viewmodel?.getGroceryProductsFun(
+                        SessionTwiclo(this).loggedInUserDetail.accountId, SessionTwiclo(
+                            this
+                        ).loggedInUserDetail.accessToken, store_id
+                    )
+                } else {
+                    viewmodel?.getGroceryProductsFun(
+                        "",
+                        "",
+                        store_id
+                    )
+                }
+
+            } else {
+                showInternetToast()
+            }
+            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+        })
 
         cat_rl.setOnClickListener {
             catPopUp();
@@ -127,26 +236,23 @@ class GroceryItemsActivity : AppCompatActivity() {
     //For Products list
     private fun rvlistProduct(listProduct: ArrayList<Product>) {
 
-        grocery_item_rv.adapter = GroceryItemAdapter(
-            this,
-            listProduct,
-            object : GroceryItemAdapter.GroceryItemClick {
+        grocery_item_rv.adapter = intent.getStringExtra("storeId")?.let {
+            GroceryItemAdapter(
+                this,
+                listProduct,
+                this,
+                this,
+                0, it,
+                "",
 
-                override fun onItemClick(pos: Int, grocery: Product) {
-                    TODO("Not yet implemented")
-                }
+                )
+        }
 
-                override fun onItemAdd(pos: Int, itemcount: Int, grocery: Product) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onItemSub(pos: Int, itemcount: Int, grocery: Product) {
-                    TODO("Not yet implemented")
-                }
-            })
 
 
     }
+
+
 
     //For SubCategory list Showing on left side of Activity view
     private fun rvlistSubcategory(subcatList: ArrayList<Subcategory>) {
@@ -176,4 +282,325 @@ class GroceryItemsActivity : AppCompatActivity() {
                 }
             })
     }
+
+    override fun onItemClick(
+        productId: String?,
+        type: String?,
+        count: String?,
+        offerPrice: String?,
+        customize_count: Int?,
+        productType: String?,
+        cart_id: String?
+    ) {
+        tempType = type
+        tempCount = count
+        this.count = count!!.toInt()
+        tempProductId = productId
+        mCustomizeCount = customize_count
+        tempOfferPrice = offerPrice
+        countValue.text = tempCount
+
+
+
+
+        if (SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || SessionTwiclo(this).storeId.equals("")
+        ) {
+            Log.e("intent store id", intent.getStringExtra("storeId").toString())
+            SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
+            Log.e("  store id", SessionTwiclo(this).storeId.toString())
+            //showIOSProgress()
+
+            viewmodel!!.addToCartApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                MainActivity.addCartTempList!!,
+                ""
+            )
+            SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
+        } else {
+            clearCartPopup()
+        }
+
+    }
+
+    override fun onItemAddRemoveClick(
+        productId: String?,
+        count: String?,
+        type: String?,
+        price: String?,
+        storeId: String?,
+        cartId: String?
+    ) {
+
+        Log.d("count", count!!)
+        Log.d("ID", productId!!)
+
+        //showIOSProgress()
+        //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
+
+
+        if (type.equals("add")) {
+            //cartIcon_grocery.setImageResource(R.drawable.cart_icon)
+
+            if (MainActivity.tempProductList!!.size == 0) {
+                //customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
+                val tempProductListModel = TempProductListModel()
+                tempProductListModel.productId = productId
+                tempProductListModel.quantity = count
+                tempProductListModel.price = price
+                MainActivity.tempProductList!!.add(tempProductListModel)
+
+                val addCartInputModel = AddCartInputModel()
+                addCartInputModel.productId = productId
+                addCartInputModel.quantity = count
+                addCartInputModel.message = "add product"
+                addCartInputModel.customizeSubCatId = customIdsList!!
+                addCartInputModel.isCustomize = "0"
+                MainActivity.addCartTempList!!.add(addCartInputModel)
+
+                if (cartId != null) {
+                    viewmodel!!.addToCartApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        MainActivity.addCartTempList!!,
+                        ""
+                    )
+                }
+                MainActivity.tempProductList!!.clear()
+            } else {
+                var check: String = ""
+                var tempPos: Int = 0
+
+                for (i in 0 until MainActivity.tempProductList!!.size - 1) {
+                    Log.e("check1", MainActivity.tempProductList!!.get(i).productId)
+                    Log.e("check2", productId)
+                    if (MainActivity.tempProductList!![i].productId.equals(productId)) {
+                        check = "edit"
+                        tempPos = i
+                        //tempProductList!!.get(i).quantity = count
+                        break
+                    }
+                }
+                if (check == "edit") {
+
+                    MainActivity.tempProductList!![tempPos].quantity = count
+                    MainActivity.addCartTempList!![tempPos].quantity = count
+
+                } else {
+
+                    val tempProductListModel = TempProductListModel()
+                    tempProductListModel.productId = productId
+                    tempProductListModel.quantity = count
+                    tempProductListModel.price = price
+                    MainActivity.tempProductList!!.add(tempProductListModel)
+
+                    val addCartInputModel = AddCartInputModel()
+                    addCartInputModel.productId = productId
+                    addCartInputModel.quantity = count
+                    addCartInputModel.message = "add product"
+                    addCartInputModel.customizeSubCatId = customIdsList!!
+                    addCartInputModel.isCustomize = "0"
+                    MainActivity.addCartTempList!!.add(addCartInputModel)
+                }
+
+                viewmodel!!.addToCartApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    MainActivity.addCartTempList!!,
+                    ""
+                )
+            }
+
+
+        } else {
+            //cartIcon_grocery.setImageResource(R.drawable.ic_cart)
+            var check = "edit"
+            var checkPos = 0
+            Log.e("check1", Gson().toJson(MainActivity.tempProductList!!))
+            for (i in 0 until MainActivity.tempProductList!!.size - 1) {
+                if (MainActivity.tempProductList!![i].productId.equals(productId)) {
+                    if (count == "0") {
+                        check = "remove"
+                        checkPos = i
+
+                        break
+                        //  addCartTempList!!.removeAt(i)
+                        //   tempProductList!!.removeAt(i)
+
+                    }
+
+
+                    /*else {
+                    tempProductList!!.get(i).quantity = count
+                    addCartTempList!!.get(i).quantity = count
+                }*/
+                }
+            }
+            Log.d("checkpos", checkPos.toString())
+            if (check == "remove") {
+                //cartIcon_grocery.setImageResource(R.drawable.ic_cart)
+                //ll_view_cart.visibility = View.GONE // to hide the bottom cart bar if non-customized item quantity becomes zero
+                MainActivity.addCartTempList!!.removeAt(checkPos)
+                MainActivity.tempProductList!!.removeAt(checkPos)
+                //customIdsList!!.clear()
+
+                if (cartId != null) {
+                    viewmodel?.addRemoveCartDetails(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        productId,
+                        "remove",
+                        "0",
+                        "",
+                        cartId,
+                        customIdsList!!
+                    )
+                }
+
+
+
+            } else {
+                MainActivity.tempProductList!![checkPos].quantity = count
+                MainActivity.addCartTempList!![checkPos].quantity = count
+
+                if (cartId != null) {
+                    viewmodel?.addRemoveCartDetails(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        productId,
+                        "remove",
+                        "0",
+                        "",
+                        cartId,
+                        customIdsList!!
+                    )
+                }
+
+
+
+            }
+
+        }
+        //plusMinusPrice = 0.0
+        tempPrice = 0.0
+        Log.d("check1", Gson().toJson(MainActivity.tempProductList!!))
+        var bottomPrice: Double? = 0.0
+        var bottomCount: Int? = 0
+        for (i in 0 until MainActivity.tempProductList!!.size) {
+            bottomPrice = bottomPrice!! + (MainActivity.tempProductList!!.get(i).price.toDouble() * MainActivity.tempProductList!!.get(i).quantity.toInt())
+            bottomCount = bottomCount!! + MainActivity.tempProductList!!.get(i).quantity.toInt()
+        }
+        //txt_price_.text = resources.getString(R.string.ruppee) + bottomPrice.toString()
+        //cartCountTxt.text = bottomCount.toString()
+        //cartIcon_grocery.setImageResource(R.drawable.cart_icon)
+        //cartIcon_grocery.setColorFilter(Color.argb(255, 53, 156, 71))
+        if (bottomCount == 1) {
+            //txt_items_.text = bottomCount.toString() + " item"
+        } else {
+            //txt_items_.text = bottomCount.toString() + " items"
+        }
+
+
+    }
+
+    override fun onAddItemClick(
+        productId: String?,
+        items: String?,
+        offerPrice: String?,
+        customizeid: String?,
+        prodcustCustomizeId: String?,
+        cart_id: String?
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRemoveItemClick(
+        productId: String?,
+        quantity: String?,
+        customizeid: String?,
+        prodcustCustomizeId: String?,
+        cart_id: String?
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    private fun showLoginDialog(message: String){
+        val builder = AlertDialog.Builder(this)
+        //set title for alert dialog
+        builder.setTitle("Alert")
+        //set message for alert dialog
+        builder.setMessage(message)
+        // builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton("Login") { _, which ->
+            startActivity(
+                Intent(this, LoginActivity::class.java)
+            )
+
+
+        }
+
+        //performing negative action
+        builder.setNegativeButton("Cancel") { _, _ ->
+
+        }
+        // Create the AlertDialog`
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(true)
+        alertDialog.show()
+    }
+
+    private fun clearCartPopup() {
+        val builder = AlertDialog.Builder(this)
+        //set title for alert dialog
+        builder.setTitle("Replace cart item!")
+        //set message for alert dialog
+        builder.setMessage("Do you want to discard the previous selection?")
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+        //performing positive action
+        builder.setPositiveButton("Yes") { _, _ ->
+            viewmodel?.clearCartApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken
+            )
+            //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
+        }
+
+        //performing negative action
+        builder.setNegativeButton("No") { dialogInterface, which ->
+            //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
+        }
+        // Create the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+    }
+
+    override fun clearCart() {
+        viewmodel?.clearCartApi(
+            SessionTwiclo(this).loggedInUserDetail.accountId,
+            SessionTwiclo(this).loggedInUserDetail.accessToken
+        )
+    }
+
+
+
+
+    /*object : GroceryItemAdapter.GroceryItemClick {
+
+                override fun onItemClick(pos: Int, grocery: Product) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onItemAdd(pos: Int, itemcount: Int, grocery: Product) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onItemSub(pos: Int, itemcount: Int, grocery: Product) {
+                    TODO("Not yet implemented")
+                }
+            })*/
 }
