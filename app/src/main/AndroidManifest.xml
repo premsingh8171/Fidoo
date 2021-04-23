@@ -52,6 +52,7 @@
         <activity android:name=".view.address.SavedAddressesActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".view.TrackOrderActivity" />
+        <activity android:name=".view.OrderDetailsActivity"/>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

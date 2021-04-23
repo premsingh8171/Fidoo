@@ -170,7 +170,11 @@ class OrdersAdapter(
             if (orders[position].serviceTypeId == "4") {
 
             }else if(orders[position].serviceTypeId == "0" || orders[position].serviceTypeId == ""){
-                Toast.makeText(con, "Invalid Request", Toast.LENGTH_LONG).show()
+                //Toast.makeText(con, "Invalid Request", Toast.LENGTH_LONG).show()
+                val intent =Intent(con, OrderDetailsActivity::class.java)
+                intent.putExtra("orderId", orders[position].orderId)
+                intent.putExtra("toaddress", orders[position].storeAddress)
+                con.startActivity(intent)
             } else{
                 val intent =Intent(con, OrderDetailsActivity::class.java)
                 intent.putExtra("orderId", orders[position].orderId)

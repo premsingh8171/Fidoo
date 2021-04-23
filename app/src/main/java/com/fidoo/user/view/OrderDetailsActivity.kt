@@ -119,7 +119,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
 
             if (intent.hasExtra("toaddress")){
                 address= intent.getStringExtra("toaddress").toString()
-                deliveryAddress.text = address
+                tv_address.text = address
 
                 Log.e("from intent ","addddresss")
             }
@@ -154,7 +154,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                 .into(storeImg)
 
             storeName.text = mModelData.storeName
-            orderIdValue.text = mModelData.orderId
+            tv_order_id.text = mModelData.orderId
             locText.text = mModelData.storeAddress
             orderOnValue.text = mModelData.dateTime
             //itemTotal.text = items?.get(0)?.price_with_customization
