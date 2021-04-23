@@ -25,14 +25,15 @@ class GroceryItemAdapter(var context: Context,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        Log.d("ffsfsffs",list.get(position)?.product_name)
+        val model =list.get(position)
         holder.itemView.grocery_item_tv.text = list.get(position)?.product_name
         holder.itemView.qua_txt.text = list.get(position)?.cart_quantity.toString()
 
         Glide.with(context)
-                .load(list.get(position)?.image)
+                .load(model.image)
                 .fitCenter()
+                .placeholder(R.drawable.about_icon)
+                .error(R.drawable.about_icon)
                 .into(holder.itemView.grocery_item_img)
 
         holder.itemView.add_itemll.setOnClickListener {
