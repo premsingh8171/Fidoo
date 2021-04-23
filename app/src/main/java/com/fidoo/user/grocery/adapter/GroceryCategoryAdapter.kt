@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
 import com.fidoo.user.grocery.model.getGroceryProducts.Category
+import kotlinx.android.synthetic.main.grocery_cat_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
+import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.grocery_sub_tv
 
 class GroceryCategoryAdapter(var context: Context,
                              var list:ArrayList<Category>,
@@ -22,12 +24,12 @@ class GroceryCategoryAdapter(var context: Context,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.grocery_sub_tv.text = list.get(position)?.cat_name
+        holder.itemView.cat_tv.text = list.get(position)?.cat_name
 
-//        holder.itemView.grocery_sub_cons.setOnClickListener {
-//            CategoryItemClick.onItemClick(position,list.get(position))
-//          //  notifyItemRemoved(position)
-//        }
+       holder.itemView.category_constL.setOnClickListener {
+           categoryItemClick.onItemClick(position,list.get(position))
+            notifyItemRemoved(position)
+        }
     }
 
     override fun getItemCount(): Int {
