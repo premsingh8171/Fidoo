@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1052086294613",
+    "project_id": "fidoo-d143a",
+    "storage_bucket": "fidoo-d143a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1052086294613:android:f15d6caadc884e39839cdc",
+        "android_client_info": {
+          "package_name": "com.fidoo.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1052086294613-g0cas9pqm8p9f9tebcegbm2sr3da655r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fidoo.user",
+            "certificate_hash": "bbcf2f359255c5b05737f5c5e712b34f46e50ae7"
+          }
+        },
+        {
+          "client_id": "1052086294613-7fjb1gfpe3e3qq95sbhk45jab5s72t8v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDphi-lSsc1KtFuiTvEH7OAasCyktYtWaw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1052086294613-7fjb1gfpe3e3qq95sbhk45jab5s72t8v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

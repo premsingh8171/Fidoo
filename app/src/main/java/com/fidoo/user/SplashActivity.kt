@@ -22,19 +22,18 @@ class SplashActivity : BaseActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-
-//        FirebaseApp.initializeApp(this)
-//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-//            if (!task.isSuccessful) {
-//                Log.w("Token", "Fetching FCM registration token failed", task.exception)
-//                return@OnCompleteListener
-//            }
-//            // Get new FCM registration token
-//            val token = task.result
-//            SessionTwiclo(this).deviceToken=token
-//            // Log and toast
-//            Log.d("Token", token.toString())
-//        })
+        /*FirebaseApp.initializeApp(this)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("Token", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            // Get new FCM registration token
+            val token = task.result
+            SessionTwiclo(this).deviceToken=token
+            // Log and toast
+            Log.d("Token", token.toString())
+        })*/
     }
 
 }

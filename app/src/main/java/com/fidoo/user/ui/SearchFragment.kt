@@ -436,12 +436,12 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 builder.setMessage("This item has multiple customizations added. Proceed to cart to remove item?")
                 // builder.setIcon(android.R.drawable.ic_dialog_alert)
                 //performing positive action
-                builder.setPositiveButton("NO") { dialogInterface, which ->
+                builder.setPositiveButton("NO") { _, _ ->
                     //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                 }
 
                 //performing negative action
-                builder.setNegativeButton("YES") { dialogInterface, which ->
+                builder.setNegativeButton("YES") { _, _ ->
                     //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
                     startActivity(Intent(requireContext(), CartActivity::class.java))
                 }
