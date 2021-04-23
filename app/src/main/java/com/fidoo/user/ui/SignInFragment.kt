@@ -4,6 +4,7 @@ package com.fidoo.user.ui
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -28,6 +29,8 @@ import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
 import com.fidoo.user.utils.CommonUtils.Companion.hideKeyboard
 import com.fidoo.user.utils.CustomProgressDialog
 import com.fidoo.user.viewmodels.LoginViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.vanillaplacepicker.utils.ToastUtils.showToast
 
 
@@ -61,6 +64,22 @@ class SignInFragment : Fragment() {
 
 
         //   mView = inflater.inflate(R.layout.fragment_sign_in, container, false)
+
+
+         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            // val msg = getString(R.string.msg_token_fmt, token)
+            Log.d(TAG, token)
+            //  Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+        })
 
         binding.btnSignIn.setOnClickListener {
 

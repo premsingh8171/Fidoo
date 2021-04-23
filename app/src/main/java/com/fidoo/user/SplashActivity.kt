@@ -24,7 +24,7 @@ class SplashActivity : BaseActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
 
-        FirebaseApp.initializeApp(this)
+        /*FirebaseApp.initializeApp(this)
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w("Token", "Fetching FCM registration token failed", task.exception)
@@ -35,7 +35,7 @@ class SplashActivity : BaseActivity() {
             SessionTwiclo(this).deviceToken=token
             // Log and toast
             Log.d("Token", token.toString())
-        })
+        })*/
     }
 
 }
