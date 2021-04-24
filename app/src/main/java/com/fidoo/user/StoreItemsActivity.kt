@@ -947,6 +947,7 @@ class StoreItemsActivity :
                     tempProductListModel.quantity = count
                     tempProductListModel.price = price
                     tempProductList!!.add(tempProductListModel)
+
                     val addCartInputModel = AddCartInputModel()
                     addCartInputModel.productId = productId
                     addCartInputModel.quantity = count

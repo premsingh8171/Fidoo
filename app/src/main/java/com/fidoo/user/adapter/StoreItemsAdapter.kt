@@ -52,7 +52,7 @@ class StoreItemsAdapter(
 
 
         val index = productList[position]
-        Log.e("CART ID", cartId)
+        //Log.e("CART ID", cartId)
 
         Log.d("kb cat postion", "" + productList[position])
 //        Log.d("kb cat postion",""+categotyList[position].product[position])

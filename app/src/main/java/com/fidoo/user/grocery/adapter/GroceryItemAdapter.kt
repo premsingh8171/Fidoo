@@ -14,6 +14,7 @@ import com.fidoo.user.R
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.grocery.model.getGroceryProducts.GroceryProductsResponse
 import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
@@ -23,7 +24,7 @@ import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 
 class GroceryItemAdapter(
         var context: Context,
-        var list: ArrayList<Product>,
+        val list: ArrayList<Product>,
         var adapterAddRemoveClick: AdapterAddRemoveClick,
         private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
         val id: Int,
@@ -45,10 +46,11 @@ class GroceryItemAdapter(
         holder.itemView.qua_txt.text = list.get(position).cart_quantity.toString()
         holder.itemView.tv_price.text = context.resources.getString(R.string.ruppee) + "" + list[position].offer_price
         holder.itemView.tv_unit.text = list[position].weight + list[position].unit
+        holder.itemView.minusplus_ll.visibility = View.GONE
 
 
 
-        if (list[position].cart_quantity == 0) {
+        if (model.cart_quantity == 0) {
             holder.itemView.add_itemll.visibility = View.VISIBLE
             holder.itemView.minusplus_ll.visibility = View.GONE
 
@@ -174,22 +176,22 @@ class GroceryItemAdapter(
                         holder.itemView.add_itemll.visibility=View.VISIBLE
                         holder.itemView.minusplus_ll.visibility=View.GONE
                         adapterAddRemoveClick.onItemAddRemoveClick(
-                                list[position].product_id,
-                                count.toString(),
-                                "remove",
-                                list[position].offer_price,
-                                "",
-                                ""
+                            list[position].product_id,
+                            count.toString(),
+                            "remove",
+                            list[position].offer_price,
+                            "",
+                            model.cart_id
                         )
                         //adapterAddRemoveClick.clearCart() // clearing the cart if item quantity becomes zero
                     } else {
                         adapterAddRemoveClick.onItemAddRemoveClick(
-                                list[position].product_id,
-                                count.toString(),
-                                "remove",
-                                list[position].offer_price,
-                                "",
-                                ""
+                            list[position].product_id,
+                            count.toString(),
+                            "remove",
+                            list[position].offer_price,
+                            "",
+                            model.cart_id
                         )
                     }
 
@@ -215,7 +217,7 @@ class GroceryItemAdapter(
                         count.toString(),
                         "add",
                         list[position].offer_price, "",
-                        ""
+                        model.cart_id
                 )
 
             }

@@ -45,5 +45,6 @@ class Product(
     val product_id: String,
     val product_name: String,
     val unit: String,
-    val weight: String
+    val weight: String,
+    val cart_id: String
 )

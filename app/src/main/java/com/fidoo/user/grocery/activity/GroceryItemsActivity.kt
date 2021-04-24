@@ -98,9 +98,9 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
         //Here we have called Api of getGroceryProducts
         viewmodel?.getGroceryProductsFun(
-                SessionTwiclo(this).loggedInUserDetail.accountId, SessionTwiclo(
-                this
-        ).loggedInUserDetail.accessToken, store_id
+            SessionTwiclo(this).loggedInUserDetail.accountId,
+            SessionTwiclo(this).loggedInUserDetail.accessToken,
+            store_id
         )
 
         //Here we have got api response from observer
@@ -108,17 +108,18 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             dismissIOSProgress()
             linear_progress_indicator.visibility = View.GONE
             if (!grocery.error) {
+                Log.e("Grocery", Gson().toJson(grocery))
                 val subcatList: ArrayList<Subcategory> = ArrayList()
 
                 for (i in 0 until grocery.category.size) {
-                    var catObj = grocery.category[i]
+                    val catObj = grocery.category[i]
                     tv_categories.text = "Select category"
 
                     for (j in 0 until grocery.category[i].subcategory.size) {
-                        var subCatObj = grocery.category[i].subcategory[j]
+                        val subCatObj = grocery.category[i].subcategory[j]
 
                         for (k in 0 until grocery.category[i].subcategory[j].product.size) {
-                            var productListObj = grocery.category[i].subcategory[j].product[k]
+                            val productListObj = grocery.category[i].subcategory[j].product[k]
                             productList.add(productListObj)
                         }
 
@@ -173,10 +174,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             Log.e("stores response", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
 
-            viewmodel?.getCartCountApi(
+            /*viewmodel?.getCartCountApi(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken
-            )
+            )*/
             //showToast(mModelData.message)
             if (isNetworkConnected) {
                 //showIOSProgress()
@@ -212,13 +213,13 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     private fun catPopUp() {
         selectAreaDiolog = Dialog(this)
         selectAreaDiolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        selectAreaDiolog?.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        selectAreaDiolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         selectAreaDiolog?.setContentView(R.layout.select_cat_popup)
-        selectAreaDiolog?.getWindow()?.setLayout(
+        selectAreaDiolog?.window?.setLayout(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT
         )
-        selectAreaDiolog?.getWindow()?.getAttributes()?.windowAnimations = R.style.diologIntertnet
+        selectAreaDiolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
         selectAreaDiolog?.setCanceledOnTouchOutside(true)
         selectAreaDiolog?.show()
         val txtError =  selectAreaDiolog?.findViewById<TextView>(R.id.txtError)
@@ -405,6 +406,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 tempProductListModel.price = price
                 MainActivity.tempProductList!!.add(tempProductListModel)
 
+                Log.e("TEMP", Gson().toJson(MainActivity.tempProductList))
+
                 val addCartInputModel = AddCartInputModel()
                 addCartInputModel.productId = productId
                 addCartInputModel.quantity = count
@@ -413,21 +416,19 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 addCartInputModel.isCustomize = "0"
                 MainActivity.addCartTempList!!.add(addCartInputModel)
 
-                if (cartId != null) {
-                    viewmodel!!.addToCartApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        MainActivity.addCartTempList!!,
-                        ""
-                    )
-                }
+                viewmodel!!.addToCartApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    MainActivity.addCartTempList!!,
+                    ""
+                )
                 MainActivity.tempProductList!!.clear()
             } else {
                 var check: String = ""
                 var tempPos: Int = 0
 
-                for (i in 0 until MainActivity.tempProductList!!.size - 1) {
-                    Log.e("check1", MainActivity.tempProductList!!.get(i).productId)
+                for (i in 0 until MainActivity.tempProductList!!.size) {
+                    Log.e("check1", MainActivity.tempProductList!![i].productId)
                     Log.e("check2", productId)
                     if (MainActivity.tempProductList!![i].productId.equals(productId)) {
                         check = "edit"
@@ -472,7 +473,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             var check = "edit"
             var checkPos = 0
             Log.e("check1", Gson().toJson(MainActivity.tempProductList!!))
-            for (i in 0 until MainActivity.tempProductList!!.size - 1) {
+            for (i in 0 until MainActivity.tempProductList!!.size) {
                 if (MainActivity.tempProductList!![i].productId.equals(productId)) {
                     if (count == "0") {
                         check = "remove"
@@ -566,17 +567,34 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         prodcustCustomizeId: String?,
         cart_id: String?
     ) {
-        TODO("Not yet implemented")
+       // TO be Implemented
     }
 
     override fun onRemoveItemClick(
         productId: String?,
         quantity: String?,
-        customizeid: String?,
+        isCustomize: String?,
         prodcustCustomizeId: String?,
         cart_id: String?
     ) {
-        TODO("Not yet implemented")
+        if (!isNetworkConnected) {
+            showToast(resources.getString(R.string.provide_internet))
+
+        } else {
+            //showIOSProgress()
+            if (cart_id != null) {
+                viewmodel?.addRemoveCartDetails(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    productId!!,
+                    "remove",
+                    isCustomize!!,
+                    prodcustCustomizeId!!,
+                    cart_id,
+                    customIdsList!!
+                )
+            }
+        }
     }
 
     private fun showLoginDialog(message: String){
