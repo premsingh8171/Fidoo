@@ -24,16 +24,16 @@ import kotlinx.android.synthetic.main.store_sub_item_adapter.view.*
 
 
 class SearchAdapter(
-        val con: Context,
-        private val productList: ArrayList<SearchModel.ProductList>,
-        private val adapterClick: AdapterClick,
-        private var storeID : String,
-        var adapterAddRemoveClick: AdapterAddRemoveClick,
-        var adapterCartAddRemoveClick: AdapterCartAddRemoveClick
+    val con: Context,
+    private val productList: ArrayList<SearchModel.ProductList>,
+    private val adapterClick: AdapterClick,
+    private var storeID : String,
+    var adapterAddRemoveClick: AdapterAddRemoveClick,
+    var adapterCartAddRemoveClick: AdapterCartAddRemoveClick
 ) : RecyclerView.Adapter<SearchAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.store_sub_item_adapter, parent, false))
+        LayoutInflater.from(parent.context).inflate(R.layout.store_sub_item_adapter, parent, false))
 
     override fun getItemCount() = productList.size
 
@@ -48,15 +48,13 @@ class SearchAdapter(
 //        }
 
         holder.offerPrice.paintFlags = holder.offerPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        holder.offerPrice.text =
-                con.resources.getString(R.string.ruppee) + productList.get(position).price
-        holder.priceAfterDiscount.text =
-                con.resources.getString(R.string.ruppee) + productList.get(position).offerPrice
+        holder.offerPrice.text = con.resources.getString(R.string.ruppee) + productList.get(position).price
+        holder.priceAfterDiscount.text = con.resources.getString(R.string.ruppee) + productList.get(position).offerPrice
 
         Glide.with(con)
-                .load(productList[position].productImage)
-                .fitCenter()
-                .into(holder.storeImg)
+            .load(productList[position].productImage)
+            .fitCenter()
+            .into(holder.storeImg)
 
         holder.customText.visibility = View.GONE
         if (productList[position].cartQuantity == 0) {
@@ -123,7 +121,7 @@ class SearchAdapter(
         holder.mainLay.setOnClickListener {
 
             if (SessionTwiclo(con).isLoggedIn){
-               /* con.startActivity(
+            /* con.startActivity(
                         Intent(con, SingleProductActivity::class.java).putExtra(
                                 "productId",
                                 productList.get(position).productId
@@ -144,13 +142,13 @@ class SearchAdapter(
             if (SessionTwiclo(con).isLoggedIn){
                 if (productList[position].isCustomize.equals("1")) {
                     adapterClick.onItemClick(
-                            productList[position].productId,
-                            "custom",
-                            "1",
-                            productList[position].offerPrice,
-                            productList[position].isCustomizeQuantity,
-                            "",
-                            ""
+                        productList[position].productId,
+                        "custom",
+                        "1",
+                        productList[position].offerPrice,
+                        productList[position].isCustomizeQuantity,
+                        "",
+                        ""
                     )
                 } else {
                     count++
@@ -160,8 +158,8 @@ class SearchAdapter(
 
                     if (SessionTwiclo(con).storeId.equals(storeID) || SessionTwiclo(con).storeId.equals("")) {
                         adapterAddRemoveClick.onItemAddRemoveClick(
-                                productList[position].productId, count.toString(), "add",
-                                productList[position].offerPrice,"",
+                            productList[position].productId, count.toString(), "add",
+                            productList[position].offerPrice,"",
                             ""
                         )
                     }else{
@@ -175,8 +173,8 @@ class SearchAdapter(
                         builder.setPositiveButton("Yes") { _, _ ->
                             adapterAddRemoveClick.clearCart()
                             adapterAddRemoveClick.onItemAddRemoveClick(
-                                    productList[position].productId, count.toString(), "add",
-                                    productList[position].offerPrice,"", "")
+                                productList[position].productId, count.toString(), "add",
+                                productList[position].offerPrice,"", "")
 
                             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                         }
@@ -238,19 +236,19 @@ class SearchAdapter(
 
                         if (productList[position].customizeItem.size != 0) {
                             adapterCartAddRemoveClick.onRemoveItemClick(
-                                    productList[position].productId,
-                                    count.toString(),
-                                    productList[position].isCustomize,
-                                    productList[position].customizeItem[0].productCustomizeId,
-                                    ""
+                                productList[position].productId,
+                                count.toString(),
+                                productList[position].isCustomize,
+                                productList[position].customizeItem[0].productCustomizeId,
+                                ""
                             )
                         } else {
                             adapterCartAddRemoveClick.onRemoveItemClick(
-                                    productList[position].productId,
-                                    count.toString(),
-                                    productList[position].isCustomize,
-                                    "",
-                                    ""
+                                productList[position].productId,
+                                count.toString(),
+                                productList[position].isCustomize,
+                                "",
+                                ""
                             )
                         }
                     }
@@ -271,21 +269,21 @@ class SearchAdapter(
                     holder.add_new_layy.visibility = View.VISIBLE
                     holder.add_remove_layy.visibility = View.GONE
                     adapterAddRemoveClick.onItemAddRemoveClick(
-                            productList[position].productId,
-                            count.toString(),
-                            "remove",
-                            productList[position].offerPrice,
-                            "",
+                        productList[position].productId,
+                        count.toString(),
+                        "remove",
+                        productList[position].offerPrice,
+                        "",
                         ""
                     )
                     adapterAddRemoveClick.clearCart()
                 }else{
                     adapterAddRemoveClick.onItemAddRemoveClick(
-                            productList[position].productId,
-                            count.toString(),
-                            "remove",
-                            productList[position].offerPrice,
-                            "",
+                        productList[position].productId,
+                        count.toString(),
+                        "remove",
+                        productList[position].offerPrice,
+                        "",
                         ""
                     )
 
@@ -316,7 +314,7 @@ class SearchAdapter(
 
         }
         // Create the AlertDialog
-        val alertDialog: androidx.appcompat.app.AlertDialog = builder.create()
+        val alertDialog: AlertDialog = builder.create()
         // Set other dialog properties
         alertDialog.setCancelable(true)
         alertDialog.show()
@@ -327,16 +325,15 @@ class SearchAdapter(
         var itemName = view.itemName
         var offerPrice = view.offerPrice
         var priceAfterDiscount = view.priceAfterDiscount
-        var addToCartButton = view.addToCartButton
-        var customText = view.customText
+        var customText = view.tv_stock_status
         var mainLay = view.mainLay
         var storeImg = view.storeImg
-        var plusLay = view.plusLay
-        var minusLay = view.minusLay
-        var countValue = view.countValuee
-        var add_remove_layy = view.add_remove_layy
+        var plusLay = view.btn_plus
+        var minusLay = view.btn_minus
+        var countValue = view.tv_count
+        var add_remove_layy = view.add_remove_lay
         //   var ratingTxtValue = view.ratingTxtValue
-        var add_new_layy = view.add_new_layy
+        var add_new_layy = view.add_item_lay
 
     }
 

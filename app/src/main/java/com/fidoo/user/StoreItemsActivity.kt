@@ -925,7 +925,7 @@ class StoreItemsActivity :
                 var check: String = ""
                 var tempPos: Int = 0
 
-                for (i in 0 until tempProductList!!.size - 1) {
+                for (i in 0 until tempProductList!!.size) {
                     Log.e("check1", tempProductList!!.get(i).productId)
                     Log.e("check2", productId)
                     if (tempProductList!![i].productId.equals(productId)) {
@@ -970,12 +970,11 @@ class StoreItemsActivity :
             var check = "edit"
             var checkPos = 0
             Log.e("check1", Gson().toJson(tempProductList!!))
-            for (i in 0 until tempProductList!!.size - 1) {
+            for (i in 0 until tempProductList!!.size) {
                 if (tempProductList!![i].productId.equals(productId)) {
                     if (count == "0") {
                         check = "remove"
                         checkPos = i
-
                         break
                         //  addCartTempList!!.removeAt(i)
                         //   tempProductList!!.removeAt(i)

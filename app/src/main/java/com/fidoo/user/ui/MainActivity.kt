@@ -75,6 +75,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         FirebaseApp.initializeApp(this)
+        searchSuggestionsList = ArrayList<String>()
 
 
 
