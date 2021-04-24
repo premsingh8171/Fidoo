@@ -847,9 +847,9 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 
     override fun onSelectedImageClick(position: Int) {
 
-        fragmentSearchBinding?.searchEdt?.setText(
-            MainActivity.searchSuggestionsList!!.get(position).toString()
-        )
+        /*fragmentSearchBinding?.searchEdt?.setText(
+            //MainActivity.searchSuggestionsList!!.get(position).toString()
+        )*/
         try {
             _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
             _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -863,11 +863,11 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             Log.wtf("IOS_error_starting", ex.cause!!)
         }
 
-        viewmodel?.getSearchApi(
+        /*viewmodel?.getSearchApi(
             SessionTwiclo(activity).loggedInUserDetail.accountId,
             SessionTwiclo(activity).loggedInUserDetail.accessToken,
             MainActivity.searchSuggestionsList!![position]
-        )
+        )*/
     }
 
     override fun onItemAddRemoveClick(
