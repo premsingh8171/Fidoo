@@ -49,7 +49,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     var viewmodel: GroceryProductsViewModel? = null
     lateinit var recyclerView: RecyclerView
     val catList: ArrayList<Category> = ArrayList()
-    val productList: ArrayList<Product> = ArrayList()
+    val productList: ArrayList<Product>? = null
     var catListFilter: ArrayList<Category> = ArrayList()
     var selectAreaDiolog:Dialog?=null
     lateinit var catrecyclerView: RecyclerView
@@ -113,7 +113,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             if (!grocery.error) {
                 Log.e("Grocery", Gson().toJson(grocery))
                 val subcatList: ArrayList<Subcategory> = ArrayList()
-                //val productList: ArrayList<Product> = ArrayList()
+                val productList: ArrayList<Product> = ArrayList()
 
                 for (i in 0 until grocery.category.size) {
                     val catObj = grocery.category[i]
@@ -124,6 +124,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
                         for (k in 0 until grocery.category[i].subcategory[j].product.size) {
                             val productListObj = subCatObj.product[k]
+                            Log.e("Product", Gson().toJson(subCatObj.product[0]))
                             productList.add(productListObj)
                         }
 
@@ -202,6 +203,31 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             } else {
                 showInternetToast()
             }
+            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+        })
+
+
+        viewmodel?.addRemoveCartResponse?.observe(this, { user ->
+            dismissIOSProgress()
+
+            Log.e("cart response", Gson().toJson(user))
+            if (isNetworkConnected) {
+                if (SessionTwiclo(this).isLoggedIn) {
+                    viewmodel?.getGroceryProductsFun(
+                        SessionTwiclo(this).loggedInUserDetail.accountId, SessionTwiclo(
+                            this
+                        ).loggedInUserDetail.accessToken, store_id
+                    )
+                } else {
+                    viewmodel?.getGroceryProductsFun(
+                        "", "", store_id
+                    )
+                }
+            } else {
+                showInternetToast()
+            }
+
+
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
@@ -324,7 +350,9 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             rvlistProduct(productListF)
             grocery_item_rv.adapter!!.notifyDataSetChanged()
         }else{
-            rvlistProduct(productList)
+            if (productList != null) {
+                rvlistProduct(productList)
+            }
             grocery_item_rv.adapter!!.notifyDataSetChanged()
         }
     }
@@ -360,6 +388,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         tempOfferPrice = offerPrice
         countValue.text = tempCount
 
+        showIOSProgress()
+
 
 
 
@@ -394,6 +424,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
         Log.d("count", count!!)
         Log.d("ID", productId!!)
+        showIOSProgress()
 
         //showIOSProgress()
         //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
@@ -661,6 +692,30 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             SessionTwiclo(this).loggedInUserDetail.accountId,
             SessionTwiclo(this).loggedInUserDetail.accessToken
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (isNetworkConnected) {
+            //showIOSProgress()
+            if (SessionTwiclo(this).isLoggedIn) {
+                viewmodel?.getGroceryProductsFun(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    intent.getStringExtra("storeId")
+                )
+            } else {
+                viewmodel?.getGroceryProductsFun(
+                   "",
+                    "",
+                    intent.getStringExtra("storeId")
+                )
+            }
+
+        } else {
+            showInternetToast()
+        }
     }
 
 

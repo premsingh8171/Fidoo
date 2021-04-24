@@ -168,7 +168,7 @@ class GroceryItemAdapter(
             holder.itemView.subt_img.setOnClickListener {
 
 
-                if (count>0) {
+                if (count>=0) {
                     count--
                     holder.itemView.qua_txt.text = count.toString()
                     if (count == 0) {
@@ -194,7 +194,6 @@ class GroceryItemAdapter(
                         )
                     }
 
-                    holder.itemView.minusplus_ll.visibility=View.VISIBLE
                 }else{
                     holder.itemView.minusplus_ll.visibility=View.GONE
                     holder.itemView.add_itemll.visibility=View.VISIBLE

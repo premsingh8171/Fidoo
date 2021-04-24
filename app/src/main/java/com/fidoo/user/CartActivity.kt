@@ -505,10 +505,10 @@ class CartActivity : BaseActivity(),
                         //delivery_coupon_name.visibility = View.GONE
                         //delivery_coupon_value.visibility = View.GONE
                     }
-                    /* delivery_coupon_name.text = "Delivery Discount ( -" +mModelData.delivery_coupon_name +")"
-                    delivery_coupon_value.text = resources.getString(R.string.ruppee) + mModelData.deliveryDiscount
-                    discountValue.text = resources.getString(R.string.ruppee) + mModelData.discount_amount.toString()
-                    discountLabel.text = "Cart Discount (" + mModelData.coupon_name +")"*/
+                    tv_delivery_discount_label.text = "Delivery Discount ( " +mModelData.delivery_coupon_name +")"
+                    tv_delivery_discount.text = "- " + resources.getString(R.string.ruppee) + mModelData.deliveryDiscount
+                    //discountValue.text = resources.getString(R.string.ruppee) + mModelData.discount_amount.toString()
+                    //tv_delivery_discount.text = "Cart Discount (" + mModelData.coupon_name +")"
 
                     //totalAmountBottom.text = resources.getString(R.string.ruppee) + finalPrice.toString()
 

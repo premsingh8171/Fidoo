@@ -154,7 +154,6 @@
                     android:maxLines="2"
                     android:text=""
                     android:textColor="#80000000"
-                    app:layout_constraintLeft_toRightOf="@+id/loc_icon"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/storeName" />
 
@@ -496,8 +495,7 @@
                     android:text="ITEMS"
                     android:textColor="@android:color/darker_gray"
                     android:visibility="gone"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderIdValue" />
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
                 <TextView
                     android:id="@+id/itemValue"

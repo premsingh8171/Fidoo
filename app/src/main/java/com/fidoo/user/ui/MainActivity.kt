@@ -52,7 +52,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         var check: String = ""
         private val TAG = "LocationProvider"
         private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
-        var searchSuggestionsList: ArrayList<String>? = null
+        var isearchSuggestionsList: ArrayList<String>? = null
 
 
         var ll: Location? = null
@@ -75,7 +75,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         FirebaseApp.initializeApp(this)
-        searchSuggestionsList = ArrayList<String>()
+        //searchSuggestionsList = ArrayList<String>()
 
 
 
