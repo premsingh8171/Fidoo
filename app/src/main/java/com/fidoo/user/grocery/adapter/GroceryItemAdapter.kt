@@ -86,7 +86,7 @@ class GroceryItemAdapter(
             }*/
 
             //count = index.cartQuantity
-            holder.itemView.qua_txt.text = list[position].cart_quantity.toString()
+            holder.itemView.qua_txt.text = model.cart_quantity.toString()
         }
 
         Glide.with(context)
@@ -108,18 +108,17 @@ class GroceryItemAdapter(
                     holder.itemView.add_itemll.visibility=View.GONE
                     holder.itemView.minusplus_ll.visibility=View.VISIBLE
                     //count=1
-                    //notifyItemRemoved(position)
 
                     if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals("")
                     ) {
                         // Adapter Click
                         adapterAddRemoveClick.onItemAddRemoveClick(
-                                list[position].product_id,
-                                count.toString(),
-                                "add",
-                                list[position].offer_price,
-                                storeID,
-                                ""
+                            list[position].product_id,
+                            count.toString(),
+                            "add",
+                            list[position].offer_price,
+                            storeID,
+                            ""
                         )
 
                     } else {
@@ -134,12 +133,12 @@ class GroceryItemAdapter(
                         builder.setPositiveButton("Yes") { _, _ ->
                             adapterAddRemoveClick.clearCart()
                             adapterAddRemoveClick.onItemAddRemoveClick(
-                                    list[position].product_id,
-                                    count.toString(),
-                                    "add",
-                                    list[position].offer_price,
-                                    storeID,
-                                    ""
+                                list[position].product_id,
+                                count.toString(),
+                                "add",
+                                list[position].offer_price,
+                                storeID,
+                                ""
                             )
 
 

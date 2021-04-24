@@ -107,19 +107,23 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         viewmodel?.GroceryProductsResponse?.observe(this, { grocery ->
             dismissIOSProgress()
             linear_progress_indicator.visibility = View.GONE
+            MainActivity.tempProductList!!.clear()
+            MainActivity.addCartTempList!!.clear()
+
             if (!grocery.error) {
                 Log.e("Grocery", Gson().toJson(grocery))
                 val subcatList: ArrayList<Subcategory> = ArrayList()
+                //val productList: ArrayList<Product> = ArrayList()
 
                 for (i in 0 until grocery.category.size) {
                     val catObj = grocery.category[i]
                     tv_categories.text = "Select category"
 
                     for (j in 0 until grocery.category[i].subcategory.size) {
-                        val subCatObj = grocery.category[i].subcategory[j]
+                        val subCatObj = catObj.subcategory[j]
 
                         for (k in 0 until grocery.category[i].subcategory[j].product.size) {
-                            val productListObj = grocery.category[i].subcategory[j].product[k]
+                            val productListObj = subCatObj.product[k]
                             productList.add(productListObj)
                         }
 
@@ -131,7 +135,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
 
 
-                Log.d("kb___", "" + productList[0].company_name)
+                Log.d("kb___", "" + productList[0].cart_quantity)
 
                 rvlistSubcategory(subcatList)
                 rvlistProduct(productList)
@@ -174,10 +178,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             Log.e("stores response", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
 
-            /*viewmodel?.getCartCountApi(
+            viewmodel?.getCartCountApi(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken
-            )*/
+            )
             //showToast(mModelData.message)
             if (isNetworkConnected) {
                 //showIOSProgress()
