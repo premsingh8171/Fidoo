@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.LoginActivity
@@ -17,22 +16,22 @@ import kotlinx.android.synthetic.main.category_adapter.view.*
 
 
 class CategoryAdapter(
-        val con: Context, val
-        serviceList: MutableList<com.fidoo.user.data.model.HomeServicesModel.ServiceList>
+    val con: Context, val
+    serviceList: MutableList<com.fidoo.user.data.model.HomeServicesModel.ServiceList>
 ) :
     RecyclerView.Adapter<CategoryAdapter.UserViewHolder>() {
-//    var valueselected = 0
-//    var index = 0
+     var valueselected = 0
+    var index = 0
 
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.category_adapter, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.category_adapter, parent, false)
     )
     override fun getItemCount() = serviceList.size
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.catName.text=serviceList.get(position).serviceName
-      //  index = valueselected
+        index = valueselected
         Glide.with(con)
             .load(serviceList[position].image)
             .fitCenter()
@@ -57,20 +56,24 @@ class CategoryAdapter(
 
             } else {
                 con.startActivity(
-                        Intent(con, StoreListActivity::class.java).putExtra(
-                                "serviceId",
-                                serviceList[position].id
-                        ).putExtra("serviceName", serviceList[position].serviceName)
+                    Intent(con, StoreListActivity::class.java).putExtra(
+                        "serviceId",
+                        serviceList[position].id
+                    ).putExtra("serviceName", serviceList[position].serviceName)
                 )
             }
         }
 
-//
-//        if (index == position) {
-//            holder.itemView.categoryLay.setBackgroundResource(R.drawable.rectangle_shap)
-//        } else {
-//            holder.itemView.categoryLay.setBackgroundResource(R.drawable.round_box)
-//        }
+
+        if (index == position) {
+            holder.itemView.itemLay.setBackgroundResource(R.drawable.rectangle_shap)
+            holder.itemView.imageLay.setColorFilter(con.getResources().getColor(R.color.white));
+
+        } else {
+            holder.itemView.itemLay.setBackgroundResource(R.drawable.round_box)
+            holder.itemView.imageLay.setColorFilter(con.getResources().getColor(R.color.primary_color));
+
+        }
     }
 
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -105,9 +108,9 @@ class CategoryAdapter(
         alertDialog.show()
     }
 
-//    fun updateReceiptsList(value: Int) {
-//        valueselected = value
-//        Log.d("valueselected____", valueselected.toString())
-//        notifyDataSetChanged()
-//    }
+    fun updateReceiptsList(value: Int) {
+        valueselected = value
+        Log.d("valueselected____", java.lang.String.valueOf(valueselected))
+        notifyDataSetChanged()
+    }
 }

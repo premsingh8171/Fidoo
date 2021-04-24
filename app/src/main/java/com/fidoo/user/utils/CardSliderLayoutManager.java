@@ -42,6 +42,7 @@ public class  CardSliderLayoutManager extends RecyclerView.LayoutManager
     private ViewUpdater viewUpdater;
     private RecyclerView recyclerView;
 
+
     /**
      * A ViewUpdater is invoked whenever a visible/attached card is scrolled.
      */
