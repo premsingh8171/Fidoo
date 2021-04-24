@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Order Details"
-                android:fontFamily="@font/metropolisbold"
+                android:fontFamily="@font/proxima"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -116,6 +116,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/orderOnValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/proxima"
+                    android:text="23rd"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginEnd="30dp"/>
+
+                <TextView
                     android:id="@+id/storeName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -125,7 +136,7 @@
                     android:gravity="center"
                     android:maxLines="2"
                     android:text=""
-                    android:fontFamily="@font/metropolis_semi_bold"
+                    android:fontFamily="@font/proxima"
                     android:textColor="@android:color/black"
                     app:layout_constraintLeft_toRightOf="@+id/storeImg"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -133,7 +144,7 @@
                 <TextView
                     android:id="@+id/locText"
                     android:layout_width="0dp"
-                    android:fontFamily="@font/metropolis_regular"
+                    android:fontFamily="@font/proxima"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginHorizontal="10dp"
@@ -160,7 +171,7 @@
                     android:text="Your Order"
                     android:textColor="@android:color/black"
                     android:textSize="15sp"
-                    android:fontFamily="@font/metropolisbold"
+                    android:fontFamily="@font/proxima"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/storeImg" />
 
@@ -202,7 +213,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="15dp">
 
                         <TextView
                             android:id="@+id/tv_order_id"
@@ -276,7 +288,7 @@
                     android:gravity="center"
                     android:maxLines="2"
                     android:text=""
-                    android:fontFamily="@font/metropolis_regular"
+                    android:fontFamily="@font/proxima"
                     android:textColor="@android:color/black"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -293,7 +305,7 @@
                     android:gravity="center"
                     android:maxLines="2"
                     android:text="Cart Discount"
-                    android:fontFamily="@font/metropolis_semi_bold"
+                    android:fontFamily="@font/proxima"
                     android:textColor="@android:color/black"
                     android:textSize="12sp"
                     android:visibility="visible"
@@ -310,7 +322,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:fontFamily="@font/metropolis_regular"
+                    android:fontFamily="@font/proxima"
                     android:text="@string/ruppee"
                     android:textColor="@android:color/black"
                     android:textSize="15sp"
@@ -339,8 +351,8 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:fontFamily="@font/metropolis_semi_bold"
-                    android:text="Delivery Charges"
+                    android:fontFamily="@font/proxima"
+                    android:text="Delivery Fee"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
                     android:visibility="visible"
@@ -357,7 +369,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:fontFamily="@font/metropolis_regular"
+                    android:fontFamily="@font/proxima"
                     android:text="@string/ruppee"
                     android:textColor="@android:color/black"
                     android:textSize="15sp"
@@ -373,7 +385,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:fontFamily="@font/metropolis_semi_bold"
+                    android:fontFamily="@font/proxima"
                     android:text="Delivery Discount"
                     android:textColor="@android:color/black"
                     android:textSize="10sp"
@@ -390,7 +402,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:fontFamily="@font/metropolis_regular"
+                    android:fontFamily="@font/proxima"
                     android:text="@string/ruppee"
                     android:textColor="@android:color/black"
                     android:textSize="15sp"
@@ -407,7 +419,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:fontFamily="@font/metropolisbold"
+                    android:fontFamily="@font/proxima"
                     android:text="Grand Total"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
@@ -425,7 +437,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:fontFamily="@font/metropolisbold"
+                    android:fontFamily="@font/proxima"
                     android:text="@string/ruppee"
                     android:textColor="@android:color/black"
                     android:textSize="15sp"
@@ -466,7 +478,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:fontFamily="@font/metropolisbold"
+                    android:fontFamily="@font/proxima"
                     android:text="Order Details"
                     android:textColor="@android:color/black"
                     android:textSize="15sp"
@@ -499,32 +511,9 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/itemsLabel" />
 
-                <TextView
-                    android:id="@+id/orderIdLabel"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="ORDER ID"
-                    android:fontFamily="@font/metropolis_semi_bold"
-                    android:textColor="@android:color/darker_gray"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detailLabel" />
+
 
                 <TextView
-                    android:id="@+id/orderIdValue"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="10dp"
-                    android:text=""
-                    android:fontFamily="@font/metropolis_regular"
-                    android:textColor="@android:color/black"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderIdLabel" />
-                    <TextView
                     android:id="@+id/orderStatusLabel"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
@@ -532,7 +521,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
                     android:text="ORDER STATUS"
-                    android:fontFamily="@font/metropolis_semi_bold"
+                    android:fontFamily="@font/proxima"
                     android:textColor="@android:color/darker_gray"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detailLabel" />
@@ -545,34 +534,13 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
                     android:text=""
-                    android:fontFamily="@font/metropolisbold"
+                    android:fontFamily="@font/proxima"
                     android:textColor="@android:color/black"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/orderStatusLabel" />
 
-                <TextView
-                    android:id="@+id/orderOnLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="ORDER ON"
-                    android:fontFamily="@font/metropolis_semi_bold"
-                    android:textColor="@android:color/darker_gray"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/itemValue" />
 
-                <TextView
-                    android:id="@+id/orderOnValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text=""
-                    android:fontFamily="@font/metropolis_regular"
-                    android:textColor="@android:color/black"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderOnLabel" />
+
 
                 <TextView
                     android:id="@+id/totalPriceLabel"
@@ -582,10 +550,11 @@
                     android:layout_marginTop="10dp"
                     android:text="Total Price"
                     android:textAllCaps="true"
-                    android:fontFamily="@font/metropolis_semi_bold"
+                    android:fontFamily="@font/proxima"
                     android:textColor="@android:color/darker_gray"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderOnValue" />
+                    app:layout_constraintTop_toBottomOf="@+id/view4"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/totalPriceValue"
@@ -594,10 +563,11 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="@string/ruppee"
-                    android:fontFamily="@font/metropolis_regular"
+                    android:fontFamily="@font/proxima"
                     android:textColor="@android:color/black"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/totalPriceLabel" />
+                    app:layout_constraintTop_toBottomOf="@+id/totalPriceLabel"
+                    android:visibility="gone"/>
 
                 <TextView
 
@@ -609,7 +579,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:fontFamily="@font/metropolis_semi_bold"
+                    android:fontFamily="@font/proxima"
                     android:text="Uploaded Prescription"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
@@ -645,46 +615,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:fontFamily="@font/metropolis_semi_bold"
+                        android:fontFamily="@font/proxima"
                         android:text="View \nPrescription"
                         android:textColor="@android:color/white"
 
                         android:textSize="15sp"
                         android:textStyle="bold" />
                 </androidx.cardview.widget.CardView>
-
-                <TextView
-
-                    android:id="@+id/delivery_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:fontFamily="@font/metropolis_semi_bold"
-                    android:text="DELIVERY ADDRESS"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/prescriptionImageLay" />
-
-                <TextView
-                    android:id="@+id/deliveryAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="70dp"
-                    android:maxLines="2"
-                    android:text=" "
-                    android:fontFamily="@font/metropolis_regular"
-                    android:textColor="@android:color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/delivery_address" />
+                
 
                 <TextView
                     android:id="@+id/buttonValue"
@@ -698,7 +636,7 @@
                     android:paddingHorizontal="25dp"
                     android:paddingVertical="10dp"
                     android:text="Track Order"
-                    android:fontFamily="@font/metropolis_regular"
+                    android:fontFamily="@font/proxima"
                     android:textColor="@android:color/white"
                     android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"

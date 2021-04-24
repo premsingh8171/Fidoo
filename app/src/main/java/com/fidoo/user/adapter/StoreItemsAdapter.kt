@@ -66,9 +66,10 @@ class StoreItemsAdapter(
         holder.itemName.text = index.productName
         //  holder.itemName.visibility=View.INVISIBLE
         Glide.with(con)
-                .load(index.image)
-                .fitCenter()
-                .into(holder.storeImg)
+            .load(index.image)
+            .fitCenter()
+            .into(holder.storeImg)
+
         if (index.image == "") {
             // TODO
         }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_alignParentEnd="true"
     android:id="@+id/grocery_sub_cons">
@@ -13,11 +13,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:rotation="270"
-        android:text=""
-        android:textSize="10dp"
+        android:text="hello"
+        android:textSize="12sp"
         android:transformPivotX="0dp"
-        android:textStyle="bold"
-        android:layout_marginTop="@dimen/margin_70dp"
-        />
+        android:layout_marginTop="40dp" />
+
 
 </RelativeLayout>
