@@ -22,13 +22,13 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 
 class GroceryItemAdapter(
-    var context: Context,
-    var list: ArrayList<Product>,
-    var adapterAddRemoveClick: AdapterAddRemoveClick,
-    private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
-    val id: Int,
-    private val storeID: String,
-    private val cartId: String): RecyclerView.Adapter<GroceryItemAdapter.ViewHolder>() {
+        var context: Context,
+        var list: ArrayList<Product>,
+        var adapterAddRemoveClick: AdapterAddRemoveClick,
+        private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
+        val id: Int,
+        private val storeID: String,
+        private val cartId: String): RecyclerView.Adapter<GroceryItemAdapter.ViewHolder>() {
 
     var count:Int =0
 
@@ -88,11 +88,11 @@ class GroceryItemAdapter(
         }
 
         Glide.with(context)
-            .load(model.image)
-            .fitCenter()
-            .placeholder(R.drawable.about_icon)
-            .error(R.drawable.about_icon)
-            .into(holder.itemView.grocery_item_img)
+                .load(model.image)
+                .fitCenter()
+                .placeholder(R.drawable.about_icon)
+                .error(R.drawable.about_icon)
+                .into(holder.itemView.grocery_item_img)
 
         if (list[position].in_out_of_stock_status == "1"){
             holder.itemView.stock_status.visibility = View.GONE
@@ -112,12 +112,12 @@ class GroceryItemAdapter(
                     ) {
                         // Adapter Click
                         adapterAddRemoveClick.onItemAddRemoveClick(
-                            list[position].product_id,
-                            count.toString(),
-                            "add",
-                            list[position].offer_price,
-                            storeID,
-                            ""
+                                list[position].product_id,
+                                count.toString(),
+                                "add",
+                                list[position].offer_price,
+                                storeID,
+                                ""
                         )
 
                     } else {
@@ -132,12 +132,12 @@ class GroceryItemAdapter(
                         builder.setPositiveButton("Yes") { _, _ ->
                             adapterAddRemoveClick.clearCart()
                             adapterAddRemoveClick.onItemAddRemoveClick(
-                                list[position].product_id,
-                                count.toString(),
-                                "add",
-                                list[position].offer_price,
-                                storeID,
-                                ""
+                                    list[position].product_id,
+                                    count.toString(),
+                                    "add",
+                                    list[position].offer_price,
+                                    storeID,
+                                    ""
                             )
 
 
@@ -174,22 +174,22 @@ class GroceryItemAdapter(
                         holder.itemView.add_itemll.visibility=View.VISIBLE
                         holder.itemView.minusplus_ll.visibility=View.GONE
                         adapterAddRemoveClick.onItemAddRemoveClick(
-                            list[position].product_id,
-                            count.toString(),
-                            "remove",
-                            list[position].offer_price,
-                            "",
-                            ""
+                                list[position].product_id,
+                                count.toString(),
+                                "remove",
+                                list[position].offer_price,
+                                "",
+                                ""
                         )
                         //adapterAddRemoveClick.clearCart() // clearing the cart if item quantity becomes zero
                     } else {
                         adapterAddRemoveClick.onItemAddRemoveClick(
-                            list[position].product_id,
-                            count.toString(),
-                            "remove",
-                            list[position].offer_price,
-                            "",
-                            ""
+                                list[position].product_id,
+                                count.toString(),
+                                "remove",
+                                list[position].offer_price,
+                                "",
+                                ""
                         )
                     }
 
@@ -211,11 +211,11 @@ class GroceryItemAdapter(
                 //groceryItemClick.onItemAdd(position,count, list[position])
 
                 adapterAddRemoveClick.onItemAddRemoveClick(
-                    list[position].product_id,
-                    count.toString(),
-                    "add",
-                    list[position].offer_price, "",
-                    ""
+                        list[position].product_id,
+                        count.toString(),
+                        "add",
+                        list[position].offer_price, "",
+                        ""
                 )
 
             }

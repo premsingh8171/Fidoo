@@ -12,7 +12,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-//GroceryProductsResponse
 class GroceryProductsViewModel(application: Application) : AndroidViewModel(application),
     Callback<GroceryProductsResponse> {
 
@@ -173,7 +172,6 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
                 }
             })
     }
-
 
 
     override fun onResponse(call: Call<GroceryProductsResponse>,
