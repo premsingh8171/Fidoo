@@ -111,7 +111,8 @@
 
         <LinearLayout
             android:layout_marginLeft="@dimen/margin_10dp"
-            android:layout_weight="1.5"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:layout_weight="10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -130,6 +131,7 @@
 
 
         <LinearLayout
+            android:visibility="gone"
             android:background="@color/white"
             android:layout_marginLeft="@dimen/margin_5dp"
             android:gravity="end"
@@ -140,10 +142,10 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_gravity="end"
                 android:id="@+id/sub_cat_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="1">

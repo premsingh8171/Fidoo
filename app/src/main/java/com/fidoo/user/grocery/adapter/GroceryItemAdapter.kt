@@ -1,7 +1,6 @@
 package com.fidoo.user.grocery.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 
 class GroceryItemAdapter(var context: Context,
                          var list: ArrayList<Product>,
-                         var groceryItemClick:GroceryItemClick): RecyclerView.Adapter<GroceryItemAdapter.ViewHolder>() {
+                         var groceryItemClick: GroceryItemClick): RecyclerView.Adapter<GroceryItemAdapter.ViewHolder>() {
 
     var count:Int =0
 
@@ -28,6 +27,7 @@ class GroceryItemAdapter(var context: Context,
         val model =list.get(position)
         holder.itemView.grocery_item_tv.text = list.get(position)?.product_name
         holder.itemView.qua_txt.text = list.get(position)?.cart_quantity.toString()
+        holder.itemView.grocery_item_rice_tv.text = "₹"+list.get(position)?.price.toString()
 
         Glide.with(context)
                 .load(model.image)
@@ -37,7 +37,7 @@ class GroceryItemAdapter(var context: Context,
                 .into(holder.itemView.grocery_item_img)
 
         holder.itemView.add_itemll.setOnClickListener {
-            groceryItemClick.onItemClick(position,list.get(position))
+            groceryItemClick.onItemClick(position, list.get(position))
             holder.itemView.add_itemll.visibility=View.GONE
             holder.itemView.minusplus_ll.visibility=View.VISIBLE
             count=1
@@ -55,14 +55,14 @@ class GroceryItemAdapter(var context: Context,
             }
 
             holder.itemView.qua_txt.text = count.toString()
-            groceryItemClick.onItemSub(position,count,list.get(position))
+            groceryItemClick.onItemSub(position, count, list.get(position))
         }
 
         holder.itemView.add_img.setOnClickListener {
             count++
 
             holder.itemView.qua_txt.text = count.toString()
-            groceryItemClick.onItemAdd(position,count,list.get(position))
+            groceryItemClick.onItemAdd(position, count, list.get(position))
 
         }
     }
@@ -72,11 +72,11 @@ class GroceryItemAdapter(var context: Context,
     }
 
     interface GroceryItemClick {
-        fun onItemClick(pos: Int,grocery:Product)
+        fun onItemClick(pos: Int, grocery: Product)
 
-        fun onItemSub(pos: Int,itemcount:Int,grocery:Product)
+        fun onItemSub(pos: Int, itemcount: Int, grocery: Product)
 
-        fun onItemAdd(pos: Int,itemcount:Int,grocery:Product)
+        fun onItemAdd(pos: Int, itemcount: Int, grocery: Product)
     }
 
 }

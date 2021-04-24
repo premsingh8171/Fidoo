@@ -36,12 +36,19 @@
             android:padding="@dimen/margin_5dp"
             android:text="Banana" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/grocery_item_rice_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_5dp"
+            android:text="Banana" />
+
 
         <LinearLayout
             android:id="@+id/add_itemll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginLeft="@dimen/margin_5dp"
             android:background="@drawable/grocery_add"
             android:orientation="horizontal"
             android:visibility="visible">
