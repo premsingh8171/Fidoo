@@ -99,7 +99,9 @@ class GroceryItemAdapter(
         if (list[position].in_out_of_stock_status == "1"){
             holder.itemView.stock_status.visibility = View.GONE
 
+            //add first time click
             holder.itemView.add_itemll.setOnClickListener {
+                count= list[position].cart_quantity
 
                 if (SessionTwiclo(context).isLoggedIn){
                     count++
@@ -165,8 +167,9 @@ class GroceryItemAdapter(
 
             }
 
+            //subtraction click
             holder.itemView.subt_img.setOnClickListener {
-
+                count= list[position].cart_quantity
 
                 if (count>=0) {
                     count--
@@ -204,7 +207,9 @@ class GroceryItemAdapter(
                 //groceryItemClick.onItemSub(position,count,list.get(position))
             }
 
+            //add item click
             holder.itemView.add_img.setOnClickListener {
+                count= list[position].cart_quantity
                 count++
 
                 holder.itemView.qua_txt.text = count.toString()
@@ -220,7 +225,6 @@ class GroceryItemAdapter(
 
             }
 
-
         }else{
 
             holder.itemView.add_itemll.visibility = View.GONE
@@ -228,7 +232,6 @@ class GroceryItemAdapter(
             holder.itemView.stock_status.visibility = View.VISIBLE
 
         }
-
 
     }
 
