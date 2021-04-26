@@ -126,7 +126,7 @@
         <LinearLayout
             android:layout_marginLeft="@dimen/margin_10dp"
             android:layout_marginRight="@dimen/margin_10dp"
-            android:layout_weight="10"
+            android:layout_weight="1.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -137,20 +137,16 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2">
-
-            </androidx.recyclerview.widget.RecyclerView>
+                app:spanCount="2"/>
 
         </LinearLayout>
 
 
         <LinearLayout
-            android:visibility="gone"
-            android:background="@color/white"
-            android:layout_marginLeft="@dimen/margin_5dp"
-            android:gravity="end"
-            android:layout_gravity="end"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
             android:layout_weight="8.5"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -159,12 +155,9 @@
                 android:id="@+id/sub_cat_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="1">
-
-            </androidx.recyclerview.widget.RecyclerView>
+                app:spanCount="1"/>
 
         </LinearLayout>
 

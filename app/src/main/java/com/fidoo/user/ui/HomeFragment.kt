@@ -14,6 +14,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
@@ -24,7 +26,13 @@ import com.fidoo.user.*
 import com.fidoo.user.adapter.CategoryAdapter
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentHomeBinding
+import com.fidoo.user.adapter.SliderAdapter
+import com.fidoo.user.adapter.SliderAdapter.ClickCart
+import com.fidoo.user.data.model.BannerModel
+import com.fidoo.user.data.model.CartCountModel
+import com.fidoo.user.data.model.HomeServicesModel
 import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
+import com.fidoo.user.utils.CardSliderLayoutManager
 import com.fidoo.user.utils.CardSnapHelper
 import com.fidoo.user.view.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.HomeFragmentViewModel
@@ -33,6 +41,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.android.material.slider.Slider
 import com.google.gson.Gson
 import com.robin.locationgetter.EasyLocation
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
@@ -52,7 +61,14 @@ class HomeFragment : Fragment() {
     private var _progressDlg: ProgressDialog? = null
     var fragmentHomeBinding: FragmentHomeBinding? = null
     private var currentPosition = 0
-    private var layoutManger: com.fidoo.user.utils.CardSliderLayoutManager? = null
+    private var layoutManger: CardSliderLayoutManager? = null
+
+    companion object {
+        var service_id:String?=""
+        var service_name:String?=""    }
+
+
+
     var categoryAdapter:CategoryAdapter?=null
     private val pics = intArrayOf(
             R.drawable.medicine,
@@ -68,9 +84,17 @@ class HomeFragment : Fragment() {
             R.drawable.wellness
     )
 
-    private val sliderAdapter = com.fidoo.user.adapter.SliderAdapter(
-            pics, 11, OnCardClickListener()
-    )
+    private val sliderAdapter = SliderAdapter(
+            pics, 11, object : ClickCart{
+            override fun cartOnClick(view: View?) {
+                //  service_name?.let { Log.d("fdfdfd", it) }
+                startActivity(
+                    Intent(requireActivity(), StoreListActivity::class.java).putExtra(
+                        "serviceId", service_id
+                    ).putExtra("serviceName", service_name)
+                )
+            }
+            })
 
 
     override fun onCreateView(
@@ -142,7 +166,7 @@ class HomeFragment : Fragment() {
             // dismissIOSProgress()
 
             if (!user.error) {
-                val mModelData: com.fidoo.user.data.model.BannerModel = user
+                val mModelData: BannerModel = user
                 Log.e("bannerResponse", Gson().toJson(mModelData))
                 val sliderItemList: ArrayList<com.fidoo.user.data.SliderItem> = ArrayList()
                 if (mModelData.banner != null) {
@@ -197,7 +221,7 @@ class HomeFragment : Fragment() {
                 _progressDlg = null
             }
             if (!user.error) {
-                val mModelData: com.fidoo.user.data.model.HomeServicesModel = user
+                val mModelData: HomeServicesModel = user
                 Log.e("servicesResponse", Gson().toJson(mModelData))
                 if (mModelData.serviceList != null) {
                     if (activity != null) {
@@ -211,10 +235,24 @@ class HomeFragment : Fragment() {
                         fragmentHomeBinding?.categoriesRecyclerView?.adapter = adapter*/
 
 
-                         categoryAdapter = CategoryAdapter(
+                        categoryAdapter = CategoryAdapter(
                             requireActivity(),
-                            mModelData.serviceList
+                            mModelData.serviceList,
+                            object : CategoryAdapter.ItemClick {
+                                override fun onItemClick(
+                                    pos: Int,
+                                    serviceList: HomeServicesModel.ServiceList
+                                ) {
+
+                                    service_id = serviceList.id
+                                    service_name=serviceList.serviceName
+
+
+                                }
+
+                            }
                         )
+
                         fragmentHomeBinding?.categorySmallRecyclerview?.layoutManager =
                             GridLayoutManager(
                                 activity,
@@ -252,7 +290,7 @@ class HomeFragment : Fragment() {
             }
 
             if (!user.error) {
-                val mModelData: com.fidoo.user.data.model.CartCountModel = user
+                val mModelData: CartCountModel = user
                 Log.e("countResponse", Gson().toJson(mModelData))
                 Log.e("user count", user.count + "---")
                 if (context != null) {
@@ -349,7 +387,7 @@ class HomeFragment : Fragment() {
                 fragmentHomeBinding?.categorySmallRecyclerview?.smoothScrollToPosition(completeleyVisible)
             }
         })
-        layoutManger = fragmentHomeBinding?.categoryRecyclerView?.layoutManager as com.fidoo.user.utils.CardSliderLayoutManager
+        layoutManger = fragmentHomeBinding?.categoryRecyclerView?.layoutManager as CardSliderLayoutManager
         CardSnapHelper().attachToRecyclerView(categoryRecyclerView)
     }
 
@@ -578,7 +616,6 @@ class HomeFragment : Fragment() {
 
     private class OnCardClickListener : View.OnClickListener {
         override fun onClick(view: View) {
-
 
         }
     }

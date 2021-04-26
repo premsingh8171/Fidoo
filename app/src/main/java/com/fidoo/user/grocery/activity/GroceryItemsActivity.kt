@@ -14,10 +14,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.CartActivity
 import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
+import com.fidoo.user.adapter.CategoryAdapter
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
@@ -42,6 +44,7 @@ import kotlinx.android.synthetic.main.activity_grocery_items.backIcon
 import kotlinx.android.synthetic.main.activity_grocery_items.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.select_cat_popup.*
+import java.lang.Character.toLowerCase
 
 class GroceryItemsActivity : BaseActivity(), AdapterClick,
     AdapterAddRemoveClick,
@@ -50,12 +53,19 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     lateinit var recyclerView: RecyclerView
     val catList: ArrayList<Category> = ArrayList()
     val productList: ArrayList<Product>? = null
+    val subcatList: ArrayList<Subcategory> = ArrayList()
     var catListFilter: ArrayList<Category> = ArrayList()
+    var subcatListFilter: ArrayList<Subcategory> = ArrayList()
     var selectAreaDiolog:Dialog?=null
     lateinit var catrecyclerView: RecyclerView
     var cat_id:String?=""
+    var subcat_name:String?=""
 
     var customIdsList: ArrayList<String>? = null
+
+    var subcategoryAdapter: GrocerySubItemAdapter?=null
+
+    private var layoutManger: LinearLayoutManager? = null
 
     var tempProductId: String? = ""
     var mCustomizeCount: Int? = 0
@@ -72,6 +82,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_grocery_items)
         viewmodel = ViewModelProviders.of(this).get(GroceryProductsViewModel::class.java)
+        layoutManger= LinearLayoutManager(this)
         recyclerView = findViewById(R.id.grocery_item_rv)
         val store_id = intent.getStringExtra("storeId")
 
@@ -112,7 +123,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
             if (!grocery.error) {
                 Log.e("Grocery", Gson().toJson(grocery))
-                val subcatList: ArrayList<Subcategory> = ArrayList()
+               // val subcatList: ArrayList<Subcategory> = ArrayList()
                 val productList: ArrayList<Product> = ArrayList()
 
                 for (i in 0 until grocery.category.size) {
@@ -264,6 +275,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         viewAll_txt?.setOnClickListener(View.OnClickListener {
             selectAreaDiolog?.dismiss()
             cat_id=""
+            subcat_name=""
             tv_categories.text = "Select category"
             for (i in 0 until catList.size) {
                 filterListShowing(0, catList[i])
@@ -299,9 +311,11 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 this,
                 subcatList,
                 object : GrocerySubItemAdapter.SubcategoryItemClick {
+                    override fun onItemClick(pos: Int, subgrocery: Subcategory) {
+                        Log.d("grocery___", subgrocery.subcategory_name)
+                        subcat_name=subgrocery.subcategory_name
+                        filterListShowingSub(pos,subgrocery)
 
-                    override fun onItemClick(pos: Int, grocery: Subcategory) {
-                        Log.d("grocery___", grocery.subcategory_name)
                     }
                 })
 
@@ -320,11 +334,16 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         selectAreaDiolog?.dismiss()
                         cat_id= grocery.cat_id;
                         filterListShowing(pos ,grocery)
+
+                        Log.d("subcategoryAdapter__", pos.toString())
+                      //  sub_cat_rv.adapter = subcategoryAdapter
+                        subcategoryAdapter?.updateReceiptsList(pos)
+                        sub_cat_rv?.smoothScrollToPosition(pos)
                     }
                 })
     }
 
-    //Filter data showing
+    //Filter data showing by category
     private fun filterListShowing(pos: Int, grocery: Category) {
 
         if (cat_id != null) {
@@ -357,6 +376,31 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         }
     }
 
+    //Filter data showing by category
+    private fun filterListShowingSub(pos: Int, subgrocery: Subcategory) {
+        if (subcat_name != "") {
+            subcatListFilter = filterSubCategory(subcatList, subcat_name!!) as ArrayList<Subcategory>
+            val subcatListF: ArrayList<Subcategory> = ArrayList()
+            val productListF: ArrayList<Product> = ArrayList()
+            for (j in 0 until subcatListFilter.size) {
+                    var subCatObj = subcatListFilter[j]
+
+                    for (k in 0 until subcatListFilter[j].product.size) {
+                        var productListObj = subcatListFilter[j].product[k]
+                        productListF.add(productListObj)
+                    }
+                    subcatListF.add(subCatObj)
+                }
+            rvlistProduct(productListF)
+            grocery_item_rv.adapter!!.notifyDataSetChanged()
+        }else{
+            if (productList != null) {
+                rvlistProduct(productList)
+            }
+            grocery_item_rv.adapter!!.notifyDataSetChanged()
+        }
+    }
+
     //filter Item
     private fun filter(models: ArrayList<Category>, query: String): MutableList<Category> {
         var query = query
@@ -364,6 +408,20 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         val filterList: MutableList<Category> = ArrayList<Category>()
         for (model in models) {
             val text: String = model.cat_id.toLowerCase()
+            if (text.contains(query)) {
+                filterList.add(model)
+            }
+        }
+        return filterList
+    }
+
+    //filter Item by subcategory
+    private fun filterSubCategory(models: ArrayList<Subcategory>, query: String): MutableList<Subcategory> {
+        var query = query
+        query = query.toLowerCase()
+        val filterList: MutableList<Subcategory> = ArrayList<Subcategory>()
+        for (model in models) {
+            val text: String = model.subcategory_name.toLowerCase()
             if (text.contains(query)) {
                 filterList.add(model)
             }
@@ -717,8 +775,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             showInternetToast()
         }
     }
-
-
 
 
     /*object : GroceryItemAdapter.GroceryItemClick {
