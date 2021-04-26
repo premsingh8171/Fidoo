@@ -757,10 +757,10 @@ class StoreItemsActivity :
                 //showIOSProgress()
 
                 viewmodel!!.addToCartApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        addCartTempList!!,
-                        ""
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    addCartTempList!!,
+                    ""
                 )
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
             } else {

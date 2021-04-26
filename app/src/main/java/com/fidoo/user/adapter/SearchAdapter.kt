@@ -24,16 +24,16 @@ import kotlinx.android.synthetic.main.store_sub_item_adapter.view.*
 
 
 class SearchAdapter(
-    val con: Context,
-    private val productList: ArrayList<SearchModel.ProductList>,
-    private val adapterClick: AdapterClick,
-    private var storeID : String,
-    var adapterAddRemoveClick: AdapterAddRemoveClick,
-    var adapterCartAddRemoveClick: AdapterCartAddRemoveClick
+        val con: Context,
+        private val productList: ArrayList<SearchModel.ProductList>,
+        private val adapterClick: AdapterClick,
+        private var storeID : String,
+        var adapterAddRemoveClick: AdapterAddRemoveClick,
+        var adapterCartAddRemoveClick: AdapterCartAddRemoveClick
 ) : RecyclerView.Adapter<SearchAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.store_sub_item_adapter, parent, false))
+            LayoutInflater.from(parent.context).inflate(R.layout.store_sub_item_adapter, parent, false))
 
     override fun getItemCount() = productList.size
 
@@ -52,9 +52,9 @@ class SearchAdapter(
         holder.priceAfterDiscount.text = con.resources.getString(R.string.ruppee) + productList.get(position).offerPrice
 
         Glide.with(con)
-            .load(productList[position].productImage)
-            .fitCenter()
-            .into(holder.storeImg)
+                .load(productList[position].productImage)
+                .fitCenter()
+                .into(holder.storeImg)
 
         holder.customText.visibility = View.GONE
         if (productList[position].cartQuantity == 0) {

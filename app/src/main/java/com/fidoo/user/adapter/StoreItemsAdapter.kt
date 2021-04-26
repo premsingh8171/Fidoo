@@ -23,19 +23,19 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.store_product.view.*
 
 class StoreItemsAdapter(
-        val con: Context,
-        private val adapterClick: AdapterClick,
-        private val productList: ArrayList<StoreDetailsModel.Product>,
-        val catList: ArrayList<StoreDetailsModel.Category>,
-        var weight: String,
-        var unit: String,
-        var storerating: String,
-        var service_id: String,
-        var adapterAddRemoveClick: AdapterAddRemoveClick,
-        private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
-        val id: Int,
-        private val storeID: String,
-        private val cartId: String
+    val con: Context,
+    private val adapterClick: AdapterClick,
+    private val productList: ArrayList<StoreDetailsModel.Product>,
+    val catList: ArrayList<StoreDetailsModel.Category>,
+    var weight: String,
+    var unit: String,
+    var storerating: String,
+    var service_id: String,
+    var adapterAddRemoveClick: AdapterAddRemoveClick,
+    private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
+    val id: Int,
+    private val storeID: String,
+    private val cartId: String
 
 ) : RecyclerView.Adapter<StoreItemsAdapter.UserViewHolder>() {
 
