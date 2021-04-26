@@ -14,6 +14,7 @@ class GrocerySubItemAdapter(var context: Context,
                             var list:ArrayList<Subcategory>,
                             var subcategoryItemClick:SubcategoryItemClick): RecyclerView.Adapter<GrocerySubItemAdapter.ViewHolder>() {
 
+    var index:Int?=0
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
@@ -25,8 +26,15 @@ class GrocerySubItemAdapter(var context: Context,
         holder.itemView.grocery_sub_tv.text = list.get(position)?.subcategory_name.toString()
 
         holder.itemView.grocery_sub_cons.setOnClickListener {
+            index=position
             subcategoryItemClick.onItemClick(position,list.get(position))
-          //  notifyItemRemoved(position)
+            notifyItemRemoved(position)
+        }
+        if(index==position){
+            holder.itemView.active_dotLL.visibility=View.VISIBLE
+        }else{
+            holder.itemView.active_dotLL.visibility=View.GONE
+
         }
     }
 

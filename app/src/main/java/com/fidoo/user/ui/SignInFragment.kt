@@ -24,6 +24,7 @@ import androidx.navigation.fragment.findNavController
 import com.fidoo.user.AboutUsActivity
 import com.fidoo.user.R
 import com.fidoo.user.data.SendResponse
+import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentSignInBinding
 import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
 import com.fidoo.user.utils.CommonUtils.Companion.hideKeyboard
@@ -37,7 +38,7 @@ import com.vanillaplacepicker.utils.ToastUtils.showToast
 class SignInFragment : Fragment() {
 
     lateinit var layout: ConstraintLayout
-    lateinit var pref: com.fidoo.user.data.session.SessionTwiclo
+    lateinit var pref: SessionTwiclo
     private var _progressDlg: ProgressDialog? = null
 
     // assign the _binding variable initially to null and
@@ -100,7 +101,7 @@ class SignInFragment : Fragment() {
                             showIOSProgress()
                             viewmodel!!.login(
                                 "+91",
-                                com.fidoo.user.data.session.SessionTwiclo(
+                                SessionTwiclo(
                                     requireContext()
                                 ).deviceToken
                             )
@@ -229,8 +230,8 @@ class SignInFragment : Fragment() {
         _binding = null
     }
 
-    private fun getSessionInstance(): com.fidoo.user.data.session.SessionTwiclo {
-        return com.fidoo.user.data.session.SessionTwiclo(requireContext())
+    private fun getSessionInstance(): SessionTwiclo {
+        return SessionTwiclo(requireContext())
     }
 
     private fun isNetworkConnected(): Boolean {

@@ -299,7 +299,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 this,
                 subcatList,
                 object : GrocerySubItemAdapter.SubcategoryItemClick {
-
                     override fun onItemClick(pos: Int, grocery: Subcategory) {
                         Log.d("grocery___", grocery.subcategory_name)
                     }

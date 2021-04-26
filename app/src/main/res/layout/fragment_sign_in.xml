@@ -97,6 +97,7 @@
                         android:drawableStart="@drawable/india"
                         android:drawablePadding="5dp"
                         android:hint="+91"
+                        android:textColor="@color/black"
                         android:text="@={viewmodel.mobileNo}"
                         android:onTextChanged="@{viewmodel::onPasswordChanged}"
                         android:inputType="text" />
