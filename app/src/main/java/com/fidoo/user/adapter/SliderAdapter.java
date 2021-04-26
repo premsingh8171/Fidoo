@@ -12,12 +12,13 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderCard> {
 
     private final int count;
     private final int[] content;
-    private final View.OnClickListener listener;
+   // private final View.OnClickListener listener;
+    public ClickCart clickCart;
 
-    public SliderAdapter(int[] content, int count, View.OnClickListener listener) {
+    public SliderAdapter(int[] content, int count, ClickCart clickCart) {
         this.content = content;
         this.count = count;
-        this.listener = listener;
+        this.clickCart = clickCart;
     }
 
     @Override
@@ -26,14 +27,15 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderCard> {
                 .from(parent.getContext())
                 .inflate(R.layout.layout_slider_card, parent, false);
 
-        if (listener != null) {
+       // if (clickCart != null) {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onClick(view);
+                  //  listener.onClick(view);
+                    clickCart.cartOnClick(view);
                 }
             });
-        }
+       // }
 
         return new SliderCard(view);
     }
@@ -51,6 +53,10 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderCard> {
     @Override
     public int getItemCount() {
         return count;
+    }
+
+     public interface ClickCart{
+        public void cartOnClick(View view);
     }
 
 }

@@ -12,16 +12,19 @@ import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
 import com.fidoo.user.SendPackageActivity
 import com.fidoo.user.StoreListActivity
+import com.fidoo.user.data.model.HomeServicesModel
+import com.fidoo.user.data.session.SessionTwiclo
 import kotlinx.android.synthetic.main.category_adapter.view.*
 
 
 class CategoryAdapter(
     val con: Context, val
-    serviceList: MutableList<com.fidoo.user.data.model.HomeServicesModel.ServiceList>
+    serviceList: MutableList<HomeServicesModel.ServiceList>,
+    var itemClick:ItemClick
 ) :
     RecyclerView.Adapter<CategoryAdapter.UserViewHolder>() {
      var valueselected = 0
-    var index = 0
+     var index = 0
 
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
@@ -46,7 +49,7 @@ class CategoryAdapter(
 
             if(serviceList[position].serviceName.equals("Send Packages")) {
 
-                if (com.fidoo.user.data.session.SessionTwiclo(con).isLoggedIn){
+                if (SessionTwiclo(con).isLoggedIn){
                     //con.sendBroadcast(Intent("start_send_package_fragment"))
                     con.startActivity(Intent(con, SendPackageActivity::class.java))
 
@@ -57,8 +60,7 @@ class CategoryAdapter(
             } else {
                 con.startActivity(
                     Intent(con, StoreListActivity::class.java).putExtra(
-                        "serviceId",
-                        serviceList[position].id
+                        "serviceId", serviceList[position].id
                     ).putExtra("serviceName", serviceList[position].serviceName)
                 )
             }
@@ -68,7 +70,7 @@ class CategoryAdapter(
         if (index == position) {
             holder.itemView.itemLay.setBackgroundResource(R.drawable.rectangle_shap)
             holder.itemView.imageLay.setColorFilter(con.getResources().getColor(R.color.white));
-
+            itemClick.onItemClick(position,serviceList[position])
         } else {
             holder.itemView.itemLay.setBackgroundResource(R.drawable.round_box)
             holder.itemView.imageLay.setColorFilter(con.getResources().getColor(R.color.primary_color));
@@ -112,5 +114,9 @@ class CategoryAdapter(
         valueselected = value
         Log.d("valueselected____", java.lang.String.valueOf(valueselected))
         notifyDataSetChanged()
+    }
+
+    interface ItemClick {
+        fun onItemClick(pos: Int, serviceList: HomeServicesModel.ServiceList)
     }
 }
