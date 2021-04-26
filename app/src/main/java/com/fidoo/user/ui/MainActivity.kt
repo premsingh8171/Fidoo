@@ -333,45 +333,42 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    if (SessionTwiclo(this).userAddress == ""){
 
-                        try {
-                            fusedLocationClient.lastLocation
-                                    .addOnSuccessListener {
-                                        // Got last known location. In some rare situations this can be null.
-                                        Log.e("ll", ll.toString())
-                                        SessionTwiclo(this).userAddress = getGeoAddressFromLatLong(ll!!.latitude, ll!!.longitude)
-                                        userAddress?.text = SessionTwiclo(this).userAddress
-                                    }
-                            ll = LocationServices.FusedLocationApi.getLastLocation(gac!!)
-                            if (ll != null) {
-                                Log.e("ll", ll.toString())
-                                SessionTwiclo(
-                                        this
-                                ).userAddress = getGeoAddressFromLatLong(
-                                        ll!!.latitude,
-                                        ll!!.longitude
-                                )
-                                userAddress?.text = SessionTwiclo(
-                                        this
-                                ).userAddress
-                                //updateUI(ll!!)
-                            } else {
-                                LocationServices.FusedLocationApi.requestLocationUpdates(
-                                        gac!!, locationRequest, this
-                                )
-                            }
 
-                        } catch (e: SecurityException) {
-                            Toast.makeText(
-                                    this, "SecurityException:\n$e",
-                                    Toast.LENGTH_LONG
-                            ).show()
+                    try {
+                        fusedLocationClient.lastLocation
+                                .addOnSuccessListener {
+                                    // Got last known location. In some rare situations this can be null.
+                                    Log.e("ll", ll.toString())
+                                    SessionTwiclo(this).userAddress = getGeoAddressFromLatLong(ll!!.latitude, ll!!.longitude)
+                                    userAddress?.text = SessionTwiclo(this).userAddress
+                                }
+                        ll = LocationServices.FusedLocationApi.getLastLocation(gac!!)
+                        if (ll != null) {
+                            Log.e("ll", ll.toString())
+                            SessionTwiclo(
+                                    this
+                            ).userAddress = getGeoAddressFromLatLong(
+                                    ll!!.latitude,
+                                    ll!!.longitude
+                            )
+                            userAddress?.text = SessionTwiclo(
+                                    this
+                            ).userAddress
+                            //updateUI(ll!!)
+                        } else {
+                            LocationServices.FusedLocationApi.requestLocationUpdates(
+                                    gac!!, locationRequest, this
+                            )
                         }
 
-                    }else{
-
+                    } catch (e: SecurityException) {
+                        Toast.makeText(
+                                this, "SecurityException:\n$e",
+                                Toast.LENGTH_LONG
+                        ).show()
                     }
+
 
 
                 } else {

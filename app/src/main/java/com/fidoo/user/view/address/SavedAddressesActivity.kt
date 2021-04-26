@@ -120,8 +120,8 @@ class SavedAddressesActivity : BaseActivity(),
         if (isNetworkConnected) {
             showIOSProgress()
             viewmodel?.getAddressesApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken
             )
         } else {
             showInternetToast()
