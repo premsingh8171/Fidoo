@@ -175,7 +175,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         })
 
         viewmodel?.addToCartResponse?.observe(this, { user ->
-            dismissIOSProgress()
+            //dismissIOSProgress()
             Log.e("stores response", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
 
@@ -208,7 +208,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
 
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
-            dismissIOSProgress()
+
 
             Log.e("cart response", Gson().toJson(user))
             if (isNetworkConnected) {
@@ -398,7 +398,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             Log.e("intent store id", intent.getStringExtra("storeId").toString())
             SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
             Log.e("  store id", SessionTwiclo(this).storeId.toString())
-            //showIOSProgress()
+            showIOSProgress()
 
             viewmodel!!.addToCartApi(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -689,8 +689,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     override fun clearCart() {
         viewmodel?.clearCartApi(
-            SessionTwiclo(this).loggedInUserDetail.accountId,
-            SessionTwiclo(this).loggedInUserDetail.accessToken
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken
         )
     }
 
@@ -698,18 +698,18 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         super.onResume()
 
         if (isNetworkConnected) {
-            //showIOSProgress()
+            showIOSProgress()
             if (SessionTwiclo(this).isLoggedIn) {
                 viewmodel?.getGroceryProductsFun(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    intent.getStringExtra("storeId")
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        intent.getStringExtra("storeId")
                 )
             } else {
                 viewmodel?.getGroceryProductsFun(
-                   "",
-                    "",
-                    intent.getStringExtra("storeId")
+                        "",
+                        "",
+                        intent.getStringExtra("storeId")
                 )
             }
 

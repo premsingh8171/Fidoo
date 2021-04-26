@@ -77,6 +77,7 @@ class CartActivity : BaseActivity(),
     companion object {
         var selectedAddressId: String = ""
         var selectedAddressName: String = ""
+        var selectedAddressTitle : String = ""
         var selectedCouponId: String = ""
         var selectedCouponName: String = ""
         var userLat: String = ""
@@ -96,6 +97,7 @@ class CartActivity : BaseActivity(),
         behavior = BottomSheetBehavior.from(bottom_sheet)
         selectedAddressId = ""
         selectedAddressName = ""
+        selectedAddressTitle = ""
         selectedCouponName = ""
         selectedCouponId = ""
         storeCustomerDistance = ""
@@ -664,7 +666,7 @@ class CartActivity : BaseActivity(),
                 showToast(resources.getString(R.string.provide_internet))
             } else {
 
-                if (SessionTwiclo(this).userAddressId.equals("")) {
+                if (SessionTwiclo(this).userAddressId.equals("") || tv_delivery_address.text == ""){
                     showToast("Please select your address")
                 } else if (isPrescriptionRequire == "1") {
                     if (filePathTemp.equals("")) {
@@ -926,6 +928,9 @@ class CartActivity : BaseActivity(),
     override fun onResume() {
         super.onResume()
 
+
+        tv_delivery_address_title.text = selectedAddressTitle
+        tv_delivery_address.text = selectedAddressName
         if (!isNetworkConnected) {
             showToast(resources.getString(R.string.provide_internet))
 
@@ -939,10 +944,10 @@ class CartActivity : BaseActivity(),
             })
 
             viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    userLat,
+                    userLong
             )
 
 
@@ -950,9 +955,7 @@ class CartActivity : BaseActivity(),
         }
 //        selectedAddressValue.text = selectedAddressName
         if (SessionTwiclo(this).userAddressId != "") {
-            tv_delivery_address.text = SessionTwiclo(
-                this
-            ).userAddress
+            tv_delivery_address_title.text = selectedAddressTitle
         }
 
 

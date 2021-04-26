@@ -55,25 +55,33 @@ class HomeFragment : Fragment() {
     private var layoutManger: com.fidoo.user.utils.CardSliderLayoutManager? = null
     var categoryAdapter:CategoryAdapter?=null
     private val pics = intArrayOf(
-        R.drawable.food,
-        R.drawable.grocery,
-        R.drawable.grocery,
-        R.drawable.meat
+            R.drawable.medicine,
+            R.drawable.electronics,
+            R.drawable.grocery,
+            R.drawable.grocery,
+            R.drawable.food,
+            R.drawable.pet,
+            R.drawable.meat,
+            R.drawable.paan,
+            R.drawable.fruits,
+            R.drawable.cake,
+            R.drawable.wellness
     )
+
     private val sliderAdapter = com.fidoo.user.adapter.SliderAdapter(
-        pics, 20, OnCardClickListener()
+            pics, 11, OnCardClickListener()
     )
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         fragmentHomeBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_home,
-            container,
-            false
+                inflater,
+                R.layout.fragment_home,
+                container,
+                false
         )
 
 //        activity?.statusBarTransparent()
@@ -107,15 +115,13 @@ class HomeFragment : Fragment() {
         }
 
 
-        fragmentHomeBinding?.userAddress?.text = SessionTwiclo(
-            context
-        ).userAddress
+        fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
         /* fragmentHomeBinding?.userAddress?.setOnClickListener {
              onSearchCalled()
          }*/
         var sliderItem = com.fidoo.user.data.SliderItem()
 
-        viewmodel?.failureResponse?.observe(requireActivity(), Observer { user ->
+        viewmodel?.failureResponse?.observe(requireActivity(), { user ->
             //dismissIOSProgress()
 
             if (_progressDlg != null) {
@@ -132,7 +138,7 @@ class HomeFragment : Fragment() {
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
-        viewmodel?.bannersResponse?.observe(requireActivity(), Observer { user ->
+        viewmodel?.bannersResponse?.observe(requireActivity(), { user ->
             // dismissIOSProgress()
 
             if (!user.error) {
@@ -146,10 +152,7 @@ class HomeFragment : Fragment() {
                         sliderItemList.add(sliderItem)
                     }
 
-                    val adapterr =
-                        com.fidoo.user.adapter.SliderAdapterExample(
-                            activity
-                        )
+                    val adapterr = com.fidoo.user.adapter.SliderAdapterExample(activity)
 
                     fragmentHomeBinding?.sliderView?.setSliderAdapter(adapterr)
 
@@ -160,8 +163,7 @@ class HomeFragment : Fragment() {
                         SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH*/
                     fragmentHomeBinding?.sliderView?.indicatorSelectedColor = Color.WHITE
                     fragmentHomeBinding?.sliderView?.indicatorUnselectedColor = Color.BLACK
-                    fragmentHomeBinding?.sliderView?.scrollTimeInSec =
-                        sliderItemList.size - 1 //set scroll delay in seconds :
+                    fragmentHomeBinding?.sliderView?.scrollTimeInSec = sliderItemList.size - 1 //set scroll delay in seconds :
                     fragmentHomeBinding?.sliderView?.startAutoCycle()
                     adapterr.renewItems(sliderItemList)
                 }
@@ -173,13 +175,12 @@ class HomeFragment : Fragment() {
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
-        fragmentHomeBinding?.userAddress?.setOnClickListener {
+        fragmentHomeBinding?.addressLay?.setOnClickListener {
             if (SessionTwiclo(context).isLoggedIn){
-                startActivity(
-                    Intent(context, SavedAddressesActivity::class.java).putExtra(
+                startActivity(Intent(context, SavedAddressesActivity::class.java).putExtra(
                         "type",
                         "address"
-                    )
+                )
                 )
             }else{
                 showLoginDialog("Please login to proceed")
@@ -527,22 +528,14 @@ class HomeFragment : Fragment() {
                     override fun getLocation(location: Location) {
 
                         Log.e(
-                            "Location_lat_lng",
-                            " latitude ${location.latitude} longitude ${location.longitude}"
+                                "Location_lat_lng",
+                                " latitude ${location.latitude} longitude ${location.longitude}"
                         )
-                        SessionTwiclo(
-                            context
-                        ).userAddress =
-                            getGeoAddressFromLatLong(location.latitude, location.longitude)
-                        SessionTwiclo(
-                            context
-                        ).userLat = location.latitude.toString()
-                        SessionTwiclo(
-                            context
-                        ).userLng = location.longitude.toString()
-                        userAddress?.text = SessionTwiclo(
-                            context
-                        ).userAddress
+
+                        SessionTwiclo(context).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
+                        SessionTwiclo(context).userLat = location.latitude.toString()
+                        SessionTwiclo(context).userLng = location.longitude.toString()
+                        userAddress?.text = SessionTwiclo(context).userAddress
                     }
                 })
             }
@@ -550,7 +543,7 @@ class HomeFragment : Fragment() {
         } else {
 
             userAddress?.text = SessionTwiclo(
-                context
+                    context
             ).userAddress
         }
     }
@@ -566,7 +559,7 @@ class HomeFragment : Fragment() {
         //performing positive action
         builder.setPositiveButton("Login") { dialogInterface, which ->
             startActivity(
-                Intent(activity, LoginActivity::class.java)
+                    Intent(activity, LoginActivity::class.java)
             )
 
 
@@ -585,6 +578,7 @@ class HomeFragment : Fragment() {
 
     private class OnCardClickListener : View.OnClickListener {
         override fun onClick(view: View) {
+
 
         }
     }
