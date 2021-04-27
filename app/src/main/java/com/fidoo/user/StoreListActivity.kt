@@ -21,15 +21,18 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
     var storeListingViewModel: StoreListingViewModel? = null
     var storeList: MutableList<StoreListingModel.StoreList>? = null
-
+    var filterVisibility:Int=0
+    var selectionDistance:Int=0
+    var selectionRating:Int=0
+    var selectedValue:String?=""
+    var distanceStr:String?=""
+    var ratingStr:String?=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_store_list)
         val mainText = "<span style=\"color:#339347\">Choose </span> <span>Your <br/>Favorite</span> <span style=\"color:#339347\">Store</span></string>"
-        tv_choose_your_fav_store.text = HtmlCompat.fromHtml(
-            mainText,
-            HtmlCompat.FROM_HTML_MODE_COMPACT
+        tv_choose_your_fav_store.text = HtmlCompat.fromHtml(mainText, HtmlCompat.FROM_HTML_MODE_COMPACT
         )
 
         storeListingViewModel = ViewModelProviders.of(this).get(StoreListingViewModel::class.java)
@@ -37,33 +40,92 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
         backIcon.setOnClickListener { finish() }
 
-        intent.getStringExtra("serviceId")?.let {
-            if (isNetworkConnected) {
-                if (SessionTwiclo(this).isLoggedIn){
+        var serive_id=intent.getStringExtra("serviceId")
+
+
+
+        apicall(serive_id)
+
+
+        filter_icon.setOnClickListener {
+            if (filterVisibility==0) {
+                filtervalueLL.visibility = View.VISIBLE
+                filterVisibility=1;
+            }else{
+                filtervalueLL.visibility = View.GONE
+                filterVisibility=0;
+            }
+        }
+
+        distance_txt.setOnClickListener {
+
+            if (selectionDistance==0) {
+                distanceStr="distance"
+                distance_txt.setBackgroundResource(R.drawable.black_rounded_solid)
+                selectionDistance=1;
+
+            }else{
+                distanceStr=""
+                distance_txt.setBackgroundResource(R.drawable.round_outline)
+                selectionDistance=0;
+            }
+            selectedValue =distanceStr+","+ratingStr
+            if (ratingStr!!.isEmpty()){
+                selectedValue=distanceStr
+            }
+            apicall(serive_id)
+        }
+
+        rating_txt.setOnClickListener {
+            if (selectionRating==0) {
+                ratingStr="rating"
+                rating_txt.setBackgroundResource(R.drawable.black_rounded_solid)
+                selectionRating=1;
+            }else{
+                ratingStr=""
+                rating_txt.setBackgroundResource(R.drawable.round_outline)
+                selectionRating=0;
+            }
+            selectedValue =distanceStr+","+ratingStr
+            if (distanceStr!!.isEmpty()){
+                selectedValue=ratingStr
+            }
+            apicall(serive_id)
+        }
+    }
+
+    private fun apicall(serive_id:String?) {
+
+        if (isNetworkConnected) {
+            if (SessionTwiclo(this).isLoggedIn){
+                if (serive_id != null) {
                     storeListingViewModel!!.getStores(
-                       SessionTwiclo(this).loggedInUserDetail.accountId,
-                       SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        it,
-                       SessionTwiclo(this).userLat,
-                       SessionTwiclo(this).userLng,
-                        "",
-                        ""
-                    )
-                }else{
-                    storeListingViewModel!!.getStores(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        serive_id,
+                        SessionTwiclo(this).userLat,
+                        SessionTwiclo(this).userLng,
                         "",
                         "",
-                        it,
-                       SessionTwiclo(this).userLat,
-                       SessionTwiclo(this).userLng,
-                        "",
-                        ""
+                        selectedValue
                     )
                 }
-
-            } else {
-                showInternetToast()
+            }else{
+                if (serive_id != null) {
+                    storeListingViewModel!!.getStores(
+                        "",
+                        "",
+                        serive_id,
+                        SessionTwiclo(this).userLat,
+                        SessionTwiclo(this).userLng,
+                        "",
+                        "",
+                        selectedValue
+                    )
+                }
             }
+        } else {
+            showInternetToast()
 
         }
 
@@ -93,5 +155,6 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
             }
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
+
     }
 }

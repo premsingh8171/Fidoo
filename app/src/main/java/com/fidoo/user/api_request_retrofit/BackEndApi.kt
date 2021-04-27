@@ -2,6 +2,7 @@ package com.fidoo.user.api_request_retrofit
 
 import com.fidoo.user.data.model.*
 import com.fidoo.user.grocery.model.getGroceryProducts.GroceryProductsResponse
+import com.fidoo.user.search.model.SearchListModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -56,7 +57,8 @@ interface BackEndApi {
         @Field("latitude") latitude: String?,
         @Field("longitude") longitude: String?,
         @Field("distance_start") distance_start: String?,
-        @Field("distance_end") distance_end: String?
+        @Field("distance_end") distance_end: String?,
+        @Field("sort_by") sort_by: String?
 
     ): Call<StoreListingModel>
 
@@ -353,6 +355,14 @@ interface BackEndApi {
         @Field("accessToken") accessToken: String?,
         @Field("search") search: String?
     ): Call<SearchModel>
+
+    @FormUrlEncoded
+    @POST("searchList.inc.php")
+    fun searchApiForNewUi(
+        @Field("accountId") accountId: String?,
+        @Field("accessToken") accessToken: String?,
+        @Field("search") search: String?
+    ): Call<SearchListModel>
 
     @FormUrlEncoded
     @POST("logout.inc.php")

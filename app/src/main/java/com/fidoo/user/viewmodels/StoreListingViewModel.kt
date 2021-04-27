@@ -43,7 +43,7 @@ class StoreListingViewModel(application: Application) : AndroidViewModel(applica
             })
     }
 
-    fun getStores(accountId: String, accessToken: String, service_id: String, latitude: String, longitude: String, distance_start: String?, distance_end: String?) {
+    fun getStores(accountId: String, accessToken: String, service_id: String, latitude: String, longitude: String, distance_start: String?, distance_end: String?,sort_by:String?) {
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).getStoresApi(
             accountId = accountId,
@@ -52,7 +52,9 @@ class StoreListingViewModel(application: Application) : AndroidViewModel(applica
             latitude = latitude,
             longitude = longitude,
             distance_start = distance_start,
-            distance_end = distance_end
+            distance_end = distance_end,
+            sort_by=sort_by
+
         )
             .enqueue(this)
     }
