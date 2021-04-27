@@ -62,7 +62,7 @@
                     android:fontFamily="@font/lato"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:text="Please enter your registered phone number"
+                    android:text="Please enter your phone number"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_signIn" />
@@ -141,7 +141,8 @@
             android:text= "@string/don_t_have_an_account_signup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView2"
+            android:visibility="gone"/>
 
 
         <TextView

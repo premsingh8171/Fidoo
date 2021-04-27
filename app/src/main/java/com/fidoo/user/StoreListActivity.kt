@@ -37,6 +37,10 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
         backIcon.setOnClickListener { finish() }
 
+        store_filter.setOnClickListener {
+
+        }
+
         intent.getStringExtra("serviceId")?.let {
             if (isNetworkConnected) {
                 if (SessionTwiclo(this).isLoggedIn){

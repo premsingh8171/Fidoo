@@ -83,8 +83,8 @@ class AddressesAdapter(
                 CartActivity.selectedAddressId = addressList[position].id
                 CartActivity.selectedAddressName = addressList[position].location + "\nHouse No.: " + addressList.get(position).flatNo + "\nBuilding: " + addressList.get(position).building + "\nLandmark: " + addressList.get(position).landmark
 
-                //CartActivity.userLat = addressList[position].latitude
-                //CartActivity.userLong = addressList[position].longitude
+                CartActivity.userLat = addressList[position].latitude
+                CartActivity.userLong = addressList[position].longitude
                 //StoreItemsActivity.customerLatitude = addressList[position].latitude
                 //StoreItemsActivity.customerLongitude = addressList[position].longitude
                 when {

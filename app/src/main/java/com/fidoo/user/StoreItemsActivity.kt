@@ -7,8 +7,12 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fidoo.user.adapter.StoreCustomItemsAdapter
 import com.fidoo.user.adapter.StoreItemsAdapter
@@ -17,6 +21,7 @@ import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.*
 import com.fidoo.user.ui.MainActivity.Companion.addCartTempList
 import com.fidoo.user.ui.MainActivity.Companion.tempProductList
+import com.fidoo.user.ui.SignInFragment
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.viewmodels.CartViewModel
@@ -89,11 +94,7 @@ class StoreItemsActivity :
         cartIcon.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
                 startActivity(
-                    Intent(this, CartActivity::class.java).putExtra(
-                        "store_id", SessionTwiclo(
-                            this
-                        ).storeId
-                    )
+                        Intent(this, CartActivity::class.java).putExtra("store_id", SessionTwiclo(this).storeId)
                 )
             } else {
                 showLoginDialog("Please login to proceed")
@@ -120,7 +121,7 @@ class StoreItemsActivity :
                 showIOSProgress()
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
 
-                    /* viewmodel!!.addToCartApi(
+                /* viewmodel!!.addToCartApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
                        "", countValue.text.toString(), "", "1", customIdsList!!
@@ -136,10 +137,10 @@ class StoreItemsActivity :
                 addCartTempList!!.add(addCartInputModel)
 
                 viewmodel!!.addToCartApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    addCartTempList!!,
-                    ""
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        addCartTempList!!,
+                        ""
                 )
 
             } else {
@@ -236,19 +237,19 @@ class StoreItemsActivity :
 
             val adapter = storeID?.let {
                 StoreItemsAdapter(
-                    this,
-                    this,
-                    productList,
-                    catList,
-                    "",
-                    "",
-                    "3.5",
-                    "5",
-                    this,
-                    this,
-                    0,
-                    it,
-                    productList[0].cartId
+                        this,
+                        this,
+                        productList,
+                        catList,
+                        "",
+                        "",
+                        "3.5",
+                        "5",
+                        this,
+                        this,
+                        0,
+                        it,
+                        productList[0].cartId
                 )
             }
             storeItemsRecyclerview.adapter = adapter
@@ -304,20 +305,20 @@ class StoreItemsActivity :
             if (isNetworkConnected) {
                 if (SessionTwiclo(this).isLoggedIn) {
                     viewmodel?.getStoreDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        intent.getStringExtra("storeId"),
-                        "",
-                        intent.getStringExtra("catId")
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            intent.getStringExtra("storeId"),
+                            "",
+                            intent.getStringExtra("catId")
 
                     )
                 } else {
                     viewmodel?.getStoreDetails(
-                        "",
-                        "",
-                        intent.getStringExtra("storeId"),
-                        "",
-                        intent.getStringExtra("catId")
+                            "",
+                            "",
+                            intent.getStringExtra("storeId"),
+                            "",
+                            intent.getStringExtra("catId")
 
                     )
                 }
@@ -337,22 +338,22 @@ class StoreItemsActivity :
 
 
                 if (isNetworkConnected) {
-                    //showIOSProgress()
+                    showIOSProgress()
                     if (SessionTwiclo(this).isLoggedIn) {
                         viewmodel?.getStoreDetails(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            intent.getStringExtra("storeId"),
-                            "0",
-                            intent.getStringExtra("catId")
+                                SessionTwiclo(this).loggedInUserDetail.accountId,
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                intent.getStringExtra("storeId"),
+                                "0",
+                                intent.getStringExtra("catId")
 
                         )
                     } else {
                         viewmodel?.getStoreDetails("",
-                            "",
-                            intent.getStringExtra("storeId"),
-                            "0",
-                            intent.getStringExtra("catId")
+                                "",
+                                intent.getStringExtra("storeId"),
+                                "0",
+                                intent.getStringExtra("catId")
 
                         )
                     }
@@ -364,11 +365,11 @@ class StoreItemsActivity :
 
                 //showIOSProgress()
                 viewmodel?.getStoreDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    intent.getStringExtra("storeId"),
-                    "",
-                    intent.getStringExtra("catId")
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        intent.getStringExtra("storeId"),
+                        "",
+                        intent.getStringExtra("catId")
                 )
             }
         }
@@ -437,27 +438,27 @@ class StoreItemsActivity :
 
             }
             viewmodel?.getCartCountApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken
             )
             //showToast(mModelData.message)
             if (isNetworkConnected) {
-                //showIOSProgress()
+                showIOSProgress()
                 if (SessionTwiclo(this).isLoggedIn) {
                     viewmodel?.getStoreDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        intent.getStringExtra("storeId"),
-                        "",
-                        intent.getStringExtra("catId")
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            intent.getStringExtra("storeId"),
+                            "",
+                            intent.getStringExtra("catId")
                     )
                 } else {
                     viewmodel?.getStoreDetails(
-                        "",
-                        "",
-                        intent.getStringExtra("storeId"),
-                        "",
-                        intent.getStringExtra("catId")
+                            "",
+                            "",
+                            intent.getStringExtra("storeId"),
+                            "",
+                            intent.getStringExtra("catId")
                     )
                 }
 
@@ -528,7 +529,7 @@ class StoreItemsActivity :
         })
 
         viewmodel?.clearCartResponse?.observe(this, Observer { user ->
-            // dismissIOSProgress()
+            dismissIOSProgress()
 
             Log.e("stores response", Gson().toJson(user))
             if (tempType.equals("custom")) {
@@ -582,14 +583,14 @@ class StoreItemsActivity :
         //performing positive action
         builder.setPositiveButton("Yes") { _, _ ->
             viewmodel?.clearCartApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken
             )
             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
         }
 
         //performing negative action
-        builder.setNegativeButton("No") { dialogInterface, which ->
+        builder.setNegativeButton("No") { _, _ ->
             //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
         }
         // Create the AlertDialog
@@ -605,6 +606,8 @@ class StoreItemsActivity :
         tv_cuisnes.text = intent.getStringExtra("cuisine_types")
         tv_distance.text = intent.getStringExtra("distance") + "kms"
 
+        showIOSProgress()
+
         Log.d("OnRESUME", "RESUME")
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
         if (SessionTwiclo(this).isLoggedIn) {
@@ -617,7 +620,7 @@ class StoreItemsActivity :
 
 
         if (isNetworkConnected) {
-            //showIOSProgress()
+            showIOSProgress()
             if (SessionTwiclo(this).isLoggedIn) {
                 viewmodel?.getStoreDetails(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -670,6 +673,8 @@ class StoreItemsActivity :
         tempOfferPrice = offerPrice
         countValue.text = tempCount
 
+        showIOSProgress()
+
 
         if (type == "custom") {
             if (mCustomizeCount == 0) {
@@ -686,7 +691,7 @@ class StoreItemsActivity :
 
                 }
                 //  tempProductId = productId
-                //showIOSProgress()
+                showIOSProgress()
                 customIdsList!!.clear()
                 if (productId != null) {
                     viewmodel?.customizeProductApi(
@@ -714,7 +719,7 @@ class StoreItemsActivity :
                     }
 
                     //  tempProductId = productId
-                    //showIOSProgress()
+                    showIOSProgress()
                     customIdsList!!.clear()
                     if (productId != null) {
                         viewmodel?.customizeProductApi(
@@ -754,13 +759,13 @@ class StoreItemsActivity :
                 Log.e("intent store id", intent.getStringExtra("storeId").toString())
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
                 Log.e("  store id", SessionTwiclo(this).storeId.toString())
-                //showIOSProgress()
+                showIOSProgress()
 
                 viewmodel!!.addToCartApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    addCartTempList!!,
-                    ""
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        addCartTempList!!,
+                        ""
                 )
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
             } else {
@@ -878,18 +883,18 @@ class StoreItemsActivity :
     }
 
     override fun onItemAddRemoveClick(
-        productId: String?,
-        count: String?,
-        type: String?,
-        price: String?,
-        sid: String?,
-        cartId: String?
+            productId: String?,
+            count: String?,
+            type: String?,
+            price: String?,
+            sid: String?,
+            cartId: String?
     ) {
 
         Log.d("count", count!!)
         Log.d("ID", productId!!)
 
-        //showIOSProgress()
+        showIOSProgress()
         //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
 
 
@@ -914,13 +919,12 @@ class StoreItemsActivity :
 
                 if (cartId != null) {
                     viewmodel!!.addToCartApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        addCartTempList!!,
-                        ""
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            addCartTempList!!,
+                            cartId
                     )
                 }
-                tempProductList!!.clear()
             } else {
                 var check: String = ""
                 var tempPos: Int = 0
@@ -958,10 +962,10 @@ class StoreItemsActivity :
                 }
 
                 viewmodel!!.addToCartApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    addCartTempList!!,
-                    ""
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        addCartTempList!!,
+                        ""
                 )
             }
 
@@ -999,14 +1003,14 @@ class StoreItemsActivity :
 
                 if (cartId != null) {
                     viewmodel?.addRemoveCartDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        productId,
-                        "remove",
-                        "0",
-                        "",
-                        cartId,
-                        customIdsList!!
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            productId,
+                            "remove",
+                            "0",
+                            "",
+                            cartId,
+                            customIdsList!!
                     )
                 }
 
@@ -1018,14 +1022,14 @@ class StoreItemsActivity :
 
                 if (cartId != null) {
                     viewmodel?.addRemoveCartDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        productId,
-                        "remove",
-                        "0",
-                        "",
-                        cartId,
-                        customIdsList!!
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            productId,
+                            "remove",
+                            "0",
+                            "",
+                            cartId,
+                            customIdsList!!
                     )
                 }
 
@@ -1057,18 +1061,20 @@ class StoreItemsActivity :
     }
 
     override fun onAddItemClick(
-        productId: String?,
-        quantity: String?,
-        offerPrice: String?,
-        isCustomize: String?,
-        prodcustCustomizeId: String?,
-        cart_id: String?
+            productId: String?,
+            quantity: String?,
+            offerPrice: String?,
+            isCustomize: String?,
+            prodcustCustomizeId: String?,
+            cart_id: String?
     ) {
         tempOfferPrice = offerPrice
         //plusMinusPrice = 0.0
         tempPrice = 0.0
 
         tempProductId = productId
+
+        showIOSProgress()
 
 
         val builder = AlertDialog.Builder(this)
@@ -1079,7 +1085,7 @@ class StoreItemsActivity :
         // builder.setIcon(android.R.drawable.ic_dialog_alert)
 
         //performing positive action
-        builder.setPositiveButton("I'LL CHOOSE") { _, which ->
+        builder.setPositiveButton("I'LL CHOOSE") { _, _ ->
 
             if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
@@ -1090,7 +1096,7 @@ class StoreItemsActivity :
             }
 
             //tempProductId = productId
-            //showIOSProgress()
+            showIOSProgress()
             customIdsList!!.clear()
             viewmodel?.customizeProductApi(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -1102,7 +1108,7 @@ class StoreItemsActivity :
         //performing negative action
         builder.setNegativeButton("REPEAT") { _, which ->
             //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
-            //showIOSProgress()
+            showIOSProgress()
             viewmodel?.addRemoveCartDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -1135,7 +1141,7 @@ class StoreItemsActivity :
             showToast(resources.getString(R.string.provide_internet))
 
         } else {
-            //showIOSProgress()
+            showIOSProgress()
             if (cart_id != null) {
                 viewmodel?.addRemoveCartDetails(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -1160,10 +1166,8 @@ class StoreItemsActivity :
         // builder.setIcon(android.R.drawable.ic_dialog_alert)
 
         //performing positive action
-        builder.setPositiveButton("Login") { _, which ->
-            startActivity(
-                Intent(this, LoginActivity::class.java)
-            )
+        builder.setPositiveButton("Login") { _, _ ->
+            startActivity(Intent(this, SplashActivity::class.java))
 
 
         }

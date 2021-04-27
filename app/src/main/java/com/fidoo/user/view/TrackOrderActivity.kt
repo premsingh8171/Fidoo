@@ -732,7 +732,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                     "OK"
                 ) { _, _ -> // MyActivity.this.finish();
                     /*SessionTwiclo(context).clearSession()
-                        startActivity(Intent(this, LoginActivity::class.java))
+                        startActivity(Intent(this, SplashActivity::class.java))
                         ActivityCompat.finishAffinity(this!!)*/
                     //waitingLay.visibility = View.GONE
                     /*viewmodel?.getLocationApi(
@@ -761,7 +761,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                     "OK"
                 ) { _, _ -> // MyActivity.this.finish();
                     /*SessionTwiclo(context).clearSession()
-                        startActivity(Intent(this, LoginActivity::class.java))
+                        startActivity(Intent(this, SplashActivity::class.java))
                         ActivityCompat.finishAffinity(this!!)*/
                     trackOrderContext!!.startActivity(
                         Intent(

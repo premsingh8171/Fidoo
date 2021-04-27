@@ -208,7 +208,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             {*/
 
             try {
-                tv_base_charges.text = "Delivery charges starting from" +user.base_price + "for first" +user.base_distance+ "kms"
+                tv_base_charges.text = "Delivery charges starting from " +user.base_price + " for first" +user.base_distance+ " kms"
             }catch (e: NullPointerException){
                 Log.e("Error Base distance", e.toString())
             }
@@ -235,6 +235,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                 .putExtra("notes", ed_notes.text.toString())
                 .putExtra("base_distance", user.base_distance)
                 .putExtra("base_charges", user.base_price)
+
             )
             /*buyPopup(
                 user.base_distance,

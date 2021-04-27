@@ -163,21 +163,21 @@ class StoreItemsAdapter(
 
                         if (index.customizeItem.size != 0) {
                             adapterCartAddRemoveClick.onAddItemClick(
-                                index.productId,
-                                items,
-                                index.offerPrice,
-                                index.isCustomize,
-                                index.customizeItem[position].productCustomizeId,
-                                productList[position].cartId
+                                    index.productId,
+                                    items,
+                                    index.offerPrice,
+                                    index.isCustomize,
+                                    index.customizeItem[position].productCustomizeId,
+                                    productList[position].cartId
                             )
                         } else {
                             adapterCartAddRemoveClick.onAddItemClick(
-                                index.productId,
-                                items,
-                                index.offerPrice,
-                                index.isCustomize,
-                                "",
-                                productList[position].cartId
+                                    index.productId,
+                                    items,
+                                    index.offerPrice,
+                                    index.isCustomize,
+                                    "",
+                                    productList[position].cartId
                             )
                         }
                     }
@@ -190,7 +190,7 @@ class StoreItemsAdapter(
                             count.toString(),
                             "add",
                             index.offerPrice, "",
-                        productList[position].cartId
+                            productList[position].cartId
                     )
                 }
             }
@@ -201,13 +201,13 @@ class StoreItemsAdapter(
                         count++
                         holder.countValue.text = count.toString()
                         adapterClick.onItemClick(
-                            index.productId,
-                            "custom",
-                            "1",
-                            index.offerPrice,
-                            index.is_customize_quantity,
-                            "",
-                            productList[position].cartId
+                                index.productId,
+                                "custom",
+                                "1",
+                                index.offerPrice,
+                                index.is_customize_quantity,
+                                "",
+                                productList[position].cartId
                         )
                     } else {
                         count++
@@ -218,9 +218,12 @@ class StoreItemsAdapter(
                         if (com.fidoo.user.data.session.SessionTwiclo(con).storeId.equals(storeID) || com.fidoo.user.data.session.SessionTwiclo(con).storeId.equals("")
                         ) {
                             adapterAddRemoveClick.onItemAddRemoveClick(
-                                index.productId, count.toString(), "add",
-                                index.offerPrice, "",
-                                productList[position].cartId
+                                    index.productId,
+                                    count.toString(),
+                                    "add",
+                                    index.offerPrice,
+                                    "",
+                                    productList[position].cartId
                             )
 
                         } else {
@@ -235,12 +238,12 @@ class StoreItemsAdapter(
                             builder.setPositiveButton("Yes") { _, _ ->
                                 adapterAddRemoveClick.clearCart()
                                 adapterAddRemoveClick.onItemAddRemoveClick(
-                                    index.productId,
-                                    count.toString(),
-                                    "add",
-                                    index.offerPrice,
-                                    storeID,
-                                    productList[position].cartId
+                                        index.productId,
+                                        count.toString(),
+                                        "add",
+                                        index.offerPrice,
+                                        storeID,
+                                        productList[position].cartId
                                 )
 
 
@@ -291,19 +294,19 @@ class StoreItemsAdapter(
 
                             if (index.customizeItem.size != 0) {
                                 adapterCartAddRemoveClick.onRemoveItemClick(
-                                    index.productId,
-                                    count.toString(),
-                                    index.isCustomize,
-                                    index.customizeItem[0].productCustomizeId,
-                                    productList[position].cartId
+                                        index.productId,
+                                        count.toString(),
+                                        index.isCustomize,
+                                        index.customizeItem[0].productCustomizeId,
+                                        productList[position].cartId
                                 )
                             } else {
                                 adapterCartAddRemoveClick.onRemoveItemClick(
-                                    index.productId,
-                                    count.toString(),
-                                    index.isCustomize,
-                                    "",
-                                    productList[position].cartId
+                                        index.productId,
+                                        count.toString(),
+                                        index.isCustomize,
+                                        "",
+                                        productList[position].cartId
                                 )
                             }
                         }
@@ -320,22 +323,22 @@ class StoreItemsAdapter(
                             holder.add_new_lay.visibility = View.VISIBLE
                             holder.add_remove_lay.visibility = View.GONE
                             adapterAddRemoveClick.onItemAddRemoveClick(
-                                index.productId,
-                                count.toString(),
-                                "remove",
-                                index.offerPrice,
-                                "",
-                                productList[position].cartId
+                                    index.productId,
+                                    count.toString(),
+                                    "remove",
+                                    index.offerPrice,
+                                    "",
+                                    productList[position].cartId
                             )
                             //adapterAddRemoveClick.clearCart() // clearing the cart if item quantity becomes zero
                         } else {
                             adapterAddRemoveClick.onItemAddRemoveClick(
-                                index.productId,
-                                count.toString(),
-                                "remove",
-                                index.offerPrice,
-                                "",
-                                productList[position].cartId
+                                    index.productId,
+                                    count.toString(),
+                                    "remove",
+                                    index.offerPrice,
+                                    "",
+                                    productList[position].cartId
                             )
                         }
                     }

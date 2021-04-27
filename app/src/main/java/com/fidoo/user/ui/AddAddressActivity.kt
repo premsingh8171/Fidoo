@@ -293,7 +293,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             }
         }
 
-        viewmodel?.addAddressResponse?.observe(this, androidx.lifecycle.Observer {
+        viewmodel?.addAddressResponse?.observe(this, {
 
             dismissIOSProgress()
             showToast("Address added successfully")
@@ -301,7 +301,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
         })
 
-        viewmodel?.failureResponse?.observe(this, androidx.lifecycle.Observer {
+        viewmodel?.failureResponse?.observe(this,  {
             showToast("Something is wrong, please try again")
         })
 
