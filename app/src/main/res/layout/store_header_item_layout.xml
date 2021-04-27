@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/margin_5dp"
+    android:layout_marginEnd="@dimen/margin_5dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:weightSum="10"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_20dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/margin_10dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/store_item_img"
+                android:layout_width="@dimen/margin_100dp"
+                android:layout_height="@dimen/margin_100dp"
+                android:scaleType="fitXY"
+                android:padding="@dimen/text_size_15sp"
+                android:src="@drawable/about_icon" />
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:layout_weight="9"
+            android:id="@+id/item_detail_lay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/store_item_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_5dp"
+                android:text="Banana"
+                android:maxLines="1"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_distance_ofStore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_5dp"
+                android:text="100"
+                android:layout_below="@id/store_item_tv"/>
+
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_weight="1"
+            android:id="@+id/store_moreIcon"
+            android:layout_width="@dimen/margin_24dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:rotation="180"
+            android:src="@drawable/ic_arrow_left_black_48dp" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
