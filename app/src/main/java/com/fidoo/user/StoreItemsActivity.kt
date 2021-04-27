@@ -883,7 +883,8 @@ class StoreItemsActivity :
         type: String?,
         price: String?,
         sid: String?,
-        cartId: String?
+        cartId: String?,
+        position: Int
     ) {
 
         Log.d("count", count!!)

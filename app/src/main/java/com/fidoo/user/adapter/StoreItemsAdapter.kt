@@ -190,7 +190,7 @@ class StoreItemsAdapter(
                             count.toString(),
                             "add",
                             index.offerPrice, "",
-                        productList[position].cartId
+                        productList[position].cartId,0
                     )
                 }
             }
@@ -220,7 +220,7 @@ class StoreItemsAdapter(
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                 index.productId, count.toString(), "add",
                                 index.offerPrice, "",
-                                productList[position].cartId
+                                productList[position].cartId,0
                             )
 
                         } else {
@@ -240,7 +240,7 @@ class StoreItemsAdapter(
                                     "add",
                                     index.offerPrice,
                                     storeID,
-                                    productList[position].cartId
+                                    productList[position].cartId,0
                                 )
 
 
@@ -325,7 +325,7 @@ class StoreItemsAdapter(
                                 "remove",
                                 index.offerPrice,
                                 "",
-                                productList[position].cartId
+                                productList[position].cartId,0
                             )
                             //adapterAddRemoveClick.clearCart() // clearing the cart if item quantity becomes zero
                         } else {
@@ -335,7 +335,7 @@ class StoreItemsAdapter(
                                 "remove",
                                 index.offerPrice,
                                 "",
-                                productList[position].cartId
+                                productList[position].cartId,0
                             )
                         }
                     }

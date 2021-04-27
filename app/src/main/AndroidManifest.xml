@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TwicloRedesigned"
         tools:replace="android:allowBackup,android:name,android:theme,android:icon">
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".search.activity.SearchItemActivity"></activity>
+        <activity android:name=".ChatActivity" />
         <activity android:name=".grocery.activity.GroceryItemsActivity" />
         <activity android:name=".AboutUsActivity" />
         <activity android:name=".SendPackageOrderDetail" />
