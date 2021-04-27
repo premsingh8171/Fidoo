@@ -31,6 +31,7 @@ import com.fidoo.user.adapter.SliderAdapter.ClickCart
 import com.fidoo.user.data.model.BannerModel
 import com.fidoo.user.data.model.CartCountModel
 import com.fidoo.user.data.model.HomeServicesModel
+import com.fidoo.user.grocery.activity.GroceryItemsActivity
 import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.CardSliderLayoutManager
 import com.fidoo.user.utils.CardSnapHelper
@@ -46,6 +47,7 @@ import com.google.gson.Gson
 import com.robin.locationgetter.EasyLocation
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
+import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.io.IOException
@@ -65,7 +67,10 @@ class HomeFragment : Fragment() {
 
     companion object {
         var service_id:String?=""
-        var service_name:String?=""    }
+        var service_name:String?=""
+        var itemPosition:Int?=0
+    }
+
 
 
 
@@ -262,6 +267,11 @@ class HomeFragment : Fragment() {
                             )
                         fragmentHomeBinding?.categorySmallRecyclerview?.setHasFixedSize(true)
                         fragmentHomeBinding?.categorySmallRecyclerview?.adapter = categoryAdapter
+                        categoryAdapter?.updateReceiptsList(itemPosition!!)
+                        fragmentHomeBinding?.categorySmallRecyclerview?.smoothScrollToPosition(
+                            itemPosition!!
+                        )
+
                     }
                 }
 
@@ -379,12 +389,10 @@ class HomeFragment : Fragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val completeleyVisible: Int = layoutManger?.getActiveCardPosition()!!
-
-                Log.d("dfdffdfd", completeleyVisible.toString())
+                itemPosition =completeleyVisible
                 fragmentHomeBinding?.categorySmallRecyclerview?.adapter = categoryAdapter
-
-                categoryAdapter?.updateReceiptsList(completeleyVisible)
-                fragmentHomeBinding?.categorySmallRecyclerview?.smoothScrollToPosition(completeleyVisible)
+                categoryAdapter?.updateReceiptsList(itemPosition!!)
+                fragmentHomeBinding?.categorySmallRecyclerview?.smoothScrollToPosition(itemPosition!!)
             }
         })
         layoutManger = fragmentHomeBinding?.categoryRecyclerView?.layoutManager as CardSliderLayoutManager
