@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.fidoo.user">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -25,10 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TwicloRedesigned"
         tools:replace="android:allowBackup,android:name,android:theme,android:icon">
-        <activity android:name=".ChatActivity"></activity>
-        <activity android:name=".grocery.activity.GroceryItemsActivity" />
-        <activity android:name=".AboutUsActivity" />
-        <activity android:name=".SendPackageOrderDetail" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -40,6 +38,15 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
+        <activity android:name=".search.activity.SearchItemActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".grocery.activity.GroceryItemsActivity" />
+        <activity android:name=".AboutUsActivity" />
+        <activity android:name=".SendPackageOrderDetail" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -76,6 +83,29 @@
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_live_iceNLz5pb15jtP" />
+
+
+        <service
+            android:name=".fcm.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/common_google_signin_btn_icon_dark"/>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent"/>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
     </application>
 
 </manifest>

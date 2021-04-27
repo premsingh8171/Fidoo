@@ -55,5 +55,6 @@
     <string name="_50_00">\u20B900.00</string>
     <string name="leave_delivery_instructions_optional"><font size="12">Leave delivery instructions (optional)</font></string>
     <string name="title_activity_add_address">AddAddressActivity</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

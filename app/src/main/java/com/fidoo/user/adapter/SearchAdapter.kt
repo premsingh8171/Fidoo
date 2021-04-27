@@ -160,7 +160,7 @@ class SearchAdapter(
                         adapterAddRemoveClick.onItemAddRemoveClick(
                             productList[position].productId, count.toString(), "add",
                             productList[position].offerPrice,"",
-                            ""
+                            "",0
                         )
                     }else{
                         val builder = AlertDialog.Builder(con)
@@ -174,7 +174,7 @@ class SearchAdapter(
                             adapterAddRemoveClick.clearCart()
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                 productList[position].productId, count.toString(), "add",
-                                productList[position].offerPrice,"", "")
+                                productList[position].offerPrice,"", "",0)
 
                             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                         }
@@ -274,7 +274,7 @@ class SearchAdapter(
                         "remove",
                         productList[position].offerPrice,
                         "",
-                        ""
+                        "",0
                     )
                     adapterAddRemoveClick.clearCart()
                 }else{
@@ -284,7 +284,7 @@ class SearchAdapter(
                         "remove",
                         productList[position].offerPrice,
                         "",
-                        ""
+                        "",0
                     )
 
                 }

@@ -876,8 +876,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         type: String?,
         price: String?,
         sid: String?,
-        cartId: String?
-
+        cartId: String?,
+        position: Int
     ) {
         if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals(
                 ""

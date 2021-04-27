@@ -23,13 +23,13 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 
 class GroceryItemAdapter(
-        var context: Context,
-        val list: ArrayList<Product>,
-        var adapterAddRemoveClick: AdapterAddRemoveClick,
-        private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
-        val id: Int,
-        private val storeID: String,
-        private val cartId: String): RecyclerView.Adapter<GroceryItemAdapter.ViewHolder>() {
+    var context: Context,
+    val list: ArrayList<Product>,
+    var adapterAddRemoveClick: AdapterAddRemoveClick,
+    private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
+    val id: Int,
+    private val storeID: String,
+    private val cartId: String): RecyclerView.Adapter<GroceryItemAdapter.ViewHolder>() {
 
     var count:Int =0
 
@@ -90,11 +90,11 @@ class GroceryItemAdapter(
         }
 
         Glide.with(context)
-                .load(model.image)
-                .fitCenter()
-                .placeholder(R.drawable.about_icon)
-                .error(R.drawable.about_icon)
-                .into(holder.itemView.grocery_item_img)
+            .load(model.image)
+            .fitCenter()
+            .placeholder(R.drawable.about_icon)
+            .error(R.drawable.about_icon)
+            .into(holder.itemView.grocery_item_img)
 
         if (list[position].in_out_of_stock_status == "1"){
             holder.itemView.stock_status.visibility = View.GONE
@@ -115,12 +115,12 @@ class GroceryItemAdapter(
                     ) {
                         // Adapter Click
                         adapterAddRemoveClick.onItemAddRemoveClick(
-                                list[position].product_id,
-                                count.toString(),
-                                "add",
-                                list[position].offer_price,
-                                storeID,
-                                ""
+                            list[position].product_id,
+                            count.toString(),
+                            "add",
+                            list[position].offer_price,
+                            storeID,
+                            "",position
                         )
 
                     } else {
@@ -140,7 +140,7 @@ class GroceryItemAdapter(
                                 "add",
                                 list[position].offer_price,
                                 storeID,
-                                ""
+                                "",position
                             )
 
 
@@ -183,7 +183,7 @@ class GroceryItemAdapter(
                             "remove",
                             list[position].offer_price,
                             "",
-                            model.cart_id
+                            model.cart_id,position
                         )
                         //adapterAddRemoveClick.clearCart() // clearing the cart if item quantity becomes zero
                     } else {
@@ -193,7 +193,7 @@ class GroceryItemAdapter(
                             "remove",
                             list[position].offer_price,
                             "",
-                            model.cart_id
+                            model.cart_id,position
                         )
                     }
 
@@ -216,11 +216,11 @@ class GroceryItemAdapter(
                 //groceryItemClick.onItemAdd(position,count, list[position])
 
                 adapterAddRemoveClick.onItemAddRemoveClick(
-                        list[position].product_id,
-                        count.toString(),
-                        "add",
-                        list[position].offer_price, "",
-                        model.cart_id
+                    list[position].product_id,
+                    count.toString(),
+                    "add",
+                    list[position].offer_price, "",
+                    model.cart_id,position
                 )
 
             }
@@ -272,5 +272,6 @@ class GroceryItemAdapter(
         alertDialog.setCancelable(true)
         alertDialog.show()
     }
+
 
 }

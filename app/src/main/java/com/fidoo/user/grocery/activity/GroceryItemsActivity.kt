@@ -51,6 +51,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     AdapterAddRemoveClick,
     AdapterCartAddRemoveClick {
     var viewmodel: GroceryProductsViewModel? = null
+
     lateinit var recyclerView: RecyclerView
     val catList: ArrayList<Category> = ArrayList()
     val productList: ArrayList<Product>? = null
@@ -63,9 +64,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     var subcat_name:String?=""
 
     var customIdsList: ArrayList<String>? = null
-
-    var subcategoryAdapter: GrocerySubItemAdapter?=null
-
+    private lateinit var groceryItemAdapter: GroceryItemAdapter
+    companion object {
+        var itemPosition:Int?=0
+    }
     private var layoutManger: LinearLayoutManager? = null
 
     var tempProductId: String? = ""
@@ -248,7 +250,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         }
 
         backIcon.setOnClickListener {
-           finish()
+            finish()
         }
     }
 
@@ -258,8 +260,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         selectAreaDiolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         selectAreaDiolog?.setContentView(R.layout.select_cat_popup)
         selectAreaDiolog?.window?.setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
         )
         selectAreaDiolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
         selectAreaDiolog?.setCanceledOnTouchOutside(true)
@@ -268,7 +270,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         val viewAll_txt =  selectAreaDiolog?.findViewById<TextView>(R.id.viewAll_txt)
         catrecyclerView = selectAreaDiolog?.findViewById(R.id.catRecyclerview)!!
 
-       // catRecyclerview
+        // catRecyclerview
         txtError?.setOnClickListener(View.OnClickListener {
             selectAreaDiolog?.dismiss()
         })
@@ -277,6 +279,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             selectAreaDiolog?.dismiss()
             cat_id=""
             subcat_name=""
+            itemPosition=0
             tv_categories.text = "Select category"
             for (i in 0 until catList.size) {
                 filterListShowing(0, catList[i])
@@ -289,19 +292,30 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     //For Products list
     private fun rvlistProduct(listProduct: ArrayList<Product>) {
-        grocery_item_rv.adapter = intent.getStringExtra("storeId")?.let {
-            GroceryItemAdapter(
-                this,
-                listProduct,
-                this,
-                this,
-                0, it,
-                "",
+        var store_id=intent.getStringExtra("storeId");
 
-                )
-        }
+//        grocery_item_rv.adapter = intent.getStringExtra("storeId")?.let {
+//            GroceryItemAdapter(
+//                this,
+//                listProduct,
+//                this,
+//                this,
+//                0, it,
+//                "",
+//                )
+//        }
 
-
+        groceryItemAdapter =  GroceryItemAdapter(
+            this,
+            listProduct,
+            this,
+            this,
+            0,
+            store_id!!,""
+        )
+        grocery_item_rv?.adapter = groceryItemAdapter
+        itemPosition= itemPosition?.plus(1)
+        grocery_item_rv.smoothScrollToPosition(itemPosition!!)
     }
 
 
@@ -309,39 +323,41 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     //For SubCategory list Showing on left side of Activity view
     private fun rvlistSubcategory(subcatList: ArrayList<Subcategory>) {
         sub_cat_rv.adapter = GrocerySubItemAdapter(
-                this,
-                subcatList,
-                object : GrocerySubItemAdapter.SubcategoryItemClick {
-                    override fun onItemClick(pos: Int, subgrocery: Subcategory) {
-                        Log.d("grocery___", subgrocery.subcategory_name)
-                        subcat_name=subgrocery.subcategory_name
-                        filterListShowingSub(pos,subgrocery)
+            this,
+            subcatList,
+            object : GrocerySubItemAdapter.SubcategoryItemClick {
+                override fun onItemClick(pos: Int, subgrocery: Subcategory) {
+                    Log.d("grocery___", subgrocery.subcategory_name)
+                    itemPosition=0
+                    subcat_name=subgrocery.subcategory_name
+                    filterListShowingSub(pos,subgrocery)
 
-                    }
-                })
+                }
+            })
 
     }
 
     //For Category list on showing popup
     private fun rvCategory(catList: ArrayList<Category>) {
         catrecyclerView.adapter = GroceryCategoryAdapter(
-                this,
-                catList,
-                object : GroceryCategoryAdapter.CategoryItemClick {
+            this,
+            catList,
+            object : GroceryCategoryAdapter.CategoryItemClick {
 
-                    override fun onItemClick(pos: Int, grocery: Category) {
-                        Log.d("grocery___", grocery.cat_id)
-                        tv_categories.text = grocery.cat_name
-                        selectAreaDiolog?.dismiss()
-                        cat_id= grocery.cat_id;
-                        filterListShowing(pos ,grocery)
+                override fun onItemClick(pos: Int, grocery: Category) {
+                    Log.d("grocery___", grocery.cat_id)
+                    tv_categories.text = grocery.cat_name
+                    selectAreaDiolog?.dismiss()
+                    cat_id= grocery.cat_id;
+                    itemPosition=0
+                    filterListShowing(pos ,grocery)
 
-                        Log.d("subcategoryAdapter__", pos.toString())
-                      //  sub_cat_rv.adapter = subcategoryAdapter
-                        subcategoryAdapter?.updateReceiptsList(pos)
-                        sub_cat_rv?.smoothScrollToPosition(pos)
-                    }
-                })
+                    //   Log.d("subcategoryAdapter__", pos.toString())
+                    //  sub_cat_rv.adapter = subcategoryAdapter
+                    //  subcategoryAdapter?.updateReceiptsList(pos)
+                    //sub_cat_rv?.smoothScrollToPosition(pos)
+                }
+            })
     }
 
     //Filter data showing by category
@@ -384,14 +400,14 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             val subcatListF: ArrayList<Subcategory> = ArrayList()
             val productListF: ArrayList<Product> = ArrayList()
             for (j in 0 until subcatListFilter.size) {
-                    var subCatObj = subcatListFilter[j]
+                var subCatObj = subcatListFilter[j]
 
-                    for (k in 0 until subcatListFilter[j].product.size) {
-                        var productListObj = subcatListFilter[j].product[k]
-                        productListF.add(productListObj)
-                    }
-                    subcatListF.add(subCatObj)
+                for (k in 0 until subcatListFilter[j].product.size) {
+                    var productListObj = subcatListFilter[j].product[k]
+                    productListF.add(productListObj)
                 }
+                subcatListF.add(subCatObj)
+            }
             rvlistProduct(productListF)
             grocery_item_rv.adapter!!.notifyDataSetChanged()
         }else{
@@ -478,11 +494,12 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         type: String?,
         price: String?,
         storeId: String?,
-        cartId: String?
-    ) {
+        cartId: String?,
+        position: Int) {
 
         Log.d("count", count!!)
         Log.d("ID", productId!!)
+        itemPosition=position
         showIOSProgress()
 
         //showIOSProgress()
@@ -579,7 +596,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
                     }
 
-
                     /*else {
                     tempProductList!!.get(i).quantity = count
                     addCartTempList!!.get(i).quantity = count
@@ -626,8 +642,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     )
                 }
 
-
-
             }
 
         }
@@ -661,7 +675,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         prodcustCustomizeId: String?,
         cart_id: String?
     ) {
-       // TO be Implemented
+        // TO be Implemented
     }
 
     override fun onRemoveItemClick(
@@ -748,8 +762,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     override fun clearCart() {
         viewmodel?.clearCartApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
+            SessionTwiclo(this).loggedInUserDetail.accountId,
+            SessionTwiclo(this).loggedInUserDetail.accessToken
         )
     }
 
@@ -760,15 +774,15 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             showIOSProgress()
             if (SessionTwiclo(this).isLoggedIn) {
                 viewmodel?.getGroceryProductsFun(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        intent.getStringExtra("storeId")
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    intent.getStringExtra("storeId")
                 )
             } else {
                 viewmodel?.getGroceryProductsFun(
-                        "",
-                        "",
-                        intent.getStringExtra("storeId")
+                    "",
+                    "",
+                    intent.getStringExtra("storeId")
                 )
             }
 
