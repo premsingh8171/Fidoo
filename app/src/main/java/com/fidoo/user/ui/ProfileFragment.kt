@@ -82,15 +82,14 @@ class ProfileFragment : Fragment() {
 
         }
 
-        viewmodel?.getlogoutResponse?.observe(requireActivity(), Observer { user ->
+        viewmodel?.getlogoutResponse?.observe(requireActivity(), { user ->
             dismissIOSProgress()
 
             Log.e("logout response", Gson().toJson(user))
             dismissIOSProgress()
             SessionTwiclo(requireContext()).clearSession()
 
-            startActivity(Intent(requireContext(),SplashActivity::class.java))
-            finishAffinity(requireActivity())
+            findNavController().navigate(R.id.signInFragment)
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })

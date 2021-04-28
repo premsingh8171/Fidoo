@@ -40,6 +40,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
 import java.io.File
+import java.lang.NullPointerException
 
 class CartActivity : BaseActivity(),
     AdapterCartAddRemoveClick,
@@ -279,10 +280,10 @@ class CartActivity : BaseActivity(),
 
             } else {
                 startActivity(
-                    Intent(this, SavedAddressesActivity::class.java).putExtra(
-                        "type",
-                        "order"
-                    )
+                        Intent(this, SavedAddressesActivity::class.java).putExtra(
+                                "type",
+                                "order"
+                        )
                 )
             }
         }
@@ -296,13 +297,17 @@ class CartActivity : BaseActivity(),
 
                 viewmodel?.getCartDetailsResponse?.observe(this , Observer { user->
                     val mCartModelData : CartModel = user
-                    if (user.cart.size != 0){
-                        for (i in 0 until user.cart.size) {
-                            mCartId = mCartModelData.cart[i].cart_id
-                        }
-                    }else{
 
+                    try {
+                        if (user.cart.size != 0){
+                            for (i in 0 until user.cart.size) {
+                                mCartId = mCartModelData.cart[i].cart_id
+                            }
+                        }
+                    } catch (e: NullPointerException){
+                        e.toString()
                     }
+
 
 
 
@@ -321,10 +326,10 @@ class CartActivity : BaseActivity(),
                 addCartInputModel.isCustomize = "1"
                 addCartTempList!!.add(addCartInputModel)
                 viewmodel!!.addToCartApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    addCartTempList!!,
-                    mCartId!!
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        addCartTempList!!,
+                        mCartId!!
 
                 )
             } else {
@@ -340,10 +345,10 @@ class CartActivity : BaseActivity(),
 
             Log.e("cart response", Gson().toJson(user))
             viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    userLat,
+                    userLong
             )
 
 
@@ -356,10 +361,10 @@ class CartActivity : BaseActivity(),
             Log.e("cart response", Gson().toJson(user))
             Toast.makeText(this, user.message, Toast.LENGTH_LONG).show()
             viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    userLat,
+                    userLong
             )
         })
 
@@ -936,7 +941,7 @@ class CartActivity : BaseActivity(),
 
         } else {
             showIOSProgress()
-            storeViewModel?.getStoreDetailsApi?.observe(this, Observer {
+            storeViewModel?.getStoreDetailsApi?.observe(this, {
                 val store_latitude = it.storeLatitude
                 val store_longitude = it.storeLongitude
                 //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
@@ -944,10 +949,10 @@ class CartActivity : BaseActivity(),
             })
 
             viewmodel?.getCartDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    userLat,
-                    userLong
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                userLat,
+                userLong
             )
 
 
@@ -1038,23 +1043,20 @@ class CartActivity : BaseActivity(),
 
 
         // Parameter request body
-        val accountId =
-            RequestBody.create(
-                "text/plain".toMediaTypeOrNull(),
-                SessionTwiclo(this).loggedInUserDetail.accountId
-            )  // Parameter request body
+        val accountId = RequestBody.create("text/plain".toMediaTypeOrNull(), SessionTwiclo(this).loggedInUserDetail.accountId
+        )  // Parameter request body
         val accessToken =
-            RequestBody.create(
-                "text/plain".toMediaTypeOrNull(),
-                SessionTwiclo(this).loggedInUserDetail.accessToken
-            )  // Parameter request body
+                RequestBody.create(
+                        "text/plain".toMediaTypeOrNull(),
+                        SessionTwiclo(this).loggedInUserDetail.accessToken
+                )  // Parameter request body
         /* val orderId =
              RequestBody.create(MediaType.parse("text/plain"), orderId)*/
         // dismissIOSProgress()
         showIOSProgress()
         viewmodel?.uploadPrescriptionImage(
-            accountId,
-            accessToken, mImageParts
+                accountId,
+                accessToken, mImageParts
         )
 
 
@@ -1066,8 +1068,7 @@ class CartActivity : BaseActivity(),
             if (productId != null) {
                 customIdsList!!.add(productId)
             }
-            var customCheckBoxModel: CustomCheckBoxModel =
-                CustomCheckBoxModel()
+            val customCheckBoxModel = CustomCheckBoxModel()
             customCheckBoxModel.id = productId
             customCheckBoxModel.price = price
 
@@ -1146,8 +1147,7 @@ class CartActivity : BaseActivity(),
 
         } else {
 
-            var customListModel: CustomListModel? =
-                CustomListModel()
+            val customListModel: CustomListModel = CustomListModel()
             customListModel!!.category = tempCat
             customListModel.id = checkedId!!.toInt()
             customListModel.price = tempPrice

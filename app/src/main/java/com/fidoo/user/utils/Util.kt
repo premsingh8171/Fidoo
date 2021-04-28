@@ -44,6 +44,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
+import com.fidoo.user.SplashActivity
 import java.io.File
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -286,9 +287,9 @@ fun Activity.showAlertDialog(context: Context) {
     customBuilder.setMessage("Your session has been expired. Another device has logged into this account.")
     customBuilder.setNegativeButton(
         "OK"
-    ) { dialog, which -> // MyActivity.this.finish();
+    ) { _, _ -> // MyActivity.this.finish();
        com.fidoo.user.data.session.SessionTwiclo(context).clearSession()
-        startActivity(Intent(this, LoginActivity::class.java))
+        startActivity(Intent(this, SplashActivity::class.java))
         ActivityCompat.finishAffinity(this)
     }
     //customBuilder.setIcon(R.drawable.logo)

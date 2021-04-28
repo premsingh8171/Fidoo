@@ -334,15 +334,19 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                         override fun onFinish() {
                             waitingLay.visibility = View.GONE
                             cancelBtn.visibility = View.GONE
-                            viewmodel?.proceedToOrder(
-                                com.fidoo.user.data.session.SessionTwiclo(
-                                    trackOrderContext
-                                ).loggedInUserDetail.accountId,
-                                com.fidoo.user.data.session.SessionTwiclo(
-                                    trackOrderContext
-                                ).loggedInUserDetail.accessToken,
-                                currentOrderId.toString()
-                            )
+                            orderViewModel?.myOrdersResponse?.observe(this@TrackOrderActivity, {
+                                if (it.orders[0].orderStatus == "13"){
+                                    viewmodel?.proceedToOrder(
+                                        com.fidoo.user.data.session.SessionTwiclo(
+                                            trackOrderContext
+                                        ).loggedInUserDetail.accountId,
+                                        com.fidoo.user.data.session.SessionTwiclo(
+                                            trackOrderContext
+                                        ).loggedInUserDetail.accessToken,
+                                        currentOrderId.toString()
+                                    )
+                                }
+                            })
                             /* startActivity(
                              Intent(this@CartActivity, OrderDetailsActivity::class.java).putExtra(
                                  "orderId",
@@ -384,15 +388,21 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                             override fun onFinish() {
                                 waitingLay.visibility = View.GONE
                                 cancelBtn.visibility = View.GONE
-                                viewmodel?.proceedToOrder(
-                                    com.fidoo.user.data.session.SessionTwiclo(
-                                        trackOrderContext
-                                    ).loggedInUserDetail.accountId,
-                                    com.fidoo.user.data.session.SessionTwiclo(
-                                        trackOrderContext
-                                    ).loggedInUserDetail.accessToken,
-                                    currentOrderId.toString()
-                                )
+
+                                orderViewModel?.myOrdersResponse?.observe(this@TrackOrderActivity, {
+                                    if (it.orders[0].orderStatus == "13"){
+                                        viewmodel?.proceedToOrder(
+                                            com.fidoo.user.data.session.SessionTwiclo(
+                                                trackOrderContext
+                                            ).loggedInUserDetail.accountId,
+                                            com.fidoo.user.data.session.SessionTwiclo(
+                                                trackOrderContext
+                                            ).loggedInUserDetail.accessToken,
+                                            currentOrderId.toString()
+                                        )
+                                    }
+                                })
+
                                 /* startActivity(
                                  Intent(this@CartActivity, OrderDetailsActivity::class.java).putExtra(
                                      "orderId",
@@ -721,7 +731,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
         timer!!.cancel()
     }
 
-     fun notiStatus(orderStatus: String) {
+     override fun notiStatus(orderStatus: String) {
         if (orderStatus.equals("accepted")) {
             runOnUiThread {
                 val customBuilder =
@@ -732,7 +742,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                     "OK"
                 ) { _, _ -> // MyActivity.this.finish();
                     /*SessionTwiclo(context).clearSession()
-                        startActivity(Intent(this, LoginActivity::class.java))
+                        startActivity(Intent(this, SplashActivity::class.java))
                         ActivityCompat.finishAffinity(this!!)*/
                     //waitingLay.visibility = View.GONE
                     /*viewmodel?.getLocationApi(
@@ -761,7 +771,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                     "OK"
                 ) { _, _ -> // MyActivity.this.finish();
                     /*SessionTwiclo(context).clearSession()
-                        startActivity(Intent(this, LoginActivity::class.java))
+                        startActivity(Intent(this, SplashActivity::class.java))
                         ActivityCompat.finishAffinity(this!!)*/
                     trackOrderContext!!.startActivity(
                         Intent(
@@ -783,9 +793,5 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
         finishAffinity()*/
 
 
-    }
-
-    override fun notiStatus() {
-        TODO("Not yet implemented")
     }
 }

@@ -603,9 +603,9 @@ class HomeFragment : Fragment() {
         // builder.setIcon(android.R.drawable.ic_dialog_alert)
 
         //performing positive action
-        builder.setPositiveButton("Login") { dialogInterface, which ->
+        builder.setPositiveButton("Login") { _, _ ->
             startActivity(
-                    Intent(activity, LoginActivity::class.java)
+                    Intent(activity, SplashActivity::class.java)
             )
 
 

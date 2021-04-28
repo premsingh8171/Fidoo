@@ -118,7 +118,7 @@
                 android:id="@+id/from_address_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Office"
+                android:text="From"
                 android:fontFamily="@font/proxima"
                 android:layout_alignParentTop="true"/>
 
@@ -135,7 +135,7 @@
                 android:id="@+id/to_address_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Office"
+                android:text="To"
                 android:layout_below="@id/tv_from_address"
                 android:layout_marginTop="30dp"
                 android:fontFamily="@font/proxima"/>

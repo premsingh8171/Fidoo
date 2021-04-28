@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.CartActivity
 import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
+import com.fidoo.user.SplashActivity
 import com.fidoo.user.adapter.CategoryAdapter
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
@@ -111,9 +112,9 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
         //Here we have called Api of getGroceryProducts
         viewmodel?.getGroceryProductsFun(
-            SessionTwiclo(this).loggedInUserDetail.accountId,
-            SessionTwiclo(this).loggedInUserDetail.accessToken,
-            store_id
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                store_id
         )
 
         //Here we have got api response from observer
@@ -128,7 +129,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 // val subcatList: ArrayList<Subcategory> = ArrayList()
                 val productList: ArrayList<Product> = ArrayList()
 
-                for (i in 0 until grocery.category.size) {
+                for (i in grocery.category.indices) {
                     val catObj = grocery.category[i]
                     tv_categories.text = "Select category"
 
@@ -713,9 +714,9 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         // builder.setIcon(android.R.drawable.ic_dialog_alert)
 
         //performing positive action
-        builder.setPositiveButton("Login") { _, which ->
+        builder.setPositiveButton("Login") { _, _ ->
             startActivity(
-                Intent(this, LoginActivity::class.java)
+                Intent(this, SplashActivity::class.java)
             )
 
 
