@@ -18,6 +18,7 @@ import com.fidoo.user.adapter.CartItemsAdapter
 import com.fidoo.user.adapter.StoreCustomItemsAdapter
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.grocery.activity.GroceryItemsActivity.Companion.onresumeHandle
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
@@ -834,7 +835,6 @@ class CartActivity : BaseActivity(),
 
         } else {
 
-
             if (!quantity.equals("")) {
                 tempOfferPrice = offerPrice
                 tempProductId = productId
@@ -903,8 +903,9 @@ class CartActivity : BaseActivity(),
                     cart_id!!,
                     customIdsList!!
                 )
-
+                onresumeHandle=1
             }
+
 
         }
     }
@@ -925,6 +926,7 @@ class CartActivity : BaseActivity(),
                 cart_id,
                 customIdsList!!
             )
+            onresumeHandle=1
         }
 
 
@@ -996,6 +998,7 @@ class CartActivity : BaseActivity(),
                         SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!,
                         cart_id
                     )
+                    onresumeHandle=1
                 }
             } else {
                 showInternetToast()
@@ -1170,4 +1173,6 @@ class CartActivity : BaseActivity(),
 
 
     }
+
+
 }

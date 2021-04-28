@@ -64,6 +64,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         var itemPosition: Int? = 0
         var viewAll: Int? = 0
         var multipleclick: Int? = 0
+        var onresumeHandle: Int? = 0
     }
 
     private var layoutManger: LinearLayoutManager? = null
@@ -188,7 +189,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
         viewmodel?.addToCartResponse?.observe(this, { user ->
             //dismissIOSProgress()
-            Log.e("stores response", Gson().toJson(user))
+            Log.e("stores_response", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
 
             viewmodel?.getCartCountApi(
@@ -463,14 +464,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         return filterList
     }
 
-    override fun onItemClick(
-            productId: String?,
-            type: String?,
-            count: String?,
-            offerPrice: String?,
-            customize_count: Int?,
-            productType: String?,
-            cart_id: String?
+    override fun onItemClick(productId: String?, type: String?, count: String?, offerPrice: String?, customize_count: Int?, productType: String?, cart_id: String?
     ) {
         tempType = type
         tempCount = count
@@ -505,14 +499,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     }
 
-    override fun onItemAddRemoveClick(
-            productId: String?,
-            count: String?,
-            type: String?,
-            price: String?,
-            storeId: String?,
-            cartId: String?,
-            position: Int) {
+    override fun onItemAddRemoveClick(productId: String?, count: String?, type: String?, price: String?, storeId: String?, cartId: String?, position: Int) {
 
         Log.d("count", count!!)
         Log.d("ID", productId!!)
@@ -684,23 +671,12 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     }
 
-    override fun onAddItemClick(
-            productId: String?,
-            items: String?,
-            offerPrice: String?,
-            customizeid: String?,
-            prodcustCustomizeId: String?,
-            cart_id: String?
+    override fun onAddItemClick(productId: String?, items: String?, offerPrice: String?, customizeid: String?, prodcustCustomizeId: String?, cart_id: String?
     ) {
         // TO be Implemented
     }
 
-    override fun onRemoveItemClick(
-            productId: String?,
-            quantity: String?,
-            isCustomize: String?,
-            prodcustCustomizeId: String?,
-            cart_id: String?
+    override fun onRemoveItemClick(productId: String?, quantity: String?, isCustomize: String?, prodcustCustomizeId: String?, cart_id: String?
     ) {
         if (!isNetworkConnected) {
             showToast(resources.getString(R.string.provide_internet))
@@ -787,24 +763,27 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     override fun onResume() {
         super.onResume()
 
-        if (isNetworkConnected) {
-            showIOSProgress()
-            if (SessionTwiclo(this).isLoggedIn) {
-                viewmodel?.getGroceryProductsFun(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        intent.getStringExtra("storeId")
-                )
-            } else {
-                viewmodel?.getGroceryProductsFun(
-                        "",
-                        "",
-                        intent.getStringExtra("storeId")
-                )
-            }
+        if (onresumeHandle!=0) {
+            if (isNetworkConnected) {
+                showIOSProgress()
+                if (SessionTwiclo(this).isLoggedIn) {
+                    viewmodel?.getGroceryProductsFun(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            intent.getStringExtra("storeId")
+                    )
+                } else {
+                    viewmodel?.getGroceryProductsFun(
+                            "",
+                            "",
+                            intent.getStringExtra("storeId")
+                    )
+                }
+                onresumeHandle=0
 
-        } else {
-            showInternetToast()
+            } else {
+                showInternetToast()
+            }
         }
     }
 
