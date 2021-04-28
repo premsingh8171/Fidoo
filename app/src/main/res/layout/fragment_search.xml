@@ -378,7 +378,7 @@
 
         <LinearLayout
             android:id="@+id/cartitemView_LLsearch"
-            android:visibility="gone"
+            android:visibility="visible"
             android:gravity="center_vertical"
             android:background="@color/colorGreenText"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -424,6 +424,7 @@
                 android:layout_height="wrap_content"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/viewcartfromSearch"
                 android:textStyle="bold"
                 android:gravity="end|center_vertical"
                 android:padding="@dimen/margin_5dp"

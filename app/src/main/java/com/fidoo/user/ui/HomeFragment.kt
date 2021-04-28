@@ -125,6 +125,7 @@ class HomeFragment : Fragment() {
 
             if (SessionTwiclo(context).isLoggedIn){
 
+
                 viewmodel?.getBanners(
                     SessionTwiclo(context).loggedInUserDetail.accountId,
                     SessionTwiclo(context).loggedInUserDetail.accessToken,
@@ -204,6 +205,7 @@ class HomeFragment : Fragment() {
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
+
         fragmentHomeBinding?.addressLay?.setOnClickListener {
             if (SessionTwiclo(context).isLoggedIn){
                 startActivity(Intent(context, SavedAddressesActivity::class.java).putExtra(
@@ -216,8 +218,6 @@ class HomeFragment : Fragment() {
             }
 
         }
-
-
 
         viewmodel?.homeServicesResponse?.observe(requireActivity(), Observer { user ->
             // dismissIOSProgress()
@@ -291,7 +291,6 @@ class HomeFragment : Fragment() {
             }
         })
 
-
         viewmodel?.cartCountResponse?.observe(requireActivity(), { user ->
             // dismissIOSProgress()
             if (_progressDlg != null) {
@@ -324,7 +323,6 @@ class HomeFragment : Fragment() {
 
         // Inflate the layout for this fragment
 
-
         fragmentHomeBinding?.cartIcon?.setOnClickListener {
             if (SessionTwiclo(context).isLoggedIn){
                 startActivity(
@@ -351,6 +349,7 @@ class HomeFragment : Fragment() {
             }
 
         }
+
         fragmentHomeBinding?.btnDelivery?.setOnClickListener {
             if (SessionTwiclo(context).isLoggedIn){
 
@@ -368,7 +367,6 @@ class HomeFragment : Fragment() {
                 showLoginDialog("Please login to proceed")
             }
         }
-
 
         return fragmentHomeBinding?.root
     }

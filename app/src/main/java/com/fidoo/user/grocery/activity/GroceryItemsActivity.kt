@@ -116,6 +116,11 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 store_id
         )
 
+        viewmodel?.getCartCountApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken
+        )
+
         //Here we have got api response from observer
         viewmodel?.GroceryProductsResponse?.observe(this, { grocery ->
             dismissIOSProgress()
@@ -163,6 +168,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         })
         //end observer
 
+        //for clear store item
         viewmodel?.clearCartResponse?.observe(this, { user ->
             // dismissIOSProgress()
 
@@ -187,6 +193,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
+        //first time add item
         viewmodel?.addToCartResponse?.observe(this, { user ->
             //dismissIOSProgress()
             Log.e("stores_response", Gson().toJson(user))
@@ -219,11 +226,17 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
+        //for plus and minus of item
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
 
 
             Log.e("cart response", Gson().toJson(user))
             if (isNetworkConnected) {
+                viewmodel?.getCartCountApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken
+                )
+
                 if (SessionTwiclo(this).isLoggedIn) {
                     viewmodel?.getGroceryProductsFun(
                             SessionTwiclo(this).loggedInUserDetail.accountId, SessionTwiclo(
@@ -241,6 +254,25 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+        })
+
+        //cartcount responce
+        viewmodel?.cartCountResponse?.observe(this,{cartcount->
+            dismissIOSProgress()
+
+            Log.d("cartCountResponse___",cartcount.toString())
+            var count = cartcount.count
+            var price = cartcount.price
+            if (!cartcount.error){
+                if (count!="0"){
+                    itemQuantity_text.text=count
+                    totalprice_txt.text= "₹"+price
+                    cartitemView_LL.visibility=View.VISIBLE
+                }else{
+                    cartitemView_LL.visibility=View.GONE
+                }
+            }
+
         })
 
         cat_rl.setOnClickListener {
@@ -779,6 +811,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                             intent.getStringExtra("storeId")
                     )
                 }
+                viewmodel?.getCartCountApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken
+                )
                 onresumeHandle=0
 
             } else {

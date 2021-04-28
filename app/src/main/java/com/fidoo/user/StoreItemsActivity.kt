@@ -25,9 +25,13 @@ import com.fidoo.user.viewmodels.TrackViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.activity_store_items.*
+import kotlinx.android.synthetic.main.activity_store_items.backIcon
+import kotlinx.android.synthetic.main.activity_store_items.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_store_items.tv_deliveryTime
 import kotlinx.android.synthetic.main.activity_store_items.tv_location
+import kotlinx.android.synthetic.main.activity_store_items.tv_store_name
 import java.lang.NumberFormatException
 
 class StoreItemsActivity :
@@ -86,7 +90,7 @@ class StoreItemsActivity :
 
         tv_location.text = intent.getStringExtra("store_location")
 
-        cartIcon.setOnClickListener {
+        cartviewFromStore.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
                 startActivity(
                     Intent(this, CartActivity::class.java).putExtra(
@@ -166,8 +170,15 @@ class StoreItemsActivity :
 
         }
 
+        viewmodel?.getCartCountApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken
+        )
+
         if (isNetworkConnected) {
-            if (SessionTwiclo(this).isLoggedIn) { 
+            if (SessionTwiclo(this).isLoggedIn) {
+
+
                 viewmodel?.getStoreDetails(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -177,6 +188,11 @@ class StoreItemsActivity :
 
                 )
             } else {
+                viewmodel?.getCartCountApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken
+                )
+
                 viewmodel?.getStoreDetails(
                         "",
                         "",
@@ -191,6 +207,26 @@ class StoreItemsActivity :
         }
 
 
+
+
+        //cartcount responce
+        viewmodel?.cartCountResponse?.observe(this,{cartcount->
+            dismissIOSProgress()
+
+            Log.d("cartCountResponse___",cartcount.toString())
+            var count = cartcount.count
+            var price = cartcount.price
+            if (!cartcount.error){
+                if (count!="0"){
+                    itemQuantity_textstore.text=count
+                    totalprice_txtstore.text= "₹"+price
+                    cartitemView_LLstore.visibility=View.VISIBLE
+                }else{
+                    cartitemView_LLstore.visibility=View.GONE
+                }
+            }
+
+        })
 
         viewmodel?.getStoreDetailsApi?.observe(this, Observer { storeData ->
             dismissIOSProgress()

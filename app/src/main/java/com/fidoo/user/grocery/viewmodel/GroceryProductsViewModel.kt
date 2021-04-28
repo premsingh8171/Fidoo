@@ -28,6 +28,7 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
         addToCartResponse = MutableLiveData<AddToCartModel>()
         clearCartResponse = MutableLiveData<ClearCartModel>()
         addRemoveCartResponse = MutableLiveData<AddRemoveCartModel>()
+        cartCountResponse= MutableLiveData<CartCountModel>()
 
 
     }
@@ -122,7 +123,7 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
     }
 
     fun getCartCountApi(accountId: String, accessToken: String) {
-        Log.e("cart count params", accountId + ", " + accessToken)
+        Log.e("cart_count_params", accountId + ", " + accessToken)
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).cartCountApi(
             accountId = accountId, accessToken = accessToken

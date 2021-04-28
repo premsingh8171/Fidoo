@@ -46,14 +46,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/cartIcon_grocery"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
             android:padding="8dp"
             android:src="@drawable/ic_cart"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -205,12 +204,13 @@
             android:id="@+id/totalprice_txt"
             android:padding="@dimen/margin_5dp"
             android:textSize="@dimen/text_size_14sp"
-            android:text="Rs.200"
+            android:text=""
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/cartIcon_grocery"
             android:textStyle="bold"
             android:gravity="end|center_vertical"
             android:padding="@dimen/margin_5dp"
