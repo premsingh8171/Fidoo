@@ -147,8 +147,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         }
 
                         subcatList.add(subCatObj)
-                    }
 
+                    }
                     catList.add(catObj)
                 }
 
@@ -207,6 +207,32 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             if (isNetworkConnected) {
                 //showIOSProgress()
                 if (SessionTwiclo(this).isLoggedIn) {
+//                     var product : Product? =null
+//
+//                    product?.cart_quantity =2
+//                    product?.company_name=""
+//                    product?.customize_item=""
+//                    product?.image
+//                    product?.in_out_of_stock_status
+//                    product?.is_customize
+//                    product?.is_customize_quantity
+//                    product?.is_nonveg
+//                    product?. is_prescription
+//                    product?.offer_price
+//                    product?.price
+//                    product?.product_id
+//                    product?.product_name
+//                    product?.unit
+//                    product?. weight
+//                    product?. cart_id
+//
+//                    if (product != null) {
+//                        productList?.set(0,product)
+//                    }
+
+
+
+
                     viewmodel?.getGroceryProductsFun(
                             SessionTwiclo(this).loggedInUserDetail.accountId, SessionTwiclo(
                             this
@@ -443,8 +469,9 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         }
     }
 
-    //Filter data showing by category
+    //Filter data showing by Subcategory
     private fun filterListShowingSub(pos: Int, subgrocery: Subcategory) {
+        Log.d("pos___pos",pos.toString())
         if (subcat_name != "") {
             subcatListFilter = filterSubCategory(subcatList, subcat_name!!) as ArrayList<Subcategory>
             val subcatListF: ArrayList<Subcategory> = ArrayList()
