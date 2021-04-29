@@ -28,6 +28,7 @@ class CartItemsAdapter(
     )
 
     override fun getItemCount() = cart.size
+
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         //holder.storeName.text = cart.get(position).companyName
         holder.itemName.text = cart[position].productName

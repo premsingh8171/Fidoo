@@ -28,10 +28,12 @@ import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentSearchBinding
 import com.fidoo.user.interfaces.*
+import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.viewmodels.SearchFragmentViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 
@@ -115,6 +117,11 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         behavior.setState(BottomSheetBehavior.STATE_COLLAPSED) // Default behavior of bottom sheet
 
 
+        viewmodel?.getCartCountApi(
+                SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
+        )
+
         fragmentSearchBinding?.transLay?.setOnClickListener {
             if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -166,6 +173,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 clearCartPopup()
             }
         }
+
         viewmodel?.addToCartResponse?.observe(requireActivity(), Observer { user ->
 
             if (_progressDlg != null) {
@@ -193,17 +201,12 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 MainActivity.tempProductList!!.clear()
                 MainActivity.addCartTempList!!.clear()
             }
+
             viewmodel?.getCartCountApi(
                 SessionTwiclo(context).loggedInUserDetail.accountId,
                 SessionTwiclo(context).loggedInUserDetail.accessToken
             )
 
-
-            //Toast.makeText(context, mModelData.message, Toast.LENGTH_SHORT).show()
-            /* viewmodel?.getCartCountApi(
-                SessionTwiclo(activity).loggedInUserDetail.accountId,
-                SessionTwiclo(activity).loggedInUserDetail.accessToken
-            )*/
         })
 
         viewmodel?.customizeProductResponse?.observe(requireActivity(), Observer { user ->
@@ -333,6 +336,29 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 //            )
 //        }
 
+
+
+
+        //cartcount responce
+        viewmodel?.cartCountResponse?.observe(requireActivity(),{cartcount->
+            dismissIOSProgress()
+
+            Log.d("cartCountResponse___",cartcount.toString())
+            var count = cartcount.count
+            var price = cartcount.price
+            storeID = cartcount.store_id
+            if (!cartcount.error){
+                if (count!="0"){
+                    itemQuantity_textsearch.text=count
+                    totalprice_txtsearch.text= "₹"+price
+                    cartitemView_LLsearch.visibility=View.VISIBLE
+                }else{
+                    cartitemView_LLsearch.visibility=View.GONE
+                }
+            }
+
+        })
+
         fragmentSearchBinding?.searchEdt?.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {
@@ -376,61 +402,75 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         })
 
 
-        viewmodel?.cartCountResponse?.observe(requireActivity(), Observer { user ->
+//        viewmodel?.cartCountResponse?.observe(requireActivity(), Observer { user ->
+//
+//            if (_progressDlg != null) {
+//                _progressDlg!!.dismiss()
+//                _progressDlg = null
+//            }
+//
+//            if (!user.error) {
+//                val mModelData: CartCountModel = user
+//                //SessionTwiclo(context).storeId = mModelData.store_id
+//                Log.e("countResponse", Gson().toJson(mModelData))
+//                if (user.store_id != null) {
+//                    storeID = user.store_id
+//                }
+//                /*if (user.count.toInt()>0){
+//                    cartCountTxt.visibility = View.VISIBLE
+//                    fragmentSearchBinding?.llViewCart?.visibility = View.VISIBLE
+//                    cartCountTxt.text = user.count
+//                    fragmentSearchBinding?.txtPrice?.text = resources.getString(R.string.ruppee) + user.price
+//                    if (user.count.equals("1")) {
+//                        fragmentSearchBinding?.txtItems?.text = user.count + " item"
+//                    } else {
+//                        fragmentSearchBinding?.txtItems?.text = user.count + " items"
+//                    }
+//
+//                }else{
+//                    cartCountTxt.visibility = View.GONE
+//                    fragmentSearchBinding?.llViewCart?.visibility = View.GONE
+//                }*/
+//                if (activity != null) {
+//                    if (user.store_id != null) {
+//                        storeID = user.store_id
+//                        SessionTwiclo(requireContext()).storeId = mModelData.store_id
+//                    }
+//
+//                }
+//                /*if (user.count != null) {
+//                    if (user.count.toInt() > 0) {
+//                        //cartCountTxt?.text = user.count
+//                        fragmentSearchBinding?.llViewCart?.visibility = View.VISIBLE
+//                        fragmentSearchBinding?.txtPrice?.text = resources.getString(R.string.ruppee) + user.price
+//                        if (user.count.equals("1")) {
+//                            fragmentSearchBinding?.txtItems?.text = user.count + " item"
+//                        } else {
+//                            fragmentSearchBinding?.txtItems?.text = user.count + " items"
+//                        }
+//                    }
+//                }*/
+//            } else {
+//                if (user.errorCode == 101) {
+//                    showAlertDialog(requireContext())
+//                }
+//            }
+//        })
 
-            if (_progressDlg != null) {
-                _progressDlg!!.dismiss()
-                _progressDlg = null
-            }
-
-            if (!user.error) {
-                val mModelData: CartCountModel = user
-                //SessionTwiclo(context).storeId = mModelData.store_id
-                Log.e("countResponse", Gson().toJson(mModelData))
-                if (user.store_id != null) {
-                    storeID = user.store_id
-                }
-                /*if (user.count.toInt()>0){
-                    cartCountTxt.visibility = View.VISIBLE
-                    fragmentSearchBinding?.llViewCart?.visibility = View.VISIBLE
-                    cartCountTxt.text = user.count
-                    fragmentSearchBinding?.txtPrice?.text = resources.getString(R.string.ruppee) + user.price
-                    if (user.count.equals("1")) {
-                        fragmentSearchBinding?.txtItems?.text = user.count + " item"
-                    } else {
-                        fragmentSearchBinding?.txtItems?.text = user.count + " items"
-                    }
-
-                }else{
-                    cartCountTxt.visibility = View.GONE
-                    fragmentSearchBinding?.llViewCart?.visibility = View.GONE
-                }*/
-                if (activity != null) {
-                    if (user.store_id != null) {
-                        storeID = user.store_id
-                        SessionTwiclo(requireContext()).storeId = mModelData.store_id
-                    }
-
-                }
-                /*if (user.count != null) {
-                    if (user.count.toInt() > 0) {
-                        //cartCountTxt?.text = user.count
-                        fragmentSearchBinding?.llViewCart?.visibility = View.VISIBLE
-                        fragmentSearchBinding?.txtPrice?.text = resources.getString(R.string.ruppee) + user.price
-                        if (user.count.equals("1")) {
-                            fragmentSearchBinding?.txtItems?.text = user.count + " item"
-                        } else {
-                            fragmentSearchBinding?.txtItems?.text = user.count + " items"
-                        }
-                    }
-                }*/
+        fragmentSearchBinding?.viewcartfromSearch?.setOnClickListener {
+            if (SessionTwiclo(requireActivity()).isLoggedIn) {
+                requireActivity().startActivity( Intent(requireActivity(), CartActivity::class.java).putExtra(
+                                "store_id", SessionTwiclo(
+                        requireActivity()
+                        ).storeId
+                        )
+                )
             } else {
-                if (user.errorCode == 101) {
-                    showAlertDialog(requireContext())
-                }
-            }
-        })
+                showLoginDialog("Please login to proceed")
 
+            }
+
+        }
         fragmentSearchBinding?.plusLay?.setOnClickListener {
             count++
             fragmentSearchBinding?.countValue?.text = count.toString()
@@ -466,6 +506,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 }
             }
         }
+
         viewmodel?.clearCartResponse?.observe(requireActivity(), Observer { user ->
             // dismissIOSProgress()
             if (_progressDlg != null) {
@@ -483,6 +524,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 
 
         })
+
         viewmodel?.searchResponse?.observe(requireActivity(), Observer { user ->
             // dismissIOSProgress()
             if (_progressDlg != null) {
@@ -794,7 +836,6 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 
     }
 
-
     override fun onCustomRadioClick(checkedId: String?, position: String?) {
         var tempCat: String? = ""
         var tempPrice: String? = ""
@@ -1052,6 +1093,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             SessionTwiclo(context).loggedInUserDetail.accessToken
         )
     }
+
     private fun showLoginDialog(message: String){
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
         //set title for alert dialog

@@ -31,20 +31,20 @@ class GroceryProductsResponse(
 )
 
 class Product(
-    val cart_quantity: Int,
-    val company_name: String,
-    val customize_item: List<Any>,
-    val image: String,
-    val in_out_of_stock_status: String,
-    val is_customize: String,
-    val is_customize_quantity: Int,
-    val is_nonveg: String,
-    val is_prescription: String,
-    val offer_price: String,
-    val price: String,
-    val product_id: String,
-    val product_name: String,
-    val unit: String,
-    val weight: String,
-    val cart_id: String
+        var cart_quantity: Int,
+        var company_name: String,
+        var customize_item: List<Any>,
+        var image: String,
+        val in_out_of_stock_status: String,
+        var is_customize: String,
+        var is_customize_quantity: Int,
+        var is_nonveg: String,
+        var is_prescription: String,
+        var offer_price: String,
+        var price: String,
+        var product_id: String,
+        var product_name: String,
+        var unit: String,
+        var weight: String,
+        var cart_id: String
 )

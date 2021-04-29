@@ -28,7 +28,7 @@ class GrocerySubItemAdapter(var context: Context,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.grocery_sub_tv.text = list.get(position)?.subcategory_name.toString()
 
-        index=valueselected
+       // index=valueselected
         holder.itemView.grocery_sub_cons.setOnClickListener {
             index=position
             subcategoryItemClick.onItemClick(position,list.get(position))
