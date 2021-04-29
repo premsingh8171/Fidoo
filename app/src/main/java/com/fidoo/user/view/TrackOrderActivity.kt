@@ -19,6 +19,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fidoo.user.R
+import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.NotiCheck
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.utils.statusBarTransparent
@@ -218,6 +219,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
             //  curveManager!!.setOnCurveClickListener(this)
 
 
+
             if (user.driverLatitude.isNotEmpty()) {
                 origin = LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
 
@@ -392,10 +394,10 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                                 orderViewModel?.myOrdersResponse?.observe(this@TrackOrderActivity, {
                                     if (it.orders[0].orderStatus == "13"){
                                         viewmodel?.proceedToOrder(
-                                            com.fidoo.user.data.session.SessionTwiclo(
+                                            SessionTwiclo(
                                                 trackOrderContext
                                             ).loggedInUserDetail.accountId,
-                                            com.fidoo.user.data.session.SessionTwiclo(
+                                            SessionTwiclo(
                                                 trackOrderContext
                                             ).loggedInUserDetail.accessToken,
                                             currentOrderId.toString()
@@ -421,7 +423,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
-        orderViewModel?.myOrdersResponse?.observe(this, androidx.lifecycle.Observer {
+        orderViewModel?.myOrdersResponse?.observe(this, {
             when {
                 it.orders[0].orderStatus.equals("0") -> {
                     //holder.buttonValue.visibility = View.GONE
@@ -467,7 +469,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                 }
                 it.orders[0].orderStatus.equals("9") -> {
                     //holder.buttonValue.visibility = View.VISIBLE
-                    order_status.text = "In Progress"
+                    order_status.text = "Your food is ready and will soon be picked up by DP"
                 }
                 it.orders[0].orderStatus.equals("10") -> {
                     //holder.buttonValue.visibility = View.VISIBLE

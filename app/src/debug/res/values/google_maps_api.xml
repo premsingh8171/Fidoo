@@ -4,7 +4,7 @@
 
     To get one, follow this link, follow the directions and press "Create" at the end:
 
-    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=BB:CF:2F:35:92:55:C5:B0:57:37:F5:C5:E7:12:B3:4F:46:E5:0A:E7%3Bcom.fidoo.user
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=73:E9:FF:37:A2:28:2C:4D:CF:3A:D3:55:DA:53:01:2F:C3:B2:09:53%3Bcom.fidoo.user
 
     You can also add your credentials to an existing key, using these values:
 
@@ -12,7 +12,7 @@
     com.fidoo.user
 
     SHA-1 certificate fingerprint:
-    BB:CF:2F:35:92:55:C5:B0:57:37:F5:C5:E7:12:B3:4F:46:E5:0A:E7
+    73:E9:FF:37:A2:28:2C:4D:CF:3A:D3:55:DA:53:01:2F:C3:B2:09:53
 
     Alternatively, follow the directions here:
     https://developers.google.com/maps/documentation/android/start#get-key
@@ -21,4 +21,5 @@
     string in this file.
     -->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDphi-lSsc1KtFuiTvEH7OAasCyktYtWaw</string>
+
 </resources>
