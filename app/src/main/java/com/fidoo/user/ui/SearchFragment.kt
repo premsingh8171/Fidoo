@@ -117,6 +117,11 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         behavior.setState(BottomSheetBehavior.STATE_COLLAPSED) // Default behavior of bottom sheet
 
 
+        viewmodel?.getCartCountApi(
+                SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
+        )
+
         fragmentSearchBinding?.transLay?.setOnClickListener {
             if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -196,17 +201,12 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 MainActivity.tempProductList!!.clear()
                 MainActivity.addCartTempList!!.clear()
             }
+
             viewmodel?.getCartCountApi(
                 SessionTwiclo(context).loggedInUserDetail.accountId,
                 SessionTwiclo(context).loggedInUserDetail.accessToken
             )
 
-
-            //Toast.makeText(context, mModelData.message, Toast.LENGTH_SHORT).show()
-            /* viewmodel?.getCartCountApi(
-                SessionTwiclo(activity).loggedInUserDetail.accountId,
-                SessionTwiclo(activity).loggedInUserDetail.accessToken
-            )*/
         })
 
         viewmodel?.customizeProductResponse?.observe(requireActivity(), Observer { user ->
@@ -336,10 +336,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 //            )
 //        }
 
-        viewmodel?.getCartCountApi(
-                SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
-                SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
-        )
+
 
 
         //cartcount responce
@@ -1096,6 +1093,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             SessionTwiclo(context).loggedInUserDetail.accessToken
         )
     }
+
     private fun showLoginDialog(message: String){
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
         //set title for alert dialog
