@@ -12,6 +12,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -82,6 +83,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val window: Window = this.getWindow()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorGreenText)
         setContentView(R.layout.activity_grocery_items)
         viewmodel = ViewModelProviders.of(this).get(GroceryProductsViewModel::class.java)
         layoutManger = LinearLayoutManager(this)
