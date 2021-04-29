@@ -12,7 +12,6 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -83,10 +82,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val window: Window = this.getWindow()
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorGreenText)
         setContentView(R.layout.activity_grocery_items)
         viewmodel = ViewModelProviders.of(this).get(GroceryProductsViewModel::class.java)
         layoutManger = LinearLayoutManager(this)
@@ -212,28 +207,29 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             if (isNetworkConnected) {
                 //showIOSProgress()
                 if (SessionTwiclo(this).isLoggedIn) {
-//                     var product : Product? =null
-//
-//                    product?.cart_quantity =2
-//                    product?.company_name=""
-//                    product?.customize_item=""
-//                    product?.image
-//                    product?.in_out_of_stock_status
-//                    product?.is_customize
-//                    product?.is_customize_quantity
-//                    product?.is_nonveg
-//                    product?. is_prescription
-//                    product?.offer_price
-//                    product?.price
-//                    product?.product_id
-//                    product?.product_name
-//                    product?.unit
-//                    product?. weight
-//                    product?. cart_id
-//
-//                    if (product != null) {
-//                        productList?.set(0,product)
-//                    }
+                    var productList: ArrayList<Product>? = null
+                    var product : Product? =null
+
+                    product?.cart_quantity =2
+                    product?.company_name=""
+                    product?.customize_item
+                    product?.image
+                    product?.in_out_of_stock_status
+                    product?.is_customize
+                    product?.is_customize_quantity
+                    product?.is_nonveg
+                    product?. is_prescription
+                    product?.offer_price
+                    product?.price
+                    product?.product_id
+                    product?.product_name
+                    product?.unit
+                    product?. weight
+                    product?. cart_id
+
+                    if (product != null) {
+                        productList?.set(0,product)
+                    }
 
 
 
@@ -282,7 +278,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             } else {
                 showInternetToast()
             }
-
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
@@ -359,7 +354,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         rvCategory(catList)
 
     }
-
 
     //For Products list
     private fun rvlistProduct(listProduct: ArrayList<Product>) {
@@ -480,17 +474,17 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         if (subcat_name != "") {
             subcatListFilter = filterSubCategory(subcatList, subcat_name!!) as ArrayList<Subcategory>
             val subcatListF: ArrayList<Subcategory> = ArrayList()
-            val productListF: ArrayList<Product> = ArrayList()
             for (j in 0 until subcatListFilter.size) {
                 var subCatObj = subcatListFilter[j]
+                val productListF: ArrayList<Product> = ArrayList()
 
                 for (k in 0 until subcatListFilter[j].product.size) {
                     var productListObj = subcatListFilter[j].product[k]
                     productListF.add(productListObj)
                 }
                 subcatListF.add(subCatObj)
+                rvlistProduct(productListF)
             }
-            rvlistProduct(productListF)
             grocery_item_rv.adapter!!.notifyDataSetChanged()
         } else {
             if (productList != null) {
