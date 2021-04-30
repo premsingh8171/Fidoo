@@ -1,6 +1,7 @@
 package com.fidoo.user
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fidoo.user.adapter.StoreAdapter
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.*
+import com.fidoo.user.search.activity.SearchItemActivity
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.viewmodels.StoreListingViewModel
 import com.google.gson.Gson
@@ -98,6 +100,10 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
                 selectedValue=ratingStr
             }
             apicall(serive_id)
+        }
+
+        search_stores_icon?.setOnClickListener {
+            startActivity(Intent(this,SearchItemActivity::class.java))
         }
     }
 

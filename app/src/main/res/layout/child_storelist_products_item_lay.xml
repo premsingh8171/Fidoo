@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_marginStart="@dimen/margin_10dp"
+    android:layout_marginEnd="@dimen/margin_10dp"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:elevation="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="@dimen/margin_20dp"
+        app:cardCornerRadius="@dimen/margin_10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/search_item_img"
+                android:layout_width="@dimen/margin_150dp"
+                android:layout_height="match_parent"
+                android:padding="@dimen/margin_5dp"
+                android:src="@drawable/about_icon" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/search_item_detail_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/search_item_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_5dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_14sp"
+                android:maxLines="1"
+                android:text=""/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/search_stock_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_5dp"
+                android:text="Out of Stock"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:paddingLeft="@dimen/margin_5dp"
+                android:layout_alignBottom="@+id/search_item_tv"
+                android:id="@+id/search_tv_unit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTextGray"
+                android:textSize="@dimen/margin_12dp"
+                android:text="dffdfd" />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+             android:layout_marginBottom="@dimen/margin_10dp"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/search_tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/metropolis_regular"
+        android:padding="@dimen/margin_5dp"
+        android:text="" />
+
+    <LinearLayout
+        android:layout_alignParentEnd="true"
+        android:id="@+id/search_add_itemll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_5dp"
+        android:background="@drawable/black_rounded_solid"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/margin_10dp"
+            android:layout_height="@dimen/margin_10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:src="@drawable/ic_add"
+            app:tint="@color/colorPrimary" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/margin_5dp"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginEnd="@dimen/margin_5dp"
+            android:padding="@dimen/margin_2dp"
+            android:text="Add"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_14sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginRight="@dimen/margin_5dp"
+        android:visibility="visible"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/search_minusplus_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:background="@drawable/black_rounded_solid"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/search_subt_img"
+            android:layout_width="@dimen/margin_20dp"
+            android:layout_height="@dimen/margin_20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:padding="@dimen/margin_5dp"
+            android:src="@drawable/minus_sign"
+            app:tint="@color/colorPrimary" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/search_qua_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_5dp"
+            android:layout_marginEnd="@dimen/margin_10dp"
+            android:gravity="start"
+            android:paddingLeft="@dimen/margin_10dp"
+            android:text="0"
+            android:textSize="@dimen/text_size_14sp" />
+
+        <ImageView
+            android:id="@+id/search_add_img"
+            android:layout_width="@dimen/margin_20dp"
+            android:layout_height="@dimen/margin_20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:padding="@dimen/margin_2dp"
+            android:src="@drawable/ic_add"
+            app:tint="@color/colorPrimary" />
+    </LinearLayout>
+
+  </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

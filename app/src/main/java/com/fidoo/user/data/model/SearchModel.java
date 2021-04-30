@@ -66,6 +66,7 @@ public class SearchModel {
         @SerializedName("product_image")
         @Expose
         public String productImage;
+
         @SerializedName("price")
         @Expose
         public String price;
