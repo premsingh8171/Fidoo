@@ -110,6 +110,9 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
             }
         })
 
+        back_newsearch?.setOnClickListener {
+            finish()
+        }
 
         //Here we have called Api of getGroceryProducts
         viewmodel?.getSearchApi(
@@ -191,6 +194,8 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
                     new_itemQuantity_textsearch.text=count
                     new_totalprice_txtsearch.text= "₹"+price
                     new_cartitemView_LLsearch.visibility= View.VISIBLE
+                    SessionTwiclo(this).storeId=cartcount.store_id
+                    // setStoreId
                 }else{
                     new_cartitemView_LLsearch.visibility= View.GONE
                 }
@@ -281,7 +286,7 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
         viewmodel?.clearCartResponse?.observe(this, Observer { user ->
             // dismissIOSProgress()
 
-            Log.e("stores response", Gson().toJson(user))
+            Log.e("stores_response", Gson().toJson(user))
             if (tempType.equals("custom")) {
 
                 viewmodel!!.addToCartApi(
@@ -290,6 +295,10 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
                         MainActivity.addCartTempList!!,
                         ""
                 )
+                viewmodel?.getCartCountApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken
+                )
             } else {
                 viewmodel!!.addToCartApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -297,6 +306,10 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
                         MainActivity.addCartTempList!!,
                         ""
 
+                )
+                viewmodel?.getCartCountApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken
                 )
             }
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
@@ -351,7 +364,7 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
     }
 
 
-    // this click to use for customize item first tinme add
+    // this click to use for customize item first time add
     override fun onItemClick(productId: String?, type: String?, count: String?, offerPrice: String?, customize_count: Int?, productType: String?, cart_id: String?)
     {
         /*  if (behavior?.getState() != BottomSheetBehavior.STATE_EXPANDED) {
@@ -545,7 +558,10 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
     }
 
     override fun clearCart() {
-
+        viewmodel?.clearCartApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken
+        )
     }
 
     //on add item first time

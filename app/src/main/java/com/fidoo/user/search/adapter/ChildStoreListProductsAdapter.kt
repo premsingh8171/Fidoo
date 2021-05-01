@@ -62,6 +62,7 @@ class ChildStoreListProductsAdapter(
 
         //for add item
         holder.itemView.search_add_itemll.setOnClickListener {
+            storeID=list[position].storeId
             if (SessionTwiclo(context).isLoggedIn){
                 if (list[position].isCustomize.equals("1")) {
                     adapterClick.onItemClick(
@@ -82,7 +83,7 @@ class ChildStoreListProductsAdapter(
                     if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals("")) {
                         adapterAddRemoveClick.onItemAddRemoveClick(
                                 list[position].productId, count.toString(), "add",
-                                list[position].offerPrice,"",
+                                list[position].offerPrice,list[position].storeId,
                                 "",0
                         )
                     }else{
@@ -95,7 +96,7 @@ class ChildStoreListProductsAdapter(
                             adapterAddRemoveClick.clearCart()
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                     list[position].productId, count.toString(), "add",
-                                    list[position].offerPrice,"", "",0)
+                                    list[position].offerPrice, list[position].storeId, "",0)
 
                         }
 
@@ -164,14 +165,15 @@ class ChildStoreListProductsAdapter(
                      }
                  }
 
-             } else {
+             }
+             else {
                  count++
                  holder.itemView.search_qua_txt.text = count.toString()
                  adapterAddRemoveClick.onItemAddRemoveClick(
                          list[position]?.productId,
                          count.toString(),
                          "add",
-                         list[position]?.offerPrice, "",
+                         list[position]?.offerPrice, list[position]?.storeId,
                          "",0
                  )
              }
