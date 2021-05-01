@@ -29,8 +29,6 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
         clearCartResponse = MutableLiveData<ClearCartModel>()
         addRemoveCartResponse = MutableLiveData<AddRemoveCartModel>()
         cartCountResponse= MutableLiveData<CartCountModel>()
-
-
     }
 
     fun getGroceryProductsFun(
@@ -61,8 +59,7 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
 
     }
 
-    fun addToCartApi(accountId: String, accessToken: String, products: ArrayList<AddCartInputModel>, cart_id: String
-    ) {
+    fun addToCartApi(accountId: String, accessToken: String, products: ArrayList<AddCartInputModel>, cart_id: String) {
 
         var addCartInputModelFinal = AddCartInputModelFinal()
         addCartInputModelFinal.accessToken = accessToken
@@ -100,7 +97,6 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
     }
 
     fun clearCartApi(accountId: String, accessToken: String) {
-
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).clearCartApi(
             accountId = accountId, accessToken = accessToken
@@ -175,8 +171,7 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
     }
 
 
-    override fun onResponse(call: Call<GroceryProductsResponse>,
-                            response: Response<GroceryProductsResponse>) {
+    override fun onResponse(call: Call<GroceryProductsResponse>,response: Response<GroceryProductsResponse>) {
         GroceryProductsResponse?.value = response.body()
 
     }
@@ -184,4 +179,5 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
     override fun onFailure(call: Call<GroceryProductsResponse>, t: Throwable) {
         failureResponse?.value = "Something went wrong"
     }
+
 }

@@ -92,7 +92,7 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
             ) {
                 search_value=s.toString()
 
-                if (searchEdt_new?.text.toString().length >= 2) {
+                if (searchEdt_new?.text.toString().length >= 1) {
                     if (SessionTwiclo(this@SearchItemActivity).isLoggedIn) {
                     viewmodel?.getSearchApi(SessionTwiclo(this@SearchItemActivity).loggedInUserDetail.accountId,
                             SessionTwiclo(this@SearchItemActivity).loggedInUserDetail.accessToken, search_value!!)
