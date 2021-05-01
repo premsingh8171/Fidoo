@@ -805,7 +805,12 @@ class StoreItemsActivity :
         }
     }
 
-    override fun onIdSelected(productId: String?, type: String?, price: String?) {
+    override fun onIdSelected(
+        productId: String?,
+        type: String?,
+        price: String?,
+        tempSelectionCount: Int
+    ) {
         if (type == "select") {
             if (productId != null) {
                 customIdsList!!.add(productId)

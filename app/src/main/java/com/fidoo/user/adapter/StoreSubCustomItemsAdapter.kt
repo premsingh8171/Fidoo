@@ -5,15 +5,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
+import com.fidoo.user.data.model.CustomizeProductResponseModel
 import com.fidoo.user.interfaces.CustomCartAddRemoveClick
 import kotlinx.android.synthetic.main.custom_sub_items_adapter.view.*
 
 
 class StoreSubCustomItemsAdapter(
     val con: Context,
-    val subCat: MutableList<com.fidoo.user.data.model.CustomizeProductResponseModel.SubCat>,
+    val maxSelectionCount: String,
+    val subCat: MutableList<CustomizeProductResponseModel.SubCat>,
     val customCartAddRemoveClick: CustomCartAddRemoveClick
 ) :
     RecyclerView.Adapter<StoreSubCustomItemsAdapter.UserViewHolder>() {
@@ -31,20 +34,39 @@ class StoreSubCustomItemsAdapter(
             con.startActivity(Intent(con,SingleProductActivity::class.java))
         }*/
 
-        Log.e("dd",subCat.get(position).subCatName)
+        var tempSelectionCount = 0
+
+        Log.e("dd", subCat[position].subCatName)
         holder.itemLabel.setOnClickListener {
             if(holder.itemLabel.isChecked)
             {
+                tempSelectionCount++
+                if (tempSelectionCount==1){
+                    tempSelectionCount++
+                }
+
+                Toast.makeText(con, tempSelectionCount.toString(), Toast.LENGTH_SHORT).show()
 
                 //!holder.itemLabel.isChecked
-                customCartAddRemoveClick.onIdSelected(subCat.get(position).id,"select",subCat.get(position).price)
+                customCartAddRemoveClick.onIdSelected(subCat[position].id,"select",
+                    subCat[position].price, tempSelectionCount)
             }
             else
             {
-                customCartAddRemoveClick.onIdSelected(subCat.get(position).id,"unselect",subCat.get(position).price)
+
+                tempSelectionCount--
+                Toast.makeText(con, tempSelectionCount.toString(), Toast.LENGTH_SHORT).show()
+                customCartAddRemoveClick.onIdSelected(subCat[position].id,"unselect",
+                    subCat[position].price, tempSelectionCount)
+            }
+            if (tempSelectionCount == maxSelectionCount.toInt()){
+                holder.itemLabel.isClickable = false
+
+            }else{
+
             }
         }
-        holder.itemLabel.text=subCat.get(position).subCatName+" ("+con.resources.getString(R.string.ruppee)+subCat.get(position).price+")"
+        holder.itemLabel.text= subCat[position].subCatName+" ("+con.resources.getString(R.string.ruppee)+ subCat[position].price+")"
     }
 
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {

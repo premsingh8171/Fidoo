@@ -1065,44 +1065,6 @@ class CartActivity : BaseActivity(),
 
     }
 
-    override fun onIdSelected(productId: String?, type: String?, price: String?) {
-        if (type.equals("select")) {
-
-            if (productId != null) {
-                customIdsList!!.add(productId)
-            }
-            val customCheckBoxModel = CustomCheckBoxModel()
-            customCheckBoxModel.id = productId
-            customCheckBoxModel.price = price
-
-            customIdsListTemp!!.add(customCheckBoxModel)
-        } else {
-
-            for (i in 0..customIdsList!!.size - 1) {
-                if (customIdsList!!.get(i).equals(productId)) {
-                    customIdsList!!.removeAt(i)
-                    customIdsListTemp!!.removeAt(i)
-                    break
-                }
-            }
-
-
-        }
-
-        var tempPrice: Double? = 0.0
-        for (i in 0..customIdsListTemp!!.size - 1) {
-            tempPrice = tempPrice!! + customIdsListTemp!!.get(i).price.toDouble()
-        }
-
-        for (i in 0..categoryy!!.size - 1) {
-            tempPrice = tempPrice!! + categoryy!!.get(i).price.toDouble()
-        }
-
-        tempPrice = tempOfferPrice!!.toDouble() + tempPrice!!
-        customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
-
-    }
-
     override fun onCustomRadioClick(checkedId: String?, position: String?)  {
 
         var tempCat: String? = ""
@@ -1172,6 +1134,48 @@ class CartActivity : BaseActivity(),
         customAddBtn.text = resources.getString(R.string.ruppee) + tempPricee.toString()
 
 
+    }
+
+    override fun onIdSelected(
+        productId: String?,
+        type: String?,
+        price: String?,
+        tempSelectionCount: Int
+    ) {
+        if (type.equals("select")) {
+
+            if (productId != null) {
+                customIdsList!!.add(productId)
+            }
+            val customCheckBoxModel = CustomCheckBoxModel()
+            customCheckBoxModel.id = productId
+            customCheckBoxModel.price = price
+
+            customIdsListTemp!!.add(customCheckBoxModel)
+        } else {
+
+            for (i in 0..customIdsList!!.size - 1) {
+                if (customIdsList!!.get(i).equals(productId)) {
+                    customIdsList!!.removeAt(i)
+                    customIdsListTemp!!.removeAt(i)
+                    break
+                }
+            }
+
+
+        }
+
+        var tempPrice: Double? = 0.0
+        for (i in 0..customIdsListTemp!!.size - 1) {
+            tempPrice = tempPrice!! + customIdsListTemp!!.get(i).price.toDouble()
+        }
+
+        for (i in 0..categoryy!!.size - 1) {
+            tempPrice = tempPrice!! + categoryy!!.get(i).price.toDouble()
+        }
+
+        tempPrice = tempOfferPrice!!.toDouble() + tempPrice!!
+        customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
     }
 
 

@@ -6,6 +6,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="otp_verification">OTP Verification</string>
     <string name="please_enter_verificarion_code_sent_to">Please enter verificarion code sent to</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCbBE8w8jZTrhLeeDMHowmGshS_CqK6ZlQ</string>
     <string name="please_enter_your_phone_number">Please enter your phone number</string>
     <string name="sign_up">Sign Up</string>
     <string name="already_have_an_account_sign_in">Already have an account? Sign In</string>
@@ -16,7 +17,7 @@
     <string name="you_haven_t_order_anything">You "haven't" order anything</string>
     <string name="search_for_a_services_you_want_from_the_home_section">Search for a services you want from the Home section</string>
     <string name="go_to_home">Go to Home</string>
-    <string name="hi">Hi,</string>
+    <string name="hi">Hi</string>
     <string name="user">User</string>
     <string name="email">xyz@gmail.com</string>
     <string name="your_addess">Your Addess</string>
