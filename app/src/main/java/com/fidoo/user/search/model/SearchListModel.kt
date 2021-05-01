@@ -1,44 +1,45 @@
 package com.fidoo.user.search.model
 
- class SearchListModel(
-    val accessToken: String,
-    val accountId: String,
-    val error: Boolean,
-    val error_code: Int,
-    val product_list: List<Any>,
-    val store: List<Store>
+class SearchListModel(
+    var accessToken: String,
+    var accountId: String,
+    var error: Boolean,
+    var error_code: Int,
+    var product_list: List<Any>,
+    var store: List<Store>
 )
 
  class Store(
-    val delivery_time: Any,
-    val list: List<Product>,
-    val store_id: String,
-    val store_image: String,
-    val store_name: String
+    var delivery_time: Any,
+    var key: Int,
+    var productsList: List<ProductsList>,
+    var store_id: String,
+    var store_image: Any,
+    var store_name: String
 )
 
- class Product(
-    val cart_quantity: Int,
-    val category_name: String,
-    val company_name: String,
-    val customize_item: List<Any>,
-    val delivery_time: Any,
-    val is_customize: String,
-    val is_customize_quantity: Int,
-    val is_nonveg: String,
-    val is_prescription: String,
-    val offer_price: String,
-    val price: String,
-    val product_desc: String,
-    val product_id: String,
-    val product_image: String,
-    val product_name: String,
-    val rating: String,
-    val service_name: String,
-    val store_address: String,
-    val store_id: String,
-    val store_image: String,
-    val store_name: String,
-    val unit: String,
-    val weight: String
+ class ProductsList (
+    var cart_quantity: Int,
+    var category_name: String,
+    var company_name: String,
+    var customize_item: List<Any>,
+    var delivery_time: Any,
+    var is_customize: String,
+    var is_customize_quantity: Int,
+    var is_nonveg: String,
+    var is_prescription: String,
+    var offer_price: String,
+    var price: String,
+    var product_desc: String,
+    var product_id: String,
+    var product_image: String,
+    var product_name: String,
+    var rating: String,
+    var service_name: String,
+    var store_address: String,
+    var store_id: String,
+    var store_image: String,
+    var store_name: String,
+    var unit: String,
+    var weight: String
 )

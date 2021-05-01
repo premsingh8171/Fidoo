@@ -209,8 +209,6 @@ class SearchAdapter(
         }
 
 
-
-
         /* if (productList[position].cartQuantity == 0) {
 
          } else {

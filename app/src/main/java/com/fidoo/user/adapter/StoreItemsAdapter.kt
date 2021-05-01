@@ -147,12 +147,8 @@ class StoreItemsAdapter(
                             }
                             tempp = tempp!! + index.offerPrice.toDouble()
 
-
-
                             items = items!!.substring(0, items.length - 2)
                         } else {
-                            //.makeText(con,""+count,Toast.LENGTH_LONG).show()
-
 
                         }
                     }
@@ -342,7 +338,6 @@ class StoreItemsAdapter(
                 }
             }
 
-
             /*holder.itemLay.setOnClickListener {
                 if (product.get(position).isCustomize.equals("1")) {
 
@@ -398,7 +393,6 @@ class StoreItemsAdapter(
         alertDialog.setCancelable(true)
         alertDialog.show()
     }
-
 
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         //var offerPrice = view.productPrice

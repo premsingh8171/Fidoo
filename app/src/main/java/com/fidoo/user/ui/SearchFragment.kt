@@ -1074,13 +1074,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 ).quantity.toInt())
                 bottomCount = bottomCount!! + MainActivity.tempProductList!!.get(i).quantity.toInt()
             }
-            //txt_price_.text = resources.getString(R.string.ruppee) + bottomPrice.toString()
-//            cartCountTxt.text = bottomCount.toString()
-//            if (bottomCount == 1) {
-//                //txt_items_.text = bottomCount.toString() + " item"
-//            } else {
-//                //txt_items_.text = bottomCount.toString() + " items"
-//            }
+
         }
         else {
 
@@ -1122,14 +1116,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         alertDialog.show()
     }
 
-    override fun onAddItemClick(
-        productId: String?,
-        quantity: String?,
-        offerPrice: String?,
-        isCustomize: String?,
-        prodcustCustomizeId: String?,
-        cart_id: String?
-    ) {
+    override fun onAddItemClick(productId: String?, quantity: String?, offerPrice: String?, isCustomize: String?, prodcustCustomizeId: String?, cart_id: String?)
+    {
         tempOfferPrice = offerPrice
         //plusMinusPrice = 0.0
         tempPrice = 0.0
@@ -1190,13 +1178,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         alertDialog.show()
     }
 
-    override fun onRemoveItemClick(
-        productId: String?,
-        quantity: String?,
-        isCustomize: String?,
-        prodcustCustomizeId: String?,
-        cart_id: String?
-    ) {
+    override fun onRemoveItemClick(productId: String?, quantity: String?, isCustomize: String?, prodcustCustomizeId: String?, cart_id: String?)
+    {
         if (!isNetworkConnected()) {
             showToast(resources.getString(R.string.provide_internet))
 
@@ -1224,4 +1207,6 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
     fun showToast(toast_string: String?) {
         Toast.makeText(context, toast_string, Toast.LENGTH_SHORT).show()
     }
+
+
 }

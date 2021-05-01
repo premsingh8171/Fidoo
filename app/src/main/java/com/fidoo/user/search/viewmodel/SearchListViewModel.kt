@@ -14,7 +14,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SearchListViewModel(application: Application) : AndroidViewModel(application), Callback<SearchListModel> {
-
     var searchResponse : MutableLiveData<SearchListModel>? = null
     var addToCartResponse: MutableLiveData<AddToCartModel>? = null
     var cartCountResponse: MutableLiveData<CartCountModel>? = null
@@ -33,16 +32,25 @@ class SearchListViewModel(application: Application) : AndroidViewModel(applicati
         addRemoveCartResponse = MutableLiveData<AddRemoveCartModel>()
     }
 
-
     fun getSearchApi(accountId: String, accessToken: String, search: String) {
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).searchApiForNewUi(
             accountId = accountId, accessToken = accessToken, search = search
-        ).enqueue(this)
+        ).enqueue(object:Callback<SearchListModel> {
+
+            override fun onResponse(call: Call<SearchListModel>, response: Response<SearchListModel>) {
+
+                searchResponse?.value = response.body()
+            }
+
+            override fun onFailure(call: Call<SearchListModel>, t: Throwable) {
+                failureResponse?.value="Something went wrong"
+            }
+        })
+
+
     }
-
-
-
+    
     fun getCartCountApi(accountId: String, accessToken: String) {
         Log.e("cart count params",accountId+", "+accessToken)
         // progressDialog?.value = true
@@ -155,7 +163,6 @@ class SearchListViewModel(application: Application) : AndroidViewModel(applicati
                 }
             })
     }
-
 
     override fun onResponse(call: Call<SearchListModel>?, response: Response<SearchListModel>?) {
 

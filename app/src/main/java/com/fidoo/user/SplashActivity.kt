@@ -2,7 +2,9 @@ package com.fidoo.user
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.ActivitySplashBinding
 import com.fidoo.user.utils.BaseActivity
@@ -13,11 +15,14 @@ import com.google.firebase.messaging.FirebaseMessaging
 
 class SplashActivity : BaseActivity() {
 
-    private  lateinit var splashBinding: ActivitySplashBinding
+  //  private  lateinit var splashBinding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //getTheme().applyStyle(R.color.colorGreenText, true)
+        val window: Window = this.getWindow()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.primary_color)
         setContentView(R.layout.activity_splash)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
