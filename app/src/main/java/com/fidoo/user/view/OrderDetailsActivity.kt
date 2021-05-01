@@ -74,7 +74,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             val mModelData: OrderDetailsModel = user
             items = mModelData.items
             tv_address.text = mModelData.deliveryAddress
-            tv_payment_mode.text = "Paid via: " +mModelData.paymentMode
+            tv_payment_mode.text = "Payment Mode: " +mModelData.paymentMode
             Log.e("orders details Response", Gson().toJson(mModelData))
 
 

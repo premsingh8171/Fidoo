@@ -794,7 +794,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 
     }
 
-    override fun onIdSelected(productId: String, type: String, price: String) {
+    override fun onIdSelected(productId: String, type: String, price: String, maxSelectionCount: Int) {
         if (type == "select") {
             customIdsList!!.add(productId)
             val customCheckBoxModel = CustomCheckBoxModel()
