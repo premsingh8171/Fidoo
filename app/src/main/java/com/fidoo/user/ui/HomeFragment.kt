@@ -431,12 +431,11 @@ class HomeFragment : Fragment() {
         geocoder = Geocoder(context, Locale.getDefault())
         return try {
             addresses = geocoder.getFromLocation(
-                latitude,
-                longitude,
-                1
+                    latitude,
+                    longitude,
+                    1
             ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            val address = addresses[0]
-                .getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            val address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
             val city = addresses[0].locality
             val state = addresses[0].adminArea
             val country = addresses[0].countryName
@@ -451,51 +450,53 @@ class HomeFragment : Fragment() {
 
 
     override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
+            requestCode: Int,
+            resultCode: Int,
+            data: Intent?
     ) {
         super.onActivityResult(requestCode, resultCode, data)
         // Result Code is -1 send from Payumoney activity
         Log.d(
-            "MainActivity",
-            "request code $requestCode resultcode $resultCode"
+                "MainActivity",
+                "request code $requestCode resultcode $resultCode"
         )
 
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                val place = Autocomplete.getPlaceFromIntent(data!!)
-                Log.wtf(
-                    "SearchRide",
-                    "\nID: " + place.id + "\naddress:" + place.address + "\nName:" + place.name + "\nlatlong: " + place.latLng
-                )
-                // do query with address
-                val addresses: List<Address>
-                val geocoder = Geocoder(context, Locale.getDefault())
-                //  lat=place.latLng!!.latitude
-                // lng=place.latLng!!.latitude
-                addresses = geocoder.getFromLocation(
-                    place.latLng!!.latitude,
-                    place.latLng!!.longitude,
-                    1
-                ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    val place = Autocomplete.getPlaceFromIntent(data!!)
+                    Log.wtf(
+                            "SearchRide",
+                            "\nID: " + place.id + "\naddress:" + place.address + "\nName:" + place.name + "\nlatlong: " + place.latLng
+                    )
+                    // do query with address
+                    val addresses: List<Address>
+                    val geocoder = Geocoder(context, Locale.getDefault())
+                    //  lat=place.latLng!!.latitude
+                    // lng=place.latLng!!.latitude
+                    addresses = geocoder.getFromLocation(
+                            place.latLng!!.latitude,
+                            place.latLng!!.longitude,
+                            1
+                    ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    /*   if (addressType.equals("from")) {
+                           fromLat = place.latLng!!.latitude
+                           fromLng = place.latLng!!.longitude
+                           fromGoogleAddress.text = addresses.get(0).getAddressLine(0)
+                       } else if (addressType.equals("to")) {*/
+                    //toLat = place.latLng!!.latitude
+                    // toLng = place.latLng!!.longitude
+                    userAddress.text = addresses[0].getAddressLine(0)
+                    //  }
 
-                /*   if (addressType.equals("from")) {
-                       fromLat = place.latLng!!.latitude
-                       fromLng = place.latLng!!.longitude
-                       fromGoogleAddress.text = addresses.get(0).getAddressLine(0)
-                   } else if (addressType.equals("to")) {*/
-                //toLat = place.latLng!!.latitude
-                // toLng = place.latLng!!.longitude
-                userAddress.text = addresses[0].getAddressLine(0)
-                //  }
-
-
-            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) { // TODO: Handle the error.
-                val status: Status = Autocomplete.getStatusFromIntent(data!!)
-                Toast.makeText(context, "Error: " + status.statusMessage, Toast.LENGTH_LONG).show()
-                // Log.i(FragmentActivity.TAG, status.statusMessage)
-            } else if (resultCode == Activity.RESULT_CANCELED) { // The user canceled the operation.
+                }
+                AutocompleteActivity.RESULT_ERROR -> { // TODO: Handle the error.
+                    val status: Status = Autocomplete.getStatusFromIntent(data!!)
+                    Toast.makeText(context, "Error: " + status.statusMessage, Toast.LENGTH_LONG).show()
+                    // Log.i(FragmentActivity.TAG, status.statusMessage)
+                }
+                Activity.RESULT_CANCELED -> { // The user canceled the operation.
+                }
             }
         }
     }
