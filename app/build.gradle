@@ -16,7 +16,7 @@ android {
         applicationId "com.fidoo.user"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 9
+        versionCode 10
         versionName "1.0.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -60,6 +60,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation 'com.google.android.gms:play-services-gcm:17.0.0'
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     implementation 'androidx.wear:wear:1.1.0'
     implementation 'com.google.firebase:firebase-crashlytics:17.4.1'

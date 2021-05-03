@@ -66,7 +66,8 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
         addCartInputModelFinal.accountId = accountId
         addCartInputModelFinal.products = ArrayList<Product>()
         addCartInputModelFinal.cart_id = cart_id
-        for (i in 0..products.size - 1) {
+
+        for (i in 0..products.size-1) {
             var temp = Product(
                 products.get(i).productId,
                 products.get(i).customizeSubCatId,
@@ -74,7 +75,6 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
                 products.get(i).message,
                 products.get(i).quantity
             )
-
             addCartInputModelFinal.products.add(temp)
         }
         //    addCartInputModelFinal.products.addAll()
