@@ -206,6 +206,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             //dismissIOSProgress()
             Log.e("stores_response", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
+            addCartTempList!!.clear()
 
             viewmodel?.getCartCountApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -493,6 +494,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     for (k in 0 until catListFilter[i].subcategory[j].product.size) {
                         var productListObj = catListFilter[i].subcategory[j].product[k]
                         productListF.add(productListObj)
+
                     }
 
                     subcatListF.add(subCatObj)
@@ -606,7 +608,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     override fun onItemAddRemoveClick(productId: String?, count: String?, type: String?, price: String?, storeId: String?, cartId: String?, position: Int) {
 
         Log.d("countcount", count!!)
-        Log.d("ID", productId!!)
+        Log.d("ID__", productId!!)
         product_count = count.toInt()
         itemPosition = position
         viewAll = 0
@@ -635,7 +637,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 addCartInputModel.message = "add product"
                 addCartInputModel.customizeSubCatId = customIdsList!!
                 addCartInputModel.isCustomize = "0"
-                MainActivity.addCartTempList!!.add(addCartInputModel)
+                addCartTempList!!.add(0,addCartInputModel)
 
                 viewmodel!!.addToCartApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -643,7 +645,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         MainActivity.addCartTempList!!,
                         ""
                 )
-            addCartTempList!!.clear()
 
 //                MainActivity.tempProductList!!.clear()
 //            } else {
@@ -748,10 +749,20 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         "remove",
                         "0",
                         "",
-                        cartId!!,
+                        "",
                         customIdsList!!
                 )
 
+            }else{
+                viewmodel?.addRemoveCartDetails(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        productId,
+                        "remove",
+                        "0",
+                        "",
+                       "",
+                        customIdsList!!)
             }
         }
 
