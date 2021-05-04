@@ -53,6 +53,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
     var storeIdTemp: String? = ""
     var tempType: String? = ""
     var tempOfferPrice: String? = ""
+    var searchbyStr: String? = ""
     var tempPrice: Double? = 0.0
     var customIdsList: ArrayList<String>? = null
     var customIdsListTemp: ArrayList<CustomCheckBoxModel>? = null
@@ -377,17 +378,18 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-
+                searchbyStr=s.toString()
                 if (fragmentSearchBinding?.searchEdt?.text.toString().length >= 2) {
 
                     if (SessionTwiclo(context).isLoggedIn) {
                         viewmodel?.getSearchApi(
                             SessionTwiclo(activity).loggedInUserDetail.accountId,
                             SessionTwiclo(activity).loggedInUserDetail.accessToken,
-                            fragmentSearchBinding?.searchEdt?.text.toString()
+                                searchbyStr!!
                         )
                     }
                 } else {
+                    searchbyStr=""
                     mTempData.clear()
                     adapter.notifyDataSetChanged()
                 }

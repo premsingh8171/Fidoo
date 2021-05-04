@@ -614,22 +614,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         viewAll = 0
         showIOSProgress()
 
-        //showIOSProgress()
-        //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
-
-
         if (type.equals("add")) {
-            //cartIcon_grocery.setImageResource(R.drawable.cart_icon)
-
-          //  if (MainActivity.tempProductList!!.size == 0) {
-                //customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
-//                val tempProductListModel = TempProductListModel()
-//                tempProductListModel.productId = productId
-//                tempProductListModel.quantity = count
-//                tempProductListModel.price = price
-//                MainActivity.tempProductList!!.add(tempProductListModel)
-//
-//                Log.e("TEMP", Gson().toJson(MainActivity.tempProductList))
 
                 val addCartInputModel = AddCartInputModel()
                 addCartInputModel.productId = productId
@@ -645,103 +630,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         MainActivity.addCartTempList!!,
                         ""
                 )
-
-//                MainActivity.tempProductList!!.clear()
-//            } else {
-//                var check: String = ""
-//                var tempPos: Int = 0
-//
-//                for (i in 0 until MainActivity.tempProductList!!.size) {
-//                    Log.e("check1", MainActivity.tempProductList!![i].productId)
-//                    Log.e("check2", productId)
-//                    if (MainActivity.tempProductList!![i].productId.equals(productId)) {
-//                        check = "edit"
-//                        tempPos = i
-//                        //tempProductList!!.get(i).quantity = count
-//                        break
-//                    }
-//                }
-//                if (check == "edit") {
-//
-//                    MainActivity.tempProductList!![tempPos].quantity = count
-//                    MainActivity.addCartTempList!![tempPos].quantity = count
-//
-//                } else {
-//
-//                    val tempProductListModel = TempProductListModel()
-//                    tempProductListModel.productId = productId
-//                    tempProductListModel.quantity = count
-//                    tempProductListModel.price = price
-//                    MainActivity.tempProductList!!.add(tempProductListModel)
-//
-//                    val addCartInputModel = AddCartInputModel()
-//                    addCartInputModel.productId = productId
-//                    addCartInputModel.quantity = count
-//                    addCartInputModel.message = "add product"
-//                    addCartInputModel.customizeSubCatId = customIdsList!!
-//                    addCartInputModel.isCustomize = "0"
-//                    MainActivity.addCartTempList!!.add(addCartInputModel)
-//                }
-//
-//                viewmodel!!.addToCartApi(
-//                        SessionTwiclo(this).loggedInUserDetail.accountId,
-//                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                        MainActivity.addCartTempList!!,
-//                        ""
-//                )
-//            }
-
             }
             else {
-//            //cartIcon_grocery.setImageResource(R.drawable.ic_cart)
-//            var check = "edit"
-//            var checkPos = 0
-//            Log.e("check1", Gson().toJson(MainActivity.tempProductList!!))
-//            for (i in 0 until MainActivity.tempProductList!!.size) {
-//                if (MainActivity.tempProductList!![i].productId.equals(productId)) {
-//                    if (count == "0") {
-//                        check = "remove"
-//                        checkPos = i
-//
-//                        break
-//                        //  addCartTempList!!.removeAt(i)
-//                        //   tempProductList!!.removeAt(i)
-//
-//                    }
-//
-//                    /*else {
-//                    tempProductList!!.get(i).quantity = count
-//                    addCartTempList!!.get(i).quantity = count
-//                }*/
-//                }
-//            }
-//            Log.d("checkpos", checkPos.toString())
-//            if (check == "remove") {
-//                //cartIcon_grocery.setImageResource(R.drawable.ic_cart)
-//                //ll_view_cart.visibility = View.GONE // to hide the bottom cart bar if non-customized item quantity becomes zero
-//                MainActivity.addCartTempList!!.removeAt(checkPos)
-//                MainActivity.tempProductList!!.removeAt(checkPos)
-//                //customIdsList!!.clear()
-//
-//                if (cartId != null) {
-//                    viewmodel?.addRemoveCartDetails(
-//                            SessionTwiclo(this).loggedInUserDetail.accountId,
-//                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                            productId,
-//                            "remove",
-//                            "0",
-//                            "",
-//                            cartId,
-//                            customIdsList!!
-//                    )
-//                }
-//
-//
-//            } else {
-//                MainActivity.tempProductList!![checkPos].quantity = count
-//                MainActivity.addCartTempList!![checkPos].quantity = count
-
-            if (cartId != null) {
                 viewmodel?.addRemoveCartDetails(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -752,18 +642,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         "",
                         customIdsList!!
                 )
-
-            }else{
-                viewmodel?.addRemoveCartDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        productId,
-                        "remove",
-                        "0",
-                        "",
-                       "",
-                        customIdsList!!)
-            }
         }
 
     }
