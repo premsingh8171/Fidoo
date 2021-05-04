@@ -30,21 +30,22 @@ class GroceryProductsResponse(
     val subcategory_name: String
 )
 
-class Product(
-        var cart_quantity: Int,
-        var company_name: String,
-        var customize_item: List<Any>,
-        var image: String,
-        val in_out_of_stock_status: String,
-        var is_customize: String,
-        var is_customize_quantity: Int,
-        var is_nonveg: String,
-        var is_prescription: String,
-        var offer_price: String,
-        var price: String,
-        var product_id: String,
-        var product_name: String,
-        var unit: String,
-        var weight: String,
-        var cart_id: String
+data class Product(
+    var cart_quantity: Int=0,
+    var company_name: String="",
+   // var customize_item: List<Any>,
+    var image: String="",
+    var in_out_of_stock_status: String="",
+    var is_customize: String="",
+    var is_customize_quantity: Int=0,
+    var is_nonveg: String="",
+    var is_prescription: String="",
+    var offer_price: String="",
+    var price: String="",
+    var product_id: String="",
+    var product_name: String="",
+    var unit: String="",
+    var weight: String="",
+    var cart_id: String=""
 )
+

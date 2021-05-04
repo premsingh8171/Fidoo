@@ -33,6 +33,7 @@ import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.ui.MainActivity
+import com.fidoo.user.ui.MainActivity.Companion.addCartTempList
 import com.fidoo.user.utils.BaseActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.gson.Gson
@@ -49,7 +50,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     lateinit var recyclerView: RecyclerView
     val catList: ArrayList<Category> = ArrayList()
-    val productList: ArrayList<Product>? = null
+    var productList: ArrayList<Product>? = null
     val subcatList: ArrayList<Subcategory> = ArrayList()
     var catListFilter: ArrayList<Category> = ArrayList()
     var subcatListFilter: ArrayList<Subcategory> = ArrayList()
@@ -63,6 +64,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     companion object {
         var itemPosition: Int? = 0
+        var product_count: Int? = 0
         var viewAll: Int? = 0
         var multipleclick: Int? = 0
         var onresumeHandle: Int? = 0
@@ -97,7 +99,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         MainActivity.addCartTempList = ArrayList()
 
         customIdsList = ArrayList()
-
+        productList = ArrayList()
+        productList!!.clear()
         cartIcon_grocery.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
                 startActivity(
@@ -203,6 +206,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             //dismissIOSProgress()
             Log.e("stores_response", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
+            addCartTempList!!.clear()
 
             viewmodel?.getCartCountApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -212,44 +216,49 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             if (isNetworkConnected) {
                 //showIOSProgress()
                 if (SessionTwiclo(this).isLoggedIn) {
-                    var productList: ArrayList<Product>? = null
-                    var product : Product? =null
+                    var product=Product(product_count!!,productList!![itemPosition!!].company_name,
+                        productList!![itemPosition!!].image, productList!![itemPosition!!].in_out_of_stock_status, productList!![itemPosition!!].is_customize,
+                        productList!![itemPosition!!].is_customize_quantity,productList!![itemPosition!!].is_nonveg, productList!![itemPosition!!].is_prescription,
+                        productList!![itemPosition!!].offer_price, productList!![itemPosition!!].price, productList!![itemPosition!!].product_id,
+                        productList!![itemPosition!!].product_name, productList!![itemPosition!!].unit, productList!![itemPosition!!].weight,
+                        productList!![itemPosition!!].cart_id
+                    )
 
-                    product?.cart_quantity =2
-                    product?.company_name=""
-                    product?.customize_item
-                    product?.image
-                    product?.in_out_of_stock_status
-                    product?.is_customize
-                    product?.is_customize_quantity
-                    product?.is_nonveg
-                    product?. is_prescription
-                    product?.offer_price
-                    product?.price
-                    product?.product_id
-                    product?.product_name
-                    product?.unit
-                    product?. weight
-                    product?. cart_id
 
                     if (product != null) {
-                        productList?.set(0,product)
+                        productList?.set(itemPosition!!,product!!)
+                        groceryItemAdapter.notifyItemChanged(itemPosition!!);
+
                     }
 
-
-
-
-                    viewmodel?.getGroceryProductsFun(
-                            SessionTwiclo(this).loggedInUserDetail.accountId, SessionTwiclo(
-                            this
-                    ).loggedInUserDetail.accessToken, store_id
-                    )
+//                    viewmodel?.getGroceryProductsFun(
+//                            SessionTwiclo(this).loggedInUserDetail.accountId, SessionTwiclo(
+//                            this
+//                    ).loggedInUserDetail.accessToken, store_id
+//                    )
                 } else {
-                    viewmodel?.getGroceryProductsFun(
-                            "",
-                            "",
-                            store_id
+                    var product=Product(product_count!!,productList!![itemPosition!!].company_name,
+                        productList!![itemPosition!!].image, productList!![itemPosition!!].in_out_of_stock_status, productList!![itemPosition!!].is_customize,
+                        productList!![itemPosition!!].is_customize_quantity,productList!![itemPosition!!].is_nonveg, productList!![itemPosition!!].is_prescription,
+                        productList!![itemPosition!!].offer_price, productList!![itemPosition!!].price, productList!![itemPosition!!].product_id,
+                        productList!![itemPosition!!].product_name, productList!![itemPosition!!].unit, productList!![itemPosition!!].weight,
+                        productList!![itemPosition!!].cart_id
                     )
+
+
+                    if (product != null) {
+                        productList?.set(itemPosition!!,product!!)
+                        groceryItemAdapter.notifyItemChanged(itemPosition!!);
+
+                    }
+
+//                    viewmodel?.getGroceryProductsFun(
+//                            "",
+//                            "",
+//                            store_id
+//                    )
+
+
                 }
 
             } else {
@@ -262,23 +271,53 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
 
 
-            Log.e("cart response", Gson().toJson(user))
+            Log.e("cart_response", Gson().toJson(user))
             if (isNetworkConnected) {
+
                 viewmodel?.getCartCountApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken
                 )
 
                 if (SessionTwiclo(this).isLoggedIn) {
-                    viewmodel?.getGroceryProductsFun(
-                            SessionTwiclo(this).loggedInUserDetail.accountId, SessionTwiclo(
-                            this
-                    ).loggedInUserDetail.accessToken, store_id
+//                    viewmodel?.getGroceryProductsFun(
+//                            SessionTwiclo(this).loggedInUserDetail.accountId, SessionTwiclo(
+//                            this
+//                    ).loggedInUserDetail.accessToken, store_id
+//                    )
+                    var product=Product(product_count!!,productList!![itemPosition!!].company_name,
+                        productList!![itemPosition!!].image, productList!![itemPosition!!].in_out_of_stock_status, productList!![itemPosition!!].is_customize,
+                        productList!![itemPosition!!].is_customize_quantity,productList!![itemPosition!!].is_nonveg, productList!![itemPosition!!].is_prescription,
+                        productList!![itemPosition!!].offer_price, productList!![itemPosition!!].price, productList!![itemPosition!!].product_id,
+                        productList!![itemPosition!!].product_name, productList!![itemPosition!!].unit, productList!![itemPosition!!].weight,
+                        productList!![itemPosition!!].cart_id
                     )
+
+
+                    if (product != null) {
+                        productList?.set(itemPosition!!,product!!)
+                        groceryItemAdapter.notifyItemChanged(itemPosition!!);
+
+                    }
+
                 } else {
-                    viewmodel?.getGroceryProductsFun(
-                            "", "", store_id
+//                    viewmodel?.getGroceryProductsFun(
+//                            "", "", store_id
+//                    )
+                    var product=Product(product_count!!,productList!![itemPosition!!].company_name,
+                        productList!![itemPosition!!].image, productList!![itemPosition!!].in_out_of_stock_status, productList!![itemPosition!!].is_customize,
+                        productList!![itemPosition!!].is_customize_quantity,productList!![itemPosition!!].is_nonveg, productList!![itemPosition!!].is_prescription,
+                        productList!![itemPosition!!].offer_price, productList!![itemPosition!!].price, productList!![itemPosition!!].product_id,
+                        productList!![itemPosition!!].product_name, productList!![itemPosition!!].unit, productList!![itemPosition!!].weight,
+                        productList!![itemPosition!!].cart_id
                     )
+
+
+                    if (product != null) {
+                        productList?.set(itemPosition!!,product!!)
+                        groceryItemAdapter.notifyItemChanged(itemPosition!!);
+
+                    }
                 }
             } else {
                 showInternetToast()
@@ -292,6 +331,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             dismissIOSProgress()
 
             Log.d("cartCountResponse___",cartcount.toString())
+            Log.d("cartCountResponse_c__",cartcount.count.toString())
             var count = cartcount.count
             var price = cartcount.price
             if (!cartcount.error){
@@ -362,6 +402,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     //For Products list
     private fun rvlistProduct(listProduct: ArrayList<Product>) {
+        productList=listProduct
+        Log.d("sfsfdcssd", productList?.size.toString())
         var store_id = intent.getStringExtra("storeId")
 
 //        grocery_item_rv.adapter = intent.getStringExtra("storeId")?.let {
@@ -377,7 +419,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
         groceryItemAdapter = GroceryItemAdapter(
                 this,
-                listProduct,
+                 productList!!,
                 this,
                 this,
                 0,
@@ -388,7 +430,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         if (viewAll == 1) {
             grocery_item_rv.smoothScrollToPosition(viewAll!!)
         } else {
-            itemPosition = itemPosition?.plus(1)
+            //itemPosition = itemPosition?.plus(1)
             grocery_item_rv.smoothScrollToPosition(itemPosition!!)
         }
 
@@ -452,6 +494,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     for (k in 0 until catListFilter[i].subcategory[j].product.size) {
                         var productListObj = catListFilter[i].subcategory[j].product[k]
                         productListF.add(productListObj)
+
                     }
 
                     subcatListF.add(subCatObj)
@@ -464,7 +507,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             grocery_item_rv.adapter!!.notifyDataSetChanged()
         } else {
             if (productList != null) {
-                rvlistProduct(productList)
+                rvlistProduct(productList!!)
                 rvlistSubcategory(subcatList)
 
             }
@@ -493,7 +536,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             grocery_item_rv.adapter!!.notifyDataSetChanged()
         } else {
             if (productList != null) {
-                rvlistProduct(productList)
+                rvlistProduct(productList!!)
             }
             grocery_item_rv.adapter!!.notifyDataSetChanged()
         }
@@ -529,6 +572,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     override fun onItemClick(productId: String?, type: String?, count: String?, offerPrice: String?, customize_count: Int?, productType: String?, cart_id: String?
     ) {
+        Log.d("onItemClick_count", count!!)
+
         tempType = type
         tempCount = count
         this.count = count!!.toInt()
@@ -538,8 +583,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         countValue.text = tempCount
 
         showIOSProgress()
-
-
 
 
         if (SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || SessionTwiclo(this).storeId.equals("")
@@ -564,79 +607,22 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     override fun onItemAddRemoveClick(productId: String?, count: String?, type: String?, price: String?, storeId: String?, cartId: String?, position: Int) {
 
-        Log.d("count", count!!)
-        Log.d("ID", productId!!)
+        Log.d("countcount", count!!)
+        Log.d("ID__", productId!!)
+        product_count = count.toInt()
         itemPosition = position
         viewAll = 0
         showIOSProgress()
 
-        //showIOSProgress()
-        //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
-
-
         if (type.equals("add")) {
-            //cartIcon_grocery.setImageResource(R.drawable.cart_icon)
-
-            if (MainActivity.tempProductList!!.size == 0) {
-                //customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
-                val tempProductListModel = TempProductListModel()
-                tempProductListModel.productId = productId
-                tempProductListModel.quantity = count
-                tempProductListModel.price = price
-                MainActivity.tempProductList!!.add(tempProductListModel)
-
-                Log.e("TEMP", Gson().toJson(MainActivity.tempProductList))
 
                 val addCartInputModel = AddCartInputModel()
                 addCartInputModel.productId = productId
-                addCartInputModel.quantity = count
+                addCartInputModel.quantity = product_count.toString()
                 addCartInputModel.message = "add product"
                 addCartInputModel.customizeSubCatId = customIdsList!!
                 addCartInputModel.isCustomize = "0"
-                MainActivity.addCartTempList!!.add(addCartInputModel)
-
-                viewmodel!!.addToCartApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        MainActivity.addCartTempList!!,
-                        ""
-                )
-                MainActivity.tempProductList!!.clear()
-            } else {
-                var check: String = ""
-                var tempPos: Int = 0
-
-                for (i in 0 until MainActivity.tempProductList!!.size) {
-                    Log.e("check1", MainActivity.tempProductList!![i].productId)
-                    Log.e("check2", productId)
-                    if (MainActivity.tempProductList!![i].productId.equals(productId)) {
-                        check = "edit"
-                        tempPos = i
-                        //tempProductList!!.get(i).quantity = count
-                        break
-                    }
-                }
-                if (check == "edit") {
-
-                    MainActivity.tempProductList!![tempPos].quantity = count
-                    MainActivity.addCartTempList!![tempPos].quantity = count
-
-                } else {
-
-                    val tempProductListModel = TempProductListModel()
-                    tempProductListModel.productId = productId
-                    tempProductListModel.quantity = count
-                    tempProductListModel.price = price
-                    MainActivity.tempProductList!!.add(tempProductListModel)
-
-                    val addCartInputModel = AddCartInputModel()
-                    addCartInputModel.productId = productId
-                    addCartInputModel.quantity = count
-                    addCartInputModel.message = "add product"
-                    addCartInputModel.customizeSubCatId = customIdsList!!
-                    addCartInputModel.isCustomize = "0"
-                    MainActivity.addCartTempList!!.add(addCartInputModel)
-                }
+                addCartTempList!!.add(0,addCartInputModel)
 
                 viewmodel!!.addToCartApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -645,92 +631,18 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         ""
                 )
             }
-
-
-        } else {
-            //cartIcon_grocery.setImageResource(R.drawable.ic_cart)
-            var check = "edit"
-            var checkPos = 0
-            Log.e("check1", Gson().toJson(MainActivity.tempProductList!!))
-            for (i in 0 until MainActivity.tempProductList!!.size) {
-                if (MainActivity.tempProductList!![i].productId.equals(productId)) {
-                    if (count == "0") {
-                        check = "remove"
-                        checkPos = i
-
-                        break
-                        //  addCartTempList!!.removeAt(i)
-                        //   tempProductList!!.removeAt(i)
-
-                    }
-
-                    /*else {
-                    tempProductList!!.get(i).quantity = count
-                    addCartTempList!!.get(i).quantity = count
-                }*/
-                }
-            }
-            Log.d("checkpos", checkPos.toString())
-            if (check == "remove") {
-                //cartIcon_grocery.setImageResource(R.drawable.ic_cart)
-                //ll_view_cart.visibility = View.GONE // to hide the bottom cart bar if non-customized item quantity becomes zero
-                MainActivity.addCartTempList!!.removeAt(checkPos)
-                MainActivity.tempProductList!!.removeAt(checkPos)
-                //customIdsList!!.clear()
-
-                if (cartId != null) {
-                    viewmodel?.addRemoveCartDetails(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            productId,
-                            "remove",
-                            "0",
-                            "",
-                            cartId,
-                            customIdsList!!
-                    )
-                }
-
-
-            } else {
-                MainActivity.tempProductList!![checkPos].quantity = count
-                MainActivity.addCartTempList!![checkPos].quantity = count
-
-                if (cartId != null) {
-                    viewmodel?.addRemoveCartDetails(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            productId,
-                            "remove",
-                            "0",
-                            "",
-                            cartId,
-                            customIdsList!!
-                    )
-                }
-
-            }
-
+            else {
+                viewmodel?.addRemoveCartDetails(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        productId,
+                        "remove",
+                        "0",
+                        "",
+                        "",
+                        customIdsList!!
+                )
         }
-        //plusMinusPrice = 0.0
-        tempPrice = 0.0
-        Log.d("check1", Gson().toJson(MainActivity.tempProductList!!))
-        var bottomPrice: Double? = 0.0
-        var bottomCount: Int? = 0
-        for (i in 0 until MainActivity.tempProductList!!.size) {
-            bottomPrice = bottomPrice!! + (MainActivity.tempProductList!!.get(i).price.toDouble() * MainActivity.tempProductList!!.get(i).quantity.toInt())
-            bottomCount = bottomCount!! + MainActivity.tempProductList!!.get(i).quantity.toInt()
-        }
-        //txt_price_.text = resources.getString(R.string.ruppee) + bottomPrice.toString()
-        //cartCountTxt.text = bottomCount.toString()
-        //cartIcon_grocery.setImageResource(R.drawable.cart_icon)
-        //cartIcon_grocery.setColorFilter(Color.argb(255, 53, 156, 71))
-        if (bottomCount == 1) {
-            //txt_items_.text = bottomCount.toString() + " item"
-        } else {
-            //txt_items_.text = bottomCount.toString() + " items"
-        }
-
 
     }
 
@@ -741,24 +653,26 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     override fun onRemoveItemClick(productId: String?, quantity: String?, isCustomize: String?, prodcustCustomizeId: String?, cart_id: String?
     ) {
-        if (!isNetworkConnected) {
-            showToast(resources.getString(R.string.provide_internet))
-
-        } else {
-            //showIOSProgress()
-            if (cart_id != null) {
-                viewmodel?.addRemoveCartDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        productId!!,
-                        "remove",
-                        isCustomize!!,
-                        prodcustCustomizeId!!,
-                        cart_id,
-                        customIdsList!!
-                )
-            }
-        }
+//        Log.d("onRemoveItemClick_count", quantity!!)
+//
+//        if (!isNetworkConnected) {
+//            showToast(resources.getString(R.string.provide_internet))
+//
+//        } else {
+//            //showIOSProgress()
+//            if (cart_id != null) {
+//                viewmodel?.addRemoveCartDetails(
+//                        SessionTwiclo(this).loggedInUserDetail.accountId,
+//                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                        productId!!,
+//                        "remove",
+//                        isCustomize!!,
+//                        prodcustCustomizeId!!,
+//                        cart_id,
+//                        customIdsList!!
+//                )
+//            }
+//        }
     }
 
     private fun showLoginDialog(message: String) {
@@ -829,6 +743,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         if (onresumeHandle!=0) {
             if (isNetworkConnected) {
                 showIOSProgress()
+                itemPosition=0
                 if (SessionTwiclo(this).isLoggedIn) {
                     viewmodel?.getGroceryProductsFun(
                             SessionTwiclo(this).loggedInUserDetail.accountId,

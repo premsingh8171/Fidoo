@@ -1,8 +1,10 @@
 package com.fidoo.user.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
+import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -17,6 +19,8 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.fidoo.user.R
 import com.fidoo.user.data.model.GetAddressModel
@@ -86,9 +90,8 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_address)
 
-        viewmodel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
+        viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(AddressViewModel::class.java)
         //emailValue.setText(model.phone_no)
-
 
         val mapFragment =
                 supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
@@ -316,9 +319,20 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 //    }
 
 
-    @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            mMap!!.isMyLocationEnabled = true
+
+            return
+        }
         mMap!!.isMyLocationEnabled = true
         mMap!!.uiSettings.isMyLocationButtonEnabled = true
         if (mapView != null && mapView!!.findViewById<View?>("1".toInt()) != null) {
@@ -379,7 +393,6 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
     }
 
 
-    @SuppressLint("MissingPermission")
     private fun getDeviceLocation() {
         mFusedLocationProviderClient!!.lastLocation
                 .addOnCompleteListener { task ->
@@ -422,9 +435,26 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
 
                                     mFusedLocationProviderClient!!.removeLocationUpdates(
-                                            locationCallback
+                                            locationCallback!!
                                     )
                                 }
+                            }
+                            if (ActivityCompat.checkSelfPermission(
+                                    this,
+                                    Manifest.permission.ACCESS_FINE_LOCATION
+                                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                                    this,
+                                    Manifest.permission.ACCESS_COARSE_LOCATION
+                                ) != PackageManager.PERMISSION_GRANTED
+                            ) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return@addOnCompleteListener
                             }
                             mFusedLocationProviderClient!!.requestLocationUpdates(
                                     locationRequest,

@@ -60,33 +60,34 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
     }
 
     fun addToCartApi(accountId: String, accessToken: String, products: ArrayList<AddCartInputModel>, cart_id: String) {
+        var addCartInputModelList = ArrayList<AddCartInputModelFinal>()
 
         var addCartInputModelFinal = AddCartInputModelFinal()
         addCartInputModelFinal.accessToken = accessToken
         addCartInputModelFinal.accountId = accountId
         addCartInputModelFinal.products = ArrayList<Product>()
         addCartInputModelFinal.cart_id = cart_id
-        for (i in 0..products.size - 1) {
-            var temp = Product(
-                products.get(i).productId,
-                products.get(i).customizeSubCatId,
-                products.get(i).isCustomize,
-                products.get(i).message,
-                products.get(i).quantity
-            )
 
+        //for (i in 0..products.size-1) {
+            var temp = Product(
+                products.get(0).productId,
+                products.get(0).customizeSubCatId,
+                products.get(0).isCustomize,
+                products.get(0).message,
+                products.get(0).quantity
+            )
             addCartInputModelFinal.products.add(temp)
-        }
-        //    addCartInputModelFinal.products.addAll()
-        WebServiceClient.client.create(BackEndApi::class.java).addToCartApi(
-            addCartInputModelFinal
-        )
+        //}
+        addCartInputModelList.add(addCartInputModelFinal)
+        WebServiceClient.client.create(BackEndApi::class.java).addToCartApi(addCartInputModelFinal)
             .enqueue(object : Callback<AddToCartModel> {
 
                 override fun onResponse(
                     call: Call<AddToCartModel>,
                     response: Response<AddToCartModel>
                 ) {
+                    products.clear()
+                    addCartInputModelList.clear()
                     addToCartResponse?.value = response.body()
                 }
 
