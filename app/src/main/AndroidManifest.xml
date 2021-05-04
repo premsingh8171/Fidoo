@@ -8,15 +8,12 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
     -->
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission. READ_GSERVICES" />
 
     <application
         android:name=".MyApplication"
@@ -37,19 +34,17 @@
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
-       Fidoo@twiclo2021
+      
         -->
-        <meta-data
-            tools:replace="android:value"
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"/>
+            android:label="@string/title_activity_maps">
+
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -58,35 +53,67 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity android:name=".search.activity.SearchItemActivity" />
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".grocery.activity.GroceryItemsActivity" />
-        <activity android:name=".AboutUsActivity" />
-        <activity android:name=".SendPackageOrderDetail" />
+        <activity android:name=".search.activity.SearchItemActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ChatActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".grocery.activity.GroceryItemsActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".AboutUsActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".SendPackageOrderDetail"
+            android:screenOrientation="portrait"/>
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-        <activity android:name=".ui.AddAddressActivity" />
-        <activity android:name=".CartActivity" />
-        <activity android:name=".StoreListActivity" /> <!-- <activity android:name=".SendPackageActivity" /> -->
+        <activity android:name=".ui.AddAddressActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".CartActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".StoreListActivity"
+            android:screenOrientation="portrait"/> <!-- <activity android:name=".SendPackageActivity" /> -->
+
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/title_activity_main" />
-        <activity android:name=".view.address.SavedAddressesActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".view.TrackOrderActivity" />
-        <activity android:name=".view.OrderDetailsActivity" />
-        <activity android:name=".SplashActivity">
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.address.SavedAddressesActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.TrackOrderActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.OrderDetailsActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ServicesActivity" />
-        <activity android:name=".StoreItemsActivity" />
-        <activity android:name=".SendPackageActivity" />
+
+        <activity android:name=".ServicesActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".StoreItemsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".SendPackageActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="preloaded_fonts"
@@ -94,7 +121,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_live_iceNLz5pb15jtP" />
+            android:value="rzp_test_17ihcfTIqBGF9R" />
 
         <service
             android:name=".fcm.MyFirebaseMessagingService"
@@ -107,16 +134,15 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/common_google_signin_btn_icon_dark" />
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
     </application>
 
 </manifest>

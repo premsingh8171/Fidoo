@@ -92,12 +92,26 @@ class StoreItemsActivity :
 
         cartviewFromStore.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
-                startActivity(
-                    Intent(this, CartActivity::class.java).putExtra(
+                startActivity(Intent(this, CartActivity::class.java).putExtra(
                         "store_id", SessionTwiclo(
-                            this
-                        ).storeId
-                    )
+                        this
+                ).storeId
+                )
+                )
+            } else {
+                showLoginDialog("Please login to proceed")
+
+            }
+
+        }
+
+        cartIcon.setOnClickListener {
+            if (SessionTwiclo(this).isLoggedIn) {
+                startActivity(Intent(this, CartActivity::class.java).putExtra(
+                        "store_id", SessionTwiclo(
+                        this
+                ).storeId
+                )
                 )
             } else {
                 showLoginDialog("Please login to proceed")
@@ -118,6 +132,7 @@ class StoreItemsActivity :
             for (i in 0 until categoryy!!.size) {
                 customIdsList!!.add(categoryy!![i].id.toString())
             }
+
             Log.e("customIdsList", customIdsList.toString())
 
             if (SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || SessionTwiclo(this).storeId.equals("")) {
