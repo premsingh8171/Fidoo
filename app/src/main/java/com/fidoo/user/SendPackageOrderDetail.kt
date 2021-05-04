@@ -8,6 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.awesomedialog.*
+import com.fidoo.user.data.model.SendPackagesModel
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.viewmodels.SendPackagesViewModel
 import com.google.gson.Gson
@@ -25,7 +26,7 @@ import org.json.JSONObject
 class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResultListener {
 
     var sendPackagesViewModel: SendPackagesViewModel? = null
-    var sendPackagesModel: com.fidoo.user.data.model.SendPackagesModel?=null
+    var sendPackagesModel: SendPackagesModel?=null
     var paymentMode: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +84,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         backIcon.setOnClickListener {
             finish()
         }
+
 
         payment_lay.setOnClickListener {
 
@@ -291,6 +293,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         tv_total_distance.text = intent.getStringExtra("distance")
         tv_time.text = intent.getStringExtra("time")
         tv_grand_total.text = intent.getStringExtra("payment_amount")
+        tv_place_order.text = "Place Order |  " + intent.getStringExtra("payment_amount")
         tv_item_note.text = intent.getStringExtra("notes")
     }
 

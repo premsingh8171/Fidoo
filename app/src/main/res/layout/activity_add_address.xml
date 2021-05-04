@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mapLayout"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -47,12 +47,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_bias="0.0">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <ImageView
                     android:id="@+id/locationImage"
@@ -71,7 +68,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/lato"
-                    android:text="Office"
+                    android:text=""
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@+id/locationImage"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -84,7 +81,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/lato"
-                    android:text="1204, Emaar the palm square, Sector 66, Gurgaon"
+                    android:text=""
                     android:textSize="12sp"
                     app:layout_constraintStart_toEndOf="@+id/locationImage"
                     app:layout_constraintTop_toBottomOf="@+id/tv_address_title" />
@@ -114,55 +111,117 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_Address" />
 
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_home"
-                    android:layout_width="wrap_content"
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginHorizontal="15dp"
                     android:layout_marginTop="10dp"
-                    android:text="Home"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    app:cornerRadius="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view"
-                    app:strokeColor="@color/colorTitle" />
+                    android:minHeight="30dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
 
+                    app:layout_constraintTop_toBottomOf="@+id/view">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_office"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:text="Office"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    app:cornerRadius="20dp"
-                    app:layout_constraintStart_toEndOf="@+id/btn_home"
-                    app:layout_constraintTop_toTopOf="@+id/btn_home" />
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/homeRadioBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="@font/metropolis_regular"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_selector"
+                        android:button="@android:color/transparent"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="Home" />
 
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/officeRadioBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/metropolis_regular"
+                        android:background="@drawable/radio_selector"
+                        android:button="@android:color/transparent"
+                        android:gravity="center"
+                        android:text="Office" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_other"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:text="Other"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    app:cornerRadius="20dp"
-                    app:layout_constraintStart_toEndOf="@+id/btn_office"
-                    app:layout_constraintTop_toTopOf="@+id/btn_office"
-                    app:strokeColor="@color/colorTitle" />
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/otherRadioBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_selector"
+                        android:fontFamily="@font/metropolis_regular"
+                        android:button="@android:color/transparent"
+                        android:gravity="center"
+                        android:text="Other" />
+
+                </RadioGroup>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    android:layout_marginTop="10dp"
+                    app:hintTextColor="@color/colorHint"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ed_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/et_round"
+                        android:fontFamily="@font/proxima"
+                        android:hint="Full Name"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_phone"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorHint"
+                    app:layout_constraintTop_toBottomOf="@+id/tl_name">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ed_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/et_round"
+                        android:fontFamily="@font/proxima"
+                        android:hint="Phone"
+                        android:inputType="phone" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tl_address"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
                     app:boxCornerRadiusBottomEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
@@ -173,12 +232,12 @@
                     app:hintTextColor="@color/colorHint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btn_home">
+                    app:layout_constraintTop_toBottomOf="@+id/tl_phone">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/ed_address"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="50dp"
                         android:background="@drawable/et_round"
                         android:fontFamily="@font/proxima"
                         android:hint="@string/house_flat_block"
@@ -191,7 +250,7 @@
                     android:id="@+id/tl_landmark"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
                     app:boxCornerRadiusBottomEnd="12dp"
@@ -206,13 +265,25 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/ed_landmark"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="50dp"
                         android:background="@drawable/et_round"
                         android:fontFamily="@font/proxima"
                         android:hint="@string/landmark"
                         android:inputType="text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"
+                    android:id="@+id/defaultCheckBox"
+                    android:fontFamily="@font/proxima"
+                    android:paddingHorizontal="5dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tl_landmark"
+                    android:text="Set as default address" />
 
 
                 <com.google.android.material.button.MaterialButton
@@ -222,8 +293,7 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="30dp"
-                    android:layout_marginBottom="30dp"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:text="@string/confirm_proceed"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
@@ -232,7 +302,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_landmark" />
+                    app:layout_constraintTop_toBottomOf="@id/defaultCheckBox"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

@@ -56,12 +56,12 @@ class ProfileFragment : Fragment() {
 
         if (SessionTwiclo(requireContext()).isLoggedIn){
             mView.action_logout.visibility = View.VISIBLE
-            mView.textView6.visibility = View.VISIBLE
+            mView.tv_email.visibility = View.VISIBLE
             mView.tv_name.visibility = View.VISIBLE
             mView.tv_hi.visibility = View.VISIBLE
         }else{
             mView.action_logout.visibility = View.GONE
-            mView.textView6.visibility = View.GONE
+            mView.tv_email.visibility = View.GONE
             mView.tv_name.visibility = View.GONE
             mView.tv_hi.visibility = View.GONE
         }
@@ -81,16 +81,20 @@ class ProfileFragment : Fragment() {
 
 
         }
+        mView.tv_name.text = SessionTwiclo(context).profileDetail.account.name
+        mView.tv_email.text = SessionTwiclo(context).profileDetail.account.emailid
+        mView.tv_helpSupport.setOnClickListener {
+            startActivity(Intent(context, AboutUsActivity::class.java).putExtra("faq", "faq"))
+        }
 
-        viewmodel?.getlogoutResponse?.observe(requireActivity(), Observer { user ->
+        viewmodel?.getlogoutResponse?.observe(requireActivity(), { user ->
             dismissIOSProgress()
 
             Log.e("logout response", Gson().toJson(user))
             dismissIOSProgress()
             SessionTwiclo(requireContext()).clearSession()
 
-            startActivity(Intent(requireContext(),SplashActivity::class.java))
-            finishAffinity(requireActivity())
+            startActivity(Intent(requireContext(), SplashActivity::class.java))
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })

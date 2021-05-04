@@ -7,19 +7,20 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
+import com.fidoo.user.data.model.EditProfileModel
 import com.fidoo.user.utils.SingleLiveEvent
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class LoginViewModel(application: Application) : AndroidViewModel(application),
-    Callback<com.fidoo.user.data.model.EditProfileModel> {
+    Callback<EditProfileModel> {
 
     var btnSelected: ObservableBoolean? = null
     var mobileNo: ObservableField<String>? = null
     var password: ObservableField<String>? = null
     var progressDialog: SingleLiveEvent<Boolean>? = null
-    var userLogin: MutableLiveData<com.fidoo.user.data.model.EditProfileModel>? = null
+    var userLogin: MutableLiveData<EditProfileModel>? = null
     var failureResponse: MutableLiveData<String>? = null
 
     init {
@@ -28,7 +29,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application),
         mobileNo = ObservableField("")
         failureResponse = MutableLiveData<String>()
         password = ObservableField("")
-        userLogin = MutableLiveData<com.fidoo.user.data.model.EditProfileModel>()
+        userLogin = MutableLiveData<EditProfileModel>()
     }
 
 
@@ -56,13 +57,13 @@ class LoginViewModel(application: Application) : AndroidViewModel(application),
     }
 
 
-    override fun onResponse(call: Call<com.fidoo.user.data.model.EditProfileModel>?, response: Response<com.fidoo.user.data.model.EditProfileModel>?) {
+    override fun onResponse(call: Call<EditProfileModel>?, response: Response<EditProfileModel>?) {
         progressDialog?.value = false
         userLogin?.value = response?.body()
 
     }
 
-    override fun onFailure(call: Call<com.fidoo.user.data.model.EditProfileModel>?, t: Throwable?) {
+    override fun onFailure(call: Call<EditProfileModel>?, t: Throwable?) {
         progressDialog?.value = false
         failureResponse?.value = "Something went wrong"
 

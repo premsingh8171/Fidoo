@@ -31,35 +31,58 @@ public class OrderDetailsModel {
     @SerializedName("store_name")
     @Expose
     public String storeName;
+
     @SerializedName("store_address")
     @Expose
     public String storeAddress;
+
+    @SerializedName("delivery_address")
+    @Expose
+    public String deliveryAddress;
+
+    @SerializedName("payment_mode")
+    @Expose
+    public String paymentMode;
+
     @SerializedName("store_image")
     @Expose
     public String storeImage;
+
     @SerializedName("order_id")
     @Expose
     public String orderId;
+
     @SerializedName("total_price")
     @Expose
     public String totalPrice;
+
     @SerializedName("tax")
     @Expose
     public Float tax;
+
     @SerializedName("delivery_charge")
     @Expose
     public Integer deliveryCharge;
+
     @SerializedName("discount")
     @Expose
     public String discount;
+
     //Cart Coupon
-    @SerializedName("coupon_name")
+    @SerializedName("cart_coupon")
     @Expose
     public String coupon_name;
+
     // delivery coupon
-    @SerializedName("delivery_coupon_name")
+    @SerializedName("delivery_coupon")
     @Expose
     public String delivery_coupon_name;
+
+    @SerializedName("delivery_discount")
+    @Expose
+    public String delivery_discount;
+
+
     @SerializedName("date_time")
     @Expose
     public String dateTime;

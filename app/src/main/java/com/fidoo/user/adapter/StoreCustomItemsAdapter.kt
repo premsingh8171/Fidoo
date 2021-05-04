@@ -33,11 +33,10 @@ class StoreCustomItemsAdapter(
     override fun getItemCount() = category.size
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        if(category.get(position).isMandatory.equals("0"))
-        {
-            holder.catName.text = category.get(position).catName
+        if(category[position].isMandatory.equals("0")) {
+            holder.catName.text = category[position].catName
         } else{
-            holder.catName.text = category.get(position).catName+"*"
+            holder.catName.text = category[position].catName+"*"
         }
 
 
@@ -49,11 +48,11 @@ class StoreCustomItemsAdapter(
         params.setMargins(65, 0, 65, 0)
 
         radioGroup.layoutParams = params
-        if (category.get(position).isMultiple.equals("0")) {
+        if (category[position].isMultiple.equals("0")) {
             Log.e("cheeck","check")
 
 
-            radioGroup.tag=category.get(position).catId.toInt()
+            radioGroup.tag= category[position].catId.toInt()
             // radioGroup.id=category.get(position).catId.toInt()
             holder.descriptionTxt.text="Please select any one option"
             for (i in 0 until category.get(position).subCat.size) {
@@ -64,8 +63,8 @@ class StoreCustomItemsAdapter(
                 )
                 geek2.gravity=Gravity.LEFT
                 geek2.layoutDirection=View.LAYOUT_DIRECTION_RTL
-                geek2.text = category.get(position).subCat.get(i).subCatName+" ("+con.resources.getString(R.string.ruppee)+category.get(position).subCat.get(i).price+")" ////setting text of second radio button
-                geek2.id = category.get(position).subCat.get(i).id.toInt()
+                geek2.text = category[position].subCat[i].subCatName+" ("+con.resources.getString(R.string.ruppee)+ category[position].subCat[i].price+")" ////setting text of second radio button
+                geek2.id = category[position].subCat[i].id.toInt()
                 // Create RadioGroup Dynamically
                 //adding button to the radio group container
                 radioGroup.addView(geek2)
@@ -76,7 +75,7 @@ class StoreCustomItemsAdapter(
             }
             else
             {
-                radioGroup.check(category.get(position).subCat[position].id.toInt())
+                radioGroup.check(category[position].subCat[0].id.toInt())
             }
 
 
@@ -87,7 +86,8 @@ class StoreCustomItemsAdapter(
             //  layout.addView(radioGroup)
             val adapter = StoreSubCustomItemsAdapter(
                 con,
-                category.get(position).subCat,
+                category[position].maxSelectionCount,
+                category[position].subCat,
                 customCartAddRemoveClick
             )
             holder.subItemsRecyclerview.layoutManager = LinearLayoutManager(con)

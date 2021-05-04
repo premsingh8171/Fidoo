@@ -7,30 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.fidoo.user.CartActivity
 import com.fidoo.user.R
 import com.fidoo.user.SendPackageActivity
+import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.ui.MainActivity
 import kotlinx.android.synthetic.main.saved_address_items.view.*
 
 
 class AddressesAdapter(
-    val con: Context,
-    val addressList: MutableList<com.fidoo.user.data.model.GetAddressModel.AddressList>,
-    val adapterClick: AdapterClick,
-    val stringExtra: String?
+        val con: Context,
+        val addressList: MutableList<com.fidoo.user.data.model.GetAddressModel.AddressList>,
+        val adapterClick: AdapterClick,
+        val stringExtra: String?
 ) : RecyclerView.Adapter<AddressesAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.saved_address_items, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.saved_address_items, parent, false)
     )
 
     override fun getItemCount() = addressList.size
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         //holder.locText.text=addressList.get(position).flatNo+", "+addressList.get(position).building+", "+addressList.get(position).landmark
         //  holder.nameText.text=addressList.get(position).name
-        holder.tv_address_title.text =
-            "House No.: " + addressList.get(position).flatNo + "\nBuilding: " + addressList[position].building + "\nLandmark: " + addressList.get(position).landmark + "\n" + "Location: " + addressList.get(
+        holder.tv_address_title.text = "House No.: " + addressList.get(position).flatNo + "\nBuilding: " + addressList[position].building + "\nLandmark: " + addressList.get(position).landmark + "\n" + "Location: " + addressList.get(
                 position).location
         /*StoreItemsActivity.customerLatitude = addressList[position].latitude
         StoreItemsActivity.customerLongitude = addressList[position].longitude*/
@@ -79,46 +80,51 @@ class AddressesAdapter(
 
         holder.mainLay.setOnClickListener {
             if (stringExtra.equals("order")) {
-                /*CartActivity.selectedAddressId = addressList[position].id
+                CartActivity.selectedAddressId = addressList[position].id
                 CartActivity.selectedAddressName = addressList[position].location + "\nHouse No.: " + addressList.get(position).flatNo + "\nBuilding: " + addressList.get(position).building + "\nLandmark: " + addressList.get(position).landmark
+
                 CartActivity.userLat = addressList[position].latitude
                 CartActivity.userLong = addressList[position].longitude
-                StoreItemsActivity.customerLatitude = addressList[position].latitude
-                StoreItemsActivity.customerLongitude = addressList[position].longitude
-*/
+                //StoreItemsActivity.customerLatitude = addressList[position].latitude
+                //StoreItemsActivity.customerLongitude = addressList[position].longitude
                 when {
                     addressList[position].addressType.equals("1") -> {
-                        com.fidoo.user.data.session.SessionTwiclo(con).userAddress = "Home"
+                        SessionTwiclo(con).userAddress = "Home"
                     }
 
                     addressList[position].addressType.equals("2") -> {
-                        com.fidoo.user.data.session.SessionTwiclo(con).userAddress = "Office"
+                        SessionTwiclo(con).userAddress = "Office"
                     }
 
                     else -> {
-                        com.fidoo.user.data.session.SessionTwiclo(con).userAddress = "Other"
+                        SessionTwiclo(con).userAddress = "Other"
                     }
                 }
-                com.fidoo.user.data.session.SessionTwiclo(con).userAddressId = addressList[position].id
-
+                SessionTwiclo(con).userAddressId = addressList[position].id
+                CartActivity.selectedAddressTitle = SessionTwiclo(con).userAddress
                 (con as Activity).finish()
             }
 
             if (stringExtra.equals("address")) {
-                if (addressList.get(position).addressType.equals("1")) {
-                    com.fidoo.user.data.session.SessionTwiclo(con).userAddress = "Home"
-                } else if (addressList.get(position).addressType.equals("2")) {
-                    com.fidoo.user.data.session.SessionTwiclo(con).userAddress = "Office"
+                when {
+                    addressList[position].addressType.equals("1") -> {
+                        SessionTwiclo(con).userAddress = "Home"
+                    }
 
-                } else {
-                    com.fidoo.user.data.session.SessionTwiclo(con).userAddress = "Other"
+                    addressList[position].addressType.equals("2") -> {
+                        SessionTwiclo(con).userAddress = "Office"
 
+                    }
+
+                    else -> {
+                        SessionTwiclo(con).userAddress = "Other"
+
+                    }
                 }
-
-                com.fidoo.user.data.session.SessionTwiclo(con).userAddressId =
-                    addressList.get(position).id
-                com.fidoo.user.data.session.SessionTwiclo(con).userLat = addressList.get(position).latitude
-                com.fidoo.user.data.session.SessionTwiclo(con).userLng = addressList.get(position).longitude
+                SessionTwiclo(con).userAddress = addressList[position].location
+                SessionTwiclo(con).userAddressId = addressList[position].id
+                SessionTwiclo(con).userLat = addressList[position].latitude
+                SessionTwiclo(con).userLng = addressList[position].longitude
                 con.startActivity(Intent(con, MainActivity::class.java))
                 (con as Activity).finish()
             }

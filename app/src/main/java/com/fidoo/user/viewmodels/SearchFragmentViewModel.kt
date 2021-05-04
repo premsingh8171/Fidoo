@@ -20,6 +20,7 @@ class SearchFragmentViewModel(application: Application) : AndroidViewModel(appli
     var clearCartResponse: MutableLiveData<ClearCartModel>? = null
     var customizeProductResponse: MutableLiveData<CustomizeProductResponseModel>? = null
     var failureResponse: MutableLiveData<String>? = null
+    var addRemoveCartResponse: MutableLiveData<AddRemoveCartModel>? = null
 
     init {
         addToCartResponse = MutableLiveData<AddToCartModel>()
@@ -28,6 +29,7 @@ class SearchFragmentViewModel(application: Application) : AndroidViewModel(appli
         cartCountResponse = MutableLiveData<CartCountModel>()
         clearCartResponse = MutableLiveData<ClearCartModel>()
         failureResponse = MutableLiveData<String>()
+        addRemoveCartResponse = MutableLiveData<AddRemoveCartModel>()
     }
 
 
@@ -92,11 +94,12 @@ class SearchFragmentViewModel(application: Application) : AndroidViewModel(appli
                 })
     }
 
-    fun addToCartApi(accountId: String, accessToken: String,products: ArrayList<AddCartInputModel>) {
+    fun addToCartApi(accountId: String, accessToken: String,products: ArrayList<AddCartInputModel>, cart_id: String) {
         var addCartInputModelFinal = AddCartInputModelFinal()
         addCartInputModelFinal.accessToken = accessToken
         addCartInputModelFinal.accountId = accountId
         addCartInputModelFinal.products = ArrayList<Product>()
+        addCartInputModelFinal.cart_id = cart_id
         for (i in 0..products.size - 1) {
             var temp = Product(
                     products.get(i).productId,
@@ -122,6 +125,36 @@ class SearchFragmentViewModel(application: Application) : AndroidViewModel(appli
                     }
                 })
     }
+
+    fun addRemoveCartDetails(accountId: String, accessToken: String, product_id: String, addRemoveType: String, is_customize: String, product_customize_id: String, cart_id: String, customize_sub_cat_id: ArrayList<String>) {
+
+        // progressDialog?.value = true
+        WebServiceClient.client.create(BackEndApi::class.java).addRemoveCartApi(
+            accountId = accountId,
+            accessToken = accessToken,
+            product_id = product_id,
+            addRemoveType = addRemoveType,
+            is_customize = is_customize,
+            product_customize_id = product_customize_id,
+            cart_id = cart_id,
+            customize_sub_cat_id = customize_sub_cat_id
+        )
+            .enqueue(object : Callback<AddRemoveCartModel> {
+
+                override fun onResponse(call: Call<AddRemoveCartModel>, response: Response<AddRemoveCartModel>) {
+                    // progressDialog?.value = false
+                    addRemoveCartResponse?.value = response.body()
+
+                }
+
+                override fun onFailure(call: Call<AddRemoveCartModel>, t: Throwable) {
+                    //  progressDialog?.value = false
+
+                    failureResponse?.value="Something went wrong"
+                }
+            })
+    }
+
     /*    fun addToCartApi(accountId: String, accessToken: String, product_id: String, quantity: String, message: String, is_customize: String) {
             // progressDialog?.value = true
             WebServiceClient.client.create(BackEndApi::class.java).addToCartApi(
@@ -135,6 +168,7 @@ class SearchFragmentViewModel(application: Application) : AndroidViewModel(appli
                     }
                 })
         }*/
+
     override fun onResponse(call: Call<SearchModel>?, response: Response<SearchModel>?) {
 
         searchResponse?.value = response?.body()

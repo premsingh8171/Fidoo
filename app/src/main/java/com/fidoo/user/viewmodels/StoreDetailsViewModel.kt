@@ -12,24 +12,25 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class StoreDetailsViewModel(application: Application) : AndroidViewModel(application),
-    Callback<com.fidoo.user.data.model.StoreDetailsModel> {
+    Callback<StoreDetailsModel> {
 
-    var getStoreDetailsApi: MutableLiveData<com.fidoo.user.data.model.StoreDetailsModel>? = null
-    var getSearchResponse: MutableLiveData<com.fidoo.user.data.model.StoreDetailsModel>? = null
-    var addToCartResponse: MutableLiveData<com.fidoo.user.data.model.AddToCartModel>? = null
-    var clearCartResponse: MutableLiveData<com.fidoo.user.data.model.ClearCartModel>? = null
-    var customizeProductResponse: MutableLiveData<com.fidoo.user.data.model.CustomizeProductResponseModel>? = null
-    var cartCountResponse: MutableLiveData<com.fidoo.user.data.model.CartCountModel>? = null
+    var getStoreDetailsApi: MutableLiveData<StoreDetailsModel>? = null
+    var getSearchResponse: MutableLiveData<StoreDetailsModel>? = null
+    var addToCartResponse: MutableLiveData<AddToCartModel>? = null
+    var clearCartResponse: MutableLiveData<ClearCartModel>? = null
+    var customizeProductResponse: MutableLiveData<CustomizeProductResponseModel>? = null
+    var cartCountResponse: MutableLiveData<CartCountModel>? = null
     var failureResponse: MutableLiveData<String>? = null
-    var addRemoveCartResponse: MutableLiveData<com.fidoo.user.data.model.AddRemoveCartModel>? = null
+    var addRemoveCartResponse: MutableLiveData<AddRemoveCartModel>? = null
+
     init {
-        addRemoveCartResponse = MutableLiveData<com.fidoo.user.data.model.AddRemoveCartModel>()
-        addToCartResponse = MutableLiveData<com.fidoo.user.data.model.AddToCartModel>()
-        getStoreDetailsApi = MutableLiveData<com.fidoo.user.data.model.StoreDetailsModel>()
-        getSearchResponse = MutableLiveData<com.fidoo.user.data.model.StoreDetailsModel>()
-        clearCartResponse = MutableLiveData<com.fidoo.user.data.model.ClearCartModel>()
-        customizeProductResponse = MutableLiveData<com.fidoo.user.data.model.CustomizeProductResponseModel>()
-        cartCountResponse = MutableLiveData<com.fidoo.user.data.model.CartCountModel>()
+        addRemoveCartResponse = MutableLiveData<AddRemoveCartModel>()
+        addToCartResponse = MutableLiveData<AddToCartModel>()
+        getStoreDetailsApi = MutableLiveData<StoreDetailsModel>()
+        getSearchResponse = MutableLiveData<StoreDetailsModel>()
+        clearCartResponse = MutableLiveData<ClearCartModel>()
+        customizeProductResponse = MutableLiveData<CustomizeProductResponseModel>()
+        cartCountResponse = MutableLiveData<CartCountModel>()
         failureResponse = MutableLiveData<String>()
     }
 
@@ -39,18 +40,18 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
         WebServiceClient.client.create(BackEndApi::class.java).cartCountApi(
             accountId = accountId, accessToken = accessToken
         )
-            .enqueue(object : Callback<com.fidoo.user.data.model.CartCountModel> {
+            .enqueue(object : Callback<CartCountModel> {
 
                 override fun onResponse(
-                    call: Call<com.fidoo.user.data.model.CartCountModel>,
-                    response: Response<com.fidoo.user.data.model.CartCountModel>
+                    call: Call<CartCountModel>,
+                    response: Response<CartCountModel>
                 ) {
 
                     cartCountResponse?.value = response.body()
 
                 }
 
-                override fun onFailure(call: Call<com.fidoo.user.data.model.CartCountModel>, t: Throwable) {
+                override fun onFailure(call: Call<CartCountModel>, t: Throwable) {
                     failureResponse?.value = "Something went wrong"
                 }
             })
@@ -86,7 +87,6 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
     }
 
 
-
     fun addToCartApi(accountId: String, accessToken: String, products: ArrayList<AddCartInputModel>, cart_id: String
     ) {
 
@@ -110,16 +110,16 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
         WebServiceClient.client.create(BackEndApi::class.java).addToCartApi(
             addCartInputModelFinal
         )
-            .enqueue(object : Callback<com.fidoo.user.data.model.AddToCartModel> {
+            .enqueue(object : Callback<AddToCartModel> {
 
                 override fun onResponse(
-                    call: Call<com.fidoo.user.data.model.AddToCartModel>,
-                    response: Response<com.fidoo.user.data.model.AddToCartModel>
+                    call: Call<AddToCartModel>,
+                    response: Response<AddToCartModel>
                 ) {
                     addToCartResponse?.value = response.body()
                 }
 
-                override fun onFailure(call: Call<com.fidoo.user.data.model.AddToCartModel>, t: Throwable) {
+                override fun onFailure(call: Call<AddToCartModel>, t: Throwable) {
                     failureResponse?.value = "Something went wrong"
                 }
             })
@@ -131,18 +131,18 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
         WebServiceClient.client.create(BackEndApi::class.java).clearCartApi(
             accountId = accountId, accessToken = accessToken
         )
-            .enqueue(object : Callback<com.fidoo.user.data.model.ClearCartModel> {
+            .enqueue(object : Callback<ClearCartModel> {
 
                 override fun onResponse(
-                    call: Call<com.fidoo.user.data.model.ClearCartModel>,
-                    response: Response<com.fidoo.user.data.model.ClearCartModel>
+                    call: Call<ClearCartModel>,
+                    response: Response<ClearCartModel>
                 ) {
 
                     clearCartResponse?.value = response.body()
 
                 }
 
-                override fun onFailure(call: Call<com.fidoo.user.data.model.ClearCartModel>, t: Throwable) {
+                override fun onFailure(call: Call<ClearCartModel>, t: Throwable) {
                     failureResponse?.value = "Something went wrong"
                 }
             })
@@ -154,18 +154,18 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
         WebServiceClient.client.create(BackEndApi::class.java).customizeProductApi(
             accountId = accountId, accessToken = accessToken, product_id = product_id
         )
-            .enqueue(object : Callback<com.fidoo.user.data.model.CustomizeProductResponseModel> {
+            .enqueue(object : Callback<CustomizeProductResponseModel> {
 
                 override fun onResponse(
-                    call: Call<com.fidoo.user.data.model.CustomizeProductResponseModel>,
-                    response: Response<com.fidoo.user.data.model.CustomizeProductResponseModel>
+                    call: Call<CustomizeProductResponseModel>,
+                    response: Response<CustomizeProductResponseModel>
                 ) {
 
                     customizeProductResponse?.value = response.body()
 
                 }
 
-                override fun onFailure(call: Call<com.fidoo.user.data.model.CustomizeProductResponseModel>, t: Throwable) {
+                override fun onFailure(call: Call<CustomizeProductResponseModel>, t: Throwable) {
                     failureResponse?.value = "Something went wrong"
                 }
             })
@@ -187,18 +187,18 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
             search = searchTxt,
             is_nonveg = is_nonveg
         )
-            .enqueue(object : Callback<com.fidoo.user.data.model.StoreDetailsModel> {
+            .enqueue(object : Callback<StoreDetailsModel> {
 
                 override fun onResponse(
-                    call: Call<com.fidoo.user.data.model.StoreDetailsModel>,
-                    response: Response<com.fidoo.user.data.model.StoreDetailsModel>
+                    call: Call<StoreDetailsModel>,
+                    response: Response<StoreDetailsModel>
                 ) {
 
                     getSearchResponse?.value = response.body()
 
                 }
 
-                override fun onFailure(call: Call<com.fidoo.user.data.model.StoreDetailsModel>, t: Throwable) {
+                override fun onFailure(call: Call<StoreDetailsModel>, t: Throwable) {
                     failureResponse?.value = "Something went wrong"
                 }
             })
@@ -224,14 +224,14 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
     }
 
     override fun onResponse(
-        call: Call<com.fidoo.user.data.model.StoreDetailsModel>?,
-        response: Response<com.fidoo.user.data.model.StoreDetailsModel>?
+        call: Call<StoreDetailsModel>?,
+        response: Response<StoreDetailsModel>?
     ) {
         getStoreDetailsApi?.value = response?.body()
 
     }
 
-    override fun onFailure(call: Call<com.fidoo.user.data.model.StoreDetailsModel>?, t: Throwable?) {
+    override fun onFailure(call: Call<StoreDetailsModel>?, t: Throwable?) {
         failureResponse?.value = "Something went wrong"
     }
 

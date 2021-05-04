@@ -39,9 +39,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class MainActivity : BaseActivity(), android.location.LocationListener, LocationListener,
-    GoogleApiClient.ConnectionCallbacks,
-    GoogleApiClient.OnConnectionFailedListener {
+class MainActivity : BaseActivity(), android.location.LocationListener, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
 
 
@@ -52,7 +50,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         var check: String = ""
         private val TAG = "LocationProvider"
         private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
-        var searchSuggestionsList: ArrayList<String>? = null
+        var isearchSuggestionsList: ArrayList<String>? = null
 
 
         var ll: Location? = null
@@ -75,6 +73,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         FirebaseApp.initializeApp(this)
+        //searchSuggestionsList = ArrayList<String>()
 
 
 
@@ -87,9 +86,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = ContextCompat.getColor(this, R.color.colorTransparent)
-        }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorTransparent)
 
         val mBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -284,13 +281,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     // Start location updates
     private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -301,10 +292,8 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             // for ActivityCompat#requestPermissions for more details.
             return
         }
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            null /* Looper */
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null
+
         )
     }
 
@@ -317,16 +306,17 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     override fun onResume() {
         super.onResume()
-        startLocationUpdates()
+        if (SessionTwiclo(this).userAddress == ""){
+            startLocationUpdates()
+        }
 
-        //Dexter.withContext(this).withPermission("android.permission.ACCESS_FINE_LOCATION").withListener(PermissionListener)
 
         /* if (SessionTwiclo(this).userAddress.equals("")) {
         Log.e("ddd","ddddd")
             initLocation()
         } else {
 
-            userAddress?.text = SessionTwiclo(this).userAddress
+
         }*/
     }
 
@@ -334,7 +324,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String?>, grantResults: IntArray
+            requestCode: Int, permissions: Array<String?>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
@@ -343,47 +333,44 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+
+
                     try {
                         fusedLocationClient.lastLocation
-                            .addOnSuccessListener {
-                                // Got last known location. In some rare situations this can be null.
-                                Log.e("ll", ll.toString())
-                                SessionTwiclo(
-                                    this
-                                ).userAddress = getGeoAddressFromLatLong(
-                                    ll!!.latitude,
-                                    ll!!.longitude
-                                )
-                                userAddress?.text = SessionTwiclo(
-                                    this
-                                ).userAddress
-
-                            }
+                                .addOnSuccessListener {
+                                    // Got last known location. In some rare situations this can be null.
+                                    Log.e("ll", ll.toString())
+                                    SessionTwiclo(this).userAddress = getGeoAddressFromLatLong(ll!!.latitude, ll!!.longitude)
+                                    userAddress?.text = SessionTwiclo(this).userAddress
+                                }
                         ll = LocationServices.FusedLocationApi.getLastLocation(gac!!)
                         if (ll != null) {
                             Log.e("ll", ll.toString())
                             SessionTwiclo(
-                                this
+                                    this
                             ).userAddress = getGeoAddressFromLatLong(
-                                ll!!.latitude,
-                                ll!!.longitude
+                                    ll!!.latitude,
+                                    ll!!.longitude
                             )
                             userAddress?.text = SessionTwiclo(
-                                this
+                                    this
                             ).userAddress
                             //updateUI(ll!!)
                         } else {
                             LocationServices.FusedLocationApi.requestLocationUpdates(
-                                gac!!, locationRequest, this
+                                    gac!!, locationRequest, this
                             )
                         }
 
                     } catch (e: SecurityException) {
                         Toast.makeText(
-                            this, "SecurityException:\n$e",
-                            Toast.LENGTH_LONG
+                                this, "SecurityException:\n$e",
+                                Toast.LENGTH_LONG
                         ).show()
                     }
+
+
+
                 } else {
                     finishAffinity()
                     // initLocation()
@@ -400,14 +387,14 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             isGooglePlayServicesAvailable()
             if (!isLocationEnabled()) showAlert()
             locationRequest = LocationRequest()
-            locationRequest!!.interval = 2000
-            locationRequest!!.fastestInterval = 2000
-            locationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            locationRequest.interval = 2000
+            locationRequest.fastestInterval = 2000
+            locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             gac = GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build()
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build()
         } else {
             showNetAlert()
         }
@@ -419,7 +406,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         builder.setTitle("Alert")
         builder.setMessage("No internet connection. Please Connect you Internet and Try Again!")
         builder.setPositiveButton(
-            "OK"
+                "OK"
         ) { dialog: DialogInterface?, which: Int ->
 
 
@@ -503,54 +490,35 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     private fun showAlert() {
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle("Enable Location")
-            .setMessage(
-                """
-                    Your Locations Settings is set to 'Off'.
-                    Please Enable Location to use this app
-                    """.trimIndent()
-            )
-            .setPositiveButton(
-                "Location Settings"
-            ) { paramDialogInterface, paramInt ->
-                val myIntent =
-                    Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                this.startActivityForResult(myIntent, 100)
-            }
-            .setNegativeButton(
-                "Cancel"
-            ) { paramDialogInterface, paramInt -> }
+                .setMessage("""Your Locations Settings is set to 'Off'.Please Enable Location to use this app""".trimIndent())
+                .setPositiveButton("Location Settings") { _, _ ->
+                    val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    this.startActivityForResult(myIntent, 100) }
+                .setNegativeButton("Cancel") { _, _ -> }
         dialog.show()
     }
 
     @SuppressLint("MissingPermission")
     override fun onConnected(p0: Bundle?) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) { ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
-            )
+        )
             return
         } else {
             Log.d(TAG, "onConnected")
             ll = LocationServices.FusedLocationApi.getLastLocation(gac)
-            Log.d(
-                TAG,
-                "LastLocation: " + (ll?.toString() ?: "NO LastLocation")
+            Log.d(TAG, "LastLocation: " + (ll?.toString() ?: "NO LastLocation")
             )
             if (ll != null) {
                 SessionTwiclo(this).userAddress = getGeoAddressFromLatLong(
-                    ll!!.latitude,
-                    ll!!.longitude
+                        ll!!.latitude,
+                        ll!!.longitude
                 )
                 SessionTwiclo(this).userLat = ll!!.latitude.toString()
                 SessionTwiclo(this).userLng = ll!!.longitude.toString()
-                userAddress?.text = SessionTwiclo(
-                    this
-                ).userAddress
+                userAddress?.text = SessionTwiclo(this).userAddress
 
 
                 //  updateUI(ll!!)
@@ -593,7 +561,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 //        //performing positive action
 //        builder.setPositiveButton("Login") { dialogInterface, which ->
 //            startActivity(
-//                Intent(this, LoginActivity::class.java)
+//                Intent(this, SplashActivity::class.java)
 //            )
 //
 //

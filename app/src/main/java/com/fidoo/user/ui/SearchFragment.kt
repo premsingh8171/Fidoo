@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,14 +23,17 @@ import com.fidoo.user.CartActivity
 import com.fidoo.user.R
 import com.fidoo.user.adapter.SearchAdapter
 import com.fidoo.user.adapter.StoreCustomItemsAdapter
+import com.fidoo.user.data.CheckConnectivity
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentSearchBinding
 import com.fidoo.user.interfaces.*
+import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.viewmodels.SearchFragmentViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 
@@ -43,12 +46,14 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
     private var _progressDlg: ProgressDialog? = null
     private var categoryy: ArrayList<CustomListModel>? = null
     var productIdTemp: String? = ""
+    var tempProductId: String? = ""
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
     var countTemp: String? = ""
     var mCustomizeCount: Int? = 0
     var storeIdTemp: String? = ""
     var tempType: String? = ""
     var tempOfferPrice: String? = ""
+    var searchbyStr: String? = ""
     var tempPrice: Double? = 0.0
     var customIdsList: ArrayList<String>? = null
     var customIdsListTemp: ArrayList<CustomCheckBoxModel>? = null
@@ -63,8 +68,12 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        fragmentSearchBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
+        fragmentSearchBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_search,
+            container,
+            false
+        )
 
         //var root: View = inflater.inflate(R.layout.fragment_search, container, false)
 
@@ -109,6 +118,11 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         behavior.setState(BottomSheetBehavior.STATE_COLLAPSED) // Default behavior of bottom sheet
 
 
+        viewmodel?.getCartCountApi(
+                SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
+        )
+
         fragmentSearchBinding?.transLay?.setOnClickListener {
             if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -126,7 +140,9 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 customIdsList!!.add(categoryy!![i].id.toString())
             }
             Log.e("customIdsList", customIdsList.toString())
-            if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals("")) {
+            if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals(
+                    ""
+                )) {
 
                 try {
                     _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
@@ -151,12 +167,14 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 viewmodel!!.addToCartApi(
                     SessionTwiclo(context).loggedInUserDetail.accountId,
                     SessionTwiclo(context).loggedInUserDetail.accessToken,
-                    MainActivity.addCartTempList!!
+                    MainActivity.addCartTempList!!,
+                    ""
                 )
             } else {
                 clearCartPopup()
             }
         }
+
         viewmodel?.addToCartResponse?.observe(requireActivity(), Observer { user ->
 
             if (_progressDlg != null) {
@@ -164,7 +182,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 _progressDlg = null
             }
 
-            if (storeID!=null){
+            if (storeID != null) {
                 //SessionTwiclo(context).storeId = storeID
             }
             Log.e("stores response", Gson().toJson(user))
@@ -184,17 +202,12 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 MainActivity.tempProductList!!.clear()
                 MainActivity.addCartTempList!!.clear()
             }
+
             viewmodel?.getCartCountApi(
                 SessionTwiclo(context).loggedInUserDetail.accountId,
                 SessionTwiclo(context).loggedInUserDetail.accessToken
             )
 
-
-            //Toast.makeText(context, mModelData.message, Toast.LENGTH_SHORT).show()
-            /* viewmodel?.getCartCountApi(
-                SessionTwiclo(activity).loggedInUserDetail.accountId,
-                SessionTwiclo(activity).loggedInUserDetail.accessToken
-            )*/
         })
 
         viewmodel?.customizeProductResponse?.observe(requireActivity(), Observer { user ->
@@ -235,7 +248,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             if (!tempOfferPrice.equals("")) {
                 tempPrice = tempOfferPrice!!.toDouble() + tempPrice!!
             }
-            view?.customAddBtn?.text  =  resources.getString(R.string.ruppee) + tempPrice.toString()
+            view?.customAddBtn?.text = resources.getString(R.string.ruppee) + tempPrice.toString()
 
             val adapter = context?.let {
                 StoreCustomItemsAdapter(
@@ -324,6 +337,29 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 //            )
 //        }
 
+
+
+
+        //cartcount responce
+        viewmodel?.cartCountResponse?.observe(requireActivity(),{cartcount->
+            dismissIOSProgress()
+
+            Log.d("cartCountResponse___",cartcount.toString())
+            var count = cartcount.count
+            var price = cartcount.price
+            storeID = cartcount.store_id
+            if (!cartcount.error){
+                if (count!="0"){
+                    itemQuantity_textsearch.text=count
+                    totalprice_txtsearch.text= "₹"+price
+                    cartitemView_LLsearch.visibility=View.VISIBLE
+                }else{
+                    cartitemView_LLsearch.visibility=View.GONE
+                }
+            }
+
+        })
+
         fragmentSearchBinding?.searchEdt?.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {
@@ -342,17 +378,18 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-
+                searchbyStr=s.toString()
                 if (fragmentSearchBinding?.searchEdt?.text.toString().length >= 2) {
 
                     if (SessionTwiclo(context).isLoggedIn) {
                         viewmodel?.getSearchApi(
                             SessionTwiclo(activity).loggedInUserDetail.accountId,
                             SessionTwiclo(activity).loggedInUserDetail.accessToken,
-                            fragmentSearchBinding?.searchEdt?.text.toString())
+                                searchbyStr!!
+                        )
                     }
-                }
-                else{
+                } else {
+                    searchbyStr=""
                     mTempData.clear()
                     adapter.notifyDataSetChanged()
                 }
@@ -367,61 +404,75 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         })
 
 
-        viewmodel?.cartCountResponse?.observe(requireActivity(), Observer { user ->
+//        viewmodel?.cartCountResponse?.observe(requireActivity(), Observer { user ->
+//
+//            if (_progressDlg != null) {
+//                _progressDlg!!.dismiss()
+//                _progressDlg = null
+//            }
+//
+//            if (!user.error) {
+//                val mModelData: CartCountModel = user
+//                //SessionTwiclo(context).storeId = mModelData.store_id
+//                Log.e("countResponse", Gson().toJson(mModelData))
+//                if (user.store_id != null) {
+//                    storeID = user.store_id
+//                }
+//                /*if (user.count.toInt()>0){
+//                    cartCountTxt.visibility = View.VISIBLE
+//                    fragmentSearchBinding?.llViewCart?.visibility = View.VISIBLE
+//                    cartCountTxt.text = user.count
+//                    fragmentSearchBinding?.txtPrice?.text = resources.getString(R.string.ruppee) + user.price
+//                    if (user.count.equals("1")) {
+//                        fragmentSearchBinding?.txtItems?.text = user.count + " item"
+//                    } else {
+//                        fragmentSearchBinding?.txtItems?.text = user.count + " items"
+//                    }
+//
+//                }else{
+//                    cartCountTxt.visibility = View.GONE
+//                    fragmentSearchBinding?.llViewCart?.visibility = View.GONE
+//                }*/
+//                if (activity != null) {
+//                    if (user.store_id != null) {
+//                        storeID = user.store_id
+//                        SessionTwiclo(requireContext()).storeId = mModelData.store_id
+//                    }
+//
+//                }
+//                /*if (user.count != null) {
+//                    if (user.count.toInt() > 0) {
+//                        //cartCountTxt?.text = user.count
+//                        fragmentSearchBinding?.llViewCart?.visibility = View.VISIBLE
+//                        fragmentSearchBinding?.txtPrice?.text = resources.getString(R.string.ruppee) + user.price
+//                        if (user.count.equals("1")) {
+//                            fragmentSearchBinding?.txtItems?.text = user.count + " item"
+//                        } else {
+//                            fragmentSearchBinding?.txtItems?.text = user.count + " items"
+//                        }
+//                    }
+//                }*/
+//            } else {
+//                if (user.errorCode == 101) {
+//                    showAlertDialog(requireContext())
+//                }
+//            }
+//        })
 
-            if (_progressDlg != null) {
-                _progressDlg!!.dismiss()
-                _progressDlg = null
-            }
-
-            if (!user.error) {
-                val mModelData: CartCountModel = user
-                //SessionTwiclo(context).storeId = mModelData.store_id
-                Log.e("countResponse", Gson().toJson(mModelData))
-                if (user.store_id!=null){
-                    storeID = user.store_id
-                }
-                /*if (user.count.toInt()>0){
-                    cartCountTxt.visibility = View.VISIBLE
-                    fragmentSearchBinding?.llViewCart?.visibility = View.VISIBLE
-                    cartCountTxt.text = user.count
-                    fragmentSearchBinding?.txtPrice?.text = resources.getString(R.string.ruppee) + user.price
-                    if (user.count.equals("1")) {
-                        fragmentSearchBinding?.txtItems?.text = user.count + " item"
-                    } else {
-                        fragmentSearchBinding?.txtItems?.text = user.count + " items"
-                    }
-
-                }else{
-                    cartCountTxt.visibility = View.GONE
-                    fragmentSearchBinding?.llViewCart?.visibility = View.GONE
-                }*/
-                if (activity != null) {
-                    if (user.store_id!=null){
-                        storeID = user.store_id
-                        SessionTwiclo(requireContext()).storeId = mModelData.store_id
-                    }
-
-                }
-                if (user.count != null) {
-                    if (user.count.toInt() > 0) {
-                        //cartCountTxt?.text = user.count
-                        fragmentSearchBinding?.llViewCart?.visibility = View.VISIBLE
-                        fragmentSearchBinding?.txtPrice?.text = resources.getString(R.string.ruppee) + user.price
-                        if (user.count.equals("1")) {
-                            fragmentSearchBinding?.txtItems?.text = user.count + " item"
-                        } else {
-                            fragmentSearchBinding?.txtItems?.text = user.count + " items"
-                        }
-                    }
-                }
+        fragmentSearchBinding?.viewcartfromSearch?.setOnClickListener {
+            if (SessionTwiclo(requireActivity()).isLoggedIn) {
+                requireActivity().startActivity( Intent(requireActivity(), CartActivity::class.java).putExtra(
+                                "store_id", SessionTwiclo(
+                        requireActivity()
+                        ).storeId
+                        )
+                )
             } else {
-                if (user.errorCode == 101) {
-                    showAlertDialog(requireContext())
-                }
-            }
-        })
+                showLoginDialog("Please login to proceed")
 
+            }
+
+        }
         fragmentSearchBinding?.plusLay?.setOnClickListener {
             count++
             fragmentSearchBinding?.countValue?.text = count.toString()
@@ -436,12 +487,12 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 builder.setMessage("This item has multiple customizations added. Proceed to cart to remove item?")
                 // builder.setIcon(android.R.drawable.ic_dialog_alert)
                 //performing positive action
-                builder.setPositiveButton("NO") { dialogInterface, which ->
+                builder.setPositiveButton("NO") { _, _ ->
                     //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                 }
 
                 //performing negative action
-                builder.setNegativeButton("YES") { dialogInterface, which ->
+                builder.setNegativeButton("YES") { _, _ ->
                     //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
                     startActivity(Intent(requireContext(), CartActivity::class.java))
                 }
@@ -457,6 +508,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 }
             }
         }
+
         viewmodel?.clearCartResponse?.observe(requireActivity(), Observer { user ->
             // dismissIOSProgress()
             if (_progressDlg != null) {
@@ -474,6 +526,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 
 
         })
+
         viewmodel?.searchResponse?.observe(requireActivity(), Observer { user ->
             // dismissIOSProgress()
             if (_progressDlg != null) {
@@ -482,10 +535,22 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 _progressDlg = null
             }
 
+            val storeList: ArrayList<SearchModel.Store> = ArrayList()
+
+            val productList: ArrayList<SearchModel.ProductList> = ArrayList()
+
             val mModelData: SearchModel = user
+            for (i in 0 until mModelData.store.size) {
+
+                for (j in 0 until mModelData.store[i].list.size) {
+                    val productData = mModelData.store[i].list[j]
+                    productList.add(productData)
+                }
+            }
+
             Log.e("searchResponse", Gson().toJson(mModelData))
 
-            if (mModelData.productList.size == 0) {
+            if (mModelData.store.size == 0) {
                 fragmentSearchBinding?.emptyIcon?.visibility = View.VISIBLE
                 fragmentSearchBinding?.emptyTitleTxt?.visibility = View.VISIBLE
                 fragmentSearchBinding?.emptyDescTxt?.visibility = View.VISIBLE
@@ -495,26 +560,28 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 }
             } else {
 
-                if(MainActivity.searchSuggestionsList?.contains(fragmentSearchBinding?.searchEdt?.text.toString())!!)
+                /*if(MainActivity.searchSuggestionsList?.contains(fragmentSearchBinding?.searchEdt?.text.toString())!!)
                 {
 
                 }
                 else {
                     MainActivity.searchSuggestionsList?.add(fragmentSearchBinding?.searchEdt?.text.toString())
-                }
+                }*/
                 fragmentSearchBinding?.emptyIcon?.visibility = View.GONE
                 fragmentSearchBinding?.emptyTitleTxt?.visibility = View.GONE
                 fragmentSearchBinding?.emptyDescTxt?.visibility = View.GONE
                 fragmentSearchBinding?.searchRecyclerView?.visibility = View.VISIBLE
                 if (context != null) {
-                    mTempData= mModelData.productList as ArrayList<SearchModel.ProductList>
+                    mTempData = productList
                     adapter = SearchAdapter(requireContext(), mTempData, this, storeID, this, this)
 
 //                    fragmentSearchBinding?.searchRecyclerView?.layoutManager = GridLayoutManager(
 //                        context,
 //                        2
 //                    )
-                    fragmentSearchBinding?.searchRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
+                    fragmentSearchBinding?.searchRecyclerView?.layoutManager = LinearLayoutManager(
+                        requireContext()
+                    )
                     fragmentSearchBinding?.searchRecyclerView?.setHasFixedSize(true)
                     fragmentSearchBinding?.searchRecyclerView?.adapter = adapter
                 }
@@ -535,13 +602,14 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         count: String?,
         offerPrice: String?,
         customizeCount: Int?,
-        storeId: String?,
+        productType: String?,
         cart_id: String?
     ) {
 
-        storeIdTemp = storeId
+        //storeIdTemp = storeId
         productIdTemp = productId
         tempType = typee
+        this.count = count!!.toInt()
         //tempType = storeIdTemp
         tempOfferPrice = offerPrice
         mCustomizeCount = customizeCount
@@ -551,35 +619,32 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 
         if (typee.equals("custom")) {
             if(mCustomizeCount==0) {
+                customIdsListTemp?.clear()
 
-                if (SessionTwiclo(context).storeId.equals(storeIdTemp) || SessionTwiclo(context).storeId.equals(
-                        ""
-                    )
-                ) {
-                    if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-                        fragmentSearchBinding?.searchEdt?.isEnabled = false
+                if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                    behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                    fragmentSearchBinding?.searchEdt?.isEnabled = false
 
-                    } else {
-                        fragmentSearchBinding?.searchEdt?.isEnabled = true
-                        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-                    }
-                    //  tempProductId = productId
-                    try {
-                        _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
-                        _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                        _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                        _progressDlg!!.setCancelable(false)
-                        _progressDlg!!.show()
-                    } catch (ex: Exception) {
-                        Log.wtf("IOS_error_starting", ex.cause!!)
-                    }
-                    customIdsList!!.clear()
-                    viewmodel?.customizeProductApi(
-                        SessionTwiclo(context).loggedInUserDetail.accountId,
-                        SessionTwiclo(context).loggedInUserDetail.accessToken, productId!!
-                    )
+                } else {
+                    fragmentSearchBinding?.searchEdt?.isEnabled = true
+                    behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
                 }
+                //  tempProductId = productId
+                try {
+                    _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
+                    _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                    _progressDlg!!.setCancelable(false)
+                    _progressDlg!!.show()
+                } catch (ex: Exception) {
+                    Log.wtf("IOS_error_starting", ex.cause!!)
+                }
+                customIdsList!!.clear()
+                viewmodel?.customizeProductApi(
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken, productId!!
+                )
+
             }else{
                 val builder = AlertDialog.Builder(requireContext())
                 //set title for alert dialog
@@ -630,15 +695,16 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 // Set other dialog properties
                 alertDialog.setCancelable(true)
                 alertDialog.show()
-                productIdTemp = productId
-                countTemp = count
-                clearCartPopup()
+                //productIdTemp = productId
+                //countTemp = count
             }
 
 
         } else {
 
-            if (SessionTwiclo(context).storeId.equals(typee)||SessionTwiclo(context).storeId.equals("")) {
+            if (SessionTwiclo(context).storeId.equals(typee)||SessionTwiclo(context).storeId.equals(
+                    ""
+                )) {
 
                 try {
                     _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
@@ -660,11 +726,12 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 viewmodel!!.addToCartApi(
                     SessionTwiclo(context).loggedInUserDetail.accountId,
                     SessionTwiclo(context).loggedInUserDetail.accessToken,
-                    MainActivity.addCartTempList!!
+                    MainActivity.addCartTempList!!,
+                    cart_id!!
                 )
             } else {
-                productIdTemp = productId
-                countTemp = count
+                //productIdTemp = productId
+                //countTemp = count
                 clearCartPopup()
             }
         }
@@ -722,14 +789,14 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 SessionTwiclo(activity).loggedInUserDetail.accountId,
                 SessionTwiclo(activity).loggedInUserDetail.accessToken
             )
-        }else{
-            // TODO
         }
+
+
 
 
     }
 
-    override fun onIdSelected(productId: String, type: String, price: String) {
+    override fun onIdSelected(productId: String, type: String, price: String, maxSelectionCount: Int) {
         if (type == "select") {
             customIdsList!!.add(productId)
             val customCheckBoxModel = CustomCheckBoxModel()
@@ -770,7 +837,6 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
 
     }
-
 
     override fun onCustomRadioClick(checkedId: String?, position: String?) {
         var tempCat: String? = ""
@@ -824,9 +890,9 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 
     override fun onSelectedImageClick(position: Int) {
 
-        fragmentSearchBinding?.searchEdt?.setText(
-            MainActivity.searchSuggestionsList!!.get(position).toString()
-        )
+        /*fragmentSearchBinding?.searchEdt?.setText(
+            //MainActivity.searchSuggestionsList!!.get(position).toString()
+        )*/
         try {
             _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
             _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -840,11 +906,11 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             Log.wtf("IOS_error_starting", ex.cause!!)
         }
 
-        viewmodel?.getSearchApi(
+        /*viewmodel?.getSearchApi(
             SessionTwiclo(activity).loggedInUserDetail.accountId,
             SessionTwiclo(activity).loggedInUserDetail.accessToken,
             MainActivity.searchSuggestionsList!![position]
-        )
+        )*/
     }
 
     override fun onItemAddRemoveClick(
@@ -853,10 +919,12 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         type: String?,
         price: String?,
         sid: String?,
-        cartId: String?
-
+        cartId: String?,
+        position: Int
     ) {
-        if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals("")) {
+        if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals(
+                ""
+            )) {
 
             //showIOSProgress()
             //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
@@ -878,6 +946,19 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                     addCartInputModel.customizeSubCatId = customIdsList!!
                     addCartInputModel.isCustomize = "0"
                     MainActivity.addCartTempList!!.add(addCartInputModel)
+
+                    if (cartId != null) {
+                        viewmodel!!.addToCartApi(
+                            SessionTwiclo(context).loggedInUserDetail.accountId,
+                            SessionTwiclo(context).loggedInUserDetail.accessToken,
+                            MainActivity.addCartTempList!!,
+                            ""
+                        )
+                    }
+                    MainActivity.tempProductList!!.clear()
+
+
+
                     //ll_view_cart.visibility = View.VISIBLE // to show bottom cart bar if add is clicked for the first time in non-customized items
                 } else {
                     var check: String= ""
@@ -893,7 +974,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                             break
                         }
                     }
-                    if (check.equals("edit")) {
+                    if (check == "edit") {
 
                         MainActivity.tempProductList!![tempPos].quantity = count
                         MainActivity.addCartTempList!![tempPos].quantity = count
@@ -912,6 +993,13 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                         addCartInputModel.customizeSubCatId = customIdsList!!
                         addCartInputModel.isCustomize = "0"
                         MainActivity.addCartTempList!!.add(addCartInputModel)
+
+                        viewmodel!!.addToCartApi(
+                            SessionTwiclo(context).loggedInUserDetail.accountId,
+                            SessionTwiclo(context).loggedInUserDetail.accessToken,
+                            MainActivity.addCartTempList!!,
+                            ""
+                        )
                     }
                 }
 
@@ -919,7 +1007,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             } else {
                 var check = "edit"
                 var checkPos = 0
-                Log.e("check1", Gson().toJson(MainActivity.tempProductList!! ))
+                Log.e("check1", Gson().toJson(MainActivity.tempProductList!!))
                 for (i in 0 until MainActivity.tempProductList!!.size) {
                     if (MainActivity.tempProductList!![i].productId.equals(productId)) {
                         if (count.equals("0")) {
@@ -941,28 +1029,54 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                     MainActivity.addCartTempList!!.removeAt(checkPos)
                     MainActivity.tempProductList!!.removeAt(checkPos)
 
+                    if (cartId != null) {
+                        if (productId != null) {
+                            viewmodel?.addRemoveCartDetails(
+                                SessionTwiclo(context).loggedInUserDetail.accountId,
+                                SessionTwiclo(context).loggedInUserDetail.accessToken,
+                                productId,
+                                "remove",
+                                "0",
+                                "",
+                                cartId,
+                                customIdsList!!
+                            )
+                        }
+                    }
+
                 } else {
                     MainActivity.tempProductList!![checkPos].quantity = count
                     MainActivity.addCartTempList!![checkPos].quantity = count
+
+                    if (cartId != null) {
+                        if (productId != null) {
+                            viewmodel?.addRemoveCartDetails(
+                                SessionTwiclo(context).loggedInUserDetail.accountId,
+                                SessionTwiclo(context).loggedInUserDetail.accessToken,
+                                productId,
+                                "remove",
+                                "0",
+                                "",
+                                cartId,
+                                customIdsList!!
+                            )
+                        }
+                    }
                 }
 
             }
             //plusMinusPrice = 0.0
             tempPrice = 0.0
-            Log.d("check1", Gson().toJson(MainActivity.tempProductList!! ))
+            Log.d("check1", Gson().toJson(MainActivity.tempProductList!!))
             var bottomPrice: Double? = 0.0
             var bottomCount: Int? = 0
             for (i in 0 until MainActivity.tempProductList!!.size) {
-                bottomPrice = bottomPrice!! + (MainActivity.tempProductList!!.get(i).price.toDouble() * MainActivity.tempProductList!!.get(i).quantity.toInt())
+                bottomPrice = bottomPrice!! + (MainActivity.tempProductList!!.get(i).price.toDouble() * MainActivity.tempProductList!!.get(
+                    i
+                ).quantity.toInt())
                 bottomCount = bottomCount!! + MainActivity.tempProductList!!.get(i).quantity.toInt()
             }
-            //txt_price_.text = resources.getString(R.string.ruppee) + bottomPrice.toString()
-//            cartCountTxt.text = bottomCount.toString()
-//            if (bottomCount == 1) {
-//                //txt_items_.text = bottomCount.toString() + " item"
-//            } else {
-//                //txt_items_.text = bottomCount.toString() + " items"
-//            }
+
         }
         else {
 
@@ -972,8 +1086,10 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
     override fun clearCart() {
         viewmodel?.clearCartApi(
             SessionTwiclo(context).loggedInUserDetail.accountId,
-            SessionTwiclo(context).loggedInUserDetail.accessToken)
+            SessionTwiclo(context).loggedInUserDetail.accessToken
+        )
     }
+
     private fun showLoginDialog(message: String){
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
         //set title for alert dialog
@@ -1002,24 +1118,97 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         alertDialog.show()
     }
 
-    override fun onAddItemClick(
-        productId: String?,
-        quantity: String?,
-        offerPrice: String?,
-        customizeid: String?,
-        prodcustCustomizeId: String?,
-        cart_id: String?
-    ) {
-        TODO("Not yet implemented")
+    override fun onAddItemClick(productId: String?, quantity: String?, offerPrice: String?, isCustomize: String?, prodcustCustomizeId: String?, cart_id: String?)
+    {
+        tempOfferPrice = offerPrice
+        //plusMinusPrice = 0.0
+        tempPrice = 0.0
+
+        tempProductId = productId
+
+
+        val builder = AlertDialog.Builder(requireContext())
+        //set title for alert dialog
+        builder.setTitle("Your previous customization")
+        //set message for alert dialog
+        builder.setMessage(quantity)
+        // builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton("I'LL CHOOSE") { _, which ->
+
+            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+                //searchLay.visibility = View.GONE
+            } else {
+                behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+                //searchLay.visibility = View.VISIBLE
+            }
+
+            //tempProductId = productId
+            //showIOSProgress()
+            customIdsList!!.clear()
+            viewmodel?.customizeProductApi(
+                SessionTwiclo(context).loggedInUserDetail.accountId,
+                SessionTwiclo(context).loggedInUserDetail.accessToken, productId!!
+            )
+            //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
+        }
+
+        //performing negative action
+        builder.setNegativeButton("REPEAT") { _, which ->
+            //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
+            //showIOSProgress()
+            viewmodel?.addRemoveCartDetails(
+                SessionTwiclo(context).loggedInUserDetail.accountId,
+                SessionTwiclo(context).loggedInUserDetail.accessToken,
+                productId!!,
+                "add",
+                isCustomize!!,
+                prodcustCustomizeId!!,
+                cart_id!!,
+                customIdsList!!
+            )
+
+
+
+        }
+        // Create the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(true)
+        alertDialog.show()
     }
 
-    override fun onRemoveItemClick(
-        productId: String?,
-        quantity: String?,
-        customizeid: String?,
-        prodcustCustomizeId: String?,
-        cart_id: String?
-    ) {
-        TODO("Not yet implemented")
+    override fun onRemoveItemClick(productId: String?, quantity: String?, isCustomize: String?, prodcustCustomizeId: String?, cart_id: String?)
+    {
+        if (!isNetworkConnected()) {
+            showToast(resources.getString(R.string.provide_internet))
+
+        } else {
+            //showIOSProgress()
+            if (cart_id != null) {
+                viewmodel?.addRemoveCartDetails(
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken,
+                    productId!!,
+                    "remove",
+                    isCustomize!!,
+                    prodcustCustomizeId!!,
+                    cart_id,
+                    customIdsList!!
+                )
+            }
+        }
     }
+
+    fun isNetworkConnected(): Boolean {
+        return CheckConnectivity(context).isNetworkAvailable
+    }
+
+    fun showToast(toast_string: String?) {
+        Toast.makeText(context, toast_string, Toast.LENGTH_SHORT).show()
+    }
+
+
 }

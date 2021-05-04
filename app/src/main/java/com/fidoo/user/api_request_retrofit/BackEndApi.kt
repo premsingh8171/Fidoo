@@ -1,6 +1,8 @@
 package com.fidoo.user.api_request_retrofit
 
 import com.fidoo.user.data.model.*
+import com.fidoo.user.grocery.model.getGroceryProducts.GroceryProductsResponse
+import com.fidoo.user.search.model.SearchListModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -17,7 +19,7 @@ interface BackEndApi {
         @Field("country_code") country_code: String?,
         @Field("device_id") device_id: String?,
         @Field("device_type") device_type: String?
-    ): Call<com.fidoo.user.data.model.EditProfileModel>
+    ): Call<EditProfileModel>
 
     @FormUrlEncoded
     @POST("homeBanner.inc.php")
@@ -26,7 +28,7 @@ interface BackEndApi {
         @Field("accessToken") accessToken: String?,
         @Field("isNewApp") isNewApp: String?
 
-    ): Call<com.fidoo.user.data.model.BannerModel>
+    ): Call<BannerModel>
 
     @FormUrlEncoded
     @POST("serviceList.inc.php")
@@ -34,7 +36,7 @@ interface BackEndApi {
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?
 
-    ): Call<com.fidoo.user.data.model.HomeServicesModel>
+    ): Call<HomeServicesModel>
 
     @FormUrlEncoded
     @POST("storeCategoryList.inc.php")
@@ -55,9 +57,10 @@ interface BackEndApi {
         @Field("latitude") latitude: String?,
         @Field("longitude") longitude: String?,
         @Field("distance_start") distance_start: String?,
-        @Field("distance_end") distance_end: String?
+        @Field("distance_end") distance_end: String?,
+        @Field("sort_by") sort_by: String?
 
-    ): Call<com.fidoo.user.data.model.StoreListingModel>
+    ): Call<StoreListingModel>
 
     @FormUrlEncoded
     @POST("storeDetails.inc.php")
@@ -68,7 +71,16 @@ interface BackEndApi {
         @Field("is_nonveg") is_nonveg: String?,
         @Field("cat_id") cat_id: String?
 
-    ): Call<com.fidoo.user.data.model.StoreDetailsModel>
+    ): Call<StoreDetailsModel>
+
+//for grocery
+    @FormUrlEncoded
+    @POST("getGroceryProducts.inc.php")
+    fun getGroceryProducts(
+            @Field("accountId") accountId: String?,
+            @Field("accessToken") accessToken: String?,
+            @Field("store_id") store_id: String?,
+    ): Call<GroceryProductsResponse>
 
     @FormUrlEncoded
     @POST("searchStoreProduct.inc.php")
@@ -79,7 +91,7 @@ interface BackEndApi {
         @Field("search") search: String?,
         @Field("is_nonveg") is_nonveg: String?
 
-    ): Call<com.fidoo.user.data.model.StoreDetailsModel>
+    ): Call<StoreDetailsModel>
 
     @FormUrlEncoded
     @POST("productDetails.inc.php")
@@ -88,7 +100,7 @@ interface BackEndApi {
         @Field("accessToken") accessToken: String?,
         @Field("product_id") product_id: String?
 
-    ): Call<com.fidoo.user.data.model.ProductDetailsModel>
+    ): Call<ProductDetailsModel>
 /*
     @Headers("Content-Type: application/json;charset=UTF-8")
     @FormUrlEncoded
@@ -111,7 +123,7 @@ interface BackEndApi {
 
     @Headers("Accept: application/json", "Content-Type: application/json")
     @POST("addcart.inc.php")
-    fun addToCartApi(@Body dataPost: com.fidoo.user.data.model.AddCartInputModelFinal): Call<com.fidoo.user.data.model.AddToCartModel>
+    fun addToCartApi(@Body dataPost: AddCartInputModelFinal): Call<AddToCartModel>
 
     /*
     @FormUrlEncoded
@@ -138,7 +150,7 @@ interface BackEndApi {
         @Field("delivery_rating") delivery_rating: String?,
         @Field("delivery_review") delivery_review: String?
 
-    ): Call<com.fidoo.user.data.model.ReviewModel>
+    ): Call<ReviewModel>
 
     @FormUrlEncoded
     @POST("cartdetail.inc.php")
@@ -149,7 +161,7 @@ interface BackEndApi {
         @Field("user_long") userLong: String?
         //@Field("store_customer_distance") storeCustomerDistance: String?,
         //@Field("store_id") storeId: String?
-    ): Call<com.fidoo.user.data.model.CartModel>
+    ): Call<CartModel>
 
     @FormUrlEncoded
     @POST("deleteCartProduct.inc.php")
@@ -158,14 +170,14 @@ interface BackEndApi {
         @Field("accessToken") accessToken: String?,
         @Field("product_id") product_id: String?,
         @Field("cart_id") cart_id: String?
-    ): Call<com.fidoo.user.data.model.DeleteModel>
+    ): Call<DeleteModel>
 
     @FormUrlEncoded
     @POST("deleteCartCoupon.inc.php")
     fun deleteCartCouponApi(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?
-    ): Call<com.fidoo.user.data.model.DeleteModel>
+    ): Call<DeleteModel>
 
     @FormUrlEncoded
     @POST("addRemoveCartProduct.inc.php")
@@ -178,7 +190,7 @@ interface BackEndApi {
         @Field("product_customize_id") product_customize_id: String?,
         @Field("cart_id") cart_id: String?,
         @Field("customize_sub_cat_id[]") customize_sub_cat_id: ArrayList<String>?
-    ): Call<com.fidoo.user.data.model.AddRemoveCartModel>
+    ): Call<AddRemoveCartModel>
 
     @FormUrlEncoded
     @POST("payment.inc.php")
@@ -189,7 +201,7 @@ interface BackEndApi {
         @Field("transaction_id") transaction_id: String?,
         @Field("payment_bank") payment_bank: String?,
         @Field("payment_mode") payment_mode: String?
-    ): Call<com.fidoo.user.data.model.PaymentModel>
+    ): Call<PaymentModel>
 /*
     @FormUrlEncoded
     @POST("generateRazorPayOrderId.inc.php")
@@ -211,14 +223,14 @@ interface BackEndApi {
         @Field("promo_id") promo_id: String?,
         @Field("delivery_instructions") delivery_instructions: String?,
         @Field("payment_mode") payment_mode: String?
-    ): Call<com.fidoo.user.data.model.OrderPlaceModel>
+    ): Call<OrderPlaceModel>
 
     @FormUrlEncoded
     @POST("listAddress.inc.php")
     fun getAddressesApi(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?
-    ): Call<com.fidoo.user.data.model.GetAddressModel>
+    ): Call<GetAddressModel>
 
 
     @FormUrlEncoded
@@ -227,36 +239,36 @@ interface BackEndApi {
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
         @Field("promocode") promocode: String?
-    ): Call<com.fidoo.user.data.model.ApplyPromoModel>
+    ): Call<ApplyPromoModel>
 
     @FormUrlEncoded
     @POST("offers.inc.php")
     fun getOffersApi(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?
-    ): Call<com.fidoo.user.data.model.PromoModel>
+    ): Call<PromoModel>
 
     @FormUrlEncoded
     @POST("aboutus.inc.php")
     fun getAboutUsApi(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?
-    ): Call<com.fidoo.user.data.model.AboutUsModel>
+    ): Call<AboutUsModel>
 
     @POST("termnconditon.inc.php")
     fun getTermsApi(
-    ): Call<com.fidoo.user.data.model.AboutUsModel>
+    ): Call<AboutUsModel>
 
     @POST("cancelationpolicy.inc.php")
     fun getCancellationApi(
-    ): Call<com.fidoo.user.data.model.AboutUsModel>
+    ): Call<AboutUsModel>
 
     @FormUrlEncoded
     @POST("orderList.inc.php")
     fun getMyOrdersApi(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?
-    ): Call<com.fidoo.user.data.model.MyOrdersModel>
+    ): Call<MyOrdersModel>
 
     @FormUrlEncoded
     @POST("orderDetails.inc.php")
@@ -264,7 +276,7 @@ interface BackEndApi {
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
         @Field("order_id") order_id: String?
-    ): Call<com.fidoo.user.data.model.OrderDetailsModel>
+    ): Call<OrderDetailsModel>
 
     @FormUrlEncoded
     @POST("orderCancel.inc.php")
@@ -272,7 +284,7 @@ interface BackEndApi {
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
         @Field("order_id") order_id: String?
-    ): Call<com.fidoo.user.data.model.DeleteModel>
+    ): Call<DeleteModel>
 
     @FormUrlEncoded
     @POST("locationGet.inc.php")
@@ -281,7 +293,7 @@ interface BackEndApi {
         @Field("accessToken") accessToken: String?,
         @Field("order_id") order_id: String?,
         @Field("user_type") user_type: String?
-    ): Call<com.fidoo.user.data.model.LocationResponseModel>
+    ): Call<LocationResponseModel>
 
     @FormUrlEncoded
     @POST("customizeProduct.inc.php")
@@ -289,7 +301,7 @@ interface BackEndApi {
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
         @Field("product_id") product_id: String?
-    ): Call<com.fidoo.user.data.model.CustomizeProductResponseModel>
+    ): Call<CustomizeProductResponseModel>
 
     @FormUrlEncoded
     @POST("addAddress.inc.php")
@@ -307,7 +319,7 @@ interface BackEndApi {
         @Field("email_id") email_id: String?,
         @Field("is_default") is_default: String?,
         @Field("phone_no") phone_no: String?
-    ): Call<com.fidoo.user.data.model.AddAddressModel>
+    ): Call<AddAddressModel>
 
     @FormUrlEncoded
     @POST("editAddress.inc.php")
@@ -326,7 +338,7 @@ interface BackEndApi {
         @Field("email_id") email_id: String?,
         @Field("address_id") address_id: String?,
         @Field("is_default") is_default: String?
-    ): Call<com.fidoo.user.data.model.AddAddressModel>
+    ): Call<AddAddressModel>
 
     @FormUrlEncoded
     @POST("deleteAddress.inc.php")
@@ -334,7 +346,7 @@ interface BackEndApi {
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
         @Field("address_id") address_id: String?
-    ): Call<com.fidoo.user.data.model.DeleteAddressModel>
+    ): Call<DeleteAddressModel>
 
     @FormUrlEncoded
     @POST("searchList.inc.php")
@@ -342,35 +354,43 @@ interface BackEndApi {
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
         @Field("search") search: String?
-    ): Call<com.fidoo.user.data.model.SearchModel>
+    ): Call<SearchModel>
+
+    @FormUrlEncoded
+    @POST("searchList.inc.php")
+    fun searchApiForNewUi(
+        @Field("accountId") accountId: String?,
+        @Field("accessToken") accessToken: String?,
+        @Field("search") search: String?
+    ): Call<SearchListModel>
 
     @FormUrlEncoded
     @POST("logout.inc.php")
     fun logoutApi(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?
-    ): Call<com.fidoo.user.data.model.LogoutModel>
+    ): Call<LogoutModel>
 
     @FormUrlEncoded
     @POST("sendPackageCategory.inc.php")
     fun packageCategoriesApi(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?
-    ): Call<com.fidoo.user.data.model.PackageCatResponseModel>
+    ): Call<PackageCatResponseModel>
 
     @FormUrlEncoded
     @POST("countcart.inc.php")
     fun cartCountApi(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?
-    ): Call<com.fidoo.user.data.model.CartCountModel>
+    ): Call<CartCountModel>
 
     @FormUrlEncoded
     @POST("deleteCart.inc.php")
     fun clearCartApi(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?
-    ): Call<com.fidoo.user.data.model.ClearCartModel>
+    ): Call<ClearCartModel>
 
     @FormUrlEncoded
     @POST("sendPackage.inc.php")
@@ -378,7 +398,7 @@ interface BackEndApi {
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
         @Field("package_distance") package_distance: String?
-    ): Call<com.fidoo.user.data.model.SendPackagesModel>
+    ): Call<SendPackagesModel>
 
     @FormUrlEncoded
     @POST("sendPackagePayment.inc.php")
@@ -396,7 +416,7 @@ interface BackEndApi {
         @Field("package_distance") package_distance: String?,
         @Field("payment_amount") payment_amount: String?,
         @Field("package_delivery_time") package_delivery_time: String?
-    ): Call<com.fidoo.user.data.model.SendPackageOrderDetailModel>
+    ): Call<SendPackageOrderDetailModel>
 
     /*@Field("from_address") from_address: String?,
     @Field("from_note") from_note: String?,
@@ -413,7 +433,7 @@ interface BackEndApi {
         @Field("accessToken") accessToken: String?,
         @Field("customer_phone") customer_phone: String?,
         @Field("delivery_boy_phone") delivery_boy_phone: String?
-    ): Call<com.fidoo.user.data.model.CallResponseModel>
+    ): Call<CallResponseModel>
 
     @Multipart
     @POST("uploadPrescription.inc.php")
@@ -422,7 +442,7 @@ interface BackEndApi {
         @Part("accessToken") accessToken: RequestBody?,
 
         @Part document: MultipartBody.Part?
-    ): Call<com.fidoo.user.data.model.UploadPresModel>
+    ): Call<UploadPresModel>
 
     @Multipart
     @POST("addUpdateProfile.inc.php")
@@ -433,7 +453,7 @@ interface BackEndApi {
         @Part("emailid") emailid: RequestBody?,
 
         @Part photo: MultipartBody.Part?
-    ): Call<com.fidoo.user.data.model.EditProfileModel>
+    ): Call<EditProfileModel>
 
     @FormUrlEncoded
     @POST("orderProceed.inc.php")
