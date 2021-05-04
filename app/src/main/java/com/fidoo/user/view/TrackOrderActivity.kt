@@ -44,8 +44,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallback,
-    OnCurveClickListener, NotiCheck {
+class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallback, OnCurveClickListener, NotiCheck {
+
     private var curveManager: CurveManager? = null
     private lateinit var mMap: GoogleMap
     private var timer: CountDownTimer? = null
@@ -73,55 +73,55 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_track_order)
+        statusBarTransparent()
+
+        viewmodel = ViewModelProviders.of(this).get(TrackViewModel::class.java)
+        orderViewModel = ViewModelProviders.of(this).get(MyOrdersFragmentViewModel::class.java)
         userName = intent.getStringExtra("delivery_boy_name")
         //  continueTxt.setText(intent.getStringExtra("delivery_boy_mobile"))
 
         trackOrderContext = this
         //Log.e("Timer Status", timerStatus.toString())
+        tv_order_id.text = intent.getStringExtra("orderId")!!
+
 
         tv_delivery_boy_call.setOnClickListener {
-
-            /*val dialIntent = Intent(Intent.ACTION_DIAL)
-            dialIntent.data = Uri.parse("tel:" + driverMobileNo)
-            startActivity(dialIntent)*/
 
             viewmodel?.callCustomerResponse?.observe(this, androidx.lifecycle.Observer {
                 val call_status = it.message
                 showToast("" + call_status)
             })
 
-
             viewmodel?.callCustomerApi(
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
-                sessionInstance.profileDetail.account.userName,
-                driverMobileNo!!
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    sessionInstance.profileDetail.account.userName,
+                    driverMobileNo!!
             )
         }
-        statusBarTransparent()
 
-        viewmodel = ViewModelProviders.of(this).get(TrackViewModel::class.java)
-        orderViewModel = ViewModelProviders.of(this).get(MyOrdersFragmentViewModel::class.java)
+
+
 
         viewmodel?.getLocationApi(
-            com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-            com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
-            intent.getStringExtra("orderId")!!, "user"
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                intent.getStringExtra("orderId")!!, "user"
         )
 
 
         orderViewModel?.getMyOrders(
-            com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-            com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken
         )
 
         //currentOrderId = intent.getStringExtra("orderId")!!
-        tv_order_id.text = intent.getStringExtra("orderId")!!
+
         //order_status.text = intent.getStringExtra("order_status")
 
         timer = object : CountDownTimer(10000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                cancel();
+                //cancel()
                 //waitingLay.visibility= View.VISIBLE
                 Log.e("left", "seconds remaining: " + millisUntilFinished / 1000)
                 //  mTextField.setText("seconds remaining: " + millisUntilFinished / 1000)
@@ -130,15 +130,16 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
 
             override fun onFinish() {
                 viewmodel?.getLocationApi(
-                    com.fidoo.user.data.session.SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accessToken,
-                    intent.getStringExtra("orderId")!!,
-                    "user"
+                        SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
+                        SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accessToken,
+                        intent.getStringExtra("orderId")!!,
+                        "user"
                 )
                 orderViewModel?.getMyOrders(
-                    com.fidoo.user.data.session.SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accessToken
+                        SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
+                        SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accessToken
                 )
+                timer?.start()
 
 
                 //mTextField.setText("done!")
@@ -157,10 +158,8 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
 
         orderDetailsTxt.setOnClickListener {
             startActivity(
-                Intent(this, OrderDetailsActivity::class.java).putExtra(
-                    "orderId",
-                    intent.getStringExtra("orderId")!!
-                )
+                    Intent(this, OrderDetailsActivity::class.java).putExtra("orderId", intent.getStringExtra("orderId")!!
+                    )
             )
         }
 
@@ -168,21 +167,21 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
             showIOSProgress()
             timerr?.cancel()
             viewmodel!!.cancelOrderApi(
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
-                intent.getStringExtra("orderId")!!
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    intent.getStringExtra("orderId")!!
             )
 
         }
 
         viewmodel?.getLocationApi(
-            com.fidoo.user.data.session.SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
-            com.fidoo.user.data.session.SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accessToken,
-            intent.getStringExtra("orderId")!!,
-            "user"
+                SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
+                SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accessToken,
+                intent.getStringExtra("orderId")!!,
+                "user"
         )
 
-        viewmodel?.cancelOrderResponse?.observe(this, androidx.lifecycle.Observer { user ->
+        viewmodel?.cancelOrderResponse?.observe(this, { user ->
             dismissIOSProgress()
             Log.e("stores response", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.DeleteModel = user
@@ -192,12 +191,18 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
+        viewmodel?.proceedToOrderResponse?.observe(this, {
+            timerr?.cancel()
+            showToast("Your order has been placed")
+            waitingLay.visibility = View.GONE
+        })
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
 
-        viewmodel?.getLocationResponse?.observe(this, androidx.lifecycle.Observer { user ->
+        viewmodel?.getLocationResponse?.observe(this, { user ->
             Log.e("timer status", timerStatus.toString())
             userName = user.driver_name
             tv_delivery_boy.text = userName
@@ -314,17 +319,12 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
 
             }
 
+            orderViewModel?.myOrdersResponse?.observe(this, {
 
-            if (timerStatus.equals("")) {
-//                val finalDiff = getDifferenceBetweenDates(user.order_create_time)
-////                if (finalDiff in 1..9) {
-                if (timerStatus.equals("")) {
-                    timerStatus = "yes"
+                if (it.orders[0].orderStatus == "13"){
+                    //timerStatus = "yes"
                     waitingLay.visibility = View.VISIBLE
-                    timerr = object : CountDownTimer(
-                        ((10 - getDifferenceBetweenDates(user.order_create_time)) * 1000).toLong(),
-                        1000
-                    ) {
+                    timerr = object : CountDownTimer(10000, 1000) {
                         override fun onTick(millisUntilFinished: Long) {
                             cancelBtn.visibility = View.VISIBLE
                             cancelBtn.text = "Cancel (" + (millisUntilFinished / 1000) + ")"
@@ -336,88 +336,32 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                         override fun onFinish() {
                             waitingLay.visibility = View.GONE
                             cancelBtn.visibility = View.GONE
-                            orderViewModel?.myOrdersResponse?.observe(this@TrackOrderActivity, {
-                                if (it.orders[0].orderStatus == "13"){
-                                    viewmodel?.proceedToOrder(
-                                        com.fidoo.user.data.session.SessionTwiclo(
-                                            trackOrderContext
-                                        ).loggedInUserDetail.accountId,
-                                        com.fidoo.user.data.session.SessionTwiclo(
-                                            trackOrderContext
-                                        ).loggedInUserDetail.accessToken,
+                            if (it.orders[0].orderStatus == "13"){
+                                viewmodel?.proceedToOrder(
+                                        SessionTwiclo(trackOrderContext).loggedInUserDetail.accountId,
+                                        SessionTwiclo(trackOrderContext).loggedInUserDetail.accessToken,
                                         currentOrderId.toString()
-                                    )
-                                }
-                            })
+                                )
+                            }
                             /* startActivity(
-                             Intent(this@CartActivity, OrderDetailsActivity::class.java).putExtra(
-                                 "orderId",
-                                 user.orderId
-                             ).putExtra("type", "")
-                         )*/
+							 Intent(this@CartActivity, OrderDetailsActivity::class.java).putExtra(
+								 "orderId",
+								 user.orderId
+							 ).putExtra("type", "")
+						 )*/
                             //mTextField.setText("done!")
                         }
                     }.start()
                 }
-                if (getDifferenceBetweenDates(user.order_create_time) > 10) {
 
-                    waitingLay.visibility = View.GONE
-                    cancelBtn.visibility = View.GONE
-                } else if (getDifferenceBetweenDates(user.order_create_time) < 0) {
-                    waitingLay.visibility = View.GONE
-                    /*  if (getDifferenceBetweenDates(user.order_create_time) < 0)
-                    {
-                        waitingLay.visibility = View.GONE
-                    }
-                    else
-                    {
-                        waitingLay.visibility = View.VISIBLE
-                    } */
+            })
 
-                    if (timerStatus.equals("")) {
-                        timerStatus = "yes"
-                        timerr = object : CountDownTimer(10000, 1000) {
-                            override fun onTick(millisUntilFinished: Long) {
-                                cancelBtn.visibility = View.VISIBLE
-                                cancelBtn.text = "Cancel (" + (millisUntilFinished / 1000) + ")"
-                                Log.e(
-                                    "left", "seconds remaining: " + millisUntilFinished / 1000
-                                )
-                                //  mTextField.setText("seconds remaining: " + millisUntilFinished / 1000)
-                                //here you can have your logic to set text to edittext
-                            }
 
-                            override fun onFinish() {
-                                waitingLay.visibility = View.GONE
-                                cancelBtn.visibility = View.GONE
 
-                                orderViewModel?.myOrdersResponse?.observe(this@TrackOrderActivity, {
-                                    if (it.orders[0].orderStatus == "13"){
-                                        viewmodel?.proceedToOrder(
-                                            SessionTwiclo(
-                                                trackOrderContext
-                                            ).loggedInUserDetail.accountId,
-                                            SessionTwiclo(
-                                                trackOrderContext
-                                            ).loggedInUserDetail.accessToken,
-                                            currentOrderId.toString()
-                                        )
-                                    }
-                                })
 
-                                /* startActivity(
-                                 Intent(this@CartActivity, OrderDetailsActivity::class.java).putExtra(
-                                     "orderId",
-                                     user.orderId
-                                 ).putExtra("type", "")
-                             )*/
-                                //mTextField.setText("done!")
-                            }
-                        }.start()
 
-                    }
-                }
-            }
+
+
 
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
@@ -440,6 +384,8 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                 }
                 it.orders[0].orderStatus.equals("11") -> {
                     order_status.text = "Your order is being prepared"
+                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
+                    order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
                 }
                 it.orders[0].orderStatus.equals("3") -> {
                     if (it.orders.get(0).is_rate_to_driver.equals("1")) {
@@ -536,8 +482,8 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
         Log.e("formatted", formatted)
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
         // 2021-01-06 10:35:56
-        var date1 = simpleDateFormat.parse(formatted)
-        var date2 = simpleDateFormat.parse(created_datee)
+        val date1 = simpleDateFormat.parse(formatted)
+        val date2 = simpleDateFormat.parse(created_datee)
 
 //        var dateCheck: Boolean = false
 //        if (date1 > date2) {
@@ -717,8 +663,9 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
     override fun onResume() {
         super.onResume()
         //mMap = GoogleMap() TODO
-        MainActivity.check = "yes"
+        //MainActivity.check = "yes"
         Log.e("upcoming resume", "yes")
+        tv_order_id.text = intent.getStringExtra("orderId")!!
     }
 
     override fun onPause() {
@@ -734,7 +681,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
     }
 
      override fun notiStatus(orderStatus: String) {
-        if (orderStatus.equals("accepted")) {
+        if (orderStatus == "accepted") {
             runOnUiThread {
                 val customBuilder =
                     AlertDialog.Builder(trackOrderContext!!)

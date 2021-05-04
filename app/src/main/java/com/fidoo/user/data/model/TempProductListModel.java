@@ -7,9 +7,11 @@ public class TempProductListModel {
     @SerializedName("price")
     @Expose
     public String price;
+
     @SerializedName("productId")
     @Expose
     public String productId;
+
     @SerializedName("quantity")
     @Expose
     public String quantity;

@@ -114,7 +114,7 @@ class CartActivity : BaseActivity(),
 
         //For Faster checkout of RazorPay
         Checkout.preload(applicationContext)
-        co.setKeyID("rzp_live_iceNLz5pb15jtP")
+        co.setKeyID("rzp_test_17ihcfTIqBGF9R")
         storeId = intent.getStringExtra("store_id").toString()
 
 
@@ -1065,7 +1065,7 @@ class CartActivity : BaseActivity(),
 
     }
 
-    override fun onIdSelected(productId: String?, type: String?, price: String?) {
+    override fun onIdSelected(productId: String?, type: String?, price: String?, maxSelectionCount: Int) {
         if (type.equals("select")) {
 
             if (productId != null) {
