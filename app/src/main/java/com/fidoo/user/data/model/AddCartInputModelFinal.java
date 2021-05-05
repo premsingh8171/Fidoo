@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddCartInputModelFinal {
+
     @SerializedName("accountId")
     @Expose
     public String accountId;
@@ -21,6 +22,3 @@ public class AddCartInputModelFinal {
     public String cart_id;
 
 }
-
-
-

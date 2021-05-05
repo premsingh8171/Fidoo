@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:background="@color/lightGray"
         android:layout_height="match_parent">
 
 
@@ -142,7 +143,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emptyTitleTxt" />
 
-        <RelativeLayout
+       <!-- <RelativeLayout
             android:id="@+id/ll_view_cart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -206,7 +207,7 @@
                 android:textSize="@dimen/text_size_17sp" />
 
 
-        </RelativeLayout>
+        </RelativeLayout>-->
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -284,7 +285,6 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="5dp"
                             android:gravity="center"
-
                             />
                     </LinearLayout>
 
@@ -369,21 +369,76 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
-                        android:id="@+id/placesDown"
-                        android:layout_width="280dp"
-                        android:layout_height="55dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="85dp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+
 
                 </RelativeLayout>
 
             </LinearLayout>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <LinearLayout
+            android:id="@+id/cartitemView_LLsearch"
+            android:visibility="visible"
+            android:gravity="center_vertical"
+            android:background="@color/colorGreenText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_50dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_marginLeft="@dimen/margin_5dp"
+                android:id="@+id/itemQuantity_textsearch"
+                android:padding="@dimen/margin_10dp"
+                android:textSize="@dimen/text_size_14sp"
+                android:text="0"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:padding="@dimen/margin_5dp"
+                android:textSize="@dimen/text_size_14sp"
+                android:text="Item"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:layout_marginLeft="@dimen/margin_5dp"
+                android:layout_marginRight="@dimen/margin_5dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="18dp"
+                android:background="@color/white"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/totalprice_txtsearch"
+                android:padding="@dimen/margin_5dp"
+                android:textSize="@dimen/text_size_14sp"
+                android:text="Rs.200"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/viewcartfromSearch"
+                android:textStyle="bold"
+                android:gravity="end|center_vertical"
+                android:padding="@dimen/margin_5dp"
+                android:textSize="@dimen/text_size_14sp"
+                android:text="VIEW CART"
+                android:textColor="@color/white"
+                android:drawableTint="@color/white"
+                android:drawableLeft="@color/quantum_amber100"
+                android:drawableEnd="@drawable/addtocart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -37,10 +37,27 @@ class SearchAdapter(
 
     override fun getItemCount() = productList.size
 
+    class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var qty = view.qty
+        var itemName = view.itemName
+        var offerPrice = view.offerPrice
+        var priceAfterDiscount = view.priceAfterDiscount
+        var customText = view.tv_stock_status
+        var mainLay = view.mainLay
+        var storeImg = view.storeImg
+        var plusLay = view.btn_plus
+        var minusLay = view.btn_minus
+        var countValue = view.tv_count
+        var add_remove_layy = view.add_remove_lay
+        //   var ratingTxtValue = view.ratingTxtValue
+        var add_new_layy = view.add_item_lay
+
+    }
+
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         storeID = productList[position].storeId
-        var count:Int=0
-        holder.qty.text = productList.get(position).productName
+        var count: Int = 0
+        holder.qty.text = productList[position].weight + productList[position].unit
         holder.itemName.text = productList.get(position).productName
 //        if(!productList.get(position).rating.equals("")) {
 //            holder.ratingTxtValue.visibility=View.VISIBLE
@@ -48,10 +65,8 @@ class SearchAdapter(
 //        }
 
         holder.offerPrice.paintFlags = holder.offerPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        holder.offerPrice.text =
-                con.resources.getString(R.string.ruppee) + productList.get(position).price
-        holder.priceAfterDiscount.text =
-                con.resources.getString(R.string.ruppee) + productList.get(position).offerPrice
+        holder.offerPrice.text = con.resources.getString(R.string.ruppee) + productList.get(position).price
+        holder.priceAfterDiscount.text = con.resources.getString(R.string.ruppee) + productList.get(position).offerPrice
 
         Glide.with(con)
                 .load(productList[position].productImage)
@@ -73,9 +88,9 @@ class SearchAdapter(
             tempProductListModel.price = productList.get(position).offerPrice
             tempProductListModel.quantity = productList.get(position).cartQuantity.toString()
             MainActivity.tempProductList!!.add(tempProductListModel)
-            var customIdsList: ArrayList<String>? = null
+            val customIdsList: ArrayList<String>?
 
-            customIdsList = ArrayList<String>()
+            customIdsList = ArrayList()
             val addCartInputModel = AddCartInputModel()
             addCartInputModel.productId = productList[position].productId
             addCartInputModel.quantity = productList[position].cartQuantity.toString()
@@ -89,14 +104,14 @@ class SearchAdapter(
             holder.countValue.text = productList[position].cartQuantity.toString()
         }
 
-        if(productList[position].isCustomize.equals("1")) {
-            holder.add_remove_layy.visibility=View.GONE
-            holder.add_new_layy.visibility=View.VISIBLE
+        if (productList[position].isCustomize.equals("1")) {
+            holder.add_remove_layy.visibility = View.GONE
+            holder.add_new_layy.visibility = View.VISIBLE
             //holder.addToCartButton.visibility=View.VISIBLE
         } else {
             //holder.addToCartButton.visibility=View.VISIBLE
-            holder.add_new_layy.visibility=View.VISIBLE
-            holder.add_remove_layy.visibility=View.GONE
+            holder.add_new_layy.visibility = View.VISIBLE
+            holder.add_remove_layy.visibility = View.GONE
         }
 
         /*holder.addToCartButton.setOnClickListener {
@@ -120,10 +135,11 @@ class SearchAdapter(
             }
         }*/
 
+
         holder.mainLay.setOnClickListener {
 
-            if (SessionTwiclo(con).isLoggedIn){
-               /* con.startActivity(
+            if (SessionTwiclo(con).isLoggedIn) {
+                /* con.startActivity(
                         Intent(con, SingleProductActivity::class.java).putExtra(
                                 "productId",
                                 productList.get(position).productId
@@ -135,13 +151,14 @@ class SearchAdapter(
                                 productList.get(position).cartQuantity
                         )
                 )*/
-            }else{
+            } else {
                 showLoginDialog("Please login to proceed")
             }
         }
 
+
         holder.add_new_layy.setOnClickListener {
-            if (SessionTwiclo(con).isLoggedIn){
+            if (SessionTwiclo(con).isLoggedIn) {
                 if (productList[position].isCustomize.equals("1")) {
                     adapterClick.onItemClick(
                             productList[position].productId,
@@ -150,21 +167,21 @@ class SearchAdapter(
                             productList[position].offerPrice,
                             productList[position].isCustomizeQuantity,
                             "",
-                            ""
+                            productList[position].cartId
                     )
                 } else {
                     count++
                     holder.countValue.text = count.toString()
-                    holder.add_new_layy.visibility=View.GONE
-                    holder.add_remove_layy.visibility=View.VISIBLE
+                    holder.add_new_layy.visibility = View.GONE
+                    holder.add_remove_layy.visibility = View.VISIBLE
 
                     if (SessionTwiclo(con).storeId.equals(storeID) || SessionTwiclo(con).storeId.equals("")) {
                         adapterAddRemoveClick.onItemAddRemoveClick(
                                 productList[position].productId, count.toString(), "add",
-                                productList[position].offerPrice,"",
-                            ""
+                                productList[position].offerPrice, "",
+                                productList[position].cartId, 0
                         )
-                    }else{
+                    } else {
                         val builder = AlertDialog.Builder(con)
                         //set title for alert dialog
                         builder.setTitle("Replace cart item!")
@@ -176,7 +193,7 @@ class SearchAdapter(
                             adapterAddRemoveClick.clearCart()
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                     productList[position].productId, count.toString(), "add",
-                                    productList[position].offerPrice,"", "")
+                                    productList[position].offerPrice, "", productList[position].cartId, 0)
 
                             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                         }
@@ -205,98 +222,217 @@ class SearchAdapter(
                         "simple",
                         "")*/
                 }
-            }else{
+            } else {
                 showLoginDialog("Please login to proceed")
             }
         }
 
 
-
-
-        /* if (productList[position].cartQuantity == 0) {
-
-         } else {
-             count = productList.get(position).cartQuantity
-             holder.countValue.text = count.toString()
-         }*/
-
         holder.plusLay.setOnClickListener {
-            count++
-            holder.countValue.text = count.toString()
-
-        }
-
-
-        holder.minusLay.setOnClickListener {
-            if (productList[position].isCustomize == "1"){
-                if (holder.countValue.text.toString().toInt()>0){
-                    var count: Int = holder.countValue.text.toString().toInt()
-                    count--
+            // count++
+            //  holder.countValue.text = count.toString()
+            if (SessionTwiclo(con).isLoggedIn) {
+                if (productList[position].isCustomize.equals("1")) {
+                    adapterClick.onItemClick(
+                            productList[position].productId,
+                            "custom",
+                            "1",
+                            productList[position].offerPrice,
+                            productList[position].isCustomizeQuantity,
+                            "",
+                            ""
+                    )
+                } else {
+                    count++
                     holder.countValue.text = count.toString()
+                    holder.add_new_layy.visibility = View.GONE
+                    holder.add_remove_layy.visibility = View.VISIBLE
 
-                    if (productList[position].customizeItem != null) {
+                    if (SessionTwiclo(con).storeId.equals(storeID) || SessionTwiclo(con).storeId.equals("")) {
+                        adapterAddRemoveClick.onItemAddRemoveClick(
+                                productList[position].productId, count.toString(), "add",
+                                productList[position].offerPrice, "",
+                                "", 0
+                        )
+                    } else {
+                        val builder = AlertDialog.Builder(con)
+                        //set title for alert dialog
+                        builder.setTitle("Replace cart item!")
+                        //set message for alert dialog
+                        builder.setMessage("Do you want to discard the previous selection?")
+                        builder.setIcon(android.R.drawable.ic_dialog_alert)
+                        //performing positive action
+                        builder.setPositiveButton("Yes") { _, _ ->
+                            adapterAddRemoveClick.clearCart()
+                            adapterAddRemoveClick.onItemAddRemoveClick(
+                                    productList[position].productId, count.toString(), "add",
+                                    productList[position].offerPrice, "", "", 0)
 
-                        if (productList[position].customizeItem.size != 0) {
-                            adapterCartAddRemoveClick.onRemoveItemClick(
-                                    productList[position].productId,
-                                    count.toString(),
-                                    productList[position].isCustomize,
-                                    productList[position].customizeItem[0].productCustomizeId,
-                                    ""
-                            )
-                        } else {
-                            adapterCartAddRemoveClick.onRemoveItemClick(
-                                    productList[position].productId,
-                                    count.toString(),
-                                    productList[position].isCustomize,
-                                    "",
-                                    ""
-                            )
+                            //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                         }
+
+
+                        //performing negative action
+                        builder.setNegativeButton("No") { _, _ ->
+                            count = 0
+                            holder.countValue.text = count.toString()
+                            holder.add_new_layy.visibility = View.VISIBLE
+                            holder.add_remove_layy.visibility = View.GONE
+                        }
+                        // Create the AlertDialog
+                        val alertDialog: AlertDialog = builder.create()
+                        // Set other dialog properties
+                        alertDialog.setCancelable(false)
+                        alertDialog.show()
+                    }
+                    //adapterAddRemoveClick.onItemAddRemoveClick(productList.get(position).productId,count.toString(),"add",productList.get(position).offerPrice)
+
+                    /*adapterClick.onItemClick(
+                        productList[position].productId,
+                        productList.get(position).storeId,
+                        holder.countValue.text.toString(),
+                        productList[position].offerPrice,
+                        productList[position].isCustomizeQuantity,
+                        "simple",
+                        "")*/
+                }
+            } else {
+                showLoginDialog("Please login to proceed")
+
+                holder.plusLay.setOnClickListener {
+                    if (productList[position].isCustomize.equals("1")) {
+                        var items: String? = ""
+                        if (productList[position].customizeItem != null) {
+
+                            if (productList[position].customizeItem.size != 0) {
+                                var tempp: Double? = 0.0
+                                for (i in 0 until productList[position].customizeItem.size) {
+                                    items = productList[position].customizeItem[i].subCatName + ", " + items
+                                    tempp = tempp!! + productList[position].customizeItem.get(i).price.toDouble()
+
+                                }
+                                tempp = tempp!! + productList[position].offerPrice.toDouble()
+
+                                items = items!!.substring(0, items.length - 2)
+                            } else {
+
+                            }
+                        }
+
+
+                        if (productList[position].customizeItem != null) {
+                            count++
+
+                            if (productList[position].customizeItem.size != 0) {
+                                adapterCartAddRemoveClick.onAddItemClick(
+                                        productList[position].productId,
+                                        items,
+                                        productList[position].offerPrice,
+                                        productList[position].isCustomize,
+                                        productList[position].customizeItem[position].productCustomizeId,
+                                        productList[position].cartId
+                                )
+                            } else {
+                                adapterCartAddRemoveClick.onAddItemClick(
+                                        productList[position].productId,
+                                        items,
+                                        productList[position].offerPrice,
+                                        productList[position].isCustomize,
+                                        "",
+                                        productList[position].cartId
+                                )
+                            }
+                        }
+
+                    } else {
+                        count++
+                        holder.countValue.text = count.toString()
+                        adapterAddRemoveClick.onItemAddRemoveClick(
+                                productList[position].productId,
+                                count.toString(),
+                                "add",
+                                productList[position].offerPrice, "",
+                                productList[position].cartId, 0
+                        )
+
+                    }
+                }
+
+
+                holder.minusLay.setOnClickListener {
+
+                    if (productList[position].isCustomize == "1") {
+                        if (holder.countValue.text.toString().toInt() > 0) {
+                            var count: Int = holder.countValue.text.toString().toInt()
+                            count--
+                            holder.countValue.text = count.toString()
+
+                            if (productList[position].customizeItem != null) {
+
+                                if (productList[position].customizeItem.size != 0) {
+                                    adapterCartAddRemoveClick.onRemoveItemClick(
+                                            productList[position].productId,
+                                            count.toString(),
+                                            productList[position].isCustomize,
+                                            productList[position].customizeItem[0].productCustomizeId,
+                                            productList[position].cartId
+                                    )
+                                } else {
+                                    adapterCartAddRemoveClick.onRemoveItemClick(
+                                            productList[position].productId,
+                                            count.toString(),
+                                            productList[position].isCustomize,
+                                            "",
+                                            productList[position].cartId
+                                    )
+                                }
+                            }
+
+
+                        }
+
+                    } else {
+                        if (count >= 0) {
+                            count--
+                            holder.countValue.text = count.toString()
+                            if (count == 0) {
+                                holder.add_new_layy.visibility = View.VISIBLE
+                                holder.add_remove_layy.visibility = View.GONE
+                                adapterAddRemoveClick.onItemAddRemoveClick(
+                                        productList[position].productId,
+                                        count.toString(),
+                                        "remove",
+                                        productList[position].offerPrice,
+                                        "",
+                                        productList[position].cartId, 0
+                                )
+                                adapterAddRemoveClick.clearCart()
+                            } else {
+                                adapterAddRemoveClick.onItemAddRemoveClick(
+                                        productList[position].productId,
+                                        count.toString(),
+                                        "remove",
+                                        productList[position].offerPrice,
+                                        "",
+                                        productList[position].cartId, 0
+                                )
+
+                            }
+                        }
+
                     }
 
 
-                }else{
-
                 }
 
-            }else{
-
             }
-            if(count>=0)
-            {
-                count--
-                holder.countValue.text = count.toString()
-                if (count == 0) {
-                    holder.add_new_layy.visibility = View.VISIBLE
-                    holder.add_remove_layy.visibility = View.GONE
-                    adapterAddRemoveClick.onItemAddRemoveClick(
-                            productList[position].productId,
-                            count.toString(),
-                            "remove",
-                            productList[position].offerPrice,
-                            "",
-                        ""
-                    )
-                    adapterAddRemoveClick.clearCart()
-                }else{
-                    adapterAddRemoveClick.onItemAddRemoveClick(
-                            productList[position].productId,
-                            count.toString(),
-                            "remove",
-                            productList[position].offerPrice,
-                            "",
-                        ""
-                    )
 
-                }
-            }
 
         }
 
-    }
 
-    private fun showLoginDialog(message: String){
+    }
+    private fun showLoginDialog(message: String) {
         val builder = androidx.appcompat.app.AlertDialog.Builder(con)
         //set title for alert dialog
         builder.setTitle("Alert")
@@ -316,29 +452,16 @@ class SearchAdapter(
 
         }
         // Create the AlertDialog
-        val alertDialog: androidx.appcompat.app.AlertDialog = builder.create()
+        val alertDialog: AlertDialog = builder.create()
         // Set other dialog properties
         alertDialog.setCancelable(true)
         alertDialog.show()
     }
-
-    class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var qty = view.qty
-        var itemName = view.itemName
-        var offerPrice = view.offerPrice
-        var priceAfterDiscount = view.priceAfterDiscount
-        var addToCartButton = view.addToCartButton
-        var customText = view.customText
-        var mainLay = view.mainLay
-        var storeImg = view.storeImg
-        var plusLay = view.plusLay
-        var minusLay = view.minusLay
-        var countValue = view.countValuee
-        var add_remove_layy = view.add_remove_layy
-        //   var ratingTxtValue = view.ratingTxtValue
-        var add_new_layy = view.add_new_layy
-
-    }
-
-
 }
+
+
+
+
+
+
+

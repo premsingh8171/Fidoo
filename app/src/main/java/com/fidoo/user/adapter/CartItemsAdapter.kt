@@ -18,8 +18,8 @@ import kotlinx.android.synthetic.main.review_popup.view.*
 class CartItemsAdapter(
         val con: Context,
         val cart: MutableList<com.fidoo.user.data.model.CartModel.Cart>,
-        val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
-        val adapterClick: AdapterClick
+        private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
+        private val adapterClick: AdapterClick
 ) : RecyclerView.Adapter<CartItemsAdapter.UserViewHolder>() {
 
 
@@ -28,6 +28,7 @@ class CartItemsAdapter(
     )
 
     override fun getItemCount() = cart.size
+
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         //holder.storeName.text = cart.get(position).companyName
         holder.itemName.text = cart[position].productName
@@ -77,15 +78,21 @@ class CartItemsAdapter(
 
         holder.plusLay.setOnClickListener {
 
-            if (cart.get(position).customizeItem != null) {
+            if (cart[position].customizeItem != null) {
 
-                if (cart.get(position).customizeItem.size != 0) {
-                    adapterCartAddRemoveClick.onAddItemClick(cart.get(position).productId, items, cart.get(position).offerPrice,cart.get(position).is_customize,cart.get(position).customizeItem.get(0).productCustomizeId, cart[position].cart_id
+                if (cart[position].customizeItem.size != 0) {
+                    adapterCartAddRemoveClick.onAddItemClick(
+                            cart[position].productId,
+                            items,
+                            cart[position].offerPrice,
+                            cart[position].is_customize,
+                            cart[position].customizeItem[0].productCustomizeId,
+                            cart[position].cart_id
                     )} else{
                     adapterCartAddRemoveClick.onAddItemClick(
-                        cart.get(position).productId,
-                        items,
-                        cart.get(position).offerPrice,cart.get(position).is_customize,"", cart[position].cart_id
+                            cart[position].productId,
+                            items,
+                            cart[position].offerPrice,cart.get(position).is_customize,"", cart[position].cart_id
                     )
                 }
             }

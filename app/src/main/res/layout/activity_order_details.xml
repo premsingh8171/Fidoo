@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
@@ -24,7 +24,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="5dp"
-                android:src="@drawable/back_arrow"
+                android:src="@drawable/arrow_backward"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -35,23 +35,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Order Details"
-                android:fontFamily="@font/metropolisbold"
+                android:fontFamily="@font/proxima"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:text="Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016 "
-                android:visibility="gone"
-                app:layout_constraintRight_toLeftOf="@+id/profileIcon"
-                app:layout_constraintTop_toBottomOf="@+id/text" />
-               <!-- app:layout_constraintLeft_toRightOf="@+id/routeIcon" -->
 
 
             <ImageView
@@ -79,6 +69,13 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/linear_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/topLay"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
@@ -86,7 +83,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="5dp"
-            android:background="#70000000"
+            android:background="#fbfbfb"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/topLay" />
@@ -98,7 +95,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view">
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            android:padding="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/topLayy"
@@ -110,52 +108,37 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="25dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
+
                 <TextView
                     android:id="@+id/storeName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="35dp"
-                    android:gravity="center"
-                    android:maxLines="2"
                     android:text=""
-                    android:fontFamily="@font/metropolis_semi_bold"
+                    android:fontFamily="@font/proxima"
                     android:textColor="@android:color/black"
-                    app:layout_constraintLeft_toRightOf="@+id/storeImg"
+                    app:layout_constraintStart_toEndOf="@id/storeImg"
+                    android:layout_marginStart="10dp"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/loc_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginTop="12dp"
-                    android:src="@drawable/loc_icon"
-                    app:layout_constraintLeft_toRightOf="@+id/storeImg"
-                    app:layout_constraintTop_toBottomOf="@+id/storeName" />
 
                 <TextView
                     android:id="@+id/locText"
                     android:layout_width="0dp"
-                    android:fontFamily="@font/metropolis_regular"
+                    android:fontFamily="@font/proxima"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:maxLines="2"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
                     android:text=""
-                    android:textColor="#80000000"
-                    app:layout_constraintLeft_toRightOf="@+id/loc_icon"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/storeName" />
+                    app:layout_constraintStart_toEndOf="@id/storeImg"
+                    app:layout_constraintTop_toBottomOf="@+id/storeName"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="@id/itemsLay"/>
 
                 <TextView
                     android:id="@+id/nameLabel"
@@ -166,13 +149,13 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:maxLines="2"
-
                     android:text="Your Order"
                     android:textColor="@android:color/black"
                     android:textSize="15sp"
-                    android:fontFamily="@font/metropolisbold"
+                    android:fontFamily="@font/proxima"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/storeImg" />
+                    app:layout_constraintTop_toBottomOf="@+id/storeImg"
+                    android:visibility="gone"/>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/itemsLay"
@@ -184,7 +167,6 @@
                     app:cardElevation="8dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-
                     app:layout_constraintTop_toBottomOf="@+id/nameLabel">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -198,192 +180,287 @@
                             android:layout_margin="5dp" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </androidx.cardview.widget.CardView>
 
 
-                <TextView
 
-                    android:id="@+id/itemTotalLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:text="Item Total"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/metropolisbold"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/itemsLay" />
-
-                <TextView
-                    android:id="@+id/itemTotalValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:text=""
-                    android:fontFamily="@font/metropolis_regular"
-                    android:textColor="@android:color/black"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/itemsLay" />
-
-                <TextView
-                    android:id="@+id/discountLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:text="Cart Discount"
-                    android:fontFamily="@font/metropolis_semi_bold"
-                    android:textColor="@android:color/black"
-                    android:textSize="12sp"
-                    android:visibility="visible"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/itemTotalLabel" />
-
-
-                <TextView
-                    android:id="@+id/discountValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:fontFamily="@font/metropolis_regular"
-                    android:text="@string/ruppee"
-                    android:textColor="@android:color/black"
-                    android:textSize="15sp"
-                    android:visibility="visible"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/itemTotalValue" />
-
-                <View
-                    android:id="@+id/view3"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/midLay"
                     android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#70000000"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="15dp"
+                    android:elevation="5dp"
+                    app:cardElevation="8dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/discountLabel" />
+                    app:layout_constraintTop_toBottomOf="@+id/itemsLay">
 
 
-                <TextView
-                    android:id="@+id/delivery_charge_label"
-                    android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:id="@+id/order_mid_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        app:layout_constraintTop_toBottomOf="@id/midLay"
+                        android:orientation="vertical"
+                        android:elevation="10dp">
+
+
+                        <TextView
+                            android:id="@+id/tv_order_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:fontFamily="@font/proxima"/>
+
+                        <View
+                            android:id="@+id/separator"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="#fbfbfb"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_below="@id/tv_order_id"/>
+
+                        <TextView
+                            android:id="@+id/tv_address_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Delivered to:"
+                            android:fontFamily="@font/proxima"
+                            android:layout_below="@id/separator"/>
+
+                        <TextView
+                            android:id="@+id/tv_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/proxima"
+                            android:layout_below="@id/tv_address_title"/>
+
+                        <TextView
+                            android:id="@+id/tv_payment_mode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Paid via:"
+                            android:fontFamily="@font/proxima"
+                            android:layout_below="@id/tv_address"/>
+
+
+
+
+                    </RelativeLayout>
+
+
+
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/price_lay"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:fontFamily="@font/metropolis_semi_bold"
-                    android:text="Delivery Charges"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:visibility="visible"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="15dp"
+                    android:elevation="5dp"
+                    app:cardElevation="8dp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view3" />
-
-
-                <TextView
-                    android:id="@+id/deliveryValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:fontFamily="@font/metropolis_regular"
-                    android:text="@string/ruppee"
-                    android:textColor="@android:color/black"
-                    android:textSize="15sp"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view3" />
-
-                <TextView
-                    android:id="@+id/delivery_coupon_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:fontFamily="@font/metropolis_semi_bold"
-                    android:text="Delivery Discount"
-                    android:textColor="@android:color/black"
-                    android:textSize="10sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/delivery_charge_label" />
+                    app:layout_constraintTop_toBottomOf="@+id/midLay">
 
 
-                <TextView
-                    android:id="@+id/delivery_coupon_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:fontFamily="@font/metropolis_regular"
-                    android:text="@string/ruppee"
-                    android:textColor="@android:color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/deliveryValue" />
 
-                <TextView
+                    <RelativeLayout
+                        android:id="@+id/price_breakout_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/midLay">
 
-                    android:id="@+id/grandLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:fontFamily="@font/metropolisbold"
-                    android:text="Grand Total"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view4" />
+                        <TextView
+                            android:id="@+id/label_sub_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="15dp"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:text="Sub Total"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/proxima"
+                            android:layout_alignParentStart="true" />
+
+                        <TextView
+                            android:id="@+id/sub_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="15dp"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:text=""
+                            android:fontFamily="@font/proxima"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:layout_alignParentEnd="true" />
 
 
-                <TextView
-                    android:id="@+id/grandPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:fontFamily="@font/metropolisbold"
-                    android:text="@string/ruppee"
-                    android:textColor="@android:color/black"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view4" />
+                        <TextView
+                            android:id="@+id/label_cart_discount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/label_sub_total"
+                            android:layout_alignParentStart="true"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/proxima"
+                            android:gravity="center"
+                            android:text="Cart Discount"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/cart_discount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:fontFamily="@font/proxima"
+                            android:text="@string/ruppee"
+                            android:textSize="10sp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@id/sub_total" />
+
+                        <View
+                            android:id="@+id/view3"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/grey"
+                            android:layout_below="@id/label_cart_discount" />
+
+
+                        <TextView
+                            android:id="@+id/label_delivery_charge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:gravity="center"
+                            android:fontFamily="@font/proxima"
+                            android:text="Delivery Fee"
+                            android:textSize="14sp"
+                            android:visibility="visible"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@id/view3"/>
+
+
+                        <TextView
+                            android:id="@+id/delivery_charge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:fontFamily="@font/proxima"
+                            android:text="@string/ruppee"
+                            android:textSize="13sp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@id/view3"/>
+
+                        <TextView
+                            android:id="@+id/delivery_coupon_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:fontFamily="@font/proxima"
+                            android:text="Delivery Discount"
+                            android:textSize="10sp"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@id/label_delivery_charge"/>
+
+
+                        <TextView
+                            android:id="@+id/delivery_coupon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:fontFamily="@font/proxima"
+                            android:text="@string/ruppee"
+                            android:textSize="10sp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@id/delivery_charge"/>
+
+                        <TextView
+
+                            android:id="@+id/label_grand_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:fontFamily="@font/proxima"
+                            android:text="Grand Total"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@id/delivery_coupon_label"/>
+
+
+                        <TextView
+                            android:id="@+id/grand_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:fontFamily="@font/proxima"
+                            android:text="@string/ruppee"
+                            android:textColor="@android:color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_below="@id/delivery_coupon"/>
+
+                        <View
+                            android:id="@+id/view4"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@id/label_grand_total"/>
+
+                    </RelativeLayout>
+
+
+
+                </androidx.cardview.widget.CardView>
 
                 <View
                     android:id="@+id/view5"
@@ -391,23 +468,11 @@
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="10dp"
-                    android:background="#70000000"
+                    android:background="@color/black"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/grandPrice" />
+                    app:layout_constraintTop_toBottomOf="@id/price_lay" />
 
-
-
-                <View
-                    android:id="@+id/view4"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#70000000"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/delivery_coupon_label" />
 
                 <TextView
                     android:id="@+id/detailLabel"
@@ -418,138 +483,49 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:fontFamily="@font/metropolisbold"
+                    android:fontFamily="@font/proxima"
                     android:text="Order Details"
-                    android:textColor="@android:color/black"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view5" />
 
-
-                <TextView
-                    android:id="@+id/itemsLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="ITEMS"
-                    android:textColor="@android:color/darker_gray"
-                    android:visibility="gone"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderIdValue" />
-
-                <TextView
-                    android:id="@+id/itemValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="HP Seridon"
-                    android:textColor="@android:color/black"
-                    android:visibility="gone"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/itemsLabel" />
-
-                <TextView
-                    android:id="@+id/orderIdLabel"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="ORDER ID"
-                    android:fontFamily="@font/metropolis_semi_bold"
-                    android:textColor="@android:color/darker_gray"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detailLabel" />
-
-                <TextView
-                    android:id="@+id/orderIdValue"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="10dp"
-                    android:text=""
-                    android:fontFamily="@font/metropolis_regular"
-                    android:textColor="@android:color/black"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderIdLabel" />
-                    <TextView
-                    android:id="@+id/orderStatusLabel"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="ORDER STATUS"
-                    android:fontFamily="@font/metropolis_semi_bold"
-                    android:textColor="@android:color/darker_gray"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detailLabel" />
-
-                <TextView
-                    android:id="@+id/orderStatusValue"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="10dp"
-                    android:text=""
-                    android:fontFamily="@font/metropolisbold"
-                    android:textColor="@android:color/black"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderStatusLabel" />
-
-                <TextView
-                    android:id="@+id/orderOnLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="ORDER ON"
-                    android:fontFamily="@font/metropolis_semi_bold"
-                    android:textColor="@android:color/darker_gray"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/itemValue" />
-
                 <TextView
                     android:id="@+id/orderOnValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/proxima"
                     android:text=""
-                    android:fontFamily="@font/metropolis_regular"
-                    android:textColor="@android:color/black"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderOnLabel" />
+                    app:layout_constraintTop_toBottomOf="@id/detailLabel"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
-                    android:id="@+id/totalPriceLabel"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/orderStatusLabel"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="Total Price"
-                    android:textAllCaps="true"
-                    android:fontFamily="@font/metropolis_semi_bold"
-                    android:textColor="@android:color/darker_gray"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderOnValue" />
+                    android:layout_marginRight="10dp"
+                    android:text="Order Status"
+                    android:fontFamily="@font/proxima"
+                    android:textStyle="bold"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view5" />
 
                 <TextView
-                    android:id="@+id/totalPriceValue"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/orderStatusValue"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
-                    android:text="@string/ruppee"
-                    android:fontFamily="@font/metropolis_regular"
+                    android:layout_marginRight="10dp"
+                    android:text=""
+                    android:fontFamily="@font/proxima"
                     android:textColor="@android:color/black"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/totalPriceLabel" />
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/orderStatusLabel" />
 
                 <TextView
 
@@ -561,14 +537,14 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:fontFamily="@font/metropolis_semi_bold"
+                    android:fontFamily="@font/proxima"
                     android:text="Uploaded Prescription"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/totalPriceValue" />
+                    app:layout_constraintTop_toBottomOf="@+id/orderStatusValue" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/prescriptionImageLay"
@@ -597,46 +573,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:fontFamily="@font/metropolis_semi_bold"
+                        android:fontFamily="@font/proxima"
                         android:text="View \nPrescription"
                         android:textColor="@android:color/white"
 
                         android:textSize="15sp"
                         android:textStyle="bold" />
                 </androidx.cardview.widget.CardView>
-
-                <TextView
-
-                    android:id="@+id/delivery_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:fontFamily="@font/metropolis_semi_bold"
-                    android:text="DELIVERY ADDRESS"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/prescriptionImageLay" />
-
-                <TextView
-                    android:id="@+id/deliveryAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="70dp"
-                    android:maxLines="2"
-                    android:text=" "
-                    android:fontFamily="@font/metropolis_regular"
-                    android:textColor="@android:color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/delivery_address" />
+                
 
                 <TextView
                     android:id="@+id/buttonValue"
@@ -650,7 +594,7 @@
                     android:paddingHorizontal="25dp"
                     android:paddingVertical="10dp"
                     android:text="Track Order"
-                    android:fontFamily="@font/metropolis_regular"
+                    android:fontFamily="@font/proxima"
                     android:textColor="@android:color/white"
                     android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"

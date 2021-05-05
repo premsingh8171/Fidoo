@@ -44,7 +44,7 @@
             app:layout_constraintLeft_toLeftOf="parent"/>
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -169,7 +169,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:src="@drawable/icon_payment"
             android:layout_marginStart="20dp"
-            android:layout_margin="20dp"/>
+            android:layout_margin="20dp"
+            app:tint="@color/grey"/>
 
         <TextView
             android:id="@+id/tv_payments"
@@ -181,7 +182,7 @@
             app:layout_constraintTop_toBottomOf="@id/separator_two"
             android:fontFamily="@font/proxima"
             android:layout_marginTop="@dimen/margin_10dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/grey"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -192,6 +193,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_payments"
             android:fontFamily="@font/proxima"
             android:textSize="12sp"
+            android:textColor="@color/grey"
             />
 
         <View
@@ -229,6 +231,7 @@
             android:textColor="@color/black"/>
 
         <TextView
+            android:id="@+id/tv_faq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="FAQs and customer care"
@@ -272,6 +275,7 @@
             android:textColor="@color/black"/>
 
         <TextView
+            android:id="@+id/tv_terms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="terms of service privacy policy"

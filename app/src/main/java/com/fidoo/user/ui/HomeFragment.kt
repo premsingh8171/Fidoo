@@ -10,21 +10,30 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.*
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.*
 import com.fidoo.user.adapter.CategoryAdapter
+import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentHomeBinding
+import com.fidoo.user.adapter.SliderAdapter
+import com.fidoo.user.adapter.SliderAdapter.ClickCart
+import com.fidoo.user.data.model.BannerModel
+import com.fidoo.user.data.model.CartCountModel
+import com.fidoo.user.data.model.HomeServicesModel
+import com.fidoo.user.grocery.activity.GroceryItemsActivity
 import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
+import com.fidoo.user.utils.CardSliderLayoutManager
 import com.fidoo.user.utils.CardSnapHelper
 import com.fidoo.user.view.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.HomeFragmentViewModel
@@ -33,10 +42,12 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.android.material.slider.Slider
 import com.google.gson.Gson
 import com.robin.locationgetter.EasyLocation
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
+import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.io.IOException
@@ -52,18 +63,55 @@ class HomeFragment : Fragment() {
     private var _progressDlg: ProgressDialog? = null
     var fragmentHomeBinding: FragmentHomeBinding? = null
     private var currentPosition = 0
-    private var layoutManger: com.fidoo.user.utils.CardSliderLayoutManager? = null
-    private val pics = intArrayOf(R.drawable.food, R.drawable.grocery, R.drawable.grocery, R.drawable.meat)
-    private val sliderAdapter = com.fidoo.user.adapter.SliderAdapter(
-        pics, 20, OnCardClickListener()
+    private var layoutManger: CardSliderLayoutManager? = null
+
+    companion object {
+        var service_id:String?=""
+        var service_name:String?=""
+        var itemPosition:Int?=0
+    }
+
+
+
+
+    var categoryAdapter:CategoryAdapter?=null
+    private val pics = intArrayOf(
+            R.drawable.medicine,
+            R.drawable.electronics,
+            R.drawable.grocery,
+            R.drawable.grocery,
+            R.drawable.food,
+            R.drawable.pet,
+            R.drawable.meat,
+            R.drawable.paan,
+            R.drawable.fruits,
+            R.drawable.cake,
+            R.drawable.wellness
     )
+
+    private val sliderAdapter = SliderAdapter(
+            pics, 11, object : ClickCart{
+            override fun cartOnClick(view: View?) {
+                //  service_name?.let { Log.d("fdfdfd", it) }
+                startActivity(
+                    Intent(requireActivity(), StoreListActivity::class.java).putExtra(
+                        "serviceId", service_id
+                    ).putExtra("serviceName", service_name)
+                )
+            }
+            })
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
-        fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        fragmentHomeBinding = DataBindingUtil.inflate(
+                inflater,
+                R.layout.fragment_home,
+                container,
+                false
+        )
 
 //        activity?.statusBarTransparent()
 
@@ -75,11 +123,12 @@ class HomeFragment : Fragment() {
 
         if ((activity as MainActivity).isNetworkConnected) {
 
-            if (com.fidoo.user.data.session.SessionTwiclo(context).isLoggedIn){
+            if (SessionTwiclo(context).isLoggedIn){
+
 
                 viewmodel?.getBanners(
-                    com.fidoo.user.data.session.SessionTwiclo(context).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(context).loggedInUserDetail.accessToken,
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken,
                     "1"
                 )
             }else{
@@ -96,15 +145,13 @@ class HomeFragment : Fragment() {
         }
 
 
-        fragmentHomeBinding?.userAddress?.text = com.fidoo.user.data.session.SessionTwiclo(
-            context
-        ).userAddress
+        fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
         /* fragmentHomeBinding?.userAddress?.setOnClickListener {
              onSearchCalled()
          }*/
         var sliderItem = com.fidoo.user.data.SliderItem()
 
-        viewmodel?.failureResponse?.observe(requireActivity(), Observer { user ->
+        viewmodel?.failureResponse?.observe(requireActivity(), { user ->
             //dismissIOSProgress()
 
             if (_progressDlg != null) {
@@ -121,11 +168,11 @@ class HomeFragment : Fragment() {
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
-        viewmodel?.bannersResponse?.observe(requireActivity(), Observer { user ->
+        viewmodel?.bannersResponse?.observe(requireActivity(), { user ->
             // dismissIOSProgress()
 
             if (!user.error) {
-                val mModelData: com.fidoo.user.data.model.BannerModel = user
+                val mModelData: BannerModel = user
                 Log.e("bannerResponse", Gson().toJson(mModelData))
                 val sliderItemList: ArrayList<com.fidoo.user.data.SliderItem> = ArrayList()
                 if (mModelData.banner != null) {
@@ -135,10 +182,7 @@ class HomeFragment : Fragment() {
                         sliderItemList.add(sliderItem)
                     }
 
-                    val adapterr =
-                        com.fidoo.user.adapter.SliderAdapterExample(
-                            activity
-                        )
+                    val adapterr = com.fidoo.user.adapter.SliderAdapterExample(activity)
 
                     fragmentHomeBinding?.sliderView?.setSliderAdapter(adapterr)
 
@@ -149,8 +193,7 @@ class HomeFragment : Fragment() {
                         SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH*/
                     fragmentHomeBinding?.sliderView?.indicatorSelectedColor = Color.WHITE
                     fragmentHomeBinding?.sliderView?.indicatorUnselectedColor = Color.BLACK
-                    fragmentHomeBinding?.sliderView?.scrollTimeInSec =
-                        sliderItemList.size - 1 //set scroll delay in seconds :
+                    fragmentHomeBinding?.sliderView?.scrollTimeInSec = sliderItemList.size - 1 //set scroll delay in seconds :
                     fragmentHomeBinding?.sliderView?.startAutoCycle()
                     adapterr.renewItems(sliderItemList)
                 }
@@ -162,21 +205,19 @@ class HomeFragment : Fragment() {
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
-        fragmentHomeBinding?.userAddress?.setOnClickListener {
-            if (com.fidoo.user.data.session.SessionTwiclo(context).isLoggedIn){
-                startActivity(
-                    Intent(context, SavedAddressesActivity::class.java).putExtra(
+
+        fragmentHomeBinding?.addressLay?.setOnClickListener {
+            if (SessionTwiclo(context).isLoggedIn){
+                startActivity(Intent(context, SavedAddressesActivity::class.java).putExtra(
                         "type",
                         "address"
-                    )
+                )
                 )
             }else{
                 showLoginDialog("Please login to proceed")
             }
 
         }
-
-
 
         viewmodel?.homeServicesResponse?.observe(requireActivity(), Observer { user ->
             // dismissIOSProgress()
@@ -185,7 +226,7 @@ class HomeFragment : Fragment() {
                 _progressDlg = null
             }
             if (!user.error) {
-                val mModelData: com.fidoo.user.data.model.HomeServicesModel = user
+                val mModelData: HomeServicesModel = user
                 Log.e("servicesResponse", Gson().toJson(mModelData))
                 if (mModelData.serviceList != null) {
                     if (activity != null) {
@@ -199,12 +240,38 @@ class HomeFragment : Fragment() {
                         fragmentHomeBinding?.categoriesRecyclerView?.adapter = adapter*/
 
 
+                        categoryAdapter = CategoryAdapter(
+                            requireActivity(),
+                            mModelData.serviceList,
+                            object : CategoryAdapter.ItemClick {
+                                override fun onItemClick(
+                                    pos: Int,
+                                    serviceList: HomeServicesModel.ServiceList
+                                ) {
 
-                        val categoryAdapter = CategoryAdapter(requireActivity(), mModelData.serviceList)
-                        fragmentHomeBinding?.categorySmallRecyclerview?.layoutManager = GridLayoutManager(activity,1, GridLayoutManager.HORIZONTAL,false)
+                                    service_id = serviceList.id
+                                    service_name=serviceList.serviceName
 
+
+                                }
+
+                            }
+                        )
+
+                        fragmentHomeBinding?.categorySmallRecyclerview?.layoutManager =
+                            GridLayoutManager(
+                                activity,
+                                1,
+                                GridLayoutManager.HORIZONTAL,
+                                false
+                            )
                         fragmentHomeBinding?.categorySmallRecyclerview?.setHasFixedSize(true)
                         fragmentHomeBinding?.categorySmallRecyclerview?.adapter = categoryAdapter
+                        categoryAdapter?.updateReceiptsList(itemPosition!!)
+                        fragmentHomeBinding?.categorySmallRecyclerview?.smoothScrollToPosition(
+                            itemPosition!!
+                        )
+
                     }
                 }
 
@@ -224,7 +291,6 @@ class HomeFragment : Fragment() {
             }
         })
 
-
         viewmodel?.cartCountResponse?.observe(requireActivity(), { user ->
             // dismissIOSProgress()
             if (_progressDlg != null) {
@@ -233,11 +299,11 @@ class HomeFragment : Fragment() {
             }
 
             if (!user.error) {
-                val mModelData: com.fidoo.user.data.model.CartCountModel = user
+                val mModelData: CartCountModel = user
                 Log.e("countResponse", Gson().toJson(mModelData))
                 Log.e("user count", user.count + "---")
                 if (context != null) {
-                    com.fidoo.user.data.session.SessionTwiclo(context).storeId = mModelData.store_id
+                    SessionTwiclo(context).storeId = mModelData.store_id
                 }
                 if (user.count != null) {
                     if (user.count.toInt() > 0) {
@@ -257,12 +323,11 @@ class HomeFragment : Fragment() {
 
         // Inflate the layout for this fragment
 
-
         fragmentHomeBinding?.cartIcon?.setOnClickListener {
-            if (com.fidoo.user.data.session.SessionTwiclo(context).isLoggedIn){
+            if (SessionTwiclo(context).isLoggedIn){
                 startActivity(
                     Intent(context, CartActivity::class.java).putExtra(
-                        "store_id", com.fidoo.user.data.session.SessionTwiclo(
+                        "store_id", SessionTwiclo(
                             context
                         ).storeId
                     )
@@ -274,7 +339,7 @@ class HomeFragment : Fragment() {
         }
 
         fragmentHomeBinding?.profileIconn?.setOnClickListener {
-            if (com.fidoo.user.data.session.SessionTwiclo(context).isLoggedIn){
+            if (SessionTwiclo(context).isLoggedIn){
                 fragmentManager?.beginTransaction()
                     ?.replace(R.id.container, ProfileFragment())
                     ?.commitAllowingStateLoss()
@@ -284,8 +349,9 @@ class HomeFragment : Fragment() {
             }
 
         }
+
         fragmentHomeBinding?.btnDelivery?.setOnClickListener {
-            if (com.fidoo.user.data.session.SessionTwiclo(context).isLoggedIn){
+            if (SessionTwiclo(context).isLoggedIn){
 
                 //findNavController().navigate(R.id.action_homeFragment_to_sendPacketFragment)
                 startActivity(Intent(context, SendPackageActivity::class.java))
@@ -294,14 +360,13 @@ class HomeFragment : Fragment() {
             }
         }
 
-        fragmentHomeBinding?.homeQuestionLay?.setOnClickListener {
-            if (com.fidoo.user.data.session.SessionTwiclo(context).isLoggedIn){
-                startActivity(Intent(context, ServicesActivity::class.java))
-            }else{
-                showLoginDialog("Please login to proceed")
-            }
-        }
-
+//        fragmentHomeBinding?.homeQuestionLay?.setOnClickListener {
+//            if (SessionTwiclo(context).isLoggedIn){
+//                startActivity(Intent(context, ServicesActivity::class.java))
+//            }else{
+//                showLoginDialog("Please login to proceed")
+//            }
+//        }
 
         return fragmentHomeBinding?.root
     }
@@ -318,8 +383,17 @@ class HomeFragment : Fragment() {
                     onActiveCardChange()
                 }
             }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val completeleyVisible: Int = layoutManger?.getActiveCardPosition()!!
+                itemPosition =completeleyVisible
+                fragmentHomeBinding?.categorySmallRecyclerview?.adapter = categoryAdapter
+                categoryAdapter?.updateReceiptsList(itemPosition!!)
+                fragmentHomeBinding?.categorySmallRecyclerview?.smoothScrollToPosition(itemPosition!!)
+            }
         })
-        layoutManger = fragmentHomeBinding?.categoryRecyclerView?.layoutManager as com.fidoo.user.utils.CardSliderLayoutManager
+        layoutManger = fragmentHomeBinding?.categoryRecyclerView?.layoutManager as CardSliderLayoutManager
         CardSnapHelper().attachToRecyclerView(categoryRecyclerView)
     }
 
@@ -357,12 +431,11 @@ class HomeFragment : Fragment() {
         geocoder = Geocoder(context, Locale.getDefault())
         return try {
             addresses = geocoder.getFromLocation(
-                latitude,
-                longitude,
-                1
+                    latitude,
+                    longitude,
+                    1
             ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            val address = addresses[0]
-                .getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            val address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
             val city = addresses[0].locality
             val state = addresses[0].adminArea
             val country = addresses[0].countryName
@@ -377,51 +450,53 @@ class HomeFragment : Fragment() {
 
 
     override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
+            requestCode: Int,
+            resultCode: Int,
+            data: Intent?
     ) {
         super.onActivityResult(requestCode, resultCode, data)
         // Result Code is -1 send from Payumoney activity
         Log.d(
-            "MainActivity",
-            "request code $requestCode resultcode $resultCode"
+                "MainActivity",
+                "request code $requestCode resultcode $resultCode"
         )
 
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                val place = Autocomplete.getPlaceFromIntent(data!!)
-                Log.wtf(
-                    "SearchRide",
-                    "\nID: " + place.id + "\naddress:" + place.address + "\nName:" + place.name + "\nlatlong: " + place.latLng
-                )
-                // do query with address
-                val addresses: List<Address>
-                val geocoder = Geocoder(context, Locale.getDefault())
-                //  lat=place.latLng!!.latitude
-                // lng=place.latLng!!.latitude
-                addresses = geocoder.getFromLocation(
-                    place.latLng!!.latitude,
-                    place.latLng!!.longitude,
-                    1
-                ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    val place = Autocomplete.getPlaceFromIntent(data!!)
+                    Log.wtf(
+                            "SearchRide",
+                            "\nID: " + place.id + "\naddress:" + place.address + "\nName:" + place.name + "\nlatlong: " + place.latLng
+                    )
+                    // do query with address
+                    val addresses: List<Address>
+                    val geocoder = Geocoder(context, Locale.getDefault())
+                    //  lat=place.latLng!!.latitude
+                    // lng=place.latLng!!.latitude
+                    addresses = geocoder.getFromLocation(
+                            place.latLng!!.latitude,
+                            place.latLng!!.longitude,
+                            1
+                    ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    /*   if (addressType.equals("from")) {
+                           fromLat = place.latLng!!.latitude
+                           fromLng = place.latLng!!.longitude
+                           fromGoogleAddress.text = addresses.get(0).getAddressLine(0)
+                       } else if (addressType.equals("to")) {*/
+                    //toLat = place.latLng!!.latitude
+                    // toLng = place.latLng!!.longitude
+                    userAddress.text = addresses[0].getAddressLine(0)
+                    //  }
 
-                /*   if (addressType.equals("from")) {
-                       fromLat = place.latLng!!.latitude
-                       fromLng = place.latLng!!.longitude
-                       fromGoogleAddress.text = addresses.get(0).getAddressLine(0)
-                   } else if (addressType.equals("to")) {*/
-                //toLat = place.latLng!!.latitude
-                // toLng = place.latLng!!.longitude
-                userAddress.text = addresses[0].getAddressLine(0)
-                //  }
-
-
-            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) { // TODO: Handle the error.
-                val status: Status = Autocomplete.getStatusFromIntent(data!!)
-                Toast.makeText(context, "Error: " + status.statusMessage, Toast.LENGTH_LONG).show()
-                // Log.i(FragmentActivity.TAG, status.statusMessage)
-            } else if (resultCode == Activity.RESULT_CANCELED) { // The user canceled the operation.
+                }
+                AutocompleteActivity.RESULT_ERROR -> { // TODO: Handle the error.
+                    val status: Status = Autocomplete.getStatusFromIntent(data!!)
+                    Toast.makeText(context, "Error: " + status.statusMessage, Toast.LENGTH_LONG).show()
+                    // Log.i(FragmentActivity.TAG, status.statusMessage)
+                }
+                Activity.RESULT_CANCELED -> { // The user canceled the operation.
+                }
             }
         }
     }
@@ -445,18 +520,18 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (com.fidoo.user.data.session.SessionTwiclo(context).isLoggedIn){
+        if (SessionTwiclo(context).isLoggedIn){
 
             Log.d("Home Resume", "RESUME")
 
             viewmodel?.getCartCountApi(
-                com.fidoo.user.data.session.SessionTwiclo(context).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(context).loggedInUserDetail.accessToken
+                SessionTwiclo(context).loggedInUserDetail.accountId,
+                SessionTwiclo(context).loggedInUserDetail.accessToken
             )
 
             viewmodel?.getHomeServices(
-                com.fidoo.user.data.session.SessionTwiclo(context).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(context).loggedInUserDetail.accessToken
+                SessionTwiclo(context).loggedInUserDetail.accountId,
+                SessionTwiclo(context).loggedInUserDetail.accessToken
             )
 
         }else{
@@ -476,7 +551,7 @@ class HomeFragment : Fragment() {
         } catch (ex: Exception) {
             Log.wtf("IOS_error_starting", ex.cause!!)
         }
-        if (com.fidoo.user.data.session.SessionTwiclo(context).userAddress.equals("")) {
+        if (SessionTwiclo(context).userAddress.equals("")) {
 
 
             activity?.let {
@@ -498,30 +573,22 @@ class HomeFragment : Fragment() {
                     override fun getLocation(location: Location) {
 
                         Log.e(
-                            "Location_lat_lng",
-                            " latitude ${location.latitude} longitude ${location.longitude}"
+                                "Location_lat_lng",
+                                " latitude ${location.latitude} longitude ${location.longitude}"
                         )
-                        com.fidoo.user.data.session.SessionTwiclo(
-                            context
-                        ).userAddress =
-                            getGeoAddressFromLatLong(location.latitude, location.longitude)
-                        com.fidoo.user.data.session.SessionTwiclo(
-                            context
-                        ).userLat = location.latitude.toString()
-                        com.fidoo.user.data.session.SessionTwiclo(
-                            context
-                        ).userLng = location.longitude.toString()
-                        userAddress?.text = com.fidoo.user.data.session.SessionTwiclo(
-                            context
-                        ).userAddress
+
+                        SessionTwiclo(context).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
+                        SessionTwiclo(context).userLat = location.latitude.toString()
+                        SessionTwiclo(context).userLng = location.longitude.toString()
+                        userAddress?.text = SessionTwiclo(context).userAddress
                     }
                 })
             }
 
         } else {
 
-            userAddress?.text = com.fidoo.user.data.session.SessionTwiclo(
-                context
+            userAddress?.text = SessionTwiclo(
+                    context
             ).userAddress
         }
     }
@@ -535,9 +602,9 @@ class HomeFragment : Fragment() {
         // builder.setIcon(android.R.drawable.ic_dialog_alert)
 
         //performing positive action
-        builder.setPositiveButton("Login") { dialogInterface, which ->
+        builder.setPositiveButton("Login") { _, _ ->
             startActivity(
-                Intent(activity, LoginActivity::class.java)
+                    Intent(activity, SplashActivity::class.java)
             )
 
 

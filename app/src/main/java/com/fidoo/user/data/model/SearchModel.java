@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class SearchModel {
+
     @SerializedName("error")
     @Expose
     public Boolean error;
@@ -15,12 +16,42 @@ public class SearchModel {
     @SerializedName("accessToken")
     @Expose
     public String accessToken;
+
+    @SerializedName("store")
+    @Expose
+    public List<Store> store = null;
+
     @SerializedName("accountId")
     @Expose
     public String accountId;
-    @SerializedName("product_list")
-    @Expose
-    public List<ProductList> productList = null;
+
+
+
+    public class Store {
+
+        @SerializedName("store_id")
+        @Expose
+        public String storeId;
+        @SerializedName("store_name")
+        @Expose
+        public String storeName;
+        @SerializedName("store_image")
+        @Expose
+        public String storeImage;
+        @SerializedName("delivery_time")
+        @Expose
+        public Object deliveryTime;
+        @SerializedName("list")
+        @Expose
+        public List<ProductList> list = null;
+        @SerializedName("key")
+        @Expose
+        public Integer key;
+
+    }
+
+
+
     public class ProductList {
 
         @SerializedName("product_id")
@@ -35,6 +66,7 @@ public class SearchModel {
         @SerializedName("product_image")
         @Expose
         public String productImage;
+
         @SerializedName("price")
         @Expose
         public String price;
@@ -53,9 +85,15 @@ public class SearchModel {
         @SerializedName("category_name")
         @Expose
         public String categoryName;
+
         @SerializedName("store_id")
         @Expose
         public String storeId;
+
+        @SerializedName("cart_id")
+        @Expose
+        public String cartId;
+
         @SerializedName("store_name")
         @Expose
         public String storeName;
@@ -88,14 +126,15 @@ public class SearchModel {
         public String rating;
         @SerializedName("delivery_time")
         @Expose
-        public String deliveryTime;
-
+        public Object deliveryTime;
         @SerializedName("customize_item")
         @Expose
-        public List<CustomizeItem> customizeItem = null;
-
+        public java.util.List<CustomizeItem> customizeItem = null;
 
     }
+
+
+
     public class CustomizeItem {
 
         @SerializedName("id")

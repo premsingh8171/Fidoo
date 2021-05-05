@@ -64,10 +64,10 @@ class SavedAddressesActivity : BaseActivity(),
 
             if (!user.addressList.isNullOrEmpty()) {
                 val adapter = AddressesAdapter(
-                    this,
-                    user.addressList,
-                    this,
-                    intent.getStringExtra("type")
+                        this,
+                        user.addressList,
+                        this,
+                        intent.getStringExtra("type")
                 )
                 addressesRecyclerView?.layoutManager = GridLayoutManager(this, 1)
                 addressesRecyclerView?.setHasFixedSize(true)
@@ -120,8 +120,8 @@ class SavedAddressesActivity : BaseActivity(),
         if (isNetworkConnected) {
             showIOSProgress()
             viewmodel?.getAddressesApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken
             )
         } else {
             showInternetToast()

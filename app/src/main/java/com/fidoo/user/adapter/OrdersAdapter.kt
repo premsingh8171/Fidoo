@@ -136,32 +136,22 @@ class OrdersAdapter(
                     buyPopup(adapterReviewClick, orders[position].orderId)
                 } else {
                     con.startActivity(
-                        Intent(con, TrackOrderActivity::class.java).putExtra(
-                            "orderId",
-                            orders[position].orderId
-                        ).putExtra(
-                            "delivery_boy_name",
-                            orders[position].delivery_boy_name
-                        ).putExtra(
-                            "delivery_boy_mobile",
-                            orders[position].delivery_boy_mobile
-                        ).putExtra("order_status", holder.orderStatusTxt.text)
+                            Intent(con, TrackOrderActivity::class.java)
+                                    .putExtra("orderId", orders[position].orderId)
+                                    .putExtra("delivery_boy_name", orders[position].delivery_boy_name)
+                                    .putExtra("delivery_boy_mobile", orders[position].delivery_boy_mobile)
+                                    .putExtra("order_status", holder.orderStatusTxt.text)
                     )
                 }
             }
             // adapterClick.onItemClick(orders.get(position).orderId,"","")
             else {
                 con.startActivity(
-                    Intent(con, TrackOrderActivity::class.java).putExtra(
-                        "orderId",
-                        orders[position].orderId
-                    ).putExtra(
-                        "delivery_boy_name",
-                        orders[position].delivery_boy_name
-                    ).putExtra(
-                        "delivery_boy_mobile",
-                        orders[position].delivery_boy_mobile
-                    ).putExtra("order_status", holder.orderStatusTxt.text)
+                        Intent(con, TrackOrderActivity::class.java)
+                                .putExtra("orderId", orders[position].orderId)
+                                .putExtra("delivery_boy_name", orders[position].delivery_boy_name)
+                                .putExtra("delivery_boy_mobile", orders[position].delivery_boy_mobile)
+                                .putExtra("order_status", holder.orderStatusTxt.text)
                 )
             }
         }
@@ -170,11 +160,10 @@ class OrdersAdapter(
             if (orders[position].serviceTypeId == "4") {
 
             }else if(orders[position].serviceTypeId == "0" || orders[position].serviceTypeId == ""){
-                Toast.makeText(con, "Invalid Request", Toast.LENGTH_LONG).show()
-            } else{
+                //Toast.makeText(con, "Invalid Request", Toast.LENGTH_LONG).show()
                 val intent =Intent(con, OrderDetailsActivity::class.java)
                 intent.putExtra("orderId", orders[position].orderId)
-                intent.putExtra("toaddress", orders[position].storeAddress)
+                intent.putExtra("toaddress", orders[position].toAddress)
                 con.startActivity(intent)
             }
         }
@@ -225,11 +214,11 @@ class OrdersAdapter(
             //dismiss dialog
             mAlertDialogg.dismiss()
             adapterReviewClick.onReviewDoneClick(
-                orderId,
-                mDialogView.ratingStore.rating.toString(),
-                mDialogView.reviewStore.text.toString(),
-                mDialogView.ratingDriver.rating.toString(),
-                mDialogView.reviewDriver.text.toString()
+                    orderId,
+                    mDialogView.ratingStore.rating.toString(),
+                    mDialogView.reviewStore.text.toString(),
+                    mDialogView.ratingDriver.rating.toString(),
+                    mDialogView.reviewDriver.text.toString()
             )
 
         }

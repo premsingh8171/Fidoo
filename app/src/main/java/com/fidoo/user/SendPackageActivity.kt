@@ -208,7 +208,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             {*/
 
             try {
-                tv_base_charges.text = "Delivery charges starting from" +user.base_price + "for first" +user.base_distance+ "kms"
+                tv_base_charges.text = "Delivery charges starting from " +user.base_price + " for first" +user.base_distance+ " kms"
             }catch (e: NullPointerException){
                 Log.e("Error Base distance", e.toString())
             }
@@ -235,6 +235,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                 .putExtra("notes", ed_notes.text.toString())
                 .putExtra("base_distance", user.base_distance)
                 .putExtra("base_charges", user.base_price)
+
             )
             /*buyPopup(
                 user.base_distance,
@@ -277,9 +278,9 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                     tv_address_to.text.toString().length < 10 -> {
                         showToast("Please enter to address")
                     }
-                    /* tv_address_from.text.toString() == tv_address_to.text.toString() -> {
+                    tv_address_from.text.toString() == tv_address_to.text.toString() -> {
                         showToast("From address and to address can't be same")
-                    }*/
+                    }
                     ed_notes.text.toString().trim() == "" -> {
                         showToast("Please enter to notes")
 

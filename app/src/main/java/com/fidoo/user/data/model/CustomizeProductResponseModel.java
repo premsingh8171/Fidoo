@@ -27,15 +27,23 @@ public class CustomizeProductResponseModel {
         @SerializedName("cat_id")
         @Expose
         public String catId;
+
         @SerializedName("cat_name")
         @Expose
         public String catName;
+
         @SerializedName("is_mandatory")
         @Expose
         public String isMandatory;
+
         @SerializedName("is_multiple")
         @Expose
         public String isMultiple;
+
+        @SerializedName("max_selection_allowed")
+        @Expose
+        public String maxSelectionCount;
+
         @SerializedName("sub_cat")
         @Expose
         public List<SubCat> subCat = null;

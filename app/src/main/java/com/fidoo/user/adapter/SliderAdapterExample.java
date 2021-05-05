@@ -65,8 +65,8 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "This is item in position " + position, Toast.LENGTH_SHORT).show();
-                context.startActivity(new Intent(context, ViewPrescriptionActivity.class).putExtra("image",sliderItem.getImageUrl()));
+                /*Toast.makeText(context, "This is item in position " + position, Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context, ViewPrescriptionActivity.class).putExtra("image",sliderItem.getImageUrl()));*/
 
             }
         });

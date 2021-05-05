@@ -18,6 +18,7 @@ import com.fidoo.user.adapter.CartItemsAdapter
 import com.fidoo.user.adapter.StoreCustomItemsAdapter
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.grocery.activity.GroceryItemsActivity.Companion.onresumeHandle
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
@@ -40,6 +41,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
 import java.io.File
+import java.lang.NullPointerException
 
 class CartActivity : BaseActivity(),
     AdapterCartAddRemoveClick,
@@ -77,6 +79,7 @@ class CartActivity : BaseActivity(),
     companion object {
         var selectedAddressId: String = ""
         var selectedAddressName: String = ""
+        var selectedAddressTitle : String = ""
         var selectedCouponId: String = ""
         var selectedCouponName: String = ""
         var userLat: String = ""
@@ -95,7 +98,8 @@ class CartActivity : BaseActivity(),
 
         behavior = BottomSheetBehavior.from(bottom_sheet)
         selectedAddressId = ""
-        selectedAddressName = ""
+        selectedAddressName = SessionTwiclo(this).userAddress
+        selectedAddressTitle = ""
         selectedCouponName = ""
         selectedCouponId = ""
         storeCustomerDistance = ""
@@ -110,7 +114,7 @@ class CartActivity : BaseActivity(),
 
         //For Faster checkout of RazorPay
         Checkout.preload(applicationContext)
-        co.setKeyID("rzp_live_iceNLz5pb15jtP")
+        co.setKeyID("rzp_test_17ihcfTIqBGF9R")
         storeId = intent.getStringExtra("store_id").toString()
 
 
@@ -277,10 +281,10 @@ class CartActivity : BaseActivity(),
 
             } else {
                 startActivity(
-                    Intent(this, SavedAddressesActivity::class.java).putExtra(
-                        "type",
-                        "order"
-                    )
+                        Intent(this, SavedAddressesActivity::class.java).putExtra(
+                                "type",
+                                "order"
+                        )
                 )
             }
         }
@@ -294,13 +298,17 @@ class CartActivity : BaseActivity(),
 
                 viewmodel?.getCartDetailsResponse?.observe(this , Observer { user->
                     val mCartModelData : CartModel = user
-                    if (user.cart.size != 0){
-                        for (i in 0 until user.cart.size) {
-                            mCartId = mCartModelData.cart[i].cart_id
-                        }
-                    }else{
 
+                    try {
+                        if (user.cart.size != 0){
+                            for (i in 0 until user.cart.size) {
+                                mCartId = mCartModelData.cart[i].cart_id
+                            }
+                        }
+                    } catch (e: NullPointerException){
+                        e.toString()
                     }
+
 
 
 
@@ -319,10 +327,10 @@ class CartActivity : BaseActivity(),
                 addCartInputModel.isCustomize = "1"
                 addCartTempList!!.add(addCartInputModel)
                 viewmodel!!.addToCartApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    addCartTempList!!,
-                    mCartId!!
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        addCartTempList!!,
+                        mCartId!!
 
                 )
             } else {
@@ -338,10 +346,10 @@ class CartActivity : BaseActivity(),
 
             Log.e("cart response", Gson().toJson(user))
             viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    userLat,
+                    userLong
             )
 
 
@@ -354,10 +362,10 @@ class CartActivity : BaseActivity(),
             Log.e("cart response", Gson().toJson(user))
             Toast.makeText(this, user.message, Toast.LENGTH_LONG).show()
             viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    userLat,
+                    userLong
             )
         })
 
@@ -505,10 +513,10 @@ class CartActivity : BaseActivity(),
                         //delivery_coupon_name.visibility = View.GONE
                         //delivery_coupon_value.visibility = View.GONE
                     }
-                    /* delivery_coupon_name.text = "Delivery Discount ( -" +mModelData.delivery_coupon_name +")"
-                    delivery_coupon_value.text = resources.getString(R.string.ruppee) + mModelData.deliveryDiscount
-                    discountValue.text = resources.getString(R.string.ruppee) + mModelData.discount_amount.toString()
-                    discountLabel.text = "Cart Discount (" + mModelData.coupon_name +")"*/
+                    tv_delivery_discount_label.text = "Delivery Discount ( " +mModelData.delivery_coupon_name +")"
+                    tv_delivery_discount.text = "- " + resources.getString(R.string.ruppee) + mModelData.deliveryDiscount
+                    //discountValue.text = resources.getString(R.string.ruppee) + mModelData.discount_amount.toString()
+                    //tv_delivery_discount.text = "Cart Discount (" + mModelData.coupon_name +")"
 
                     //totalAmountBottom.text = resources.getString(R.string.ruppee) + finalPrice.toString()
 
@@ -583,19 +591,19 @@ class CartActivity : BaseActivity(),
             showToast("Order placed successfully")
 
             startActivity(
-                Intent(this, TrackOrderActivity::class.java).putExtra(
-                    "orderId",
-                    user.orderId
-                ).putExtra(
-                    "delivery_boy_name",
-                    ""
-                ).putExtra(
-                    "delivery_boy_mobile",
-                    ""
-                ).putExtra(
-                    "type",
-                    ""
-                )
+                    Intent(this, TrackOrderActivity::class.java).putExtra(
+                            "orderId",
+                            user.orderId
+                    ).putExtra(
+                            "delivery_boy_name",
+                            ""
+                    ).putExtra(
+                            "delivery_boy_mobile",
+                            ""
+                    ).putExtra(
+                            "type",
+                            ""
+                    )
             )
             finishAffinity()
         })
@@ -615,10 +623,10 @@ class CartActivity : BaseActivity(),
 
             Log.e("cart response", Gson().toJson(user))
             viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    userLat,
+                    userLong
             )
             if (user.couponApply.equals("2")) {
 
@@ -664,7 +672,7 @@ class CartActivity : BaseActivity(),
                 showToast(resources.getString(R.string.provide_internet))
             } else {
 
-                if (SessionTwiclo(this).userAddressId.equals("")) {
+                if (SessionTwiclo(this).userAddressId.equals("") || tv_delivery_address.text == ""){
                     showToast("Please select your address")
                 } else if (isPrescriptionRequire == "1") {
                     if (filePathTemp.equals("")) {
@@ -674,13 +682,13 @@ class CartActivity : BaseActivity(),
                         if (isNetworkConnected) {
                             showIOSProgress()
                             viewmodel?.orderPlaceApi(SessionTwiclo(this).loggedInUserDetail.accountId,
-                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                finalPrice.toFloat().toString(),
-                                deliveryOption,
-                                SessionTwiclo(this).userAddressId,
-                                "",
-                                ed_delivery_instructions.text.toString(),
-                                isSelected
+                                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                    finalPrice.toFloat().toString(),
+                                    deliveryOption,
+                                    SessionTwiclo(this).userAddressId,
+                                    "",
+                                    ed_delivery_instructions.text.toString(),
+                                    isSelected
                             )
 
                         } else {
@@ -691,14 +699,14 @@ class CartActivity : BaseActivity(),
                 } else {
                     showIOSProgress()
                     viewmodel?.orderPlaceApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        finalPrice.toFloat().toString(),
-                        deliveryOption,
-                        SessionTwiclo(this).userAddressId,
-                        "",
-                        ed_delivery_instructions.text.toString(),
-                        isSelected
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            finalPrice.toFloat().toString(),
+                            deliveryOption,
+                            SessionTwiclo(this).userAddressId,
+                            "",
+                            ed_delivery_instructions.text.toString(),
+                            isSelected
                     )
                 }
             }
@@ -727,12 +735,12 @@ class CartActivity : BaseActivity(),
             } else {
                 if (isNetworkConnected) {
                     viewmodel?.paymentApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        user.orderId,
-                        "",
-                        "",
-                        "cash"
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            user.orderId,
+                            "",
+                            "",
+                            "cash"
                     )
 
                 } else {
@@ -763,7 +771,7 @@ class CartActivity : BaseActivity(),
             options.put("name", "FIDOO")
             options.put("description", "Charges")
             //You can omit the image option to fetch the image from dashboard
-            options.put("image", "https://fidoo.in/include/assets/front/img/logo_sticky.svg")
+            options.put("image", "https://fidoo.in/include/assets/front/image/fidoo_logo-g.svg")
             options.put("theme.color", "#339347");
             options.put("currency", "INR")
             options.put("order_id", razorpayOrderId)
@@ -785,7 +793,7 @@ class CartActivity : BaseActivity(),
             options.put("prefill", prefill)
             co.open(activity, options)
         }catch (e: java.lang.Exception){
-            Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, "Error in payment, please try again", Toast.LENGTH_LONG).show()
             e.printStackTrace()
         }
 
@@ -795,7 +803,7 @@ class CartActivity : BaseActivity(),
 
     override fun onPaymentError(errorCode: Int, response: String?) {
         try{
-            Toast.makeText(this, "Payment failed $errorCode \n $response", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Payment failed, Please try again", Toast.LENGTH_LONG).show()
         }catch (e: java.lang.Exception){
             Log.e("onError", "Exception in onPaymentSuccess", e)
         }
@@ -826,7 +834,6 @@ class CartActivity : BaseActivity(),
             showToast(resources.getString(R.string.provide_internet))
 
         } else {
-
 
             if (!quantity.equals("")) {
                 tempOfferPrice = offerPrice
@@ -896,8 +903,9 @@ class CartActivity : BaseActivity(),
                     cart_id!!,
                     customIdsList!!
                 )
-
+                onresumeHandle=1
             }
+
 
         }
     }
@@ -918,6 +926,7 @@ class CartActivity : BaseActivity(),
                 cart_id,
                 customIdsList!!
             )
+            onresumeHandle=1
         }
 
 
@@ -926,12 +935,15 @@ class CartActivity : BaseActivity(),
     override fun onResume() {
         super.onResume()
 
+
+        tv_delivery_address_title.text = selectedAddressTitle
+        tv_delivery_address.text = selectedAddressName
         if (!isNetworkConnected) {
             showToast(resources.getString(R.string.provide_internet))
 
         } else {
             showIOSProgress()
-            storeViewModel?.getStoreDetailsApi?.observe(this, Observer {
+            storeViewModel?.getStoreDetailsApi?.observe(this, {
                 val store_latitude = it.storeLatitude
                 val store_longitude = it.storeLongitude
                 //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
@@ -939,10 +951,10 @@ class CartActivity : BaseActivity(),
             })
 
             viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    userLat,
+                    userLong
             )
 
 
@@ -950,18 +962,16 @@ class CartActivity : BaseActivity(),
         }
 //        selectedAddressValue.text = selectedAddressName
         if (SessionTwiclo(this).userAddressId != "") {
-            tv_delivery_address.text = SessionTwiclo(
-                this
-            ).userAddress
+            tv_delivery_address_title.text = selectedAddressTitle
         }
 
 
         if (!selectedCouponName.equals("")) {
             tv_coupon.setText(selectedCouponName)
             viewmodel?.applyPromoApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                selectedCouponName
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    selectedCouponName
             )
         }
 
@@ -984,10 +994,11 @@ class CartActivity : BaseActivity(),
                 showIOSProgress()
                 if (cart_id != null) {
                     viewmodel?.deleteCartDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!,
-                        cart_id
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!,
+                            cart_id
                     )
+                    onresumeHandle=1
                 }
             } else {
                 showInternetToast()
@@ -1035,36 +1046,32 @@ class CartActivity : BaseActivity(),
 
 
         // Parameter request body
-        val accountId =
-            RequestBody.create(
-                "text/plain".toMediaTypeOrNull(),
-                SessionTwiclo(this).loggedInUserDetail.accountId
-            )  // Parameter request body
+        val accountId = RequestBody.create("text/plain".toMediaTypeOrNull(), SessionTwiclo(this).loggedInUserDetail.accountId
+        )  // Parameter request body
         val accessToken =
-            RequestBody.create(
-                "text/plain".toMediaTypeOrNull(),
-                SessionTwiclo(this).loggedInUserDetail.accessToken
-            )  // Parameter request body
+                RequestBody.create(
+                        "text/plain".toMediaTypeOrNull(),
+                        SessionTwiclo(this).loggedInUserDetail.accessToken
+                )  // Parameter request body
         /* val orderId =
              RequestBody.create(MediaType.parse("text/plain"), orderId)*/
         // dismissIOSProgress()
         showIOSProgress()
         viewmodel?.uploadPrescriptionImage(
-            accountId,
-            accessToken, mImageParts
+                accountId,
+                accessToken, mImageParts
         )
 
 
     }
 
-    override fun onIdSelected(productId: String?, type: String?, price: String?) {
+    override fun onIdSelected(productId: String?, type: String?, price: String?, maxSelectionCount: Int) {
         if (type.equals("select")) {
 
             if (productId != null) {
                 customIdsList!!.add(productId)
             }
-            var customCheckBoxModel: CustomCheckBoxModel =
-                CustomCheckBoxModel()
+            val customCheckBoxModel = CustomCheckBoxModel()
             customCheckBoxModel.id = productId
             customCheckBoxModel.price = price
 
@@ -1143,8 +1150,7 @@ class CartActivity : BaseActivity(),
 
         } else {
 
-            var customListModel: CustomListModel? =
-                CustomListModel()
+            val customListModel: CustomListModel = CustomListModel()
             customListModel!!.category = tempCat
             customListModel.id = checkedId!!.toInt()
             customListModel.price = tempPrice
@@ -1167,4 +1173,6 @@ class CartActivity : BaseActivity(),
 
 
     }
+
+
 }

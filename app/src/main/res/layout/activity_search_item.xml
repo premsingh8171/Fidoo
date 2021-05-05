@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".search.activity.SearchItemActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_50dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:tint="@color/primary_color"
+                android:id="@+id/back_newsearch"
+                android:padding="@dimen/margin_10dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/arrow_backward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="@dimen/text_size_15sp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp">
+
+                <EditText
+                    android:drawableLeft="@drawable/places_ic_search"
+                    android:id="@+id/searchEdt_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@null"
+                    android:fontFamily="@font/metropolis_regular"
+                    android:gravity="center_vertical"
+                    android:hint="Search..."
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:drawablePadding="@dimen/margin_10dp"
+                    android:paddingLeft="@dimen/margin_10dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="13sp" />
+
+
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/total_itemTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="@dimen/margin_10dp"
+                android:fontFamily="@font/metropolis_semi_bold"
+                android:text="Items"
+                android:textColor="@color/colorGreenText"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_marginTop="@dimen/margin_2dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:background="@color/colorGreenText"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginBottom="@dimen/margin_50dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:spanCount="1"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/new_cartitemView_LLsearch"
+        android:visibility="visible"
+        android:gravity="center_vertical"
+        android:background="@color/colorGreenText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_50dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_marginLeft="@dimen/margin_5dp"
+            android:id="@+id/new_itemQuantity_textsearch"
+            android:padding="@dimen/margin_10dp"
+            android:textSize="@dimen/text_size_14sp"
+            android:text="0"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:padding="@dimen/margin_5dp"
+            android:textSize="@dimen/text_size_14sp"
+            android:text="Item"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_marginLeft="@dimen/margin_5dp"
+            android:layout_marginRight="@dimen/margin_5dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="18dp"
+            android:background="@color/white"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/new_totalprice_txtsearch"
+            android:padding="@dimen/margin_5dp"
+            android:textSize="@dimen/text_size_14sp"
+            android:text="Rs.200"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/new_viewcartfromSearch"
+            android:textStyle="bold"
+            android:gravity="end|center_vertical"
+            android:padding="@dimen/margin_5dp"
+            android:textSize="@dimen/text_size_14sp"
+            android:text="VIEW CART"
+            android:textColor="@color/white"
+            android:drawableTint="@color/white"
+            android:drawableLeft="@color/quantum_amber100"
+            android:drawableEnd="@drawable/addtocart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

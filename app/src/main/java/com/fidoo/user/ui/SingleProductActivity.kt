@@ -459,7 +459,7 @@ class SingleProductActivity : BaseActivity(), AdapterImageClick {
         //performing positive action
         builder.setPositiveButton("Login") { dialogInterface, which ->
 //            startActivity(
-//                Intent(this, LoginActivity::class.java)
+//                Intent(this, SplashActivity::class.java)
 //            )
 
 

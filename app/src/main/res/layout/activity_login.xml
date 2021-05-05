@@ -115,6 +115,7 @@
                         android:drawableStart="@drawable/india"
                         android:paddingStart="8dp"
                         android:hint=" +91"
+                        app:prefixTextColor="@color/black"
                         android:text="@={viewmodel.mobileNo}"
                         android:onTextChanged="@{viewmodel::onPasswordChanged}"
                         android:inputType="text" />

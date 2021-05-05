@@ -24,13 +24,15 @@
         app:rb_scale="6">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:translationY="-18dp"
             android:id="@+id/markerLocation"
-            android:src="@drawable/location_icon"/>
+            android:src="@drawable/location_icon"
+            app:tint="@color/colorPrimary"/>
     </com.skyfishjy.library.RippleBackground>
+
     <com.mancj.materialsearchbar.MaterialSearchBar
         style="@style/MaterialSearchBarLight"
         app:mt_speechMode="false"

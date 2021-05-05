@@ -3,5 +3,5 @@ package com.fidoo.user.interfaces;
 
 public interface NotiCheck {
 
-    void notiStatus();
+    void notiStatus(String orderStatus);
 }

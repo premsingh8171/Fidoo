@@ -1,6 +1,8 @@
 package com.fidoo.user.api_request_retrofit
 
 import com.fidoo.user.data.model.*
+import com.fidoo.user.grocery.model.getGroceryProducts.GroceryProductsResponse
+import com.fidoo.user.search.model.SearchListModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -55,7 +57,8 @@ interface BackEndApi {
         @Field("latitude") latitude: String?,
         @Field("longitude") longitude: String?,
         @Field("distance_start") distance_start: String?,
-        @Field("distance_end") distance_end: String?
+        @Field("distance_end") distance_end: String?,
+        @Field("sort_by") sort_by: String?
 
     ): Call<StoreListingModel>
 
@@ -69,6 +72,15 @@ interface BackEndApi {
         @Field("cat_id") cat_id: String?
 
     ): Call<StoreDetailsModel>
+
+//for grocery
+    @FormUrlEncoded
+    @POST("getGroceryProducts.inc.php")
+    fun getGroceryProducts(
+            @Field("accountId") accountId: String?,
+            @Field("accessToken") accessToken: String?,
+            @Field("store_id") store_id: String?,
+    ): Call<GroceryProductsResponse>
 
     @FormUrlEncoded
     @POST("searchStoreProduct.inc.php")
@@ -254,8 +266,8 @@ interface BackEndApi {
     @FormUrlEncoded
     @POST("orderList.inc.php")
     fun getMyOrdersApi(
-        @Field("accountId") accountId: String?,
-        @Field("accessToken") accessToken: String?
+            @Field("accountId") accountId: String?,
+            @Field("accessToken") accessToken: String?
     ): Call<MyOrdersModel>
 
     @FormUrlEncoded
@@ -343,6 +355,14 @@ interface BackEndApi {
         @Field("accessToken") accessToken: String?,
         @Field("search") search: String?
     ): Call<SearchModel>
+
+    @FormUrlEncoded
+    @POST("searchList.inc.php")
+    fun searchApiForNewUi(
+        @Field("accountId") accountId: String?,
+        @Field("accessToken") accessToken: String?,
+        @Field("search") search: String?
+    ): Call<SearchListModel>
 
     @FormUrlEncoded
     @POST("logout.inc.php")

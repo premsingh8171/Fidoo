@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
-import com.fidoo.user.data.model.AddCartInputModel
+import com.fidoo.user.data.model.*
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
@@ -25,8 +25,8 @@ import kotlinx.android.synthetic.main.store_product.view.*
 class StoreItemsAdapter(
     val con: Context,
     private val adapterClick: AdapterClick,
-    private val productList: ArrayList<com.fidoo.user.data.model.StoreDetailsModel.Product>,
-    val catList: ArrayList<com.fidoo.user.data.model.StoreDetailsModel.Category>,
+    private val productList: ArrayList<StoreDetailsModel.Product>,
+    val catList: ArrayList<StoreDetailsModel.Category>,
     var weight: String,
     var unit: String,
     var storerating: String,
@@ -39,7 +39,7 @@ class StoreItemsAdapter(
 
 ) : RecyclerView.Adapter<StoreItemsAdapter.UserViewHolder>() {
 
-    var arraylist: ArrayList<com.fidoo.user.data.model.StoreDetailsModel.Product> = ArrayList()
+    var arraylist: ArrayList<StoreDetailsModel.Product> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.store_product, parent, false)
@@ -52,7 +52,7 @@ class StoreItemsAdapter(
 
 
         val index = productList[position]
-        Log.e("CART ID", cartId)
+        //Log.e("CART ID", cartId)
 
         Log.d("kb cat postion", "" + productList[position])
 //        Log.d("kb cat postion",""+categotyList[position].product[position])
@@ -66,9 +66,10 @@ class StoreItemsAdapter(
         holder.itemName.text = index.productName
         //  holder.itemName.visibility=View.INVISIBLE
         Glide.with(con)
-                .load(index.image)
-                .fitCenter()
-                .into(holder.storeImg)
+            .load(index.image)
+            .fitCenter()
+            .into(holder.storeImg)
+
         if (index.image == "") {
             // TODO
         }
@@ -99,7 +100,7 @@ class StoreItemsAdapter(
             holder.add_new_lay.visibility = View.GONE
             holder.add_remove_lay.visibility = View.VISIBLE
 
-            val tempProductListModel = com.fidoo.user.data.model.TempProductListModel()
+            val tempProductListModel = TempProductListModel()
             tempProductListModel.productId = index.productId
             tempProductListModel.price = index.offerPrice
             tempProductListModel.quantity = index.cartQuantity.toString()
@@ -146,12 +147,8 @@ class StoreItemsAdapter(
                             }
                             tempp = tempp!! + index.offerPrice.toDouble()
 
-
-
                             items = items!!.substring(0, items.length - 2)
                         } else {
-                            //.makeText(con,""+count,Toast.LENGTH_LONG).show()
-
 
                         }
                     }
@@ -189,7 +186,7 @@ class StoreItemsAdapter(
                             count.toString(),
                             "add",
                             index.offerPrice, "",
-                        productList[position].cartId
+                        productList[position].cartId,0
                     )
                 }
             }
@@ -219,7 +216,7 @@ class StoreItemsAdapter(
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                 index.productId, count.toString(), "add",
                                 index.offerPrice, "",
-                                productList[position].cartId
+                                productList[position].cartId,0
                             )
 
                         } else {
@@ -234,12 +231,12 @@ class StoreItemsAdapter(
                             builder.setPositiveButton("Yes") { _, _ ->
                                 adapterAddRemoveClick.clearCart()
                                 adapterAddRemoveClick.onItemAddRemoveClick(
-                                    index.productId,
+                                     index.productId,
                                     count.toString(),
                                     "add",
                                     index.offerPrice,
                                     storeID,
-                                    productList[position].cartId
+                                    productList[position].cartId,0
                                 )
 
 
@@ -324,7 +321,7 @@ class StoreItemsAdapter(
                                 "remove",
                                 index.offerPrice,
                                 "",
-                                productList[position].cartId
+                                productList[position].cartId,0
                             )
                             //adapterAddRemoveClick.clearCart() // clearing the cart if item quantity becomes zero
                         } else {
@@ -334,13 +331,12 @@ class StoreItemsAdapter(
                                 "remove",
                                 index.offerPrice,
                                 "",
-                                productList[position].cartId
+                                productList[position].cartId,0
                             )
                         }
                     }
                 }
             }
-
 
             /*holder.itemLay.setOnClickListener {
                 if (product.get(position).isCustomize.equals("1")) {
@@ -397,7 +393,6 @@ class StoreItemsAdapter(
         alertDialog.setCancelable(true)
         alertDialog.show()
     }
-
 
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         //var offerPrice = view.productPrice
