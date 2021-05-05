@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.Observer
@@ -113,27 +114,27 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
             if (SessionTwiclo(this).isLoggedIn){
                 if (serive_id != null) {
                     storeListingViewModel!!.getStores(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        serive_id,
-                        SessionTwiclo(this).userLat,
-                        SessionTwiclo(this).userLng,
-                        "",
-                        "",
-                        selectedValue
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            serive_id,
+                            SessionTwiclo(this).userLat,
+                            SessionTwiclo(this).userLng,
+                            "",
+                            "",
+                            selectedValue
                     )
                 }
             }else{
                 if (serive_id != null) {
                     storeListingViewModel!!.getStores(
-                        "",
-                        "",
-                        serive_id,
-                        SessionTwiclo(this).userLat,
-                        SessionTwiclo(this).userLng,
-                        "",
-                        "",
-                        selectedValue
+                            "",
+                            "",
+                            serive_id,
+                            SessionTwiclo(this).userLat,
+                            SessionTwiclo(this).userLng,
+                            "",
+                            "",
+                            selectedValue
                     )
                 }
             }
@@ -145,28 +146,33 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
         storeListingViewModel?.getStoresApi?.observe(this, Observer { user ->
             linear_progress_indicator.visibility = View.GONE
-
             if (!user.error) {
                 //val storeLat = user.storeList[0].storeLat
                 //val storeLong = user.storeList[0].storeLong
                 //calculateEstimatedDeliveryTime(storeLat, storeLong)
 
-                Log.e("stores response", Gson().toJson(user))
+                Log.e("stores_response", Gson().toJson(user))
                 val mModelData: StoreListingModel = user
                 //mDistanceStartTemp = mModelData.distance_start
                 //mDistanceEndTemp = mModelData.distance_end
                 storeList = mModelData.storeList
-                val adapter = StoreAdapter(this, storeList!!)
-                storesRecyclerView.layoutManager = LinearLayoutManager(this)
-                storesRecyclerView.setHasFixedSize(true)
-                storesRecyclerView.adapter = adapter
+
+                if (storeList!!.size!=0) {
+                    val adapter = StoreAdapter(this, storeList!!)
+                    storesRecyclerView.layoutManager = LinearLayoutManager(this)
+                    storesRecyclerView.setHasFixedSize(true)
+                    storesRecyclerView.adapter = adapter
+                }else{
+                    val toast = Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
+                    toast.show()
+                }
 
             } else {
                 if (user.errorCode == 101) {
                     showAlertDialog(this)
                 }
             }
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+
         })
 
     }
