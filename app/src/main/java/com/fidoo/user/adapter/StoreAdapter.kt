@@ -102,7 +102,7 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
                         context.startActivity(
                             Intent(context, GroceryItemsActivity::class.java)
                                 .putExtra("storeId", storeList[position].id)
-                                .putExtra("storeName", storeList.get(position).name)
+                                .putExtra("store_name", storeList.get(position).name)
                                 .putExtra("store_location", storeList[position].address)
                                 .putExtra("delivery_time", storeList[position].delivery_time)
                                 .putExtra("cuisine_types", storeList[position].cuisines.joinToString (separator = ", "))

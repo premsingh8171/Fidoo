@@ -114,7 +114,6 @@
                 android:id="@+id/locToText"
                 android:layout_width="0dp"
                 android:fontFamily="@font/metropolis_regular"
-
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="10dp"

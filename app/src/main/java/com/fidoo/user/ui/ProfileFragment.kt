@@ -44,6 +44,10 @@ class ProfileFragment : Fragment() {
 
         }
 
+        mView.tv_terms.setOnClickListener {
+            startActivity(Intent(context, AboutUsActivity::class.java).putExtra("about_us", "about_us"))
+        }
+
         mView.tv_aboutUs.setOnClickListener {
             startActivity(Intent(context, AboutUsActivity::class.java).putExtra("about_us", "about_us"))
         }
@@ -78,6 +82,11 @@ class ProfileFragment : Fragment() {
         }
         mView.tv_name.text = SessionTwiclo(context).profileDetail.account.name
         mView.tv_email.text = SessionTwiclo(context).profileDetail.account.emailid
+
+        mView.tv_faq.setOnClickListener {
+            startActivity(Intent(context, AboutUsActivity::class.java).putExtra("faq", "faq"))
+        }
+
         mView.tv_helpSupport.setOnClickListener {
             startActivity(Intent(context, AboutUsActivity::class.java).putExtra("faq", "faq"))
         }

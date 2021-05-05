@@ -105,7 +105,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view"
-            tools:context=".view.ui.home.HomeMapActivity" />
+            tools:context=".view.TrackOrderActivity" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -166,7 +166,7 @@
                             android:id="@+id/tv_delivery_boy_call"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Call now"
+                            android:text="Call Me"
                             android:layout_alignParentEnd="true"
                             android:layout_below="@id/tv_delivery_boy"
                             android:layout_marginTop="15dp"
@@ -288,7 +288,7 @@
                                 android:id="@+id/tv_order_picked_details"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="address detail"
+                                android:text=""
                                 android:textColor="@color/grey"
                                 android:layout_below="@id/tv_order_picked"
                                 android:fontFamily="@font/proxima"/>
@@ -307,7 +307,7 @@
                                 android:id="@+id/tv_your_order_is_on_the_way"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="address detail"
+                                android:text=""
                                 android:textColor="@color/grey"
                                 android:layout_below="@id/tv_order_delivery"
                                 android:fontFamily="@font/proxima"/>

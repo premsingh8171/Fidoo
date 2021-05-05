@@ -231,7 +231,7 @@ class StoreItemsAdapter(
                             builder.setPositiveButton("Yes") { _, _ ->
                                 adapterAddRemoveClick.clearCart()
                                 adapterAddRemoveClick.onItemAddRemoveClick(
-                                    index.productId,
+                                     index.productId,
                                     count.toString(),
                                     "add",
                                     index.offerPrice,
