@@ -33,6 +33,7 @@ import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.viewmodels.SearchFragmentViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
+import com.vanillaplacepicker.utils.ToastUtils.showToast
 import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
@@ -64,26 +65,25 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
     lateinit var adapter: SearchAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         fragmentSearchBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_search,
-            container,
-            false
+                inflater,
+                R.layout.fragment_search,
+                container,
+                false
         )
 
         //var root: View = inflater.inflate(R.layout.fragment_search, container, false)
 
-        mTempData= ArrayList()
+        mTempData = ArrayList()
 
         adapter = SearchAdapter(requireContext(), mTempData, this, storeID, this, this)
 
 
         viewmodel = ViewModelProviders.of(requireActivity()).get(SearchFragmentViewModel::class.java)
-
 
 
 //        if (MainActivity.searchSuggestionsList!!.size == 0) {
@@ -141,8 +141,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             }
             Log.e("customIdsList", customIdsList.toString())
             if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals(
-                    ""
-                )) {
+                            ""
+                    )) {
 
                 try {
                     _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
@@ -165,10 +165,10 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 //SessionTwiclo(context).storeId = storeID
 
                 viewmodel!!.addToCartApi(
-                    SessionTwiclo(context).loggedInUserDetail.accountId,
-                    SessionTwiclo(context).loggedInUserDetail.accessToken,
-                    MainActivity.addCartTempList!!,
-                    ""
+                        SessionTwiclo(context).loggedInUserDetail.accountId,
+                        SessionTwiclo(context).loggedInUserDetail.accessToken,
+                        MainActivity.addCartTempList!!,
+                        ""
                 )
             } else {
                 clearCartPopup()
@@ -226,9 +226,9 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                     var customListModel: CustomListModel? = CustomListModel()
                     customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
                     customListModel.id =
-                        mModelDataTemp?.category?.get(i)!!.subCat.get(0).id.toInt()
+                            mModelDataTemp?.category?.get(i)!!.subCat.get(0).id.toInt()
                     customListModel.price =
-                        mModelDataTemp?.category?.get(i)!!.subCat.get(0).price
+                            mModelDataTemp?.category?.get(i)!!.subCat.get(0).price
                     categoryy!!.add(customListModel)
                 } else {
 
@@ -252,11 +252,11 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 
             val adapter = context?.let {
                 StoreCustomItemsAdapter(
-                    it,
-                    mModelDataTemp?.category!!,
-                    this,
-                    categoryy,
-                    this
+                        it,
+                        mModelDataTemp?.category!!,
+                        this,
+                        categoryy,
+                        this
                 )
             }
             view?.customItemsRecyclerview?.layoutManager = LinearLayoutManager(context)
@@ -339,23 +339,21 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 //        }
 
 
-
-
         //cartcount responce
-        viewmodel?.cartCountResponse?.observe(requireActivity(),{cartcount->
+        viewmodel?.cartCountResponse?.observe(requireActivity(), { cartcount ->
             dismissIOSProgress()
 
-            Log.d("cartCountResponse___",cartcount.toString())
+            Log.d("cartCountResponse___", cartcount.toString())
             val count = cartcount.count
             val price = cartcount.price
             storeID = cartcount.store_id
-            if (!cartcount.error){
-                if (count!="0"){
+            if (!cartcount.error) {
+                if (count != "0") {
                     fragmentSearchBinding?.itemQuantityTextsearch?.text = count
-                    fragmentSearchBinding?.totalpriceTxtsearch?.text = "₹"+price
-                    fragmentSearchBinding?.cartitemViewLLsearch?.visibility=View.VISIBLE
-                }else{
-                    fragmentSearchBinding?.cartitemViewLLsearch?.visibility=View.GONE
+                    fragmentSearchBinding?.totalpriceTxtsearch?.text = "₹" + price
+                    fragmentSearchBinding?.cartitemViewLLsearch?.visibility = View.VISIBLE
+                } else {
+                    fragmentSearchBinding?.cartitemViewLLsearch?.visibility = View.GONE
                 }
             }
 
@@ -369,28 +367,28 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             }
 
             override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
+                    s: CharSequence, start: Int,
+                    count: Int, after: Int
             ) {
 
             }
 
             override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
+                    s: CharSequence, start: Int,
+                    before: Int, count: Int
             ) {
-                searchbyStr=s.toString()
+                searchbyStr = s.toString()
                 if (fragmentSearchBinding?.searchEdt?.text.toString().length >= 2) {
 
                     if (SessionTwiclo(context).isLoggedIn) {
                         viewmodel?.getSearchApi(
-                            SessionTwiclo(activity).loggedInUserDetail.accountId,
-                            SessionTwiclo(activity).loggedInUserDetail.accessToken,
+                                SessionTwiclo(activity).loggedInUserDetail.accountId,
+                                SessionTwiclo(activity).loggedInUserDetail.accessToken,
                                 searchbyStr!!
                         )
                     }
                 } else {
-                    searchbyStr=""
+                    searchbyStr = ""
                     mTempData.clear()
                     adapter.notifyDataSetChanged()
                 }
@@ -462,11 +460,11 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 
         fragmentSearchBinding?.viewcartfromSearch?.setOnClickListener {
             if (SessionTwiclo(requireActivity()).isLoggedIn) {
-                requireActivity().startActivity( Intent(requireActivity(), CartActivity::class.java).putExtra(
-                                "store_id", SessionTwiclo(
+                requireActivity().startActivity(Intent(requireActivity(), CartActivity::class.java).putExtra(
+                        "store_id", SessionTwiclo(
                         requireActivity()
-                        ).storeId
-                        )
+                ).storeId
+                )
                 )
             } else {
                 showLoginDialog("Please login to proceed")
@@ -581,7 +579,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 //                        2
 //                    )
                     fragmentSearchBinding?.searchRecyclerView?.layoutManager = LinearLayoutManager(
-                        requireContext()
+                            requireContext()
                     )
                     fragmentSearchBinding?.searchRecyclerView?.setHasFixedSize(true)
                     fragmentSearchBinding?.searchRecyclerView?.adapter = adapter
@@ -596,15 +594,14 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
     }
 
 
-
     override fun onItemClick(
-        productId: String?,
-        typee: String?,
-        count: String?,
-        offerPrice: String?,
-        customizeCount: Int?,
-        productType: String?,
-        cart_id: String?
+            productId: String?,
+            typee: String?,
+            count: String?,
+            offerPrice: String?,
+            customizeCount: Int?,
+            productType: String?,
+            cart_id: String?
     ) {
 
         //storeIdTemp = storeId
@@ -619,7 +616,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 
 
         if (typee.equals("custom")) {
-            if(mCustomizeCount==0) {
+            if (mCustomizeCount == 0) {
                 customIdsListTemp?.clear()
 
                 if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
@@ -642,11 +639,11 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 }
                 customIdsList!!.clear()
                 viewmodel?.customizeProductApi(
-                    SessionTwiclo(context).loggedInUserDetail.accountId,
-                    SessionTwiclo(context).loggedInUserDetail.accessToken, productId!!
+                        SessionTwiclo(context).loggedInUserDetail.accountId,
+                        SessionTwiclo(context).loggedInUserDetail.accessToken, productId!!
                 )
 
-            }else{
+            } else {
                 val builder = AlertDialog.Builder(requireContext())
                 //set title for alert dialog
                 builder.setTitle("Your previous customization")
@@ -670,8 +667,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                     //customIdsList!!.clear()
                     if (productId != null) {
                         viewmodel?.customizeProductApi(
-                            SessionTwiclo(context).loggedInUserDetail.accountId,
-                            SessionTwiclo(context).loggedInUserDetail.accessToken, productId
+                                SessionTwiclo(context).loggedInUserDetail.accountId,
+                                SessionTwiclo(context).loggedInUserDetail.accessToken, productId
                         )
                     }
                     //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
@@ -703,9 +700,9 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 
         } else {
 
-            if (SessionTwiclo(context).storeId.equals(typee)||SessionTwiclo(context).storeId.equals(
-                    ""
-                )) {
+            if (SessionTwiclo(context).storeId.equals(typee) || SessionTwiclo(context).storeId.equals(
+                            ""
+                    )) {
 
                 try {
                     _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
@@ -725,10 +722,10 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 addCartInputModel.isCustomize = "0"
                 MainActivity.addCartTempList!!.add(addCartInputModel)
                 viewmodel!!.addToCartApi(
-                    SessionTwiclo(context).loggedInUserDetail.accountId,
-                    SessionTwiclo(context).loggedInUserDetail.accessToken,
-                    MainActivity.addCartTempList!!,
-                    cart_id!!
+                        SessionTwiclo(context).loggedInUserDetail.accountId,
+                        SessionTwiclo(context).loggedInUserDetail.accessToken,
+                        MainActivity.addCartTempList!!,
+                        cart_id!!
                 )
             } else {
                 //productIdTemp = productId
@@ -756,8 +753,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             }
             //  showIOSProgress()
             viewmodel!!.clearCartApi(
-                SessionTwiclo(context).loggedInUserDetail.accountId,
-                SessionTwiclo(context).loggedInUserDetail.accessToken
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken
             )
         }
         builder.setNegativeButton("No") { dialogInterface, which ->
@@ -769,18 +766,16 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 
     override fun onResume() {
         super.onResume()
-        if (SessionTwiclo(context).storeId == null){
+        if (SessionTwiclo(context).storeId == null) {
             storeID = ""
         }
 
-        if (SessionTwiclo(context).isLoggedIn){
+        if (SessionTwiclo(context).isLoggedIn) {
             viewmodel?.getCartCountApi(
-                SessionTwiclo(activity).loggedInUserDetail.accountId,
-                SessionTwiclo(activity).loggedInUserDetail.accessToken
+                    SessionTwiclo(activity).loggedInUserDetail.accountId,
+                    SessionTwiclo(activity).loggedInUserDetail.accessToken
             )
         }
-
-
 
 
     }
@@ -890,8 +885,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             _progressDlg!!.setCancelable(false)
             _progressDlg!!.show()
 
-        }
-        catch (ex: Exception) {
+        } catch (ex: Exception) {
             Log.wtf("IOS_error_starting", ex.cause!!)
         }
 
@@ -902,212 +896,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         )*/
     }
 
-    override fun onItemAddRemoveClick(
-            productId: String?,
-            count: String?,
-            type: String?,
-            price: String?,
-            sid: String?,
-            cartId: String?,
-            position: Int
-    ) {
-
-
-            if (type.equals("add")) {
-
-        //showIOSProgress()
-        //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
-
-        if (type.equals("add")) {
-
-            if (MainActivity.tempProductList!!.size == 0) {
-                //customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
-                val tempProductListModel = TempProductListModel()
-                tempProductListModel.productId = productId
-                tempProductListModel.quantity = count
-                tempProductListModel.price = price
-                MainActivity.tempProductList!!.add(tempProductListModel)
-
-                val addCartInputModel = AddCartInputModel()
-                addCartInputModel.productId = productId
-                addCartInputModel.quantity = count
-                addCartInputModel.message = "add product"
-                addCartInputModel.customizeSubCatId = customIdsList!!
-                addCartInputModel.isCustomize = "0"
-                MainActivity.addCartTempList!!.add(addCartInputModel)
-
-                if (cartId != null) {
-                    viewmodel!!.addToCartApi(
-                        SessionTwiclo(context).loggedInUserDetail.accountId,
-                        SessionTwiclo(context).loggedInUserDetail.accessToken,
-                        MainActivity.addCartTempList!!,
-                        ""
-                    )
-                }
-                MainActivity.tempProductList!!.clear()
-
-
-
-                //ll_view_cart.visibility = View.VISIBLE // to show bottom cart bar if add is clicked for the first time in non-customized items
-            } else {
-                var check: String= ""
-                var tempPos: Int = 0
-
-                for (i in 0 until MainActivity.tempProductList!!.size) {
-                    Log.e("check1", MainActivity.tempProductList!!.get(i).productId)
-                    Log.e("check2", productId!!)
-                    if (MainActivity.tempProductList!![i].productId.equals(productId)) {
-                        check = "edit"
-                        tempPos = i
-                        //tempProductList!!.get(i).quantity = count
-                        break
-                    }
-                }
-                if (check == "edit") {
-
-                    MainActivity.tempProductList!![tempPos].quantity = count
-                    MainActivity.addCartTempList!![tempPos].quantity = count
-
-                } else {
-
-
-                    val tempProductListModel = TempProductListModel()
-                    tempProductListModel.productId = productId
-                    tempProductListModel.quantity = count
-                    tempProductListModel.price = price
-                    MainActivity.tempProductList!!.add(tempProductListModel)
-
-                    val addCartInputModel = AddCartInputModel()
-                    addCartInputModel.productId = productId
-                    addCartInputModel.quantity = count
-                    addCartInputModel.message = "add product"
-                    addCartInputModel.customizeSubCatId = customIdsList!!
-                    addCartInputModel.isCustomize = "0"
-                    MainActivity.addCartTempList!!.add(addCartInputModel)
-
-                    viewmodel!!.addToCartApi(
-                            SessionTwiclo(context).loggedInUserDetail.accountId,
-                            SessionTwiclo(context).loggedInUserDetail.accessToken,
-                            MainActivity.addCartTempList!!,
-                            ""
-                    )
-                }
-            }
-
-
-        } else {
-            var check = "edit"
-            var checkPos = 0
-            Log.e("check1", Gson().toJson(MainActivity.tempProductList!!))
-            for (i in 0 until MainActivity.tempProductList!!.size) {
-                if (MainActivity.tempProductList!![i].productId.equals(productId)) {
-                    if (count.equals("0")) {
-                        check="remove"
-                        checkPos=i
-                        break
-                        //  addCartTempList!!.removeAt(i)
-                        //   tempProductList!!.removeAt(i)
-
-                    } /*else {
-                    tempProductList!!.get(i).quantity = count
-                    addCartTempList!!.get(i).quantity = count
-                }*/
-                }
-            }
-
-            if (check == "remove") {
-                //ll_view_cart.visibility = View.GONE // to hide the bottom cart bar if non-customized item quantity becomes zero
-                MainActivity.addCartTempList!!.removeAt(checkPos)
-                MainActivity.tempProductList!!.removeAt(checkPos)
-
-                if (cartId != null) {
-                    if (productId != null) {
-                        viewmodel?.addRemoveCartDetails(
-                            SessionTwiclo(context).loggedInUserDetail.accountId,
-                            SessionTwiclo(context).loggedInUserDetail.accessToken,
-                            productId,
-                            "remove",
-                            "0",
-                            "",
-                            cartId,
-                            customIdsList!!
-                        )
-                    }
-                }
-
-            } else {
-                MainActivity.tempProductList!![checkPos].quantity = count
-                MainActivity.addCartTempList!![checkPos].quantity = count
-
-                if (cartId != null) {
-                    if (productId != null) {
-                        viewmodel?.addRemoveCartDetails(
-                                SessionTwiclo(context).loggedInUserDetail.accountId,
-                                SessionTwiclo(context).loggedInUserDetail.accessToken,
-                                productId,
-                                "remove",
-                                "0",
-                                "",
-                                cartId,
-                                customIdsList!!
-                        )
-                    }
-                }
-            }
-
-        }
-        //plusMinusPrice = 0.0
-        tempPrice = 0.0
-        Log.d("check1", Gson().toJson(MainActivity.tempProductList!!))
-        var bottomPrice: Double? = 0.0
-        var bottomCount: Int? = 0
-        for (i in 0 until MainActivity.tempProductList!!.size) {
-            bottomPrice = bottomPrice!! + (MainActivity.tempProductList!!.get(i).price.toDouble() * MainActivity.tempProductList!!.get(
-                i
-            ).quantity.toInt())
-            bottomCount = bottomCount!! + MainActivity.tempProductList!!.get(i).quantity.toInt()
-        }
-
-
-    }
-
-    override fun clearCart() {
-        viewmodel?.clearCartApi(
-            SessionTwiclo(context).loggedInUserDetail.accountId,
-            SessionTwiclo(context).loggedInUserDetail.accessToken
-        )
-    }
-
-    private fun showLoginDialog(message: String){
-        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
-        //set title for alert dialog
-        builder.setTitle("Alert")
-        //set message for alert dialog
-        builder.setMessage(message)
-        // builder.setIcon(android.R.drawable.ic_dialog_alert)
-
-        //performing positive action
-        builder.setPositiveButton("Login") { dialogInterface, which ->
-//            startActivity(
-//                Intent(activity, LoginActivity::class.java)
-//            )
-
-
-        }
-
-        //performing negative action
-        builder.setNegativeButton("Cancel") { _, _ ->
-
-        }
-        // Create the AlertDialog
-        val alertDialog: androidx.appcompat.app.AlertDialog = builder.create()
-        // Set other dialog properties
-        alertDialog.setCancelable(true)
-        alertDialog.show()
-    }
-
-    override fun onAddItemClick(productId: String?, quantity: String?, offerPrice: String?, isCustomize: String?, prodcustCustomizeId: String?, cart_id: String?)
-    {
+    override fun onAddItemClick(productId: String?, quantity: String?, offerPrice: String?, isCustomize: String?, prodcustCustomizeId: String?, cart_id: String?) {
         tempOfferPrice = offerPrice
         //plusMinusPrice = 0.0
         tempPrice = 0.0
@@ -1137,8 +926,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             //showIOSProgress()
             customIdsList!!.clear()
             viewmodel?.customizeProductApi(
-                SessionTwiclo(context).loggedInUserDetail.accountId,
-                SessionTwiclo(context).loggedInUserDetail.accessToken, productId!!
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken, productId!!
             )
             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
         }
@@ -1148,16 +937,15 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
             //showIOSProgress()
             viewmodel?.addRemoveCartDetails(
-                SessionTwiclo(context).loggedInUserDetail.accountId,
-                SessionTwiclo(context).loggedInUserDetail.accessToken,
-                productId!!,
-                "add",
-                isCustomize!!,
-                prodcustCustomizeId!!,
-                cart_id!!,
-                customIdsList!!
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken,
+                    productId!!,
+                    "add",
+                    isCustomize!!,
+                    prodcustCustomizeId!!,
+                    cart_id!!,
+                    customIdsList!!
             )
-
 
 
         }
@@ -1168,8 +956,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         alertDialog.show()
     }
 
-    override fun onRemoveItemClick(productId: String?, quantity: String?, isCustomize: String?, prodcustCustomizeId: String?, cart_id: String?)
-    {
+    override fun onRemoveItemClick(productId: String?, quantity: String?, isCustomize: String?, prodcustCustomizeId: String?, cart_id: String?) {
         if (!isNetworkConnected()) {
             showToast(resources.getString(R.string.provide_internet))
 
@@ -1177,17 +964,196 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             //showIOSProgress()
             if (cart_id != null) {
                 viewmodel?.addRemoveCartDetails(
-                    SessionTwiclo(context).loggedInUserDetail.accountId,
-                    SessionTwiclo(context).loggedInUserDetail.accessToken,
-                    productId!!,
-                    "remove",
-                    isCustomize!!,
-                    prodcustCustomizeId!!,
-                    cart_id,
-                    customIdsList!!
+                        SessionTwiclo(context).loggedInUserDetail.accountId,
+                        SessionTwiclo(context).loggedInUserDetail.accessToken,
+                        productId!!,
+                        "remove",
+                        isCustomize!!,
+                        prodcustCustomizeId!!,
+                        cart_id,
+                        customIdsList!!
                 )
             }
         }
+    }
+
+    override fun onItemAddRemoveClick(
+            productId: String?,
+            count: String?,
+            type: String?,
+            price: String?,
+            sid: String?,
+            cartId: String?,
+            position: Int
+    ) {
+
+
+        if (type.equals("add")) {
+
+            //showIOSProgress()
+            //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
+
+            if (type.equals("add")) {
+
+                if (MainActivity.tempProductList!!.size == 0) {
+                    //customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
+                    val tempProductListModel = TempProductListModel()
+                    tempProductListModel.productId = productId
+                    tempProductListModel.quantity = count
+                    tempProductListModel.price = price
+                    MainActivity.tempProductList!!.add(tempProductListModel)
+
+                    val addCartInputModel = AddCartInputModel()
+                    addCartInputModel.productId = productId
+                    addCartInputModel.quantity = count
+                    addCartInputModel.message = "add product"
+                    addCartInputModel.customizeSubCatId = customIdsList!!
+                    addCartInputModel.isCustomize = "0"
+                    MainActivity.addCartTempList!!.add(addCartInputModel)
+
+                    if (cartId != null) {
+                        viewmodel!!.addToCartApi(
+                                SessionTwiclo(context).loggedInUserDetail.accountId,
+                                SessionTwiclo(context).loggedInUserDetail.accessToken,
+                                MainActivity.addCartTempList!!,
+                                ""
+                        )
+                    }
+                    MainActivity.tempProductList!!.clear()
+
+
+                    //ll_view_cart.visibility = View.VISIBLE // to show bottom cart bar if add is clicked for the first time in non-customized items
+                } else {
+                    var check: String = ""
+                    var tempPos: Int = 0
+
+                    for (i in 0 until MainActivity.tempProductList!!.size) {
+                        Log.e("check1", MainActivity.tempProductList!!.get(i).productId)
+                        Log.e("check2", productId!!)
+                        if (MainActivity.tempProductList!![i].productId.equals(productId)) {
+                            check = "edit"
+                            tempPos = i
+                            //tempProductList!!.get(i).quantity = count
+                            break
+                        }
+                    }
+                    if (check == "edit") {
+
+                        MainActivity.tempProductList!![tempPos].quantity = count
+                        MainActivity.addCartTempList!![tempPos].quantity = count
+
+                    } else {
+
+
+                        val tempProductListModel = TempProductListModel()
+                        tempProductListModel.productId = productId
+                        tempProductListModel.quantity = count
+                        tempProductListModel.price = price
+                        MainActivity.tempProductList!!.add(tempProductListModel)
+
+                        val addCartInputModel = AddCartInputModel()
+                        addCartInputModel.productId = productId
+                        addCartInputModel.quantity = count
+                        addCartInputModel.message = "add product"
+                        addCartInputModel.customizeSubCatId = customIdsList!!
+                        addCartInputModel.isCustomize = "0"
+                        MainActivity.addCartTempList!!.add(addCartInputModel)
+
+                        viewmodel!!.addToCartApi(
+                                SessionTwiclo(context).loggedInUserDetail.accountId,
+                                SessionTwiclo(context).loggedInUserDetail.accessToken,
+                                MainActivity.addCartTempList!!,
+                                ""
+                        )
+                    }
+                }
+
+
+            } else {
+                var check = "edit"
+                var checkPos = 0
+                Log.e("check1", Gson().toJson(MainActivity.tempProductList!!))
+                for (i in 0 until MainActivity.tempProductList!!.size) {
+                    if (MainActivity.tempProductList!![i].productId.equals(productId)) {
+                        if (count.equals("0")) {
+                            check = "remove"
+                            checkPos = i
+                            break
+                            //  addCartTempList!!.removeAt(i)
+                            //   tempProductList!!.removeAt(i)
+
+                        } /*else {
+                    tempProductList!!.get(i).quantity = count
+                    addCartTempList!!.get(i).quantity = count
+                }*/
+                    }
+                }
+
+                if (check == "remove") {
+                    //ll_view_cart.visibility = View.GONE // to hide the bottom cart bar if non-customized item quantity becomes zero
+                    MainActivity.addCartTempList!!.removeAt(checkPos)
+                    MainActivity.tempProductList!!.removeAt(checkPos)
+
+                    if (cartId != null) {
+                        if (productId != null) {
+                            viewmodel?.addRemoveCartDetails(
+                                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                                    SessionTwiclo(context).loggedInUserDetail.accessToken,
+                                    productId,
+                                    "remove",
+                                    "0",
+                                    "",
+                                    cartId,
+                                    customIdsList!!
+                            )
+                        }
+                    }
+
+                } else {
+                    MainActivity.tempProductList!![checkPos].quantity = count
+                    MainActivity.addCartTempList!![checkPos].quantity = count
+
+                    if (cartId != null) {
+                        if (productId != null) {
+                            viewmodel?.addRemoveCartDetails(
+                                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                                    SessionTwiclo(context).loggedInUserDetail.accessToken,
+                                    productId,
+                                    "remove",
+                                    "0",
+                                    "",
+                                    cartId,
+                                    customIdsList!!
+                            )
+                        }
+                    }
+                }
+
+            }
+            //plusMinusPrice = 0.0
+            tempPrice = 0.0
+            Log.d("check1", Gson().toJson(MainActivity.tempProductList!!))
+            var bottomPrice: Double? = 0.0
+            var bottomCount: Int? = 0
+            for (i in 0 until MainActivity.tempProductList!!.size) {
+                bottomPrice = bottomPrice!! + (MainActivity.tempProductList!!.get(i).price.toDouble() * MainActivity.tempProductList!!.get(
+                        i
+                ).quantity.toInt())
+                bottomCount = bottomCount!! + MainActivity.tempProductList!!.get(i).quantity.toInt()
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
     }
 
     fun isNetworkConnected(): Boolean {
@@ -1197,6 +1163,38 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
     fun showToast(toast_string: String?) {
         Toast.makeText(context, toast_string, Toast.LENGTH_SHORT).show()
     }
+    override fun clearCart() {
+        viewmodel?.clearCartApi(
+                SessionTwiclo(context).loggedInUserDetail.accountId,
+                SessionTwiclo(context).loggedInUserDetail.accessToken
+        )
+    }
+
+    private fun showLoginDialog(message: String) {
+        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        //set title for alert dialog
+        builder.setTitle("Alert")
+        //set message for alert dialog
+        builder.setMessage(message)
+        // builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton("Login") { dialogInterface, which ->
+//            startActivity(
+//                Intent(activity, LoginActivity::class.java)
+//            )
 
 
+        }
+
+        //performing negative action
+        builder.setNegativeButton("Cancel") { _, _ ->
+
+        }
+        // Create the AlertDialog
+        val alertDialog: androidx.appcompat.app.AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(true)
+        alertDialog.show()
+    }
 }
