@@ -185,7 +185,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             if (storeID != null) {
                 //SessionTwiclo(context).storeId = storeID
             }
-            Log.e("stores response", Gson().toJson(user))
+            Log.e("stores_response", Gson().toJson(user))
             //val mModelData: AddToCartModel = user
             if (tempType.equals("custom")) {
 
@@ -738,15 +738,10 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
     }
 
     private fun clearCartPopup() {
-
         val builder = AlertDialog.Builder(requireContext())
-        //set title for alert dialog
         builder.setTitle("Replace cart item!")
-        //set message for alert dialog
         builder.setMessage("Do you want to discard the previous selection?")
         builder.setIcon(android.R.drawable.ic_dialog_alert)
-
-        //performing positive action
         builder.setPositiveButton("Yes") { dialogInterface, which ->
             try {
                 _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
@@ -763,17 +758,10 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                 SessionTwiclo(context).loggedInUserDetail.accountId,
                 SessionTwiclo(context).loggedInUserDetail.accessToken
             )
-
-            //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
         }
-
-        //performing negative action
         builder.setNegativeButton("No") { dialogInterface, which ->
-            //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
         }
-        // Create the AlertDialog
         val alertDialog: AlertDialog = builder.create()
-        // Set other dialog properties
         alertDialog.setCancelable(false)
         alertDialog.show()
     }
@@ -925,9 +913,6 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
         if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals(
                 ""
             )) {
-
-            //showIOSProgress()
-            //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
 
             if (type.equals("add")) {
 

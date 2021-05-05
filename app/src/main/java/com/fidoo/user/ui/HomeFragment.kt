@@ -360,13 +360,13 @@ class HomeFragment : Fragment() {
             }
         }
 
-        fragmentHomeBinding?.homeQuestionLay?.setOnClickListener {
-            if (SessionTwiclo(context).isLoggedIn){
-                startActivity(Intent(context, ServicesActivity::class.java))
-            }else{
-                showLoginDialog("Please login to proceed")
-            }
-        }
+//        fragmentHomeBinding?.homeQuestionLay?.setOnClickListener {
+//            if (SessionTwiclo(context).isLoggedIn){
+//                startActivity(Intent(context, ServicesActivity::class.java))
+//            }else{
+//                showLoginDialog("Please login to proceed")
+//            }
+//        }
 
         return fragmentHomeBinding?.root
     }
