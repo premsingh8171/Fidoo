@@ -134,9 +134,6 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                 showToast("Please select payment mode")
             }
 
-
-
-
         }
 
         sendPackagesViewModel?.sendPackagesResponse?.observe(this, {
