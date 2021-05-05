@@ -31,6 +31,7 @@ import com.fidoo.user.view.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.CartViewModel
 import com.fidoo.user.viewmodels.StoreDetailsViewModel
 import com.fidoo.user.viewmodels.TrackViewModel
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import com.razorpay.Checkout
@@ -136,6 +137,14 @@ class CartActivity : BaseActivity(),
             } else {
                 "contact"
             }
+        }
+
+        prescriptionImg.setOnClickListener {
+            ImagePicker.with(this)
+                .crop()                    //Crop image(Optional), Check Customization for more option
+                //   .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                //  .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .start()
         }
 
         storeViewModel?.getStoreDetailsApi?.observe(this, Observer {
@@ -388,10 +397,10 @@ class CartActivity : BaseActivity(),
 
                     isPrescriptionRequire = user.cart[0].isPrescription
                     if (user.cart[0].isPrescription.equals("1")) {
-                        //prescriptionLay.visibility = View.VISIBLE
+                        prescriptionLay.visibility = View.VISIBLE
 
                     } else {
-                        //prescriptionLay.visibility = View.GONE
+                        prescriptionLay.visibility = View.GONE
                     }
 
                     if (user.cart[0].cod.equals("1")) {
@@ -482,7 +491,7 @@ class CartActivity : BaseActivity(),
 
                     //numberOfItemsValue.text = noOfItems.toString() + " Items"
 
-                    tv_place_order.text = resources.getString(R.string.ruppee) + finalPrice.toFloat().toString()
+                    tv_place_order.text = "Pay "+ resources.getString(R.string.ruppee) + finalPrice.toFloat().toString()
                     tv_grand_total.text = resources.getString(R.string.ruppee) + finalPrice.toFloat().toString()
 
                     Log.e("Bottom Price", tv_place_order.text.toString())
@@ -566,10 +575,10 @@ class CartActivity : BaseActivity(),
 
             Log.e("cart response", Gson().toJson(user))
             viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    userLat,
+                    userLong
             )
 
 
@@ -712,7 +721,7 @@ class CartActivity : BaseActivity(),
             }
         }
 
-        viewmodel?.orderPlaceResponse?.observe(this, Observer { user ->
+        viewmodel?.orderPlaceResponse?.observe(this, { user ->
             dismissIOSProgress()
             if (isSelected == "online") {
                 if (user.error.equals(true)){
@@ -813,18 +822,57 @@ class CartActivity : BaseActivity(),
         try{
             Toast.makeText(this, "Payment Successful", Toast.LENGTH_LONG).show()
             viewmodel?.paymentApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                tempOrderId,
-                razorpayPaymentId!!,
-                "",
-                "online"
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    tempOrderId,
+                    razorpayPaymentId!!,
+                    "",
+                    "online"
             )
 
 
 
         }catch (e: java.lang.Exception){
             Log.e("onSuccess", "Exception in onPaymentSuccess", e)
+        }
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // Result Code is -1 send from Payumoney activity
+        Log.d(
+            "MainActivity",
+            "request code $requestCode resultcode $resultCode"
+        )
+        if (requestCode == Checkout.RZP_REQUEST_CODE && resultCode == RESULT_OK && data != null)
+        else {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    //Image Uri will not be null for RESULT_OK
+                    Log.e("RESULTCODE", resultCode.toString())
+                    Log.e("data", data.toString())
+                    val fileUri = data?.data
+                    prescriptionImg.setImageURI(fileUri)
+
+                    //You can get File object from intent
+                    val file: File = ImagePicker.getFile(data)!!
+
+                    //You can also get File Path from intent
+                    val filePath: String = ImagePicker.getFilePath(data)!!
+                    filePathTemp = filePath
+                    uplaodGallaryImage(filePath)
+                }
+                ImagePicker.RESULT_ERROR -> {
+                    Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(this, "Transaction Cancelled", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
