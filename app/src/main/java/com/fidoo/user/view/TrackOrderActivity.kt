@@ -53,7 +53,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
     var origin: LatLng? = null
     var mid: LatLng? = null
     var destination: LatLng? = null
-    var timerStatus: String? = ""
+    var timerStatus =  true
     var userName: String? = ""
     var driverMobileNo: String? = ""
     var viewmodel: TrackViewModel? = null
@@ -78,11 +78,14 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
         viewmodel = ViewModelProviders.of(this).get(TrackViewModel::class.java)
         orderViewModel = ViewModelProviders.of(this).get(MyOrdersFragmentViewModel::class.java)
         userName = intent.getStringExtra("delivery_boy_name")
+        timerStatus = true
         //  continueTxt.setText(intent.getStringExtra("delivery_boy_mobile"))
 
         trackOrderContext = this
         //Log.e("Timer Status", timerStatus.toString())
         tv_order_id.text = intent.getStringExtra("orderId")!!
+
+        cancelBtn.visibility = View.GONE
 
 
         tv_delivery_boy_call.setOnClickListener {
@@ -321,38 +324,43 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
 
             orderViewModel?.myOrdersResponse?.observe(this, {
 
-                if (it.orders[0].orderStatus == "13"){
-                    //timerStatus = "yes"
-                    waitingLay.visibility = View.VISIBLE
-                    timerr = object : CountDownTimer(10000, 1000) {
-                        override fun onTick(millisUntilFinished: Long) {
-                            cancelBtn.visibility = View.VISIBLE
-                            cancelBtn.text = "Cancel (" + (millisUntilFinished / 1000) + ")"
-                            Log.e("left", "seconds remaining: " + millisUntilFinished / 1000)
-                            //  mTextField.setText("seconds remaining: " + millisUntilFinished / 1000)
-                            //here you can have your logic to set text to edittext
-                        }
+                if (timerStatus){
 
-                        override fun onFinish() {
-                            waitingLay.visibility = View.GONE
-                            cancelBtn.visibility = View.GONE
-                            if (it.orders[0].orderStatus == "13"){
+                    if (it.orders[0].orderStatus == "13"){
+
+                        waitingLay.visibility = View.VISIBLE
+                        timerr = object : CountDownTimer(10000, 1000) {
+                            override fun onTick(millisUntilFinished: Long) {
+                                cancelBtn.visibility = View.VISIBLE
+                                cancelBtn.text = "Cancel (" + (millisUntilFinished / 1000) + ")"
+                                Log.e("left", "seconds remaining: " + millisUntilFinished / 1000)
+                                //  mTextField.setText("seconds remaining: " + millisUntilFinished / 1000)
+                                //here you can have your logic to set text to edittext
+                            }
+
+                            override fun onFinish() {
+                                waitingLay.visibility = View.GONE
+                                cancelBtn.visibility = View.GONE
+                                timerStatus = false
                                 viewmodel?.proceedToOrder(
                                         SessionTwiclo(trackOrderContext).loggedInUserDetail.accountId,
                                         SessionTwiclo(trackOrderContext).loggedInUserDetail.accessToken,
                                         currentOrderId.toString()
                                 )
+
+                                /* startActivity(
+								 Intent(this@CartActivity, OrderDetailsActivity::class.java).putExtra(
+									 "orderId",
+									 user.orderId
+								 ).putExtra("type", "")
+							 )*/
+                                //mTextField.setText("done!")
                             }
-                            /* startActivity(
-							 Intent(this@CartActivity, OrderDetailsActivity::class.java).putExtra(
-								 "orderId",
-								 user.orderId
-							 ).putExtra("type", "")
-						 )*/
-                            //mTextField.setText("done!")
-                        }
-                    }.start()
+                        }.start()
+                    }
                 }
+
+
 
             })
 
@@ -368,6 +376,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
         })
 
         orderViewModel?.myOrdersResponse?.observe(this, {
+            tv_order_id.text = it.orders[0].orderId
             when {
                 it.orders[0].orderStatus.equals("0") -> {
                     //holder.buttonValue.visibility = View.GONE
@@ -406,20 +415,30 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
 
                     //holder.buttonValue.visibility = View.GONE
                     order_status.text = "Your order is out for delivery"
+                    tv_order_delivery.setTextColor(Color.rgb(51,147,71))
+                    img_to_location.setColorFilter(Color.rgb(51,147,71))
+
                 }
                 it.orders[0].orderStatus.equals("7") -> {
                     //holder.buttonValue.visibility = View.VISIBLE
 
 
                     order_status.text = "Store partner has accepted your order"
+                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
+                    order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
                 }
                 it.orders[0].orderStatus.equals("9") -> {
                     //holder.buttonValue.visibility = View.VISIBLE
                     order_status.text = "Your food is ready and will soon be picked up by DP"
+                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
+                    tv_order_picked.setTextColor(Color.rgb(51,147,71))
+                    delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51,147,71))
                 }
                 it.orders[0].orderStatus.equals("10") -> {
                     //holder.buttonValue.visibility = View.VISIBLE
                     order_status.text = "Your order is out for delivery"
+                    tv_order_delivery.setTextColor(Color.rgb(51,147,71))
+                    img_to_location.setColorFilter(Color.rgb(51,147,71))
                 }
                 it.orders[0].orderStatus.equals("8") -> {
                     //holder.buttonValue.visibility = View.GONE

@@ -25,7 +25,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
     var viewmodel: OrderDetailsViewModel? = null
     var mPresImg:String=""
     var address:String=""
-    var items: MutableList<com.fidoo.user.data.model.OrderDetailsModel.Item>? = null
+    var items: MutableList<OrderDetailsModel.Item>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +60,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             startActivity(dialIntent)*/
 
             // Syrow API for chat Support
-            startActivity(Intent(this, ChatActivity::class.java))
+            //startActivity(Intent(this, ChatActivity::class.java))
 
         }
 
@@ -78,40 +78,47 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             Log.e("orders details Response", Gson().toJson(mModelData))
 
 
-            if (user.orderStatus.equals("0")) {
-                orderStatusValue.text = "Failed"
-            } else if (user.orderStatus.equals("1")) {
-                // holder.buttonValue.visibility = View.VISIBLE
-                orderStatusValue.text  = "In Progress"
-            } else if (user.orderStatus.equals("2")) {
-                orderStatusValue.text= "Cancelled"
-            } else if (user.orderStatus.equals("11")) {
-                orderStatusValue.text = "Preparing"
-            } else if (user.orderStatus.equals("3")) {
+            when {
+                user.orderStatus.equals("0") -> {
+                    orderStatusValue.text = "Failed"
+                }
+                user.orderStatus.equals("1") -> {
+                    // holder.buttonValue.visibility = View.VISIBLE
+                    orderStatusValue.text  = "In Progress"
+                }
+                user.orderStatus.equals("2") -> {
+                    orderStatusValue.text= "Cancelled"
+                }
+                user.orderStatus.equals("11") -> {
+                    orderStatusValue.text = "Preparing"
+                }
+                user.orderStatus.equals("3") -> {
 
-                orderStatusValue.text = "Delivered"
-            } else if (user.orderStatus.equals("5")) {
-                //  holder.buttonValue.visibility = View.VISIBLE
+                    orderStatusValue.text = "Delivered"
+                }
+                user.orderStatus.equals("5") -> {
+                    //  holder.buttonValue.visibility = View.VISIBLE
 
-                orderStatusValue.text = "In Progress"
-            } else
-                if (user.orderStatus.equals("6")) {
+                    orderStatusValue.text = "In Progress"
+                }
+                user.orderStatus.equals("6") -> {
                     // holder.buttonValue.visibility = View.VISIBLE
 
                     orderStatusValue.text = "Out for Delivery"
-                } else
-                    if (user.orderStatus.equals("7")) {
-                        orderStatusValue.text = "Accepted"
-                    } else
-                        if (user.orderStatus.equals("9")) {
-                            orderStatusValue.text = "In Progress"
-                        }else
-                            if (user.orderStatus.equals("10")) {
-                                orderStatusValue.text = "Out for delivery"
-                            } else
-                                if (user.orderStatus.equals("8")) {
-                                    orderStatusValue.text = "Rejected"
-                                }
+                }
+                user.orderStatus.equals("7") -> {
+                    orderStatusValue.text = "Accepted"
+                }
+                user.orderStatus.equals("9") -> {
+                    orderStatusValue.text = "In Progress"
+                }
+                user.orderStatus.equals("10") -> {
+                    orderStatusValue.text = "Out for delivery"
+                }
+                user.orderStatus.equals("8") -> {
+                    orderStatusValue.text = "Rejected"
+                }
+            }
 
 
             val adapter = ItemsAdapter(this, mModelData.items)
@@ -135,11 +142,17 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             }
 
             Glide.with(this)
-                .load(mModelData.storeImage)
-                .fitCenter()
-                .into(storeImg)
+                    .load(mModelData.storeImage)
+                    .fitCenter()
+                    .into(storeImg)
 
-            storeName.text = mModelData.storeName
+            if (mModelData.storeName == ""){
+                storeName.visibility = View.GONE
+            }else{
+                storeName.text = mModelData.storeName
+            }
+
+
             tv_order_id.text = "Order ID: " +mModelData.orderId
             locText.text = mModelData.storeAddress
             orderOnValue.text = mModelData.dateTime
@@ -153,7 +166,9 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                 label_cart_discount.text = "Cart Discount (" + mModelData.coupon_name +")"
             }
 
-            val deliveryChargeWithTax = mModelData.deliveryCharge.toInt() + mModelData.tax
+
+
+            val deliveryChargeWithTax = mModelData.deliveryCharge + mModelData.tax
             delivery_charge.text = resources.getString(R.string.ruppee) + "" + deliveryChargeWithTax
             delivery_coupon_label.text = "Delivery Discount (" +mModelData.delivery_coupon_name +")"
             delivery_coupon.text = resources.getString(R.string.ruppee) + "" + mModelData.delivery_discount
@@ -166,7 +181,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             dismissIOSProgress()
 
             Log.e("cart response", Gson().toJson(user))
-            showToast(user)
+            //showToast(user)
 
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
@@ -190,8 +205,8 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         super.onResume()
         showIOSProgress()
         viewmodel?.getOrderDetails(
-            com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-            com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId")
+                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
+                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId")
         )
     }
 }

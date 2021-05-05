@@ -278,9 +278,9 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                     tv_address_to.text.toString().length < 10 -> {
                         showToast("Please enter to address")
                     }
-                    /* tv_address_from.text.toString() == tv_address_to.text.toString() -> {
+                    tv_address_from.text.toString() == tv_address_to.text.toString() -> {
                         showToast("From address and to address can't be same")
-                    }*/
+                    }
                     ed_notes.text.toString().trim() == "" -> {
                         showToast("Please enter to notes")
 

@@ -40,7 +40,7 @@ class SearchAdapter(
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         storeID = productList[position].storeId
         var count:Int=0
-        holder.qty.text = productList.get(position).productName
+        holder.qty.text = productList[position].weight + productList[position].unit
         holder.itemName.text = productList.get(position).productName
 //        if(!productList.get(position).rating.equals("")) {
 //            holder.ratingTxtValue.visibility=View.VISIBLE
@@ -71,9 +71,9 @@ class SearchAdapter(
             tempProductListModel.price = productList.get(position).offerPrice
             tempProductListModel.quantity = productList.get(position).cartQuantity.toString()
             MainActivity.tempProductList!!.add(tempProductListModel)
-            var customIdsList: ArrayList<String>? = null
+            val customIdsList: ArrayList<String>?
 
-            customIdsList = ArrayList<String>()
+            customIdsList = ArrayList()
             val addCartInputModel = AddCartInputModel()
             addCartInputModel.productId = productList[position].productId
             addCartInputModel.quantity = productList[position].cartQuantity.toString()
@@ -121,7 +121,7 @@ class SearchAdapter(
         holder.mainLay.setOnClickListener {
 
             if (SessionTwiclo(con).isLoggedIn){
-            /* con.startActivity(
+                /* con.startActivity(
                         Intent(con, SingleProductActivity::class.java).putExtra(
                                 "productId",
                                 productList.get(position).productId
@@ -142,13 +142,13 @@ class SearchAdapter(
             if (SessionTwiclo(con).isLoggedIn){
                 if (productList[position].isCustomize.equals("1")) {
                     adapterClick.onItemClick(
-                        productList[position].productId,
-                        "custom",
-                        "1",
-                        productList[position].offerPrice,
-                        productList[position].isCustomizeQuantity,
-                        "",
-                        ""
+                            productList[position].productId,
+                            "custom",
+                            "1",
+                            productList[position].offerPrice,
+                            productList[position].isCustomizeQuantity,
+                            "",
+                            productList[position].cartId
                     )
                 } else {
                     count++
@@ -158,9 +158,9 @@ class SearchAdapter(
 
                     if (SessionTwiclo(con).storeId.equals(storeID) || SessionTwiclo(con).storeId.equals("")) {
                         adapterAddRemoveClick.onItemAddRemoveClick(
-                            productList[position].productId, count.toString(), "add",
-                            productList[position].offerPrice,"",
-                            "",0
+                                productList[position].productId, count.toString(), "add",
+                                productList[position].offerPrice,"",
+                                productList[position].cartId,0
                         )
                     }else{
                         val builder = AlertDialog.Builder(con)
@@ -174,7 +174,7 @@ class SearchAdapter(
                             adapterAddRemoveClick.clearCart()
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                 productList[position].productId, count.toString(), "add",
-                                productList[position].offerPrice,"", "",0)
+                                productList[position].offerPrice,"", productList[position].cartId,0)
 
                             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                         }
@@ -217,15 +217,68 @@ class SearchAdapter(
          }*/
 
         holder.plusLay.setOnClickListener {
-            count++
-            holder.countValue.text = count.toString()
+            if (productList[position].isCustomize.equals("1")) {
+                var items: String? = ""
+                if (productList[position].customizeItem != null) {
 
+                    if (productList[position].customizeItem.size != 0) {
+                        var tempp: Double? = 0.0
+                        for (i in 0 until productList[position].customizeItem.size) {
+                            items = productList[position].customizeItem[i].subCatName + ", " + items
+                            tempp = tempp!! + productList[position].customizeItem.get(i).price.toDouble()
+
+                        }
+                        tempp = tempp!! + productList[position].offerPrice.toDouble()
+
+                        items = items!!.substring(0, items.length - 2)
+                    } else {
+
+                    }
+                }
+
+
+                if (productList[position].customizeItem != null) {
+                    count++
+
+                    if (productList[position].customizeItem.size != 0) {
+                        adapterCartAddRemoveClick.onAddItemClick(
+                                productList[position].productId,
+                                items,
+                                productList[position].offerPrice,
+                                productList[position].isCustomize,
+                                productList[position].customizeItem[position].productCustomizeId,
+                                productList[position].cartId
+                        )
+                    } else {
+                        adapterCartAddRemoveClick.onAddItemClick(
+                                productList[position].productId,
+                                items,
+                                productList[position].offerPrice,
+                                productList[position].isCustomize,
+                                "",
+                                productList[position].cartId
+                        )
+                    }
+                }
+
+            } else {
+                count++
+                holder.countValue.text = count.toString()
+                adapterAddRemoveClick.onItemAddRemoveClick(
+                        productList[position].productId,
+                        count.toString(),
+                        "add",
+                        productList[position].offerPrice, "",
+                        productList[position].cartId,0
+                )
+            }
         }
 
 
         holder.minusLay.setOnClickListener {
+
             if (productList[position].isCustomize == "1"){
-                if (holder.countValue.text.toString().toInt()>0){
+                if (holder.countValue.text.toString().toInt() > 0){
                     var count: Int = holder.countValue.text.toString().toInt()
                     count--
                     holder.countValue.text = count.toString()
@@ -234,59 +287,58 @@ class SearchAdapter(
 
                         if (productList[position].customizeItem.size != 0) {
                             adapterCartAddRemoveClick.onRemoveItemClick(
-                                productList[position].productId,
-                                count.toString(),
-                                productList[position].isCustomize,
-                                productList[position].customizeItem[0].productCustomizeId,
-                                ""
+                                    productList[position].productId,
+                                    count.toString(),
+                                    productList[position].isCustomize,
+                                    productList[position].customizeItem[0].productCustomizeId,
+                                    productList[position].cartId
                             )
                         } else {
                             adapterCartAddRemoveClick.onRemoveItemClick(
-                                productList[position].productId,
-                                count.toString(),
-                                productList[position].isCustomize,
-                                "",
-                                ""
+                                    productList[position].productId,
+                                    count.toString(),
+                                    productList[position].isCustomize,
+                                    "",
+                                    productList[position].cartId
                             )
                         }
                     }
 
 
-                }else{
-
                 }
 
             }else{
+                if(count>=0)
+                {
+                    count--
+                    holder.countValue.text = count.toString()
+                    if (count == 0) {
+                        holder.add_new_layy.visibility = View.VISIBLE
+                        holder.add_remove_layy.visibility = View.GONE
+                        adapterAddRemoveClick.onItemAddRemoveClick(
+                                productList[position].productId,
+                                count.toString(),
+                                "remove",
+                                productList[position].offerPrice,
+                                "",
+                                productList[position].cartId,0
+                        )
+                        adapterAddRemoveClick.clearCart()
+                    }else{
+                        adapterAddRemoveClick.onItemAddRemoveClick(
+                                productList[position].productId,
+                                count.toString(),
+                                "remove",
+                                productList[position].offerPrice,
+                                "",
+                                productList[position].cartId,0
+                        )
 
-            }
-            if(count>=0)
-            {
-                count--
-                holder.countValue.text = count.toString()
-                if (count == 0) {
-                    holder.add_new_layy.visibility = View.VISIBLE
-                    holder.add_remove_layy.visibility = View.GONE
-                    adapterAddRemoveClick.onItemAddRemoveClick(
-                        productList[position].productId,
-                        count.toString(),
-                        "remove",
-                        productList[position].offerPrice,
-                        "",
-                        "",0
-                    )
-                    adapterAddRemoveClick.clearCart()
-                }else{
-                    adapterAddRemoveClick.onItemAddRemoveClick(
-                        productList[position].productId,
-                        count.toString(),
-                        "remove",
-                        productList[position].offerPrice,
-                        "",
-                        "",0
-                    )
-
+                    }
                 }
+
             }
+
 
         }
 

@@ -32,8 +32,8 @@ class ProfileFragment : Fragment() {
     var viewmodel: LogoutViewModel? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
 
         // Inflate the layout for this fragment
@@ -48,6 +48,10 @@ class ProfileFragment : Fragment() {
                 Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
             }
 
+        }
+
+        mView.tv_terms.setOnClickListener {
+            startActivity(Intent(context, AboutUsActivity::class.java).putExtra("about_us", "about_us"))
         }
 
         mView.tv_aboutUs.setOnClickListener {
@@ -83,6 +87,11 @@ class ProfileFragment : Fragment() {
         }
         mView.tv_name.text = SessionTwiclo(context).profileDetail.account.name
         mView.tv_email.text = SessionTwiclo(context).profileDetail.account.emailid
+
+        mView.tv_faq.setOnClickListener {
+            startActivity(Intent(context, AboutUsActivity::class.java).putExtra("faq", "faq"))
+        }
+
         mView.tv_helpSupport.setOnClickListener {
             startActivity(Intent(context, AboutUsActivity::class.java).putExtra("faq", "faq"))
         }

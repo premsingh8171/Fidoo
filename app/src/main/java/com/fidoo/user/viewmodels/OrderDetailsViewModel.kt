@@ -24,9 +24,8 @@ class OrderDetailsViewModel(application: Application) : AndroidViewModel(applica
     fun getOrderDetails(accountId: String, accessToken: String, order_id: String?) {
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).orderDetailsApi(
-            accountId = accountId, accessToken = accessToken, order_id = order_id
-        )
-            .enqueue(this)
+                accountId = accountId, accessToken = accessToken, order_id = order_id
+        ).enqueue(this)
 
     }
 
@@ -39,6 +38,7 @@ class OrderDetailsViewModel(application: Application) : AndroidViewModel(applica
     override fun onFailure(call: Call<com.fidoo.user.data.model.OrderDetailsModel>?, t: Throwable?) {
 
         failureResponse?.value="Something went wrong"
+
         Log.e("ERROR",""+t.toString())
     }
 

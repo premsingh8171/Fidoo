@@ -85,9 +85,15 @@ public class SearchModel {
         @SerializedName("category_name")
         @Expose
         public String categoryName;
+
         @SerializedName("store_id")
         @Expose
         public String storeId;
+
+        @SerializedName("cart_id")
+        @Expose
+        public String cartId;
+
         @SerializedName("store_name")
         @Expose
         public String storeName;

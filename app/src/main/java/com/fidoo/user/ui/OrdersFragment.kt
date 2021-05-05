@@ -129,7 +129,7 @@ class OrdersFragment : Fragment(),
             }
         })
 
-        viewmodel?.reviewResponse?.observe(requireActivity(), Observer { user ->
+        viewmodel?.reviewResponse?.observe(requireActivity(), { user ->
             // dismissIOSProgress()
             if (_progressDlg != null) {
 
@@ -146,6 +146,7 @@ class OrdersFragment : Fragment(),
             )
 
         })
+
         viewmodel?.uploadPrescriptionResponse?.observe(requireActivity(), { user ->
             // dismissIOSProgress()
             if (_progressDlg != null) {

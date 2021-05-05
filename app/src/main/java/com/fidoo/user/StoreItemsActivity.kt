@@ -287,19 +287,19 @@ class StoreItemsActivity :
 
             val adapter = storeID?.let {
                 StoreItemsAdapter(
-                    this,
-                    this,
-                    productList,
-                    catList,
-                    "",
-                    "",
-                    "3.5",
-                    "5",
-                    this,
-                    this,
-                    0,
-                    it,
-                    productList[0].cartId
+                        this,
+                        this,
+                        productList,
+                        catList,
+                        "",
+                        "",
+                        "3.5",
+                        "5",
+                        this,
+                        this,
+                        0,
+                        it,
+                        productList[0].cartId
                 )
             }
             storeItemsRecyclerview.adapter = adapter

@@ -204,8 +204,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             }
 
             viewmodel?.getCartCountApi(
-                SessionTwiclo(context).loggedInUserDetail.accountId,
-                SessionTwiclo(context).loggedInUserDetail.accessToken
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken
             )
 
         })
@@ -330,6 +330,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
 //            }
 //        }
 //
+//
 //        fragmentSearchBinding?.llViewCart?.setOnClickListener {
 //            startActivity(
 //                Intent(context, CartActivity::class.java).putExtra("store_id", SessionTwiclo(context).storeId
@@ -345,16 +346,16 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
             dismissIOSProgress()
 
             Log.d("cartCountResponse___",cartcount.toString())
-            var count = cartcount.count
-            var price = cartcount.price
+            val count = cartcount.count
+            val price = cartcount.price
             storeID = cartcount.store_id
             if (!cartcount.error){
                 if (count!="0"){
-                    itemQuantity_textsearch.text=count
-                    totalprice_txtsearch.text= "₹"+price
-                    cartitemView_LLsearch.visibility=View.VISIBLE
+                    fragmentSearchBinding?.itemQuantityTextsearch?.text = count
+                    fragmentSearchBinding?.totalpriceTxtsearch?.text = "₹"+price
+                    fragmentSearchBinding?.cartitemViewLLsearch?.visibility=View.VISIBLE
                 }else{
-                    cartitemView_LLsearch.visibility=View.GONE
+                    fragmentSearchBinding?.cartitemViewLLsearch?.visibility=View.GONE
                 }
             }
 
@@ -914,25 +915,70 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
     }
 
     override fun onItemAddRemoveClick(
-        productId: String?,
-        count: String?,
-        type: String?,
-        price: String?,
-        sid: String?,
-        cartId: String?,
-        position: Int
+            productId: String?,
+            count: String?,
+            type: String?,
+            price: String?,
+            sid: String?,
+            cartId: String?,
+            position: Int
     ) {
-        if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals(
-                ""
-            )) {
 
-            //showIOSProgress()
-            //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
+        //showIOSProgress()
+        //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
 
-            if (type.equals("add")) {
+        if (type.equals("add")) {
 
-                if (MainActivity.tempProductList!!.size == 0) {
-                    //customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
+            if (MainActivity.tempProductList!!.size == 0) {
+                //customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
+                val tempProductListModel = TempProductListModel()
+                tempProductListModel.productId = productId
+                tempProductListModel.quantity = count
+                tempProductListModel.price = price
+                MainActivity.tempProductList!!.add(tempProductListModel)
+
+                val addCartInputModel = AddCartInputModel()
+                addCartInputModel.productId = productId
+                addCartInputModel.quantity = count
+                addCartInputModel.message = "add product"
+                addCartInputModel.customizeSubCatId = customIdsList!!
+                addCartInputModel.isCustomize = "0"
+                MainActivity.addCartTempList!!.add(addCartInputModel)
+
+                if (cartId != null) {
+                    viewmodel!!.addToCartApi(
+                        SessionTwiclo(context).loggedInUserDetail.accountId,
+                        SessionTwiclo(context).loggedInUserDetail.accessToken,
+                        MainActivity.addCartTempList!!,
+                        ""
+                    )
+                }
+                MainActivity.tempProductList!!.clear()
+
+
+
+                //ll_view_cart.visibility = View.VISIBLE // to show bottom cart bar if add is clicked for the first time in non-customized items
+            } else {
+                var check: String= ""
+                var tempPos: Int = 0
+
+                for (i in 0 until MainActivity.tempProductList!!.size) {
+                    Log.e("check1", MainActivity.tempProductList!!.get(i).productId)
+                    Log.e("check2", productId!!)
+                    if (MainActivity.tempProductList!![i].productId.equals(productId)) {
+                        check = "edit"
+                        tempPos = i
+                        //tempProductList!!.get(i).quantity = count
+                        break
+                    }
+                }
+                if (check == "edit") {
+
+                    MainActivity.tempProductList!![tempPos].quantity = count
+                    MainActivity.addCartTempList!![tempPos].quantity = count
+
+                } else {
+
                     val tempProductListModel = TempProductListModel()
                     tempProductListModel.productId = productId
                     tempProductListModel.quantity = count
@@ -947,91 +993,63 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                     addCartInputModel.isCustomize = "0"
                     MainActivity.addCartTempList!!.add(addCartInputModel)
 
-                    if (cartId != null) {
-                        viewmodel!!.addToCartApi(
+                    viewmodel!!.addToCartApi(
                             SessionTwiclo(context).loggedInUserDetail.accountId,
                             SessionTwiclo(context).loggedInUserDetail.accessToken,
                             MainActivity.addCartTempList!!,
                             ""
-                        )
-                    }
-                    MainActivity.tempProductList!!.clear()
+                    )
+                }
+            }
 
 
+        } else {
+            var check = "edit"
+            var checkPos = 0
+            Log.e("check1", Gson().toJson(MainActivity.tempProductList!!))
+            for (i in 0 until MainActivity.tempProductList!!.size) {
+                if (MainActivity.tempProductList!![i].productId.equals(productId)) {
+                    if (count.equals("0")) {
+                        check="remove"
+                        checkPos=i
+                        break
+                        //  addCartTempList!!.removeAt(i)
+                        //   tempProductList!!.removeAt(i)
 
-                    //ll_view_cart.visibility = View.VISIBLE // to show bottom cart bar if add is clicked for the first time in non-customized items
-                } else {
-                    var check: String= ""
-                    var tempPos: Int = 0
+                    } /*else {
+                    tempProductList!!.get(i).quantity = count
+                    addCartTempList!!.get(i).quantity = count
+                }*/
+                }
+            }
 
-                    for (i in 0 until MainActivity.tempProductList!!.size) {
-                        Log.e("check1", MainActivity.tempProductList!!.get(i).productId)
-                        Log.e("check2", productId!!)
-                        if (MainActivity.tempProductList!![i].productId.equals(productId)) {
-                            check = "edit"
-                            tempPos = i
-                            //tempProductList!!.get(i).quantity = count
-                            break
-                        }
-                    }
-                    if (check == "edit") {
+            if (check == "remove") {
+                //ll_view_cart.visibility = View.GONE // to hide the bottom cart bar if non-customized item quantity becomes zero
+                MainActivity.addCartTempList!!.removeAt(checkPos)
+                MainActivity.tempProductList!!.removeAt(checkPos)
 
-                        MainActivity.tempProductList!![tempPos].quantity = count
-                        MainActivity.addCartTempList!![tempPos].quantity = count
-
-                    } else {
-
-                        val tempProductListModel = TempProductListModel()
-                        tempProductListModel.productId = productId
-                        tempProductListModel.quantity = count
-                        tempProductListModel.price = price
-                        MainActivity.tempProductList!!.add(tempProductListModel)
-                        val addCartInputModel = AddCartInputModel()
-                        addCartInputModel.productId = productId
-                        addCartInputModel.quantity = count
-                        addCartInputModel.message = "add product"
-                        addCartInputModel.customizeSubCatId = customIdsList!!
-                        addCartInputModel.isCustomize = "0"
-                        MainActivity.addCartTempList!!.add(addCartInputModel)
-
-                        viewmodel!!.addToCartApi(
+                if (cartId != null) {
+                    if (productId != null) {
+                        viewmodel?.addRemoveCartDetails(
                             SessionTwiclo(context).loggedInUserDetail.accountId,
                             SessionTwiclo(context).loggedInUserDetail.accessToken,
-                            MainActivity.addCartTempList!!,
-                            ""
+                            productId,
+                            "remove",
+                            "0",
+                            "",
+                            cartId,
+                            customIdsList!!
                         )
                     }
                 }
-
 
             } else {
-                var check = "edit"
-                var checkPos = 0
-                Log.e("check1", Gson().toJson(MainActivity.tempProductList!!))
-                for (i in 0 until MainActivity.tempProductList!!.size) {
-                    if (MainActivity.tempProductList!![i].productId.equals(productId)) {
-                        if (count.equals("0")) {
-                            check="remove"
-                            checkPos=i
-                            break
-                            //  addCartTempList!!.removeAt(i)
-                            //   tempProductList!!.removeAt(i)
+                MainActivity.tempProductList!![checkPos].quantity = count
+                MainActivity.addCartTempList!![checkPos].quantity = count
 
-                        } /*else {
-                        tempProductList!!.get(i).quantity = count
-                        addCartTempList!!.get(i).quantity = count
-                    }*/
-                    }
-                }
-
-                if (check == "remove") {
-                    //ll_view_cart.visibility = View.GONE // to hide the bottom cart bar if non-customized item quantity becomes zero
-                    MainActivity.addCartTempList!!.removeAt(checkPos)
-                    MainActivity.tempProductList!!.removeAt(checkPos)
-
-                    if (cartId != null) {
-                        if (productId != null) {
-                            viewmodel?.addRemoveCartDetails(
+                if (cartId != null) {
+                    if (productId != null) {
+                        viewmodel?.addRemoveCartDetails(
                                 SessionTwiclo(context).loggedInUserDetail.accountId,
                                 SessionTwiclo(context).loggedInUserDetail.accessToken,
                                 productId,
@@ -1040,47 +1058,25 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
                                 "",
                                 cartId,
                                 customIdsList!!
-                            )
-                        }
-                    }
-
-                } else {
-                    MainActivity.tempProductList!![checkPos].quantity = count
-                    MainActivity.addCartTempList!![checkPos].quantity = count
-
-                    if (cartId != null) {
-                        if (productId != null) {
-                            viewmodel?.addRemoveCartDetails(
-                                SessionTwiclo(context).loggedInUserDetail.accountId,
-                                SessionTwiclo(context).loggedInUserDetail.accessToken,
-                                productId,
-                                "remove",
-                                "0",
-                                "",
-                                cartId,
-                                customIdsList!!
-                            )
-                        }
+                        )
                     }
                 }
-
-            }
-            //plusMinusPrice = 0.0
-            tempPrice = 0.0
-            Log.d("check1", Gson().toJson(MainActivity.tempProductList!!))
-            var bottomPrice: Double? = 0.0
-            var bottomCount: Int? = 0
-            for (i in 0 until MainActivity.tempProductList!!.size) {
-                bottomPrice = bottomPrice!! + (MainActivity.tempProductList!!.get(i).price.toDouble() * MainActivity.tempProductList!!.get(
-                    i
-                ).quantity.toInt())
-                bottomCount = bottomCount!! + MainActivity.tempProductList!!.get(i).quantity.toInt()
             }
 
         }
-        else {
-
+        //plusMinusPrice = 0.0
+        tempPrice = 0.0
+        Log.d("check1", Gson().toJson(MainActivity.tempProductList!!))
+        var bottomPrice: Double? = 0.0
+        var bottomCount: Int? = 0
+        for (i in 0 until MainActivity.tempProductList!!.size) {
+            bottomPrice = bottomPrice!! + (MainActivity.tempProductList!!.get(i).price.toDouble() * MainActivity.tempProductList!!.get(
+                i
+            ).quantity.toInt())
+            bottomCount = bottomCount!! + MainActivity.tempProductList!!.get(i).quantity.toInt()
         }
+
+
     }
 
     override fun clearCart() {

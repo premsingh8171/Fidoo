@@ -98,7 +98,7 @@ class CartActivity : BaseActivity(),
 
         behavior = BottomSheetBehavior.from(bottom_sheet)
         selectedAddressId = ""
-        selectedAddressName = ""
+        selectedAddressName = SessionTwiclo(this).userAddress
         selectedAddressTitle = ""
         selectedCouponName = ""
         selectedCouponId = ""
@@ -591,19 +591,19 @@ class CartActivity : BaseActivity(),
             showToast("Order placed successfully")
 
             startActivity(
-                Intent(this, TrackOrderActivity::class.java).putExtra(
-                    "orderId",
-                    user.orderId
-                ).putExtra(
-                    "delivery_boy_name",
-                    ""
-                ).putExtra(
-                    "delivery_boy_mobile",
-                    ""
-                ).putExtra(
-                    "type",
-                    ""
-                )
+                    Intent(this, TrackOrderActivity::class.java).putExtra(
+                            "orderId",
+                            user.orderId
+                    ).putExtra(
+                            "delivery_boy_name",
+                            ""
+                    ).putExtra(
+                            "delivery_boy_mobile",
+                            ""
+                    ).putExtra(
+                            "type",
+                            ""
+                    )
             )
             finishAffinity()
         })
@@ -623,10 +623,10 @@ class CartActivity : BaseActivity(),
 
             Log.e("cart response", Gson().toJson(user))
             viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    userLat,
+                    userLong
             )
             if (user.couponApply.equals("2")) {
 
@@ -682,13 +682,13 @@ class CartActivity : BaseActivity(),
                         if (isNetworkConnected) {
                             showIOSProgress()
                             viewmodel?.orderPlaceApi(SessionTwiclo(this).loggedInUserDetail.accountId,
-                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                finalPrice.toFloat().toString(),
-                                deliveryOption,
-                                SessionTwiclo(this).userAddressId,
-                                "",
-                                ed_delivery_instructions.text.toString(),
-                                isSelected
+                                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                    finalPrice.toFloat().toString(),
+                                    deliveryOption,
+                                    SessionTwiclo(this).userAddressId,
+                                    "",
+                                    ed_delivery_instructions.text.toString(),
+                                    isSelected
                             )
 
                         } else {
@@ -699,14 +699,14 @@ class CartActivity : BaseActivity(),
                 } else {
                     showIOSProgress()
                     viewmodel?.orderPlaceApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        finalPrice.toFloat().toString(),
-                        deliveryOption,
-                        SessionTwiclo(this).userAddressId,
-                        "",
-                        ed_delivery_instructions.text.toString(),
-                        isSelected
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            finalPrice.toFloat().toString(),
+                            deliveryOption,
+                            SessionTwiclo(this).userAddressId,
+                            "",
+                            ed_delivery_instructions.text.toString(),
+                            isSelected
                     )
                 }
             }
@@ -735,12 +735,12 @@ class CartActivity : BaseActivity(),
             } else {
                 if (isNetworkConnected) {
                     viewmodel?.paymentApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        user.orderId,
-                        "",
-                        "",
-                        "cash"
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            user.orderId,
+                            "",
+                            "",
+                            "cash"
                     )
 
                 } else {
@@ -771,7 +771,7 @@ class CartActivity : BaseActivity(),
             options.put("name", "FIDOO")
             options.put("description", "Charges")
             //You can omit the image option to fetch the image from dashboard
-            options.put("image", "https://fidoo.in/include/assets/front/img/logo_sticky.svg")
+            options.put("image", "https://fidoo.in/include/assets/front/image/fidoo_logo-g.svg")
             options.put("theme.color", "#339347");
             options.put("currency", "INR")
             options.put("order_id", razorpayOrderId)
@@ -793,7 +793,7 @@ class CartActivity : BaseActivity(),
             options.put("prefill", prefill)
             co.open(activity, options)
         }catch (e: java.lang.Exception){
-            Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, "Error in payment, please try again", Toast.LENGTH_LONG).show()
             e.printStackTrace()
         }
 
@@ -803,7 +803,7 @@ class CartActivity : BaseActivity(),
 
     override fun onPaymentError(errorCode: Int, response: String?) {
         try{
-            Toast.makeText(this, "Payment failed $errorCode \n $response", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Payment failed, Please try again", Toast.LENGTH_LONG).show()
         }catch (e: java.lang.Exception){
             Log.e("onError", "Exception in onPaymentSuccess", e)
         }
@@ -951,10 +951,10 @@ class CartActivity : BaseActivity(),
             })
 
             viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    userLat,
+                    userLong
             )
 
 
@@ -969,9 +969,9 @@ class CartActivity : BaseActivity(),
         if (!selectedCouponName.equals("")) {
             tv_coupon.setText(selectedCouponName)
             viewmodel?.applyPromoApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                selectedCouponName
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    selectedCouponName
             )
         }
 
@@ -994,9 +994,9 @@ class CartActivity : BaseActivity(),
                 showIOSProgress()
                 if (cart_id != null) {
                     viewmodel?.deleteCartDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!,
-                        cart_id
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!,
+                            cart_id
                     )
                     onresumeHandle=1
                 }
