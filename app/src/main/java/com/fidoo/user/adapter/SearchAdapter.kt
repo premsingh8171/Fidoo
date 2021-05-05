@@ -118,6 +118,7 @@ class SearchAdapter(
             }
         }*/
 
+
         holder.mainLay.setOnClickListener {
 
             if (SessionTwiclo(con).isLoggedIn){
@@ -137,6 +138,7 @@ class SearchAdapter(
                 showLoginDialog("Please login to proceed")
             }
         }
+
 
         holder.add_new_layy.setOnClickListener {
             if (SessionTwiclo(con).isLoggedIn){
@@ -209,12 +211,76 @@ class SearchAdapter(
         }
 
 
-        /* if (productList[position].cartQuantity == 0) {
+        holder.plusLay.setOnClickListener {
+           // count++
+          //  holder.countValue.text = count.toString()
+            if (SessionTwiclo(con).isLoggedIn){
+                if (productList[position].isCustomize.equals("1")) {
+                    adapterClick.onItemClick(
+                            productList[position].productId,
+                            "custom",
+                            "1",
+                            productList[position].offerPrice,
+                            productList[position].isCustomizeQuantity,
+                            "",
+                            ""
+                    )
+                } else {
+                    count++
+                    holder.countValue.text = count.toString()
+                    holder.add_new_layy.visibility=View.GONE
+                    holder.add_remove_layy.visibility=View.VISIBLE
 
-         } else {
-             count = productList.get(position).cartQuantity
-             holder.countValue.text = count.toString()
-         }*/
+                    if (SessionTwiclo(con).storeId.equals(storeID) || SessionTwiclo(con).storeId.equals("")) {
+                        adapterAddRemoveClick.onItemAddRemoveClick(
+                                productList[position].productId, count.toString(), "add",
+                                productList[position].offerPrice,"",
+                                "",0
+                        )
+                    }else{
+                        val builder = AlertDialog.Builder(con)
+                        //set title for alert dialog
+                        builder.setTitle("Replace cart item!")
+                        //set message for alert dialog
+                        builder.setMessage("Do you want to discard the previous selection?")
+                        builder.setIcon(android.R.drawable.ic_dialog_alert)
+                        //performing positive action
+                        builder.setPositiveButton("Yes") { _, _ ->
+                            adapterAddRemoveClick.clearCart()
+                            adapterAddRemoveClick.onItemAddRemoveClick(
+                                    productList[position].productId, count.toString(), "add",
+                                    productList[position].offerPrice,"", "",0)
+
+                            //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
+                        }
+
+
+                        //performing negative action
+                        builder.setNegativeButton("No") { _, _ ->
+                            count = 0
+                            holder.countValue.text = count.toString()
+                            holder.add_new_layy.visibility = View.VISIBLE
+                            holder.add_remove_layy.visibility = View.GONE
+                        }
+                        // Create the AlertDialog
+                        val alertDialog: AlertDialog = builder.create()
+                        // Set other dialog properties
+                        alertDialog.setCancelable(false)
+                        alertDialog.show()
+                    }
+                    //adapterAddRemoveClick.onItemAddRemoveClick(productList.get(position).productId,count.toString(),"add",productList.get(position).offerPrice)
+
+                    /*adapterClick.onItemClick(
+                        productList[position].productId,
+                        productList.get(position).storeId,
+                        holder.countValue.text.toString(),
+                        productList[position].offerPrice,
+                        productList[position].isCustomizeQuantity,
+                        "simple",
+                        "")*/
+                }
+            }else{
+                showLoginDialog("Please login to proceed")
 
         holder.plusLay.setOnClickListener {
             if (productList[position].isCustomize.equals("1")) {
@@ -271,6 +337,7 @@ class SearchAdapter(
                         productList[position].offerPrice, "",
                         productList[position].cartId,0
                 )
+
             }
         }
 

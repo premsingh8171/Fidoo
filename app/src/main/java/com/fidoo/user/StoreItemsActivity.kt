@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -478,7 +479,7 @@ class StoreItemsActivity :
         viewmodel?.customizeProductResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
 
-            Log.e("stores response", Gson().toJson(user))
+            Log.e("stores___esponse", Gson().toJson(user))
             mModelDataTemp = user
 
             categoryy = ArrayList()
@@ -532,7 +533,7 @@ class StoreItemsActivity :
             customItemsRecyclerview.layoutManager = LinearLayoutManager(this)
             customItemsRecyclerview.setHasFixedSize(true)
             customItemsRecyclerview.adapter = adapter
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+              // Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
         viewmodel?.clearCartResponse?.observe(this, Observer { user ->
