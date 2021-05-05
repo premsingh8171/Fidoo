@@ -8,6 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.awesomedialog.*
+import com.fidoo.user.data.model.SendPackagesModel
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.viewmodels.SendPackagesViewModel
 import com.google.gson.Gson
@@ -131,9 +132,6 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             }else{
                 showToast("Please select payment mode")
             }
-
-
-
 
         }
 
