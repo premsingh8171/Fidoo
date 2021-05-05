@@ -1,6 +1,7 @@
 package com.fidoo.user.view
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,6 +13,7 @@ import com.fidoo.user.ChatActivity
 import com.fidoo.user.R
 import com.fidoo.user.adapter.ItemsAdapter
 import com.fidoo.user.data.model.OrderDetailsModel
+import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.viewmodels.OrderDetailsViewModel
 import com.fidoo.user.utils.statusBarTransparent
@@ -36,11 +38,11 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         backIcon.setOnClickListener {
 
 
-            if(intent.hasExtra("type"))
-            {
+            if(intent.hasExtra("type")) {
                 startActivity(Intent(this,MainActivity::class.java))
                 finishAffinity()
             }
+
             else {
 
                 finish()
@@ -53,11 +55,9 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         }
 
         supportCall.setOnClickListener {
-            /*val dialIntent = Intent(Intent.ACTION_DIAL)
-            dialIntent.data = Uri.parse("tel:" + com.fidoo.user.data.session.SessionTwiclo(
-                this
-            ).profileDetail.account.support_number)
-            startActivity(dialIntent)*/
+            val dialIntent = Intent(Intent.ACTION_DIAL)
+            dialIntent.data = Uri.parse("tel:" + 8047165887)
+            startActivity(dialIntent)
 
             // Syrow API for chat Support
             //startActivity(Intent(this, ChatActivity::class.java))
@@ -171,7 +171,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             val deliveryChargeWithTax = mModelData.deliveryCharge + mModelData.tax
             delivery_charge.text = resources.getString(R.string.ruppee) + "" + deliveryChargeWithTax
             delivery_coupon_label.text = "Delivery Discount (" +mModelData.delivery_coupon_name +")"
-            delivery_coupon.text = resources.getString(R.string.ruppee) + "" + mModelData.delivery_discount
+            delivery_coupon.text = "-" +resources.getString(R.string.ruppee) + "" + mModelData.delivery_discount
             grand_price.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
             sub_total.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
         })

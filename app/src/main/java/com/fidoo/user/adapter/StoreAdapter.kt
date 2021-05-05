@@ -124,7 +124,7 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
                 }
 
             } else {
-                Toast.makeText(context, "Currently store is offline", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "This store is  coming soon", Toast.LENGTH_SHORT).show()
             }
 
         }

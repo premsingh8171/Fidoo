@@ -22,6 +22,7 @@ import com.fidoo.user.R
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.NotiCheck
 import com.fidoo.user.ui.MainActivity
+import com.fidoo.user.ui.MainActivity.Companion.timerStatus
 import com.fidoo.user.utils.statusBarTransparent
 import com.fidoo.user.viewmodels.MyOrdersFragmentViewModel
 import com.fidoo.user.viewmodels.TrackViewModel
@@ -53,7 +54,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
     var origin: LatLng? = null
     var mid: LatLng? = null
     var destination: LatLng? = null
-    var timerStatus =  true
+    //var timerStatus =  true
     var userName: String? = ""
     var driverMobileNo: String? = ""
     var viewmodel: TrackViewModel? = null
@@ -106,6 +107,8 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
 
 
 
+
+
         viewmodel?.getLocationApi(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -126,7 +129,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
             override fun onTick(millisUntilFinished: Long) {
                 //cancel()
                 //waitingLay.visibility= View.VISIBLE
-                Log.e("left", "seconds remaining: " + millisUntilFinished / 1000)
+                Log.e("Location Timer", "seconds remaining: " + millisUntilFinished / 1000)
                 //  mTextField.setText("seconds remaining: " + millisUntilFinished / 1000)
                 //here you can have your logic to set text to edittext
             }
@@ -200,8 +203,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
             waitingLay.visibility = View.GONE
         })
 
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
 
@@ -283,34 +285,35 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                  curveOptions.geodesic(false)*/
                 if (origin != null) {
                     mMap.addMarker(
-                        MarkerOptions().position(origin!!)
-                            .icon(bitmapDescriptorFromVector(this, R.drawable.ic_delivery_bike))
-                            .anchor(0.5f, 1f)
+                            MarkerOptions()
+                                    .position(origin!!)
+                                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_delivery_bike))
+                                    .anchor(0.5f, 1f)
                     )
                 }
                 if (mid != null) {
                     mMap.addMarker(
-                        MarkerOptions().position(mid!!).icon(
-                            bitmapDescriptorFromVector(this, R.drawable.ic_resturant)
-                        ).anchor(0.5f, 1f)
+                            MarkerOptions()
+                                    .position(mid!!)
+                                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_resturant))
+                                    .anchor(0.5f, 1f)
                     )
                 }
 
 
                 if (destination != null) {
                     mMap.addMarker(
-                        MarkerOptions().position(destination!!)
-                            .icon(bitmapDescriptorFromVector(this, R.drawable.ic_home))
-                            .anchor(0.5f, 1f)
+                            MarkerOptions()
+                                    .position(destination!!)
+                                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_home))
+                                    .anchor(0.5f, 1f)
                     )
 
                 }
 
                 if (origin != null) {
                     mMap.moveCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                            origin, 14f
-                        )
+                            CameraUpdateFactory.newLatLngZoom(origin, 14f)
                     )
                 }
 
@@ -322,47 +325,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
 
             }
 
-            orderViewModel?.myOrdersResponse?.observe(this, {
 
-                if (timerStatus){
-
-                    if (it.orders[0].orderStatus == "13"){
-
-                        waitingLay.visibility = View.VISIBLE
-                        timerr = object : CountDownTimer(10000, 1000) {
-                            override fun onTick(millisUntilFinished: Long) {
-                                cancelBtn.visibility = View.VISIBLE
-                                cancelBtn.text = "Cancel (" + (millisUntilFinished / 1000) + ")"
-                                Log.e("left", "seconds remaining: " + millisUntilFinished / 1000)
-                                //  mTextField.setText("seconds remaining: " + millisUntilFinished / 1000)
-                                //here you can have your logic to set text to edittext
-                            }
-
-                            override fun onFinish() {
-                                waitingLay.visibility = View.GONE
-                                cancelBtn.visibility = View.GONE
-                                timerStatus = false
-                                viewmodel?.proceedToOrder(
-                                        SessionTwiclo(trackOrderContext).loggedInUserDetail.accountId,
-                                        SessionTwiclo(trackOrderContext).loggedInUserDetail.accessToken,
-                                        currentOrderId.toString()
-                                )
-
-                                /* startActivity(
-								 Intent(this@CartActivity, OrderDetailsActivity::class.java).putExtra(
-									 "orderId",
-									 user.orderId
-								 ).putExtra("type", "")
-							 )*/
-                                //mTextField.setText("done!")
-                            }
-                        }.start()
-                    }
-                }
-
-
-
-            })
 
 
 
@@ -373,6 +336,48 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
 
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+        })
+
+        orderViewModel?.myOrdersResponse?.observe(this, {
+
+            if (timerStatus){
+
+                if (it.orders[0].orderStatus == "13"){
+
+                    waitingLay.visibility = View.VISIBLE
+                    timerr = object : CountDownTimer(10000, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            cancelBtn.visibility = View.VISIBLE
+                            cancelBtn.text = "Cancel (" + (millisUntilFinished / 1000) + ")"
+                            Log.e("left", "seconds remaining: " + millisUntilFinished / 1000)
+                            //  mTextField.setText("seconds remaining: " + millisUntilFinished / 1000)
+                            //here you can have your logic to set text to edittext
+                        }
+
+                        override fun onFinish() {
+                            waitingLay.visibility = View.GONE
+                            cancelBtn.visibility = View.GONE
+                            timerStatus = false
+                            viewmodel?.proceedToOrder(
+                                SessionTwiclo(trackOrderContext).loggedInUserDetail.accountId,
+                                SessionTwiclo(trackOrderContext).loggedInUserDetail.accessToken,
+                                currentOrderId.toString()
+                            )
+
+                            /* startActivity(
+							 Intent(this@CartActivity, OrderDetailsActivity::class.java).putExtra(
+								 "orderId",
+								 user.orderId
+							 ).putExtra("type", "")
+						 )*/
+                            //mTextField.setText("done!")
+                        }
+                    }.start()
+                }
+            }
+
+
+
         })
 
         orderViewModel?.myOrdersResponse?.observe(this, {
@@ -429,7 +434,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                 }
                 it.orders[0].orderStatus.equals("9") -> {
                     //holder.buttonValue.visibility = View.VISIBLE
-                    order_status.text = "Your food is ready and will soon be picked up by DP"
+                    order_status.text = "Your Order is ready and will soon be picked up by " +it.orders[0].delivery_boy_name
                     tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
                     tv_order_picked.setTextColor(Color.rgb(51,147,71))
                     delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51,147,71))
@@ -443,6 +448,14 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                 it.orders[0].orderStatus.equals("8") -> {
                     //holder.buttonValue.visibility = View.GONE
                     order_status.text = "Your order is rejected"
+                    address_details_lay.visibility = View.GONE
+                    tv_order_rejection.visibility = View.VISIBLE
+                    tv_delivery_boy_call.visibility = View.GONE
+                    separator_one.visibility = View.GONE
+                    tv_order_id.visibility = View.GONE
+                    tv_order_id.visibility = View.GONE
+
+
                 }
             }
 
@@ -731,21 +744,15 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
             }
         } else {
             runOnUiThread {
-                val customBuilder =
-                    AlertDialog.Builder(trackOrderContext!!)
+                val customBuilder = AlertDialog.Builder(trackOrderContext!!)
                 customBuilder.setTitle("Twiclo")
                 customBuilder.setMessage("Order is Rejected by merchant")
-                customBuilder.setNegativeButton(
-                    "OK"
-                ) { _, _ -> // MyActivity.this.finish();
+                customBuilder.setNegativeButton("OK") { _, _ -> // MyActivity.this.finish();
                     /*SessionTwiclo(context).clearSession()
                         startActivity(Intent(this, SplashActivity::class.java))
                         ActivityCompat.finishAffinity(this!!)*/
                     trackOrderContext!!.startActivity(
-                        Intent(
-                            trackOrderContext,
-                            MainActivity::class.java
-                        )
+                            Intent(trackOrderContext, MainActivity::class.java)
                     )
                     finishAffinity()
                 }

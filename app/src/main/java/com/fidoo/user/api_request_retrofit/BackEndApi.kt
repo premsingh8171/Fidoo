@@ -215,44 +215,44 @@ interface BackEndApi {
     @FormUrlEncoded
     @POST("order.inc.php")
     fun orderPlaceApi(
-        @Field("accountId") accountId: String?,
-        @Field("accessToken") accessToken: String?,
-        @Field("payment_amt") payment_amt: String?,
-        @Field("delivery_option") delivery_option: String?,
-        @Field("address_id") address_id: String?,
-        @Field("promo_id") promo_id: String?,
-        @Field("delivery_instructions") delivery_instructions: String?,
-        @Field("payment_mode") payment_mode: String?
+            @Field("accountId") accountId: String?,
+            @Field("accessToken") accessToken: String?,
+            @Field("payment_amt") payment_amt: String?,
+            @Field("delivery_option") delivery_option: String?,
+            @Field("address_id") address_id: String?,
+            @Field("promo_id") promo_id: String?,
+            @Field("delivery_instructions") delivery_instructions: String?,
+            @Field("payment_mode") payment_mode: String?
     ): Call<OrderPlaceModel>
 
     @FormUrlEncoded
     @POST("listAddress.inc.php")
     fun getAddressesApi(
-        @Field("accountId") accountId: String?,
-        @Field("accessToken") accessToken: String?
+            @Field("accountId") accountId: String?,
+            @Field("accessToken") accessToken: String?
     ): Call<GetAddressModel>
 
 
     @FormUrlEncoded
     @POST("applyPromoCode.inc.php")
     fun applyOffersApi(
-        @Field("accountId") accountId: String?,
-        @Field("accessToken") accessToken: String?,
-        @Field("promocode") promocode: String?
+            @Field("accountId") accountId: String?,
+            @Field("accessToken") accessToken: String?,
+            @Field("promocode") promocode: String?
     ): Call<ApplyPromoModel>
 
     @FormUrlEncoded
     @POST("offers.inc.php")
     fun getOffersApi(
-        @Field("accountId") accountId: String?,
-        @Field("accessToken") accessToken: String?
+            @Field("accountId") accountId: String?,
+            @Field("accessToken") accessToken: String?
     ): Call<PromoModel>
 
     @FormUrlEncoded
     @POST("aboutus.inc.php")
     fun getAboutUsApi(
-        @Field("accountId") accountId: String?,
-        @Field("accessToken") accessToken: String?
+            @Field("accountId") accountId: String?,
+            @Field("accessToken") accessToken: String?
     ): Call<AboutUsModel>
 
     @POST("termnconditon.inc.php")
@@ -273,17 +273,17 @@ interface BackEndApi {
     @FormUrlEncoded
     @POST("orderDetails.inc.php")
     fun orderDetailsApi(
-        @Field("accountId") accountId: String?,
-        @Field("accessToken") accessToken: String?,
-        @Field("order_id") order_id: String?
+            @Field("accountId") accountId: String?,
+            @Field("accessToken") accessToken: String?,
+            @Field("order_id") order_id: String?
     ): Call<OrderDetailsModel>
 
     @FormUrlEncoded
     @POST("orderCancel.inc.php")
     fun cancelOrderApi(
-        @Field("accountId") accountId: String?,
-        @Field("accessToken") accessToken: String?,
-        @Field("order_id") order_id: String?
+            @Field("accountId") accountId: String?,
+            @Field("accessToken") accessToken: String?,
+            @Field("order_id") order_id: String?
     ): Call<DeleteModel>
 
     @FormUrlEncoded

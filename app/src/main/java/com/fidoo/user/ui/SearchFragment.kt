@@ -39,8 +39,7 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 
 
-class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick,
-    AdapterCustomRadioClick, AdapterImageClick, AdapterAddRemoveClick, AdapterCartAddRemoveClick {
+class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, AdapterCustomRadioClick, AdapterImageClick, AdapterAddRemoveClick, AdapterCartAddRemoveClick {
     var count: Int = 1
     private var mModelDataTemp: CustomizeProductResponseModel? = null
     var viewmodel: SearchFragmentViewModel? = null

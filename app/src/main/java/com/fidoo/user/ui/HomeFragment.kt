@@ -90,16 +90,13 @@ class HomeFragment : Fragment() {
     )
 
     private val sliderAdapter = SliderAdapter(
-            pics, 11, object : ClickCart{
-            override fun cartOnClick(view: View?) {
-                //  service_name?.let { Log.d("fdfdfd", it) }
-                startActivity(
-                    Intent(requireActivity(), StoreListActivity::class.java).putExtra(
+            pics, 11) { //  service_name?.let { Log.d("fdfdfd", it) }
+        startActivity(
+                Intent(requireActivity(), StoreListActivity::class.java).putExtra(
                         "serviceId", service_id
-                    ).putExtra("serviceName", service_name)
-                )
-            }
-            })
+                ).putExtra("serviceName", service_name)
+        )
+    }
 
 
     override fun onCreateView(
@@ -312,6 +309,7 @@ class HomeFragment : Fragment() {
                         //fragmentHomeBinding?.cartCountTxt?.text = user.count
                     } else {
                         fragmentHomeBinding?.cartCountTxt?.visibility = View.GONE
+                        fragmentHomeBinding?.cartIcon?.setColorFilter(Color.argb(255, 199, 199, 199))
                     }
                 }
             } else {

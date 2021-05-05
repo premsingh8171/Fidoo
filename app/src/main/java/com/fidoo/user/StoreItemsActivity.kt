@@ -186,11 +186,6 @@ class StoreItemsActivity :
 
         }
 
-        viewmodel?.getCartCountApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
-        )
-
         if (isNetworkConnected) {
             if (SessionTwiclo(this).isLoggedIn) {
 
@@ -203,11 +198,13 @@ class StoreItemsActivity :
                         intent.getStringExtra("catId")
 
                 )
-            } else {
+
                 viewmodel?.getCartCountApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken
                 )
+            } else {
+
 
                 viewmodel?.getStoreDetails(
                         "",
@@ -234,10 +231,14 @@ class StoreItemsActivity :
             var price = cartcount.price
             if (!cartcount.error){
                 if (count!="0"){
+                    cartIcon.setImageResource(R.drawable.cart_icon)
+                    cartIcon.setColorFilter(Color.argb(255, 53, 156, 71))
                     itemQuantity_textstore.text=count
                     totalprice_txtstore.text= "₹"+price
                     cartitemView_LLstore.visibility=View.GONE
                 }else{
+                    cartIcon.setImageResource(R.drawable.ic_cart)
+                    cartIcon.setColorFilter(Color.argb(255, 199, 199, 199))
                     cartitemView_LLstore.visibility=View.GONE
                 }
             }
@@ -451,7 +452,7 @@ class StoreItemsActivity :
             )
             //showToast(mModelData.message)
             if (isNetworkConnected) {
-                //showIOSProgress()
+                showIOSProgress()
                 if (SessionTwiclo(this).isLoggedIn) {
                     viewmodel?.getStoreDetails(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -533,27 +534,27 @@ class StoreItemsActivity :
             customItemsRecyclerview.layoutManager = LinearLayoutManager(this)
             customItemsRecyclerview.setHasFixedSize(true)
             customItemsRecyclerview.adapter = adapter
-              // Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+            // Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
         viewmodel?.clearCartResponse?.observe(this, Observer { user ->
-            // dismissIOSProgress()
+            dismissIOSProgress()
 
             Log.e("stores response", Gson().toJson(user))
             if (tempType.equals("custom")) {
 
                 viewmodel!!.addToCartApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        addCartTempList!!,
-                        ""
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    addCartTempList!!,
+                    ""
                 )
             } else {
                 viewmodel!!.addToCartApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        addCartTempList!!,
-                        ""
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    addCartTempList!!,
+                    ""
 
                 )
             }
@@ -568,7 +569,7 @@ class StoreItemsActivity :
 
 
                 if (isNetworkConnected) {
-                    //showIOSProgress()
+                    showIOSProgress()
                     if (SessionTwiclo(this).isLoggedIn) {
                         viewmodel?.getStoreDetails(
                                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -593,7 +594,7 @@ class StoreItemsActivity :
 
             } else {
 
-                //showIOSProgress()
+                showIOSProgress()
                 viewmodel?.getStoreDetails(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -669,7 +670,7 @@ class StoreItemsActivity :
 
 
         if (isNetworkConnected) {
-            //showIOSProgress()
+            showIOSProgress()
             if (SessionTwiclo(this).isLoggedIn) {
                 viewmodel?.getStoreDetails(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -738,7 +739,7 @@ class StoreItemsActivity :
 
                 }
                 //  tempProductId = productId
-                //showIOSProgress()
+                showIOSProgress()
                 customIdsList!!.clear()
                 if (productId != null) {
                     viewmodel?.customizeProductApi(
@@ -766,7 +767,7 @@ class StoreItemsActivity :
                     }
 
                     //  tempProductId = productId
-                    //showIOSProgress()
+                    showIOSProgress()
                     customIdsList!!.clear()
                     if (productId != null) {
                         viewmodel?.customizeProductApi(
@@ -806,7 +807,7 @@ class StoreItemsActivity :
                 Log.e("intent store id", intent.getStringExtra("storeId").toString())
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
                 Log.e("  store id", SessionTwiclo(this).storeId.toString())
-                //showIOSProgress()
+                showIOSProgress()
 
                 viewmodel!!.addToCartApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -947,7 +948,7 @@ class StoreItemsActivity :
         Log.d("count", count!!)
         Log.d("ID", productId!!)
 
-        //showIOSProgress()
+        showIOSProgress()
         //SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
 
 
@@ -1140,7 +1141,7 @@ class StoreItemsActivity :
 //            }
 
             //tempProductId = productId
-            //showIOSProgress()
+            showIOSProgress()
             customIdsList!!.clear()
             viewmodel?.customizeProductApi(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -1151,7 +1152,7 @@ class StoreItemsActivity :
 
         //performing negative action
         builder.setNegativeButton("REPEAT") { _, which ->
-            //showIOSProgress()
+            showIOSProgress()
             viewmodel?.addRemoveCartDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken,
