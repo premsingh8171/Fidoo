@@ -41,6 +41,8 @@ class OrdersAdapter(
             position
         ).totalPrice
 
+
+
         if (orders[position].serviceTypeId == "4") {
             holder.storeName.text = "Send Package"
             holder.locText.text = orders[position].fromAddress
@@ -51,7 +53,7 @@ class OrdersAdapter(
             holder.buttonValue.text = "Support"
             holder.buttonValue.setTextColor(Color.rgb(51, 147, 71))
             holder.loc_icon.visibility = View.GONE
-        } else {
+        } else{
             holder.too.visibility = View.GONE
             holder.locToText.visibility = View.GONE
             holder.storeImg.visibility = View.VISIBLE
@@ -59,6 +61,7 @@ class OrdersAdapter(
             holder.loc_icon.visibility = View.VISIBLE
             holder.storeName.text = orders[position].storeName
         }
+
         //  0:failed, 1:success, 2: cancel, 3 delivered, 4: received, 5: in progress, 6: Out for delivery ,11:preparing
         if (orders[position].orderStatus.equals("0")) {
             holder.buttonValue.visibility = View.GONE
@@ -115,6 +118,13 @@ class OrdersAdapter(
                                 holder.orderStatusTxt.text = "Your order is rejected"
                             }
 
+
+
+        if (orders[position].is_rate_to_driver == "1"){
+            holder.buttonValue.isClickable = false
+            holder.buttonValue.text = "Reviewed"
+        }
+
         //    holder.orderStatusTxt.text="In Progress"
         Glide.with(con!!)
             .load(orders[position].storeImage)
@@ -131,27 +141,27 @@ class OrdersAdapter(
 
 
 //                con.startActivity(Intent(con, ChatRoomActivity::class.java).putExtra("APIKey", "gS0Bcjk3qQye7BbQQt+TsO4uT3Ja8zBVGzaNTQRfmNY="))
-            }else  if (orders[position].orderStatus.equals("3")) {
+            }else if (orders[position].orderStatus.equals("3")) {
                 if (orders[position].is_rate_to_driver.equals("0")) {
                     buyPopup(adapterReviewClick, orders[position].orderId)
                 } else {
                     con.startActivity(
-                            Intent(con, TrackOrderActivity::class.java)
-                                    .putExtra("orderId", orders[position].orderId)
-                                    .putExtra("delivery_boy_name", orders[position].delivery_boy_name)
-                                    .putExtra("delivery_boy_mobile", orders[position].delivery_boy_mobile)
-                                    .putExtra("order_status", holder.orderStatusTxt.text)
+                        Intent(con, TrackOrderActivity::class.java)
+                            .putExtra("orderId", orders[position].orderId)
+                            .putExtra("delivery_boy_name", orders[position].delivery_boy_name)
+                            .putExtra("delivery_boy_mobile", orders[position].delivery_boy_mobile)
+                            .putExtra("order_status", holder.orderStatusTxt.text)
                     )
                 }
             }
             // adapterClick.onItemClick(orders.get(position).orderId,"","")
             else {
                 con.startActivity(
-                        Intent(con, TrackOrderActivity::class.java)
-                                .putExtra("orderId", orders[position].orderId)
-                                .putExtra("delivery_boy_name", orders[position].delivery_boy_name)
-                                .putExtra("delivery_boy_mobile", orders[position].delivery_boy_mobile)
-                                .putExtra("order_status", holder.orderStatusTxt.text)
+                    Intent(con, TrackOrderActivity::class.java)
+                        .putExtra("orderId", orders[position].orderId)
+                        .putExtra("delivery_boy_name", orders[position].delivery_boy_name)
+                        .putExtra("delivery_boy_mobile", orders[position].delivery_boy_mobile)
+                        .putExtra("order_status", holder.orderStatusTxt.text)
                 )
             }
         }
