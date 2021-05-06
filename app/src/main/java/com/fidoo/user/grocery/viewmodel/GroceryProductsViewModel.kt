@@ -35,12 +35,17 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
         accountId: String,
         accessToken: String,
         store_id: String?,
+        category_id: String?,
+        subcategory_id: String?,
     ) {
         // progressDialog?.value = true
+        Log.d("value__", "$store_id--\n$category_id--\n$subcategory_id")
         WebServiceClient.client.create(BackEndApi::class.java).getGroceryProducts(
                 accountId = accountId,
                 accessToken = accessToken,
                 store_id = store_id,
+                category_id = category_id,
+                subcategory_id = subcategory_id
         ).enqueue(object : Callback<GroceryProductsResponse> {
 
                     override fun onResponse(
