@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
 import com.fidoo.user.data.model.*
+import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
@@ -192,7 +193,7 @@ class StoreItemsAdapter(
             }
 
             holder.add_new_lay.setOnClickListener {
-                if (com.fidoo.user.data.session.SessionTwiclo(con).isLoggedIn) {
+                if (SessionTwiclo(con).isLoggedIn) {
                     if (index.isCustomize.equals("1")) {
                         count++
                         holder.countValue.text = count.toString()
@@ -211,7 +212,7 @@ class StoreItemsAdapter(
                         holder.add_new_lay.visibility = View.GONE
                         holder.add_remove_lay.visibility = View.VISIBLE
 
-                        if (com.fidoo.user.data.session.SessionTwiclo(con).storeId.equals(storeID) || com.fidoo.user.data.session.SessionTwiclo(con).storeId.equals("")
+                        if (SessionTwiclo(con).storeId.equals(storeID) || SessionTwiclo(con).storeId.equals("")
                         ) {
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                 index.productId, count.toString(), "add",
@@ -239,7 +240,7 @@ class StoreItemsAdapter(
                                     productList[position].cartId,0
                                 )
 
-
+                                SessionTwiclo(con).storeId=storeID
                                 //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                             }
 

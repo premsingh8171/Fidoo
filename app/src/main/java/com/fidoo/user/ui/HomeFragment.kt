@@ -145,6 +145,7 @@ class HomeFragment : Fragment() {
 
 
         fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
+
         /* fragmentHomeBinding?.userAddress?.setOnClickListener {
              onSearchCalled()
          }*/
@@ -207,10 +208,9 @@ class HomeFragment : Fragment() {
 
         fragmentHomeBinding?.addressLay?.setOnClickListener {
             if (SessionTwiclo(context).isLoggedIn){
-                startActivity(Intent(context, SavedAddressesActivity::class.java).putExtra(
-                        "type",
-                        "address"
-                )
+                startActivityForResult(Intent(context, SavedAddressesActivity::class.java)
+                    .putExtra("type", "address"
+                ),AUTOCOMPLETE_REQUEST_CODE
                 )
             }else{
                 showLoginDialog("Please login to proceed")
@@ -488,6 +488,7 @@ class HomeFragment : Fragment() {
                     // toLng = place.latLng!!.longitude
                     userAddress.text = addresses[0].getAddressLine(0)
                     //  }
+                    fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
 
                 }
                 AutocompleteActivity.RESULT_ERROR -> { // TODO: Handle the error.

@@ -125,7 +125,8 @@ class AddressesAdapter(
                 SessionTwiclo(con).userAddressId = addressList[position].id
                 SessionTwiclo(con).userLat = addressList[position].latitude
                 SessionTwiclo(con).userLng = addressList[position].longitude
-                con.startActivity(Intent(con, MainActivity::class.java))
+
+              //  con.startActivity(Intent(con, MainActivity::class.java))
                 (con as Activity).finish()
             }
             if (stringExtra.equals("from")) {
