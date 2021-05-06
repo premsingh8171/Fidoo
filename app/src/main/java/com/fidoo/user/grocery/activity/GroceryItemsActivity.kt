@@ -43,6 +43,7 @@ import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.activity_grocery_items.backIcon
 import kotlinx.android.synthetic.main.activity_grocery_items.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_store_items.*
+import kotlinx.android.synthetic.main.select_cat_popup.*
 
 
 class GroceryItemsActivity : BaseActivity(), AdapterClick,
@@ -60,6 +61,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     lateinit var catrecyclerView: RecyclerView
     var cat_id: String? = ""
     var subcat_name: String? = ""
+    var sub_cat_id: String? = ""
 
     var customIdsList: ArrayList<String>? = null
     private lateinit var groceryItemAdapter: GroceryItemAdapter
@@ -82,7 +84,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     var tempCount: String? = ""
     var count: Int = 1
     private lateinit var mMap: GoogleMap
-    var cartId: String = ""
     var storeID: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,7 +97,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         layoutManger = LinearLayoutManager(this)
         recyclerView = findViewById(R.id.grocery_item_rv)
         val store_id = intent.getStringExtra("storeId")
-
+        storeID=store_id
         MainActivity.tempProductList = ArrayList()
         MainActivity.addCartTempList = ArrayList()
 
@@ -124,7 +125,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         viewmodel?.getGroceryProductsFun(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken,
-                store_id
+                store_id,cat_id,sub_cat_id
         )
 
         viewmodel?.getCartCountApi(
@@ -138,7 +139,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             linear_progress_indicator.visibility = View.GONE
             MainActivity.tempProductList!!.clear()
             MainActivity.addCartTempList!!.clear()
-
+            catList.clear()
+            subcatList.clear()
             if (grocery.category.size!=0) {
                 if (!grocery.error) {
                     Log.e("Grocery", Gson().toJson(grocery))
@@ -378,7 +380,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         selectAreaDiolog?.setCanceledOnTouchOutside(true)
         selectAreaDiolog?.show()
         val txtError = selectAreaDiolog?.findViewById<TextView>(R.id.txtError)
-        val viewAll_txt = selectAreaDiolog?.findViewById<ImageView>(R.id.viewAll_txt)
+        val viewAll_txt = selectAreaDiolog?.findViewById<TextView>(R.id.viewAll_txt)
+        val dismisspopUp = selectAreaDiolog?.findViewById<ImageView>(R.id.dismisspopUp)
         catrecyclerView = selectAreaDiolog?.findViewById(R.id.catRecyclerview)!!
 
         // catRecyclerview
@@ -386,16 +389,27 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             selectAreaDiolog?.dismiss()
         })
 
+        dismisspopUp?.setOnClickListener(View.OnClickListener {
+            selectAreaDiolog?.dismiss()
+        })
+
         viewAll_txt?.setOnClickListener(View.OnClickListener {
             selectAreaDiolog?.dismiss()
             cat_id = ""
             subcat_name = ""
+            sub_cat_id=""
             itemPosition = 0
             viewAll = 1
             tv_categories.text = "Select category"
-            for (i in 0 until catList.size) {
-                filterListShowing(0, catList[i])
-            }
+//            for (i in 0 until catList.size) {
+//                filterListShowing(0, catList[i])
+//            }
+            showIOSProgress()
+            viewmodel?.getGroceryProductsFun(
+                    SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accountId,
+                    SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
+                    storeID,cat_id,sub_cat_id
+            )
         })
 
         rvCategory(catList)
@@ -445,12 +459,18 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 subcatList,
                 object : GrocerySubItemAdapter.SubcategoryItemClick {
                     override fun onItemClick(pos: Int, subgrocery: Subcategory) {
-                        Log.d("grocery___", subgrocery.subcategory_name)
                         itemPosition = 0
                         viewAll = 0
                         subcat_name = subgrocery.subcategory_name
-                        filterListShowingSub(pos, subgrocery)
-
+                        sub_cat_id = subgrocery.sub_cat_id
+                        Log.d("grocery___", subgrocery.sub_cat_id)
+                        showIOSProgress()
+                       // filterListShowingSub(pos, subgrocery)
+                        viewmodel?.getGroceryProductsFun(
+                                SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accountId,
+                                SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
+                                storeID,cat_id,sub_cat_id
+                        )
                     }
                 })
 
@@ -470,7 +490,13 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         cat_id = grocery.cat_id
                         itemPosition = 0
                         viewAll = 0
-                        filterListShowing(pos, grocery)
+                      //  filterListShowing(pos, grocery)
+                        showIOSProgress()
+                        viewmodel?.getGroceryProductsFun(
+                                SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accountId,
+                                SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
+                                storeID,cat_id,sub_cat_id
+                        )
 
                         //   Log.d("subcategoryAdapter__", pos.toString())
                         //  sub_cat_rv.adapter = subcategoryAdapter
@@ -747,16 +773,17 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 showIOSProgress()
                 itemPosition=0
                 if (SessionTwiclo(this).isLoggedIn) {
+                    //Here we have called Api of getGroceryProducts
                     viewmodel?.getGroceryProductsFun(
                             SessionTwiclo(this).loggedInUserDetail.accountId,
                             SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            intent.getStringExtra("storeId")
+                            intent.getStringExtra("storeId"),cat_id,sub_cat_id
                     )
                 } else {
                     viewmodel?.getGroceryProductsFun(
-                            "",
-                            "",
-                            intent.getStringExtra("storeId")
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            intent.getStringExtra("storeId"),cat_id,sub_cat_id
                     )
                 }
                 viewmodel?.getCartCountApi(

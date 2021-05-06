@@ -104,8 +104,6 @@ class ProfileFragment : Fragment() {
                                     or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     or Intent.FLAG_ACTIVITY_NEW_TASK)
             )
-
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
         return mView

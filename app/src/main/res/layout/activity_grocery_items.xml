@@ -142,6 +142,7 @@
 
 
         <LinearLayout
+            android:layout_marginBottom="@dimen/margin_50dp"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
             android:layout_weight="8.5"
@@ -156,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="1"/>
+                app:spanCount="1" />
 
         </LinearLayout>
 

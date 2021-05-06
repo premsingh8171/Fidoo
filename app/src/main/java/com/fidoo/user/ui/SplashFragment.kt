@@ -9,14 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.fidoo.user.R
+import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.utils.BaseFragment
 import kotlinx.android.synthetic.main.fragment_splash.*
 
 
-class SplashFragment : com.fidoo.user.utils.BaseFragment() {
-
+class SplashFragment : BaseFragment() {
 
     lateinit var mView: View
-
+    lateinit var mSessionTwiclo: SessionTwiclo
 
     override fun provideYourFragmentView(
         inflater: LayoutInflater?,
@@ -28,7 +29,7 @@ class SplashFragment : com.fidoo.user.utils.BaseFragment() {
 //        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         //splashBinding.fidooSplashLogo.startAnimation(animation)\
-
+        mSessionTwiclo = SessionTwiclo(requireContext())
         val fadeanim: ObjectAnimator = ObjectAnimator.ofFloat(fidooSplashLogo, "alpha" , 0.0f, 1f ).apply {
             duration = 500
         }
@@ -67,7 +68,7 @@ class SplashFragment : com.fidoo.user.utils.BaseFragment() {
             // Start your app main activity
 
             // Check for the logged in status
-            if (sessionInstance.isLoggedIn) {
+            if (mSessionTwiclo.isLoggedIn) {
                 goForVerificationScreen(MainActivity::class.java,"","","","")
                 return@postDelayed
             }else{

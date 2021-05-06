@@ -201,7 +201,7 @@
                     android:id="@+id/categoryRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="260dp"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="@dimen/margin_10dp"
                     android:layout_marginStart="9dp"
                     android:clipChildren="true"
                     android:overScrollMode="never"
@@ -215,7 +215,8 @@
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="0dp"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:layout_width="match_parent"
                     app:spanCount="4"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     android:layout_height="wrap_content"
@@ -223,6 +224,7 @@
                     app:layout_constraintTop_toBottomOf="@id/categoryRecyclerView"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintRight_toRightOf="parent" />
 
 
@@ -240,6 +242,7 @@
                     android:visibility="gone"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginTop="@dimen/margin_20dp"
                     android:id="@+id/standalone_section"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"

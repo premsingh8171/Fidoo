@@ -27,7 +27,8 @@ class GroceryProductsResponse(
 
  class Subcategory(
     val product: List<Product>,
-    val subcategory_name: String
+    val subcategory_name: String,
+    val sub_cat_id: String
 )
 
 data class Product(

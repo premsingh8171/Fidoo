@@ -3,26 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/categoryLay"
-    android:layout_width="100dp"
-    android:layout_height="140dp"
-    android:orientation="vertical"
-    android:padding="5dp">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/margin_5dp"
+    android:layout_marginRight="@dimen/margin_5dp"
+    android:layout_marginTop="@dimen/margin_10dp"
+    android:background="#FBFBFB"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
+        android:layout_margin="@dimen/margin_2dp"
         android:id="@+id/itemLay"
-        android:layout_width="80dp"
-        android:layout_height="70dp"
-        android:layout_margin="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
+        android:padding="@dimen/margin_5dp"
+        android:layout_gravity="center"
         app:strokeColor="@color/colorGray"
         android:outlineSpotShadowColor="@color/colorGray">
 
         <ImageView
+            android:padding="@dimen/margin_20dp"
             android:id="@+id/imageLay"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
+            android:layout_width="@dimen/margin_70dp"
+            android:layout_height="@dimen/margin_70dp"
             android:src="@drawable/profile_icon" />
 
     </androidx.cardview.widget.CardView>
