@@ -41,6 +41,7 @@ class GroceryItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        Log.d("storeID___",storeID)
         val model = list[position]
         holder.itemView.grocery_item_tv.text = list[position].product_name
         holder.itemView.qua_txt.text = list[position].cart_quantity.toString()
@@ -142,7 +143,7 @@ class GroceryItemAdapter(
                                 storeID,
                                 "",position
                             )
-
+                            SessionTwiclo(context).storeId=storeID
 
                             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                         }
