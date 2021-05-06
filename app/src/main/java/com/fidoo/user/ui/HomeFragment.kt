@@ -311,6 +311,7 @@ class HomeFragment : Fragment() {
                         //fragmentHomeBinding?.cartCountTxt?.text = user.count
                     } else {
                         fragmentHomeBinding?.cartCountTxt?.visibility = View.GONE
+                        fragmentHomeBinding?.cartIcon?.setColorFilter(Color.argb(255, 199, 199, 199))
                     }
                 }
             } else {

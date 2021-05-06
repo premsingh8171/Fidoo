@@ -51,6 +51,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         private val TAG = "LocationProvider"
         private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
         var isearchSuggestionsList: ArrayList<String>? = null
+        var timerStatus = true
 
 
         var ll: Location? = null
