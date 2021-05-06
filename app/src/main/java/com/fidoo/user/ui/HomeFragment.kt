@@ -72,14 +72,12 @@ class HomeFragment : Fragment() {
     }
 
 
-
-
     var categoryAdapter:CategoryAdapter?=null
     private val pics = intArrayOf(
             R.drawable.medicine,
             R.drawable.electronics,
             R.drawable.grocery,
-            R.drawable.grocery,
+          //  R.drawable.grocery,
             R.drawable.food,
             R.drawable.pet,
             R.drawable.meat,
@@ -91,7 +89,7 @@ class HomeFragment : Fragment() {
     )
 
     private val sliderAdapter = SliderAdapter(
-            pics, 11, object : ClickCart{
+            pics, 10, object : ClickCart{
         override fun cartOnClick(view: View?) {
             //  service_name?.let { Log.d("fdfdfd", it) }
             startActivity(
@@ -262,8 +260,8 @@ class HomeFragment : Fragment() {
                         fragmentHomeBinding?.categorySmallRecyclerview?.layoutManager =
                                 GridLayoutManager(
                                         activity,
-                                        1,
-                                        GridLayoutManager.HORIZONTAL,
+                                        4,
+                                        GridLayoutManager.VERTICAL,
                                         false
                                 )
                         fragmentHomeBinding?.categorySmallRecyclerview?.setHasFixedSize(true)
