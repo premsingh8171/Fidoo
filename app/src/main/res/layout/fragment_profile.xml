@@ -60,7 +60,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="280dp"
         android:background="@drawable/et_round_new"
         app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
         app:layout_constraintStart_toStartOf="@+id/constraintLayout"
@@ -158,7 +158,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_store"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_margin="15dp"/>
 
         <ImageView
@@ -170,7 +170,8 @@
             android:src="@drawable/icon_payment"
             android:layout_marginStart="20dp"
             android:layout_margin="20dp"
-            app:tint="@color/grey"/>
+            app:tint="@color/grey"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_payments"
@@ -182,7 +183,8 @@
             app:layout_constraintTop_toBottomOf="@id/separator_two"
             android:fontFamily="@font/proxima"
             android:layout_marginTop="@dimen/margin_10dp"
-            android:textColor="@color/grey"/>
+            android:textColor="@color/grey"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -194,6 +196,7 @@
             android:fontFamily="@font/proxima"
             android:textSize="12sp"
             android:textColor="@color/grey"
+            android:visibility="gone"
             />
 
         <View

@@ -74,18 +74,18 @@ class HomeFragment : Fragment() {
 
     var categoryAdapter:CategoryAdapter?=null
     private val pics = intArrayOf(
-            R.drawable.medicine,
-            R.drawable.electronics,
-            R.drawable.grocery,
-          //  R.drawable.grocery,
-            R.drawable.food,
-            R.drawable.pet,
-            R.drawable.meat,
-            R.drawable.paan,
-            R.drawable.fruits,
-            R.drawable.cake,
-            R.drawable.stationary
-            //  R.drawable.wellness
+        R.drawable.medicine,
+        R.drawable.electronics,
+        R.drawable.grocery,
+        //  R.drawable.grocery,
+        R.drawable.food,
+        R.drawable.pet,
+        R.drawable.meat,
+        R.drawable.paan,
+        R.drawable.fruits,
+        R.drawable.cake,
+        R.drawable.stationary
+        //  R.drawable.wellness
     )
 
     private val sliderAdapter = SliderAdapter(

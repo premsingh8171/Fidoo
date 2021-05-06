@@ -26,8 +26,8 @@ class ProfileFragment : Fragment() {
     var viewmodel: LogoutViewModel? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
 
         // Inflate the layout for this fragment
@@ -57,6 +57,8 @@ class ProfileFragment : Fragment() {
             mView.tv_email.visibility = View.VISIBLE
             mView.tv_name.visibility = View.VISIBLE
             mView.tv_hi.visibility = View.VISIBLE
+            mView.tv_name.text = SessionTwiclo(context).profileDetail.account.name
+            mView.tv_email.text = SessionTwiclo(context).profileDetail.account.emailid
         }else{
             mView.action_logout.visibility = View.GONE
             mView.tv_email.visibility = View.GONE
@@ -68,8 +70,8 @@ class ProfileFragment : Fragment() {
 
             if (SessionTwiclo(requireContext()).isLoggedIn){
                 viewmodel?.logoutapi(
-                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
-                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
                 )
 
 
@@ -80,8 +82,7 @@ class ProfileFragment : Fragment() {
 
 
         }
-        mView.tv_name.text = SessionTwiclo(context).profileDetail.account.name
-        mView.tv_email.text = SessionTwiclo(context).profileDetail.account.emailid
+
 
         mView.tv_faq.setOnClickListener {
             startActivity(Intent(context, AboutUsActivity::class.java).putExtra("faq", "faq"))
@@ -96,13 +97,9 @@ class ProfileFragment : Fragment() {
 
             Log.e("logout__response", Gson().toJson(user))
             dismissIOSProgress()
-            SessionTwiclo(requireContext()).clearSession()
+            SessionTwiclo(context).clearSession()
 
-            startActivity(
-                    Intent(context, SplashActivity::class.java)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                    or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                    or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(Intent(context, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             )
         })
 

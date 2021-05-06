@@ -64,15 +64,15 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
     lateinit var adapter: SearchAdapter
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         fragmentSearchBinding = DataBindingUtil.inflate(
-                inflater,
-                R.layout.fragment_search,
-                container,
-                false
+            inflater,
+            R.layout.fragment_search,
+            container,
+            false
         )
 
         //var root: View = inflater.inflate(R.layout.fragment_search, container, false)
@@ -117,10 +117,13 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
         behavior.setState(BottomSheetBehavior.STATE_COLLAPSED) // Default behavior of bottom sheet
 
 
-        viewmodel?.getCartCountApi(
+        if (SessionTwiclo(context).isLoggedIn){
+            viewmodel?.getCartCountApi(
                 SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
                 SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
-        )
+            )
+        }
+
 
         fragmentSearchBinding?.transLay?.setOnClickListener {
             if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
@@ -139,9 +142,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
                 customIdsList!!.add(categoryy!![i].id.toString())
             }
             Log.e("customIdsList", customIdsList.toString())
-            if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals(
-                            ""
-                    )) {
+
+            if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals("")) {
 
                 try {
                     _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
@@ -203,8 +205,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
             }
 
             viewmodel?.getCartCountApi(
-                    SessionTwiclo(context).loggedInUserDetail.accountId,
-                    SessionTwiclo(context).loggedInUserDetail.accessToken
+                SessionTwiclo(context).loggedInUserDetail.accountId,
+                SessionTwiclo(context).loggedInUserDetail.accessToken
             )
 
         })
@@ -224,10 +226,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
                 if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
                     var customListModel: CustomListModel? = CustomListModel()
                     customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
-                    customListModel.id =
-                            mModelDataTemp?.category?.get(i)!!.subCat.get(0).id.toInt()
-                    customListModel.price =
-                            mModelDataTemp?.category?.get(i)!!.subCat.get(0).price
+                    customListModel.id = mModelDataTemp?.category?.get(i)!!.subCat.get(0).id.toInt()
+                    customListModel.price = mModelDataTemp?.category?.get(i)!!.subCat.get(0).price
                     categoryy!!.add(customListModel)
                 } else {
 
@@ -251,11 +251,11 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
 
             val adapter = context?.let {
                 StoreCustomItemsAdapter(
-                        it,
-                        mModelDataTemp?.category!!,
-                        this,
-                        categoryy,
-                        this
+                    it,
+                    mModelDataTemp?.category!!,
+                    this,
+                    categoryy,
+                    this
                 )
             }
             view?.customItemsRecyclerview?.layoutManager = LinearLayoutManager(context)
@@ -366,24 +366,30 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
             }
 
             override fun beforeTextChanged(
-                    s: CharSequence, start: Int,
-                    count: Int, after: Int
+                s: CharSequence, start: Int,
+                count: Int, after: Int
             ) {
 
             }
 
             override fun onTextChanged(
-                    s: CharSequence, start: Int,
-                    before: Int, count: Int
+                s: CharSequence, start: Int,
+                before: Int, count: Int
             ) {
                 searchbyStr = s.toString()
                 if (fragmentSearchBinding?.searchEdt?.text.toString().length >= 2) {
 
                     if (SessionTwiclo(context).isLoggedIn) {
                         viewmodel?.getSearchApi(
-                                SessionTwiclo(activity).loggedInUserDetail.accountId,
-                                SessionTwiclo(activity).loggedInUserDetail.accessToken,
-                                searchbyStr!!
+                            SessionTwiclo(activity).loggedInUserDetail.accountId,
+                            SessionTwiclo(activity).loggedInUserDetail.accessToken,
+                            searchbyStr!!
+                        )
+                    }else{
+                        viewmodel?.getSearchApi(
+                            "",
+                            "",
+                            searchbyStr!!
                         )
                     }
                 } else {
@@ -459,12 +465,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
 
         fragmentSearchBinding?.viewcartfromSearch?.setOnClickListener {
             if (SessionTwiclo(requireActivity()).isLoggedIn) {
-                requireActivity().startActivity(Intent(requireActivity(), CartActivity::class.java).putExtra(
-                        "store_id", SessionTwiclo(
-                        requireActivity()
-                ).storeId
-                )
-                )
+                requireActivity().startActivity(Intent(requireActivity(),
+                    CartActivity::class.java).putExtra("store_id", SessionTwiclo(requireActivity()).storeId))
             } else {
                 showLoginDialog("Please login to proceed")
 
@@ -594,13 +596,13 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
 
 
     override fun onItemClick(
-            productId: String?,
-            typee: String?,
-            count: String?,
-            offerPrice: String?,
-            customizeCount: Int?,
-            productType: String?,
-            cart_id: String?
+        productId: String?,
+        typee: String?,
+        count: String?,
+        offerPrice: String?,
+        customizeCount: Int?,
+        productType: String?,
+        cart_id: String?
     ) {
 
         //storeIdTemp = storeId
@@ -638,8 +640,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
                 }
                 customIdsList!!.clear()
                 viewmodel?.customizeProductApi(
-                        SessionTwiclo(context).loggedInUserDetail.accountId,
-                        SessionTwiclo(context).loggedInUserDetail.accessToken, productId!!
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken, productId!!
                 )
 
             } else {
@@ -666,8 +668,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
                     //customIdsList!!.clear()
                     if (productId != null) {
                         viewmodel?.customizeProductApi(
-                                SessionTwiclo(context).loggedInUserDetail.accountId,
-                                SessionTwiclo(context).loggedInUserDetail.accessToken, productId
+                            SessionTwiclo(context).loggedInUserDetail.accountId,
+                            SessionTwiclo(context).loggedInUserDetail.accessToken, productId
                         )
                     }
                     //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
@@ -699,9 +701,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
 
         } else {
 
-            if (SessionTwiclo(context).storeId.equals(typee) || SessionTwiclo(context).storeId.equals(
-                            ""
-                    )) {
+            if (SessionTwiclo(context).storeId.equals(typee) || SessionTwiclo(context).storeId.equals("")) {
 
                 try {
                     _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
@@ -721,10 +721,10 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
                 addCartInputModel.isCustomize = "0"
                 MainActivity.addCartTempList!!.add(addCartInputModel)
                 viewmodel!!.addToCartApi(
-                        SessionTwiclo(context).loggedInUserDetail.accountId,
-                        SessionTwiclo(context).loggedInUserDetail.accessToken,
-                        MainActivity.addCartTempList!!,
-                        cart_id!!
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken,
+                    MainActivity.addCartTempList!!,
+                    cart_id!!
                 )
             } else {
                 //productIdTemp = productId

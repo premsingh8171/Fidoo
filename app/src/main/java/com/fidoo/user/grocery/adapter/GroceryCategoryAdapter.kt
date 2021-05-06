@@ -12,9 +12,10 @@ import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.grocery_sub_tv
 
-class GroceryCategoryAdapter(var context: Context,
-                             var list:ArrayList<Category>,
-                             var categoryItemClick:CategoryItemClick): RecyclerView.Adapter<GroceryCategoryAdapter.ViewHolder>() {
+class GroceryCategoryAdapter(
+    var context: Context,
+    var list:ArrayList<Category>,
+    var categoryItemClick:CategoryItemClick): RecyclerView.Adapter<GroceryCategoryAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
@@ -24,10 +25,10 @@ class GroceryCategoryAdapter(var context: Context,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.cat_tv.text = list.get(position)?.cat_name
+        holder.itemView.cat_tv.text = list.get(position).cat_name
+        holder.itemView.category_constL.setOnClickListener {
 
-       holder.itemView.category_constL.setOnClickListener {
-           categoryItemClick.onItemClick(position,list.get(position))
+            categoryItemClick.onItemClick(position,list.get(position))
             notifyItemRemoved(position)
         }
     }

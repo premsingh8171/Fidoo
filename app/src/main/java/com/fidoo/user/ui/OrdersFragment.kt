@@ -25,6 +25,7 @@ import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentOrdersBinding
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterReviewClick
+import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.viewmodels.MyOrdersFragmentViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -36,8 +37,8 @@ import java.io.File
 
 
 class OrdersFragment : Fragment(),
-        AdapterReviewClick,
-        AdapterClick {
+    AdapterReviewClick,
+    AdapterClick {
 
     var viewmodel: MyOrdersFragmentViewModel? = null
     private var _progressDlg: ProgressDialog? = null
@@ -46,8 +47,8 @@ class OrdersFragment : Fragment(),
     var fragmentOrdersBinding: FragmentOrdersBinding? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         fragmentOrdersBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_orders, container, false)
 
@@ -68,10 +69,11 @@ class OrdersFragment : Fragment(),
         if ((activity as MainActivity).isNetworkConnected) {
             if (SessionTwiclo(requireContext()).isLoggedIn){
                 viewmodel?.getMyOrders(
-                        SessionTwiclo(activity).loggedInUserDetail.accountId,
-                        SessionTwiclo(activity).loggedInUserDetail.accessToken
+                    SessionTwiclo(activity).loggedInUserDetail.accountId,
+                    SessionTwiclo(activity).loggedInUserDetail.accessToken
                 )
             }else{
+                _progressDlg!!.dismiss()
                 fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
                 Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
             }
@@ -130,7 +132,7 @@ class OrdersFragment : Fragment(),
         })
 
         viewmodel?.reviewResponse?.observe(requireActivity(), { user ->
-            // dismissIOSProgress()
+            dismissIOSProgress()
             if (_progressDlg != null) {
 
                 _progressDlg!!.dismiss()
@@ -148,7 +150,7 @@ class OrdersFragment : Fragment(),
         })
 
         viewmodel?.uploadPrescriptionResponse?.observe(requireActivity(), { user ->
-            // dismissIOSProgress()
+            dismissIOSProgress()
             if (_progressDlg != null) {
 
                 _progressDlg!!.dismiss()
@@ -164,11 +166,11 @@ class OrdersFragment : Fragment(),
 
 
     override fun onReviewDoneClick(
-            orderId: String?,
-            storeRating: String?,
-            reviewStore: String?,
-            ratingDriver: String?,
-            reviewDriver: String?
+        orderId: String?,
+        storeRating: String?,
+        reviewStore: String?,
+        ratingDriver: String?,
+        reviewDriver: String?
     ) {
         try {
             _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
@@ -182,13 +184,13 @@ class OrdersFragment : Fragment(),
         }
 
         viewmodel?.reviewSubmitApi(
-                SessionTwiclo(activity).loggedInUserDetail.accountId,
-                SessionTwiclo(activity).loggedInUserDetail.accessToken,
-                orderId,
-                storeRating,
-                reviewStore,
-                ratingDriver,
-                reviewDriver
+            SessionTwiclo(activity).loggedInUserDetail.accountId,
+            SessionTwiclo(activity).loggedInUserDetail.accessToken,
+            orderId,
+            storeRating,
+            reviewStore,
+            ratingDriver,
+            reviewDriver
         )
 
     }
@@ -215,20 +217,20 @@ class OrdersFragment : Fragment(),
 
 
     override fun onItemClick(
-            productId: String?,
-            type: String?,
-            count: String?,
-            offerPrice: String?,
-            customizeCount: Int?,
-            productType: String?,
-            cart_id: String?
+        productId: String?,
+        type: String?,
+        count: String?,
+        offerPrice: String?,
+        customizeCount: Int?,
+        productType: String?,
+        cart_id: String?
     ) {
         orderIdTemp = productId
         ImagePicker.with(this)
-                .crop()                    //Crop image(Optional), Check Customization for more option
-                //   .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                //  .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                .start()
+            .crop()                    //Crop image(Optional), Check Customization for more option
+            //   .compress(1024)			//Final image size will be less than 1 MB(Optional)
+            //  .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+            .start()
     }
 
     fun uplaodGallaryImage(orderId: String?, mImagePth: String?) {
@@ -281,8 +283,8 @@ class OrdersFragment : Fragment(),
             if (SessionTwiclo(requireContext()).isLoggedIn){
                 Log.e("ONRESUME", "get orders")
                 viewmodel?.getMyOrders(
-                        SessionTwiclo(activity).loggedInUserDetail.accountId,
-                        SessionTwiclo(activity).loggedInUserDetail.accessToken
+                    SessionTwiclo(activity).loggedInUserDetail.accountId,
+                    SessionTwiclo(activity).loggedInUserDetail.accessToken
                 )
             }else{
                 fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE

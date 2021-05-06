@@ -19,15 +19,15 @@ import kotlinx.android.synthetic.main.review_popup.view.*
 
 
 class OrdersAdapter(
-        val con: Context?,
-        val orders: MutableList<com.fidoo.user.data.model.MyOrdersModel.Order>,
-        val adapterReviewClick: AdapterReviewClick,
-        val adapterClick: AdapterClick
+    val con: Context?,
+    val orders: MutableList<com.fidoo.user.data.model.MyOrdersModel.Order>,
+    val adapterReviewClick: AdapterReviewClick,
+    val adapterClick: AdapterClick
 ) : RecyclerView.Adapter<OrdersAdapter.UserViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.orders_adapter, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.orders_adapter, parent, false)
     )
 
     override fun getItemCount() = orders.size

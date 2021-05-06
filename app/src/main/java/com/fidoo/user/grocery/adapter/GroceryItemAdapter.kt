@@ -253,7 +253,7 @@ class GroceryItemAdapter(
     }
 
     private fun showLoginDialog(message: String) {
-        val builder = androidx.appcompat.app.AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context)
         //set title for alert dialog
         builder.setTitle("Alert")
         //set message for alert dialog
@@ -272,7 +272,7 @@ class GroceryItemAdapter(
 
         }
         // Create the AlertDialog
-        val alertDialog: androidx.appcompat.app.AlertDialog = builder.create()
+        val alertDialog: AlertDialog = builder.create()
         // Set other dialog properties
         alertDialog.setCancelable(true)
         alertDialog.show()
