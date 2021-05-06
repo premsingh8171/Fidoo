@@ -51,7 +51,7 @@ class StoreSubCustomItemsAdapter(
                         tempSelectionCount++
                     }
 
-                    Toast.makeText(con, tempSelectionCount.toString(), Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(con, tempSelectionCount.toString(), Toast.LENGTH_SHORT).show()
 
                     //!holder.itemLabel.isChecked
                     customCartAddRemoveClick.onIdSelected(subCat[position].id, "select",
@@ -59,7 +59,7 @@ class StoreSubCustomItemsAdapter(
                 } else {
 
                     tempSelectionCount--
-                    Toast.makeText(con, tempSelectionCount.toString(), Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(con, tempSelectionCount.toString(), Toast.LENGTH_SHORT).show()
                     customCartAddRemoveClick.onIdSelected(subCat[position].id, "unselect",
                             subCat[position].price, tempSelectionCount)
                 }
