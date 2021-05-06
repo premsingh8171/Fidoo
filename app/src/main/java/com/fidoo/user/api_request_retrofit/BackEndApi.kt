@@ -229,7 +229,9 @@ interface BackEndApi {
     @POST("listAddress.inc.php")
     fun getAddressesApi(
             @Field("accountId") accountId: String?,
-            @Field("accessToken") accessToken: String?
+            @Field("accessToken") accessToken: String?,
+            @Field("store_latitude") storeLatitude: String?,
+            @Field("store_latitude") storeLongitude: String?
     ): Call<GetAddressModel>
 
 
