@@ -86,17 +86,21 @@ class HomeFragment : Fragment() {
             R.drawable.paan,
             R.drawable.fruits,
             R.drawable.cake,
-            R.drawable.wellness
+            R.drawable.stationary
+            //  R.drawable.wellness
     )
 
     private val sliderAdapter = SliderAdapter(
-            pics, 11) { //  service_name?.let { Log.d("fdfdfd", it) }
-        startActivity(
-                Intent(requireActivity(), StoreListActivity::class.java).putExtra(
-                        "serviceId", service_id
-                ).putExtra("serviceName", service_name)
-        )
-    }
+            pics, 11, object : ClickCart{
+        override fun cartOnClick(view: View?) {
+            //  service_name?.let { Log.d("fdfdfd", it) }
+            startActivity(
+                    Intent(requireActivity(), StoreListActivity::class.java).putExtra(
+                            "serviceId", service_id
+                    ).putExtra("serviceName", service_name)
+            )
+        }
+    })
 
 
     override fun onCreateView(
@@ -124,15 +128,15 @@ class HomeFragment : Fragment() {
 
 
                 viewmodel?.getBanners(
-                    SessionTwiclo(context).loggedInUserDetail.accountId,
-                    SessionTwiclo(context).loggedInUserDetail.accessToken,
-                    "1"
+                        SessionTwiclo(context).loggedInUserDetail.accountId,
+                        SessionTwiclo(context).loggedInUserDetail.accessToken,
+                        "1"
                 )
             }else{
                 viewmodel?.getBanners(
-                    "",
-                    "",
-                    "1"
+                        "",
+                        "",
+                        "1"
                 )
             }
 
@@ -238,35 +242,35 @@ class HomeFragment : Fragment() {
 
 
                         categoryAdapter = CategoryAdapter(
-                            requireActivity(),
-                            mModelData.serviceList,
-                            object : CategoryAdapter.ItemClick {
-                                override fun onItemClick(
-                                    pos: Int,
-                                    serviceList: HomeServicesModel.ServiceList
-                                ) {
+                                requireActivity(),
+                                mModelData.serviceList,
+                                object : CategoryAdapter.ItemClick {
+                                    override fun onItemClick(
+                                            pos: Int,
+                                            serviceList: HomeServicesModel.ServiceList
+                                    ) {
 
-                                    service_id = serviceList.id
-                                    service_name=serviceList.serviceName
+                                        service_id = serviceList.id
+                                        service_name=serviceList.serviceName
 
+
+                                    }
 
                                 }
-
-                            }
                         )
 
                         fragmentHomeBinding?.categorySmallRecyclerview?.layoutManager =
-                            GridLayoutManager(
-                                activity,
-                                1,
-                                GridLayoutManager.HORIZONTAL,
-                                false
-                            )
+                                GridLayoutManager(
+                                        activity,
+                                        1,
+                                        GridLayoutManager.HORIZONTAL,
+                                        false
+                                )
                         fragmentHomeBinding?.categorySmallRecyclerview?.setHasFixedSize(true)
                         fragmentHomeBinding?.categorySmallRecyclerview?.adapter = categoryAdapter
                         categoryAdapter?.updateReceiptsList(itemPosition!!)
                         fragmentHomeBinding?.categorySmallRecyclerview?.smoothScrollToPosition(
-                            itemPosition!!
+                                itemPosition!!
                         )
 
                     }
@@ -324,11 +328,11 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding?.cartIcon?.setOnClickListener {
             if (SessionTwiclo(context).isLoggedIn){
                 startActivity(
-                    Intent(context, CartActivity::class.java).putExtra(
-                        "store_id", SessionTwiclo(
-                            context
+                        Intent(context, CartActivity::class.java).putExtra(
+                                "store_id", SessionTwiclo(
+                                context
                         ).storeId
-                    )
+                        )
                 )
             }else{
                 showLoginDialog("Please login to proceed")
@@ -339,8 +343,8 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding?.profileIconn?.setOnClickListener {
             if (SessionTwiclo(context).isLoggedIn){
                 fragmentManager?.beginTransaction()
-                    ?.replace(R.id.container, ProfileFragment())
-                    ?.commitAllowingStateLoss()
+                        ?.replace(R.id.container, ProfileFragment())
+                        ?.commitAllowingStateLoss()
 
             }else{
                 showLoginDialog("Please login to proceed")
@@ -375,7 +379,7 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding?.categoryRecyclerView?.adapter = sliderAdapter
         fragmentHomeBinding?.categoryRecyclerView?.setHasFixedSize(true)
         fragmentHomeBinding?.categoryRecyclerView?.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
+                RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     onActiveCardChange()
@@ -421,8 +425,8 @@ class HomeFragment : Fragment() {
 
 
     fun getGeoAddressFromLatLong(
-        latitude: Double,
-        longitude: Double
+            latitude: Double,
+            longitude: Double
     ): String? {
         val geocoder: Geocoder
         val addresses: List<Address>
@@ -501,17 +505,17 @@ class HomeFragment : Fragment() {
 
     fun onSearchCalled() { // Set the fields to specify which types of place data to return.
         val fields = Arrays.asList(
-            Place.Field.ID,
-            Place.Field.NAME,
-            Place.Field.ADDRESS,
-            Place.Field.LAT_LNG,
-            Place.Field.ADDRESS_COMPONENTS
+                Place.Field.ID,
+                Place.Field.NAME,
+                Place.Field.ADDRESS,
+                Place.Field.LAT_LNG,
+                Place.Field.ADDRESS_COMPONENTS
         )
         // Start the autocomplete intent.
         val intent = Autocomplete.IntentBuilder(
-            AutocompleteActivityMode.FULLSCREEN, fields
+                AutocompleteActivityMode.FULLSCREEN, fields
         )
-            .build(context as Activity)
+                .build(context as Activity)
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
     }
 
@@ -523,19 +527,19 @@ class HomeFragment : Fragment() {
             Log.d("Home Resume", "RESUME")
 
             viewmodel?.getCartCountApi(
-                SessionTwiclo(context).loggedInUserDetail.accountId,
-                SessionTwiclo(context).loggedInUserDetail.accessToken
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken
             )
 
             viewmodel?.getHomeServices(
-                SessionTwiclo(context).loggedInUserDetail.accountId,
-                SessionTwiclo(context).loggedInUserDetail.accessToken
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken
             )
 
         }else{
             viewmodel?.getHomeServices(
-                "",
-                ""
+                    "",
+                    ""
             )
         }
 
