@@ -43,6 +43,7 @@ import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.activity_grocery_items.backIcon
 import kotlinx.android.synthetic.main.activity_grocery_items.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_store_items.*
+import kotlinx.android.synthetic.main.select_cat_popup.*
 
 
 class GroceryItemsActivity : BaseActivity(), AdapterClick,
@@ -379,11 +380,16 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         selectAreaDiolog?.setCanceledOnTouchOutside(true)
         selectAreaDiolog?.show()
         val txtError = selectAreaDiolog?.findViewById<TextView>(R.id.txtError)
-        val viewAll_txt = selectAreaDiolog?.findViewById<ImageView>(R.id.viewAll_txt)
+        val viewAll_txt = selectAreaDiolog?.findViewById<TextView>(R.id.viewAll_txt)
+        val dismisspopUp = selectAreaDiolog?.findViewById<ImageView>(R.id.dismisspopUp)
         catrecyclerView = selectAreaDiolog?.findViewById(R.id.catRecyclerview)!!
 
         // catRecyclerview
         txtError?.setOnClickListener(View.OnClickListener {
+            selectAreaDiolog?.dismiss()
+        })
+
+        dismisspopUp?.setOnClickListener(View.OnClickListener {
             selectAreaDiolog?.dismiss()
         })
 

@@ -21,6 +21,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/margin_20dp"
                 android:id="@+id/txtError"
                 android:layout_width="130dp"
@@ -31,25 +32,24 @@
                 android:textColor="@color/colorPrimary"/>
 
             <ImageView
+                android:id="@+id/dismisspopUp"
                 android:padding="@dimen/margin_10dp"
-                android:layout_marginRight="@dimen/margin_20dp"
+                android:layout_marginRight="@dimen/margin_10dp"
                 android:gravity="end"
                 android:layout_alignParentEnd="true"
-                android:id="@+id/viewAll_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/cancel_icon"
-                android:layout_marginTop="@dimen/margin_20dp"
                 android:textColor="@color/colorPrimary"/>
 
         </RelativeLayout>
 
 
         <LinearLayout
+            android:layout_marginTop="@dimen/margin_5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="@dimen/margin_10dp"
             android:layout_below="@+id/txtError">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -63,7 +63,19 @@
 
         </LinearLayout>
 
-
+        <TextView
+            android:layout_marginBottom="@dimen/margin_10dp"
+            android:layout_marginRight="15dp"
+            android:padding="@dimen/margin_5dp"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:id="@+id/viewAll_txt"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="View All"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:textColor="@color/colorPrimary"/>
 
     </LinearLayout>
 </RelativeLayout>
