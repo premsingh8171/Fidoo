@@ -48,6 +48,11 @@ class GroceryItemAdapter(
         holder.itemView.tv_price.text = context.resources.getString(R.string.ruppee) + "" + list[position].offer_price
         holder.itemView.tv_unit.text = list[position].weight + list[position].unit
         holder.itemView.minusplus_ll.visibility = View.GONE
+        if (model.is_prescription == "1"){
+            holder.itemView.prescriptionImg.visibility = View.VISIBLE
+        }else{
+            holder.itemView.prescriptionImg.visibility = View.GONE
+        }
 
 
 
@@ -249,7 +254,7 @@ class GroceryItemAdapter(
     }
 
     private fun showLoginDialog(message: String) {
-        val builder = androidx.appcompat.app.AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context)
         //set title for alert dialog
         builder.setTitle("Alert")
         //set message for alert dialog
@@ -268,7 +273,7 @@ class GroceryItemAdapter(
 
         }
         // Create the AlertDialog
-        val alertDialog: androidx.appcompat.app.AlertDialog = builder.create()
+        val alertDialog: AlertDialog = builder.create()
         // Set other dialog properties
         alertDialog.setCancelable(true)
         alertDialog.show()

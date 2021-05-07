@@ -60,7 +60,7 @@ class StoreItemsActivity :
     var count: Int = 1
     private lateinit var mMap: GoogleMap
     var cartId: String = ""
-    var storeID: String? = null
+    lateinit var storeID : String
 
     companion object {
 
@@ -90,6 +90,8 @@ class StoreItemsActivity :
         cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
 
         tv_location.text = intent.getStringExtra("store_location")
+
+        storeID = intent.getStringExtra("storeId")!!
 
         cartviewFromStore.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
@@ -161,6 +163,8 @@ class StoreItemsActivity :
                         addCartTempList!!,
                         ""
                 )
+                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
 
             } else {
                 clearCartPopup()
@@ -775,8 +779,8 @@ class StoreItemsActivity :
                     customIdsList!!.clear()
                     if (productId != null) {
                         viewmodel?.customizeProductApi(
-                                SessionTwiclo(this).loggedInUserDetail.accountId,
-                                SessionTwiclo(this).loggedInUserDetail.accessToken, productId
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken, productId
                         )
                     }
                     //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
@@ -1137,14 +1141,14 @@ class StoreItemsActivity :
         builder.setTitle("Your previous customization")
         builder.setMessage(quantity)
         builder.setPositiveButton("I'LL CHOOSE") { _, which ->
-//
-//            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-//                behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
-//                //searchLay.visibility = View.GONE
-//            } else {
-//                behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-//                //searchLay.visibility = View.VISIBLE
-//            }
+
+            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+                //searchLay.visibility = View.GONE
+            } else {
+                behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+                //searchLay.visibility = View.VISIBLE
+            }
 
             //tempProductId = productId
             showIOSProgress()

@@ -50,7 +50,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
         backIcon.setOnClickListener { finish() }
 
-        var serive_id=intent.getStringExtra("serviceId")
+        val serive_id=intent.getStringExtra("serviceId")
 
 
 

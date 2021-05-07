@@ -24,16 +24,16 @@ import kotlinx.android.synthetic.main.store_sub_item_adapter.view.*
 
 
 class SearchAdapter(
-        val con: Context,
-        private val productList: ArrayList<SearchModel.ProductList>,
-        private val adapterClick: AdapterClick,
-        private var storeID : String,
-        var adapterAddRemoveClick: AdapterAddRemoveClick,
-        var adapterCartAddRemoveClick: AdapterCartAddRemoveClick
+    val con: Context,
+    private val productList: ArrayList<SearchModel.ProductList>,
+    private val adapterClick: AdapterClick,
+    private var storeID : String,
+    var adapterAddRemoveClick: AdapterAddRemoveClick,
+    var adapterCartAddRemoveClick: AdapterCartAddRemoveClick
 ) : RecyclerView.Adapter<SearchAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.store_sub_item_adapter, parent, false))
+        LayoutInflater.from(parent.context).inflate(R.layout.store_sub_item_adapter, parent, false))
 
     override fun getItemCount() = productList.size
 
@@ -69,9 +69,9 @@ class SearchAdapter(
         holder.priceAfterDiscount.text = con.resources.getString(R.string.ruppee) + productList.get(position).offerPrice
 
         Glide.with(con)
-                .load(productList[position].productImage)
-                .fitCenter()
-                .into(holder.storeImg)
+            .load(productList[position].productImage)
+            .fitCenter()
+            .into(holder.storeImg)
 
         holder.customText.visibility = View.GONE
         if (productList[position].cartQuantity == 0) {
@@ -161,13 +161,13 @@ class SearchAdapter(
             if (SessionTwiclo(con).isLoggedIn) {
                 if (productList[position].isCustomize.equals("1")) {
                     adapterClick.onItemClick(
-                            productList[position].productId,
-                            "custom",
-                            "1",
-                            productList[position].offerPrice,
-                            productList[position].isCustomizeQuantity,
-                            "",
-                            productList[position].cartId
+                        productList[position].productId,
+                        "custom",
+                        "1",
+                        productList[position].offerPrice,
+                        productList[position].isCustomizeQuantity,
+                        "",
+                        productList[position].cartId
                     )
                 } else {
                     count++
@@ -177,9 +177,9 @@ class SearchAdapter(
 
                     if (SessionTwiclo(con).storeId.equals(storeID) || SessionTwiclo(con).storeId.equals("")) {
                         adapterAddRemoveClick.onItemAddRemoveClick(
-                                productList[position].productId, count.toString(), "add",
-                                productList[position].offerPrice, "",
-                                productList[position].cartId, 0
+                            productList[position].productId, count.toString(), "add",
+                            productList[position].offerPrice, "",
+                            productList[position].cartId, 0
                         )
                     } else {
                         val builder = AlertDialog.Builder(con)
@@ -192,8 +192,8 @@ class SearchAdapter(
                         builder.setPositiveButton("Yes") { _, _ ->
                             adapterAddRemoveClick.clearCart()
                             adapterAddRemoveClick.onItemAddRemoveClick(
-                                    productList[position].productId, count.toString(), "add",
-                                    productList[position].offerPrice, "", productList[position].cartId, 0)
+                                productList[position].productId, count.toString(), "add",
+                                productList[position].offerPrice, "", productList[position].cartId, 0)
 
                             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                         }
@@ -234,13 +234,13 @@ class SearchAdapter(
             if (SessionTwiclo(con).isLoggedIn) {
                 if (productList[position].isCustomize.equals("1")) {
                     adapterClick.onItemClick(
-                            productList[position].productId,
-                            "custom",
-                            "1",
-                            productList[position].offerPrice,
-                            productList[position].isCustomizeQuantity,
-                            "",
-                            ""
+                        productList[position].productId,
+                        "custom",
+                        "1",
+                        productList[position].offerPrice,
+                        productList[position].isCustomizeQuantity,
+                        "",
+                        ""
                     )
                 } else {
                     count++
@@ -250,9 +250,9 @@ class SearchAdapter(
 
                     if (SessionTwiclo(con).storeId.equals(storeID) || SessionTwiclo(con).storeId.equals("")) {
                         adapterAddRemoveClick.onItemAddRemoveClick(
-                                productList[position].productId, count.toString(), "add",
-                                productList[position].offerPrice, "",
-                                "", 0
+                            productList[position].productId, count.toString(), "add",
+                            productList[position].offerPrice, "",
+                            "", 0
                         )
                     } else {
                         val builder = AlertDialog.Builder(con)
@@ -265,8 +265,8 @@ class SearchAdapter(
                         builder.setPositiveButton("Yes") { _, _ ->
                             adapterAddRemoveClick.clearCart()
                             adapterAddRemoveClick.onItemAddRemoveClick(
-                                    productList[position].productId, count.toString(), "add",
-                                    productList[position].offerPrice, "", "", 0)
+                                productList[position].productId, count.toString(), "add",
+                                productList[position].offerPrice, "", "", 0)
 
                             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                         }
@@ -325,21 +325,21 @@ class SearchAdapter(
 
                             if (productList[position].customizeItem.size != 0) {
                                 adapterCartAddRemoveClick.onAddItemClick(
-                                        productList[position].productId,
-                                        items,
-                                        productList[position].offerPrice,
-                                        productList[position].isCustomize,
-                                        productList[position].customizeItem[position].productCustomizeId,
-                                        productList[position].cartId
+                                    productList[position].productId,
+                                    items,
+                                    productList[position].offerPrice,
+                                    productList[position].isCustomize,
+                                    productList[position].customizeItem[position].productCustomizeId,
+                                    productList[position].cartId
                                 )
                             } else {
                                 adapterCartAddRemoveClick.onAddItemClick(
-                                        productList[position].productId,
-                                        items,
-                                        productList[position].offerPrice,
-                                        productList[position].isCustomize,
-                                        "",
-                                        productList[position].cartId
+                                    productList[position].productId,
+                                    items,
+                                    productList[position].offerPrice,
+                                    productList[position].isCustomize,
+                                    "",
+                                    productList[position].cartId
                                 )
                             }
                         }
@@ -348,11 +348,11 @@ class SearchAdapter(
                         count++
                         holder.countValue.text = count.toString()
                         adapterAddRemoveClick.onItemAddRemoveClick(
-                                productList[position].productId,
-                                count.toString(),
-                                "add",
-                                productList[position].offerPrice, "",
-                                productList[position].cartId, 0
+                            productList[position].productId,
+                            count.toString(),
+                            "add",
+                            productList[position].offerPrice, "",
+                            productList[position].cartId, 0
                         )
 
                     }
@@ -371,19 +371,19 @@ class SearchAdapter(
 
                                 if (productList[position].customizeItem.size != 0) {
                                     adapterCartAddRemoveClick.onRemoveItemClick(
-                                            productList[position].productId,
-                                            count.toString(),
-                                            productList[position].isCustomize,
-                                            productList[position].customizeItem[0].productCustomizeId,
-                                            productList[position].cartId
+                                        productList[position].productId,
+                                        count.toString(),
+                                        productList[position].isCustomize,
+                                        productList[position].customizeItem[0].productCustomizeId,
+                                        productList[position].cartId
                                     )
                                 } else {
                                     adapterCartAddRemoveClick.onRemoveItemClick(
-                                            productList[position].productId,
-                                            count.toString(),
-                                            productList[position].isCustomize,
-                                            "",
-                                            productList[position].cartId
+                                        productList[position].productId,
+                                        count.toString(),
+                                        productList[position].isCustomize,
+                                        "",
+                                        productList[position].cartId
                                     )
                                 }
                             }
@@ -399,22 +399,22 @@ class SearchAdapter(
                                 holder.add_new_layy.visibility = View.VISIBLE
                                 holder.add_remove_layy.visibility = View.GONE
                                 adapterAddRemoveClick.onItemAddRemoveClick(
-                                        productList[position].productId,
-                                        count.toString(),
-                                        "remove",
-                                        productList[position].offerPrice,
-                                        "",
-                                        productList[position].cartId, 0
+                                    productList[position].productId,
+                                    count.toString(),
+                                    "remove",
+                                    productList[position].offerPrice,
+                                    "",
+                                    productList[position].cartId, 0
                                 )
                                 adapterAddRemoveClick.clearCart()
                             } else {
                                 adapterAddRemoveClick.onItemAddRemoveClick(
-                                        productList[position].productId,
-                                        count.toString(),
-                                        "remove",
-                                        productList[position].offerPrice,
-                                        "",
-                                        productList[position].cartId, 0
+                                    productList[position].productId,
+                                    count.toString(),
+                                    "remove",
+                                    productList[position].offerPrice,
+                                    "",
+                                    productList[position].cartId, 0
                                 )
 
                             }

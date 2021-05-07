@@ -15,9 +15,7 @@ import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_product_layout.view.*
 
-class GrocerySubCategoryToProductAdapter(var context: Context,
-                                         var list:ArrayList<Subcategory>,
-                                         var subcategoryItemClick:SubcategoryItemClick): RecyclerView.Adapter<GrocerySubCategoryToProductAdapter.ViewHolder>() {
+class GrocerySubCategoryToProductAdapter(var context: Context, var list:ArrayList<Subcategory>, var subcategoryItemClick:SubcategoryItemClick): RecyclerView.Adapter<GrocerySubCategoryToProductAdapter.ViewHolder>() {
 
     var index:Int?=0
     var valueselected = 0
@@ -35,10 +33,9 @@ class GrocerySubCategoryToProductAdapter(var context: Context,
 
 
         groceryItemAdapter = GroceryItemAdapter2(
-                context,
-                list[position].product as ArrayList<Product>,
-                0,
-               ""
+            context,
+            list[position].product as ArrayList<Product>,
+            0, ""
         )
         holder.itemView?.grocery_product_rv?.adapter = groceryItemAdapter
         Log.d("ddsdsds_adapter", GroceryItemsActivity.itemPosition!!.toString())

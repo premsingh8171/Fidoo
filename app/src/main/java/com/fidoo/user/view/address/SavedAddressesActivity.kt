@@ -86,7 +86,9 @@ class SavedAddressesActivity : BaseActivity(),
                 showToast(user.message)
                 viewmodel?.getAddressesApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    "",
+                    ""
                 )
             } else {
                 showInternetToast()
@@ -121,7 +123,9 @@ class SavedAddressesActivity : BaseActivity(),
             showIOSProgress()
             viewmodel?.getAddressesApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                "",
+                ""
             )
         } else {
             showInternetToast()

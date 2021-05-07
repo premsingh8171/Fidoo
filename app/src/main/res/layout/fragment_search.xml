@@ -119,7 +119,7 @@
             android:singleLine="true"
             android:fontFamily="@font/metropolis_semi_bold"
             android:text="Can't find your favourite store?"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorPrimary"
             android:textSize="19sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -379,7 +379,7 @@
 
         <LinearLayout
             android:id="@+id/cartitemView_LLsearch"
-            android:visibility="visible"
+            android:visibility="gone"
             android:gravity="center_vertical"
             android:background="@color/colorGreenText"
             app:layout_constraintBottom_toBottomOf="parent"

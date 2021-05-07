@@ -11,12 +11,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class AddressViewModel(application: Application) : AndroidViewModel(application), Callback<GetAddressModel> {
-
-      var getAddressesResponse: MutableLiveData<GetAddressModel>? = null
-      var addAddressResponse: MutableLiveData<AddAddressModel>? = null
-      var editAddressResponse: MutableLiveData<AddAddressModel>? = null
-      var deleteAddressResponse: MutableLiveData<DeleteAddressModel>? = null
-      var failureResponse: MutableLiveData<String>? = null
+    var getAddressesResponse: MutableLiveData<GetAddressModel>? = null
+    var addAddressResponse: MutableLiveData<AddAddressModel>? = null
+    var editAddressResponse: MutableLiveData<AddAddressModel>? = null
+    var deleteAddressResponse: MutableLiveData<DeleteAddressModel>? = null
+    var failureResponse: MutableLiveData<String>? = null
 
     init {
         getAddressesResponse = MutableLiveData<GetAddressModel>()
@@ -27,14 +26,11 @@ class AddressViewModel(application: Application) : AndroidViewModel(application)
 
     }
 
-     fun getAddressesApi(accountId: String, accessToken: String) {
-   // progressDialog?.value = true
-    WebServiceClient.client.create(BackEndApi::class.java).getAddressesApi(
-        accountId = accountId, accessToken = accessToken
-    )
-        .enqueue(this)
-
-   }
+    fun getAddressesApi(accountId: String, accessToken: String, storeLatitude: String, storeLongitude: String) {
+        WebServiceClient.client.create(BackEndApi::class.java).getAddressesApi(
+            accountId = accountId, accessToken = accessToken, storeLatitude = storeLatitude, storeLongitude = storeLongitude
+        ).enqueue(this)
+    }
 
 
     fun addAddressDetails(accountId: String, accessToken: String, flat_no: String, building: String, location: String, landmark: String,
