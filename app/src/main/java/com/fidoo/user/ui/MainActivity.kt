@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.fidoo.user.R
+import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.utils.BaseActivity
@@ -45,8 +46,8 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
     companion object {
-        var tempProductList: ArrayList<com.fidoo.user.data.model.TempProductListModel>? = null
-        var addCartTempList: ArrayList<com.fidoo.user.data.model.AddCartInputModel>? = null
+        var tempProductList: ArrayList<TempProductListModel>? = null
+        var addCartTempList: ArrayList<AddCartInputModel>? = null
         var check: String = ""
         private val TAG = "LocationProvider"
         private val REQUEST_PERMISSIONS_REQUEST_CODE = 34

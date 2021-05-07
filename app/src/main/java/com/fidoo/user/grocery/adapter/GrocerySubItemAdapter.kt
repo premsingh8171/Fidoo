@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
 
 class GrocerySubItemAdapter(var context: Context,
                             var list:ArrayList<Subcategory>,
-                            var subcategoryItemClick:SubcategoryItemClick): RecyclerView.Adapter<GrocerySubItemAdapter.ViewHolder>() {
+                            var subcategoryItemClick:SubcategoryItemClick,
+var selectvalue:String?=""): RecyclerView.Adapter<GrocerySubItemAdapter.ViewHolder>() {
 
     var index:Int?=0
     var valueselected = 0
@@ -34,11 +35,21 @@ class GrocerySubItemAdapter(var context: Context,
             subcategoryItemClick.onItemClick(position,list.get(position))
             notifyDataSetChanged()
         }
-        if(index==position){
+
+
+
+//        if(index==position){
+//            holder.itemView.active_dotLL.visibility = View.VISIBLE
+//        }
+//        else{
+//            holder.itemView.active_dotLL.visibility=View.GONE
+//
+//        }
+
+        if (selectvalue!!.equals(list.get(position)?.subcategory_name.toString())){
             holder.itemView.active_dotLL.visibility=View.VISIBLE
         }else{
-            holder.itemView.active_dotLL.visibility=View.GONE
-
+                holder.itemView.active_dotLL.visibility = View.GONE
         }
     }
 

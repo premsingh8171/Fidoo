@@ -61,6 +61,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     lateinit var catrecyclerView: RecyclerView
     var cat_id: String? = ""
     var subcat_name: String? = ""
+    var selectedValue: String? = "default"
     var sub_cat_id: String? = ""
 
     var customIdsList: ArrayList<String>? = null
@@ -91,7 +92,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         val window: Window = this.getWindow()
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorGreenText)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_grocery_items)
         viewmodel = ViewModelProviders.of(this).get(GroceryProductsViewModel::class.java)
         layoutManger = LinearLayoutManager(this)
@@ -148,7 +149,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     val productList: ArrayList<Product> = ArrayList()
                     for (i in grocery.category.indices) {
                         val catObj = grocery.category[i]
-                        tv_categories.text = "Select category"
+                       // tv_categories.text = "Select category"
 
                         for (j in 0 until grocery.category[i].subcategory.size) {
                             val subCatObj = catObj.subcategory[j]
@@ -462,6 +463,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         itemPosition = 0
                         viewAll = 0
                         subcat_name = subgrocery.subcategory_name
+                        selectedValue=subcat_name
                         sub_cat_id = subgrocery.sub_cat_id
                         Log.d("grocery___", subgrocery.sub_cat_id)
                         showIOSProgress()
@@ -472,7 +474,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                                 storeID,cat_id,sub_cat_id
                         )
                     }
-                })
+                },selectedValue)
 
     }
 

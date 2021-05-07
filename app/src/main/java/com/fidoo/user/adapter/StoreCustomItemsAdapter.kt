@@ -65,6 +65,7 @@ class StoreCustomItemsAdapter(
                     customCartAddRemoveClick,"RadioGroup",
                     object :AdapterCustomRadioClick{
                         override fun onCustomRadioClick(checkedId: String?, position: String?) {
+                            Log.d("foskgjk",checkedId+"----"+position)
                             adapterCustomRadioClick.onCustomRadioClick(checkedId,position)
                         }
                     }
