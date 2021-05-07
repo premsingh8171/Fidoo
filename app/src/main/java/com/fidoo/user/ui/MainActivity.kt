@@ -102,7 +102,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         val navController = findNavController(R.id.fragment4)
         bottomNavigationView.setupWithNavController(navController)
-        checkLocation()
+        if (SessionTwiclo(this).userAddress!=null||!SessionTwiclo(this).userAddress.isEmpty()) {
+            checkLocation()
+        }
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         tempProductList = ArrayList()
         addCartTempList = ArrayList()
@@ -232,6 +234,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         getLocationUpdates()
     }
+
     private fun showAlertLocation() {
         val dialog = AlertDialog.Builder(this)
         dialog.setMessage("Your location settings is set to Off, Please enable location to use this application")
@@ -335,42 +338,44 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
 
+                    if(SessionTwiclo(this).userAddress!=null || !SessionTwiclo(this).userAddress.isEmpty()) {
 
-                    try {
-                        fusedLocationClient.lastLocation
+                        try {
+                            fusedLocationClient.lastLocation
                                 .addOnSuccessListener {
                                     // Got last known location. In some rare situations this can be null.
                                     Log.e("ll", ll.toString())
-                                    SessionTwiclo(this).userAddress = getGeoAddressFromLatLong(ll!!.latitude, ll!!.longitude)
+                                    SessionTwiclo(this).userAddress =
+                                        getGeoAddressFromLatLong(ll!!.latitude, ll!!.longitude)
                                     userAddress?.text = SessionTwiclo(this).userAddress
                                 }
-                        ll = LocationServices.FusedLocationApi.getLastLocation(gac!!)
-                        if (ll != null) {
-                            Log.e("ll", ll.toString())
-                            SessionTwiclo(
+                            ll = LocationServices.FusedLocationApi.getLastLocation(gac!!)
+                            if (ll != null) {
+                                Log.e("ll", ll.toString())
+                                SessionTwiclo(
                                     this
-                            ).userAddress = getGeoAddressFromLatLong(
+                                ).userAddress = getGeoAddressFromLatLong(
                                     ll!!.latitude,
                                     ll!!.longitude
-                            )
-                            userAddress?.text = SessionTwiclo(
+                                )
+                                userAddress?.text = SessionTwiclo(
                                     this
-                            ).userAddress
-                            //updateUI(ll!!)
-                        } else {
-                            LocationServices.FusedLocationApi.requestLocationUpdates(
+                                ).userAddress
+                                //updateUI(ll!!)
+                            } else {
+                                LocationServices.FusedLocationApi.requestLocationUpdates(
                                     gac!!, locationRequest, this
-                            )
-                        }
+                                )
+                            }
 
-                    } catch (e: SecurityException) {
-                        Toast.makeText(
+                        } catch (e: SecurityException) {
+                            Toast.makeText(
                                 this, "SecurityException:\n$e",
                                 Toast.LENGTH_LONG
-                        ).show()
+                            ).show()
+                        }
+
                     }
-
-
 
                 } else {
                     finishAffinity()
