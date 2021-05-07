@@ -464,29 +464,31 @@ class HomeFragment : Fragment() {
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-                    val place = Autocomplete.getPlaceFromIntent(data!!)
-                    Log.wtf(
-                            "SearchRide",
-                            "\nID: " + place.id + "\naddress:" + place.address + "\nName:" + place.name + "\nlatlong: " + place.latLng
-                    )
-                    // do query with address
-                    val addresses: List<Address>
-                    val geocoder = Geocoder(context, Locale.getDefault())
-                    //  lat=place.latLng!!.latitude
-                    // lng=place.latLng!!.latitude
-                    addresses = geocoder.getFromLocation(
-                            place.latLng!!.latitude,
-                            place.latLng!!.longitude,
-                            1
-                    ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                    /*   if (addressType.equals("from")) {
-                           fromLat = place.latLng!!.latitude
-                           fromLng = place.latLng!!.longitude
-                           fromGoogleAddress.text = addresses.get(0).getAddressLine(0)
-                       } else if (addressType.equals("to")) {*/
-                    //toLat = place.latLng!!.latitude
-                    // toLng = place.latLng!!.longitude
-                    userAddress.text = addresses[0].getAddressLine(0)
+
+//
+//                    val place = Autocomplete.getPlaceFromIntent(data!!)
+//                    Log.wtf(
+//                            "SearchRide",
+//                            "\nID: " + place.id + "\naddress:" + place.address + "\nName:" + place.name + "\nlatlong: " + place.latLng
+//                    )
+//                    // do query with address
+//                    val addresses: List<Address>
+//                    val geocoder = Geocoder(context, Locale.getDefault())
+//                    //  lat=place.latLng!!.latitude
+//                    // lng=place.latLng!!.latitude
+//                    addresses = geocoder.getFromLocation(
+//                            place.latLng!!.latitude,
+//                            place.latLng!!.longitude,
+//                            1
+//                    ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+//                    /*   if (addressType.equals("from")) {
+//                           fromLat = place.latLng!!.latitude
+//                           fromLng = place.latLng!!.longitude
+//                           fromGoogleAddress.text = addresses.get(0).getAddressLine(0)
+//                       } else if (addressType.equals("to")) {*/
+//                    //toLat = place.latLng!!.latitude
+//                    // toLng = place.latLng!!.longitude
+//                    userAddress.text = addresses[0].getAddressLine(0)
                     //  }
                     fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
 
@@ -592,6 +594,8 @@ class HomeFragment : Fragment() {
                     context
             ).userAddress
         }
+        fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
+
     }
 
     private fun showLoginDialog(message: String){
