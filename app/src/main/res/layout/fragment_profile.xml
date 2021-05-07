@@ -53,19 +53,6 @@
                 android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/ic_user_single" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_image_camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/img_user"
-                android:layout_alignBottom="@+id/img_user"
-                android:backgroundTint="@color/colorPrimary"
-                android:src="@drawable/ic_photo_camera_"
-                app:borderWidth="0dp"
-                app:elevation="0dp"
-                app:fabCustomSize="@dimen/margin_40dp"
-                app:fabSize="normal" />
         </RelativeLayout>
 
 

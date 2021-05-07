@@ -63,60 +63,67 @@ class OrdersAdapter(
         }
 
         //  0:failed, 1:success, 2: cancel, 3 delivered, 4: received, 5: in progress, 6: Out for delivery ,11:preparing
-        if (orders[position].orderStatus.equals("0")) {
-            holder.buttonValue.visibility = View.GONE
-            holder.orderStatusTxt.text = "Failed"
-        } else if (orders[position].orderStatus.equals("1")) {
-            // holder.buttonValue.visibility = View.VISIBLE
-            // holder.buttonValue.visibility = View.GONE
-            holder.orderStatusTxt.text = "Your order is in progress"
-        } else if (orders[position].orderStatus.equals("2")) {
-            holder.buttonValue.visibility = View.GONE
-            holder.orderStatusTxt.text = "your order is cancelled"
-        } else if (orders[position].orderStatus.equals("11")) {
-            holder.orderStatusTxt.text = "Your food is being prepared"
-        } else if (orders[position].orderStatus.equals("3")) {
-            if (orders[position].is_rate_to_driver.equals("1")) {
+        when {
+            orders[position].orderStatus.equals("0") -> {
                 holder.buttonValue.visibility = View.GONE
-            } else {
-                holder.buttonValue.text = "Review"
+                holder.orderStatusTxt.text = "Failed"
             }
+            orders[position].orderStatus.equals("1") -> {
+                // holder.buttonValue.visibility = View.VISIBLE
+                // holder.buttonValue.visibility = View.GONE
+                holder.orderStatusTxt.text = "Your order is in progress"
+            }
+            orders[position].orderStatus.equals("2") -> {
+                holder.buttonValue.visibility = View.GONE
+                holder.orderStatusTxt.text = "your order is cancelled"
+            }
+            orders[position].orderStatus.equals("11") -> {
+                holder.orderStatusTxt.text = "Your food is being prepared"
+            }
+            orders[position].orderStatus.equals("3") -> {
+                if (orders[position].is_rate_to_driver.equals("1")) {
+                    holder.buttonValue.visibility = View.GONE
+                } else {
+                    holder.buttonValue.text = "Review"
+                }
 
-            holder.orderStatusTxt.text = "Your order is delivered"
-        } else if (orders[position].orderStatus.equals("5")) {
-            //  holder.buttonValue.visibility = View.VISIBLE
-            holder.buttonValue.visibility = View.GONE
-            holder.orderStatusTxt.text = "Your order is being processed"
-        } else
-            if (orders[position].orderStatus.equals("6")) {
+                holder.orderStatusTxt.text = "Your order is delivered"
+            }
+            orders[position].orderStatus.equals("5") -> {
+                //  holder.buttonValue.visibility = View.VISIBLE
+                holder.buttonValue.visibility = View.GONE
+                holder.orderStatusTxt.text = "Your order is being processed"
+            }
+            orders[position].orderStatus.equals("6") -> {
                 // holder.buttonValue.visibility = View.VISIBLE
 
                 holder.buttonValue.visibility = View.GONE
                 holder.orderStatusTxt.text = "Your order is out for delivery"
-            } else
-                if (orders[position].orderStatus.equals("7")) {
+            }
+            orders[position].orderStatus.equals("7") -> {
+                holder.buttonValue.visibility = View.VISIBLE
+
+
+                holder.orderStatusTxt.text = "Your order is accepted"
+            }
+            orders[position].orderStatus.equals("9") -> {
+                if (orders[position].serviceTypeId == "4"){
+                    holder.buttonValue.visibility = View.GONE
+                }else{
                     holder.buttonValue.visibility = View.VISIBLE
+                }
 
-
-                    holder.orderStatusTxt.text = "Your order is accepted"
-                } else
-                    if (orders[position].orderStatus.equals("9")) {
-                        if (orders[position].serviceTypeId == "4"){
-                            holder.buttonValue.visibility = View.GONE
-                        }else{
-                            holder.buttonValue.visibility = View.VISIBLE
-                        }
-
-                        holder.orderStatusTxt.text = "Your order is being processed"
-                    }else
-                        if (orders[position].orderStatus.equals("10")) {
-                            holder.buttonValue.visibility = View.VISIBLE
-                            holder.orderStatusTxt.text = "Your order is out for delivery"
-                        } else
-                            if (orders[position].orderStatus.equals("8")) {
-                                holder.buttonValue.visibility = View.GONE
-                                holder.orderStatusTxt.text = "Your order is rejected"
-                            }
+                holder.orderStatusTxt.text = "Your order is being processed"
+            }
+            orders[position].orderStatus.equals("10") -> {
+                holder.buttonValue.visibility = View.VISIBLE
+                holder.orderStatusTxt.text = "Your order is out for delivery"
+            }
+            orders[position].orderStatus.equals("8") -> {
+                holder.buttonValue.visibility = View.GONE
+                holder.orderStatusTxt.text = "Your order is rejected"
+            }
+        }
 
 
 
@@ -137,7 +144,12 @@ class OrdersAdapter(
 
         holder.buttonValue.setOnClickListener {
 
-            if (orders[position].serviceTypeId == "4"){
+            if (orders[position].serviceTypeId == "4" && orders[position].orderStatus.equals("3")){
+
+                if (orders[position].is_rate_to_driver.equals("0")) {
+                    buyPopup(adapterReviewClick, orders[position].orderId)
+                }
+
 
 
 //                con.startActivity(Intent(con, ChatRoomActivity::class.java).putExtra("APIKey", "gS0Bcjk3qQye7BbQQt+TsO4uT3Ja8zBVGzaNTQRfmNY="))

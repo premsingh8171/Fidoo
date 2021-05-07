@@ -121,7 +121,6 @@ class CartActivity : BaseActivity(),
         //For Faster checkout of RazorPay
         Checkout.preload(applicationContext)
         co.setKeyID("rzp_test_17ihcfTIqBGF9R")
-        storeId = intent.getStringExtra("store_id").toString()
 
 
         storeViewModel?.getStoreDetails(
@@ -879,7 +878,7 @@ class CartActivity : BaseActivity(),
                     Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-                    Toast.makeText(this, "Transaction Cancelled", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Please upload your prescription", Toast.LENGTH_SHORT).show()
                 }
             }
         }
