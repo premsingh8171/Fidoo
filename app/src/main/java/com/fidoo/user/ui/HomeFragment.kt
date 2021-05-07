@@ -457,14 +457,15 @@ class HomeFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         // Result Code is -1 send from Payumoney activity
         Log.d(
-                "MainActivity",
+                "MainActivity____",
                 "request code $requestCode resultcode $resultCode"
         )
 
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-
+                    fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
+                    Log.d("dfdffddf",SessionTwiclo(context).userAddress)
 //
 //                    val place = Autocomplete.getPlaceFromIntent(data!!)
 //                    Log.wtf(
@@ -490,7 +491,7 @@ class HomeFragment : Fragment() {
 //                    // toLng = place.latLng!!.longitude
 //                    userAddress.text = addresses[0].getAddressLine(0)
                     //  }
-                    fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
+
 
                 }
                 AutocompleteActivity.RESULT_ERROR -> { // TODO: Handle the error.
@@ -525,7 +526,7 @@ class HomeFragment : Fragment() {
         super.onResume()
         if (SessionTwiclo(context).isLoggedIn){
 
-            Log.d("Home Resume", "RESUME")
+            Log.d("Home_Resume", "RESUME")
 
             viewmodel?.getCartCountApi(
                     SessionTwiclo(context).loggedInUserDetail.accountId,
@@ -554,48 +555,48 @@ class HomeFragment : Fragment() {
         } catch (ex: Exception) {
             Log.wtf("IOS_error_starting", ex.cause!!)
         }
-        if (SessionTwiclo(context).userAddress.equals("")) {
-
-
-            activity?.let {
-                EasyLocation(it, object : EasyLocation.EasyLocationCallBack {
-                    override fun permissionDenied() {
-
-                        Log.e("Location", "permission  denied")
-
-
-                    }
-
-                    override fun locationSettingFailed() {
-
-                        Log.e("Location", "setting failed")
-
-
-                    }
-
-                    override fun getLocation(location: Location) {
-
-                        Log.e(
-                                "Location_lat_lng",
-                                " latitude ${location.latitude} longitude ${location.longitude}"
-                        )
-
-                        SessionTwiclo(context).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
-                        SessionTwiclo(context).userLat = location.latitude.toString()
-                        SessionTwiclo(context).userLng = location.longitude.toString()
-                        userAddress?.text = SessionTwiclo(context).userAddress
-                    }
-                })
-            }
-
-        } else {
-
-            userAddress?.text = SessionTwiclo(
-                    context
-            ).userAddress
-        }
+//        if (SessionTwiclo(context).userAddress.equals("")) {
+//
+//
+//            activity?.let {
+//                EasyLocation(it, object : EasyLocation.EasyLocationCallBack {
+//                    override fun permissionDenied() {
+//
+//                        Log.e("Location", "permission  denied")
+//
+//
+//                    }
+//
+//                    override fun locationSettingFailed() {
+//
+//                        Log.e("Location", "setting failed")
+//
+//
+//                    }
+//
+//                    override fun getLocation(location: Location) {
+//
+//                        Log.e(
+//                                "Location_lat_lng",
+//                                " latitude ${location.latitude} longitude ${location.longitude}"
+//                        )
+//
+//                        SessionTwiclo(context).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
+//                        SessionTwiclo(context).userLat = location.latitude.toString()
+//                        SessionTwiclo(context).userLng = location.longitude.toString()
+//                        userAddress?.text = SessionTwiclo(context).userAddress
+//                    }
+//                })
+//            }
+//
+//        } else {
+//
+//            userAddress?.text = SessionTwiclo(
+//                    context
+//            ).userAddress
+//        }
         fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
-
+            Log.d("dfdffddf",SessionTwiclo(context).userAddress)
     }
 
     private fun showLoginDialog(message: String){

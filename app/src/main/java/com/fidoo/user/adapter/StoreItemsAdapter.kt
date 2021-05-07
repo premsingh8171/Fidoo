@@ -143,15 +143,18 @@ class StoreItemsAdapter(
                             var tempp: Double? = 0.0
                             for (i in 0 until index.customizeItem.size) {
                                 items = index.customizeItem[i].subCatName + ", " + items
+                                Log.d("items__",items.toString())
+
                                 tempp = tempp!! + index.customizeItem.get(i).price.toDouble()
 
                             }
                             tempp = tempp!! + index.offerPrice.toDouble()
 
-                            items = items!!.substring(0, items.length - 2)
+                           // items = items!!.substring(0, items.length - 1)
                         } else {
 
                         }
+
                     }
 
 
