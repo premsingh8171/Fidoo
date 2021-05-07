@@ -157,8 +157,7 @@
                     android:layout_marginTop="5dp"
                     android:src="@drawable/ic_photo_upload"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/prescriptionLabel"
-                    app:tint="@color/colorPrimary"/>
+                    app:layout_constraintTop_toBottomOf="@+id/prescriptionLabel" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RelativeLayout
@@ -390,7 +389,6 @@
                 app:layout_constraintStart_toEndOf="@+id/cash_lay"
                 android:background="@drawable/black_rounded_solid"
                 android:layout_marginStart="20dp"
-                android:padding="10dp"
                 android:layout_marginBottom="5dp">
 
 
@@ -404,7 +402,6 @@
 
                 <TextView
                     android:id="@+id/tv_online"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Online"
@@ -412,7 +409,9 @@
                     android:fontFamily="@font/proxima"
                     app:layout_constraintTop_toBottomOf="@id/img_cash"
                     app:layout_constraintStart_toEndOf="@id/tv_cash"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -436,8 +435,6 @@
                 android:textAlignment="center"
                 android:paddingVertical="15dp"
                 app:layout_constraintLeft_toLeftOf="parent" />
-
-
         </LinearLayout>
 
 

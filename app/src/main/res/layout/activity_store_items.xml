@@ -381,7 +381,8 @@
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginBottom="40dp">
 
 
                         <TextView
@@ -454,14 +455,15 @@
 
     <LinearLayout
         android:id="@+id/cartitemView_LLstore"
-        android:visibility="gone"
+        android:visibility="visible"
         android:gravity="center_vertical"
         android:background="@color/colorGreenText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_50dp">
+        android:layout_height="@dimen/margin_50dp"
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_marginLeft="@dimen/margin_5dp"
@@ -479,7 +481,7 @@
             android:text="Item"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <View
             android:layout_marginLeft="@dimen/margin_5dp"
@@ -497,21 +499,39 @@
             android:text="Rs.200"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/cartviewFromStore"
-            android:textStyle="bold"
-            android:gravity="end|center_vertical"
-            android:padding="@dimen/margin_5dp"
-            android:textSize="@dimen/text_size_14sp"
-            android:text="VIEW CART"
-            android:textColor="@color/white"
-            android:drawableTint="@color/white"
-            android:drawableLeft="@color/quantum_amber100"
-            android:drawableEnd="@drawable/addtocart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/cartviewFromStore"
+                android:padding="10dp"
+                android:textSize="12sp"
+                android:text="View Cart"
+                android:textColor="@color/white"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"/>
+
+            <ImageView
+
+                android:layout_width="0dp"
+                android:layout_height="15dp"
+                android:src="@drawable/cart_icon"
+                app:tint="@color/white"
+                android:layout_gravity="end|center_vertical"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 

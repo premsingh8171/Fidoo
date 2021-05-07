@@ -77,6 +77,7 @@ class CartActivity : BaseActivity(),
 
 
 
+
     companion object {
         var selectedAddressId: String = ""
         var selectedAddressName: String = ""
@@ -85,6 +86,8 @@ class CartActivity : BaseActivity(),
         var selectedCouponName: String = ""
         var userLat: String = ""
         var userLong: String = ""
+        var storeLat: String = ""
+        var storeLong: String = ""
         //var storeCustomerDistance: String = ""
     }
 
@@ -106,6 +109,8 @@ class CartActivity : BaseActivity(),
         storeCustomerDistance = ""
         userLat = SessionTwiclo(this).userLat
         userLong = SessionTwiclo(this).userLng
+        storeLat = ""
+        storeLong = ""
 
         var deliveryOption: String = "contact"
 
@@ -149,6 +154,9 @@ class CartActivity : BaseActivity(),
 
         storeViewModel?.getStoreDetailsApi?.observe(this, Observer {
             // calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
+
+            storeLat = it.storeLatitude
+            storeLong = it.storeLongitude
 
             viewmodel?.getCartDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -253,10 +261,8 @@ class CartActivity : BaseActivity(),
 
             } else {
                 startActivity(
-                    Intent(this, SavedAddressesActivity::class.java).putExtra(
-                        "type",
-                        "order"
-                    )
+                    Intent(this, SavedAddressesActivity::class.java)
+                        .putExtra("type", "order")
                 )
             }
         }
@@ -290,10 +296,10 @@ class CartActivity : BaseActivity(),
 
             } else {
                 startActivity(
-                        Intent(this, SavedAddressesActivity::class.java).putExtra(
-                                "type",
-                                "order"
-                        )
+                    Intent(this, SavedAddressesActivity::class.java).putExtra(
+                        "type",
+                        "order"
+                    )
                 )
             }
         }
@@ -336,10 +342,10 @@ class CartActivity : BaseActivity(),
                 addCartInputModel.isCustomize = "1"
                 addCartTempList!!.add(addCartInputModel)
                 viewmodel!!.addToCartApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        addCartTempList!!,
-                        mCartId!!
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    addCartTempList!!,
+                    mCartId!!
 
                 )
             } else {
@@ -394,8 +400,16 @@ class CartActivity : BaseActivity(),
             if (!user.error) {
                 if (user.cart != null) {
                     Log.e("cart details response", Gson().toJson(user))
+                    val cartIndex = user.cart
 
-                    isPrescriptionRequire = user.cart[0].isPrescription
+                    for (i in 0 until cartIndex.size){
+                        if (user.cart[i].isPrescription == "1"){
+                            isPrescriptionRequire = user.cart[i].isPrescription
+                        }
+
+                    }
+
+
                     if (user.cart[0].isPrescription.equals("1")) {
                         prescriptionLay.visibility = View.VISIBLE
 
@@ -523,7 +537,7 @@ class CartActivity : BaseActivity(),
                         //delivery_coupon_value.visibility = View.GONE
                     }
                     tv_delivery_discount_label.text = "Delivery Discount ( " +mModelData.delivery_coupon_name +")"
-                    tv_delivery_discount.text = "- " + resources.getString(R.string.ruppee) + mModelData.deliveryDiscount
+                    tv_delivery_discount.text = "- " + resources.getString(R.string.ruppee) + mModelData.deliveryDiscount.toFloat()
                     //discountValue.text = resources.getString(R.string.ruppee) + mModelData.discount_amount.toString()
                     //tv_delivery_discount.text = "Cart Discount (" + mModelData.coupon_name +")"
 

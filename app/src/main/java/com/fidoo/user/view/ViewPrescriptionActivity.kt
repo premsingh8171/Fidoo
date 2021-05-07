@@ -14,9 +14,9 @@ class ViewPrescriptionActivity : BaseActivity() {
         setContentView(R.layout.activity_view_prescription)
         Log.e("iii", intent.getStringExtra("image").toString())
         Glide.with(this)
-                .load(intent.getStringExtra("image"))
-                .fitCenter()
-                .into(myZoomageView)
+            .load(intent.getStringExtra("image"))
+            .fitCenter()
+            .into(myZoomageView)
         // myZoomageView?.setImageURI(Uri.parse(intent.getStringExtra("image"))!!)
         backIcon.setOnClickListener {
             finish()

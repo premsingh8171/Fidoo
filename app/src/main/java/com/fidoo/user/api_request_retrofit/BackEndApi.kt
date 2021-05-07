@@ -233,7 +233,7 @@ interface BackEndApi {
             @Field("accountId") accountId: String?,
             @Field("accessToken") accessToken: String?,
             @Field("store_latitude") storeLatitude: String?,
-            @Field("store_latitude") storeLongitude: String?
+            @Field("store_longitude") storeLongitude: String?
     ): Call<GetAddressModel>
 
 

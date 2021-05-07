@@ -165,7 +165,7 @@
 
     <LinearLayout
         android:id="@+id/cartitemView_LL"
-        android:visibility="gone"
+        android:visibility="visible"
         android:gravity="center_vertical"
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -207,22 +207,38 @@
             android:textSize="@dimen/text_size_14sp"
             android:text=""
             android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/cartIcon_grocery"
-            android:textStyle="bold"
-            android:gravity="end|center_vertical"
-            android:padding="@dimen/margin_5dp"
-            android:textSize="@dimen/text_size_14sp"
-            android:text="VIEW CART"
-            android:textColor="@color/white"
-            android:drawableTint="@color/white"
-            android:drawableLeft="@color/quantum_amber100"
-            android:drawableEnd="@drawable/addtocart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/cartviewFromGrocery"
+                android:padding="10dp"
+                android:textSize="12sp"
+                android:text="View Cart"
+                android:textColor="@color/white"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"/>
+
+            <ImageView
+
+                android:layout_width="0dp"
+                android:layout_height="15dp"
+                android:src="@drawable/cart_icon"
+                app:tint="@color/white"
+                android:layout_gravity="end|center_vertical"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
 
     </LinearLayout>
 

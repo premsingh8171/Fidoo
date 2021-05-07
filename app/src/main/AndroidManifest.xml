@@ -110,9 +110,13 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".StoreItemsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
 
         <activity android:name=".SendPackageActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.ViewPrescriptionActivity"
             android:screenOrientation="portrait"/>
 
         <meta-data
@@ -138,10 +142,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
-
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
 
     </application>
 

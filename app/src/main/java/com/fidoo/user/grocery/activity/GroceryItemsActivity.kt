@@ -107,7 +107,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         productList = ArrayList()
         productList!!.clear()
 
-        cartIcon_grocery.setOnClickListener {
+        cartviewFromGrocery.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
                 startActivity(
                     Intent(this, CartActivity::class.java).putExtra(
@@ -152,7 +152,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             MainActivity.addCartTempList!!.clear()
             catList.clear()
             subcatList.clear()
-            if (grocery.category.size!=0) {
+            if (grocery.category.isNotEmpty()) {
                 if (!grocery.error) {
                     Log.e("Grocery", Gson().toJson(grocery))
                     // val subcatList: ArrayList<Subcategory> = ArrayList()
@@ -615,7 +615,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
         tempType = type
         tempCount = count
-        this.count = count!!.toInt()
+        this.count = count.toInt()
         tempProductId = productId
         mCustomizeCount = customize_count
         tempOfferPrice = offerPrice

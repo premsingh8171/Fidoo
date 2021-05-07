@@ -9,6 +9,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import com.fidoo.user.CartActivity.Companion.storeLat
+import com.fidoo.user.CartActivity.Companion.storeLong
 import com.fidoo.user.R
 import com.fidoo.user.adapter.AddressesAdapter
 import com.fidoo.user.data.session.SessionTwiclo
@@ -31,12 +33,14 @@ class SavedAddressesActivity : BaseActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_saved_addresses)
-        //Todo
         //  statusBarTransparent()
 
         //  mPlaceAutocompleteAdapter = PlaceAutocompleteAdapter(this, gac, LAT_LNG_BOUNDS, null)
 
         viewmodel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
+
+        //storeLat = intent.getStringExtra("store_lat").toString()
+        //storeLong = intent.getStringExtra("store_long").toString()
 
 
         backIcon_saved_address.setOnClickListener {
@@ -64,11 +68,10 @@ class SavedAddressesActivity : BaseActivity(),
 
             if (!user.addressList.isNullOrEmpty()) {
                 val adapter = AddressesAdapter(
-                        this,
-                        user.addressList,
-                        this,
-                        intent.getStringExtra("type")
-                )
+                    this,
+                    user.addressList,
+                    this,
+                    intent.getStringExtra("type") )
                 addressesRecyclerView?.layoutManager = GridLayoutManager(this, 1)
                 addressesRecyclerView?.setHasFixedSize(true)
                 addressesRecyclerView?.adapter = adapter
@@ -118,14 +121,16 @@ class SavedAddressesActivity : BaseActivity(),
     override fun onResume() {
         super.onResume()
 
+        Log.e("store lat", storeLat)
+
 
         if (isNetworkConnected) {
             showIOSProgress()
             viewmodel?.getAddressesApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                "",
-                ""
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                storeLat,
+                storeLong
             )
         } else {
             showInternetToast()
@@ -152,8 +157,7 @@ class SavedAddressesActivity : BaseActivity(),
         //performing positive action
         builder.setPositiveButton("Yes") { dialogInterface, which ->
             showIOSProgress()
-            viewmodel?.deleteAddressApi(
-               SessionTwiclo(this).loggedInUserDetail.accountId,
+            viewmodel?.deleteAddressApi(SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken, addressId.toString()
             )
             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()

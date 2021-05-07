@@ -171,7 +171,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             val deliveryChargeWithTax = mModelData.deliveryCharge + mModelData.tax
             delivery_charge.text = resources.getString(R.string.ruppee) + "" + deliveryChargeWithTax
             delivery_coupon_label.text = "Delivery Discount (" +mModelData.delivery_coupon_name +")"
-            delivery_coupon.text = "-" +resources.getString(R.string.ruppee) + "" + mModelData.delivery_discount
+            delivery_coupon.text = "-" +resources.getString(R.string.ruppee) + "" + mModelData.delivery_discount.toFloat()
             grand_price.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
             sub_total.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
         })
