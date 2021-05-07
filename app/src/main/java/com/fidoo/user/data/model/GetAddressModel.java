@@ -55,12 +55,18 @@ public class GetAddressModel {
         @SerializedName("id")
         @Expose
         public String id;
+
         @SerializedName("name")
         @Expose
         public String name;
+
         @SerializedName("email_id")
         @Expose
         public String email_id;
+
+        @SerializedName("in_delivery_range")
+        @Expose
+        public String inDeliveryRange;
 
     }
 }

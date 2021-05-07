@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.fidoo.user.data.model.EditProfileModel;
+import com.fidoo.user.profile.EditProfileModel;
 import com.fidoo.user.data.model.VerificationModel;
 
 

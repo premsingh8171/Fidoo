@@ -9,14 +9,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.fidoo.user.AboutUsActivity
 import com.fidoo.user.R
 import com.fidoo.user.SplashActivity
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.profile.EditProfileActivity
+import com.fidoo.user.profile.EditProfileModel
+import com.fidoo.user.profile.EditProfileViewModel
 import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
 import com.fidoo.user.view.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.LogoutViewModel
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 
@@ -24,6 +30,8 @@ class ProfileFragment : Fragment() {
 
     lateinit var mView : View
     var viewmodel: LogoutViewModel? = null
+    var profileViewModel: EditProfileViewModel? = null
+    var filePathTemp: String? = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +42,39 @@ class ProfileFragment : Fragment() {
         mView = inflater.inflate(R.layout.fragment_profile, container, false)
 
         viewmodel = ViewModelProvider(requireActivity()).get(LogoutViewModel::class.java)
+        profileViewModel = ViewModelProvider(requireActivity()).get(EditProfileViewModel::class.java)
+
+        if (SessionTwiclo(context).profileDetail!= null) {
+            Log.e("ddd", SessionTwiclo(context).profileDetail.account.image!!)
+            /*nameEdt.setText(SessionTwiclo(context).profileDetail.account.name!!)
+            nameEdt.setSelection(nameEdt.length())
+            emailEdt.setText(SessionTwiclo(context).profileDetail.account.emailid!!)
+            emailEdt.setSelection(emailEdt.length())*/
+
+            Glide.with(this).asBitmap()
+                .load(SessionTwiclo(context).profileDetail.account.image!!)
+                .fitCenter()
+                .override(100, 100)
+                .placeholder(R.drawable.ic_user_single)
+                .into(img_user)
+        }
+
+        mView.edit_profile.setOnClickListener {
+            if (SessionTwiclo(requireContext()).isLoggedIn){
+                startActivity(Intent(context, EditProfileActivity::class.java))
+            }else{
+                Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        mView.fab_image_camera.setOnClickListener {
+            ImagePicker.with(this)
+                .crop()                    //Crop image(Optional), Check Customization for more option
+                //   .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                //  .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .start()
+
+        }
 
         mView.tv_yourAddresses.setOnClickListener {
             if (SessionTwiclo(requireContext()).isLoggedIn){
@@ -54,14 +95,14 @@ class ProfileFragment : Fragment() {
 
         if (SessionTwiclo(requireContext()).isLoggedIn){
             mView.action_logout.visibility = View.VISIBLE
-            mView.tv_email.visibility = View.VISIBLE
+            //mView.tv_email.visibility = View.VISIBLE
             mView.tv_name.visibility = View.VISIBLE
             mView.tv_hi.visibility = View.VISIBLE
             mView.tv_name.text = SessionTwiclo(context).profileDetail.account.name
-            mView.tv_email.text = SessionTwiclo(context).profileDetail.account.emailid
+            //mView.tv_email.text = SessionTwiclo(context).profileDetail.account.emailid
         }else{
             mView.action_logout.visibility = View.GONE
-            mView.tv_email.visibility = View.GONE
+            //mView.tv_email.visibility = View.GONE
             mView.tv_name.visibility = View.GONE
             mView.tv_hi.visibility = View.GONE
         }

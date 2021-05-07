@@ -7,7 +7,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
-import com.fidoo.user.data.model.EditProfileModel
+import com.fidoo.user.profile.EditProfileModel
 import com.fidoo.user.utils.SingleLiveEvent
 import retrofit2.Call
 import retrofit2.Callback

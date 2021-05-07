@@ -3,9 +3,11 @@ package com.fidoo.user.adapter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.CartActivity
 import com.fidoo.user.R
@@ -35,6 +37,10 @@ class AddressesAdapter(
                 position).location
         /*StoreItemsActivity.customerLatitude = addressList[position].latitude
         StoreItemsActivity.customerLongitude = addressList[position].longitude*/
+
+        if (addressList[position].inDeliveryRange == "0"){
+            holder.mainLay.alpha = 0.5f
+        }
 
         when {
             addressList[position].addressType == "1" -> {
@@ -68,6 +74,9 @@ class AddressesAdapter(
             }
         }
 
+
+
+
 //        holder.deleteIcon.setOnClickListener {
 //            adapterClick.onItemClick(addressList.get(position).id, "", "","",0,"", "")
 //        }
@@ -78,85 +87,94 @@ class AddressesAdapter(
 //        }
 
 
+
         holder.mainLay.setOnClickListener {
-            if (stringExtra.equals("order")) {
-                CartActivity.selectedAddressId = addressList[position].id
-                CartActivity.selectedAddressName = addressList[position].location + "\nHouse No.: " + addressList.get(position).flatNo + "\nBuilding: " + addressList.get(position).building + "\nLandmark: " + addressList.get(position).landmark
+            Log.e("clicked", "clicked")
+            if (addressList[position].inDeliveryRange == "0"){
+                Toast.makeText(con, "Store doesn't deliver to this location", Toast.LENGTH_LONG).show()
 
-                CartActivity.userLat = addressList[position].latitude
-                CartActivity.userLong = addressList[position].longitude
-                //StoreItemsActivity.customerLatitude = addressList[position].latitude
-                //StoreItemsActivity.customerLongitude = addressList[position].longitude
-                when {
-                    addressList[position].addressType.equals("1") -> {
-                        SessionTwiclo(con).userAddress = "Home"
-                    }
+            }else{
 
-                    addressList[position].addressType.equals("2") -> {
-                        SessionTwiclo(con).userAddress = "Office"
-                    }
+                if (stringExtra.equals("order")) {
+                    CartActivity.selectedAddressId = addressList[position].id
+                    CartActivity.selectedAddressName = addressList[position].location + "\nHouse No.: " + addressList.get(position).flatNo + "\nBuilding: " + addressList.get(position).building + "\nLandmark: " + addressList.get(position).landmark
+                    CartActivity.userLat = addressList[position].latitude
+                    CartActivity.userLong = addressList[position].longitude
+                    //StoreItemsActivity.customerLatitude = addressList[position].latitude
+                    //StoreItemsActivity.customerLongitude = addressList[position].longitude
+                    when {
+                        addressList[position].addressType.equals("1") -> {
+                            SessionTwiclo(con).userAddress = "Home"
+                        }
 
-                    else -> {
-                        SessionTwiclo(con).userAddress = "Other"
+                        addressList[position].addressType.equals("2") -> {
+                            SessionTwiclo(con).userAddress = "Office"
+                        }
+
+                        else -> {
+                            SessionTwiclo(con).userAddress = "Other"
+                        }
                     }
+                    SessionTwiclo(con).userAddressId = addressList[position].id
+                    CartActivity.selectedAddressTitle = SessionTwiclo(con).userAddress
+                    (con as Activity).finish()
                 }
-                SessionTwiclo(con).userAddressId = addressList[position].id
-                CartActivity.selectedAddressTitle = SessionTwiclo(con).userAddress
-                (con as Activity).finish()
-            }
 
-            if (stringExtra.equals("address")) {
-                when {
-                    addressList[position].addressType.equals("1") -> {
-                        SessionTwiclo(con).userAddress = "Home"
+                if (stringExtra.equals("address")) {
+                    when {
+                        addressList[position].addressType.equals("1") -> {
+                            SessionTwiclo(con).userAddress = "Home"
+                        }
+
+                        addressList[position].addressType.equals("2") -> {
+                            SessionTwiclo(con).userAddress = "Office"
+
+                        }
+
+                        else -> {
+                            SessionTwiclo(con).userAddress = "Other"
+
+                        }
                     }
+                    SessionTwiclo(con).userAddress = addressList[position].location
+                    SessionTwiclo(con).userAddressId = addressList[position].id
+                    SessionTwiclo(con).userLat = addressList[position].latitude
+                    SessionTwiclo(con).userLng = addressList[position].longitude
 
-                    addressList[position].addressType.equals("2") -> {
-                        SessionTwiclo(con).userAddress = "Office"
-
-                    }
-
-                    else -> {
-                        SessionTwiclo(con).userAddress = "Other"
-
-                    }
+                    //  con.startActivity(Intent(con, MainActivity::class.java))
+                    (con as Activity).finish()
                 }
-                SessionTwiclo(con).userAddress = addressList[position].location
-                SessionTwiclo(con).userAddressId = addressList[position].id
-                SessionTwiclo(con).userLat = addressList[position].latitude
-                SessionTwiclo(con).userLng = addressList[position].longitude
+                if (stringExtra.equals("from")) {
 
-              //  con.startActivity(Intent(con, MainActivity::class.java))
-                (con as Activity).finish()
+                    SendPackageActivity.selectedFromAddress = addressList[position].location
+                    SendPackageActivity.selectedfromLat = addressList[position].latitude.toDouble()
+                    SendPackageActivity.selectedfromLng= addressList[position].longitude.toDouble()
+                    SendPackageActivity.fromName = addressList[position].name
+                    SendPackageActivity.fromNumber = addressList[position].phone_no
+
+
+                    /*CartActivity.selectedAddressName =
+						addressList.get(position).location + "\nHouse No.: " + addressList.get(position).flatNo + "\nBuilding: " + addressList.get(
+							position
+						).building + "\nLandmark: " + addressList.get(position).building
+					SessionTwiclo(con).userAddress =
+						addressList.get(position).location
+					SessionTwiclo(con).userAddressId =
+						addressList.get(position).id*/
+                    (con as Activity).finish()
+                }
+                if (stringExtra.equals("to")) {
+
+                    SendPackageActivity.selectedToAddress = addressList[position].location
+                    SendPackageActivity.selectedtoLat = addressList[position].latitude.toDouble()
+                    SendPackageActivity.selectedtoLng= addressList[position].longitude.toDouble()
+                    SendPackageActivity.toName = addressList[position].name
+                    SendPackageActivity.toNumber = addressList[position].phone_no
+                    (con as Activity).finish()
+                }
+
             }
-            if (stringExtra.equals("from")) {
 
-                SendPackageActivity.selectedFromAddress = addressList[position].location
-                SendPackageActivity.selectedfromLat = addressList[position].latitude.toDouble()
-                SendPackageActivity.selectedfromLng= addressList[position].longitude.toDouble()
-                SendPackageActivity.fromName = addressList[position].name
-                SendPackageActivity.fromNumber = addressList[position].phone_no
-
-
-                /*CartActivity.selectedAddressName =
-                    addressList.get(position).location + "\nHouse No.: " + addressList.get(position).flatNo + "\nBuilding: " + addressList.get(
-                        position
-                    ).building + "\nLandmark: " + addressList.get(position).building
-                SessionTwiclo(con).userAddress =
-                    addressList.get(position).location
-                SessionTwiclo(con).userAddressId =
-                    addressList.get(position).id*/
-                (con as Activity).finish()
-            }
-            if (stringExtra.equals("to")) {
-
-                SendPackageActivity.selectedToAddress = addressList[position].location
-                SendPackageActivity.selectedtoLat = addressList[position].latitude.toDouble()
-                SendPackageActivity.selectedtoLng= addressList[position].longitude.toDouble()
-                SendPackageActivity.toName = addressList[position].name
-                SendPackageActivity.toNumber = addressList[position].phone_no
-                (con as Activity).finish()
-            }
 //
             //adapterClick.onItemClick(addressList.get(position).id)
 //        }

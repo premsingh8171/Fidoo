@@ -112,7 +112,7 @@ class CartActivity : BaseActivity(),
         storeLat = ""
         storeLong = ""
 
-        var deliveryOption: String = "contact"
+        var deliveryOption = "contact"
 
         customIdsList = ArrayList<String>()
         customIdsListTemp = ArrayList<CustomCheckBoxModel>()
@@ -186,11 +186,6 @@ class CartActivity : BaseActivity(),
                 intent.getStringExtra("catId")
 
             )
-
-            storeViewModel?.getStoreDetailsApi?.observe(this, Observer {
-
-
-            })
 
             viewmodel?.getCartDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -1005,18 +1000,27 @@ class CartActivity : BaseActivity(),
 
         } else {
             showIOSProgress()
+
             storeViewModel?.getStoreDetailsApi?.observe(this, {
-                val store_latitude = it.storeLatitude
-                val store_longitude = it.storeLongitude
+                storeLat = it.storeLatitude
+                storeLong = it.storeLongitude
+                //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
+
+            })
+
+
+            storeViewModel?.getStoreDetailsApi?.observe(this, {
+                storeLat = it.storeLatitude
+                storeLong = it.storeLongitude
                 //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
 
             })
 
             viewmodel?.getCartDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    userLat,
-                    userLong
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                userLat,
+                userLong
             )
 
 
@@ -1029,11 +1033,11 @@ class CartActivity : BaseActivity(),
 
 
         if (!selectedCouponName.equals("")) {
-            tv_coupon.setText(selectedCouponName)
+            tv_coupon.text = selectedCouponName
             viewmodel?.applyPromoApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    selectedCouponName
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                selectedCouponName
             )
         }
 
@@ -1056,9 +1060,9 @@ class CartActivity : BaseActivity(),
                 showIOSProgress()
                 if (cart_id != null) {
                     viewmodel?.deleteCartDetails(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!,
-                            cart_id
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!,
+                        cart_id
                     )
                     onresumeHandle=1
                 }
@@ -1111,17 +1115,17 @@ class CartActivity : BaseActivity(),
         val accountId = RequestBody.create("text/plain".toMediaTypeOrNull(), SessionTwiclo(this).loggedInUserDetail.accountId
         )  // Parameter request body
         val accessToken =
-                RequestBody.create(
-                        "text/plain".toMediaTypeOrNull(),
-                        SessionTwiclo(this).loggedInUserDetail.accessToken
-                )  // Parameter request body
+            RequestBody.create(
+                "text/plain".toMediaTypeOrNull(),
+                SessionTwiclo(this).loggedInUserDetail.accessToken
+            )  // Parameter request body
         /* val orderId =
              RequestBody.create(MediaType.parse("text/plain"), orderId)*/
         // dismissIOSProgress()
         showIOSProgress()
         viewmodel?.uploadPrescriptionImage(
-                accountId,
-                accessToken, mImageParts
+            accountId,
+            accessToken, mImageParts
         )
 
 

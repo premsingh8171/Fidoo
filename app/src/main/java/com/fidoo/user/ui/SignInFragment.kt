@@ -26,6 +26,7 @@ import com.fidoo.user.R
 import com.fidoo.user.data.SendResponse
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentSignInBinding
+import com.fidoo.user.profile.EditProfileModel
 import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
 import com.fidoo.user.utils.CommonUtils.Companion.hideKeyboard
 import com.fidoo.user.utils.CustomProgressDialog
@@ -145,7 +146,7 @@ class SignInFragment : Fragment() {
 
         viewmodel?.userLogin?.observe(requireActivity(), { user ->
             dismissIOSProgress()
-            val mModelData: com.fidoo.user.data.model.EditProfileModel = user
+            val mModelData: EditProfileModel = user
             pref.storeProfileDetail(mModelData)
 
             val sendData= SendResponse(mModelData.accessToken,mModelData.account.id,binding.phone.text.toString().trim(),"+91")
