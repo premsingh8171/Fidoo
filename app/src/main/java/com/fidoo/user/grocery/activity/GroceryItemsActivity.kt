@@ -61,6 +61,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     lateinit var catrecyclerView: RecyclerView
     var cat_id: String? = ""
     var subcat_name: String? = ""
+    var selectedValue: String? = "default"
     var sub_cat_id: String? = ""
 
     var customIdsList: ArrayList<String>? = null
@@ -91,7 +92,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         val window: Window = this.getWindow()
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorGreenText)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_grocery_items)
         viewmodel = ViewModelProviders.of(this).get(GroceryProductsViewModel::class.java)
         layoutManger = LinearLayoutManager(this)
@@ -159,7 +160,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     val productList: ArrayList<Product> = ArrayList()
                     for (i in grocery.category.indices) {
                         val catObj = grocery.category[i]
-                        tv_categories.text = "Select category"
+                       // tv_categories.text = "Select category"
 
                         for (j in 0 until grocery.category[i].subcategory.size) {
                             val subCatObj = catObj.subcategory[j]
@@ -466,24 +467,26 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     //For SubCategory list Showing on left side of Activity view
     private fun rvlistSubcategory(subcatList: ArrayList<Subcategory>) {
         sub_cat_rv.adapter = GrocerySubItemAdapter(
-            this,
-            subcatList,
-            object : GrocerySubItemAdapter.SubcategoryItemClick {
-                override fun onItemClick(pos: Int, subgrocery: Subcategory) {
-                    itemPosition = 0
-                    viewAll = 0
-                    subcat_name = subgrocery.subcategory_name
-                    sub_cat_id = subgrocery.sub_cat_id
-                    Log.d("grocery___", subgrocery.sub_cat_id)
-                    showIOSProgress()
-                   // filterListShowingSub(pos, subgrocery)
-                    viewmodel?.getGroceryProductsFun(
-                            SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accountId,
-                            SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
-                            storeID,cat_id,sub_cat_id
-                    )
-                }
-            })
+                this,
+                subcatList,
+                object : GrocerySubItemAdapter.SubcategoryItemClick {
+                    override fun onItemClick(pos: Int, subgrocery: Subcategory) {
+                        itemPosition = 0
+                        viewAll = 0
+                        subcat_name = subgrocery.subcategory_name
+                        selectedValue=subcat_name
+                        sub_cat_id = subgrocery.sub_cat_id
+                        Log.d("grocery___", subgrocery.sub_cat_id)
+                        showIOSProgress()
+                       // filterListShowingSub(pos, subgrocery)
+                        viewmodel?.getGroceryProductsFun(
+                                SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accountId,
+                                SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
+                                storeID,cat_id,sub_cat_id
+                        )
+                    }
+                },selectedValue)
+
 
     }
 

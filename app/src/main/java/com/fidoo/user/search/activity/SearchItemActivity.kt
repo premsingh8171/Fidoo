@@ -67,7 +67,7 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
         val window: Window = this.getWindow()
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorGreenText)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_search_item)
         viewmodel = ViewModelProviders.of(this).get(SearchFragmentViewModel::class.java)
         mProductStoreList= ArrayList()

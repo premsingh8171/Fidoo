@@ -975,6 +975,7 @@ class StoreItemsActivity :
                 addCartInputModel.isCustomize = "0"
                 addCartTempList!!.add(addCartInputModel)
 
+
                 if (cartId != null) {
                     viewmodel!!.addToCartApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -1130,6 +1131,7 @@ class StoreItemsActivity :
         tempPrice = 0.0
         tempProductId = productId
 
+        Log.d("isCustomize__",isCustomize!!+"\n"+quantity)
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Your previous customization")
