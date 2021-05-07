@@ -135,77 +135,67 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     )
                     SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
                     SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
-                    userAddress?.text = SessionTwiclo(
-                        this@MainActivity
-                    ).userAddress
+                    userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
 
                 }
             }
         }
 
 
-        if (SessionTwiclo(this).userAddress.equals("")) {
-            try {
-                // Request location updates
-                //locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-            } catch (ex: SecurityException) {
-                Log.d("myTag", "Security Exception, no location available")
-            }
-
-            //define the listener
-            val locationListener: LocationListener = object : LocationListener {
-                override fun onLocationChanged(location: Location) {
-                    userAddress.text = ("" + location.longitude + ":" + location.latitude)
-                }
-                fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-                fun onProviderEnabled(provider: String) {}
-                fun onProviderDisabled(provider: String) {}
-            }
-
-
-            EasyLocation(this, object : EasyLocation.EasyLocationCallBack {
-                override fun permissionDenied() {
-
-                    Log.e("Location", "permission  denied")
-
-
-                }
-
-                override fun locationSettingFailed() {
-
-                    Log.e("Location", "setting failed")
-
-
-                }
-
-                override fun getLocation(location: Location) {
-
-                    Log.e(
-                        "Location_lat_lng",
-                        " latitude ${location.latitude} longitude ${location.longitude}"
-                    )
-                    SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(
-                        location.latitude,
-                        location.longitude
-                    )
-                    SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
-                    SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
-                    userAddress?.text = SessionTwiclo(
-                        this@MainActivity
-                    ).userAddress
-                }
-            })
-
-        } else {
-
-            userAddress?.text = SessionTwiclo(
-                this@MainActivity
-            ).userAddress
-        }
-
-
-
-
+//        if (SessionTwiclo(this).userAddress!=null||!SessionTwiclo(this).userAddress.isEmpty()) {
+//            try {
+//                // Request location updates
+//                //locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+//            } catch (ex: SecurityException) {
+//                Log.d("myTag", "Security Exception, no location available")
+//            }
+//
+//            //define the listener
+//            val locationListener: LocationListener = object : LocationListener {
+//                override fun onLocationChanged(location: Location) {
+//                    userAddress.text = ("" + location.longitude + ":" + location.latitude)
+//                }
+//                fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+//                fun onProviderEnabled(provider: String) {}
+//                fun onProviderDisabled(provider: String) {}
+//            }
+//
+//
+//            EasyLocation(this, object : EasyLocation.EasyLocationCallBack {
+//                override fun permissionDenied() {
+//
+//                    Log.e("Location", "permission  denied")
+//
+//
+//                }
+//
+//                override fun locationSettingFailed() {
+//
+//                    Log.e("Location", "setting failed")
+//
+//
+//                }
+//
+//                override fun getLocation(location: Location) {
+//
+//                    Log.e(
+//                        "Location_lat_lng",
+//                        " latitude ${location.latitude} longitude ${location.longitude}"
+//                    )
+//                    SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(
+//                        location.latitude,
+//                        location.longitude
+//                    )
+//                    SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
+//                    SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
+//                    userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
+//                }
+//            })
+//
+//        } else {
+//
+//            userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
+//        }
 
 
 
