@@ -98,7 +98,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             AddressViewModel::class.java
         )
 
-        checkPermission()
+
         //emailValue.setText(model.phone_no)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
@@ -108,7 +108,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         Places.initialize(this, getString(R.string.google_maps_key));
         placesClient = Places.createClient(this);
         val token = AutocompleteSessionToken.newInstance()
-
+        checkPermission()
 
 
         searchBar!!.setOnSearchActionListener(object :
