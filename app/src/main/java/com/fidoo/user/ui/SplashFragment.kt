@@ -72,13 +72,21 @@ class SplashFragment : BaseFragment() {
                 goForVerificationScreen(MainActivity::class.java,"","","","")
                 return@postDelayed
             }else{
-                findNavController().navigate(R.id.action_splashFragment_to_authFragment)            }
+                try {
+                    findNavController().navigate(R.id.action_splashFragment_to_authFragment)
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
+
+            }
 
             // close this activity
 //            finish()
         }, 3000)
 
-        return mView    }
+        return mView
+    }
+
 
 
 }

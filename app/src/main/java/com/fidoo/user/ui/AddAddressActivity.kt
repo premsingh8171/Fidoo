@@ -61,6 +61,7 @@ import java.util.*
 import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.gson.Gson
+import java.lang.Exception
 import java.lang.IndexOutOfBoundsException
 
 class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
@@ -93,12 +94,11 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add_address)
         val window: Window = this.getWindow()
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
-        setContentView(R.layout.activity_add_address)
-
         viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(AddressViewModel::class.java)
         //emailValue.setText(model.phone_no)
 
@@ -335,7 +335,12 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            mMap!!.isMyLocationEnabled = true
+            try {
+                mMap!!.isMyLocationEnabled = true
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+
 
             return
         }
@@ -370,8 +375,10 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         val settingsClient = LocationServices.getSettingsClient(this@AddAddressActivity)
         val task: Task<LocationSettingsResponse> =
                 settingsClient.checkLocationSettings(builder.build())
+
         task.addOnSuccessListener(this@AddAddressActivity,
                 OnSuccessListener<LocationSettingsResponse?> { getDeviceLocation() })
+
         task.addOnFailureListener(this@AddAddressActivity, OnFailureListener { e ->
             if (e is ResolvableApiException) {
                 try {
