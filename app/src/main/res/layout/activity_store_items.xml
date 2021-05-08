@@ -205,7 +205,6 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp" />
 
-
         <TextView
             android:id="@+id/tv_vegOnly"
             android:layout_width="wrap_content"
@@ -263,7 +262,6 @@
             android:src="@drawable/filter_icon"
             android:visibility="gone"/>
 
-
     </RelativeLayout>
 
     <LinearLayout
@@ -287,7 +285,6 @@
 
 
     </LinearLayout>
-
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

@@ -160,7 +160,6 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/new_viewcartfromSearch"
-            android:textStyle="bold"
             android:gravity="end|center_vertical"
             android:padding="@dimen/margin_5dp"
             android:textSize="@dimen/text_size_14sp"
@@ -168,7 +167,6 @@
             android:textColor="@color/white"
             android:drawableTint="@color/white"
             android:drawableLeft="@color/quantum_amber100"
-            android:drawableEnd="@drawable/addtocart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
