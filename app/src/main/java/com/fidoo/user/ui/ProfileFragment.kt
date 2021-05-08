@@ -53,10 +53,14 @@ class ProfileFragment : Fragment() {
 
             Glide.with(this).asBitmap()
                 .load(SessionTwiclo(context).profileDetail.account.image!!)
-                .fitCenter()
-                .override(100, 100)
+               // .fitCenter()
+               // .override(100, 100)
                 .placeholder(R.drawable.ic_user_single)
+
+                .error(R.drawable.ic_user_single)
+    
                 .into(mView.img_user)
+
         }
 
         mView.edit_profile.setOnClickListener {
