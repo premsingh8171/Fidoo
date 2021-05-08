@@ -150,7 +150,7 @@ class StoreItemsActivity :
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                     addCartTempList!!,
-                    ""
+                    cartId
                 )
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
@@ -1127,6 +1127,10 @@ class StoreItemsActivity :
         //plusMinusPrice = 0.0
         tempPrice = 0.0
         tempProductId = productId
+
+        if (cart_id != null) {
+            cartId = cart_id
+        }
 
         Log.d("isCustomize__",isCustomize!!+"\n"+quantity)
 
