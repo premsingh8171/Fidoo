@@ -165,10 +165,15 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         for (j in 0 until grocery.category[i].subcategory.size) {
                             val subCatObj = catObj.subcategory[j]
 
-                            for (k in 0 until grocery.category[i].subcategory[j].product.size) {
-                                val productListObj = subCatObj.product[k]
-                                Log.e("Product", Gson().toJson(subCatObj.product[0]))
-                                productList.add(productListObj)
+                            if (grocery.category[i].subcategory[j].product.size!=0) {
+                                for (k in 0 until grocery.category[i].subcategory[j].product.size) {
+                                    val productListObj = subCatObj.product[k]
+                                    Log.e("Product", Gson().toJson(subCatObj.product[0]))
+                                    productList.add(productListObj)
+                                }
+                            }else{
+//                                val toast = Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
+//                                toast.show()
                             }
 
                             subcatList.add(subCatObj)
@@ -176,7 +181,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         }
                         catList.add(catObj)
                     }
-                    Log.d("kb___", "" + productList[0].cart_quantity)
+                   // Log.d("kb___", "" + productList[0].cart_quantity)
                     rvlistSubcategory(subcatList)
                     rvlistProduct(productList)
 
