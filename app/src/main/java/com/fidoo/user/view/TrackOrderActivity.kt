@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProviders
 import com.android.volley.Request
 import com.android.volley.Response
@@ -24,7 +25,7 @@ import com.fidoo.user.interfaces.NotiCheck
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.ui.MainActivity.Companion.timerStatus
 import com.fidoo.user.utils.statusBarTransparent
-import com.fidoo.user.viewmodels.MyOrdersFragmentViewModel
+import com.fidoo.user.viewmodels.OrderDetailsViewModel
 import com.fidoo.user.viewmodels.TrackViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -48,7 +49,7 @@ import kotlin.collections.ArrayList
 class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallback, OnCurveClickListener, NotiCheck {
 
     private var curveManager: CurveManager? = null
-    private lateinit var mMap: GoogleMap
+    private var mMap: GoogleMap? = null
     private var timer: CountDownTimer? = null
     private var timerr: CountDownTimer? = null
     var origin: LatLng? = null
@@ -58,7 +59,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
     var userName: String? = ""
     var driverMobileNo: String? = ""
     var viewmodel: TrackViewModel? = null
-    var orderViewModel: MyOrdersFragmentViewModel? = null
+    var orderViewModel: OrderDetailsViewModel? = null
     var currentOrderId: String? = ""
     var orderId: String? = ""
 
@@ -77,7 +78,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
         statusBarTransparent()
 
         viewmodel = ViewModelProviders.of(this).get(TrackViewModel::class.java)
-        orderViewModel = ViewModelProviders.of(this).get(MyOrdersFragmentViewModel::class.java)
+        orderViewModel = ViewModelProviders.of(this).get(OrderDetailsViewModel::class.java)
         userName = intent.getStringExtra("delivery_boy_name")
         timerStatus = true
         //  continueTxt.setText(intent.getStringExtra("delivery_boy_mobile"))
@@ -116,9 +117,10 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
         )
 
 
-        orderViewModel?.getMyOrders(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
+        orderViewModel?.getOrderDetails(
+            SessionTwiclo(this).loggedInUserDetail.accountId,
+            SessionTwiclo(this).loggedInUserDetail.accessToken,
+            intent.getStringExtra("orderId")!!
         )
 
         //currentOrderId = intent.getStringExtra("orderId")!!
@@ -141,9 +143,9 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                         intent.getStringExtra("orderId")!!,
                         "user"
                 )
-                orderViewModel?.getMyOrders(
-                        SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
-                        SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accessToken
+                orderViewModel?.getOrderDetails(
+                    SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
+                    SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accessToken, intent.getStringExtra("orderId")
                 )
                 timer?.start()
 
@@ -203,8 +205,10 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
             waitingLay.visibility = View.GONE
         })
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        //val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as FragmentContainerView
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment!!.getMapAsync(this)
 
 
         viewmodel?.getLocationResponse?.observe(this, { user ->
@@ -213,7 +217,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
             tv_delivery_boy.text = userName
             driverMobileNo = user.driver_mobile
             currentOrderId = user.orderId
-            mMap.clear()
+            mMap?.clear()
             // Create a CurveManager object and pass googleMaps reference to it
             // Create a CurveManager object and pass googleMaps reference to it
             //  curveManager = CurveManager(mMap)
@@ -284,7 +288,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                  curveOptions.pattern(pattern)
                  curveOptions.geodesic(false)*/
                 if (origin != null) {
-                    mMap.addMarker(
+                    mMap?.addMarker(
                             MarkerOptions()
                                     .position(origin!!)
                                     .icon(bitmapDescriptorFromVector(this, R.drawable.ic_delivery_bike))
@@ -292,7 +296,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                     )
                 }
                 if (mid != null) {
-                    mMap.addMarker(
+                    mMap?.addMarker(
                             MarkerOptions()
                                     .position(mid!!)
                                     .icon(bitmapDescriptorFromVector(this, R.drawable.ic_resturant))
@@ -302,7 +306,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
 
 
                 if (destination != null) {
-                    mMap.addMarker(
+                    mMap?.addMarker(
                             MarkerOptions()
                                     .position(destination!!)
                                     .icon(bitmapDescriptorFromVector(this, R.drawable.ic_home))
@@ -312,7 +316,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                 }
 
                 if (origin != null) {
-                    mMap.moveCamera(
+                    mMap?.moveCamera(
                             CameraUpdateFactory.newLatLngZoom(origin, 14f)
                     )
                 }
@@ -338,11 +342,11 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
-        orderViewModel?.myOrdersResponse?.observe(this, {
+        orderViewModel?.OrderDetailsResponse?.observe(this, {
 
             if (timerStatus){
 
-                if (it.orders[0].orderStatus == "13"){
+                if (it.orderStatus == "13"){
 
                     waitingLay.visibility = View.VISIBLE
                     timerr = object : CountDownTimer(10000, 1000) {
@@ -380,80 +384,96 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
 
         })
 
-        orderViewModel?.myOrdersResponse?.observe(this, {
-            tv_order_id.text = it.orders[0].orderId
+        orderViewModel?.OrderDetailsResponse?.observe(this, {
+            tv_order_id.text = it.orderId
             when {
-                it.orders[0].orderStatus.equals("0") -> {
+                it.orderStatus.equals("0") -> {
                     //holder.buttonValue.visibility = View.GONE
                     order_status.text = "Failed"
                 }
-                it.orders[0].orderStatus.equals("1") -> {
+                it.orderStatus.equals("1") -> {
                     // holder.buttonValue.visibility = View.VISIBLE
                     // holder.buttonValue.visibility = View.GONE
                     order_status.text = "Please wait while we confirm your order"
                 }
-                it.orders[0].orderStatus.equals("2") -> {
+                it.orderStatus.equals("2") -> {
                     //holder.buttonValue.visibility = View.GONE
                     order_status.text = "Your order is cancelled"
                 }
-                it.orders[0].orderStatus.equals("11") -> {
+                it.orderStatus.equals("11") -> {
                     order_status.text = "Your order is being prepared"
                     tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
                     order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
                 }
-                it.orders[0].orderStatus.equals("3") -> {
-                    if (it.orders.get(0).is_rate_to_driver.equals("1")) {
+                it.orderStatus.equals("3") -> {
+                   /* if (it.is_rate_to_driver.equals("1")) { // TODO
                         //holder.buttonValue.visibility = View.GONE
                     } else {
                         //holder.buttonValue.text = "Review"
-                    }
+                    }*/
 
                     order_status.text = "Your order is delivered"
-                }
-                it.orders[0].orderStatus.equals("5") -> {
-                    //  holder.buttonValue.visibility = View.VISIBLE
-                    //holder.buttonValue.visibility = View.GONE
-                    order_status.text = "Order is in progress"
-                }
-                it.orders[0].orderStatus.equals("6") -> {
-                    // holder.buttonValue.visibility = View.VISIBLE
-
-                    //holder.buttonValue.visibility = View.GONE
-                    order_status.text = "Your order is out for delivery"
-                    tv_order_delivery.setTextColor(Color.rgb(51,147,71))
-                    img_to_location.setColorFilter(Color.rgb(51,147,71))
-
-                }
-                it.orders[0].orderStatus.equals("7") -> {
-                    //holder.buttonValue.visibility = View.VISIBLE
-
-
-                    order_status.text = "Store partner has accepted your order"
-                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
-                    order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
-                }
-                it.orders[0].orderStatus.equals("9") -> {
-                    //holder.buttonValue.visibility = View.VISIBLE
-                    order_status.text = "Your Order is ready and will soon be picked up by " +it.orders[0].delivery_boy_name
-                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
-                    tv_order_picked.setTextColor(Color.rgb(51,147,71))
-                    delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51,147,71))
-                }
-                it.orders[0].orderStatus.equals("10") -> {
-                    //holder.buttonValue.visibility = View.VISIBLE
-                    order_status.text = "Your order is out for delivery"
-                    tv_order_delivery.setTextColor(Color.rgb(51,147,71))
-                    img_to_location.setColorFilter(Color.rgb(51,147,71))
-                }
-                it.orders[0].orderStatus.equals("8") -> {
-                    //holder.buttonValue.visibility = View.GONE
-                    order_status.text = "Your order is rejected"
                     address_details_lay.visibility = View.GONE
                     tv_order_rejection.visibility = View.VISIBLE
                     tv_delivery_boy_call.visibility = View.GONE
                     separator_one.visibility = View.GONE
                     tv_order_id.visibility = View.GONE
+                    tv_order_id_label.visibility = View.GONE
+                    map.alpha = 0.0f
+
+                }
+                it.orderStatus.equals("5") -> {
+                    //  holder.buttonValue.visibility = View.VISIBLE
+                    //holder.buttonValue.visibility = View.GONE
+                    order_status.text = "Order is in progress"
+                }
+                it.orderStatus.equals("6") -> {
+                    // holder.buttonValue.visibility = View.VISIBLE
+
+                    //holder.buttonValue.visibility = View.GONE
+                    order_status.text = "Your order is out for delivery"
+                    tv_order_delivery.setTextColor(Color.rgb(51,147,71))
+                    img_to_location.setColorFilter(Color.rgb(51,147,71))
+
+                }
+                it.orderStatus.equals("7") -> {
+                    //holder.buttonValue.visibility = View.VISIBLE
+
+
+                    order_status.text = it.storeName+" has accepted your order"
+                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
+                    order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
+                }
+                it.orderStatus.equals("9") -> {
+                    //holder.buttonValue.visibility = View.VISIBLE
+                    order_status.text = "Your Order is ready and will soon be picked up by " //TODO
+                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
+                    tv_order_picked.setTextColor(Color.rgb(51,147,71))
+                    delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51,147,71))
+                }
+                it.orderStatus.equals("10") -> {
+                    //holder.buttonValue.visibility = View.VISIBLE
+                    order_status.text = "Your order is out for delivery"
+                    tv_order_delivery.setTextColor(Color.rgb(51,147,71))
+                    img_to_location.setColorFilter(Color.rgb(51,147,71))
+                }
+                it.orderStatus.equals("8") -> {
+                    //holder.buttonValue.visibility = View.GONE
+
+                    if (it.paymentMode == "online"){
+                        order_status.text = "Your order is rejected. Don't worry, we have processed your refund and same will be credited to your account within 3-5 business days"
+                    }else{
+                        order_status.text = "Your order is rejected."
+                    }
+
+
+                    address_details_lay.visibility = View.GONE
+                    tv_order_rejection.visibility = View.VISIBLE
+                    tv_delivery_boy_call.visibility = View.GONE
+                    separator_one.visibility = View.GONE
                     tv_order_id.visibility = View.GONE
+                    tv_order_id_label.visibility = View.GONE
+                    map.alpha = 0.0f
 
 
                 }
@@ -677,7 +697,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                         path.add(decodePoly(points))
                     }
                     for (i in 0 until path.size) {
-                        this.mMap.addPolyline(
+                        this.mMap?.addPolyline(
                             PolylineOptions().addAll(path[i]).color(Color.BLACK)
                         )
                     }
@@ -712,7 +732,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
         timer!!.cancel()
     }
 
-     override fun notiStatus(orderStatus: String) {
+    override fun notiStatus(orderStatus: String) {
         if (orderStatus == "accepted") {
             runOnUiThread {
                 val customBuilder =

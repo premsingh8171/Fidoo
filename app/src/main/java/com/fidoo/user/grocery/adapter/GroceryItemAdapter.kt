@@ -49,9 +49,9 @@ class GroceryItemAdapter(
         holder.itemView.tv_unit.text = list[position].weight + list[position].unit
         holder.itemView.minusplus_ll.visibility = View.GONE
         if (model.is_prescription == "1"){
-            holder.itemView.prescriptionImg.visibility = View.VISIBLE
+            holder.itemView.medicine_prescription_lay.visibility = View.VISIBLE
         }else{
-            holder.itemView.prescriptionImg.visibility = View.GONE
+            holder.itemView.medicine_prescription_lay.visibility = View.GONE
         }
 
 

@@ -551,7 +551,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
             Log.e("searchResponse", Gson().toJson(mModelData))
 
             if (mModelData.store.size == 0) {
-                fragmentSearchBinding?.emptyIcon?.visibility = View.VISIBLE
+
                 fragmentSearchBinding?.emptyTitleTxt?.visibility = View.VISIBLE
                 fragmentSearchBinding?.emptyDescTxt?.visibility = View.VISIBLE
                 fragmentSearchBinding?.searchRecyclerView?.visibility = View.GONE
@@ -567,7 +567,7 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
                 else {
                     MainActivity.searchSuggestionsList?.add(fragmentSearchBinding?.searchEdt?.text.toString())
                 }*/
-                fragmentSearchBinding?.emptyIcon?.visibility = View.GONE
+
                 fragmentSearchBinding?.emptyTitleTxt?.visibility = View.GONE
                 fragmentSearchBinding?.emptyDescTxt?.visibility = View.GONE
                 fragmentSearchBinding?.searchRecyclerView?.visibility = View.VISIBLE

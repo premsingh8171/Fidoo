@@ -95,7 +95,8 @@
                     android:text="Change"
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tv_address_title" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_address_title"
+                    android:visibility="gone"/>
 
 
                 <View
