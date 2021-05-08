@@ -126,12 +126,23 @@ class SavedAddressesActivity : BaseActivity(),
 
         if (isNetworkConnected) {
             showIOSProgress()
-            viewmodel?.getAddressesApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                storeLat,
-                storeLong
-            )
+
+            if(intent.getStringExtra("type") == "order"){
+                viewmodel?.getAddressesApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    storeLat,
+                    storeLong
+                )
+            }else{
+                viewmodel?.getAddressesApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    "",
+                    ""
+                )
+            }
+
         } else {
             showInternetToast()
         }
