@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.fidoo.user.R
 import com.fidoo.user.adapter.OrdersAdapter
 import com.fidoo.user.data.model.MyOrdersModel
+import com.fidoo.user.data.model.ReviewModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentOrdersBinding
 import com.fidoo.user.interfaces.AdapterClick
@@ -45,6 +46,7 @@ class OrdersFragment : Fragment(),
     var orderIdTemp: String? = ""
     var mmContext: Context? = null
     var fragmentOrdersBinding: FragmentOrdersBinding? = null
+    var checkStatusOfReview:Int=0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -132,20 +134,23 @@ class OrdersFragment : Fragment(),
         })
 
         viewmodel?.reviewResponse?.observe(requireActivity(), { user ->
-            dismissIOSProgress()
-            if (_progressDlg != null) {
+          if (checkStatusOfReview==1) {
+              dismissIOSProgress()
+              if (_progressDlg != null) {
 
-                _progressDlg!!.dismiss()
-                _progressDlg = null
-            }
-            val mModelData: com.fidoo.user.data.model.ReviewModel = user
+                  _progressDlg!!.dismiss()
+                  _progressDlg = null
+              }
 
-            Log.e("ordersResponse", Gson().toJson(mModelData))
-            Toast.makeText(context, user.message, Toast.LENGTH_SHORT).show()
-            viewmodel?.getMyOrders(
-                    SessionTwiclo(activity).loggedInUserDetail.accountId,
-                    SessionTwiclo(activity).loggedInUserDetail.accessToken
-            )
+
+              val mModelData: ReviewModel = user
+              Log.e("ordersResponse", Gson().toJson(mModelData))
+              Toast.makeText(context, user.message, Toast.LENGTH_SHORT).show()
+              viewmodel?.getMyOrders(
+                  SessionTwiclo(activity).loggedInUserDetail.accountId,
+                  SessionTwiclo(activity).loggedInUserDetail.accessToken
+              )
+          }
 
         })
 
@@ -161,6 +166,7 @@ class OrdersFragment : Fragment(),
             Log.e("uploadResponse", Gson().toJson(mModelData))
 
         })
+
         return fragmentOrdersBinding?.root
     }
 
@@ -182,7 +188,7 @@ class OrdersFragment : Fragment(),
         } catch (ex: Exception) {
             Log.wtf("IOS_error_starting", ex.cause!!)
         }
-
+        checkStatusOfReview=1
         viewmodel?.reviewSubmitApi(
             SessionTwiclo(activity).loggedInUserDetail.accountId,
             SessionTwiclo(activity).loggedInUserDetail.accessToken,
@@ -271,6 +277,7 @@ class OrdersFragment : Fragment(),
         // showIOSProgress();
         // getRestfullInstance().uploadImageToGallary(column_number, mImageParts, mApiHandler)
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mmContext = context
@@ -299,7 +306,5 @@ class OrdersFragment : Fragment(),
         }
 
     }
-
-
 
 }
