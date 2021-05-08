@@ -30,6 +30,7 @@ class AddressesAdapter(
     )
 
     override fun getItemCount() = addressList.size
+
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         //holder.locText.text=addressList.get(position).flatNo+", "+addressList.get(position).building+", "+addressList.get(position).landmark
         //  holder.nameText.text=addressList.get(position).name
@@ -144,6 +145,7 @@ class AddressesAdapter(
                     //  con.startActivity(Intent(con, MainActivity::class.java))
                     (con as Activity).finish()
                 }
+
                 if (stringExtra.equals("from")) {
 
                     SendPackageActivity.selectedFromAddress = addressList[position].location
@@ -163,6 +165,7 @@ class AddressesAdapter(
 						addressList.get(position).id*/
                     (con as Activity).finish()
                 }
+
                 if (stringExtra.equals("to")) {
 
                     SendPackageActivity.selectedToAddress = addressList[position].location

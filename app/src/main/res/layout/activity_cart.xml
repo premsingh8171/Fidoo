@@ -330,6 +330,7 @@
         android:padding="20dp">
 
         <LinearLayout
+            android:weightSum="10"
             android:id="@+id/payment_method_lay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -344,14 +345,14 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:fontFamily="@font/proxima"
-                android:text="Pay Using: "
+                android:text="Payment mode: "
                 android:layout_gravity="center_vertical"/>
 
             <LinearLayout
                 android:id="@+id/cash_lay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 app:layout_constraintTop_toTopOf="parent"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toEndOf="@+id/tv_pay_using"
@@ -385,7 +386,7 @@
                 android:id="@+id/online_lay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="3.5"
                 app:layout_constraintTop_toTopOf="parent"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toEndOf="@+id/cash_lay"
@@ -396,6 +397,9 @@
 
 
                 <ImageView
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_10dp"
+                    android:layout_gravity="center"
                     android:id="@+id/img_online"
                     app:layout_constraintStart_toEndOf="@id/img_cash"
                     app:layout_constraintTop_toTopOf="parent"
@@ -404,6 +408,7 @@
                     android:src="@drawable/online_pay_grey"/>
 
                 <TextView
+                    android:padding="@dimen/margin_10dp"
                     android:id="@+id/tv_online"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -412,9 +417,8 @@
                     android:fontFamily="@font/proxima"
                     app:layout_constraintTop_toBottomOf="@id/img_cash"
                     app:layout_constraintStart_toEndOf="@id/tv_cash"
-                    android:layout_marginStart="5dp"
                     android:layout_gravity="center"
-                    android:layout_weight="1"/>
+                    android:layout_weight="9"/>
 
             </LinearLayout>
 
