@@ -39,7 +39,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
         val window: Window = this.getWindow()
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorGreenText)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_store_list)
         val mainText = "<span style=\"color:#339347\">Choose </span> <span>Your <br/>Favorite</span> <span style=\"color:#339347\">Store</span></string>"
         tv_choose_your_fav_store.text = HtmlCompat.fromHtml(mainText, HtmlCompat.FROM_HTML_MODE_COMPACT

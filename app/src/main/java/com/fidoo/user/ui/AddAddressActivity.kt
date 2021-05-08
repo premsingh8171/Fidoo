@@ -2,7 +2,6 @@ package com.fidoo.user.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
 import android.content.pm.PackageManager
@@ -15,12 +14,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.fidoo.user.R
@@ -56,7 +58,6 @@ import kotlinx.android.synthetic.main.content_map.*
 import java.io.IOException
 import java.util.*
 import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.gson.Gson
 import java.lang.IndexOutOfBoundsException
 
@@ -90,12 +91,17 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val window: Window = this.getWindow()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_add_address)
 
         viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(AddressViewModel::class.java)
         //emailValue.setText(model.phone_no)
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
+        val mapFragment =
+                supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         mapView = mapFragment.view
 
@@ -103,12 +109,12 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         Places.initialize(this, getString(R.string.google_maps_key));
         placesClient = Places.createClient(this);
-        val token = AutocompleteSessionToken.newInstance()
+        var token = AutocompleteSessionToken.newInstance();
 
 
 
         searchBar!!.setOnSearchActionListener(object :
-            MaterialSearchBar.OnSearchActionListener {
+                MaterialSearchBar.OnSearchActionListener {
             override fun onSearchStateChanged(enabled: Boolean) {}
             override fun onSearchConfirmed(text: CharSequence) {
                 startSearch(text.toString(), true, null, true)
@@ -128,30 +134,31 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 val predictionsRequest = FindAutocompletePredictionsRequest.builder()
-                    .setCountry("IN")
-                    .setSessionToken(token)
-                    .setQuery(s.toString())
-                    .build()
+                        .setTypeFilter(TypeFilter.ADDRESS)
+                        .setSessionToken(token)
+                        .setQuery(s.toString())
+                        .build()
                 placesClient!!.findAutocompletePredictions(predictionsRequest)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val predictionsResponse = task.result
-                            if (predictionsResponse != null) {
-                                predictionList = predictionsResponse.autocompletePredictions
-                                val suggestionsList: MutableList<String?> = ArrayList()
-                                for (i in predictionList!!.indices) {
-                                    val prediction = predictionList!![i]
-                                    suggestionsList.add(prediction.getFullText(null).toString())
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val predictionsResponse = task.result
+                                if (predictionsResponse != null) {
+                                    predictionList = predictionsResponse.autocompletePredictions
+                                    val suggestionsList: MutableList<String?> =
+                                            ArrayList()
+                                    for (i in predictionList!!.indices) {
+                                        val prediction = predictionList!![i]
+                                        suggestionsList.add(prediction.getFullText(null).toString())
+                                    }
+                                    searchBar!!.updateLastSuggestions(suggestionsList)
+                                    if (!searchBar!!.isSuggestionsVisible) {
+                                        searchBar!!.showSuggestionsList()
+                                    }
                                 }
-                                searchBar!!.updateLastSuggestions(suggestionsList)
-                                if (!searchBar!!.isSuggestionsVisible) {
-                                    searchBar!!.showSuggestionsList()
-                                }
+                            } else {
+                                Log.i("mytag", "prediction fetching task unsuccessful")
                             }
-                        } else {
-                            Log.i("mytag", "prediction fetching task unsuccessful")
                         }
-                    }
             }
 
             override fun afterTextChanged(s: Editable) {}
@@ -159,7 +166,8 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
 
 
-        searchBar!!.setSuggstionsClickListener(object : SuggestionsAdapter.OnItemViewClickListener {
+        searchBar!!.setSuggstionsClickListener(object :
+                SuggestionsAdapter.OnItemViewClickListener {
             override fun OnItemClickListener(position: Int, v: View) {
                 if (position >= predictionList!!.size) {
                     return
@@ -169,34 +177,34 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 searchBar!!.text = suggestion
                 Handler().postDelayed(Runnable { searchBar!!.clearSuggestions() }, 1000)
                 val imm: InputMethodManager =
-                    getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                        getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(
-                    searchBar!!.windowToken,
-                    InputMethodManager.HIDE_IMPLICIT_ONLY
+                        searchBar!!.windowToken,
+                        InputMethodManager.HIDE_IMPLICIT_ONLY
                 )
                 val placeId = selectedPrediction.placeId
                 val placeFields: List<Place.Field> = Arrays.asList(Place.Field.LAT_LNG)
                 val fetchPlaceRequest = FetchPlaceRequest.builder(placeId, placeFields).build()
                 placesClient!!.fetchPlace(fetchPlaceRequest)
-                    .addOnSuccessListener { fetchPlaceResponse ->
-                        val place: Place = fetchPlaceResponse.place
-                        Log.i("mytag", "Place found: " + place.getName())
-                        val latLngOfPlace: LatLng = place.getLatLng()!!
-                        mMap!!.moveCamera(
-                            CameraUpdateFactory.newLatLngZoom(
-                                latLngOfPlace,
-                                DEFAULT_ZOOM
+                        .addOnSuccessListener { fetchPlaceResponse ->
+                            val place: Place = fetchPlaceResponse.place
+                            Log.i("mytag", "Place found: " + place.getName())
+                            val latLngOfPlace: LatLng = place.getLatLng()!!
+                            mMap!!.moveCamera(
+                                    CameraUpdateFactory.newLatLngZoom(
+                                            latLngOfPlace,
+                                            DEFAULT_ZOOM
+                                    )
                             )
-                        )
-                    }.addOnFailureListener { e ->
-                        if (e is ApiException) {
-                            val apiException = e as ApiException
-                            apiException.printStackTrace()
-                            val statusCode = apiException.statusCode
-                            Log.i("mytag", "place not found: " + e.message)
-                            Log.i("mytag", "status code: $statusCode")
+                        }.addOnFailureListener { e ->
+                            if (e is ApiException) {
+                                val apiException = e as ApiException
+                                apiException.printStackTrace()
+                                val statusCode = apiException.statusCode
+                                Log.i("mytag", "place not found: " + e.message)
+                                Log.i("mytag", "status code: $statusCode")
+                            }
                         }
-                    }
             }
 
             override fun OnItemDeleteListener(position: Int, v: View) {}

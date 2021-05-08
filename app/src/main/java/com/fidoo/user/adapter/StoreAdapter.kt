@@ -96,7 +96,6 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
             .into(holder.storeImg)
 
         holder.mainLay?.setOnClickListener {
-
             if (storeList[position].status.equals("1")) {
                 if (storeList[position].open_close_status.equals("1")) {
                     if (storeList[position].has_product_categories.equals("1")) {

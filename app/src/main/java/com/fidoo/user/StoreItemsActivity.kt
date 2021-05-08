@@ -5,9 +5,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,7 +63,7 @@ class StoreItemsActivity :
     var count: Int = 1
     private lateinit var mMap: GoogleMap
     var cartId: String = ""
-    lateinit var storeID : String
+    var storeID: String? = null
 
     companion object {
 
@@ -70,6 +73,10 @@ class StoreItemsActivity :
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val window: Window = this.getWindow()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_store_items)
 
         distanceViewModel = ViewModelProviders.of(this).get(TrackViewModel::class.java)
@@ -91,11 +98,15 @@ class StoreItemsActivity :
 
         tv_location.text = intent.getStringExtra("store_location")
 
-        storeID = intent.getStringExtra("storeId")!!
-
         cartviewFromStore.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
-                startActivity(Intent(this, CartActivity::class.java).putExtra("store_id", SessionTwiclo(this).storeId)) } else {
+                startActivity(Intent(this, CartActivity::class.java).putExtra(
+                    "store_id", SessionTwiclo(
+                        this
+                    ).storeId
+                )
+                )
+            } else {
                 showLoginDialog("Please login to proceed")
 
             }
@@ -104,9 +115,14 @@ class StoreItemsActivity :
 
         cartIcon.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
-                startActivity(Intent(this, CartActivity::class.java).putExtra("store_id", SessionTwiclo(this).storeId)) } else {
+                startActivity(Intent(this, CartActivity::class.java).putExtra(
+                    "store_id", SessionTwiclo(
+                        this
+                    ).storeId
+                )
+                )
+            } else {
                 showLoginDialog("Please login to proceed")
-                Log.e("STORE ID",SessionTwiclo(this).storeId)
 
             }
 
@@ -150,10 +166,8 @@ class StoreItemsActivity :
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                     addCartTempList!!,
-                    cartId
+                    ""
                 )
-                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-
 
             } else {
                 clearCartPopup()
@@ -174,7 +188,6 @@ class StoreItemsActivity :
             } else {
                 //searchLay.visibility = View.VISIBLE
                 behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-                cartitemView_LLstore.visibility = View.VISIBLE
 
             }
 
@@ -223,14 +236,13 @@ class StoreItemsActivity :
             Log.d("cartCountResponse___",cartcount.toString())
             var count = cartcount.count
             var price = cartcount.price
-            SessionTwiclo(this).storeId = cartcount.store_id
             if (!cartcount.error){
                 if (count!="0"){
                     cartIcon.setImageResource(R.drawable.cart_icon)
                     cartIcon.setColorFilter(Color.argb(255, 53, 156, 71))
                     itemQuantity_textstore.text=count
                     totalprice_txtstore.text= "₹"+price
-                    cartitemView_LLstore.visibility=View.VISIBLE
+                    cartitemView_LLstore.visibility=View.GONE
                 }else{
                     cartIcon.setImageResource(R.drawable.ic_cart)
                     cartIcon.setColorFilter(Color.argb(255, 199, 199, 199))
@@ -351,7 +363,6 @@ class StoreItemsActivity :
 
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
             dismissIOSProgress()
-
 
             Log.e("cart response", Gson().toJson(user))
             if (isNetworkConnected) {
@@ -479,7 +490,6 @@ class StoreItemsActivity :
 
         viewmodel?.customizeProductResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
-            cartitemView_LLstore.visibility = View.GONE
 
             Log.e("stores___esponse", Gson().toJson(user))
             mModelDataTemp = user
@@ -1128,24 +1138,20 @@ class StoreItemsActivity :
         tempPrice = 0.0
         tempProductId = productId
 
-        if (cart_id != null) {
-            cartId = cart_id
-        }
-
         Log.d("isCustomize__",isCustomize!!+"\n"+quantity)
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Your previous customization")
         builder.setMessage(quantity)
         builder.setPositiveButton("I'LL CHOOSE") { _, which ->
-
-            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
-                //searchLay.visibility = View.GONE
-            } else {
-                behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-                //searchLay.visibility = View.VISIBLE
-            }
+//
+//            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+//                behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+//                //searchLay.visibility = View.GONE
+//            } else {
+//                behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+//                //searchLay.visibility = View.VISIBLE
+//            }
 
             //tempProductId = productId
             showIOSProgress()
