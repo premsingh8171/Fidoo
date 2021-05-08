@@ -65,7 +65,7 @@
                     android:singleLine="true"
                     android:text=""
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/text_size_14sp"
                     app:layout_constraintLeft_toRightOf="@+id/routeIcon"
                     app:layout_constraintTop_toBottomOf="@+id/text" />
 
