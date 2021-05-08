@@ -1,16 +1,18 @@
 package com.fidoo.user.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -21,15 +23,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.fidoo.user.R
-import com.fidoo.user.data.model.GetAddressModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.utils.BaseActivity
+import com.fidoo.user.utils.MY_PERMISSIONS_REQUEST_CODE
 import com.fidoo.user.viewmodels.AddressViewModel
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -39,7 +39,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
@@ -47,7 +46,6 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
@@ -56,13 +54,8 @@ import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
 import com.skyfishjy.library.RippleBackground
 import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.android.synthetic.main.content_map.*
-import java.io.IOException
 import java.util.*
-import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
-import com.google.gson.Gson
-import java.lang.Exception
-import java.lang.IndexOutOfBoundsException
+
 
 class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
@@ -90,22 +83,26 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
     private var btnFind: Button? = null
     private var rippleBg: RippleBackground? = null
     private var DEFAULT_ZOOM = 15f
+    private var locationManager: LocationManager? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_address)
         val window: Window = this.getWindow()
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
-        viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(AddressViewModel::class.java)
-        //emailValue.setText(model.phone_no)
+        setContentView(R.layout.activity_add_address)
 
+        viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(
+            AddressViewModel::class.java
+        )
+
+        checkPermission()
+        //emailValue.setText(model.phone_no)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         mapView = mapFragment.view
-
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         Places.initialize(this, getString(R.string.google_maps_key));
@@ -262,19 +259,19 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
                             if (intent.hasExtra("data")) {
                                 viewmodel?.editAddressDetails(
-                                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                        ed_address.text.toString(),
-                                        ed_address.text.toString(),
-                                        tv_Address.text.toString(),
-                                        ed_landmark.text.toString(),
-                                        addressType,
-                                        lat.toString(),
-                                        lng.toString(),
-                                        ed_name.text.toString(),
-                                        "",defaultValue,
-                                        ed_phone.text.toString(),
-                                        tempAddressId
+                                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                    ed_address.text.toString(),
+                                    ed_address.text.toString(),
+                                    tv_Address.text.toString(),
+                                    ed_landmark.text.toString(),
+                                    addressType,
+                                    lat.toString(),
+                                    lng.toString(),
+                                    ed_name.text.toString(),
+                                    "", defaultValue,
+                                    ed_phone.text.toString(),
+                                    tempAddressId
 
                                 )
 
@@ -283,19 +280,19 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                             {
 
                                 viewmodel?.addAddressDetails(
-                                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                        ed_address.text.toString(),
-                                        ed_address.text.toString(),
-                                        tv_Address.text.toString(),
-                                        ed_landmark.text.toString(),
-                                        addressType,
-                                        lat.toString(),
-                                        lng.toString(),
-                                        ed_name.text.toString(),
-                                        "",
-                                        defaultValue,
-                                        ed_phone.text.toString()
+                                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                    ed_address.text.toString(),
+                                    ed_address.text.toString(),
+                                    tv_Address.text.toString(),
+                                    ed_landmark.text.toString(),
+                                    addressType,
+                                    lat.toString(),
+                                    lng.toString(),
+                                    ed_name.text.toString(),
+                                    "",
+                                    defaultValue,
+                                    ed_phone.text.toString()
                                 )
                             }
                         }
@@ -310,12 +307,50 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
         })
 
-        viewmodel?.failureResponse?.observe(this,  {
+        viewmodel?.failureResponse?.observe(this, {
             showToast("Something is wrong, please try again")
         })
 
 
 
+    }
+
+    protected fun checkPermission() {
+        if (ContextCompat.checkSelfPermission(this@AddAddressActivity, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this@AddAddressActivity, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        ActivityCompat.requestPermissions(
+                    this@AddAddressActivity, arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION //Manifest.permission.READ_PHONE_STATE
+                    ),
+                   MY_PERMISSIONS_REQUEST_CODE
+                )
+            } else {
+                ActivityCompat.requestPermissions(
+                    this@AddAddressActivity, arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ),
+                   MY_PERMISSIONS_REQUEST_CODE
+                )
+            }
+        } else {
+           //  Toast.makeText(this@AddAddressActivity, "Permissions already granted", Toast.LENGTH_SHORT).show();
+            getDeviceLocation()
+        }
+    }
+
+
+    private fun buildAlertMessageNoGps() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+            .setCancelable(false)
+            .setPositiveButton("Yes",
+                DialogInterface.OnClickListener { dialog, id -> startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) })
+            .setNegativeButton("No",
+                DialogInterface.OnClickListener { dialog, id -> dialog.cancel() })
+        val alert: AlertDialog = builder.create()
+        alert.show()
     }
 
 //    private fun getMyLocation() {
@@ -327,6 +362,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -335,13 +371,6 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            try {
-                mMap!!.isMyLocationEnabled = true
-            }catch (e:Exception){
-                e.printStackTrace()
-            }
-
-
             return
         }
         mMap!!.isMyLocationEnabled = true
@@ -375,10 +404,8 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         val settingsClient = LocationServices.getSettingsClient(this@AddAddressActivity)
         val task: Task<LocationSettingsResponse> =
                 settingsClient.checkLocationSettings(builder.build())
-
         task.addOnSuccessListener(this@AddAddressActivity,
-                OnSuccessListener<LocationSettingsResponse?> { getDeviceLocation() })
-
+            OnSuccessListener<LocationSettingsResponse?> { getDeviceLocation() })
         task.addOnFailureListener(this@AddAddressActivity, OnFailureListener { e ->
             if (e is ResolvableApiException) {
                 try {
@@ -413,16 +440,16 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                         mLastKnownLocation = task.result
                         if (mLastKnownLocation != null) {
                             mMap!!.moveCamera(
-                                    CameraUpdateFactory.newLatLngZoom(
-                                            LatLng(
-                                                    mLastKnownLocation!!.latitude,
-                                                    mLastKnownLocation!!.longitude
-                                            ), DEFAULT_ZOOM
-                                    )
+                                CameraUpdateFactory.newLatLngZoom(
+                                    LatLng(
+                                        mLastKnownLocation!!.latitude,
+                                        mLastKnownLocation!!.longitude
+                                    ), DEFAULT_ZOOM
+                                )
                             )
                             val address = getGeoAddressFromLatLong(
-                                    mLastKnownLocation!!.latitude,
-                                    mLastKnownLocation!!.longitude
+                                mLastKnownLocation!!.latitude,
+                                mLastKnownLocation!!.longitude
                             )
 
                             tv_Address.text = address
@@ -437,18 +464,18 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                                     mLastKnownLocation = locationResult.lastLocation
 
                                     mMap!!.moveCamera(
-                                            CameraUpdateFactory.newLatLngZoom(
-                                                    LatLng(
-                                                            mLastKnownLocation!!.latitude,
-                                                            mLastKnownLocation!!.longitude
-                                                    ), DEFAULT_ZOOM
-                                            )
+                                        CameraUpdateFactory.newLatLngZoom(
+                                            LatLng(
+                                                mLastKnownLocation!!.latitude,
+                                                mLastKnownLocation!!.longitude
+                                            ), DEFAULT_ZOOM
+                                        )
                                     )
 
 
 
                                     mFusedLocationProviderClient!!.removeLocationUpdates(
-                                            locationCallback!!
+                                        locationCallback!!
                                     )
                                 }
                             }
@@ -470,16 +497,16 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                                 return@addOnCompleteListener
                             }
                             mFusedLocationProviderClient!!.requestLocationUpdates(
-                                    locationRequest,
-                                    locationCallback,
-                                    null
+                                locationRequest,
+                                locationCallback,
+                                null
                             )
                         }
                     } else {
                         Toast.makeText(
-                                this@AddAddressActivity,
-                                "unable to get last location",
-                                Toast.LENGTH_SHORT
+                            this@AddAddressActivity,
+                            "unable to get last location",
+                            Toast.LENGTH_SHORT
                         )
                                 .show()
                     }
@@ -503,9 +530,9 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         geocoder = Geocoder(this, Locale.getDefault())
         return try {
             addresses = geocoder.getFromLocation(
-                    latitude,
-                    longitude,
-                    1
+                latitude,
+                longitude,
+                1
             ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
             val address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
             val city = addresses[0].locality
@@ -524,12 +551,16 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         super.onResume()
 
         getDeviceLocation()
-
+        checkPermission()
 
 
     }
 
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
 
 
 

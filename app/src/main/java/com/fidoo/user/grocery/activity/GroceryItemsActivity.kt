@@ -509,6 +509,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     cat_id = grocery.cat_id
                     itemPosition = 0
                     viewAll = 0
+                    sub_cat_id=""
                     //  filterListShowing(pos, grocery)
                     showIOSProgress()
                     viewmodel?.getGroceryProductsFun(
