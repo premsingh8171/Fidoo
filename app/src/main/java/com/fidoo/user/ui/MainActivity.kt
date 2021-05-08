@@ -19,17 +19,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.fidoo.user.CartActivity
 import com.fidoo.user.R
 import com.fidoo.user.data.model.AddCartInputModel
-import com.fidoo.user.data.model.GetAddressModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.utils.BaseActivity
-import com.fidoo.user.viewmodels.AddressViewModel
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.GoogleApiClient
@@ -46,7 +42,6 @@ import kotlin.collections.ArrayList
 
 class MainActivity : BaseActivity(), android.location.LocationListener, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    var viewmodel: AddressViewModel? = null
 
 
 
@@ -76,17 +71,15 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val window: Window = this.getWindow()
+        val window: Window = this.window
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         FirebaseApp.initializeApp(this)
         //searchSuggestionsList = ArrayList<String>()
 
 
 
 
-        viewmodel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
 
         // Initialize the Update Manager with the Activity and the Update Mode
         mUpdateManager = UpdateManager.Builder(this).mode(UpdateManagerConstant.IMMEDIATE)
@@ -95,7 +88,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
 
-       // window.statusBarColor = ContextCompat.getColor(this, R.color.colorTransparent)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorTransparent)
 
         val mBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -110,11 +103,21 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         val navController = findNavController(R.id.fragment4)
         bottomNavigationView.setupWithNavController(navController)
-
+        if (SessionTwiclo(this).userAddress!=null||!SessionTwiclo(this).userAddress.isEmpty()) {
+            checkLocation()
+        }
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         tempProductList = ArrayList()
         addCartTempList = ArrayList()
 
+        //ToDO
+//        if (SessionTwiclo(this).profileDetail != null && SessionTwiclo(this).profileDetail.account != null) {
+//            if (SessionTwiclo(this).profileDetail.account.name.equals("")) {
+//                startActivity(Intent(this, EditProfileActivity::class.java))
+//            }
+//        }
+
+        // Create persistent LocationManager reference
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
 
         locationCallback = object : LocationCallback() {
@@ -139,6 +142,65 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             }
         }
 
+
+//        if (SessionTwiclo(this).userAddress!=null||!SessionTwiclo(this).userAddress.isEmpty()) {
+//            try {
+//                // Request location updates
+//                //locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+//            } catch (ex: SecurityException) {
+//                Log.d("myTag", "Security Exception, no location available")
+//            }
+//
+//            //define the listener
+//            val locationListener: LocationListener = object : LocationListener {
+//                override fun onLocationChanged(location: Location) {
+//                    userAddress.text = ("" + location.longitude + ":" + location.latitude)
+//                }
+//                fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+//                fun onProviderEnabled(provider: String) {}
+//                fun onProviderDisabled(provider: String) {}
+//            }
+//
+//
+//            EasyLocation(this, object : EasyLocation.EasyLocationCallBack {
+//                override fun permissionDenied() {
+//
+//                    Log.e("Location", "permission  denied")
+//
+//
+//                }
+//
+//                override fun locationSettingFailed() {
+//
+//                    Log.e("Location", "setting failed")
+//
+//
+//                }
+//
+//                override fun getLocation(location: Location) {
+//
+//                    Log.e(
+//                        "Location_lat_lng",
+//                        " latitude ${location.latitude} longitude ${location.longitude}"
+//                    )
+//                    SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(
+//                        location.latitude,
+//                        location.longitude
+//                    )
+//                    SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
+//                    SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
+//                    userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
+//                }
+//            })
+//
+//        } else {
+//
+//            userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
+//        }
+
+
+
+
        /* FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)
@@ -153,39 +215,6 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             Log.d(TAG, token)
             //  Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
         })*/
-
-
-        if (isNetworkConnected) {
-            viewmodel?.getAddressesApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                CartActivity.storeLat,
-                CartActivity.storeLong
-            )
-        } else {
-            showInternetToast()
-        }
-
-        viewmodel?.getAddressesResponse?.observe(this,{user ->
-            val addressList: MutableList<GetAddressModel.AddressList>
-            addressList=user.addressList
-            try {
-                for (i in addressList.indices) {
-                    if (i==0){
-                        SessionTwiclo(this).userAddress=addressList.get(0).location
-                        userAddress?.text = SessionTwiclo(this).userAddress
-                    }
-                }
-            }catch (e:Exception){
-                e.printStackTrace()
-            }
-
-
-        })
-
-        if (SessionTwiclo(this).userAddress!=null||!SessionTwiclo(this).userAddress.isEmpty()) {
-            checkLocation()
-        }
     }
 
     private fun checkLocation(){
@@ -422,6 +451,14 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         return null
     }
 
+    /*   override fun onBackPressed() {
+           super.onBackPressed()
+
+           Log.e("fedfver",getVisibleFragment().toString())
+       }
+   */
+
+
     private fun isLocationEnabled(): Boolean {
         val locationManager =
             getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -509,4 +546,45 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     override fun onConnectionFailed(p0: ConnectionResult) {
         TODO("Not yet implemented")
     }
+    // ToDO
+//    private fun showLoginDialog(message: String){
+//        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+//        //set title for alert dialog
+//        builder.setTitle("Alert")
+//        //set message for alert dialog
+//        builder.setMessage(message)
+//        // builder.setIcon(android.R.drawable.ic_dialog_alert)
+//
+//        //performing positive action
+//        builder.setPositiveButton("Login") { dialogInterface, which ->
+//            startActivity(
+//                Intent(this, SplashActivity::class.java)
+//            )
+//
+//
+//        }
+//
+//        //performing negative action
+//        builder.setNegativeButton("Cancel") { _, _ ->
+//
+//        }
+//        // Create the AlertDialog
+//        val alertDialog: androidx.appcompat.app.AlertDialog = builder.create()
+//        // Set other dialog properties
+//        alertDialog.setCancelable(true)
+//        alertDialog.show()
+//    }
+
+    /*    public void showProgress(boolean cancelable) {
+        closeProgress();
+        _progressDlg = new ProgressDialog(_context, R.style.MyTheme);
+        _progressDlg.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        _progressDlg.setCancelable(cancelable);
+        _progressDlg.show();
+
+    }*/
+    /* //  public void showProgress() {
+        showProgress(false);
+    }*/
+
 }

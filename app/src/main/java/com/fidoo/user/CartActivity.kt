@@ -7,12 +7,9 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -97,10 +94,7 @@ class CartActivity : BaseActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
-        val window: Window = this.getWindow()
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
+
         storeId = intent.getStringExtra("store_id").toString()
 
         viewmodel = ViewModelProviders.of(this).get(CartViewModel::class.java)
@@ -127,7 +121,6 @@ class CartActivity : BaseActivity(),
         //For Faster checkout of RazorPay
         Checkout.preload(applicationContext)
         co.setKeyID("rzp_test_17ihcfTIqBGF9R")
-        storeId = intent.getStringExtra("store_id").toString()
 
 
         storeViewModel?.getStoreDetails(
@@ -160,13 +153,9 @@ class CartActivity : BaseActivity(),
 
         storeViewModel?.getStoreDetailsApi?.observe(this, Observer {
             // calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
-try {
-    storeLat = it.storeLatitude
-    storeLong = it.storeLongitude
-}catch (e:Exception){
-    e.printStackTrace()
-}
 
+            storeLat = it.storeLatitude
+            storeLong = it.storeLongitude
 
             viewmodel?.getCartDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -274,32 +263,25 @@ try {
 
         cash_lay.setOnClickListener {
             isSelected = "cod"
-            cash_lay.setBackgroundResource(R.drawable.bg_green_roundborder)
-
-            img_cash.setColorFilter(resources.getColor(R.color.white))
+            cash_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+            img_cash.setColorFilter(resources.getColor(R.color.colorPrimary))
             tv_cash.setTextColor(resources.getColor(R.color.white))
 
             online_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
             tv_online.setTextColor(resources.getColor(R.color.grey))
             img_online.setImageResource(R.drawable.online_pay_grey)
-            img_online.setColorFilter(resources.getColor(R.color.grey))
-
         }
 
 
 
         online_lay.setOnClickListener {
             isSelected = "online"
-            online_lay.setBackgroundResource(R.drawable.bg_green_roundborder)
-
-            img_online.setColorFilter(resources.getColor(R.color.white))
+            online_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+            img_online.setColorFilter(resources.getColor(R.color.colorPrimary))
             tv_online.setTextColor(resources.getColor(R.color.white))
-
             cash_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
             tv_cash.setTextColor(resources.getColor(R.color.grey))
             img_cash.setImageResource(R.drawable.cash_icon_grey)
-            img_cash.setColorFilter(resources.getColor(R.color.grey))
-
         }
 
         delivery_address_lay.setOnClickListener {
@@ -443,7 +425,7 @@ try {
                     if (user.cart[0].online.equals("1")) {
                         online_lay.visibility = View.VISIBLE
                         isSelected = "online"
-                        online_lay.setBackgroundResource(R.drawable.bg_green_roundborder)
+                        online_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
                         tv_online.setTextColor(resources.getColor(R.color.white))
                         img_online.setColorFilter(Color.rgb(255, 255, 255))
                     } else {
@@ -896,7 +878,7 @@ try {
                     Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-                    Toast.makeText(this, "Transaction Cancelled", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Please upload your prescription", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -1006,64 +988,59 @@ try {
 
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//
-//
-//        tv_delivery_address_title.text = selectedAddressTitle
-//        tv_delivery_address.text = selectedAddressName
-//        if (!isNetworkConnected) {
-//            showToast(resources.getString(R.string.provide_internet))
-//
-//        } else {
-//            showIOSProgress()
-//
-//            storeViewModel?.getStoreDetailsApi?.observe(this, {
-//              try {
-//                  storeLat = it.storeLatitude
-//                  storeLong = it.storeLongitude
-//              }catch (e:java.lang.Exception){
-//                  e.printStackTrace()
-//              }
-//
-//                //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
-//
-//            })
-//
-//
-//            storeViewModel?.getStoreDetailsApi?.observe(this, {
-//                storeLat = it.storeLatitude
-//                storeLong = it.storeLongitude
-//                //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
-//
-//            })
-//
-//            viewmodel?.getCartDetails(
-//                SessionTwiclo(this).loggedInUserDetail.accountId,
-//                SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                userLat,
-//                userLong
-//            )
-//
-//
-//
-//        }
-////        selectedAddressValue.text = selectedAddressName
-//        if (SessionTwiclo(this).userAddressId != "") {
-//            tv_delivery_address_title.text = selectedAddressTitle
-//        }
-//
-//
-//        if (!selectedCouponName.equals("")) {
-//            tv_coupon.text = selectedCouponName
-//            viewmodel?.applyPromoApi(
-//                SessionTwiclo(this).loggedInUserDetail.accountId,
-//                SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                selectedCouponName
-//            )
-//        }
-//
-//    }
+    override fun onResume() {
+        super.onResume()
+
+
+        tv_delivery_address_title.text = selectedAddressTitle
+        tv_delivery_address.text = selectedAddressName
+        if (!isNetworkConnected) {
+            showToast(resources.getString(R.string.provide_internet))
+
+        } else {
+            showIOSProgress()
+
+            storeViewModel?.getStoreDetailsApi?.observe(this, {
+                storeLat = it.storeLatitude
+                storeLong = it.storeLongitude
+                //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
+
+            })
+
+
+            storeViewModel?.getStoreDetailsApi?.observe(this, {
+                storeLat = it.storeLatitude
+                storeLong = it.storeLongitude
+                //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
+
+            })
+
+            viewmodel?.getCartDetails(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                userLat,
+                userLong
+            )
+
+
+
+        }
+//        selectedAddressValue.text = selectedAddressName
+        if (SessionTwiclo(this).userAddressId != "") {
+            tv_delivery_address_title.text = selectedAddressTitle
+        }
+
+
+        if (!selectedCouponName.equals("")) {
+            tv_coupon.text = selectedCouponName
+            viewmodel?.applyPromoApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                selectedCouponName
+            )
+        }
+
+    }
 
     override fun onItemClick(productId: String?, type: String?, count: String?, offerPrice: String?, customize_count: Int?, productType: String?, cart_id: String?) {
 

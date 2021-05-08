@@ -205,8 +205,8 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         super.onResume()
         showIOSProgress()
         viewmodel?.getOrderDetails(
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId")
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId")
         )
     }
 }

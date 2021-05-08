@@ -102,6 +102,7 @@
                     android:id="@+id/cb_no_contact_delivery"
                     android:layout_width="25dp"
                     android:layout_height="20dp"/>
+
                 <TextView
                     android:id="@+id/tv_no_contact_delivery"
                     android:layout_width="wrap_content"
@@ -121,6 +122,7 @@
                     android:padding="10dp"
                     android:inputType="textMultiLine"
                     android:autofillHints="" />
+
             </RelativeLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -129,7 +131,7 @@
                 android:layout_height="170dp"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="10dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/delivery_instructions_lay">
@@ -328,7 +330,6 @@
         android:padding="20dp">
 
         <LinearLayout
-            android:weightSum="10"
             android:id="@+id/payment_method_lay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -343,14 +344,14 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:fontFamily="@font/proxima"
-                android:text="Payment mode: "
+                android:text="Pay Using: "
                 android:layout_gravity="center_vertical"/>
 
             <LinearLayout
                 android:id="@+id/cash_lay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 app:layout_constraintTop_toTopOf="parent"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toEndOf="@+id/tv_pay_using"
@@ -384,19 +385,17 @@
                 android:id="@+id/online_lay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.5"
+                android:layout_weight="1"
                 app:layout_constraintTop_toTopOf="parent"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toEndOf="@+id/cash_lay"
                 android:background="@drawable/black_rounded_solid"
                 android:layout_marginStart="20dp"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="5dp"
+                android:padding="10dp">
 
 
                 <ImageView
-                    android:layout_weight="1"
-                    android:layout_marginLeft="@dimen/margin_10dp"
-                    android:layout_gravity="center"
                     android:id="@+id/img_online"
                     app:layout_constraintStart_toEndOf="@id/img_cash"
                     app:layout_constraintTop_toTopOf="parent"
@@ -405,7 +404,6 @@
                     android:src="@drawable/online_pay_grey"/>
 
                 <TextView
-                    android:padding="@dimen/margin_10dp"
                     android:id="@+id/tv_online"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -414,8 +412,9 @@
                     android:fontFamily="@font/proxima"
                     app:layout_constraintTop_toBottomOf="@id/img_cash"
                     app:layout_constraintStart_toEndOf="@id/tv_cash"
+                    android:layout_marginStart="5dp"
                     android:layout_gravity="center"
-                    android:layout_weight="9"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 

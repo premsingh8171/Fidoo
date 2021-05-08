@@ -53,11 +53,10 @@ class ProfileFragment : Fragment() {
 
             Glide.with(this).asBitmap()
                 .load(SessionTwiclo(context).profileDetail.account.image!!)
-               // .fitCenter()
-               // .override(100, 100)
+                .fitCenter()
+                .override(100, 100)
                 .placeholder(R.drawable.ic_user_single)
-                .error(R.drawable.ic_user_single)
-                .into(img_user)
+                .into(mView.img_user)
         }
 
         mView.edit_profile.setOnClickListener {
@@ -68,16 +67,15 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        mView.fab_image_camera.setOnClickListener {
-            ImagePicker.with(this)
-                .crop()                    //Crop image(Optional), Check Customization for more option
-                //   .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                //  .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                .start()
+        mView.tv_yourAddresses.setOnClickListener {
+            if (SessionTwiclo(requireContext()).isLoggedIn){
+                startActivity(Intent(context, SavedAddressesActivity::class.java))
+            }else{
+                Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
+            }
 
         }
-
-        mView.tv_yourAddresses.setOnClickListener {
+        mView.tv_manage_your_addresses.setOnClickListener {
             if (SessionTwiclo(requireContext()).isLoggedIn){
                 startActivity(Intent(context, SavedAddressesActivity::class.java))
             }else{
@@ -93,6 +91,7 @@ class ProfileFragment : Fragment() {
         mView.tv_aboutUs.setOnClickListener {
             startActivity(Intent(context, AboutUsActivity::class.java).putExtra("about_us", "about_us"))
         }
+
 
         if (SessionTwiclo(requireContext()).isLoggedIn){
             mView.action_logout.visibility = View.VISIBLE
