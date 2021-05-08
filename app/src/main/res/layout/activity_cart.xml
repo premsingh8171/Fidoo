@@ -120,8 +120,7 @@
                     android:background="@drawable/black_rounded_solid"
                     android:hint="@string/leave_delivery_instructions_optional"
                     android:padding="10dp"
-                    android:inputType="textMultiLine"
-                    android:autofillHints="" />
+                    android:inputType="textMultiLine" />
 
             </RelativeLayout>
 
@@ -392,8 +391,7 @@
                 app:layout_constraintStart_toEndOf="@+id/cash_lay"
                 android:background="@drawable/black_rounded_solid"
                 android:layout_marginStart="20dp"
-                android:layout_marginBottom="5dp"
-                android:padding="10dp">
+                android:layout_marginBottom="5dp">
 
 
                 <ImageView
