@@ -56,6 +56,13 @@ import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.android.synthetic.main.content_map.*
 import java.util.*
 
+import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
+import com.google.gson.Gson
+import kotlinx.android.synthetic.main.fragment_profile.*
+import java.lang.Exception
+import java.lang.IndexOutOfBoundsException
+
 
 class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
@@ -99,7 +106,39 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         )
 
 
-        //emailValue.setText(model.phone_no)
+
+        if (intent.hasExtra("data")) {
+
+            val model: GetAddressModel.AddressList = Gson().fromJson(
+                intent.getStringExtra("data"),
+                GetAddressModel.AddressList::class.java
+            )
+            lat=model.latitude.toDouble()
+            lng=model.longitude.toDouble()
+            tv_Address.text = model.location
+            ed_name.setText(model.name)
+            ed_phone.setText(model.phone_no)
+            ed_address.setText(model.flatNo)
+            //buildingValue.setText(model.building)
+            ed_landmark.setText(model.landmark)
+            tempAddressId=model.id
+            defaultCheckBox.isChecked = model.is_default.equals("1")
+
+
+            when {
+                model.addressType.equals("1") -> {
+                    homeRadioBtn.isChecked = true
+                }
+                model.addressType.equals("2") -> {
+                    officeRadioBtn.isChecked = true
+                }
+                else -> {
+                    otherRadioBtn.isChecked = true
+                }
+            }
+
+        }
+
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         mapView = mapFragment.view
@@ -206,15 +245,17 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             override fun OnItemDeleteListener(position: Int, v: View) {}
         })
 
-        if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
-            tv_address_title.text = "Home"
-        } else
-            if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
+        when {
+            radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn) -> {
+                tv_address_title.text = "Home"
+            }
+            radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn) -> {
                 tv_address_title.text = "Office"
-            } else
-                if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
-                    tv_address_title.text = "Other"
-                }
+            }
+            radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn) -> {
+                tv_address_title.text = "Other"
+            }
+        }
 
 
 
@@ -269,16 +310,13 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                                     lat.toString(),
                                     lng.toString(),
                                     ed_name.text.toString(),
-                                    "", defaultValue,
+                                    "",defaultValue,
                                     ed_phone.text.toString(),
                                     tempAddressId
 
                                 )
 
-                            }
-                            else
-                            {
-
+                            } else {
                                 viewmodel?.addAddressDetails(
                                     SessionTwiclo(this).loggedInUserDetail.accountId,
                                     SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -307,7 +345,16 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
         })
 
-        viewmodel?.failureResponse?.observe(this, {
+
+        viewmodel?.editAddressResponse?.observe(this, {
+
+            dismissIOSProgress()
+            showToast("Address updated successfully")
+            finish()
+
+        })
+
+        viewmodel?.failureResponse?.observe(this,  {
             showToast("Something is wrong, please try again")
         })
 
@@ -361,6 +408,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
 
     override fun onMapReady(googleMap: GoogleMap) {
+
         mMap = googleMap
 
         if (ActivityCompat.checkSelfPermission(
@@ -371,13 +419,13 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+
             return
         }
         mMap!!.isMyLocationEnabled = true
         mMap!!.uiSettings.isMyLocationButtonEnabled = true
         if (mapView != null && mapView!!.findViewById<View?>("1".toInt()) != null) {
-            val locationButton =
-                    (mapView!!.findViewById<View>("1".toInt()).parent as View).findViewById<View>("2".toInt())
+            val locationButton = (mapView!!.findViewById<View>("1".toInt()).parent as View).findViewById<View>("2".toInt())
             val layoutParams = locationButton.layoutParams as RelativeLayout.LayoutParams
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
@@ -390,9 +438,12 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
 
             val address = getGeoAddressFromLatLong(center.latitude, center.longitude)
-            tv_Address.text = address
-            lat = center.latitude
-            lng = center.longitude
+            if (tv_Address.text == ""){
+                tv_Address.text = address
+                lat = center.latitude
+                lng = center.longitude
+            }
+
         }
 
         //check if gps is enabled or not and then request user to enable it
@@ -402,11 +453,13 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
         val settingsClient = LocationServices.getSettingsClient(this@AddAddressActivity)
+
         val task: Task<LocationSettingsResponse> =
                 settingsClient.checkLocationSettings(builder.build())
         task.addOnSuccessListener(this@AddAddressActivity,
             OnSuccessListener<LocationSettingsResponse?> { getDeviceLocation() })
         task.addOnFailureListener(this@AddAddressActivity, OnFailureListener { e ->
+
             if (e is ResolvableApiException) {
                 try {
                     e.startResolutionForResult(this@AddAddressActivity, 51)
@@ -414,7 +467,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                     e1.printStackTrace()
                 }
             }
-        })
+        }
 //        mMap!!.setOnMyLocationButtonClickListener {
 //            if (searchBar!!.isSuggestionsVisible) searchBar!!.clearSuggestions()
 //            if (searchBar!!.isSearchEnabled) searchBar!!.disableSearch()
@@ -435,6 +488,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun getDeviceLocation() {
         mFusedLocationProviderClient!!.lastLocation
+
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         mLastKnownLocation = task.result
@@ -451,8 +505,14 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                                 mLastKnownLocation!!.latitude,
                                 mLastKnownLocation!!.longitude
                             )
-
+                        )
+                        val address = getGeoAddressFromLatLong(
+                            mLastKnownLocation!!.latitude,
+                            mLastKnownLocation!!.longitude
+                        )
+                        if (tv_Address.text == ""){
                             tv_Address.text = address
+
                         } else {
                             val locationRequest = LocationRequest.create()
                             locationRequest.interval = 10000
@@ -470,7 +530,10 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                                                 mLastKnownLocation!!.longitude
                                             ), DEFAULT_ZOOM
                                         )
+
                                     )
+                                )
+
 
 
 
@@ -507,10 +570,13 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                             this@AddAddressActivity,
                             "unable to get last location",
                             Toast.LENGTH_SHORT
+
                         )
-                                .show()
                     }
+                } else {
+                    Toast.makeText(this@AddAddressActivity, "unable to get last location", Toast.LENGTH_SHORT).show()
                 }
+            }
     }
 
     /*    public void showProgress(boolean cancelable) {

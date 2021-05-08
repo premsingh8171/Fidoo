@@ -163,7 +163,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
                     storesRecyclerView.setHasFixedSize(true)
                     storesRecyclerView.adapter = adapter
                 }else{
-                    val toast = Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
+                    val toast = Toast.makeText(applicationContext, "No Store found nearby your area", Toast.LENGTH_SHORT)
                     toast.show()
                 }
 
