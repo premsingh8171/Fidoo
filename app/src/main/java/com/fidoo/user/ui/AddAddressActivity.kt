@@ -99,7 +99,6 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             AddressViewModel::class.java
         )
 
-
         //emailValue.setText(model.phone_no)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
@@ -163,7 +162,6 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         })
 
 
-
         searchBar!!.setSuggstionsClickListener(object : SuggestionsAdapter.OnItemViewClickListener {
             override fun OnItemClickListener(position: Int, v: View) {
                 if (position >= predictionList!!.size) {
@@ -216,7 +214,6 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
                     tv_address_title.text = "Other"
                 }
-
 
 
         btn_continue.setOnClickListener {
