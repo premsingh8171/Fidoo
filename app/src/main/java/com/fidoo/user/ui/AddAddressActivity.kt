@@ -50,6 +50,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.gson.Gson
 import com.mancj.materialsearchbar.MaterialSearchBar
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
 import com.skyfishjy.library.RippleBackground
@@ -110,6 +111,38 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         placesClient = Places.createClient(this);
         val token = AutocompleteSessionToken.newInstance()
         checkPermission()
+
+        if (intent.hasExtra("data")) {
+
+            val model: GetAddressModel.AddressList = Gson().fromJson(
+                intent.getStringExtra("data"),
+                GetAddressModel.AddressList::class.java
+            )
+            lat=model.latitude.toDouble()
+            lng=model.longitude.toDouble()
+            tv_Address.text = model.location
+            ed_name.setText(model.name)
+            ed_phone.setText(model.phone_no)
+            ed_address.setText(model.flatNo)
+            //buildingValue.setText(model.building)
+            ed_landmark.setText(model.landmark)
+            tempAddressId=model.id
+            defaultCheckBox.isChecked = model.is_default.equals("1")
+
+
+            when {
+                model.addressType.equals("1") -> {
+                    homeRadioBtn.isChecked = true
+                }
+                model.addressType.equals("2") -> {
+                    officeRadioBtn.isChecked = true
+                }
+                else -> {
+                    otherRadioBtn.isChecked = true
+                }
+            }
+
+        }
 
 
         searchBar!!.setOnSearchActionListener(object :
