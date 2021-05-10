@@ -135,7 +135,7 @@ class CartActivity : BaseActivity(),
         storeViewModel?.getStoreDetails(
             SessionTwiclo(this).loggedInUserDetail.accountId,
             SessionTwiclo(this).loggedInUserDetail.accessToken,
-            storeId,
+            SessionTwiclo(this).storeId,
             "",
             intent.getStringExtra("catId")
         )
@@ -254,7 +254,7 @@ class CartActivity : BaseActivity(),
             storeViewModel?.getStoreDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken,
-                storeId,
+                SessionTwiclo(this).storeId,
                 "",
                 intent.getStringExtra("catId")
 
@@ -385,10 +385,10 @@ class CartActivity : BaseActivity(),
 
             Log.e("cart response", Gson().toJson(user))
             viewmodel?.getCartDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    userLat,
-                    userLong
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                userLat,
+                userLong
             )
 
 
@@ -401,10 +401,10 @@ class CartActivity : BaseActivity(),
             Log.e("cart response", Gson().toJson(user))
             Toast.makeText(this, user.message, Toast.LENGTH_LONG).show()
             viewmodel?.getCartDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    userLat,
-                    userLong
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                userLat,
+                userLong
             )
         })
 
@@ -808,6 +808,8 @@ class CartActivity : BaseActivity(),
 
     override fun onResume() {
         super.onResume()
+
+        storeId = intent.getStringExtra("storeId").toString()
 
 
         tv_delivery_address_title.text = selectedAddressTitle

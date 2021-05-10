@@ -24,6 +24,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.fidoo.user.CartActivity
 import com.fidoo.user.R
+import com.fidoo.user.SplashActivity
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.GetAddressModel
 import com.fidoo.user.data.model.TempProductListModel
@@ -162,16 +163,22 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
         if (isNetworkConnected) {
-            try {
-                viewmodel?.getAddressesApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    CartActivity.storeLat,
-                    CartActivity.storeLong
-                )
-            }catch (e:Exception){
-                e.printStackTrace()
+
+            if (SessionTwiclo(this).isLoggedIn){
+                try {
+                    viewmodel?.getAddressesApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        CartActivity.storeLat,
+                        CartActivity.storeLong
+                    )
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
+            }else{
+                showLoginDialog("Please login to proceed")
             }
+
         } else {
             showInternetToast()
         }
@@ -518,5 +525,33 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     override fun onConnectionFailed(p0: ConnectionResult) {
         TODO("Not yet implemented")
+    }
+
+    fun showLoginDialog(message: String){
+        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+        //set title for alert dialog
+        builder.setTitle("Alert")
+        //set message for alert dialog
+        builder.setMessage(message)
+        // builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton("Login") { _, _ ->
+            startActivity(
+                Intent(this, SplashActivity::class.java)
+            )
+
+
+        }
+
+        //performing negative action
+        builder.setNegativeButton("Cancel") { _, _ ->
+
+        }
+        // Create the AlertDialog
+        val alertDialog: androidx.appcompat.app.AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(true)
+        alertDialog.show()
     }
 }
