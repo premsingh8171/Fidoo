@@ -14,7 +14,9 @@ import com.fidoo.user.R
 import com.fidoo.user.SendPackageActivity
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterClick
+import com.fidoo.user.ui.AddAddressActivity
 import com.fidoo.user.ui.MainActivity
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.saved_address_items.view.*
 
 
@@ -182,6 +184,14 @@ class AddressesAdapter(
             //adapterClick.onItemClick(addressList.get(position).id)
 //        }
 
+        }
+
+        holder.mainLay.setOnLongClickListener {
+            if (stringExtra.equals("address")) {
+                con.startActivity(Intent(con, AddAddressActivity::class.java).putExtra("data", Gson().toJson(addressList[position])))
+            }
+
+            true
         }
 
 

@@ -16,14 +16,14 @@
 
         <ImageView
             android:id="@+id/edit_profile"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="28dp"
+            android:src="@drawable/edit_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/edit_icon"
-            app:tint="@color/white"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp" />
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/tv_hi"
