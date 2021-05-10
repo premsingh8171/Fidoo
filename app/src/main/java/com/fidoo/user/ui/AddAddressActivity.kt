@@ -458,64 +458,65 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                         )
 
 
-                      if (tv_Address.text == ""){
+                        if (tv_Address.text == "") {
                             tv_Address.text = address
-                    } else {
-                        val locationRequest = LocationRequest.create()
-                        locationRequest.interval = 10000
-                        locationRequest.fastestInterval = 5000
-                        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-                        locationCallback = object : LocationCallback() {
-                            override fun onLocationResult(locationResult: LocationResult) {
-                                super.onLocationResult(locationResult)
-                                mLastKnownLocation = locationResult.lastLocation
+                        } else {
+                            val locationRequest = LocationRequest.create()
+                            locationRequest.interval = 10000
+                            locationRequest.fastestInterval = 5000
+                            locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+                            locationCallback = object : LocationCallback() {
+                                override fun onLocationResult(locationResult: LocationResult) {
+                                    super.onLocationResult(locationResult)
+                                    mLastKnownLocation = locationResult.lastLocation
 
-                                mMap!!.moveCamera(
-                                    CameraUpdateFactory.newLatLngZoom(
-                                        LatLng(
-                                            mLastKnownLocation!!.latitude,
-                                            mLastKnownLocation!!.longitude
-                                        ), DEFAULT_ZOOM
+                                    mMap!!.moveCamera(
+                                        CameraUpdateFactory.newLatLngZoom(
+                                            LatLng(
+                                                mLastKnownLocation!!.latitude,
+                                                mLastKnownLocation!!.longitude
+                                            ), DEFAULT_ZOOM
+                                        )
                                     )
-                                )
 
 
 
-                                mFusedLocationProviderClient!!.removeLocationUpdates(
-                                    locationCallback!!
-                                )
+                                    mFusedLocationProviderClient!!.removeLocationUpdates(
+                                        locationCallback!!
+                                    )
+                                }
                             }
+                            if (ActivityCompat.checkSelfPermission(
+                                    this,
+                                    Manifest.permission.ACCESS_FINE_LOCATION
+                                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                                    this,
+                                    Manifest.permission.ACCESS_COARSE_LOCATION
+                                ) != PackageManager.PERMISSION_GRANTED
+                            ) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return@addOnCompleteListener
+                            }
+                            mFusedLocationProviderClient!!.requestLocationUpdates(
+                                locationRequest,
+                                locationCallback,
+                                null
+                            )
                         }
-                        if (ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.ACCESS_FINE_LOCATION
-                            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.ACCESS_COARSE_LOCATION
-                            ) != PackageManager.PERMISSION_GRANTED
-                        ) {
-                            // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
-                            return@addOnCompleteListener
-                        }
-                        mFusedLocationProviderClient!!.requestLocationUpdates(
-                            locationRequest,
-                            locationCallback,
-                            null
+                    } else {
+                        Toast.makeText(
+                            this@AddAddressActivity,
+                            "unable to get last location",
+                            Toast.LENGTH_SHORT
                         )
+                            .show()
                     }
-                } else {
-                    Toast.makeText(
-                        this@AddAddressActivity,
-                        "unable to get last location",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
                 }
             }
     }
