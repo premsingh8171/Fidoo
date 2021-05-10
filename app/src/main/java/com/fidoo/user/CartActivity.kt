@@ -583,6 +583,7 @@ class CartActivity : BaseActivity(),
                         getOfferTxt.visibility = View.GONE
                         offerIcon.visibility = View.GONE*/
                         tv_coupon.text = "Cart Coupon Applied (" +mModelData.coupon_name+ ")"
+                        tv_cart_discount.text = resources.getString(R.string.ruppee) + user.discount_amount
                         totalAmount = totalAmount - mModelData.discount_amount.toDouble()
                         tv_place_order.text = "Pay "+ resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
                         tv_grand_total.text = resources.getString(R.string.ruppee) + totalAmount.toString()
