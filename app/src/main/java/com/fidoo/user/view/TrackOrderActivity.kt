@@ -382,6 +382,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
 
 
 
+
         })
 
         orderViewModel?.OrderDetailsResponse?.observe(this, {
@@ -406,10 +407,10 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                     order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
                 }
                 it.orderStatus.equals("3") -> {
-                   /* if (it.is_rate_to_driver.equals("1")) { // TODO
+                    /*if (it.is_rate_to_driver.equals("1")) { // TODO
                         //holder.buttonValue.visibility = View.GONE
                     } else {
-                        //holder.buttonValue.text = "Review"
+                        holder.buttonValue.text = "Review"
                     }*/
 
                     order_status.text = "Your order is delivered"
@@ -446,7 +447,7 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                 }
                 it.orderStatus.equals("9") -> {
                     //holder.buttonValue.visibility = View.VISIBLE
-                    order_status.text = "Your Order is ready and will soon be picked up by " //TODO
+                    order_status.text = "Your Order is ready and will soon be picked up by " + it.deliveryBoyName
                     tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
                     tv_order_picked.setTextColor(Color.rgb(51,147,71))
                     delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51,147,71))

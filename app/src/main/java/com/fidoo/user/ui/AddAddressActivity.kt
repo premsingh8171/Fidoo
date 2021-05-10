@@ -27,6 +27,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.fidoo.user.R
+import com.fidoo.user.data.model.GetAddressModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.MY_PERMISSIONS_REQUEST_CODE
@@ -57,7 +58,7 @@ import kotlinx.android.synthetic.main.content_map.*
 import java.util.*
 
 
-class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
+open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
 
     private var mMap: GoogleMap? = null
@@ -315,7 +316,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     }
 
-    protected fun checkPermission() {
+    private fun checkPermission() {
         if (ContextCompat.checkSelfPermission(this@AddAddressActivity, Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
@@ -406,7 +407,9 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             settingsClient.checkLocationSettings(builder.build())
         task.addOnSuccessListener(this@AddAddressActivity,
             OnSuccessListener<LocationSettingsResponse?> { getDeviceLocation() })
+
         task.addOnFailureListener(this@AddAddressActivity, OnFailureListener { e ->
+
             if (e is ResolvableApiException) {
                 try {
                     e.startResolutionForResult(this@AddAddressActivity, 51)
@@ -439,6 +442,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 if (task.isSuccessful) {
                     mLastKnownLocation = task.result
                     if (mLastKnownLocation != null) {
+
                         mMap!!.moveCamera(
                             CameraUpdateFactory.newLatLngZoom(
                                 LatLng(
@@ -447,12 +451,15 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                                 ), DEFAULT_ZOOM
                             )
                         )
+
                         val address = getGeoAddressFromLatLong(
                             mLastKnownLocation!!.latitude,
                             mLastKnownLocation!!.longitude
                         )
 
-                        tv_Address.text = address
+
+                      if (tv_Address.text == ""){
+                            tv_Address.text = address
                     } else {
                         val locationRequest = LocationRequest.create()
                         locationRequest.interval = 10000

@@ -31,6 +31,7 @@ import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.view.TrackOrderActivity
 import com.fidoo.user.view.address.SavedAddressesActivity
+import com.fidoo.user.viewmodels.AddressViewModel
 import com.fidoo.user.viewmodels.CartViewModel
 import com.fidoo.user.viewmodels.StoreDetailsViewModel
 import com.fidoo.user.viewmodels.TrackViewModel
@@ -56,6 +57,7 @@ class CartActivity : BaseActivity(),
     var viewmodel: CartViewModel? = null
     var totalAmount: Double = 0.0
     var storeViewModel: StoreDetailsViewModel? = null
+    var addressViewModel: AddressViewModel? = null
     var finalPrice: Double = 0.0
     var storeId: String = ""
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
@@ -97,14 +99,15 @@ class CartActivity : BaseActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
-        val window: Window = this.getWindow()
+        val window: Window = this.window
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
-        storeId = intent.getStringExtra("store_id").toString()
+        storeId = intent.getStringExtra("storeId").toString()
 
         viewmodel = ViewModelProviders.of(this).get(CartViewModel::class.java)
         storeViewModel = ViewModelProviders.of(this).get(StoreDetailsViewModel::class.java)
+        addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
 
         behavior = BottomSheetBehavior.from(bottom_sheet)
         selectedAddressId = ""
@@ -137,6 +140,13 @@ class CartActivity : BaseActivity(),
             intent.getStringExtra("catId")
         )
 
+        addressViewModel?.getAddressesApi(
+            SessionTwiclo(this).loggedInUserDetail.accountId,
+            SessionTwiclo(this).loggedInUserDetail.accessToken,
+            "",
+            ""
+        )
+
         backIcon.setOnClickListener {
             finish()
         }
@@ -157,168 +167,11 @@ class CartActivity : BaseActivity(),
                 .start()
         }
 
-        storeViewModel?.getStoreDetailsApi?.observe(this, Observer {
-            // calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
-try {
-    storeLat = it.storeLatitude
-    storeLong = it.storeLongitude
-}catch (e:Exception){
-    e.printStackTrace()
-}
-
-
-            viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
-            )
-        })
-
-        viewmodel?.addToCartResponse?.observe(this, { user ->
-
-            linear_progress_indicator.visibility = View.GONE
-            dismissIOSProgress()
-            Log.e("stores response", Gson().toJson(user))
-            val mModelData: AddToCartModel = user
-            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
-            } else {
-                behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-            }
-
-            storeViewModel?.getStoreDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                intent.getStringExtra("storeId"),
-                "",
-                intent.getStringExtra("catId")
-
-            )
-
-            viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
-            )
-
-
-
-
-            //Log.e("DISTANCE1",storeCustomerDistance)
-
-            showToast(mModelData.message)
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })
-
-        viewmodel?.customizeProductResponse?.observe(this, { user ->
-            dismissIOSProgress()
-
-            Log.e("stores response", Gson().toJson(user))
-            mModelDataTemp = user
-
-            categoryy = ArrayList()
-
-            for (i in 0..mModelDataTemp?.category?.size!! - 1) {
-                if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
-                    var customListModel: CustomListModel? =
-                        CustomListModel()
-                    customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
-                    customListModel.id =
-                        mModelDataTemp?.category?.get(i)!!.subCat.get(0).id.toInt()
-                    customListModel.price = mModelDataTemp?.category?.get(i)!!.subCat.get(0).price
-                    categoryy!!.add(customListModel)
-                } else {
-
-                }
-            }
-
-            var tempPrice: Double? = 0.0
-            for (i in 0..customIdsListTemp!!.size - 1) {
-                tempPrice = tempPrice!! + customIdsListTemp!!.get(i).price.toDouble()
-            }
-
-            for (i in 0..categoryy!!.size - 1) {
-                tempPrice = tempPrice!! + categoryy!!.get(i).price.toDouble()
-            }
-            tempPrice = tempOfferPrice!!.toDouble() + tempPrice!!
-
-            customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
-
-            val adapter = StoreCustomItemsAdapter(
-                this,
-                mModelDataTemp?.category!!,
-                this,
-                categoryy,
-                this
-            )
-            customItemsRecyclerview.layoutManager = LinearLayoutManager(this)
-            customItemsRecyclerview.setHasFixedSize(true)
-            customItemsRecyclerview.adapter = adapter
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })
-
-        delivery_address_lay.setOnClickListener {
-            if (!isNetworkConnected) {
-                showToast(resources.getString(R.string.provide_internet))
-
-            } else {
-                startActivity(
-                    Intent(this, SavedAddressesActivity::class.java)
-                        .putExtra("type", "order")
-                )
-            }
-        }
-
-        cash_lay.setOnClickListener {
-            isSelected = "cod"
-            cash_lay.setBackgroundResource(R.drawable.bg_green_roundborder)
-
-            img_cash.setColorFilter(resources.getColor(R.color.white))
-            tv_cash.setTextColor(resources.getColor(R.color.white))
-
-            online_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
-            tv_online.setTextColor(resources.getColor(R.color.grey))
-            img_online.setImageResource(R.drawable.online_pay_grey)
-            img_online.setColorFilter(resources.getColor(R.color.grey))
-
-        }
-
-
-
-        online_lay.setOnClickListener {
-            isSelected = "online"
-            online_lay.setBackgroundResource(R.drawable.bg_green_roundborder)
-
-            img_online.setColorFilter(resources.getColor(R.color.white))
-            tv_online.setTextColor(resources.getColor(R.color.white))
-
-            cash_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
-            tv_cash.setTextColor(resources.getColor(R.color.grey))
-            img_cash.setImageResource(R.drawable.cash_icon_grey)
-            img_cash.setColorFilter(resources.getColor(R.color.grey))
-
-        }
-
-        delivery_address_lay.setOnClickListener {
-            if (!isNetworkConnected) {
-                showToast(resources.getString(R.string.provide_internet))
-
-            } else {
-                startActivity(
-                    Intent(this, SavedAddressesActivity::class.java).putExtra(
-                        "type",
-                        "order"
-                    )
-                )
-            }
-        }
 
         customAddBtn.setOnClickListener {
             if (isNetworkConnected) {
                 var mCartId: String? = null
-                for (i in 0..categoryy!!.size - 1) {
+                for (i in 0 until categoryy!!.size) {
                     customIdsList!!.add(categoryy!!.get(i).id.toString())
                 }
 
@@ -365,6 +218,166 @@ try {
 
 
         }
+
+
+
+        storeViewModel?.getStoreDetailsApi?.observe(this, Observer {
+            // calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
+            try {
+                storeLat = it.storeLatitude
+                storeLong = it.storeLongitude
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+
+
+            viewmodel?.getCartDetails(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                userLat,
+                userLong
+            )
+        })
+
+        viewmodel?.addToCartResponse?.observe(this, { user ->
+
+            linear_progress_indicator.visibility = View.GONE
+            dismissIOSProgress()
+            Log.e("stores response", Gson().toJson(user))
+            val mModelData: AddToCartModel = user
+            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+            } else {
+                behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+            }
+
+            storeViewModel?.getStoreDetails(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                storeId,
+                "",
+                intent.getStringExtra("catId")
+
+            )
+
+            viewmodel?.getCartDetails(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                userLat,
+                userLong
+            )
+
+
+
+
+            //Log.e("DISTANCE1",storeCustomerDistance)
+
+            showToast(mModelData.message)
+            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+        })
+
+        viewmodel?.customizeProductResponse?.observe(this, { user ->
+            dismissIOSProgress()
+
+            Log.e("stores response", Gson().toJson(user))
+            mModelDataTemp = user
+
+            categoryy = ArrayList()
+
+            for (i in 0..mModelDataTemp?.category?.size!! - 1) {
+                if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
+                    var customListModel: CustomListModel? = CustomListModel()
+                    customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
+                    customListModel.id = mModelDataTemp?.category?.get(i)!!.subCat.get(0).id.toInt()
+                    customListModel.price = mModelDataTemp?.category?.get(i)!!.subCat.get(0).price
+                    categoryy!!.add(customListModel)
+                } else {
+
+                }
+            }
+
+            var tempPrice: Double? = 0.0
+            for (i in 0..customIdsListTemp!!.size - 1) {
+                tempPrice = tempPrice!! + customIdsListTemp!!.get(i).price.toDouble()
+            }
+
+            for (i in 0..categoryy!!.size - 1) {
+                tempPrice = tempPrice!! + categoryy!!.get(i).price.toDouble()
+            }
+            tempPrice = tempOfferPrice!!.toDouble() + tempPrice!!
+
+            customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
+
+            val adapter = StoreCustomItemsAdapter(
+                this,
+                mModelDataTemp?.category!!,
+                this,
+                categoryy,
+                this
+            )
+            customItemsRecyclerview.layoutManager = LinearLayoutManager(this)
+            customItemsRecyclerview.setHasFixedSize(true)
+            customItemsRecyclerview.adapter = adapter
+            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+        })
+
+        delivery_address_lay.setOnClickListener {
+            if (!isNetworkConnected) {
+                showToast(resources.getString(R.string.provide_internet))
+
+            } else {
+                startActivity(
+                    Intent(this, SavedAddressesActivity::class.java)
+                        .putExtra("type", "order")
+                )
+            }
+        }
+
+        cash_lay.setOnClickListener {
+            isSelected = "cash"
+            cash_lay.setBackgroundResource(R.drawable.bg_green_roundborder)
+
+            img_cash.setColorFilter(resources.getColor(R.color.white))
+            tv_cash.setTextColor(resources.getColor(R.color.white))
+
+            online_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
+            tv_online.setTextColor(resources.getColor(R.color.grey))
+            img_online.setImageResource(R.drawable.online_pay_grey)
+            img_online.setColorFilter(resources.getColor(R.color.grey))
+
+        }
+
+
+
+        online_lay.setOnClickListener {
+            isSelected = "online"
+            online_lay.setBackgroundResource(R.drawable.bg_green_roundborder)
+
+            img_online.setColorFilter(resources.getColor(R.color.white))
+            tv_online.setTextColor(resources.getColor(R.color.white))
+
+            cash_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
+            tv_cash.setTextColor(resources.getColor(R.color.grey))
+            img_cash.setImageResource(R.drawable.cash_icon_grey)
+            img_cash.setColorFilter(resources.getColor(R.color.grey))
+
+        }
+
+        delivery_address_lay.setOnClickListener {
+            if (!isNetworkConnected) {
+                showToast(resources.getString(R.string.provide_internet))
+
+            } else {
+                startActivity(
+                    Intent(this, SavedAddressesActivity::class.java).putExtra(
+                        "type",
+                        "order"
+                    )
+                )
+            }
+        }
+
+
 
 
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
@@ -429,7 +442,7 @@ try {
                     }
 
                     if (user.cart[0].cod.equals("1")) {
-                        isSelected = "cod"
+                        isSelected = "cash"
 
                         cash_lay.visibility = View.VISIBLE
                         //cashOnDeliveryRadioBtn.visibility = View.VISIBLE
@@ -556,24 +569,26 @@ try {
 
                     if (!mModelData.coupon_id.equals("")) {
 
+                        tv_coupon.visibility = View.VISIBLE
+
 
                         /*appliedpromoValue.visibility = View.VISIBLE
                         appliedpromoDesc.visibility = View.VISIBLE
                         removeBtn.visibility = View.VISIBLE
                         view333.visibility = View.VISIBLE
-                        discountLabel.visibility = View.VISIBLE
+
                         discountValue.visibility = View.VISIBLE
                         promoValue.visibility = View.GONE
                         applyBtn.visibility = View.GONE
                         getOfferTxt.visibility = View.GONE
-                        offerIcon.visibility = View.GONE
-                        appliedpromoValue.text = mModelData.coupon_name
+                        offerIcon.visibility = View.GONE*/
+                        tv_coupon.text = mModelData.coupon_name
                         totalAmount = totalAmount - mModelData.discount_amount.toDouble()
-                        totalAmountBottom.text = resources.getString(R.string.ruppee) + totalAmount.toString()
-                        grandPrice.text = resources.getString(R.string.ruppee) + totalAmount.toString()*/
+                        tv_place_order.text = "Pay "+ resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
+                        tv_grand_total.text = resources.getString(R.string.ruppee) + totalAmount.toString()
                         //showToast("Offer applied successfully")
                     } else {
-                        //discountLabel.visibility = View.GONE
+                        tv_coupon.visibility = View.GONE
                         //discountValue.visibility = View.GONE
                     }
 
@@ -657,10 +672,10 @@ try {
 
             Log.e("cart response", Gson().toJson(user))
             viewmodel?.getCartDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    userLat,
-                    userLong
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                userLat,
+                userLong
             )
             if (user.couponApply.equals("2")) {
 
@@ -672,14 +687,14 @@ try {
                 promoValue.visibility = View.GONE
                 applyBtn.visibility = View.GONE
                 getOfferTxt.visibility = View.GONE
-                offerIcon.visibility = View.GONE
-                appliedpromoValue.text = promoValue.text.toString()
-                discountValue.text = resources.getString(R.string.ruppee) + user.discountAmount*/
+                offerIcon.visibility = View.GONE*/
+                //tv_coupon.text = promoValue.text.toString()
+                tv_cart_discount.text = resources.getString(R.string.ruppee) + user.discountAmount
 
                 totalAmount = totalAmount - user.discountAmount.toDouble()
 
-                tv_place_order.text = resources.getString(R.string.ruppee) + finalPrice.toFloat().toString()
-                tv_grand_total.text = resources.getString(R.string.ruppee) + finalPrice.toFloat().toString()
+                tv_place_order.text = "Pay "+ resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
+                tv_grand_total.text = resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
                 Log.e("Grand Total after promo", tv_grand_total.text.toString())
                 Log.e("Final Price after promo", tv_place_order.text.toString())
                 //discountLabel.visibility = View.VISIBLE
@@ -733,14 +748,14 @@ try {
                 } else {
                     showIOSProgress()
                     viewmodel?.orderPlaceApi(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            finalPrice.toFloat().toString(),
-                            deliveryOption,
-                            SessionTwiclo(this).userAddressId,
-                            "",
-                            ed_delivery_instructions.text.toString(),
-                            isSelected
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        finalPrice.toFloat().toString(),
+                        deliveryOption,
+                        SessionTwiclo(this).userAddressId,
+                        "",
+                        ed_delivery_instructions.text.toString(),
+                        isSelected
                     )
                 }
             }
@@ -769,12 +784,12 @@ try {
             } else {
                 if (isNetworkConnected) {
                     viewmodel?.paymentApi(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            user.orderId,
-                            "",
-                            "",
-                            "cash"
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        user.orderId,
+                        "",
+                        "",
+                        "cash"
                     )
 
                 } else {
@@ -785,6 +800,58 @@ try {
             Log.e("cart response", Gson().toJson(user))
         })
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+
+        tv_delivery_address_title.text = selectedAddressTitle
+        tv_delivery_address.text = selectedAddressName
+        if (!isNetworkConnected) {
+            showToast(resources.getString(R.string.provide_internet))
+
+        } else {
+            showIOSProgress()
+
+            storeViewModel?.getStoreDetailsApi?.observe(this, {
+                try {
+                    storeLat = it.storeLatitude
+                    storeLong = it.storeLongitude
+                }catch (e:java.lang.Exception){
+                    e.printStackTrace()
+                }
+
+                //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
+
+            })
+
+
+            viewmodel?.getCartDetails(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                userLat,
+                userLong
+            )
+
+
+
+        }
+//        selectedAddressValue.text = selectedAddressName
+        if (SessionTwiclo(this).userAddressId != "") {
+            tv_delivery_address_title.text = selectedAddressTitle
+        }
+
+
+        if (selectedCouponName != "") {
+            tv_coupon.text = selectedCouponName
+            viewmodel?.applyPromoApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                selectedCouponName
+            )
+        }
 
     }
 
@@ -847,12 +914,12 @@ try {
         try{
             Toast.makeText(this, "Payment Successful", Toast.LENGTH_LONG).show()
             viewmodel?.paymentApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    tempOrderId,
-                    razorpayPaymentId!!,
-                    "",
-                    "online"
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                tempOrderId,
+                razorpayPaymentId!!,
+                "",
+                "online"
             )
 
 
@@ -901,6 +968,55 @@ try {
         }
     }
 
+    override fun onItemClick(
+        productId: String?,
+        type: String?,
+        count: String?,
+        offerPrice: String?,
+        customize_count: Int?,
+        productType: String?,
+        cart_id: String?) {
+
+        val builder = AlertDialog.Builder(this)
+        //set title for alert dialog
+        builder.setTitle("Remove")
+        //set message for alert dialog
+        builder.setMessage("Are you sure you want to remove this item?")
+        builder.setIcon(R.drawable.about_icon)
+
+        //performing positive action
+        builder.setPositiveButton("Yes") { dialogInterface, which ->
+
+
+            if (isNetworkConnected) {
+                showIOSProgress()
+                if (cart_id != null) {
+                    viewmodel?.deleteCartDetails(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!,
+                        cart_id
+                    )
+                    onresumeHandle=1
+                }
+            } else {
+                showInternetToast()
+            }
+
+            //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
+        }
+
+        //performing negative action
+        builder.setNegativeButton("No") { dialogInterface, which ->
+            //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
+        }
+        // Create the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+
+    }
+
     override fun onAddItemClick(productId: String, quantity: String, offerPrice: String, isCustomize: String, productCustomizeId: String, cart_id: String) {
 
         if (!isNetworkConnected) {
@@ -932,12 +1048,9 @@ try {
                     customIdsList!!.clear()
                     if (productId != null) {
                         viewmodel?.customizeProductApi(
-                            SessionTwiclo(
-                                this
-                            ).loggedInUserDetail.accountId,
-                            SessionTwiclo(
-                                this
-                            ).loggedInUserDetail.accessToken, productId
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            productId
                         )
                     }
                     //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
@@ -1002,107 +1115,6 @@ try {
             onresumeHandle=1
         }
 
-
-    }
-
-//    override fun onResume() {
-//        super.onResume()
-//
-//
-//        tv_delivery_address_title.text = selectedAddressTitle
-//        tv_delivery_address.text = selectedAddressName
-//        if (!isNetworkConnected) {
-//            showToast(resources.getString(R.string.provide_internet))
-//
-//        } else {
-//            showIOSProgress()
-//
-//            storeViewModel?.getStoreDetailsApi?.observe(this, {
-//              try {
-//                  storeLat = it.storeLatitude
-//                  storeLong = it.storeLongitude
-//              }catch (e:java.lang.Exception){
-//                  e.printStackTrace()
-//              }
-//
-//                //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
-//
-//            })
-//
-//
-//            storeViewModel?.getStoreDetailsApi?.observe(this, {
-//                storeLat = it.storeLatitude
-//                storeLong = it.storeLongitude
-//                //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
-//
-//            })
-//
-//            viewmodel?.getCartDetails(
-//                SessionTwiclo(this).loggedInUserDetail.accountId,
-//                SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                userLat,
-//                userLong
-//            )
-//
-//
-//
-//        }
-////        selectedAddressValue.text = selectedAddressName
-//        if (SessionTwiclo(this).userAddressId != "") {
-//            tv_delivery_address_title.text = selectedAddressTitle
-//        }
-//
-//
-//        if (!selectedCouponName.equals("")) {
-//            tv_coupon.text = selectedCouponName
-//            viewmodel?.applyPromoApi(
-//                SessionTwiclo(this).loggedInUserDetail.accountId,
-//                SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                selectedCouponName
-//            )
-//        }
-//
-//    }
-
-    override fun onItemClick(productId: String?, type: String?, count: String?, offerPrice: String?, customize_count: Int?, productType: String?, cart_id: String?) {
-
-        val builder = AlertDialog.Builder(this)
-        //set title for alert dialog
-        builder.setTitle("Remove")
-        //set message for alert dialog
-        builder.setMessage("Are you sure you want to remove this item?")
-        builder.setIcon(R.drawable.about_icon)
-
-        //performing positive action
-        builder.setPositiveButton("Yes") { dialogInterface, which ->
-
-
-            if (isNetworkConnected) {
-                showIOSProgress()
-                if (cart_id != null) {
-                    viewmodel?.deleteCartDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!,
-                        cart_id
-                    )
-                    onresumeHandle=1
-                }
-            } else {
-                showInternetToast()
-            }
-
-            //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
-        }
-
-        //performing negative action
-        builder.setNegativeButton("No") { dialogInterface, which ->
-            //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
-        }
-        // Create the AlertDialog
-        val alertDialog: AlertDialog = builder.create()
-        // Set other dialog properties
-        alertDialog.setCancelable(false)
-        alertDialog.show()
 
     }
 

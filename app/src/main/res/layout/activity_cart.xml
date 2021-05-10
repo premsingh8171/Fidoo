@@ -272,7 +272,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_delivery_charges_label"
-                    android:text="Delivery Charges"
+                    android:text="Delivery Discount"
                     android:layout_marginTop="10dp"/>
 
                 <TextView
@@ -284,11 +284,28 @@
                     android:layout_below="@id/tv_delivery_charges"
                     android:layout_marginTop="10dp"/>
 
+                <TextView
+                    android:id="@+id/tv_cart_discount_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_delivery_discount_label"
+                    android:text="Cart Discount"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/tv_cart_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/tv_delivery_discount"
+                    android:layout_marginTop="10dp"/>
+
                 <View
                     android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@id/tv_delivery_discount"
+                    android:layout_below="@id/tv_cart_discount_label"
                     android:background="#fbfbfb"/>
 
                 <TextView

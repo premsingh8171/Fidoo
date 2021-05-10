@@ -51,7 +51,7 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
         mView.tv_phone.text = mData.mobile
 
 
-        mView.btn_continue.setOnClickListener(View.OnClickListener {
+        mView.btn_continue.setOnClickListener {
             if (mView.otp_view.otp.equals("")) {
                 Toast.makeText(requireContext(), "Please enter OTP", Toast.LENGTH_SHORT).show()
             } else
@@ -65,7 +65,7 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
                 } else {
                     verificationApi(mView.otp_view.otp)
                 }
-        })
+        }
 
         return mView
     }
@@ -110,7 +110,7 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
     }
 
 
-    fun verificationApi(otp: String?) {
+    private fun verificationApi(otp: String?) {
         if (!isNetworkConnected) {
             showToast(resources.getString(R.string.provide_internet))
             return

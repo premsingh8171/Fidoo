@@ -28,6 +28,7 @@ import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.GetAddressModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.profile.EditProfileActivity
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.viewmodels.AddressViewModel
 import com.google.android.gms.common.ConnectionResult
@@ -83,6 +84,12 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         FirebaseApp.initializeApp(this)
         //searchSuggestionsList = ArrayList<String>()
 
+        if (SessionTwiclo(this).profileDetail != null && SessionTwiclo(this).profileDetail.account != null) {
+            if (SessionTwiclo(this).profileDetail.account.name.equals("")) {
+                startActivity(Intent(this, EditProfileActivity::class.java))
+            }
+        }
+
 
 
 
@@ -94,8 +101,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         mUpdateManager?.start()
 
 
-
-       // window.statusBarColor = ContextCompat.getColor(this, R.color.colorTransparent)
+        // window.statusBarColor = ContextCompat.getColor(this, R.color.colorTransparent)
 
         val mBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
