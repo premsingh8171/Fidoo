@@ -296,7 +296,7 @@
                     android:id="@+id/tv_cart_discount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100"
+                    android:text=""
                     android:layout_alignParentEnd="true"
                     android:layout_below="@id/tv_delivery_discount"
                     android:layout_marginTop="10dp"/>
