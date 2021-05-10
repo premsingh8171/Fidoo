@@ -31,8 +31,10 @@ import com.fidoo.user.utils.CommonUtils
 import com.fidoo.user.viewmodels.SearchFragmentViewModel
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_search_item.*
+import kotlinx.android.synthetic.main.activity_search_item.view.*
 import kotlinx.android.synthetic.main.fragment_search2.*
 import kotlinx.android.synthetic.main.fragment_search2.view.*
+import java.lang.Exception
 
 
 class SearchFragment2 : Fragment() , AdapterClick,
@@ -54,40 +56,43 @@ class SearchFragment2 : Fragment() , AdapterClick,
 	var tempCount: String? = ""
 	var tempProductId: String? = ""
 	var mCustomizeCount: Int? = 0
+	var checkvalidation: Int? = 0//for onresume handle
 	lateinit var mView : View
 	private var _progressDlg: ProgressDialog? = null
+
+	lateinit var sessionTwiclo:SessionTwiclo
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
 		mView= inflater.inflate(R.layout.fragment_search2, container, false)
-
+		sessionTwiclo = SessionTwiclo(requireContext())
 		viewmodel = ViewModelProviders.of(requireActivity()).get(SearchFragmentViewModel::class.java)
 		mProductStoreList= ArrayList()
 		mProductsList= ArrayList()
 		customIdsList= ArrayList()
 		customIdsListTemp= ArrayList()
 
-
+		mView.total_itemTxt_fgmt.text = "Items ("+mProductsList.size.toString()+")"
+		parentStoreListAdapter = ParentStoreListAdapter(
+			requireContext(),mProductStoreList,this,storeID,this,this
+		)
 
 		mView.searchEdt_new_fgmt?.addTextChangedListener(object : TextWatcher {
 
 			override fun afterTextChanged(s: Editable) {}
 
-			override fun beforeTextChanged(
-					s: CharSequence, start: Int,
-					count: Int, after: Int
-			) {}
+			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
 			override fun onTextChanged(
 					s: CharSequence, start: Int,
 					before: Int, count: Int
 			) {
 				search_value=s.toString()
-				if (searchEdt_new?.text.toString().length >= 2) {
+				if (mView.searchEdt_new_fgmt?.text.toString().length >= 2) {
 					if (SessionTwiclo(requireContext()).isLoggedIn) {
-						showIOSProgress()
+						//showIOSProgress()
 						viewmodel?.getSearchApi(SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
 								SessionTwiclo(requireContext()).loggedInUserDetail.accessToken, search_value!!)
 
@@ -97,7 +102,7 @@ class SearchFragment2 : Fragment() , AdapterClick,
 					mProductStoreList.clear()
 					mProductsList.clear()
 					parentStoreListAdapter.notifyDataSetChanged()
-					total_itemTxt.text = "Items ("+mProductsList.size.toString()+")"
+					mView.total_itemTxt_fgmt.text = "Items ("+mProductsList.size.toString()+")"
 
 				}
 
@@ -105,17 +110,22 @@ class SearchFragment2 : Fragment() , AdapterClick,
 		})
 
 
-		//Here we have called Api of getGroceryProducts
-		viewmodel?.getSearchApi(
-				SessionTwiclo(context).loggedInUserDetail.accountId,
-				SessionTwiclo(context).loggedInUserDetail.accessToken,
-				""
-		)
+//		//Here we have called Api of getGroceryProducts
+//		viewmodel?.getSearchApi(
+//				SessionTwiclo(context).loggedInUserDetail.accountId,
+//				SessionTwiclo(context).loggedInUserDetail.accessToken,
+//				""
+//		)
 
-		viewmodel?.getCartCountApi(
+		try {
+			viewmodel?.getCartCountApi(
 				SessionTwiclo(context).loggedInUserDetail.accountId,
 				SessionTwiclo(context).loggedInUserDetail.accessToken
-		)
+			)
+		}catch (e:Exception){
+			e.printStackTrace()
+		}
+
 
 
 		getResponce()
@@ -142,9 +152,7 @@ class SearchFragment2 : Fragment() , AdapterClick,
 
 		//Here we observe searchApi responce
 		viewmodel?.searchResponse?.observe(requireActivity(),{searchResponce->
-			mProductStoreList.clear()
-			mProductsList.clear()
-			dismissIOSProgress()
+			//dismissIOSProgress()
 			if (!searchResponce.error!!){
 
 
@@ -164,10 +172,15 @@ class SearchFragment2 : Fragment() , AdapterClick,
 				mProductsList=productList
 				mProductStoreList=storeList
 
-				total_itemTxt_fgmt.text = "Items ("+mProductsList.size.toString()+")"
+				mView.total_itemTxt_fgmt.text = "Items ("+mProductsList.size.toString()+")"
+			try {
 				parentStoreListAdapter = ParentStoreListAdapter(
-						requireActivity(),mProductStoreList,this,storeID,this,this
+					requireContext(),mProductStoreList,this,storeID,this,this
 				)
+			}catch (e:Exception){
+				e.printStackTrace()
+			}
+
 				mView.search_rv_fgmt?.adapter=parentStoreListAdapter
 
 
@@ -189,7 +202,14 @@ class SearchFragment2 : Fragment() , AdapterClick,
 					mView.new_itemQuantity_textsearch_fgmt.text=count
 					mView.new_totalprice_txtsearch_fgmt.text= "₹"+price
 					mView.new_cartitemView_LLsearch_fgmt.visibility= View.VISIBLE
-					SessionTwiclo(context).storeId=cartcount.store_id
+					try {
+						SessionTwiclo(context).storeId=cartcount.store_id
+						sessionTwiclo.storeId=cartcount.store_id
+					}catch (e:Exception){
+						e.printStackTrace()
+						sessionTwiclo.storeId=cartcount.store_id
+
+					}
 					// setStoreId
 				}else{
 					mView.new_cartitemView_LLsearch_fgmt.visibility= View.GONE
@@ -202,25 +222,25 @@ class SearchFragment2 : Fragment() , AdapterClick,
 			dismissIOSProgress()
 
 			Log.e("cart_response", Gson().toJson(user))
-			if (SessionTwiclo(context).isLoggedIn) {
+			if (sessionTwiclo.isLoggedIn) {
 				viewmodel?.getSearchApi(
-						SessionTwiclo(context).loggedInUserDetail.accountId,
-						SessionTwiclo(context).loggedInUserDetail.accessToken,
+					sessionTwiclo.loggedInUserDetail.accountId,
+					sessionTwiclo.loggedInUserDetail.accessToken,
 						search_value!!
 				)
 				viewmodel?.getCartCountApi(
-						SessionTwiclo(context).loggedInUserDetail.accountId,
-						SessionTwiclo(context).loggedInUserDetail.accessToken
+					sessionTwiclo.loggedInUserDetail.accountId,
+					sessionTwiclo.loggedInUserDetail.accessToken
 				)
 			} else {
 				viewmodel?.getSearchApi(
-						SessionTwiclo(context).loggedInUserDetail.accountId,
-						SessionTwiclo(context).loggedInUserDetail.accessToken,
+					sessionTwiclo.loggedInUserDetail.accountId,
+					sessionTwiclo.loggedInUserDetail.accessToken,
 						search_value!!
 				)
 				viewmodel?.getCartCountApi(
-						SessionTwiclo(context).loggedInUserDetail.accountId,
-						SessionTwiclo(context).loggedInUserDetail.accessToken
+					sessionTwiclo.loggedInUserDetail.accountId,
+					sessionTwiclo.loggedInUserDetail.accessToken
 				)
 			}
 
@@ -236,33 +256,31 @@ class SearchFragment2 : Fragment() , AdapterClick,
 			} else {
 				MainActivity.tempProductList!!.clear()
 				MainActivity.addCartTempList!!.clear()
-
 			}
-			viewmodel?.getCartCountApi(
+			try {
+				viewmodel?.getCartCountApi(
 					SessionTwiclo(context).loggedInUserDetail.accountId,
 					SessionTwiclo(context).loggedInUserDetail.accessToken
-			)
-			//showToast(mModelData.message)
-		//	if (isNetworkConnected) {
-				//showIOSProgress()
+				)
+
 				if (SessionTwiclo(context).isLoggedIn) {
 					viewmodel?.getSearchApi(
-							SessionTwiclo(context).loggedInUserDetail.accountId,
-							SessionTwiclo(context).loggedInUserDetail.accessToken,
-							search_value!!
+						SessionTwiclo(context).loggedInUserDetail.accountId,
+						SessionTwiclo(context).loggedInUserDetail.accessToken,
+						search_value!!
 					)
 				} else {
 					viewmodel?.getSearchApi(
-							SessionTwiclo(context).loggedInUserDetail.accountId,
-							SessionTwiclo(context).loggedInUserDetail.accessToken,
-							search_value!!
+						SessionTwiclo(context).loggedInUserDetail.accountId,
+						SessionTwiclo(context).loggedInUserDetail.accessToken,
+						search_value!!
 					)
 				}
 
-			//} else {
-			//	showInternetToast()
-			//}
-			//   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+			}catch (e:Exception){
+				e.printStackTrace()
+			}
+
 		})
 
 		//clear cart all item
@@ -270,30 +288,35 @@ class SearchFragment2 : Fragment() , AdapterClick,
 			// dismissIOSProgress()
 
 			Log.e("stores_response", Gson().toJson(user))
-			if (tempType.equals("custom")) {
 
-				viewmodel!!.addToCartApi(
+			try {
+				if (tempType.equals("custom")) {
+
+					viewmodel!!.addToCartApi(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
 						SessionTwiclo(context).loggedInUserDetail.accessToken,
 						MainActivity.addCartTempList!!,
 						""
-				)
-				viewmodel?.getCartCountApi(
+					)
+					viewmodel?.getCartCountApi(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
 						SessionTwiclo(context).loggedInUserDetail.accessToken
-				)
-			} else {
-				viewmodel!!.addToCartApi(
+					)
+				} else {
+					viewmodel!!.addToCartApi(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
 						SessionTwiclo(context).loggedInUserDetail.accessToken,
 						MainActivity.addCartTempList!!,
 						""
 
-				)
-				viewmodel?.getCartCountApi(
+					)
+					viewmodel?.getCartCountApi(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
 						SessionTwiclo(context).loggedInUserDetail.accessToken
-				)
+					)
+				}
+			}catch (e:Exception){
+				e.printStackTrace()
 			}
 			//   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
 		})
@@ -404,22 +427,27 @@ class SearchFragment2 : Fragment() , AdapterClick,
 
 		} else {
 
-			if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals("")
-			) {
-				SessionTwiclo(context).storeId = storeID
-				Log.e("  store id", SessionTwiclo(context).storeId.toString())
-				showIOSProgress()
+			try {
+				if (SessionTwiclo(context).storeId.equals(storeID) || SessionTwiclo(context).storeId.equals("")
+				) {
+					SessionTwiclo(context).storeId = storeID
+					Log.e("  store id", SessionTwiclo(context).storeId.toString())
+					showIOSProgress()
 
-				viewmodel!!.addToCartApi(
+					viewmodel!!.addToCartApi(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
 						SessionTwiclo(context).loggedInUserDetail.accessToken,
 						MainActivity.addCartTempList!!,
 						""
-				)
-				SessionTwiclo(context).storeId = storeID
-			} else {
-				clearCartPopup()
+					)
+					SessionTwiclo(context).storeId = storeID
+				} else {
+					clearCartPopup()
+				}
+			}catch (e:Exception){
+				e.printStackTrace()
 			}
+
 		}
 	}
 
@@ -492,18 +520,23 @@ class SearchFragment2 : Fragment() , AdapterClick,
 					MainActivity.addCartTempList!!.add(addCartInputModel)
 				}
 				showIOSProgress()
-				viewmodel!!.addToCartApi(
+				try {
+					viewmodel!!.addToCartApi(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
 						SessionTwiclo(context).loggedInUserDetail.accessToken,
 						MainActivity.addCartTempList!!,
 						""
-				)
-			}
+					)
+				}catch (e:Exception){
+					e.printStackTrace()
+				}
 
+			}
 
 		} else {
 			showIOSProgress()
-			viewmodel?.addRemoveCartDetails(
+			try {
+				viewmodel?.addRemoveCartDetails(
 					SessionTwiclo(context).loggedInUserDetail.accountId,
 					SessionTwiclo(context).loggedInUserDetail.accessToken,
 					productId!!,
@@ -511,7 +544,11 @@ class SearchFragment2 : Fragment() , AdapterClick,
 					"0",
 					"","",
 					customIdsList!!
-			)
+				)
+
+			}catch (e:Exception){
+				e.printStackTrace()
+			}
 
 		}
 	}
@@ -574,34 +611,40 @@ class SearchFragment2 : Fragment() , AdapterClick,
 
 	//customize item minus click
 	override fun onRemoveItemClick(productId: String?, quantity: String?, isCustomize: String?, prodcustCustomizeId: String?, cart_id: String?) {
+		try {
 			if (cart_id != null) {
 				showIOSProgress()
 				viewmodel?.addRemoveCartDetails(
-						SessionTwiclo(context).loggedInUserDetail.accountId,
-						SessionTwiclo(context).loggedInUserDetail.accessToken,
-						productId!!,
-						"remove",
-						isCustomize!!,
-						prodcustCustomizeId!!,
-						cart_id,
-						customIdsList!!
+					SessionTwiclo(context).loggedInUserDetail.accountId,
+					SessionTwiclo(context).loggedInUserDetail.accessToken,
+					productId!!,
+					"remove",
+					isCustomize!!,
+					prodcustCustomizeId!!,
+					cart_id,
+					customIdsList!!
 				)
 			}
+		}catch (e:Exception){
+			e.printStackTrace()
+		}
+
 	}
 
 	override fun onResume() {
 		super.onResume()
-		//Here we have called Api of getGroceryProducts
-		viewmodel?.getSearchApi(
+		if(checkvalidation==0) {
+			//Here we have called Api of getGroceryProducts
+			viewmodel?.getSearchApi(
 				SessionTwiclo(context).loggedInUserDetail.accountId,
 				SessionTwiclo(context).loggedInUserDetail.accessToken,
 				search_value!!
-		)
-		viewmodel?.getCartCountApi(
+			)
+			viewmodel?.getCartCountApi(
 				SessionTwiclo(context).loggedInUserDetail.accountId,
 				SessionTwiclo(context).loggedInUserDetail.accessToken
-		)
-
+			)
+		}
 	}
 
 	fun showIOSProgress() {
