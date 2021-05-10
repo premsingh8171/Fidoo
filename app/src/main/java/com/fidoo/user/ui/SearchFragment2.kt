@@ -87,7 +87,7 @@ class SearchFragment2 : Fragment() , AdapterClick,
 				search_value=s.toString()
 				if (searchEdt_new?.text.toString().length >= 2) {
 					if (SessionTwiclo(requireContext()).isLoggedIn) {
-						showIOSProgress()
+						//showIOSProgress()
 						viewmodel?.getSearchApi(SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
 								SessionTwiclo(requireContext()).loggedInUserDetail.accessToken, search_value!!)
 
