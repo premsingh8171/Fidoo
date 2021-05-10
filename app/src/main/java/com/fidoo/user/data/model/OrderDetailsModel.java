@@ -32,6 +32,10 @@ public class OrderDetailsModel {
     @Expose
     public String storeName;
 
+    @SerializedName("delivery_boy_name")
+    @Expose
+    public String deliveryBoyName;
+
     @SerializedName("store_address")
     @Expose
     public String storeAddress;
@@ -81,7 +85,6 @@ public class OrderDetailsModel {
     @SerializedName("delivery_discount")
     @Expose
     public String delivery_discount;
-
 
     @SerializedName("date_time")
     @Expose

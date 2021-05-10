@@ -27,6 +27,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.fidoo.user.R
+import com.fidoo.user.data.model.GetAddressModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.MY_PERMISSIONS_REQUEST_CODE
@@ -64,7 +65,7 @@ import java.lang.Exception
 import java.lang.IndexOutOfBoundsException
 
 
-class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
+open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
 
     private var mMap: GoogleMap? = null
@@ -362,7 +363,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     }
 
-    protected fun checkPermission() {
+    private fun checkPermission() {
         if (ContextCompat.checkSelfPermission(this@AddAddressActivity, Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(
@@ -458,7 +459,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 settingsClient.checkLocationSettings(builder.build())
         task.addOnSuccessListener(this@AddAddressActivity,
             OnSuccessListener<LocationSettingsResponse?> { getDeviceLocation() })
-        task.addOnFailureListener(this@AddAddressActivity, OnFailureListener { e ->
+        task.addOnFailureListener(this@AddAddressActivity) { e ->
 
             if (e is ResolvableApiException) {
                 try {
@@ -489,23 +490,11 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
     private fun getDeviceLocation() {
         mFusedLocationProviderClient!!.lastLocation
 
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        mLastKnownLocation = task.result
-                        if (mLastKnownLocation != null) {
-                            mMap!!.moveCamera(
-                                CameraUpdateFactory.newLatLngZoom(
-                                    LatLng(
-                                        mLastKnownLocation!!.latitude,
-                                        mLastKnownLocation!!.longitude
-                                    ), DEFAULT_ZOOM
-                                )
-                            )
-                            val address = getGeoAddressFromLatLong(
-                                mLastKnownLocation!!.latitude,
-                                mLastKnownLocation!!.longitude
-                            )
-                        )
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    mLastKnownLocation = task.result
+                    if (mLastKnownLocation != null) {
+                        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mLastKnownLocation!!.latitude, mLastKnownLocation!!.longitude), DEFAULT_ZOOM))
                         val address = getGeoAddressFromLatLong(
                             mLastKnownLocation!!.latitude,
                             mLastKnownLocation!!.longitude
@@ -523,16 +512,31 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                                     super.onLocationResult(locationResult)
                                     mLastKnownLocation = locationResult.lastLocation
 
-                                    mMap!!.moveCamera(
-                                        CameraUpdateFactory.newLatLngZoom(
-                                            LatLng(
-                                                mLastKnownLocation!!.latitude,
-                                                mLastKnownLocation!!.longitude
-                                            ), DEFAULT_ZOOM
+                                    if (tv_Address.text == ""){
+
+                                        mMap!!.moveCamera(
+                                            CameraUpdateFactory.newLatLngZoom(
+                                                LatLng(
+                                                    mLastKnownLocation!!.latitude,
+                                                    mLastKnownLocation!!.longitude
+                                                ), DEFAULT_ZOOM
+                                            )
+
                                         )
 
-                                    )
-                                )
+                                    }else{
+                                        mMap!!.moveCamera(
+                                            CameraUpdateFactory.newLatLngZoom(
+                                                LatLng(
+                                                    lat!!,
+                                                    lng!!
+                                                ), DEFAULT_ZOOM
+                                            )
+
+                                        )
+                                    }
+
+
 
 
 

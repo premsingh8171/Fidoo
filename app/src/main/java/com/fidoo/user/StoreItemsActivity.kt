@@ -493,7 +493,7 @@ class StoreItemsActivity :
 
             categoryy = ArrayList()
 
-            for (i in 0 until mModelDataTemp?.category?.size!!) {
+            for (i in 0 until mModelDataTemp?.category?.size!! ) {
                 if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
                     var customListModel: CustomListModel? = CustomListModel()
                     customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
@@ -508,11 +508,11 @@ class StoreItemsActivity :
             tempPrice = 0.0
 
             //var tempPrice: Double? = 0.0
-            for (i in 0 until customIdsListTemp!!.size) {
+            for (i in 0 until customIdsListTemp!!.size ) {
                 tempPrice = tempPrice!! + customIdsListTemp!!.get(i).price.toDouble()
             }
 
-            for (i in 0 until categoryy!!.size) {
+            for (i in 0 until categoryy!!.size ) {
                 if (categoryy!!.get(i).price != null) {
                     tempPrice = tempPrice!! + categoryy!![i].price.toDouble()
                 }
@@ -764,7 +764,7 @@ class StoreItemsActivity :
                 // builder.setIcon(android.R.drawable.ic_dialog_alert)
 
                 //performing positive action
-                builder.setPositiveButton("I'LL CHOOSE") { dialogInterface, which ->
+                builder.setPositiveButton("I'LL CHOOSE") { _, _ ->
 
                     if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                         behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
@@ -776,7 +776,7 @@ class StoreItemsActivity :
 
                     //  tempProductId = productId
                     showIOSProgress()
-                    customIdsList!!.clear()
+                    //customIdsList!!.clear()
                     if (productId != null) {
                         viewmodel?.customizeProductApi(
                             SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -897,7 +897,7 @@ class StoreItemsActivity :
         var tempCat: String? = ""
         var tempPrice: String? = ""
         for (i in 0 until mModelDataTemp?.category!!.size) {
-            for (j in 0 until mModelDataTemp?.category!!.get(i).subCat.size) {
+            for (j in 0 until mModelDataTemp?.category!!.get(i).subCat.size ) {
                 if (checkedId == mModelDataTemp?.category!!.get(i).subCat.get(j).id) {
                     tempCat = mModelDataTemp?.category!!.get(i).catId
                     tempPrice = mModelDataTemp?.category!!.get(i).subCat.get(j).price
@@ -1124,7 +1124,7 @@ class StoreItemsActivity :
 
     override fun onAddItemClick(
         productId: String?,
-        quantity: String?,
+        items: String?,
         offerPrice: String?,
         isCustomize: String?,
         prodcustCustomizeId: String?,
@@ -1139,11 +1139,11 @@ class StoreItemsActivity :
             cartId = cart_id
         }
 
-        Log.d("isCustomize__",isCustomize!!+"\n"+quantity)
+        Log.d("isCustomize__",isCustomize!!+"\n"+items)
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Your previous customization")
-        builder.setMessage(quantity)
+        builder.setMessage(items)
         builder.setPositiveButton("I'LL CHOOSE") { _, which ->
 
             if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {

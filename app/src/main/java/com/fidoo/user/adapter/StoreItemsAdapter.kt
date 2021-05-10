@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -58,9 +59,15 @@ class StoreItemsAdapter(
         Log.d("kb cat postion", "" + productList[position])
 //        Log.d("kb cat postion",""+categotyList[position].product[position])
 
-        // holder.offerPrice.paintFlags = holder.offerPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        //holder.offerPrice.text = con.resources.getString(R.string.ruppee) + "" + product.get(position).price
-        holder.priceAfterDiscount.text = con.resources.getString(R.string.ruppee) + "" + index.offerPrice
+
+        if (index.price.toInt() > index.offerPrice.toInt()){
+            holder.offerPrice.paintFlags = holder.offerPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            holder.offerPrice.text = con.resources.getString(R.string.ruppee) + "" + index.price
+            holder.priceAfterDiscount.text = con.resources.getString(R.string.ruppee) + "" + index.offerPrice
+        }else{
+            holder.priceAfterDiscount.text = con.resources.getString(R.string.ruppee) + "" + index.offerPrice
+        }
+
         //holder.qty.text = product[position].weight + product[position].unit
         //holder.storeName.isSelected = true
         //holder.ratingTxtValue.text = storerating
@@ -399,7 +406,7 @@ class StoreItemsAdapter(
     }
 
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        //var offerPrice = view.productPrice
+        var offerPrice = view.productSellingPrice
         var priceAfterDiscount = view.productPrice
         var itemLay = view.store_item_lay
         //var qty = view.tv_quantity

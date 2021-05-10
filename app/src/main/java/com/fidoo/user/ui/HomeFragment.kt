@@ -326,11 +326,8 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding?.cartIcon?.setOnClickListener {
             if (SessionTwiclo(context).isLoggedIn){
                 startActivity(
-                        Intent(context, CartActivity::class.java).putExtra(
-                                "store_id", SessionTwiclo(
-                                context
-                        ).storeId
-                        )
+                    Intent(context, CartActivity::class.java).putExtra("storeId", SessionTwiclo(context).storeId
+                    )
                 )
             }else{
                 showLoginDialog("Please login to proceed")
@@ -341,8 +338,8 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding?.profileIconn?.setOnClickListener {
             if (SessionTwiclo(context).isLoggedIn){
                 fragmentManager?.beginTransaction()
-                        ?.replace(R.id.container, ProfileFragment())
-                        ?.commitAllowingStateLoss()
+                    ?.replace(R.id.container, ProfileFragment())
+                    ?.commitAllowingStateLoss()
 
             }else{
                 showLoginDialog("Please login to proceed")

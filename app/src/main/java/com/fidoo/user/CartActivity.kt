@@ -31,6 +31,7 @@ import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.view.TrackOrderActivity
 import com.fidoo.user.view.address.SavedAddressesActivity
+import com.fidoo.user.viewmodels.AddressViewModel
 import com.fidoo.user.viewmodels.CartViewModel
 import com.fidoo.user.viewmodels.StoreDetailsViewModel
 import com.fidoo.user.viewmodels.TrackViewModel
@@ -56,6 +57,7 @@ class CartActivity : BaseActivity(),
     var viewmodel: CartViewModel? = null
     var totalAmount: Double = 0.0
     var storeViewModel: StoreDetailsViewModel? = null
+    var addressViewModel: AddressViewModel? = null
     var finalPrice: Double = 0.0
     var storeId: String = ""
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
@@ -97,14 +99,15 @@ class CartActivity : BaseActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
-        val window: Window = this.getWindow()
+        val window: Window = this.window
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
-        storeId = intent.getStringExtra("store_id").toString()
+        storeId = intent.getStringExtra("storeId").toString()
 
         viewmodel = ViewModelProviders.of(this).get(CartViewModel::class.java)
         storeViewModel = ViewModelProviders.of(this).get(StoreDetailsViewModel::class.java)
+        addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
 
         behavior = BottomSheetBehavior.from(bottom_sheet)
         selectedAddressId = ""
@@ -137,6 +140,13 @@ class CartActivity : BaseActivity(),
             intent.getStringExtra("catId")
         )
 
+        addressViewModel?.getAddressesApi(
+            SessionTwiclo(this).loggedInUserDetail.accountId,
+            SessionTwiclo(this).loggedInUserDetail.accessToken,
+            "",
+            ""
+        )
+
         backIcon.setOnClickListener {
             finish()
         }
@@ -157,14 +167,68 @@ class CartActivity : BaseActivity(),
                 .start()
         }
 
+
+        customAddBtn.setOnClickListener {
+            if (isNetworkConnected) {
+                var mCartId: String? = null
+                for (i in 0 until categoryy!!.size) {
+                    customIdsList!!.add(categoryy!!.get(i).id.toString())
+                }
+
+                viewmodel?.getCartDetailsResponse?.observe(this , Observer { user->
+                    val mCartModelData : CartModel = user
+
+                    try {
+                        if (user.cart.size != 0){
+                            for (i in 0 until user.cart.size) {
+                                mCartId = mCartModelData.cart[i].cart_id
+                            }
+                        }
+                    } catch (e: NullPointerException){
+                        e.toString()
+                    }
+
+
+
+
+                })
+
+                Log.e("customIdsList", customIdsList.toString())
+                showIOSProgress()
+                SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
+
+                addCartTempList!!.clear()
+                val addCartInputModel = AddCartInputModel()
+                addCartInputModel.productId = tempProductId
+                addCartInputModel.quantity = countValuee.text.toString()
+                addCartInputModel.message = "add product"
+                addCartInputModel.customizeSubCatId = customIdsList!!
+                addCartInputModel.isCustomize = "1"
+                addCartTempList!!.add(addCartInputModel)
+                viewmodel!!.addToCartApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    addCartTempList!!,
+                    mCartId!!
+
+                )
+            } else {
+                showInternetToast()
+            }
+
+
+        }
+
+
+
         storeViewModel?.getStoreDetailsApi?.observe(this, Observer {
             // calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
-try {
-    storeLat = it.storeLatitude
-    storeLong = it.storeLongitude
-}catch (e:Exception){
-    e.printStackTrace()
-}
+            try {
+                storeLat = it.storeLatitude
+                storeLong = it.storeLongitude
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
 
 
             viewmodel?.getCartDetails(
@@ -190,7 +254,7 @@ try {
             storeViewModel?.getStoreDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken,
-                intent.getStringExtra("storeId"),
+                storeId,
                 "",
                 intent.getStringExtra("catId")
 
@@ -222,11 +286,9 @@ try {
 
             for (i in 0..mModelDataTemp?.category?.size!! - 1) {
                 if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
-                    var customListModel: CustomListModel? =
-                        CustomListModel()
+                    var customListModel: CustomListModel? = CustomListModel()
                     customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
-                    customListModel.id =
-                        mModelDataTemp?.category?.get(i)!!.subCat.get(0).id.toInt()
+                    customListModel.id = mModelDataTemp?.category?.get(i)!!.subCat.get(0).id.toInt()
                     customListModel.price = mModelDataTemp?.category?.get(i)!!.subCat.get(0).price
                     categoryy!!.add(customListModel)
                 } else {
@@ -315,56 +377,7 @@ try {
             }
         }
 
-        customAddBtn.setOnClickListener {
-            if (isNetworkConnected) {
-                var mCartId: String? = null
-                for (i in 0..categoryy!!.size - 1) {
-                    customIdsList!!.add(categoryy!!.get(i).id.toString())
-                }
 
-                viewmodel?.getCartDetailsResponse?.observe(this , Observer { user->
-                    val mCartModelData : CartModel = user
-
-                    try {
-                        if (user.cart.size != 0){
-                            for (i in 0 until user.cart.size) {
-                                mCartId = mCartModelData.cart[i].cart_id
-                            }
-                        }
-                    } catch (e: NullPointerException){
-                        e.toString()
-                    }
-
-
-
-
-                })
-
-                Log.e("customIdsList", customIdsList.toString())
-                showIOSProgress()
-                SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
-
-                addCartTempList!!.clear()
-                val addCartInputModel = AddCartInputModel()
-                addCartInputModel.productId = tempProductId
-                addCartInputModel.quantity = countValuee.text.toString()
-                addCartInputModel.message = "add product"
-                addCartInputModel.customizeSubCatId = customIdsList!!
-                addCartInputModel.isCustomize = "1"
-                addCartTempList!!.add(addCartInputModel)
-                viewmodel!!.addToCartApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    addCartTempList!!,
-                    mCartId!!
-
-                )
-            } else {
-                showInternetToast()
-            }
-
-
-        }
 
 
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
@@ -788,6 +801,58 @@ try {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+
+        tv_delivery_address_title.text = selectedAddressTitle
+        tv_delivery_address.text = selectedAddressName
+        if (!isNetworkConnected) {
+            showToast(resources.getString(R.string.provide_internet))
+
+        } else {
+            showIOSProgress()
+
+            storeViewModel?.getStoreDetailsApi?.observe(this, {
+                try {
+                    storeLat = it.storeLatitude
+                    storeLong = it.storeLongitude
+                }catch (e:java.lang.Exception){
+                    e.printStackTrace()
+                }
+
+                //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
+
+            })
+
+
+            viewmodel?.getCartDetails(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                userLat,
+                userLong
+            )
+
+
+
+        }
+//        selectedAddressValue.text = selectedAddressName
+        if (SessionTwiclo(this).userAddressId != "") {
+            tv_delivery_address_title.text = selectedAddressTitle
+        }
+
+
+        if (selectedCouponName != "") {
+            tv_coupon.text = selectedCouponName
+            viewmodel?.applyPromoApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                selectedCouponName
+            )
+        }
+
+    }
+
     private fun startPayment() {
 
         /*
@@ -901,6 +966,55 @@ try {
         }
     }
 
+    override fun onItemClick(
+        productId: String?,
+        type: String?,
+        count: String?,
+        offerPrice: String?,
+        customize_count: Int?,
+        productType: String?,
+        cart_id: String?) {
+
+        val builder = AlertDialog.Builder(this)
+        //set title for alert dialog
+        builder.setTitle("Remove")
+        //set message for alert dialog
+        builder.setMessage("Are you sure you want to remove this item?")
+        builder.setIcon(R.drawable.about_icon)
+
+        //performing positive action
+        builder.setPositiveButton("Yes") { dialogInterface, which ->
+
+
+            if (isNetworkConnected) {
+                showIOSProgress()
+                if (cart_id != null) {
+                    viewmodel?.deleteCartDetails(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!,
+                        cart_id
+                    )
+                    onresumeHandle=1
+                }
+            } else {
+                showInternetToast()
+            }
+
+            //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
+        }
+
+        //performing negative action
+        builder.setNegativeButton("No") { dialogInterface, which ->
+            //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
+        }
+        // Create the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+
+    }
+
     override fun onAddItemClick(productId: String, quantity: String, offerPrice: String, isCustomize: String, productCustomizeId: String, cart_id: String) {
 
         if (!isNetworkConnected) {
@@ -932,12 +1046,9 @@ try {
                     customIdsList!!.clear()
                     if (productId != null) {
                         viewmodel?.customizeProductApi(
-                            SessionTwiclo(
-                                this
-                            ).loggedInUserDetail.accountId,
-                            SessionTwiclo(
-                                this
-                            ).loggedInUserDetail.accessToken, productId
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            productId
                         )
                     }
                     //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
@@ -1002,107 +1113,6 @@ try {
             onresumeHandle=1
         }
 
-
-    }
-
-//    override fun onResume() {
-//        super.onResume()
-//
-//
-//        tv_delivery_address_title.text = selectedAddressTitle
-//        tv_delivery_address.text = selectedAddressName
-//        if (!isNetworkConnected) {
-//            showToast(resources.getString(R.string.provide_internet))
-//
-//        } else {
-//            showIOSProgress()
-//
-//            storeViewModel?.getStoreDetailsApi?.observe(this, {
-//              try {
-//                  storeLat = it.storeLatitude
-//                  storeLong = it.storeLongitude
-//              }catch (e:java.lang.Exception){
-//                  e.printStackTrace()
-//              }
-//
-//                //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
-//
-//            })
-//
-//
-//            storeViewModel?.getStoreDetailsApi?.observe(this, {
-//                storeLat = it.storeLatitude
-//                storeLong = it.storeLongitude
-//                //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
-//
-//            })
-//
-//            viewmodel?.getCartDetails(
-//                SessionTwiclo(this).loggedInUserDetail.accountId,
-//                SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                userLat,
-//                userLong
-//            )
-//
-//
-//
-//        }
-////        selectedAddressValue.text = selectedAddressName
-//        if (SessionTwiclo(this).userAddressId != "") {
-//            tv_delivery_address_title.text = selectedAddressTitle
-//        }
-//
-//
-//        if (!selectedCouponName.equals("")) {
-//            tv_coupon.text = selectedCouponName
-//            viewmodel?.applyPromoApi(
-//                SessionTwiclo(this).loggedInUserDetail.accountId,
-//                SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                selectedCouponName
-//            )
-//        }
-//
-//    }
-
-    override fun onItemClick(productId: String?, type: String?, count: String?, offerPrice: String?, customize_count: Int?, productType: String?, cart_id: String?) {
-
-        val builder = AlertDialog.Builder(this)
-        //set title for alert dialog
-        builder.setTitle("Remove")
-        //set message for alert dialog
-        builder.setMessage("Are you sure you want to remove this item?")
-        builder.setIcon(R.drawable.about_icon)
-
-        //performing positive action
-        builder.setPositiveButton("Yes") { dialogInterface, which ->
-
-
-            if (isNetworkConnected) {
-                showIOSProgress()
-                if (cart_id != null) {
-                    viewmodel?.deleteCartDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!,
-                        cart_id
-                    )
-                    onresumeHandle=1
-                }
-            } else {
-                showInternetToast()
-            }
-
-            //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
-        }
-
-        //performing negative action
-        builder.setNegativeButton("No") { dialogInterface, which ->
-            //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
-        }
-        // Create the AlertDialog
-        val alertDialog: AlertDialog = builder.create()
-        // Set other dialog properties
-        alertDialog.setCancelable(false)
-        alertDialog.show()
 
     }
 
