@@ -342,7 +342,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:fontFamily="@font/proxima"
-                android:text="Pay Using: "
+                android:text="Payment mode: "
                 android:layout_gravity="center_vertical"/>
 
             <LinearLayout

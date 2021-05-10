@@ -119,16 +119,6 @@ public abstract class BaseFragment extends Fragment  implements Handler.Callback
 
 
     public void dismissIOSProgress() {
-        /*    try {
-            if (mKProgressHUD != null) {
-                if (mKProgressHUD.isShowing()) {
-                    mKProgressHUD.dismiss();
-                }
-            }
-        } catch (Exception ex) {
-            Log.wtf("IOS_error_dismiss", ex.getCause());
-        }
-*/
         if (_progressDlg == null) {
             return;
         }
@@ -145,23 +135,6 @@ public abstract class BaseFragment extends Fragment  implements Handler.Callback
     }
 
     public void showIOSProgress() {
-        /*   try {
-            mKProgressHUD = KProgressHUD.create(this)
-                    .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
-                    //  .setLabel("Please wait")
-                    //  .setDetailsLabel(msg)
-                    .setCancellable(true)
-
-                    .setAnimationSpeed(1)
-                    .setDimAmount(.2f)
-                    .show();
-        } catch (Exception ex) {
-            Log.wtf("IOS_error_starting", ex.getCause());
-        }*/
-        /* _progressDlg = new ProgressDialog(_context,R.style.AppTheme);
-        _progressDlg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        _progressDlg.setCancelable(true);
-        _progressDlg.show();*/
         closeProgress();
         _progressDlg = new ProgressDialog(requireContext(), R.style.TransparentProgressDialog);
         _progressDlg.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -169,18 +142,8 @@ public abstract class BaseFragment extends Fragment  implements Handler.Callback
         _progressDlg.setCancelable(false);
         _progressDlg.show();
     }
-/*    public void showProgress(boolean cancelable) {
-        closeProgress();
-        _progressDlg = new ProgressDialog(_context, R.style.MyTheme);
-        _progressDlg.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-        _progressDlg.setCancelable(cancelable);
-        _progressDlg.show();
 
-    }*/
 
-    /* //  public void showProgress() {
-        showProgress(false);
-    }*/
 
     public String getGeoAddressFromLatLong(double latitude, double longitude) {
         Geocoder geocoder;
