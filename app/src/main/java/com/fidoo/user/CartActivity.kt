@@ -334,7 +334,7 @@ class CartActivity : BaseActivity(),
         }
 
         cash_lay.setOnClickListener {
-            isSelected = "cod"
+            isSelected = "cash"
             cash_lay.setBackgroundResource(R.drawable.bg_green_roundborder)
 
             img_cash.setColorFilter(resources.getColor(R.color.white))
@@ -442,7 +442,7 @@ class CartActivity : BaseActivity(),
                     }
 
                     if (user.cart[0].cod.equals("1")) {
-                        isSelected = "cod"
+                        isSelected = "cash"
 
                         cash_lay.visibility = View.VISIBLE
                         //cashOnDeliveryRadioBtn.visibility = View.VISIBLE
@@ -569,24 +569,28 @@ class CartActivity : BaseActivity(),
 
                     if (!mModelData.coupon_id.equals("")) {
 
+                        tv_coupon.visibility = View.VISIBLE
+
 
                         /*appliedpromoValue.visibility = View.VISIBLE
                         appliedpromoDesc.visibility = View.VISIBLE
                         removeBtn.visibility = View.VISIBLE
                         view333.visibility = View.VISIBLE
-                        discountLabel.visibility = View.VISIBLE
+
                         discountValue.visibility = View.VISIBLE
                         promoValue.visibility = View.GONE
                         applyBtn.visibility = View.GONE
                         getOfferTxt.visibility = View.GONE
-                        offerIcon.visibility = View.GONE
-                        appliedpromoValue.text = mModelData.coupon_name
+                        offerIcon.visibility = View.GONE*/
+                        tv_coupon.text = "Cart Coupon Applied (" +mModelData.coupon_name+ ")"
                         totalAmount = totalAmount - mModelData.discount_amount.toDouble()
-                        totalAmountBottom.text = resources.getString(R.string.ruppee) + totalAmount.toString()
-                        grandPrice.text = resources.getString(R.string.ruppee) + totalAmount.toString()*/
+                        tv_place_order.text = "Pay "+ resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
+                        tv_grand_total.text = resources.getString(R.string.ruppee) + totalAmount.toString()
                         //showToast("Offer applied successfully")
                     } else {
-                        //discountLabel.visibility = View.GONE
+                        tv_cart_discount.visibility = View.GONE
+                        tv_cart_discount_label.visibility = View.GONE
+                        tv_coupon.visibility = View.GONE
                         //discountValue.visibility = View.GONE
                     }
 
@@ -670,10 +674,10 @@ class CartActivity : BaseActivity(),
 
             Log.e("cart response", Gson().toJson(user))
             viewmodel?.getCartDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    userLat,
-                    userLong
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                userLat,
+                userLong
             )
             if (user.couponApply.equals("2")) {
 
@@ -685,14 +689,14 @@ class CartActivity : BaseActivity(),
                 promoValue.visibility = View.GONE
                 applyBtn.visibility = View.GONE
                 getOfferTxt.visibility = View.GONE
-                offerIcon.visibility = View.GONE
-                appliedpromoValue.text = promoValue.text.toString()
-                discountValue.text = resources.getString(R.string.ruppee) + user.discountAmount*/
+                offerIcon.visibility = View.GONE*/
+                //tv_coupon.text = promoValue.text.toString()
+                tv_cart_discount.text = resources.getString(R.string.ruppee) + user.discountAmount
 
                 totalAmount = totalAmount - user.discountAmount.toDouble()
 
-                tv_place_order.text = resources.getString(R.string.ruppee) + finalPrice.toFloat().toString()
-                tv_grand_total.text = resources.getString(R.string.ruppee) + finalPrice.toFloat().toString()
+                tv_place_order.text = "Pay "+ resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
+                tv_grand_total.text = resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
                 Log.e("Grand Total after promo", tv_grand_total.text.toString())
                 Log.e("Final Price after promo", tv_place_order.text.toString())
                 //discountLabel.visibility = View.VISIBLE
@@ -746,14 +750,14 @@ class CartActivity : BaseActivity(),
                 } else {
                     showIOSProgress()
                     viewmodel?.orderPlaceApi(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            finalPrice.toFloat().toString(),
-                            deliveryOption,
-                            SessionTwiclo(this).userAddressId,
-                            "",
-                            ed_delivery_instructions.text.toString(),
-                            isSelected
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        finalPrice.toFloat().toString(),
+                        deliveryOption,
+                        SessionTwiclo(this).userAddressId,
+                        "",
+                        ed_delivery_instructions.text.toString(),
+                        isSelected
                     )
                 }
             }
@@ -782,12 +786,12 @@ class CartActivity : BaseActivity(),
             } else {
                 if (isNetworkConnected) {
                     viewmodel?.paymentApi(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            user.orderId,
-                            "",
-                            "",
-                            "cash"
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        user.orderId,
+                        "",
+                        "",
+                        "cash"
                     )
 
                 } else {
@@ -912,12 +916,12 @@ class CartActivity : BaseActivity(),
         try{
             Toast.makeText(this, "Payment Successful", Toast.LENGTH_LONG).show()
             viewmodel?.paymentApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    tempOrderId,
-                    razorpayPaymentId!!,
-                    "",
-                    "online"
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                tempOrderId,
+                razorpayPaymentId!!,
+                "",
+                "online"
             )
 
 

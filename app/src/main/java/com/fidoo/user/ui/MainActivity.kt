@@ -101,8 +101,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         mUpdateManager?.start()
 
 
-
-       // window.statusBarColor = ContextCompat.getColor(this, R.color.colorTransparent)
+        // window.statusBarColor = ContextCompat.getColor(this, R.color.colorTransparent)
 
         val mBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -163,12 +162,16 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
         if (isNetworkConnected) {
-            viewmodel?.getAddressesApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                CartActivity.storeLat,
-                CartActivity.storeLong
-            )
+            try {
+                viewmodel?.getAddressesApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    CartActivity.storeLat,
+                    CartActivity.storeLong
+                )
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
         } else {
             showInternetToast()
         }

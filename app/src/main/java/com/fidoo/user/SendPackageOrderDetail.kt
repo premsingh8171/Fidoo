@@ -58,18 +58,16 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         sendPackagesViewModel = ViewModelProvider(this).get(SendPackagesViewModel::class.java)
 
         try {
-            tv_base_charges.text = "Delivery charges starting from" +baseCharges + "for first" +baseDistance+ "kms"
+            tv_base_charges.text = "Delivery charges starting from " +baseCharges + " for first " +baseDistance+ " kms"
         }catch (e: NullPointerException){
             Log.e("Error Base distance", e.toString())
         }
 
 
-
-
-
         cash_lay.setOnClickListener {
             paymentMode = "cash"
-            cash_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+            cash_lay.setBackgroundColor(R.drawable.bg_green_roundborder)
+          //  cash_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
             img_cash.setColorFilter(resources.getColor(R.color.colorPrimary))
             tv_cash.setTextColor(resources.getColor(R.color.white))
             online_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
@@ -81,7 +79,9 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
 
         online_lay.setOnClickListener {
             paymentMode = "online"
-            online_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+            online_lay.setBackgroundColor(R.drawable.bg_green_roundborder)
+
+           // online_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
             img_online.setColorFilter(resources.getColor(R.color.colorPrimary))
             tv_online_send_package.setTextColor(resources.getColor(R.color.white))
             cash_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
