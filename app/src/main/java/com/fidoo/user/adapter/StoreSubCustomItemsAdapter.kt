@@ -25,6 +25,8 @@ class StoreSubCustomItemsAdapter(
     RecyclerView.Adapter<StoreSubCustomItemsAdapter.UserViewHolder>() {
 
     var clickPosition = 0
+    var selectionCount = 0
+    var boolean:Boolean=false
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.custom_sub_items_adapter, parent, false)
@@ -33,43 +35,52 @@ class StoreSubCustomItemsAdapter(
     override fun getItemCount() = subCat.size
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        //  holder.offerPrice.setPaintFlags(holder.offerPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
-
-        /* holder.addToCartButton.setOnClickListener {
-            con.startActivity(Intent(con,SingleProductActivity::class.java))
-        }*/
 
         if(typeview.equals("CheckBox")) {
             holder.itemView.mainLayyRadioGroup.visibility=View.GONE
             holder.itemView.mainLayy.visibility=View.VISIBLE
             var tempSelectionCount = 0
             Log.e("dd", subCat[position].subCatName)
+
             holder.itemLabel.setOnClickListener {
-                if (holder.itemLabel.isChecked) {
-                    tempSelectionCount++
-                    if (tempSelectionCount == 1) {
+
+                if (selectionCount<maxSelectionCount.toInt()) {
+
+                    if (holder.itemLabel.isChecked) {
+                        selectionCount++
                         tempSelectionCount++
+                        if (tempSelectionCount == 1) {
+                            tempSelectionCount++
+                        }
+
+                        customCartAddRemoveClick.onIdSelected(
+                            subCat[position].id, "select",
+                            subCat[position].price, tempSelectionCount
+                        )
+                    } else {
+                        selectionCount--
+                        tempSelectionCount--
+                        customCartAddRemoveClick.onIdSelected(
+                            subCat[position].id, "unselect",
+                            subCat[position].price, tempSelectionCount
+                        )
                     }
-
-                    //Toast.makeText(con, tempSelectionCount.toString(), Toast.LENGTH_SHORT).show()
-
-                    //!holder.itemLabel.isChecked
-                    customCartAddRemoveClick.onIdSelected(subCat[position].id, "select",
-                            subCat[position].price, tempSelectionCount)
-                } else {
-
-                    tempSelectionCount--
-                    //Toast.makeText(con, tempSelectionCount.toString(), Toast.LENGTH_SHORT).show()
-                    customCartAddRemoveClick.onIdSelected(subCat[position].id, "unselect",
-                            subCat[position].price, tempSelectionCount)
-                }
-                if (tempSelectionCount == maxSelectionCount.toInt()) {
-                    holder.itemLabel.isClickable = false
-
-                } else {
+                }else{
+                       if (holder.itemLabel.isChecked==false){
+                           selectionCount--
+                       }else{
+                           holder.itemLabel.isChecked = false
+                       }
 
                 }
+
+//                if (tempSelectionCount == maxSelectionCount.toInt()) {
+//                    holder.itemLabel.isClickable = false
+//
+//                }
             }
+
+
             holder.itemLabel.text = subCat[position].subCatName + " (" + con.resources.getString(R.string.ruppee) + subCat[position].price + ")"
         }else{
 
