@@ -66,11 +66,12 @@ class StoreSubCustomItemsAdapter(
                         )
                     }
                 }else{
-                       if (holder.itemLabel.isChecked==false){
-                           selectionCount--
-                       }else{
-                           holder.itemLabel.isChecked = false
-                       }
+                    Toast.makeText(con, "You can select only "+maxSelectionCount+"customization at once", Toast.LENGTH_LONG).show()
+                    if (holder.itemLabel.isChecked==false){
+                        selectionCount--
+                    }else{
+                        holder.itemLabel.isChecked = false
+                    }
 
                 }
 
