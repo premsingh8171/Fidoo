@@ -108,7 +108,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         productList = ArrayList()
         productList!!.clear()
 
-        cartviewFromGrocery.setOnClickListener {
+        cartitemView_LL.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
                 startActivity(
                     Intent(this, CartActivity::class.java).putExtra(

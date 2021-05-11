@@ -413,9 +413,11 @@ class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallba
                         holder.buttonValue.text = "Review"
                     }*/
 
+                    tv_order_rejection.text = "your order has been delivered. Enjoy!!"
+
                     order_status.text = "Your order is delivered"
                     address_details_lay.visibility = View.GONE
-                    tv_order_rejection.visibility = View.VISIBLE
+                    tv_order_rejection.visibility = View.GONE
                     tv_delivery_boy_call.visibility = View.GONE
                     separator_one.visibility = View.GONE
                     tv_order_id.visibility = View.GONE

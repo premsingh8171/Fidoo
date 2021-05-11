@@ -129,7 +129,7 @@ class CartActivity : BaseActivity(),
 
         //For Faster checkout of RazorPay
         Checkout.preload(applicationContext)
-        co.setKeyID("rzp_test_17ihcfTIqBGF9R")
+        co.setKeyID("rzp_live_iceNLz5pb15jtP")
 
 
         storeViewModel?.getStoreDetails(
@@ -582,6 +582,8 @@ class CartActivity : BaseActivity(),
                         applyBtn.visibility = View.GONE
                         getOfferTxt.visibility = View.GONE
                         offerIcon.visibility = View.GONE*/
+                        tv_cart_discount.visibility = View.VISIBLE
+                        tv_cart_discount_label.visibility = View.VISIBLE
                         tv_coupon.text = "Cart Coupon Applied (" +mModelData.coupon_name+ ")"
                         tv_cart_discount.text = resources.getString(R.string.ruppee) + user.discount_amount
                         totalAmount = totalAmount - mModelData.discount_amount.toDouble()
@@ -663,10 +665,11 @@ class CartActivity : BaseActivity(),
         viewmodel?.uploadPrescriptionResponse?.observe(this, { user ->
 
             dismissIOSProgress()
-
             Log.e("cart response", Gson().toJson(user))
 
-            showToast(user.message)
+            Toast.makeText(this, user.message, Toast.LENGTH_SHORT).show()
+            cart_payment_lay.isEnabled = true
+            cart_payment_lay.alpha = 1.0f
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
@@ -675,10 +678,10 @@ class CartActivity : BaseActivity(),
 
             Log.e("cart response", Gson().toJson(user))
             viewmodel?.getCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                userLat,
-                userLong
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    userLat,
+                    userLong
             )
             if (user.couponApply.equals("2")) {
 
@@ -693,9 +696,7 @@ class CartActivity : BaseActivity(),
                 offerIcon.visibility = View.GONE*/
                 //tv_coupon.text = promoValue.text.toString()
                 tv_cart_discount.text = resources.getString(R.string.ruppee) + user.discountAmount
-
                 totalAmount = totalAmount - user.discountAmount.toDouble()
-
                 tv_place_order.text = "Pay "+ resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
                 tv_grand_total.text = resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
                 Log.e("Grand Total after promo", tv_grand_total.text.toString())
@@ -1161,6 +1162,8 @@ class CartActivity : BaseActivity(),
              RequestBody.create(MediaType.parse("text/plain"), orderId)*/
         // dismissIOSProgress()
         showIOSProgress()
+        cart_payment_lay.isEnabled = false
+        cart_payment_lay.alpha = 0.2f
         viewmodel?.uploadPrescriptionImage(
             accountId,
             accessToken, mImageParts

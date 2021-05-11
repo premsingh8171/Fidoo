@@ -55,10 +55,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/item_lay"
             android:layout_marginTop="@dimen/margin_10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/total_itemTxt_fgmt"
@@ -105,7 +107,7 @@
 
     <LinearLayout
         android:id="@+id/new_cartitemView_LLsearch_fgmt"
-        android:visibility="visible"
+        android:visibility="gone"
         android:gravity="center_vertical"
         android:background="@color/colorGreenText"
         app:layout_constraintBottom_toBottomOf="parent"
