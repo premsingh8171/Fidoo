@@ -111,37 +111,7 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         val token = AutocompleteSessionToken.newInstance()
         checkPermission()
 
-        if (intent.hasExtra("data")) {
 
-            val model: GetAddressModel.AddressList = Gson().fromJson(
-                intent.getStringExtra("data"),
-                GetAddressModel.AddressList::class.java
-            )
-            lat=model.latitude.toDouble()
-            lng=model.longitude.toDouble()
-            tv_Address.text = model.location
-            ed_name.setText(model.name)
-            ed_phone.setText(model.phone_no)
-            ed_address.setText(model.flatNo)
-            //buildingValue.setText(model.building)
-            ed_landmark.setText(model.landmark)
-            tempAddressId=model.id
-            defaultCheckBox.isChecked = model.is_default.equals("1")
-
-
-            when {
-                model.addressType.equals("1") -> {
-                    homeRadioBtn.isChecked = true
-                }
-                model.addressType.equals("2") -> {
-                    officeRadioBtn.isChecked = true
-                }
-                else -> {
-                    otherRadioBtn.isChecked = true
-                }
-            }
-
-        }
 
 
         searchBar!!.setOnSearchActionListener(object :
@@ -367,7 +337,12 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             }
         } else {
             //  Toast.makeText(this@AddAddressActivity, "Permissions already granted", Toast.LENGTH_SHORT).show();
-            getDeviceLocation()
+            if (intent.hasExtra("data")) {
+
+            }else{
+                getDeviceLocation()
+            }
+
         }
     }
 
@@ -418,27 +393,32 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         mMap!!.setOnCameraIdleListener {
             val center = mMap!!.cameraPosition.target
             // Toast.makeText(applicationContext,""+center.latitude,Toast.LENGTH_SHORT).show()
-
-
             val address = getGeoAddressFromLatLong(center.latitude, center.longitude)
             tv_Address.text = address
             lat = center.latitude
             lng = center.longitude
+
+
         }
 
         //check if gps is enabled or not and then request user to enable it
         val locationRequest = LocationRequest.create()
-        locationRequest.interval = 10000
-        locationRequest.fastestInterval = 5000
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
         val settingsClient = LocationServices.getSettingsClient(this@AddAddressActivity)
         val task: Task<LocationSettingsResponse> =
             settingsClient.checkLocationSettings(builder.build())
-        task.addOnSuccessListener(this@AddAddressActivity,
-            OnSuccessListener<LocationSettingsResponse?> { getDeviceLocation() })
+        task.addOnSuccessListener(this@AddAddressActivity
+        ) {
 
-        task.addOnFailureListener(this@AddAddressActivity, OnFailureListener { e ->
+            if (intent.hasExtra("data")) {
+
+            }else{
+                getDeviceLocation()
+            }
+        }
+
+        task.addOnFailureListener(this@AddAddressActivity) { e ->
 
             if (e is ResolvableApiException) {
                 try {
@@ -447,7 +427,7 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                     e1.printStackTrace()
                 }
             }
-        })
+        }
 //        mMap!!.setOnMyLocationButtonClickListener {
 //            if (searchBar!!.isSuggestionsVisible) searchBar!!.clearSuggestions()
 //            if (searchBar!!.isSearchEnabled) searchBar!!.disableSearch()
@@ -460,7 +440,11 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 51) {
             if (resultCode == RESULT_OK) {
-                getDeviceLocation()
+                if (intent.hasExtra("data")) {
+
+                }else{
+                    getDeviceLocation()
+                }
             }
         }
     }
@@ -473,72 +457,95 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                     mLastKnownLocation = task.result
                     if (mLastKnownLocation != null) {
 
-                        mMap!!.moveCamera(
-                            CameraUpdateFactory.newLatLngZoom(
-                                LatLng(
-                                    mLastKnownLocation!!.latitude,
-                                    mLastKnownLocation!!.longitude
-                                ), DEFAULT_ZOOM
+                        if (intent.hasExtra("data")) {
+
+                            mMap!!.moveCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    LatLng(
+                                        lat!!,
+                                        lng!!
+                                    ), DEFAULT_ZOOM
+                                )
                             )
-                        )
-
-                        val address = getGeoAddressFromLatLong(
-                            mLastKnownLocation!!.latitude,
-                            mLastKnownLocation!!.longitude
-                        )
 
 
-                        if (tv_Address.text == "") {
+
+                            val address = getGeoAddressFromLatLong(
+                                lat!!,
+                                lng!!
+                            )
                             tv_Address.text = address
-                        } else {
-                            val locationRequest = LocationRequest.create()
-                            locationRequest.interval = 10000
-                            locationRequest.fastestInterval = 5000
-                            locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-                            locationCallback = object : LocationCallback() {
-                                override fun onLocationResult(locationResult: LocationResult) {
-                                    super.onLocationResult(locationResult)
-                                    mLastKnownLocation = locationResult.lastLocation
 
-                                    mMap!!.moveCamera(
-                                        CameraUpdateFactory.newLatLngZoom(
-                                            LatLng(
-                                                mLastKnownLocation!!.latitude,
-                                                mLastKnownLocation!!.longitude
-                                            ), DEFAULT_ZOOM
-                                        )
-                                    )
-
-
-
-                                    mFusedLocationProviderClient!!.removeLocationUpdates(
-                                        locationCallback!!
-                                    )
-                                }
-                            }
-                            if (ActivityCompat.checkSelfPermission(
-                                    this,
-                                    Manifest.permission.ACCESS_FINE_LOCATION
-                                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                                    this,
-                                    Manifest.permission.ACCESS_COARSE_LOCATION
-                                ) != PackageManager.PERMISSION_GRANTED
-                            ) {
-                                // TODO: Consider calling
-                                //    ActivityCompat#requestPermissions
-                                // here to request the missing permissions, and then overriding
-                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                //                                          int[] grantResults)
-                                // to handle the case where the user grants the permission. See the documentation
-                                // for ActivityCompat#requestPermissions for more details.
-                                return@addOnCompleteListener
-                            }
-                            mFusedLocationProviderClient!!.requestLocationUpdates(
-                                locationRequest,
-                                locationCallback,
-                                null
+                        }else{
+                            mMap!!.moveCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    LatLng(
+                                        mLastKnownLocation!!.latitude,
+                                        mLastKnownLocation!!.longitude
+                                    ), DEFAULT_ZOOM
+                                )
                             )
+
+
+
+                            val address = getGeoAddressFromLatLong(
+                                mLastKnownLocation!!.latitude,
+                                mLastKnownLocation!!.longitude
+                            )
+                            tv_Address.text = address
+
                         }
+
+
+
+                        /*val locationRequest = LocationRequest.create()
+                        locationRequest.interval = 10000
+                        locationRequest.fastestInterval = 5000
+                        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+                        locationCallback = object : LocationCallback() {
+                            override fun onLocationResult(locationResult: LocationResult) {
+                                super.onLocationResult(locationResult)
+                                mLastKnownLocation = locationResult.lastLocation
+
+                                mMap!!.moveCamera(
+                                    CameraUpdateFactory.newLatLngZoom(
+                                        LatLng(
+                                            mLastKnownLocation!!.latitude,
+                                            mLastKnownLocation!!.longitude
+                                        ), DEFAULT_ZOOM
+                                    )
+                                )
+
+
+
+                                mFusedLocationProviderClient!!.removeLocationUpdates(
+                                    locationCallback!!
+                                )
+                            }
+                        }*/
+                        if (ActivityCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return@addOnCompleteListener
+                        }
+                        /*mFusedLocationProviderClient!!.requestLocationUpdates(
+                            locationRequest,
+                            locationCallback,
+                            null
+                        )*/
+
                     } else {
                         Toast.makeText(
                             this@AddAddressActivity,
@@ -588,7 +595,53 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
 
-        getDeviceLocation()
+        if (intent.hasExtra("data")) {
+
+            val model: GetAddressModel.AddressList = Gson().fromJson(
+                intent.getStringExtra("data"),
+                GetAddressModel.AddressList::class.java
+            )
+            lat=model.latitude.toDouble()
+            lng=model.longitude.toDouble()
+            tv_Address.text = model.location
+            ed_name.setText(model.name)
+            ed_phone.setText(model.phone_no)
+            ed_address.setText(model.flatNo)
+            //buildingValue.setText(model.building)
+            ed_landmark.setText(model.landmark)
+            tempAddressId=model.id
+            defaultCheckBox.isChecked = model.is_default.equals("1")
+
+
+            when {
+                model.addressType.equals("1") -> {
+                    homeRadioBtn.isChecked = true
+                }
+                model.addressType.equals("2") -> {
+                    officeRadioBtn.isChecked = true
+                }
+                else -> {
+                    otherRadioBtn.isChecked = true
+                }
+            }
+            /*mMap!!.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        lat!!,
+                        lng!!
+                    ), DEFAULT_ZOOM
+                )
+            )*/
+
+        }else{
+            getDeviceLocation()
+        }
+
+        if (intent.hasExtra("data")) {
+
+        }else{
+
+        }
         checkPermission()
 
 
