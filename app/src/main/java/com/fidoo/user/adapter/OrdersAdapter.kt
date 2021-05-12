@@ -222,8 +222,8 @@ class OrdersAdapter(
         /// .setTitle("Login Form")
         //show dialog
         val mAlertDialogg = mBuilder.show()
+        mAlertDialogg?.window?.attributes?.windowAnimations = R.style.diologIntertnet
         val lp = WindowManager.LayoutParams()
-
         lp.copyFrom(mAlertDialogg.window!!.attributes)
         lp.gravity = Gravity.CENTER
 
@@ -233,6 +233,82 @@ class OrdersAdapter(
         mAlertDialogg.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         mAlertDialogg.window!!.setGravity(Gravity.CENTER)
         //cancel button click of custom layout
+
+       // img_review_img,reviewName_txt,cancel_reviewPopUp
+        //poor_icon_select
+        //ok_icon_select
+        //good_icon_select
+        //excellent_icon_select
+        //selection_ques_txt
+        //itemPackaging_txt_selection
+        //delivery_txt_selection
+        //appInterface_txt_selection
+        //deliveryExperience_txt_selection
+        //remark_txt
+        //submitTextBtn
+
+
+
+        mDialogView.cancel_reviewPopUp.setOnClickListener { mAlertDialogg.dismiss() }
+
+        mDialogView.poor_icon_select.setOnClickListener {
+            mDialogView.img_review_img.setBackgroundResource(R.drawable.poor)
+            mDialogView.reviewName_txt.text="Poor"
+            mDialogView.selection_ques_txt.setText(R.string.poor_experince)
+            mDialogView.poor_icon_select.setBackgroundResource(R.drawable.rectangle_border)
+            mDialogView.ok_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.good_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+
+        }
+
+        mDialogView.ok_icon_select.setOnClickListener {
+            mDialogView.img_review_img.setBackgroundResource(R.drawable.ok)
+            mDialogView.reviewName_txt.text="Oka'ish"
+            mDialogView.selection_ques_txt.setText(R.string.ok_experince)
+            mDialogView.poor_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.ok_icon_select.setBackgroundResource(R.drawable.rectangle_border)
+            mDialogView.good_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+        }
+
+        mDialogView.good_icon_select.setOnClickListener {
+            mDialogView.img_review_img.setBackgroundResource(R.drawable.good)
+            mDialogView.reviewName_txt.text="Good"
+            mDialogView.selection_ques_txt.setText(R.string.good_experince)
+            mDialogView.poor_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.ok_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.good_icon_select.setBackgroundResource(R.drawable.rectangle_border)
+            mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+        }
+
+        mDialogView.excellent_icon_select.setOnClickListener {
+            mDialogView.img_review_img.setBackgroundResource(R.drawable.excellent)
+            mDialogView.reviewName_txt.text="Excellent"
+            mDialogView.selection_ques_txt.setText(R.string.excellent_experince)
+            mDialogView.poor_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.ok_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.good_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.rectangle_border)
+        }
+
+        mDialogView.itemPackaging_txt_selection.setOnClickListener {}
+
+        mDialogView.delivery_txt_selection.setOnClickListener {}
+
+        mDialogView.appInterface_txt_selection.setOnClickListener {}
+
+        mDialogView.deliveryExperience_txt_selection.setOnClickListener {}
+
+        mDialogView.submitTextBtn.setOnClickListener {
+            mAlertDialogg.dismiss()
+        }
+
+
+
+
+
+
 
         mDialogView.submitTxt.setOnClickListener {
             //dismiss dialog
@@ -249,7 +325,6 @@ class OrdersAdapter(
 
         mDialogView.cancelTxt.setOnClickListener {
             //dismiss dialog
-
             mAlertDialogg.dismiss()
         }
 

@@ -36,7 +36,10 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
         var cuisine: TextView? = view.cuisine_types
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = UserViewHolder (LayoutInflater.from(parent.context).inflate(R.layout.fav_store_item, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = UserViewHolder (
+         LayoutInflater
+        .from(parent.context)
+        .inflate(R.layout.fav_store_item, parent, false))
 
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
@@ -72,7 +75,9 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
 
 
             if (storeList[position].open_close_status.equals("1")){
-                holder.onOffText?.visibility=View.GONE
+                holder.onOffText?.visibility=View.VISIBLE
+                holder.onOffText?.text = "Open"
+                holder.onOffText?.setTextColor(Color.rgb(51, 147, 71))
 
             }else if (storeList[position].open_close_status.equals("0")){
                 holder.onOffText?.text = "Offline"
