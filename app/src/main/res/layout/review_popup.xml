@@ -375,7 +375,6 @@
                         android:gravity="top"
                         android:background="@null"
                         android:id="@+id/remark_txt"
-                        android:hint="remark"
                         android:textSize="@dimen/text_size_14sp"
                         android:padding="@dimen/margin_20dp"
                         android:textColor="@color/black"

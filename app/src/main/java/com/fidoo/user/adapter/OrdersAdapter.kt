@@ -24,7 +24,8 @@ class OrdersAdapter(
     val adapterReviewClick: AdapterReviewClick,
     val adapterClick: AdapterClick
 ) : RecyclerView.Adapter<OrdersAdapter.UserViewHolder>() {
-
+    var star:String?="1"
+    var improvement:String?=""
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.orders_adapter, parent, false)
@@ -248,10 +249,12 @@ class OrdersAdapter(
         //submitTextBtn
 
 
+        mDialogView.poor_icon_select.setBackgroundResource(R.drawable.rectangle_border)
 
         mDialogView.cancel_reviewPopUp.setOnClickListener { mAlertDialogg.dismiss() }
 
         mDialogView.poor_icon_select.setOnClickListener {
+            star="1"
             mDialogView.img_review_img.setBackgroundResource(R.drawable.poor)
             mDialogView.reviewName_txt.text="Poor"
             mDialogView.selection_ques_txt.setText(R.string.poor_experince)
@@ -263,6 +266,7 @@ class OrdersAdapter(
         }
 
         mDialogView.ok_icon_select.setOnClickListener {
+            star="2"
             mDialogView.img_review_img.setBackgroundResource(R.drawable.ok)
             mDialogView.reviewName_txt.text="Oka'ish"
             mDialogView.selection_ques_txt.setText(R.string.ok_experince)
@@ -273,6 +277,7 @@ class OrdersAdapter(
         }
 
         mDialogView.good_icon_select.setOnClickListener {
+            star="3"
             mDialogView.img_review_img.setBackgroundResource(R.drawable.good)
             mDialogView.reviewName_txt.text="Good"
             mDialogView.selection_ques_txt.setText(R.string.good_experince)
@@ -283,6 +288,7 @@ class OrdersAdapter(
         }
 
         mDialogView.excellent_icon_select.setOnClickListener {
+            star="4"
             mDialogView.img_review_img.setBackgroundResource(R.drawable.excellent)
             mDialogView.reviewName_txt.text="Excellent"
             mDialogView.selection_ques_txt.setText(R.string.excellent_experince)
@@ -292,13 +298,38 @@ class OrdersAdapter(
             mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.rectangle_border)
         }
 
-        mDialogView.itemPackaging_txt_selection.setOnClickListener {}
+        mDialogView.itemPackaging_txt_selection.setOnClickListener {
+            improvement="Item packaging"
+            mDialogView.itemPackaging_txt_selection.setBackgroundResource(R.drawable.black_rounded_solid)
+            mDialogView.delivery_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.appInterface_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.deliveryExperience_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
 
-        mDialogView.delivery_txt_selection.setOnClickListener {}
+        }
 
-        mDialogView.appInterface_txt_selection.setOnClickListener {}
+        mDialogView.delivery_txt_selection.setOnClickListener {
+            improvement="Delivery Time"
+            mDialogView.itemPackaging_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.delivery_txt_selection.setBackgroundResource(R.drawable.black_rounded_solid)
+            mDialogView.appInterface_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.deliveryExperience_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+        }
 
-        mDialogView.deliveryExperience_txt_selection.setOnClickListener {}
+        mDialogView.appInterface_txt_selection.setOnClickListener {
+            improvement="App interface"
+            mDialogView.itemPackaging_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.delivery_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.appInterface_txt_selection.setBackgroundResource(R.drawable.black_rounded_solid)
+            mDialogView.deliveryExperience_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+        }
+
+        mDialogView.deliveryExperience_txt_selection.setOnClickListener {
+            improvement="Delivery experience"
+            mDialogView.itemPackaging_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.delivery_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.appInterface_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.deliveryExperience_txt_selection.setBackgroundResource(R.drawable.black_rounded_solid)
+        }
 
         mDialogView.submitTextBtn.setOnClickListener {
             mAlertDialogg.dismiss()
