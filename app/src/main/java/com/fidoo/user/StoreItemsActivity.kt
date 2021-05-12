@@ -100,7 +100,7 @@ class StoreItemsActivity :
 
         storeID = intent.getStringExtra("storeId")!!
 
-        cartviewFromStore.setOnClickListener {
+        cartitemView_LLstore.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
                 startActivity(Intent(this, CartActivity::class.java).putExtra("store_id", SessionTwiclo(this).storeId)) } else {
                 showLoginDialog("Please login to proceed")
@@ -227,7 +227,7 @@ class StoreItemsActivity :
         viewmodel?.cartCountResponse?.observe(this,{cartcount->
             dismissIOSProgress()
 
-            Log.d("cartCountResponse___",cartcount.toString())
+            //Log.d("cartCountResponse___",cartcount.toString())
             var count = cartcount.count
             var price = cartcount.price
             SessionTwiclo(this).storeId = cartcount.store_id
@@ -284,7 +284,7 @@ class StoreItemsActivity :
             }*/
 
 
-                Log.d("kb", "" + productList.toString())
+                //Log.d("kb", "" + productList.toString())
 
 
                 storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)

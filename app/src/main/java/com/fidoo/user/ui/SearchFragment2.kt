@@ -131,7 +131,7 @@ class SearchFragment2 : Fragment() , AdapterClick,
 		getResponce()
 
 
-		mView.new_viewcartfromSearch_fgmt.setOnClickListener {
+		mView.new_cartitemView_LLsearch_fgmt.setOnClickListener {
 			if (SessionTwiclo(context).isLoggedIn) {
 				startActivity( Intent(context, CartActivity::class.java).putExtra(
 						"store_id", SessionTwiclo(
@@ -202,6 +202,7 @@ class SearchFragment2 : Fragment() , AdapterClick,
 					mView.new_itemQuantity_textsearch_fgmt.text=count
 					mView.new_totalprice_txtsearch_fgmt.text= "₹"+price
 					mView.new_cartitemView_LLsearch_fgmt.visibility= View.VISIBLE
+					mView.item_lay.visibility = View.VISIBLE
 					try {
 						SessionTwiclo(context).storeId=cartcount.store_id
 						sessionTwiclo.storeId=cartcount.store_id
@@ -213,6 +214,7 @@ class SearchFragment2 : Fragment() , AdapterClick,
 					// setStoreId
 				}else{
 					mView.new_cartitemView_LLsearch_fgmt.visibility= View.GONE
+					mView.item_lay.visibility = View.GONE
 				}
 			}
 
@@ -635,15 +637,27 @@ class SearchFragment2 : Fragment() , AdapterClick,
 		super.onResume()
 		if(checkvalidation==0) {
 			//Here we have called Api of getGroceryProducts
-			viewmodel?.getSearchApi(
-				SessionTwiclo(context).loggedInUserDetail.accountId,
-				SessionTwiclo(context).loggedInUserDetail.accessToken,
-				search_value!!
-			)
-			viewmodel?.getCartCountApi(
-				SessionTwiclo(context).loggedInUserDetail.accountId,
-				SessionTwiclo(context).loggedInUserDetail.accessToken
-			)
+
+			if (SessionTwiclo(context).isLoggedIn){
+				viewmodel?.getSearchApi(
+						SessionTwiclo(context).loggedInUserDetail.accountId,
+						SessionTwiclo(context).loggedInUserDetail.accessToken,
+						search_value!!
+				)
+
+				viewmodel?.getCartCountApi(
+						SessionTwiclo(context).loggedInUserDetail.accountId,
+						SessionTwiclo(context).loggedInUserDetail.accessToken
+				)
+			}else{
+				viewmodel?.getSearchApi(
+						"",
+						"",
+						search_value!!
+				)
+			}
+
+
 		}
 	}
 

@@ -71,29 +71,18 @@
             android:layout_height="match_parent">
 
 
-            <LinearLayout
-                android:id="@+id/cart_items_lay"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cartItemsRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:background="#fbfbfb"
-                android:orientation="vertical">
+                android:layout_height="match_parent" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cartItemsRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-
-            </LinearLayout>
 
 
             <RelativeLayout
                 android:id="@+id/delivery_instructions_lay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/cart_items_lay"
+                app:layout_constraintTop_toBottomOf="@id/cartItemsRecyclerView"
                 android:padding="15dp"
                 android:background="@color/white"
                 android:layout_marginTop="15dp">

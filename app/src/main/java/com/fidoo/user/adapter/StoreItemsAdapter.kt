@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
 import com.fidoo.user.data.model.*
@@ -56,7 +57,7 @@ class StoreItemsAdapter(
         val index = productList[position]
         //Log.e("CART ID", cartId)
 
-        Log.d("kb cat postion", "" + productList[position])
+        //Log.d("kb cat postion", "" + productList[position])
 //        Log.d("kb cat postion",""+categotyList[position].product[position])
 
 
@@ -74,13 +75,10 @@ class StoreItemsAdapter(
         holder.itemName.text = index.productName
         //  holder.itemName.visibility=View.INVISIBLE
         Glide.with(con)
-            .load(index.image)
+            .load(index.image).thumbnail(0.05f)
             .fitCenter()
             .into(holder.storeImg)
 
-        if (index.image == "") {
-            // TODO
-        }
 
         if (productList[position].isCustomize == "1"){
             holder.customizable.visibility = View.VISIBLE

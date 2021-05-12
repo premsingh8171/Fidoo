@@ -425,7 +425,7 @@ class HomeFragment : Fragment() {
     ): String? {
         val geocoder: Geocoder
         val addresses: List<Address>
-        geocoder = Geocoder(context, Locale.getDefault())
+        geocoder = Geocoder(requireContext(), Locale.getDefault())
         return try {
             addresses = geocoder.getFromLocation(
                     latitude,
@@ -552,46 +552,46 @@ class HomeFragment : Fragment() {
         } catch (ex: Exception) {
             Log.wtf("IOS_error_starting", ex.cause!!)
         }
-//        if (SessionTwiclo(context).userAddress.equals("")) {
-//
-//
-//            activity?.let {
-//                EasyLocation(it, object : EasyLocation.EasyLocationCallBack {
-//                    override fun permissionDenied() {
-//
-//                        Log.e("Location", "permission  denied")
-//
-//
-//                    }
-//
-//                    override fun locationSettingFailed() {
-//
-//                        Log.e("Location", "setting failed")
-//
-//
-//                    }
-//
-//                    override fun getLocation(location: Location) {
-//
-//                        Log.e(
-//                                "Location_lat_lng",
-//                                " latitude ${location.latitude} longitude ${location.longitude}"
-//                        )
-//
-//                        SessionTwiclo(context).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
-//                        SessionTwiclo(context).userLat = location.latitude.toString()
-//                        SessionTwiclo(context).userLng = location.longitude.toString()
-//                        userAddress?.text = SessionTwiclo(context).userAddress
-//                    }
-//                })
-//            }
-//
-//        } else {
-//
-//            userAddress?.text = SessionTwiclo(
-//                    context
-//            ).userAddress
-//        }
+        if (SessionTwiclo(context).userAddress.equals("")) {
+
+
+            activity?.let {
+                EasyLocation(it, object : EasyLocation.EasyLocationCallBack {
+                    override fun permissionDenied() {
+
+                        Log.e("Location", "permission  denied")
+
+
+                    }
+
+                    override fun locationSettingFailed() {
+
+                        Log.e("Location", "setting failed")
+
+
+                    }
+
+                    override fun getLocation(location: Location) {
+
+                        Log.e(
+                                "Location_lat_lng",
+                                " latitude ${location.latitude} longitude ${location.longitude}"
+                        )
+
+                        SessionTwiclo(context).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
+                        SessionTwiclo(context).userLat = location.latitude.toString()
+                        SessionTwiclo(context).userLng = location.longitude.toString()
+                        userAddress?.text = SessionTwiclo(context).userAddress
+                    }
+                })
+            }
+
+        } else {
+
+            userAddress?.text = SessionTwiclo(
+                    context
+            ).userAddress
+        }
         fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
             Log.d("dfdffddf",SessionTwiclo(context).userAddress)
     }
