@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
+import com.fidoo.user.ordermodule.model.Feedback
 import com.fidoo.user.ordermodule.model.MyOrdersModel
 import com.fidoo.user.ordermodule.model.ReviewModel
 import com.fidoo.user.ordermodule.model.UploadPresModel
@@ -20,16 +21,50 @@ class MyOrdersFragmentViewModel(application: Application) : AndroidViewModel(app
     Callback<MyOrdersModel> {
 
 
+    var orderFeedback: MutableLiveData<Feedback>? = null
     var myOrdersResponse: MutableLiveData<MyOrdersModel>? = null
     var reviewResponse: MutableLiveData<ReviewModel>? = null
     var uploadPrescriptionResponse: MutableLiveData<UploadPresModel>? = null
     var failureResponse: MutableLiveData<String>? = null
     init {
+        orderFeedback = MutableLiveData<Feedback>()
         failureResponse = MutableLiveData<String>()
         myOrdersResponse = MutableLiveData<MyOrdersModel>()
         reviewResponse = MutableLiveData<ReviewModel>()
         uploadPrescriptionResponse = MutableLiveData<UploadPresModel>()
     }
+
+    fun addfeedbackApi(
+        accountId: String,
+        accessToken: String,
+        order_id: String?,
+        star: String?,
+        improvement: String?,
+        message: String?,
+        type: String?
+    ) {
+        WebServiceClient.client.create(BackEndApi::class.java).addFeedbackApi(
+            accountId = accountId,
+            accessToken = accessToken,
+            order_id = order_id,
+            star = star,
+            improvement = improvement,
+            message = message,
+            type = type
+        )
+            .enqueue(object : Callback<Feedback> {
+
+                override fun onResponse(call: Call<Feedback>, response: Response<Feedback>) {
+                    orderFeedback?.value = response.body()
+
+                }
+
+                override fun onFailure(call: Call<Feedback>, t: Throwable) {
+                    failureResponse?.value= "Something went wrong"
+                }
+            })
+    }
+
 
     fun reviewSubmitApi(
         accountId: String,
@@ -64,6 +99,10 @@ class MyOrdersFragmentViewModel(application: Application) : AndroidViewModel(app
                 }
             })
     }
+
+
+
+
     fun getMyOrders(accountId: String, accessToken: String) {
 
         // progressDialog?.value = true

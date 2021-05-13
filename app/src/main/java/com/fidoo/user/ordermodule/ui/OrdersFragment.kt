@@ -26,6 +26,7 @@ import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentOrdersBinding
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterReviewClick
+import com.fidoo.user.ordermodule.model.Feedback
 import com.fidoo.user.ordermodule.model.UploadPresModel
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
@@ -156,6 +157,26 @@ class OrdersFragment : Fragment(),
 
         })
 
+        viewmodel?.orderFeedback?.observe(requireActivity(),{
+            feedback->
+            if (checkStatusOfReview==1) {
+                dismissIOSProgress()
+                if (_progressDlg != null) {
+
+                    _progressDlg!!.dismiss()
+                    _progressDlg = null
+                }
+
+
+                val model: Feedback = feedback
+                Toast.makeText(context, model.message, Toast.LENGTH_SHORT).show()
+                viewmodel?.getMyOrders(
+                    SessionTwiclo(activity).loggedInUserDetail.accountId,
+                    SessionTwiclo(activity).loggedInUserDetail.accessToken
+                )
+            }
+        })
+
         viewmodel?.uploadPrescriptionResponse?.observe(requireActivity(), { user ->
             dismissIOSProgress()
             if (_progressDlg != null) {
@@ -210,10 +231,28 @@ class OrdersFragment : Fragment(),
         message: String?,
         type: String?
     ) {
+       // Log.d("orderId____",orderId+"---"+star+"---"+improvement+"---"+message+"--"+type)
 
-        Log.d("orderId____",orderId+"---"+star+"---"+improvement+"---"+message+"--"+type)
-     ///yaha karna h
+        try {
+            _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
+            _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
 
+            _progressDlg!!.setCancelable(false)
+            _progressDlg!!.show()
+        } catch (ex: Exception) {
+            Log.wtf("IOS_error_starting", ex.cause!!)
+        }
+        checkStatusOfReview=1
+       viewmodel?.addfeedbackApi(
+           SessionTwiclo(activity).loggedInUserDetail.accountId,
+           SessionTwiclo(activity).loggedInUserDetail.accessToken,
+           orderId,
+           star,
+           improvement,
+           message,
+           type
+       )
 
     }
 
