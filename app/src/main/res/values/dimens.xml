@@ -14,4 +14,12 @@
     <dimen name="inner_frame_layout_padding">5dp</dimen>
     <dimen name="margin_500dp">500dp</dimen>
     <dimen name="margin_22dp">22dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="dimen_50dp">50dp</dimen>
+    <dimen name="dimen_5dp">5dp</dimen>
+    <dimen name="ib_fr_space_20">20dp</dimen>
+    <dimen name="margin_25dp">25dp</dimen>
+    <dimen name="margin_120dp">120</dimen>
+    <dimen name="dimen_16sp">16dp</dimen>
+    <dimen name="margin_15dp">15dp</dimen>
 </resources>

@@ -58,4 +58,15 @@
     <string name="title_activity_add_address">AddAddressActivity</string>
     <string name="title_activity_maps">Map</string>
 
+    <string name="poor_experince">What should we fix immediately?</string>
+    <string name="ok_experince">What can we improve?</string>
+    <string name="good_experince">How can we make excellent for you?</string>
+    <string name="excellent_experince">What you like the most?</string>
+    <string name="tell_us_more_exp">Tell us more about your experience?</string>
+
+    <string name="item_packaging">Item packaging</string>
+    <string name="delivery_time">Delivery time</string>
+    <string name="app_interface">App interface</string>
+    <string name="delivery_experience">Delivery Experience</string>
+
 </resources>
