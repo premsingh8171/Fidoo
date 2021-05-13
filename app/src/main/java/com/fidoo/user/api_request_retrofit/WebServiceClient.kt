@@ -1,5 +1,6 @@
 package com.fidoo.user.api_request_retrofit
 
+import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,6 +14,9 @@ object WebServiceClient {
     private lateinit var interceptor: HttpLoggingInterceptor
     private lateinit var okHttpClient: OkHttpClient
     private var retrofit: Retrofit? = null
+
+    //val cacheSize = (5 * 1024 * 1024).toLong()
+    //val myCache = Cache(concacheDir, cacheSize)
 
 
     val client: Retrofit
@@ -36,7 +40,7 @@ object WebServiceClient {
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
                     // .baseUrl("https://infosoftservices.com/deliver/api/method/")
-                    .baseUrl("https://fidoo.in/api/method/")
+                    .baseUrl("https://twiclo.com/api/method/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)
                     .build()

@@ -431,15 +431,18 @@ class CartActivity : BaseActivity(),
                             isPrescriptionRequire = user.cart[i].isPrescription
                         }
 
+                        if (user.cart[i].isPrescription.equals("1")) {
+
+                            prescriptionLay.visibility = View.VISIBLE
+                        } else {
+
+                            prescriptionLay.visibility = View.GONE
+                        }
+
                     }
 
 
-                    if (user.cart[0].isPrescription.equals("1")) {
-                        prescriptionLay.visibility = View.VISIBLE
 
-                    } else {
-                        prescriptionLay.visibility = View.GONE
-                    }
 
                     if (user.cart[0].cod.equals("1")) {
                         isSelected = "cash"
