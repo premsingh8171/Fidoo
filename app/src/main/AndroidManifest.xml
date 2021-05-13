@@ -92,10 +92,10 @@
         <activity android:name=".LoginActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".view.TrackOrderActivity"
+        <activity android:name=".ordermodule.ui.TrackOrderActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".view.OrderDetailsActivity"
+        <activity android:name=".ordermodule.ui.OrderDetailsActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".SplashActivity"

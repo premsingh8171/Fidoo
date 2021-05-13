@@ -23,7 +23,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import android.graphics.BitmapFactory
 import com.fidoo.user.R
-import com.fidoo.user.view.OrderDetailsActivity
+import com.fidoo.user.ordermodule.ui.OrderDetailsActivity
 
 // Notification ID.
 private val NOTIFICATION_ID = 0

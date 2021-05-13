@@ -1,4 +1,4 @@
-package com.fidoo.user.adapter
+package com.fidoo.user.ordermodule.adapter
 
 import android.app.AlertDialog
 import android.content.Context
@@ -12,15 +12,16 @@ import com.bumptech.glide.Glide
 import com.fidoo.user.R
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterReviewClick
-import com.fidoo.user.view.OrderDetailsActivity
-import com.fidoo.user.view.TrackOrderActivity
+import com.fidoo.user.ordermodule.model.MyOrdersModel
+import com.fidoo.user.ordermodule.ui.OrderDetailsActivity
+import com.fidoo.user.ordermodule.ui.TrackOrderActivity
 import kotlinx.android.synthetic.main.orders_adapter.view.*
 import kotlinx.android.synthetic.main.review_popup.view.*
 
 
 class OrdersAdapter(
     val con: Context?,
-    val orders: MutableList<com.fidoo.user.data.model.MyOrdersModel.Order>,
+    val orders: MutableList<MyOrdersModel.Order>,
     val adapterReviewClick: AdapterReviewClick,
     val adapterClick: AdapterClick
 ) : RecyclerView.Adapter<OrdersAdapter.UserViewHolder>() {
@@ -333,6 +334,11 @@ class OrdersAdapter(
 
         mDialogView.submitTextBtn.setOnClickListener {
             mAlertDialogg.dismiss()
+            adapterReviewClick.onReviewSubmit(
+                orderId,
+                star,improvement,
+                mDialogView.remark_txt.text.toString(),
+                "add")
         }
 
 

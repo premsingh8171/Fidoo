@@ -1,4 +1,4 @@
-package com.fidoo.user.view
+package com.fidoo.user.ordermodule.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -9,14 +9,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
-import com.fidoo.user.ChatActivity
 import com.fidoo.user.R
 import com.fidoo.user.adapter.ItemsAdapter
-import com.fidoo.user.data.model.OrderDetailsModel
+import com.fidoo.user.ordermodule.model.OrderDetailsModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.ui.MainActivity
-import com.fidoo.user.viewmodels.OrderDetailsViewModel
+import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
 import com.fidoo.user.utils.statusBarTransparent
+import com.fidoo.user.view.ViewPrescriptionActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.activity_order_details.backIcon
@@ -51,7 +51,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         }
 
         prescriptionImageLay.setOnClickListener {
-            startActivity(Intent(this,ViewPrescriptionActivity::class.java).putExtra("image",mPresImg))
+            startActivity(Intent(this, ViewPrescriptionActivity::class.java).putExtra("image",mPresImg))
         }
 
         supportCall.setOnClickListener {

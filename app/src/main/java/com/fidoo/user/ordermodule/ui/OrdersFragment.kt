@@ -1,4 +1,4 @@
-package com.fidoo.user.ui
+package com.fidoo.user.ordermodule.ui
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -19,16 +19,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.fidoo.user.R
-import com.fidoo.user.adapter.OrdersAdapter
-import com.fidoo.user.data.model.MyOrdersModel
-import com.fidoo.user.data.model.ReviewModel
+import com.fidoo.user.ordermodule.adapter.OrdersAdapter
+import com.fidoo.user.ordermodule.model.MyOrdersModel
+import com.fidoo.user.ordermodule.model.ReviewModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentOrdersBinding
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterReviewClick
+import com.fidoo.user.ordermodule.model.UploadPresModel
+import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
 import com.fidoo.user.utils.showAlertDialog
-import com.fidoo.user.viewmodels.MyOrdersFragmentViewModel
+import com.fidoo.user.ordermodule.viewmodel.MyOrdersFragmentViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -161,7 +163,7 @@ class OrdersFragment : Fragment(),
                 _progressDlg!!.dismiss()
                 _progressDlg = null
             }
-            val mModelData: com.fidoo.user.data.model.UploadPresModel = user
+            val mModelData: UploadPresModel = user
 
             Log.e("uploadResponse", Gson().toJson(mModelData))
 
@@ -198,6 +200,20 @@ class OrdersFragment : Fragment(),
             ratingDriver,
             reviewDriver
         )
+
+    }
+
+    override fun onReviewSubmit(
+        orderId: String?,
+        star: String?,
+        improvement: String?,
+        message: String?,
+        type: String?
+    ) {
+
+        Log.d("orderId____",orderId+"---"+star+"---"+improvement+"---"+message+"--"+type)
+     ///yaha karna h
+
 
     }
 

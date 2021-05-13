@@ -1,4 +1,4 @@
-package com.fidoo.user.view
+package com.fidoo.user.ordermodule.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,7 +13,6 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProviders
 import com.android.volley.Request
 import com.android.volley.Response
@@ -24,8 +23,9 @@ import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.NotiCheck
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.ui.MainActivity.Companion.timerStatus
+import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
+import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.statusBarTransparent
-import com.fidoo.user.viewmodels.OrderDetailsViewModel
 import com.fidoo.user.viewmodels.TrackViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -46,7 +46,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class TrackOrderActivity : com.fidoo.user.utils.BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallback, OnCurveClickListener, NotiCheck {
+class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallback, OnCurveClickListener, NotiCheck {
 
     private var curveManager: CurveManager? = null
     private var mMap: GoogleMap? = null

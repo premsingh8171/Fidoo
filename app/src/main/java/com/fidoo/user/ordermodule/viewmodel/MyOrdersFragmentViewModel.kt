@@ -1,4 +1,4 @@
-package com.fidoo.user.viewmodels
+package com.fidoo.user.ordermodule.viewmodel
 
 import android.app.Application
 import android.util.Log
@@ -6,6 +6,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
+import com.fidoo.user.ordermodule.model.MyOrdersModel
+import com.fidoo.user.ordermodule.model.ReviewModel
+import com.fidoo.user.ordermodule.model.UploadPresModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -14,18 +17,18 @@ import retrofit2.Response
 
 
 class MyOrdersFragmentViewModel(application: Application) : AndroidViewModel(application),
-    Callback<com.fidoo.user.data.model.MyOrdersModel> {
+    Callback<MyOrdersModel> {
 
 
-    var myOrdersResponse: MutableLiveData<com.fidoo.user.data.model.MyOrdersModel>? = null
-    var reviewResponse: MutableLiveData<com.fidoo.user.data.model.ReviewModel>? = null
-    var uploadPrescriptionResponse: MutableLiveData<com.fidoo.user.data.model.UploadPresModel>? = null
+    var myOrdersResponse: MutableLiveData<MyOrdersModel>? = null
+    var reviewResponse: MutableLiveData<ReviewModel>? = null
+    var uploadPrescriptionResponse: MutableLiveData<UploadPresModel>? = null
     var failureResponse: MutableLiveData<String>? = null
     init {
         failureResponse = MutableLiveData<String>()
-        myOrdersResponse = MutableLiveData<com.fidoo.user.data.model.MyOrdersModel>()
-        reviewResponse = MutableLiveData<com.fidoo.user.data.model.ReviewModel>()
-        uploadPrescriptionResponse = MutableLiveData<com.fidoo.user.data.model.UploadPresModel>()
+        myOrdersResponse = MutableLiveData<MyOrdersModel>()
+        reviewResponse = MutableLiveData<ReviewModel>()
+        uploadPrescriptionResponse = MutableLiveData<UploadPresModel>()
     }
 
     fun reviewSubmitApi(
@@ -48,15 +51,15 @@ class MyOrdersFragmentViewModel(application: Application) : AndroidViewModel(app
             delivery_rating = delivery_rating,
             delivery_review = delivery_review
         )
-            .enqueue(object : Callback<com.fidoo.user.data.model.ReviewModel> {
+            .enqueue(object : Callback<ReviewModel> {
 
-                override fun onResponse(call: Call<com.fidoo.user.data.model.ReviewModel>, response: Response<com.fidoo.user.data.model.ReviewModel>) {
+                override fun onResponse(call: Call<ReviewModel>, response: Response<ReviewModel>) {
 
                     reviewResponse?.value = response.body()
 
                 }
 
-                override fun onFailure(call: Call<com.fidoo.user.data.model.ReviewModel>, t: Throwable) {
+                override fun onFailure(call: Call<ReviewModel>, t: Throwable) {
                     failureResponse?.value="Something went wrong"
                 }
             })
@@ -71,13 +74,13 @@ class MyOrdersFragmentViewModel(application: Application) : AndroidViewModel(app
 
     }
 
-    override fun onResponse(call: Call<com.fidoo.user.data.model.MyOrdersModel>?, response: Response<com.fidoo.user.data.model.MyOrdersModel>?) {
+    override fun onResponse(call: Call<MyOrdersModel>?, response: Response<MyOrdersModel>?) {
 
         myOrdersResponse?.value = response?.body()
 
     }
 
-    override fun onFailure(call: Call<com.fidoo.user.data.model.MyOrdersModel>?, t: Throwable?) {
+    override fun onFailure(call: Call<MyOrdersModel>?, t: Throwable?) {
         failureResponse?.value="Something went wrong"
 
     }
@@ -86,17 +89,17 @@ class MyOrdersFragmentViewModel(application: Application) : AndroidViewModel(app
     fun uploadPrescriptionImage(accountId: RequestBody?, accessToken: RequestBody?, order_id: RequestBody?,
                                 image: MultipartBody.Part?) {
 
-        val call: Call<com.fidoo.user.data.model.UploadPresModel> = WebServiceClient.client.create(BackEndApi::class.java).uploadPrescriptionImage(accountId,accessToken,image)
-        call.enqueue(object : Callback<com.fidoo.user.data.model.UploadPresModel> {
+        val call: Call<UploadPresModel> = WebServiceClient.client.create(BackEndApi::class.java).uploadPrescriptionImage(accountId,accessToken,image)
+        call.enqueue(object : Callback<UploadPresModel> {
             override fun onResponse(
-                call: Call<com.fidoo.user.data.model.UploadPresModel>,
-                response: Response<com.fidoo.user.data.model.UploadPresModel>
+                call: Call<UploadPresModel>,
+                response: Response<UploadPresModel>
             ) {
                 uploadPrescriptionResponse?.value = response.body()
             }
 
             override fun onFailure(
-                call: Call<com.fidoo.user.data.model.UploadPresModel>,
+                call: Call<UploadPresModel>,
                 t: Throwable
             ) {
                 Log.e("ddddd",t.message.toString())

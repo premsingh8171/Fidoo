@@ -2,6 +2,10 @@ package com.fidoo.user.api_request_retrofit
 
 import com.fidoo.user.data.model.*
 import com.fidoo.user.grocery.model.getGroceryProducts.GroceryProductsResponse
+import com.fidoo.user.ordermodule.model.MyOrdersModel
+import com.fidoo.user.ordermodule.model.OrderDetailsModel
+import com.fidoo.user.ordermodule.model.ReviewModel
+import com.fidoo.user.ordermodule.model.UploadPresModel
 import com.fidoo.user.profile.EditProfileModel
 import com.fidoo.user.search.model.SearchListModel
 import okhttp3.MultipartBody
