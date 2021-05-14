@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
         android:background="@drawable/round_box"
@@ -125,7 +125,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/otp_view" />
+                app:layout_constraintTop_toBottomOf="@+id/otp_view"
+                android:visibility="gone"/>
 
 <!--            />-->
 

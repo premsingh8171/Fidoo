@@ -2,9 +2,14 @@ package com.fidoo.user.ui
 
 import `in`.aabhasjindal.otptextview.OTPListener
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.ContentValues.TAG
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +17,8 @@ import android.widget.Toast
 import androidx.navigation.fragment.navArgs
 import com.fidoo.user.R
 import com.fidoo.user.data.SendResponse
+import com.fidoo.user.utils.SmsBroadcastReceiver
+import com.google.android.gms.auth.api.phone.SmsRetriever
 import kotlinx.android.synthetic.main.fragment_otp.view.*
 import kotlinx.android.synthetic.main.fragment_otp.view.tv_resendOtp
 
@@ -23,6 +30,13 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
     var otpTemp: String = ""
     val args: OtpFragmentArgs by navArgs()
     lateinit var mData: SendResponse
+    lateinit var smsBroadcastReceiver: SmsBroadcastReceiver
+
+    companion object{
+        const val TAG = "SMS_USER_CONSENT"
+
+        const val REQ_USER_CONSENT = 100
+    }
 
 
     override fun provideYourFragmentView(
@@ -35,8 +49,11 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
         mData = args.data
         mView.otp_view?.requestFocusOTP()
 
+        startSmsUserConsent()
+
         mView.otp_view?.otpListener = object : OTPListener {
             override fun onInteractionListener() {
+                mView.btn_continue.visibility = View.VISIBLE
 
             }
 
@@ -52,19 +69,22 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
 
 
         mView.btn_continue.setOnClickListener {
-            if (mView.otp_view.otp.equals("")) {
-                Toast.makeText(requireContext(), "Please enter OTP", Toast.LENGTH_SHORT).show()
-            } else
-                if (mView.otp_view.otp?.length != 6) {
+            when {
+                mView.otp_view.otp.equals("") -> {
+                    Toast.makeText(requireContext(), "Please enter OTP", Toast.LENGTH_SHORT).show()
+                }
+                mView.otp_view.otp?.length != 6 -> {
                     Toast.makeText(
                         requireContext(),
                         "Please enter complete OTP",
                         Toast.LENGTH_SHORT
                     ).show()
 
-                } else {
+                }
+                else -> {
                     verificationApi(mView.otp_view.otp)
                 }
+            }
         }
 
         return mView
@@ -136,6 +156,68 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
             mData.id, mData.accesstoken,
             mApiHandler
         )
+    }
+
+    private fun startSmsUserConsent() {
+        SmsRetriever.getClient(requireActivity()).also {
+            //We can add sender phone number or leave it blank
+            it.startSmsUserConsent(null)
+                .addOnSuccessListener {
+                    Log.d(TAG, "LISTENING_SUCCESS")
+                }
+                .addOnFailureListener {
+                    Log.d(TAG, "LISTENING_FAILURE")
+                }
+        }
+    }
+
+    private fun registerToSmsBroadcastReceiver() {
+        smsBroadcastReceiver = SmsBroadcastReceiver().also {
+            it.smsBroadcastReceiverListener = object : SmsBroadcastReceiver.SmsBroadcastReceiverListener {
+                override fun onSuccess(intent: Intent?) {
+                    intent?.let { context -> startActivityForResult(context, REQ_USER_CONSENT) }
+                }
+
+                override fun onFailure() {
+                }
+            }
+        }
+
+        val intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
+        context?.registerReceiver(smsBroadcastReceiver, intentFilter)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQ_USER_CONSENT -> {
+                if ((resultCode == Activity.RESULT_OK) && (data != null)) {
+                    //That gives all message to us. We need to get the code from inside with regex
+                    val message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
+                    val code = message?.let { fetchVerificationCode(it) }
+
+                    if (code != null) {
+                        mView.otp_view.setOTP(code)
+                        /*restfullInstance.verificationUser(
+                            mData.accesstoken,
+                            mData.id,
+                            code,
+                            mApiHandler
+                        )*/
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun fetchVerificationCode(message: String): String {
+        return Regex("(\\d{6})").find(message)?.value ?: ""
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerToSmsBroadcastReceiver()
     }
 
 }
