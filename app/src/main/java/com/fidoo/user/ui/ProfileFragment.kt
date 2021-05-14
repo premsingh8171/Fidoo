@@ -53,12 +53,10 @@ class ProfileFragment : Fragment() {
 
             Glide.with(this).asBitmap()
                 .load(SessionTwiclo(context).profileDetail.account.image!!)
-               // .fitCenter()
-               // .override(100, 100)
+                // .fitCenter()
+                // .override(100, 100)
                 .placeholder(R.drawable.ic_user_single)
-
                 .error(R.drawable.ic_user_single)
-    
                 .into(mView.img_user)
 
         }
@@ -142,10 +140,13 @@ class ProfileFragment : Fragment() {
 
             Log.e("logout__response", Gson().toJson(user))
             dismissIOSProgress()
-            SessionTwiclo(context).clearSession()
+            if (context!= null){
+                SessionTwiclo(context).clearSession()
 
-            startActivity(Intent(context, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            )
+                startActivity(Intent(context, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
+            }
+
+
         })
 
         return mView

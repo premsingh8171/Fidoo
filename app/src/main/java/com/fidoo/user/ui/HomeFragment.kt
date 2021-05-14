@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getDrawable
 import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.*
@@ -57,13 +58,12 @@ import kotlin.collections.ArrayList
 class HomeFragment : Fragment() {
 
     lateinit var mView : View
-
     var viewmodel : HomeFragmentViewModel? = null
-
     private var _progressDlg: ProgressDialog? = null
     var fragmentHomeBinding: FragmentHomeBinding? = null
     private var currentPosition = 0
     private var layoutManger: CardSliderLayoutManager? = null
+    var categoryAdapter:CategoryAdapter?=null
 
     companion object {
         var service_id:String?=""
@@ -72,7 +72,6 @@ class HomeFragment : Fragment() {
     }
 
 
-    var categoryAdapter:CategoryAdapter?=null
     private val pics = intArrayOf(
         R.drawable.medicine,
         R.drawable.electronics,
@@ -121,20 +120,17 @@ class HomeFragment : Fragment() {
 
 
         if ((activity as MainActivity).isNetworkConnected) {
-
             if (SessionTwiclo(context).isLoggedIn){
-
-
                 viewmodel?.getBanners(
-                        SessionTwiclo(context).loggedInUserDetail.accountId,
-                        SessionTwiclo(context).loggedInUserDetail.accessToken,
-                        "1"
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken,
+                    "1"
                 )
             }else{
                 viewmodel?.getBanners(
-                        "",
-                        "",
-                        "1"
+                    "",
+                    "",
+                    "1"
                 )
             }
 
@@ -306,12 +302,21 @@ class HomeFragment : Fragment() {
                 }
                 if (user.count != null) {
                     if (user.count.toInt() > 0) {
+                        fragmentHomeBinding?.cartIcon?.setImageDrawable(context?.let {
+                            getDrawable(
+                                it, R.drawable.cart_icon)
+                        })
                         fragmentHomeBinding?.cartIcon?.setColorFilter(Color.argb(255, 53, 156, 71))
                         //fragmentHomeBinding?.cartCountTxt?.visibility = View.VISIBLE
                         //fragmentHomeBinding?.cartCountTxt?.text = user.count
                     } else {
                         fragmentHomeBinding?.cartCountTxt?.visibility = View.GONE
+                        fragmentHomeBinding?.cartIcon?.setImageDrawable(context?.let {
+                            getDrawable(
+                                it, R.drawable.ic_cart)
+                        })
                         fragmentHomeBinding?.cartIcon?.setColorFilter(Color.argb(255, 199, 199, 199))
+
                     }
                 }
             } else {
@@ -420,17 +425,16 @@ class HomeFragment : Fragment() {
 
 
     fun getGeoAddressFromLatLong(
-            latitude: Double,
-            longitude: Double
+        latitude: Double,
+        longitude: Double
     ): String? {
-        val geocoder: Geocoder
         val addresses: List<Address>
-        geocoder = Geocoder(requireContext(), Locale.getDefault())
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
         return try {
             addresses = geocoder.getFromLocation(
-                    latitude,
-                    longitude,
-                    1
+                latitude,
+                longitude,
+                1
             ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
             val address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
             val city = addresses[0].locality
@@ -574,8 +578,8 @@ class HomeFragment : Fragment() {
                     override fun getLocation(location: Location) {
 
                         Log.e(
-                                "Location_lat_lng",
-                                " latitude ${location.latitude} longitude ${location.longitude}"
+                            "Location_lat_lng",
+                            " latitude ${location.latitude} longitude ${location.longitude}"
                         )
 
                         SessionTwiclo(context).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
@@ -587,13 +591,10 @@ class HomeFragment : Fragment() {
             }
 
         } else {
-
-            userAddress?.text = SessionTwiclo(
-                    context
-            ).userAddress
+            userAddress?.text = SessionTwiclo(context).userAddress
         }
         fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
-            Log.d("dfdffddf",SessionTwiclo(context).userAddress)
+        Log.d("dfdffddf",SessionTwiclo(context).userAddress)
     }
 
     private fun showLoginDialog(message: String){

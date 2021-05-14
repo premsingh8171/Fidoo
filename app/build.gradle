@@ -9,6 +9,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+        storeFile file('C:\\Users\\Twiclo\\fidoo.jks')
+            storePassword 'Fidoo@twiclo2021'
+            keyPassword 'Fidoo@twiclo2021'
+            keyAlias 'fidookey'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
