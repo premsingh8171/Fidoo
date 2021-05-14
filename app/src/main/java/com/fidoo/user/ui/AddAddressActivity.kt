@@ -31,6 +31,8 @@ import com.fidoo.user.data.model.GetAddressModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.MY_PERMISSIONS_REQUEST_CODE
+import com.fidoo.user.view.address.SavedAddressesActivity
+import com.fidoo.user.view.address.SavedAddressesActivity.Companion.savedAddressesActivity
 import com.fidoo.user.viewmodels.AddressViewModel
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -40,8 +42,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompletePrediction
@@ -90,26 +90,27 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
     private var locationManager: LocationManager? = null
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val window: Window = this.getWindow()
+        val window: Window = this.window
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_add_address)
-
         viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(
             AddressViewModel::class.java
         )
-       where= intent.getStringExtra("where")
+        where = intent.getStringExtra("where")
         //emailValue.setText(model.phone_no)
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
+        val mapFragment =
+            supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         mapView = mapFragment.view
 
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        Places.initialize(this, getString(R.string.google_maps_key));
-        placesClient = Places.createClient(this);
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        Places.initialize(this, getString(R.string.google_maps_key))
+        placesClient = Places.createClient(this)
         val token = AutocompleteSessionToken.newInstance()
         checkPermission()
 
@@ -188,8 +189,8 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 placesClient!!.fetchPlace(fetchPlaceRequest)
                     .addOnSuccessListener { fetchPlaceResponse ->
                         val place: Place = fetchPlaceResponse.place
-                        Log.i("mytag", "Place found: " + place.getName())
-                        val latLngOfPlace: LatLng = place.getLatLng()!!
+                        Log.i("mytag", "Place found: " + place.name)
+                        val latLngOfPlace: LatLng = place.latLng!!
                         mMap!!.moveCamera(
                             CameraUpdateFactory.newLatLngZoom(
                                 latLngOfPlace,
@@ -198,7 +199,7 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                         )
                     }.addOnFailureListener { e ->
                         if (e is ApiException) {
-                            val apiException = e as ApiException
+                            val apiException = e
                             apiException.printStackTrace()
                             val statusCode = apiException.statusCode
                             Log.i("mytag", "place not found: " + e.message)
@@ -226,44 +227,47 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 showToast(resources.getString(R.string.provide_internet))
 
             } else {
-                if (ed_name.text.toString().equals("")){
-                    showToast("Please enter your name")
+                if (where.equals("guest")) {
+                    savedAddressesActivity.finish().toString()
+                    finish()
+                    SessionTwiclo(this).userAddress=tv_Address.text.toString()
 
-                } else if (ed_phone.text.toString().equals("")) {
-                    showToast("Please enter your phone no.")
+                } else {
+                    if (ed_name.text.toString().equals("")) {
+                        showToast("Please enter your name")
 
-                } else
-                    if (ed_address.text.toString().equals("")) {
-                        showToast("Please enter your house number")
+                    } else if (ed_phone.text.toString().equals("")) {
+                        showToast("Please enter your phone no.")
 
                     } else
-                        if (ed_landmark.text.toString().equals("")) {
-                            showToast("Please enter your landmark")
+                        if (ed_address.text.toString().equals("")) {
+                            showToast("Please enter your house number")
 
-                        } else {
+                        } else
+                            if (ed_landmark.text.toString().equals("")) {
+                                showToast("Please enter your landmark")
 
-                            showIOSProgress()
-                            if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
-                                addressType = "1"
-                            } else
-                                if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
-                                    addressType = "2"
-                                } else
-                                    if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
-                                        addressType = "3"
-                                    }
-
-
-                            defaultValue = if (defaultCheckBox.isChecked) {
-                                "1"
                             } else {
-                                "0"
-                            }
 
-                            if (where.equals("guest")){
+                                showIOSProgress()
+                                if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
+                                    addressType = "1"
+                                } else
+                                    if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
+                                        addressType = "2"
+                                    } else
+                                        if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
+                                            addressType = "3"
+                                        }
 
-                                //local work
-                            }else {
+
+                                defaultValue = if (defaultCheckBox.isChecked) {
+                                    "1"
+                                } else {
+                                    "0"
+                                }
+
+
                                 if (intent.hasExtra("data")) {
                                     viewmodel?.editAddressDetails(
                                         SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -299,9 +303,10 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                                         defaultValue,
                                         ed_phone.text.toString()
                                     )
+
                                 }
                             }
-                        }
+                }
             }
         }
 
@@ -318,14 +323,19 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         })
 
 
-
     }
 
     private fun checkPermission() {
-        if (ContextCompat.checkSelfPermission(this@AddAddressActivity, Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this@AddAddressActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this@AddAddressActivity, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    this@AddAddressActivity, Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            ) {
                 ActivityCompat.requestPermissions(
                     this@AddAddressActivity, arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION //Manifest.permission.READ_PHONE_STATE
@@ -344,7 +354,7 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             //  Toast.makeText(this@AddAddressActivity, "Permissions already granted", Toast.LENGTH_SHORT).show();
             if (intent.hasExtra("data")) {
 
-            }else{
+            } else {
                 getDeviceLocation()
             }
 
@@ -413,12 +423,13 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         val settingsClient = LocationServices.getSettingsClient(this@AddAddressActivity)
         val task: Task<LocationSettingsResponse> =
             settingsClient.checkLocationSettings(builder.build())
-        task.addOnSuccessListener(this@AddAddressActivity
+        task.addOnSuccessListener(
+            this@AddAddressActivity
         ) {
 
             if (intent.hasExtra("data")) {
 
-            }else{
+            } else {
                 getDeviceLocation()
             }
         }
@@ -447,7 +458,7 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             if (resultCode == RESULT_OK) {
                 if (intent.hasExtra("data")) {
 
-                }else{
+                } else {
                     getDeviceLocation()
                 }
             }
@@ -474,14 +485,13 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                             )
 
 
-
                             val address = getGeoAddressFromLatLong(
                                 lat!!,
                                 lng!!
                             )
                             tv_Address.text = address
 
-                        }else{
+                        } else {
                             mMap!!.moveCamera(
                                 CameraUpdateFactory.newLatLngZoom(
                                     LatLng(
@@ -492,7 +502,6 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                             )
 
 
-
                             val address = getGeoAddressFromLatLong(
                                 mLastKnownLocation!!.latitude,
                                 mLastKnownLocation!!.longitude
@@ -500,7 +509,6 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                             tv_Address.text = address
 
                         }
-
 
 
                         /*val locationRequest = LocationRequest.create()
@@ -584,7 +592,8 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 longitude,
                 1
             ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            val address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            val address =
+                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
             val city = addresses[0].locality
             val state = addresses[0].adminArea
             val country = addresses[0].countryName
@@ -606,15 +615,15 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 intent.getStringExtra("data"),
                 GetAddressModel.AddressList::class.java
             )
-            lat=model.latitude.toDouble()
-            lng=model.longitude.toDouble()
+            lat = model.latitude.toDouble()
+            lng = model.longitude.toDouble()
             tv_Address.text = model.location
             ed_name.setText(model.name)
             ed_phone.setText(model.phone_no)
             ed_address.setText(model.flatNo)
             //buildingValue.setText(model.building)
             ed_landmark.setText(model.landmark)
-            tempAddressId=model.id
+            tempAddressId = model.id
             defaultCheckBox.isChecked = model.is_default.equals("1")
 
 
@@ -638,13 +647,13 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 )
             )*/
 
-        }else{
+        } else {
             getDeviceLocation()
         }
 
         if (intent.hasExtra("data")) {
 
-        }else{
+        } else {
 
         }
         checkPermission()
@@ -657,7 +666,6 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         super.onBackPressed()
         finish()
     }
-
 
 
 }

@@ -80,6 +80,7 @@ class ProfileFragment : Fragment() {
             }
 
         }
+
         mView.tv_manage_your_addresses.setOnClickListener {
             if (SessionTwiclo(requireContext()).isLoggedIn){
                 startActivity(Intent(context, SavedAddressesActivity::class.java))
@@ -96,7 +97,6 @@ class ProfileFragment : Fragment() {
         mView.tv_aboutUs.setOnClickListener {
             startActivity(Intent(context, AboutUsActivity::class.java).putExtra("about_us", "about_us"))
         }
-
 
         if (SessionTwiclo(requireContext()).isLoggedIn){
             mView.action_logout.visibility = View.VISIBLE
@@ -122,8 +122,10 @@ class ProfileFragment : Fragment() {
                 )
 
             }else{
-                showLoginDialog("Please login to proceed")
-               // Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
+                startActivity(Intent(context, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
+
+
+                // Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
             }
 
 
@@ -152,32 +154,5 @@ class ProfileFragment : Fragment() {
         return mView
     }
 
-    private fun showLoginDialog(message: String){
-        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
-        //set title for alert dialog
-        builder.setTitle("Alert")
-        //set message for alert dialog
-        builder.setMessage(message)
-        // builder.setIcon(android.R.drawable.ic_dialog_alert)
-
-        //performing positive action
-        builder.setPositiveButton("Login") { _, _ ->
-            startActivity(
-                Intent(activity, SplashActivity::class.java)
-            )
-
-
-        }
-
-        //performing negative action
-        builder.setNegativeButton("Cancel") { _, _ ->
-
-        }
-        // Create the AlertDialog
-        val alertDialog: androidx.appcompat.app.AlertDialog = builder.create()
-        // Set other dialog properties
-        alertDialog.setCancelable(true)
-        alertDialog.show()
-    }
 
 }

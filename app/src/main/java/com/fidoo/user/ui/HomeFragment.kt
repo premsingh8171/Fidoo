@@ -531,9 +531,10 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        Log.d("Home_Resume", "RESUME")
+
         if (SessionTwiclo(context).isLoggedIn){
 
-            Log.d("Home_Resume", "RESUME")
 
             viewmodel?.getCartCountApi(
                     SessionTwiclo(context).loggedInUserDetail.accountId,
@@ -550,6 +551,7 @@ class HomeFragment : Fragment() {
                     "",
                     ""
             )
+            userAddress?.text = SessionTwiclo(context).userAddress
         }
 
 
