@@ -144,8 +144,13 @@ dependencies {
 
     //For in-app updates
     implementation 'com.github.SanojPunchihewa:InAppUpdater:1.0.5'
+
     //rotation view
     implementation 'rongi.rotate-layout:rotate-layout:3.0.0'
     implementation 'com.github.premsingh8171:StartActivityAnimation:1.0.0'
+
+    // For Auto Read OTP -- SMS Consent API Google
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
 
 }
