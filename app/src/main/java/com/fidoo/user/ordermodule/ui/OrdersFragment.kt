@@ -1,4 +1,4 @@
-package com.fidoo.user.ui
+package com.fidoo.user.ordermodule.ui
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -19,16 +19,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.fidoo.user.R
-import com.fidoo.user.adapter.OrdersAdapter
-import com.fidoo.user.data.model.MyOrdersModel
-import com.fidoo.user.data.model.ReviewModel
+import com.fidoo.user.ordermodule.adapter.OrdersAdapter
+import com.fidoo.user.ordermodule.model.MyOrdersModel
+import com.fidoo.user.ordermodule.model.ReviewModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentOrdersBinding
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterReviewClick
+import com.fidoo.user.ordermodule.model.Feedback
+import com.fidoo.user.ordermodule.model.UploadPresModel
+import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
 import com.fidoo.user.utils.showAlertDialog
-import com.fidoo.user.viewmodels.MyOrdersFragmentViewModel
+import com.fidoo.user.ordermodule.viewmodel.MyOrdersFragmentViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -154,6 +157,26 @@ class OrdersFragment : Fragment(),
 
         })
 
+        viewmodel?.orderFeedback?.observe(requireActivity(),{
+            feedback->
+            if (checkStatusOfReview==1) {
+                dismissIOSProgress()
+                if (_progressDlg != null) {
+
+                    _progressDlg!!.dismiss()
+                    _progressDlg = null
+                }
+
+
+                val model: Feedback = feedback
+                Toast.makeText(context, model.message, Toast.LENGTH_SHORT).show()
+                viewmodel?.getMyOrders(
+                    SessionTwiclo(activity).loggedInUserDetail.accountId,
+                    SessionTwiclo(activity).loggedInUserDetail.accessToken
+                )
+            }
+        })
+
         viewmodel?.uploadPrescriptionResponse?.observe(requireActivity(), { user ->
             dismissIOSProgress()
             if (_progressDlg != null) {
@@ -161,7 +184,7 @@ class OrdersFragment : Fragment(),
                 _progressDlg!!.dismiss()
                 _progressDlg = null
             }
-            val mModelData: com.fidoo.user.data.model.UploadPresModel = user
+            val mModelData: UploadPresModel = user
 
             Log.e("uploadResponse", Gson().toJson(mModelData))
 
@@ -198,6 +221,38 @@ class OrdersFragment : Fragment(),
             ratingDriver,
             reviewDriver
         )
+
+    }
+
+    override fun onReviewSubmit(
+        orderId: String?,
+        star: String?,
+        improvement: String?,
+        message: String?,
+        type: String?
+    ) {
+       // Log.d("orderId____",orderId+"---"+star+"---"+improvement+"---"+message+"--"+type)
+
+        try {
+            _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
+            _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+
+            _progressDlg!!.setCancelable(false)
+            _progressDlg!!.show()
+        } catch (ex: Exception) {
+            Log.wtf("IOS_error_starting", ex.cause!!)
+        }
+        checkStatusOfReview=1
+       viewmodel?.addfeedbackApi(
+           SessionTwiclo(activity).loggedInUserDetail.accountId,
+           SessionTwiclo(activity).loggedInUserDetail.accessToken,
+           orderId,
+           star,
+           improvement,
+           message,
+           type
+       )
 
     }
 

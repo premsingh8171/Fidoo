@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
+import com.fidoo.user.ordermodule.model.OrderDetailsModel
 import kotlinx.android.synthetic.main.order_items_adapter.view.*
 
 
-class ItemsAdapter(val con: Context, val items: MutableList<com.fidoo.user.data.model.OrderDetailsModel.Item>) : RecyclerView.Adapter<ItemsAdapter.UserViewHolder>() {
+class ItemsAdapter(val con: Context, val items: MutableList<OrderDetailsModel.Item>) : RecyclerView.Adapter<ItemsAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.order_items_adapter, parent, false)

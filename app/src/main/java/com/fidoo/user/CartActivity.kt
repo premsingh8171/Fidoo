@@ -29,7 +29,7 @@ import com.fidoo.user.interfaces.CustomCartAddRemoveClick
 import com.fidoo.user.ui.MainActivity.Companion.addCartTempList
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.showAlertDialog
-import com.fidoo.user.view.TrackOrderActivity
+import com.fidoo.user.ordermodule.ui.TrackOrderActivity
 import com.fidoo.user.view.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.AddressViewModel
 import com.fidoo.user.viewmodels.CartViewModel

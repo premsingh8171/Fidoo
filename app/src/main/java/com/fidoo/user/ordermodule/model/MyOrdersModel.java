@@ -1,4 +1,4 @@
-package com.fidoo.user.data.model;
+package com.fidoo.user.ordermodule.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class MyOrdersModel {
+
     @SerializedName("error")
     @Expose
     public Boolean error;

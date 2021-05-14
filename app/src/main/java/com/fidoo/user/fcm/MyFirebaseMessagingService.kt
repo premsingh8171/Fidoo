@@ -31,8 +31,8 @@ import com.fidoo.user.R
 import com.fidoo.user.data.model.PushNotificationModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.ui.MainActivity
-import com.fidoo.user.view.OrderDetailsActivity
-import com.fidoo.user.view.TrackOrderActivity
+import com.fidoo.user.ordermodule.ui.OrderDetailsActivity
+import com.fidoo.user.ordermodule.ui.TrackOrderActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson

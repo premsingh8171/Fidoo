@@ -9,4 +9,11 @@ public interface AdapterReviewClick {
                            String reviewDriver
     );
 
+    void onReviewSubmit(String orderId,
+                           String star,
+                           String improvement,
+                           String message,
+                           String type
+    );
+
 }

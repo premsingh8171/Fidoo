@@ -2,6 +2,7 @@ package com.fidoo.user.api_request_retrofit
 
 import com.fidoo.user.data.model.*
 import com.fidoo.user.grocery.model.getGroceryProducts.GroceryProductsResponse
+import com.fidoo.user.ordermodule.model.*
 import com.fidoo.user.profile.EditProfileModel
 import com.fidoo.user.search.model.SearchListModel
 import okhttp3.MultipartBody
@@ -153,7 +154,20 @@ interface BackEndApi {
         @Field("delivery_rating") delivery_rating: String?,
         @Field("delivery_review") delivery_review: String?
 
-    ): Call<ReviewModel>
+    ): Call<ReviewModel> @FormUrlEncoded
+
+
+    @POST("addFeedback.php")
+    fun addFeedbackApi(
+        @Field("accountId") accountId: String?,
+        @Field("accessToken") accessToken: String?,
+        @Field("order_id") order_id: String?,
+        @Field("star") star: String?,
+        @Field("improvement") improvement: String?,
+        @Field("message") message: String?,
+        @Field("type") type: String?
+
+    ): Call<Feedback>
 
     @FormUrlEncoded
     @POST("cartdetail.inc.php")

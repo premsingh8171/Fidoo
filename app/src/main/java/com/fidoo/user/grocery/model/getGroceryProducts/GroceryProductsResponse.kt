@@ -47,6 +47,9 @@ data class Product(
     var product_name: String="",
     var unit: String="",
     var weight: String="",
-    var cart_id: String=""
+    var cart_id: String="",
+    var product_sub_category_id: String="",
+    var product_category_id: String=""
+
 )
 

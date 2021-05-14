@@ -105,7 +105,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view"
-            tools:context=".view.TrackOrderActivity" />
+            tools:context=".ordermodule.ui.TrackOrderActivity" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

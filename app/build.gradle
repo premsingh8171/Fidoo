@@ -24,13 +24,17 @@ android {
     androidExtensions {
         experimental = true
     }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
+//
+//    buildTypes {
+//        release {
+//            debuggable false
+//            minifyEnabled true
+//            shrinkResources true
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            //use for signed apk release
+//            signingConfig signingConfigs.release
+//        }
+//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -47,6 +51,36 @@ android {
 
     dataBinding {
         enabled = true
+    }
+
+//    signingConfigs {
+//        // use for signed apk
+//        release {
+//            storeFile file("../fidoo.jks")
+//            storePassword "Fidoo@twiclo2021"
+//            keyAlias "fidookey"
+//            keyPassword "Fidoo@twiclo2021"
+//            v1SigningEnabled true
+//            v2SigningEnabled true
+//        }
+//    }
+
+    flavorDimensions "client"
+    productFlavors {
+       // use for live debug and release build
+        live {
+            dimension "client"
+            buildConfigField("String", "BASE_URL", "\"https://fidoo.in/api/method/\"")
+            //signingConfig signingConfigs.release
+
+        }
+        // use for quality debug and release build
+        Dev{
+            dimension "client"
+            buildConfigField("String", "BASE_URL", "\"https://twiclo.com/api/method/\"")
+        }
+
+
     }
 }
 
@@ -137,6 +171,11 @@ dependencies {
 
     implementation 'com.github.mancj:MaterialSearchBar:0.8.1'
     implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
+
+    // Lifecycle components
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.5'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.5'
+   // implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.5'
 
     //Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"

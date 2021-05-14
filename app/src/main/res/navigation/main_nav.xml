@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/ordersFragment"
-        android:name="com.fidoo.user.ui.OrdersFragment"
+        android:name="com.fidoo.user.ordermodule.ui.OrdersFragment"
         android:label="fragment_orders"
         tools:layout="@layout/fragment_orders" />
 
