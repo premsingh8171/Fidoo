@@ -169,4 +169,14 @@ public class SessionTwiclo {
     }
 
 
+    public String getGuestLogin() {
+        return pref.getString("guest_login", "");
+    }
+
+    public void setGuestLogin(String guest_login) {
+        editor.putString("guest_login", guest_login);
+        editor.commit();
+
+    }
+
 }

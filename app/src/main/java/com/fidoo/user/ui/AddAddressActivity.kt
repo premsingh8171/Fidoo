@@ -76,6 +76,8 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
     var defaultValue: String = "0"
 
     var tempAddressId: String = ""
+    var where: String? = ""
+
 
     private var mLastKnownLocation: Location? = null
     private var locationCallback: LocationCallback? = null
@@ -99,7 +101,7 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(
             AddressViewModel::class.java
         )
-
+       where= intent.getStringExtra("where")
         //emailValue.setText(model.phone_no)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
@@ -258,43 +260,46 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                                 "0"
                             }
 
-                            if (intent.hasExtra("data")) {
-                                viewmodel?.editAddressDetails(
-                                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                    ed_address.text.toString(),
-                                    ed_address.text.toString(),
-                                    tv_Address.text.toString(),
-                                    ed_landmark.text.toString(),
-                                    addressType,
-                                    lat.toString(),
-                                    lng.toString(),
-                                    ed_name.text.toString(),
-                                    "", defaultValue,
-                                    ed_phone.text.toString(),
-                                    tempAddressId
+                            if (where.equals("guest")){
 
-                                )
+                                //local work
+                            }else {
+                                if (intent.hasExtra("data")) {
+                                    viewmodel?.editAddressDetails(
+                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                        ed_address.text.toString(),
+                                        ed_address.text.toString(),
+                                        tv_Address.text.toString(),
+                                        ed_landmark.text.toString(),
+                                        addressType,
+                                        lat.toString(),
+                                        lng.toString(),
+                                        ed_name.text.toString(),
+                                        "", defaultValue,
+                                        ed_phone.text.toString(),
+                                        tempAddressId
 
-                            }
-                            else
-                            {
+                                    )
 
-                                viewmodel?.addAddressDetails(
-                                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                    ed_address.text.toString(),
-                                    ed_address.text.toString(),
-                                    tv_Address.text.toString(),
-                                    ed_landmark.text.toString(),
-                                    addressType,
-                                    lat.toString(),
-                                    lng.toString(),
-                                    ed_name.text.toString(),
-                                    "",
-                                    defaultValue,
-                                    ed_phone.text.toString()
-                                )
+                                } else {
+
+                                    viewmodel?.addAddressDetails(
+                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                        ed_address.text.toString(),
+                                        ed_address.text.toString(),
+                                        tv_Address.text.toString(),
+                                        ed_landmark.text.toString(),
+                                        addressType,
+                                        lat.toString(),
+                                        lng.toString(),
+                                        ed_name.text.toString(),
+                                        "",
+                                        defaultValue,
+                                        ed_phone.text.toString()
+                                    )
+                                }
                             }
                         }
             }

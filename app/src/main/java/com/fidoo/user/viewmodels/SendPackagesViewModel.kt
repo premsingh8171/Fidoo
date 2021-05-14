@@ -6,24 +6,24 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
-import com.fidoo.user.data.model.SendPackagesModel
+import com.fidoo.user.data.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SendPackagesViewModel(application: Application) : AndroidViewModel(application), Callback<com.fidoo.user.data.model.PackageCatResponseModel> {
+class SendPackagesViewModel(application: Application) : AndroidViewModel(application), Callback<PackageCatResponseModel> {
 
-    var getcatResponse: MutableLiveData<com.fidoo.user.data.model.PackageCatResponseModel>? = null
-    var getPackageResponse: MutableLiveData<com.fidoo.user.data.model.SendPackagesModel>? = null
-    var sendPackagesResponse: MutableLiveData<com.fidoo.user.data.model.SendPackageOrderDetailModel>? = null
-    var paymentResponse: MutableLiveData<com.fidoo.user.data.model.PaymentModel>? = null
+    var getcatResponse: MutableLiveData<PackageCatResponseModel>? = null
+    var getPackageResponse: MutableLiveData<SendPackagesModel>? = null
+    var sendPackagesResponse: MutableLiveData<SendPackageOrderDetailModel>? = null
+    var paymentResponse: MutableLiveData<PaymentModel>? = null
     var failureResponse: MutableLiveData<String>? = null
 
     init {
-        getcatResponse = MutableLiveData<com.fidoo.user.data.model.PackageCatResponseModel>()
-        getPackageResponse = MutableLiveData<com.fidoo.user.data.model.SendPackagesModel>()
-        sendPackagesResponse = MutableLiveData<com.fidoo.user.data.model.SendPackageOrderDetailModel>()
-        paymentResponse = MutableLiveData<com.fidoo.user.data.model.PaymentModel>()
+        getcatResponse = MutableLiveData<PackageCatResponseModel>()
+        getPackageResponse = MutableLiveData<SendPackagesModel>()
+        sendPackagesResponse = MutableLiveData<SendPackageOrderDetailModel>()
+        paymentResponse = MutableLiveData<PaymentModel>()
         failureResponse = MutableLiveData<String>()
 
     }
@@ -48,14 +48,14 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
             payment_bank = payment_bank,
             payment_mode = payment_mode
         )
-            .enqueue(object : Callback<com.fidoo.user.data.model.PaymentModel> {
-                override fun onResponse(call: Call<com.fidoo.user.data.model.PaymentModel>, response: Response<com.fidoo.user.data.model.PaymentModel>) {
+            .enqueue(object : Callback<PaymentModel> {
+                override fun onResponse(call: Call<PaymentModel>, response: Response<PaymentModel>) {
                     // progressDialog?.value = false
                     paymentResponse?.value = response.body()
 
                 }
 
-                override fun onFailure(call: Call<com.fidoo.user.data.model.PaymentModel>, t: Throwable) {
+                override fun onFailure(call: Call<PaymentModel>, t: Throwable) {
                     //  progressDialog?.value = false
                     failureResponse?.value="Something went wrong"
                 }
@@ -71,13 +71,13 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
         )
             .enqueue(object : Callback<SendPackagesModel> {
 
-                override fun onResponse(call: Call<SendPackagesModel>, response: Response<com.fidoo.user.data.model.SendPackagesModel>) {
+                override fun onResponse(call: Call<SendPackagesModel>, response: Response<SendPackagesModel>) {
                     // progressDialog?.value = false
                     getPackageResponse?.value = response.body()
 
                 }
 
-                override fun onFailure(call: Call<com.fidoo.user.data.model.SendPackagesModel>, t: Throwable) {
+                override fun onFailure(call: Call<SendPackagesModel>, t: Throwable) {
                     //  progressDialog?.value = false
                     failureResponse?.value="Something went wrong"
                 }
@@ -115,16 +115,16 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
             package_delivery_time = package_delivery_time
 
         )
-            .enqueue(object : Callback<com.fidoo.user.data.model.SendPackageOrderDetailModel> {
+            .enqueue(object : Callback<SendPackageOrderDetailModel> {
 
-                override fun onResponse(call: Call<com.fidoo.user.data.model.SendPackageOrderDetailModel>, response: Response<com.fidoo.user.data.model.SendPackageOrderDetailModel>) {
+                override fun onResponse(call: Call<SendPackageOrderDetailModel>, response: Response<SendPackageOrderDetailModel>) {
                     // progressDialog?.value = false
                     sendPackagesResponse?.value = response.body()
                     Log.e("RESPONSE", sendPackagesResponse?.value.toString())
 
                 }
 
-                override fun onFailure(call: Call<com.fidoo.user.data.model.SendPackageOrderDetailModel>, t: Throwable) {
+                override fun onFailure(call: Call<SendPackageOrderDetailModel>, t: Throwable) {
                     //  progressDialog?.value = false
                     failureResponse?.value="Something went wrong"
                 }
@@ -132,12 +132,12 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
     }
 
 
-    override fun onResponse(call: Call<com.fidoo.user.data.model.PackageCatResponseModel>?, response: Response<com.fidoo.user.data.model.PackageCatResponseModel>?) {
+    override fun onResponse(call: Call<PackageCatResponseModel>?, response: Response<PackageCatResponseModel>?) {
         getcatResponse?.value = response?.body()
 
     }
 
-    override fun onFailure(call: Call<com.fidoo.user.data.model.PackageCatResponseModel>?, t: Throwable?) {
+    override fun onFailure(call: Call<PackageCatResponseModel>?, t: Throwable?) {
         Log.e("error",call.toString())
         Log.e("error 2",t!!.message.toString())
         failureResponse?.value="Something went wrong"

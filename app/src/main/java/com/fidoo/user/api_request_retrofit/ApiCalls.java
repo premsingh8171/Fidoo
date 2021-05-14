@@ -182,7 +182,7 @@ Log.e("yes","yes");
 
     public void verificationUser(String accessToken, String id,String otp, final Handler mHandler) {
         final Message msg = new Message();
-Log.e("yes","yes");
+        Log.e("otp___",accessToken+"---"+id+"--"+otp);
         Call<VerificationModel> call = apiInterface.verification(id,accessToken , otp
         );
         call.enqueue(new Callback<VerificationModel>() {

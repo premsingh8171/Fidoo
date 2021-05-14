@@ -64,6 +64,9 @@ class HomeFragment : Fragment() {
     var fragmentHomeBinding: FragmentHomeBinding? = null
     private var currentPosition = 0
     private var layoutManger: CardSliderLayoutManager? = null
+    private var where:String?=""
+    lateinit var pref: SessionTwiclo
+
 
     companion object {
         var service_id:String?=""
@@ -115,6 +118,9 @@ class HomeFragment : Fragment() {
 //        activity?.statusBarTransparent()
 
         viewmodel = ViewModelProviders.of(requireActivity()).get(HomeFragmentViewModel::class.java)
+        pref = SessionTwiclo(requireContext())
+        where=pref.guestLogin
+        Log.d("where___",where!!)
 
         // to initialize the main card view slider
         initRecyclerView()
@@ -206,17 +212,6 @@ class HomeFragment : Fragment() {
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
-        fragmentHomeBinding?.addressLay?.setOnClickListener {
-            if (SessionTwiclo(context).isLoggedIn){
-                startActivityForResult(Intent(context, SavedAddressesActivity::class.java)
-                    .putExtra("type", "address"
-                ),AUTOCOMPLETE_REQUEST_CODE
-                )
-            }else{
-                showLoginDialog("Please login to proceed")
-            }
-
-        }
 
         viewmodel?.homeServicesResponse?.observe(requireActivity(), Observer { user ->
             // dismissIOSProgress()
@@ -348,13 +343,28 @@ class HomeFragment : Fragment() {
         }
 
         fragmentHomeBinding?.btnDelivery?.setOnClickListener {
-            if (SessionTwiclo(context).isLoggedIn){
+           // if (SessionTwiclo(context).isLoggedIn){
 
                 //findNavController().navigate(R.id.action_homeFragment_to_sendPacketFragment)
-                startActivity(Intent(context, SendPackageActivity::class.java))
-            }else{
-                showLoginDialog("Please login to proceed")
-            }
+                startActivity(Intent(context, SendPackageActivity::class.java)
+                    .putExtra("where",where))
+//            }else{
+//                showLoginDialog("Please login to proceed")
+//            }
+        }
+
+        fragmentHomeBinding?.addressLay?.setOnClickListener {
+            //if (SessionTwiclo(context).isLoggedIn){
+                startActivityForResult(Intent(context, SavedAddressesActivity::class.java)
+                    .putExtra("type", "address")
+                        .putExtra("where",where
+                    ),AUTOCOMPLETE_REQUEST_CODE
+                )
+          //  }else{
+               // showLoginDialog("Please login to proceed")
+
+          //  }
+
         }
 
 //        fragmentHomeBinding?.homeQuestionLay?.setOnClickListener {
@@ -364,7 +374,7 @@ class HomeFragment : Fragment() {
 //                showLoginDialog("Please login to proceed")
 //            }
 //        }
-
+           // .putExtra("where",where)
         return fragmentHomeBinding?.root
     }
 

@@ -53,6 +53,7 @@ class SignInFragment : Fragment() {
     var viewmodel: LoginViewModel? = null
 
     var customeProgressDialog: CustomProgressDialog? = null
+    var where: String? = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +64,6 @@ class SignInFragment : Fragment() {
         _binding = FragmentSignInBinding.inflate(inflater, container, false)
 
         pref = getSessionInstance()
-
 
         //   mView = inflater.inflate(R.layout.fragment_sign_in, container, false)
 
@@ -118,6 +118,7 @@ class SignInFragment : Fragment() {
 
         binding.tvSkip.setOnClickListener {
             val intent = Intent(requireContext(), MainActivity::class.java)
+            pref.guestLogin="guest"
             requireContext().startActivity(intent)
             requireActivity().finish()
         }
@@ -148,7 +149,7 @@ class SignInFragment : Fragment() {
             dismissIOSProgress()
             val mModelData: EditProfileModel = user
             pref.storeProfileDetail(mModelData)
-
+            pref.guestLogin="userlogin"
             val sendData= SendResponse(mModelData.accessToken,mModelData.account.id,binding.phone.text.toString().trim(),"+91")
             val action = SignInFragmentDirections.actionSignInFragmentToOtpFragment(sendData)
             closeProgress()

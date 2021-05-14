@@ -32,6 +32,7 @@ class ProfileFragment : Fragment() {
     var viewmodel: LogoutViewModel? = null
     var profileViewModel: EditProfileViewModel? = null
     var filePathTemp: String? = ""
+    var sessionTwiclo: SessionTwiclo?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +41,7 @@ class ProfileFragment : Fragment() {
 
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_profile, container, false)
-
+        sessionTwiclo = SessionTwiclo(requireContext())
         viewmodel = ViewModelProvider(requireActivity()).get(LogoutViewModel::class.java)
         profileViewModel = ViewModelProvider(requireActivity()).get(EditProfileViewModel::class.java)
 
@@ -105,7 +106,8 @@ class ProfileFragment : Fragment() {
             mView.tv_name.text = SessionTwiclo(context).profileDetail.account.name
             //mView.tv_email.text = SessionTwiclo(context).profileDetail.account.emailid
         }else{
-            mView.action_logout.visibility = View.GONE
+            mView.action_logout.text="LOGIN"
+            mView.action_logout.visibility = View.VISIBLE
             //mView.tv_email.visibility = View.GONE
             mView.tv_name.visibility = View.GONE
             mView.tv_hi.visibility = View.GONE
@@ -119,10 +121,9 @@ class ProfileFragment : Fragment() {
                     SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
                 )
 
-
-
             }else{
-                Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
+                showLoginDialog("Please login to proceed")
+               // Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
             }
 
 
@@ -142,7 +143,7 @@ class ProfileFragment : Fragment() {
 
             Log.e("logout__response", Gson().toJson(user))
             dismissIOSProgress()
-            SessionTwiclo(context).clearSession()
+            sessionTwiclo!!.clearSession()
 
             startActivity(Intent(context, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             )
@@ -151,5 +152,32 @@ class ProfileFragment : Fragment() {
         return mView
     }
 
+    private fun showLoginDialog(message: String){
+        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        //set title for alert dialog
+        builder.setTitle("Alert")
+        //set message for alert dialog
+        builder.setMessage(message)
+        // builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton("Login") { _, _ ->
+            startActivity(
+                Intent(activity, SplashActivity::class.java)
+            )
+
+
+        }
+
+        //performing negative action
+        builder.setNegativeButton("Cancel") { _, _ ->
+
+        }
+        // Create the AlertDialog
+        val alertDialog: androidx.appcompat.app.AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(true)
+        alertDialog.show()
+    }
 
 }

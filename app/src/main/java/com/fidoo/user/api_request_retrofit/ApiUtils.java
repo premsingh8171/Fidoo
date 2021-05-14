@@ -1,6 +1,6 @@
 package com.fidoo.user.api_request_retrofit;
 
-
+import com.fidoo.user.BuildConfig;
 import android.app.Activity;
 
 public class ApiUtils {
@@ -13,6 +13,7 @@ public class ApiUtils {
     //   URL :- 112.196.5.118/myhaven/api/   http://112.196.5.115/
 
     public static ApiInterface getApiServices(Activity mContext) {
-        return RetrofitClient.getClient("https://fidoo.in/api/method/",mContext).create(ApiInterface.class);
+        //return RetrofitClient.getClient("https://fidoo.in/api/method/",mContext).create(ApiInterface.class);
+        return RetrofitClient.getClient(BuildConfig.BASE_URL,mContext).create(ApiInterface.class);
     }
 }
