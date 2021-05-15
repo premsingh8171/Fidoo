@@ -191,10 +191,10 @@ class StoreItemsAdapter(
                     count++
                     holder.countValue.text = count.toString()
                     adapterAddRemoveClick.onItemAddRemoveClick(
-                            index.productId,
-                            count.toString(),
-                            "add",
-                            index.offerPrice, "",
+                        index.productId,
+                        count.toString(),
+                        "add",
+                        index.offerPrice, "",
                         productList[position].cartId,0
                     )
                 }

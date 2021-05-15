@@ -183,9 +183,8 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             showInternetToast()
         }
 
-        viewmodel?.getAddressesResponse?.observe(this,{user ->
-            val addressList: MutableList<GetAddressModel.AddressList>
-            addressList=user.addressList
+        viewmodel?.getAddressesResponse?.observe(this,{ user ->
+            val addressList: MutableList<GetAddressModel.AddressList> = user.addressList
             try {
                 for (i in addressList.indices) {
                     if (i==0){

@@ -426,19 +426,23 @@ class CartActivity : BaseActivity(),
                     Log.e("cart details response", Gson().toJson(user))
                     val cartIndex = user.cart
 
-                    for (i in 0 until cartIndex.size){
-                        if (user.cart[i].isPrescription == "1"){
+                    for (i in 0 until cartIndex.size) {
+                        if (user.cart[i].isPrescription == "1") {
                             isPrescriptionRequire = user.cart[i].isPrescription
-                        }
 
-                        if (user.cart[i].isPrescription.equals("1")) {
 
-                            prescriptionLay.visibility = View.VISIBLE
-                        } else {
+                            if (user.cart[i].isPrescription.equals("1")) {
 
+                                prescriptionLay.visibility = View.VISIBLE
+                            } else {
+
+                                prescriptionLay.visibility = View.GONE
+                            }
+
+                        }else{
+                            isPrescriptionRequire = ""
                             prescriptionLay.visibility = View.GONE
                         }
-
                     }
 
 

@@ -16,6 +16,12 @@ android {
             keyPassword 'Fidoo@twiclo2021'
             keyAlias 'fidookey'
         }
+        liverelease {
+            storeFile file('C:\\Users\\Twiclo\\fidoo.jks')
+            keyAlias 'fidookey'
+            storePassword 'Fidoo@twiclo2021'
+            keyPassword 'Fidoo@twiclo2021'
+        }
     }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -79,7 +85,7 @@ android {
         live {
             dimension "client"
             buildConfigField("String", "BASE_URL", "\"https://fidoo.in/api/method/\"")
-            //signingConfig signingConfigs.release
+            signingConfig signingConfigs.liverelease
 
         }
         // use for quality debug and release build

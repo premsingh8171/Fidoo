@@ -44,8 +44,21 @@ class StoreSubCustomItemsAdapter(
 
             holder.itemLabel.setOnClickListener {
 
-                if (selectionCount<maxSelectionCount.toInt()) {
+                if (maxSelectionCount == "0"){
 
+                    if (holder.itemLabel.isChecked) {
+                        customCartAddRemoveClick.onIdSelected(
+                            subCat[position].id, "select",
+                            subCat[position].price, tempSelectionCount
+                        )
+                    } else {
+                        customCartAddRemoveClick.onIdSelected(
+                            subCat[position].id, "unselect",
+                            subCat[position].price, tempSelectionCount
+                        )
+                    }
+
+                }else if (selectionCount<maxSelectionCount.toInt()){
                     if (holder.itemLabel.isChecked) {
                         selectionCount++
                         tempSelectionCount++
@@ -65,7 +78,7 @@ class StoreSubCustomItemsAdapter(
                             subCat[position].price, tempSelectionCount
                         )
                     }
-                }else{
+                } else{
                     Toast.makeText(con,
                         "You can select only $maxSelectionCount customization at once", Toast.LENGTH_LONG).show()
                     if (!holder.itemLabel.isChecked){
@@ -95,16 +108,12 @@ class StoreSubCustomItemsAdapter(
             holder.radioBtn_.setOnClickListener {
                 clickPosition=position
                 adapterCustomRadioClick.onCustomRadioClick(subCat[position].id.toInt().toString(), position.toString())
-                notifyItemRangeChanged(0, subCat.size);
+                notifyItemRangeChanged(0, subCat.size)
                 notifyDataSetChanged()
 
             }
 
-            if (clickPosition==position){
-               holder.radioBtn_.isChecked=true
-            }else{
-                holder.radioBtn_.isChecked=false
-            }
+            holder.radioBtn_.isChecked = clickPosition==position
         }
     }
 
