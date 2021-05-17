@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -423,7 +424,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         val co = Checkout()
         //var razorpayId = "qwerty"
 
-        viewmodel?.sendPackagesResponse?.observe(this,  {
+        viewmodel?.sendPackagesResponse?.observe(this) {
             val razorpayOrderId = SendPackagesModel().razorPayOrderId
             //Log.e("RAZORPAY", razorpayOrderId)
 
@@ -447,9 +448,11 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                 options.put("amount", amount * 100)
 
                 val prefill = JSONObject()
-                prefill.put("email", SessionTwiclo(
-                    this
-                ).profileDetail.account.emailid)
+                prefill.put(
+                    "email", SessionTwiclo(
+                        this
+                    ).profileDetail.account.emailid
+                )
                 prefill.put(
                     "contact",
                     SessionTwiclo(this).profileDetail.account.country_code + SessionTwiclo(
@@ -465,7 +468,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             }
 
 
-        })
+        }
 
 
     }

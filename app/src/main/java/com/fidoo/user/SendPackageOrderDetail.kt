@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.example.awesomedialog.*
 import com.fidoo.user.data.model.SendPackagesModel
 import com.fidoo.user.ui.MainActivity
@@ -67,7 +68,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         cash_lay.setOnClickListener {
             paymentMode = "cash"
             cash_lay.setBackgroundColor(R.drawable.bg_green_roundborder)
-          //  cash_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+            //  cash_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
             img_cash.setColorFilter(resources.getColor(R.color.colorPrimary))
             tv_cash.setTextColor(resources.getColor(R.color.white))
             online_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
@@ -81,7 +82,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             paymentMode = "online"
             online_lay.setBackgroundColor(R.drawable.bg_green_roundborder)
 
-           // online_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+            // online_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
             img_online.setColorFilter(resources.getColor(R.color.colorPrimary))
             tv_online_send_package.setTextColor(resources.getColor(R.color.white))
             cash_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
@@ -143,34 +144,27 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
 
         }
 
-        sendPackagesViewModel?.sendPackagesResponse?.observe(this, {
+
+        sendPackagesViewModel?.sendPackagesResponse?.observe(this) {
 
             Log.e("send package response", it.toString())
 
             val razorpayId = it.razorPayOrderId
 
 
-            if (paymentMode == "online"){
+            if (paymentMode == "online") {
                 if (paymentAmount != null) {
                     startPayment(paymentAmount)
                 }
 
-            }else{
-                /*sendPackagesViewModel?.paymentApi(
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    it.orderId,
-                    razorpayId,
-                    "",
-                    "cash"
-                )*/
+            } else {
 
                 showToast("Order placed successfully")
                 // startActivity(Intent(this, OrderDetailsActivity::class.java).putExtra("orderId",user.orderId).putExtra("type",""))
                 //showToast(user.message)
                 AwesomeDialog.build(this)
                     .title("Congratulations")
-                    .body("Order Id: " + it.orderId + "\n\nOrder Placed Successfully!",)
+                    .body("Order Id: " + it.orderId + "\n\nOrder Placed Successfully!")
                     .icon(R.drawable.ic_congrts)
                     .position(AwesomeDialog.POSITIONS.CENTER)
                     .onPositive("Go to Home", buttonBackgroundColor = R.color.colorPrimary) {
@@ -181,13 +175,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
 
             }
 
-        })
-
-
-
-
-
-
+        }
 
 
 
@@ -199,7 +187,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             //showToast(user.message)
             AwesomeDialog.build(this)
                 .title("Congratulations")
-                .body("Order Id: " + user.orderId + "\n\nOrder Placed Successfully!",)
+                .body("Order Id: " + user.orderId + "\n\nOrder Placed Successfully!")
                 .icon(R.drawable.ic_congrts)
                 .position(AwesomeDialog.POSITIONS.CENTER)
                 .onPositive("Go to Home", buttonBackgroundColor = R.color.colorPrimary) {

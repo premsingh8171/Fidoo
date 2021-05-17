@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 
 class GroceryItemAdapter(
     var context: Context,
-    val list: ArrayList<Product>,
+    var list: ArrayList<Product>,
     var adapterAddRemoveClick: AdapterAddRemoveClick,
     private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
     val id: Int,
@@ -278,5 +278,9 @@ class GroceryItemAdapter(
         alertDialog.show()
     }
 
-
+    fun setFilter(listData_: ArrayList<Product>) {
+        list = java.util.ArrayList<Product>()
+        list.addAll(listData_)
+        notifyDataSetChanged()
+    }
 }

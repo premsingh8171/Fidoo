@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fidoo.user.adapter.CartItemsAdapter
 import com.fidoo.user.adapter.StoreCustomItemsAdapter

@@ -1,5 +1,6 @@
 package com.fidoo.user.grocery.roomdatabase.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
@@ -10,13 +11,13 @@ import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 
 interface ProductsDao {
     @Insert
-    fun insertProducts(product: Product?): Long
+    fun insertProducts( vararg product: Product)
 
     @Insert
     fun insertProducts(productList: ArrayList<Product>)
 
     @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME_TODO)
-    fun getAllProducts(): ArrayList<Product>
+    fun getAllProducts(): LiveData<ArrayList<Product>>
 
     @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME_TODO.toString() + " WHERE product_category_id = :product_category_id")
     fun getProductsListByCategory(category: String?): ArrayList<Product?>?
