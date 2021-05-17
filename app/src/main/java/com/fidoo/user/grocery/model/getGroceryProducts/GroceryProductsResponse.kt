@@ -1,5 +1,6 @@
 package com.fidoo.user.grocery.model.getGroceryProducts
 
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -38,6 +39,8 @@ class GroceryProductsResponse(
 
 @Entity(tableName = ProductsDatabase.TABLE_NAME_TODO)
 data class Product(
+    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "cart_quantity") var cart_quantity: Int=0,
     @ColumnInfo(name = "company_name") var company_name: String="",
    // var customize_item: List<Any>,
@@ -55,7 +58,7 @@ data class Product(
     @ColumnInfo(name = "weight") var weight: String="",
     @ColumnInfo(name = "cart_id") var cart_id: String="",
     @ColumnInfo(name = "product_sub_category_id") var product_sub_category_id: String="",
-    @ColumnInfo(name = "product_category_id")  var product_category_id: String=""
+    @PrimaryKey(autoGenerate = false)  var product_category_id: String=""
 
 )
 

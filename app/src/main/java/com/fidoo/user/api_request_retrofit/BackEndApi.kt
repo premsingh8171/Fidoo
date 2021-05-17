@@ -83,7 +83,7 @@ interface BackEndApi {
             @Field("accessToken") accessToken: String?,
             @Field("store_id") store_id: String?,
             @Field("category_id") category_id: String?,
-            @Field("subcategory_id") subcategory_id: String?,
+            @Field("subcategory_id") subcategory_id: String?
     ): Call<GroceryProductsResponse>
 
     @FormUrlEncoded

@@ -6,35 +6,43 @@
     android:layout_gravity="center">
 
     <LinearLayout
+        android:layout_marginBottom="140dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/margin_20dp"
         android:layout_marginRight="@dimen/margin_20dp"
-        android:id="@+id/layoutCoupon"
-        android:layout_width="match_parent"
+        android:id="@+id/layout_catPopup"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:backgroundTint="@color/white"
         android:background="@drawable/round_box">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
+                android:padding="@dimen/margin_2dp"
+                android:textSize="@dimen/text_size_14sp"
+                android:id="@+id/viewAll_txt"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/margin_20dp"
-                android:id="@+id/txtError"
-                android:layout_width="130dp"
+                android:layout_marginStart="@dimen/margin_15dp"
+                android:layout_width="@dimen/margin_100dp"
                 android:layout_height="wrap_content"
-                android:text="Select category"
+                android:text="All"
                 android:textStyle="bold"
                 android:layout_marginTop="@dimen/margin_20dp"
                 android:textColor="@color/colorPrimary"/>
 
             <ImageView
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_gravity="center_vertical"
                 android:id="@+id/dismisspopUp"
-                android:padding="@dimen/margin_10dp"
-                android:layout_marginRight="@dimen/margin_10dp"
+                android:padding="@dimen/dimen_5dp"
+                android:layout_marginRight="@dimen/dimen_5dp"
                 android:gravity="end"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
@@ -42,7 +50,7 @@
                 android:src="@drawable/cancel_icon"
                 android:textColor="@color/colorPrimary"/>
 
-        </RelativeLayout>
+        </LinearLayout>
 
 
         <LinearLayout
@@ -56,7 +64,7 @@
                 app:spanCount="1"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:id="@+id/catRecyclerview"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
             </androidx.recyclerview.widget.RecyclerView>
@@ -64,12 +72,12 @@
         </LinearLayout>
 
         <TextView
+            android:visibility="gone"
             android:layout_marginBottom="@dimen/margin_10dp"
             android:layout_marginRight="15dp"
             android:padding="@dimen/margin_5dp"
             android:layout_gravity="end"
             android:gravity="end"
-            android:id="@+id/viewAll_txt"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:text="View All"

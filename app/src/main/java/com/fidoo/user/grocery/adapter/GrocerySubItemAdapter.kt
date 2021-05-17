@@ -2,6 +2,7 @@ package com.fidoo.user.grocery.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -58,9 +59,15 @@ var selectvalue:String?=""): RecyclerView.Adapter<GrocerySubItemAdapter.ViewHold
 //        }
 
         if (selectvalue!!.equals(list.get(position)?.subcategory_name.toString())){
-            holder.itemView.active_dotLL.visibility=View.VISIBLE
+          //  holder.itemView.active_dotLL.visibility=View.VISIBLE
+            holder.itemView.active_dotLL.setBackgroundResource(R.drawable.bg_green_roundborder)
+            holder.itemView.grocery_sub_tv.setTextColor(Color.parseColor("#ffffff"))
+
         }else{
-                holder.itemView.active_dotLL.visibility = View.GONE
+               // holder.itemView.active_dotLL.visibility = View.GONE
+            holder.itemView.active_dotLL.setBackgroundResource(R.drawable.black_full_rounded_empty)
+            holder.itemView.grocery_sub_tv.setTextColor(Color.parseColor("#818181"))
+
         }
     }
 

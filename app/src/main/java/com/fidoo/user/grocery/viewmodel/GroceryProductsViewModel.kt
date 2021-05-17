@@ -36,7 +36,7 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
         accessToken: String,
         store_id: String?,
         category_id: String?,
-        subcategory_id: String?,
+        subcategory_id: String?
     ) {
         // progressDialog?.value = true
         Log.d("value__", "$store_id--\n$category_id--\n$subcategory_id")
