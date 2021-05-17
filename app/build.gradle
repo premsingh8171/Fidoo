@@ -183,8 +183,36 @@ dependencies {
 
     //For in-app updates
     implementation 'com.github.SanojPunchihewa:InAppUpdater:1.0.5'
+
     //rotation view
     implementation 'rongi.rotate-layout:rotate-layout:3.0.0'
     implementation 'com.github.premsingh8171:StartActivityAnimation:1.0.0'
 
+    // For Auto Read OTP -- SMS Consent API Google
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
+
+    // Room
+//    def room_version = "2.3.0"
+//
+//    implementation "androidx.room:room-runtime:$room_version"
+//
+//    // To use Kotlin annotatkotlin-kaption processing tool (kapt)
+//    kapt "androidx.room:room-compiler:$room_version"
+//
+//    // optional - Kotlin Extensions and Coroutines support for Room
+//    implementation "androidx.room:room-ktx:$room_version"
+//
+//    // optional - Test helpers
+//    testImplementation "androidx.room:room-testing:$room_version"
+
+//    def room_version = "2.2.5"
+//    implementation "androidx.room:room-runtime:$room_version"
+//    kapt "androidx.room:room-compiler:$room_version"
+//
+//    // optional - Kotlin Extensions and Coroutines support for Room
+//    implementation "androidx.room:room-ktx:$room_version"
+
+    implementation 'android.arch.persistence.room:runtime:1.0.0'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
 }

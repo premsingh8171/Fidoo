@@ -68,7 +68,7 @@ class StoreSubCustomItemsAdapter(
                 }else{
                     Toast.makeText(con,
                         "You can select only $maxSelectionCount customization at once", Toast.LENGTH_LONG).show()
-                    if (holder.itemLabel.isChecked==false){
+                    if (!holder.itemLabel.isChecked){
                         selectionCount--
                     }else{
                         holder.itemLabel.isChecked = false
@@ -88,7 +88,6 @@ class StoreSubCustomItemsAdapter(
 
             holder.itemView.mainLayyRadioGroup.visibility=View.VISIBLE
             holder.itemView.mainLayy.visibility=View.GONE
-
             holder.radioBtn_.text = subCat[position].subCatName+" ("+con.resources.getString(R.string.ruppee)+ subCat[position].price+")" ////setting text of second radio button
             holder.radioBtn_.id = subCat[position].id.toInt()
 

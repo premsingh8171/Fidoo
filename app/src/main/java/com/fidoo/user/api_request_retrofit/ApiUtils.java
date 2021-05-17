@@ -15,5 +15,7 @@ public class ApiUtils {
     public static ApiInterface getApiServices(Activity mContext) {
         //return RetrofitClient.getClient("https://fidoo.in/api/method/",mContext).create(ApiInterface.class);
         return RetrofitClient.getClient(BuildConfig.BASE_URL,mContext).create(ApiInterface.class);
+
     }
 }
+
