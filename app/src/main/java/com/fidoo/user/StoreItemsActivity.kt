@@ -64,6 +64,7 @@ class StoreItemsActivity :
     private lateinit var mMap: GoogleMap
     var cartId: String = ""
     lateinit var storeID : String
+    var vegSwitch = ""
 
     companion object {
 
@@ -367,7 +368,7 @@ class StoreItemsActivity :
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
                         intent.getStringExtra("storeId"),
-                        "",
+                        vegSwitch,
                         intent.getStringExtra("catId")
 
                     )
@@ -376,7 +377,7 @@ class StoreItemsActivity :
                         "",
                         "",
                         intent.getStringExtra("storeId"),
-                        "",
+                        vegSwitch,
                         intent.getStringExtra("catId")
 
                     )
@@ -441,6 +442,8 @@ class StoreItemsActivity :
             Log.e("stores response", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
             if (tempType.equals("custom")) {
+                tempProductList!!.clear()
+                addCartTempList!!.clear()
                 if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                     behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     //searchLay.visibility = View.GONE
@@ -465,7 +468,7 @@ class StoreItemsActivity :
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
                         intent.getStringExtra("storeId"),
-                        "",
+                        vegSwitch,
                         intent.getStringExtra("catId")
                     )
                 } else {
@@ -473,7 +476,7 @@ class StoreItemsActivity :
                         "",
                         "",
                         intent.getStringExtra("storeId"),
-                        "",
+                        vegSwitch,
                         intent.getStringExtra("catId")
                     )
                 }
@@ -587,6 +590,7 @@ class StoreItemsActivity :
                             intent.getStringExtra("catId")
 
                         )
+                        vegSwitch = "0"
                     } else {
                         viewmodel?.getStoreDetails("",
                             "",
@@ -595,6 +599,7 @@ class StoreItemsActivity :
                             intent.getStringExtra("catId")
 
                         )
+                        vegSwitch = "0"
                     }
                 } else {
                     showInternetToast()
@@ -607,12 +612,56 @@ class StoreItemsActivity :
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                     intent.getStringExtra("storeId"),
-                    "",
+                    vegSwitch,
                     intent.getStringExtra("catId")
                 )
             }
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        storeID = intent.getStringExtra("storeId")!!
+        tv_cuisnes.text = intent.getStringExtra("cuisine_types")
+        tv_distance.text = intent.getStringExtra("distance") + "kms"
+
+        Log.d("OnRESUME", "RESUME")
+        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        if (SessionTwiclo(this).isLoggedIn) {
+            viewmodel?.getCartCountApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken
+            )
+        }
+
+
+
+        if (isNetworkConnected) {
+            showIOSProgress()
+            if (SessionTwiclo(this).isLoggedIn) {
+                viewmodel?.getStoreDetails(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    intent.getStringExtra("storeId"),
+                    "",
+                    intent.getStringExtra("catId")
+
+                )
+            } else {
+                viewmodel?.getStoreDetails(
+                    "",
+                    "",
+                    intent.getStringExtra("storeId"),
+                    "",
+                    intent.getStringExtra("catId")
+
+                )
+            }
+
+        } else {
+            showInternetToast()
+        }
     }
 
     override fun clearCart() {
@@ -660,52 +709,10 @@ class StoreItemsActivity :
         alertDialog.show()
     }
 
-    override fun onResume() {
-        super.onResume()
-        storeID = intent.getStringExtra("storeId")!!
-        tv_cuisnes.text = intent.getStringExtra("cuisine_types")
-        tv_distance.text = intent.getStringExtra("distance") + "kms"
-
-        Log.d("OnRESUME", "RESUME")
-        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        if (SessionTwiclo(this).isLoggedIn) {
-            viewmodel?.getCartCountApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
-            )
-        }
 
 
 
-        if (isNetworkConnected) {
-            showIOSProgress()
-            if (SessionTwiclo(this).isLoggedIn) {
-                viewmodel?.getStoreDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    intent.getStringExtra("storeId"),
-                    "",
-                    intent.getStringExtra("catId")
-
-                )
-            } else {
-                viewmodel?.getStoreDetails(
-                    "",
-                    "",
-                    intent.getStringExtra("storeId"),
-                    "",
-                    intent.getStringExtra("catId")
-
-                )
-            }
-
-        } else {
-            showInternetToast()
-        }
-    }
-
-
-
+    // Only to add new non-customized item in cart
     override fun onItemClick(
         productId: String?,
         type: String?,
@@ -830,6 +837,7 @@ class StoreItemsActivity :
         }
     }
 
+    // For customization checkbox
     override fun onIdSelected(
         productId: String?,
         type: String?,
@@ -893,6 +901,7 @@ class StoreItemsActivity :
 
     }
 
+    // For mandatory customizations (Radio Buttons)
     override fun onCustomRadioClick(checkedId: String?, position: String?) {
         var tempCat: String? = ""
         var tempPrice: String? = ""
@@ -943,6 +952,7 @@ class StoreItemsActivity :
         customAddBtn.text = resources.getString(R.string.ruppee) + tempPricee.toString()
     }
 
+    // To add a new non-customized item in cart, To increase the quantity of non-customized item, To repeat the quantity of customized item
     override fun onItemAddRemoveClick(
         productId: String?,
         count: String?,
@@ -1122,6 +1132,7 @@ class StoreItemsActivity :
 
     }
 
+    // only used to increase the quantity of customized
     override fun onAddItemClick(
         productId: String?,
         items: String?,

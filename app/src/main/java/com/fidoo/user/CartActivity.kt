@@ -742,13 +742,13 @@ class CartActivity : BaseActivity(),
                         if (isNetworkConnected) {
                             showIOSProgress()
                             viewmodel?.orderPlaceApi(SessionTwiclo(this).loggedInUserDetail.accountId,
-                                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                    finalPrice.toFloat().toString(),
-                                    deliveryOption,
-                                    SessionTwiclo(this).userAddressId,
-                                    "",
-                                    ed_delivery_instructions.text.toString(),
-                                    isSelected
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                finalPrice.toFloat().toString(),
+                                deliveryOption,
+                                SessionTwiclo(this).userAddressId,
+                                "",
+                                ed_delivery_instructions.text.toString(),
+                                isSelected
                             )
 
                         } else {
@@ -1030,21 +1030,21 @@ class CartActivity : BaseActivity(),
 
     }
 
-    override fun onAddItemClick(productId: String, quantity: String, offerPrice: String, isCustomize: String, productCustomizeId: String, cart_id: String) {
+    override fun onAddItemClick(productId: String, items: String, offerPrice: String, isCustomize: String, productCustomizeId: String, cart_id: String) {
 
         if (!isNetworkConnected) {
             showToast(resources.getString(R.string.provide_internet))
 
         } else {
 
-            if (!quantity.equals("")) {
+            if (!items.equals("")) {
                 tempOfferPrice = offerPrice
                 tempProductId = productId
                 val builder = AlertDialog.Builder(this)
                 //set title for alert dialog
                 builder.setTitle("Your previous customization")
                 //set message for alert dialog
-                builder.setMessage(quantity)
+                builder.setMessage(items)
                 // builder.setIcon(android.R.drawable.ic_dialog_alert)
 
                 //performing positive action

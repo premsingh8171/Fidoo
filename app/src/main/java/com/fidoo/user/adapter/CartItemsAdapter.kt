@@ -82,17 +82,20 @@ class CartItemsAdapter(
 
                 if (cart[position].customizeItem.size != 0) {
                     adapterCartAddRemoveClick.onAddItemClick(
-                            cart[position].productId,
-                            items,
-                            cart[position].offerPrice,
-                            cart[position].is_customize,
-                            cart[position].customizeItem[0].productCustomizeId,
-                            cart[position].cart_id
+                        cart[position].productId,
+                        items,
+                        cart[position].offerPrice,
+                        cart[position].is_customize,
+                        cart[position].customizeItem[0].productCustomizeId,
+                        cart[position].cart_id
                     )} else{
                     adapterCartAddRemoveClick.onAddItemClick(
-                            cart[position].productId,
-                            items,
-                            cart[position].offerPrice,cart.get(position).is_customize,"", cart[position].cart_id
+                        cart[position].productId,
+                        items,
+                        cart[position].offerPrice,
+                        cart.get(position).is_customize,
+                        "",
+                        cart[position].cart_id
                     )
                 }
             }
@@ -115,16 +118,16 @@ class CartItemsAdapter(
                             cart.get(position).productId,
                             cart.get(position).quantity,
                             cart.get(position).is_customize,
-                            cart.get(position).customizeItem.get(0).productCustomizeId,
+                            cart.get(position).customizeItem[0].productCustomizeId,
                             cart[position].cart_id
                         )}
                     else{
                         adapterCartAddRemoveClick.onRemoveItemClick(
-                                cart[position].productId,
-                                cart[position].quantity,
-                                cart[position].is_customize,
-                                "",
-                                cart[position].cart_id
+                            cart[position].productId,
+                            cart[position].quantity,
+                            cart[position].is_customize,
+                            "",
+                            cart[position].cart_id
                         )
                     }
                 }
