@@ -21,6 +21,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fidoo.user.data.model.SendPackagesModel
+import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.view.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.SendPackagesViewModel
@@ -38,6 +39,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     var viewmodel: SendPackagesViewModel? = null
     var sendPackagesModel: SendPackagesModel? = null
     var addressType: String = ""
+    var where: String = ""
     var catId: String = ""
     private var fromLat: Double? = 0.0
     private var fromLng: Double? = 0.0
@@ -66,8 +68,6 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         window.statusBarColor = ContextCompat.getColor(this, R.color.blue_color)
         setContentView(R.layout.activity_send_package)
 
-
-
         viewmodel = ViewModelProvider(this).get(SendPackagesViewModel::class.java)
 
         selectedfromLat = 0.0
@@ -88,27 +88,36 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         Checkout.preload(applicationContext)
         co.setKeyID("rzp_live_iceNLz5pb15jtP")
 
-        // showIOSProgress()
-        if (!isNetworkConnected) {
-            showToast(resources.getString(R.string.provide_internet))
+        where=intent.getStringExtra("where")!!
+        if (where.equals("guest")){
 
-        } else {
-            if (com.fidoo.user.data.session.SessionTwiclo(this).isLoggedIn) {
-                viewmodel?.getPackageCatApi(
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                    com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken
-                )
+        }else {
+            // showIOSProgress()
+            if (!isNetworkConnected) {
+                showToast(resources.getString(R.string.provide_internet))
+
             } else {
+                if (SessionTwiclo(this).isLoggedIn) {
+                    viewmodel?.getPackageCatApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken
+                    )
+                } else {
+                    viewmodel?.getPackageCatApi(
+                        "",
+                        ""
+                    )
+                }
                 viewmodel?.getPackageCatApi(
-                    "",
-                    ""
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken
                 )
             }
-            viewmodel?.getPackageCatApi(
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken
-            )
         }
+
+
+
+
 
         viewmodel?.failureResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
@@ -117,89 +126,30 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
-        /*viewmodel?.getcatResponse?.observe(this, Observer { user ->
-            dismissIOSProgress()
-            Log.e("cat response", Gson().toJson(user))
-            val adapter = PackageCategoriesAdapter(this, user.categoriesList, this)
-            customItemsRecyclerview.layoutManager = LinearLayoutManager(
-                this, LinearLayoutManager.HORIZONTAL,
-                false
-            )
-            customItemsRecyclerview.setHasFixedSize(true)
-            customItemsRecyclerview.adapter = adapter
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })*/
-
         viewmodel?.paymentResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
             Log.e("payment response", Gson().toJson(user))
             showToast("Order placed successfully")
             // startActivity(Intent(this, OrderDetailsActivity::class.java).putExtra("orderId",user.orderId).putExtra("type",""))
-            com.fidoo.user.data.session.SessionTwiclo(this).storeId = ""
-            //showToast(user.message)
-            /*AwesomeDialog.build(this)
-                .title("Congratulations")
-                .body("Order Id: " + user.orderId + "\n\nOrder Placed Successfully!")
-                .icon(R.drawable.ic_congrts)
-                .position(AwesomeDialog.POSITIONS.CENTER)
-                .onPositive("Go to Home") {
-                    startActivity(Intent(this,HomeActivity::class.java))
-                    finishAffinity()
-                }*/
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+            SessionTwiclo(this).storeId = ""
         })
 
         from_address_lay.setOnClickListener {
             addressType = "from"
             startActivity(
-                Intent(this, SavedAddressesActivity::class.java).putExtra(
-                    "type",
-                    "from"
-                )
-
+                Intent(this, SavedAddressesActivity::class.java)
+                    .putExtra("type", "from")
+                    .putExtra("where",where)
             )
-            /*        val intent = VanillaPlacePicker.Builder(this)
-                .with(PickerType.MAP_WITH_AUTO_COMPLETE) // Select Picker type to enable autocompelte, map or both
-               // .withLocation(23.057582, 72.534458)
-                .setPickerLanguage(PickerLanguage.ENGLISH) // Apply language to picker
-              //  .setLocationRestriction(LatLng(23.0558088,72.5325067), LatLng(23.0587592,72.5357321)) // Restrict location bounds in map and autocomplete
-                .setCountry("IN") // Only for Autocomplete
-                .enableShowMapAfterSearchResult(true) // To show the map after selecting the place from place picker only for PickerType.MAP_WITH_AUTO_COMPLETE
-                *//*
-                 * Configuration for Map UI
-                 *//*
-                .setMapType(MapType.SATELLITE) // Choose map type (Only applicable for map screen)
-                 //.setMapStyle(R.raw.style_json) // Containing the JSON style declaration for night-mode styling
-                .setMapPinDrawable(android.R.drawable.ic_menu_mylocation) // To give custom pin image for map marker
-            .build()
-            startActivityForResult(intent, REQUEST_PLACE_PICKER)*/
-            //onSearchCalled()
         }
 
         to_address_lay.setOnClickListener {
             addressType = "to"
             startActivity(
-                Intent(this, SavedAddressesActivity::class.java).putExtra(
-                    "type",
-                    "to"
-                )
+                Intent(this, SavedAddressesActivity::class.java)
+                    .putExtra("type", "to")
+                    .putExtra("where",where)
             )
-            /*
-            val intent = VanillaPlacePicker.Builder(this)
-                .with(PickerType.MAP_WITH_AUTO_COMPLETE) // Select Picker type to enable autocompelte, map or both
-                // .withLocation(23.057582, 72.534458)
-                .setPickerLanguage(PickerLanguage.ENGLISH) // Apply language to picker
-                //  .setLocationRestriction(LatLng(23.0558088,72.5325067), LatLng(23.0587592,72.5357321)) // Restrict location bounds in map and autocomplete
-                .setCountry("IN") // Only for Autocomplete
-                .enableShowMapAfterSearchResult(true) // To show the map after selecting the place from place picker only for PickerType.MAP_WITH_AUTO_COMPLETE
-                *//*
-                 * Configuration for Map UI
-                 *//*
-                .setMapType(MapType.SATELLITE) // Choose map type (Only applicable for map screen)
-                //.setMapStyle(R.raw.style_json) // Containing the JSON style declaration for night-mode styling
-                .setMapPinDrawable(android.R.drawable.ic_menu_mylocation) // To give custom pin image for map marker
-                .build()
-            startActivityForResult(intent, REQUEST_PLACE_PICKER)*/
         }
 
 
@@ -351,10 +301,10 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
 
                     if (distance.isNotEmpty() || distance != "") {
                         viewmodel?.getPackageDetails(
-                            com.fidoo.user.data.session.SessionTwiclo(
+                            SessionTwiclo(
                                 this
                             ).loggedInUserDetail.accountId,
-                            com.fidoo.user.data.session.SessionTwiclo(
+                            SessionTwiclo(
                                 this
                             ).loggedInUserDetail.accessToken,
                             distance
@@ -497,12 +447,12 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                 options.put("amount", amount * 100)
 
                 val prefill = JSONObject()
-                prefill.put("email", com.fidoo.user.data.session.SessionTwiclo(
+                prefill.put("email", SessionTwiclo(
                     this
                 ).profileDetail.account.emailid)
                 prefill.put(
                     "contact",
-                    com.fidoo.user.data.session.SessionTwiclo(this).profileDetail.account.country_code + com.fidoo.user.data.session.SessionTwiclo(
+                    SessionTwiclo(this).profileDetail.account.country_code + SessionTwiclo(
                         this
                     ).profileDetail.account.userName
                 )
@@ -534,8 +484,8 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         try {
             //Toast.makeText(this, "Payment Successful $razorpayPaymentId", Toast.LENGTH_LONG).show()
             viewmodel?.paymentApi(
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accountId,
-                com.fidoo.user.data.session.SessionTwiclo(this).loggedInUserDetail.accessToken,
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
                 sendPackagesModel!!.orderId,
                 razorpayPaymentId!!,
                 "",

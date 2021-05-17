@@ -32,6 +32,7 @@ class ProfileFragment : Fragment() {
     var viewmodel: LogoutViewModel? = null
     var profileViewModel: EditProfileViewModel? = null
     var filePathTemp: String? = ""
+    var sessionTwiclo: SessionTwiclo?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +41,7 @@ class ProfileFragment : Fragment() {
 
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_profile, container, false)
-
+        sessionTwiclo = SessionTwiclo(requireContext())
         viewmodel = ViewModelProvider(requireActivity()).get(LogoutViewModel::class.java)
         profileViewModel = ViewModelProvider(requireActivity()).get(EditProfileViewModel::class.java)
 
@@ -53,10 +54,12 @@ class ProfileFragment : Fragment() {
 
             Glide.with(this).asBitmap()
                 .load(SessionTwiclo(context).profileDetail.account.image!!)
-                // .fitCenter()
-                // .override(100, 100)
+               // .fitCenter()
+               // .override(100, 100)
                 .placeholder(R.drawable.ic_user_single)
+
                 .error(R.drawable.ic_user_single)
+    
                 .into(mView.img_user)
 
         }
@@ -77,6 +80,7 @@ class ProfileFragment : Fragment() {
             }
 
         }
+
         mView.tv_manage_your_addresses.setOnClickListener {
             if (SessionTwiclo(requireContext()).isLoggedIn){
                 startActivity(Intent(context, SavedAddressesActivity::class.java))
@@ -94,7 +98,6 @@ class ProfileFragment : Fragment() {
             startActivity(Intent(context, AboutUsActivity::class.java).putExtra("about_us", "about_us"))
         }
 
-
         if (SessionTwiclo(requireContext()).isLoggedIn){
             mView.action_logout.visibility = View.VISIBLE
             //mView.tv_email.visibility = View.VISIBLE
@@ -103,7 +106,8 @@ class ProfileFragment : Fragment() {
             mView.tv_name.text = SessionTwiclo(context).profileDetail.account.name
             //mView.tv_email.text = SessionTwiclo(context).profileDetail.account.emailid
         }else{
-            mView.action_logout.visibility = View.GONE
+            mView.action_logout.text="LOGIN"
+            mView.action_logout.visibility = View.VISIBLE
             //mView.tv_email.visibility = View.GONE
             mView.tv_name.visibility = View.GONE
             mView.tv_hi.visibility = View.GONE
@@ -117,10 +121,11 @@ class ProfileFragment : Fragment() {
                     SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
                 )
 
-
-
             }else{
-                Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
+                startActivity(Intent(context, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
+
+
+                // Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
             }
 
 
@@ -140,12 +145,10 @@ class ProfileFragment : Fragment() {
 
             Log.e("logout__response", Gson().toJson(user))
             dismissIOSProgress()
-            if (context!= null){
-                SessionTwiclo(context).clearSession()
-                startActivity(Intent(context, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
-            }
+            sessionTwiclo!!.clearSession()
 
-
+            startActivity(Intent(context, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            )
         })
 
         return mView

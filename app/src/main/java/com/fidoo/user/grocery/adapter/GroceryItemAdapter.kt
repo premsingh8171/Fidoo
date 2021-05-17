@@ -14,7 +14,6 @@ import com.fidoo.user.R
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.grocery.model.getGroceryProducts.GroceryProductsResponse
 import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick

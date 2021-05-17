@@ -29,7 +29,12 @@ class SavedAddressesActivity : BaseActivity(),
 
     var viewmodel: AddressViewModel? = null
     //lateinit var mPlaceAutocompleteAdapter: PlaceAutocompleteAdapter
+    var where:String?=""
 
+    companion object{
+        lateinit var savedAddressesActivity: SavedAddressesActivity
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_saved_addresses)
@@ -38,9 +43,41 @@ class SavedAddressesActivity : BaseActivity(),
         //  mPlaceAutocompleteAdapter = PlaceAutocompleteAdapter(this, gac, LAT_LNG_BOUNDS, null)
 
         viewmodel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
-
+        savedAddressesActivity=this
         //storeLat = intent.getStringExtra("store_lat").toString()
         //storeLong = intent.getStringExtra("store_long").toString()
+          where=intent.getStringExtra("where")
+        if (where.equals("guest")){
+            linear_progress_indicator.visibility = View.GONE
+
+        }else{
+            Log.e("store lat", storeLat)
+
+            if (isNetworkConnected) {
+                showIOSProgress()
+
+                if(intent.getStringExtra("type") == "order"){
+                    viewmodel?.getAddressesApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        storeLat,
+                        storeLong
+                    )
+                }else{
+                    viewmodel?.getAddressesApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        "",
+                        ""
+                    )
+                }
+
+            } else {
+                showInternetToast()
+            }
+        }
+
+
 
 
         backIcon_saved_address.setOnClickListener {
@@ -114,38 +151,13 @@ class SavedAddressesActivity : BaseActivity(),
 //        }
 
         tv_add_address.setOnClickListener {
-            startActivity(Intent(this, AddAddressActivity::class.java))
+            startActivity(Intent(this, AddAddressActivity::class.java)
+                .putExtra("where",where))
         }
     }
 
     override fun onResume() {
         super.onResume()
-
-        Log.e("store lat", storeLat)
-
-
-        if (isNetworkConnected) {
-            showIOSProgress()
-
-            if(intent.getStringExtra("type") == "order"){
-                viewmodel?.getAddressesApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    storeLat,
-                    storeLong
-                )
-            }else{
-                viewmodel?.getAddressesApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    "",
-                    ""
-                )
-            }
-
-        } else {
-            showInternetToast()
-        }
 
     }
 

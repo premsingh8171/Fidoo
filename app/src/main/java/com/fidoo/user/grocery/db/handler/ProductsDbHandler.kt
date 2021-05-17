@@ -162,14 +162,10 @@ class ProductsDbHandler(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,
         return success
     }
 
-
     //method to delete data
     fun deleteAllProducts(pModel: Product){
         val db = this.writableDatabase
         db.execSQL("delete from "+ TABLE_PRODUCTS);
         db.close() // Closing database connection
     }
-
-
-
 }

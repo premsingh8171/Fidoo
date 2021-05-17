@@ -1,9 +1,11 @@
 package com.fidoo.user.grocery.activity
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -18,11 +20,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.fidoo.user.CartActivity
 import com.fidoo.user.R
 import com.fidoo.user.SplashActivity
 import com.fidoo.user.data.model.AddCartInputModel
-import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.grocery.adapter.GroceryCategoryAdapter
 import com.fidoo.user.grocery.adapter.GroceryItemAdapter
@@ -30,6 +32,7 @@ import com.fidoo.user.grocery.adapter.GrocerySubItemAdapter
 import com.fidoo.user.grocery.model.getGroceryProducts.Category
 import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.grocery.model.getGroceryProducts.Subcategory
+import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 import com.fidoo.user.grocery.viewmodel.GroceryProductsViewModel
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
@@ -86,6 +89,9 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     var count: Int = 1
     private lateinit var mMap: GoogleMap
     var storeID: String? = null
+    //roomdb
+    var productsDatabase: ProductsDatabase? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +101,14 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_grocery_items)
         viewmodel = ViewModelProviders.of(this).get(GroceryProductsViewModel::class.java)
+
+//        productsDatabase = Room.databaseBuilder(
+//            applicationContext,
+//            ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
+//            .fallbackToDestructiveMigration()
+//            .allowMainThreadQueries()
+//            .build()
+
         layoutManger = LinearLayoutManager(this)
         recyclerView = findViewById(R.id.grocery_item_rv)
         val store_id = intent.getStringExtra("storeId")
@@ -144,6 +158,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             )
         }
 
+       // rvlistProduct(productsDatabase!!.productsDaoAccess()!!.getAllProducts())
 
         //Here we have got api response from observer
         viewmodel?.GroceryProductsResponse?.observe(this, { grocery ->
@@ -170,6 +185,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                                     val productListObj = subCatObj.product[k]
                                     Log.e("Product", Gson().toJson(subCatObj.product[0]))
                                     productList.add(productListObj)
+                                    //insertList(productList)
                                 }
                             }else{
 //                                val toast = Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
@@ -382,7 +398,14 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             finish()
         }
 
+
+
     }
+
+    private fun insertList(productList: ArrayList<Product>) =
+        productsDatabase!!.productsDaoAccess()!!.insertProducts(productList)
+
+
 
     private fun catPopUp() {
         selectAreaDiolog = Dialog(this)
@@ -819,18 +842,5 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     }
 
 
-    /*object : GroceryItemAdapter.GroceryItemClick {
 
-                override fun onItemClick(pos: Int, grocery: Product) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onItemAdd(pos: Int, itemcount: Int, grocery: Product) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onItemSub(pos: Int, itemcount: Int, grocery: Product) {
-                    TODO("Not yet implemented")
-                }
-            })*/
 }
