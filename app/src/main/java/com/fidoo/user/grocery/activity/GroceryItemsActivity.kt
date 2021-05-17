@@ -19,9 +19,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.fidoo.user.CartActivity
 import com.fidoo.user.R
 import com.fidoo.user.SplashActivity
@@ -33,6 +35,7 @@ import com.fidoo.user.grocery.adapter.GrocerySubItemAdapter
 import com.fidoo.user.grocery.model.getGroceryProducts.Category
 import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.grocery.model.getGroceryProducts.Subcategory
+import com.fidoo.user.grocery.roomdatabase.dao.ProductsDao
 import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 import com.fidoo.user.grocery.viewmodel.GroceryProductsViewModel
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
@@ -95,7 +98,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     private lateinit var mMap: GoogleMap
     var storeID: String? = null
     //roomdb
-    var productsDatabase: ProductsDatabase? = null
+    private lateinit var productsDatabase: ProductsDatabase
+    private lateinit var dao: ProductsDao
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,12 +111,14 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         setContentView(R.layout.activity_grocery_items)
         viewmodel = ViewModelProviders.of(this).get(GroceryProductsViewModel::class.java)
 
-//        productsDatabase = Room.databaseBuilder(
-//            applicationContext,
-//            ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
-//            .fallbackToDestructiveMigration()
-//            .allowMainThreadQueries()
-//            .build()
+        Thread{
+            productsDatabase = Room.databaseBuilder(
+                applicationContext,
+                ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
+                .build()
+        }.start()
+        dao = productsDatabase!!.productsDaoAccess()!!
+
 
         layoutManger = LinearLayoutManager(this)
         recyclerView = findViewById(R.id.grocery_item_rv)
@@ -163,6 +169,20 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             )
         }
 
+        //to get data from database
+        Handler().postDelayed(
+            {
+                dao.getAllProducts().observe(
+                    this,
+                    Observer<ArrayList<Product>> { t ->
+                        Log.d("fddffdfdfd","message")
+                    }
+                )
+            },
+            3000
+        )
+
+
         // rvlistProduct(productsDatabase!!.productsDaoAccess()!!.getAllProducts())
 
         //Here we have got api response from observer
@@ -191,7 +211,29 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                                     val productListObj = subCatObj.product[k]
                                     Log.e("Product", Gson().toJson(subCatObj.product[0]))
                                     productList.add(productListObj)
-                                    //insertList(productList)
+
+                                    Thread(
+                                        Runnable {
+                                            dao.insertProducts(Product(productListObj.cart_quantity,
+                                                productListObj.company_name,
+                                                productListObj.image,
+                                                productListObj.in_out_of_stock_status,
+                                                productListObj.is_customize,
+                                                productListObj.is_customize_quantity,
+                                                productListObj.is_nonveg,
+                                                productListObj.is_prescription,
+                                                productListObj.offer_price,
+                                                productListObj.price,
+                                                productListObj.product_id,
+                                                productListObj.product_name,
+                                                productListObj.unit,
+                                                productListObj.weight,
+                                                productListObj.cart_id,
+                                                productListObj.product_sub_category_id,
+                                                productListObj.product_category_id
+                                            ))
+                                        }
+                                    ).start()
                                 }
                             }else{
 //                                val toast = Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
@@ -435,8 +477,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     }
 
-    private fun insertList(productList: ArrayList<Product>) =
-        productsDatabase!!.productsDaoAccess()!!.insertProducts(productList)
+//    private fun insertList(productList: ArrayList<Product>) =
+//        productsDatabase!!.productsDaoAccess()!!.insertProducts(productList)
 
 
 

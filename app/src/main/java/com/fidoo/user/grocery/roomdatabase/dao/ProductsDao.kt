@@ -1,6 +1,7 @@
 package com.fidoo.user.grocery.roomdatabase.dao
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
@@ -16,13 +17,13 @@ interface ProductsDao {
     @Insert
     fun insertProducts(productList: ArrayList<Product>)
 
-    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME_TODO)
-    fun getAllProducts(): LiveData<ArrayList<Product>>
+    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME)
+    fun getAllProducts(): MutableLiveData<ArrayList<Product>>
 
-    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME_TODO.toString() + " WHERE product_category_id = :product_category_id")
+    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME.toString() + " WHERE product_category_id = :product_category_id")
     fun getProductsListByCategory(category: String?): ArrayList<Product?>?
 
-    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME_TODO.toString() + " WHERE product_sub_category_id = :product_sub_category_id")
+    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME.toString() + " WHERE product_sub_category_id = :product_sub_category_id")
     fun getProductsListBySubCat(subcategoryId: String): Product?
 
     @Update

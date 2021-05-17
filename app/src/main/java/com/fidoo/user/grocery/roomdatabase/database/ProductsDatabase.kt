@@ -9,7 +9,7 @@ import com.fidoo.user.grocery.roomdatabase.dao.ProductsDao
 abstract class ProductsDatabase: RoomDatabase() {
     companion object{
        const val DB_NAME = "ProductList"
-        const val TABLE_NAME_TODO = "ProductsTable"
+        const val TABLE_NAME = "ProductsTable"
     }
     abstract fun productsDaoAccess(): ProductsDao?
 }
