@@ -150,6 +150,7 @@
             android:orientation="horizontal">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginLeft="@dimen/margin_10"
                 android:id="@+id/sub_cat_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

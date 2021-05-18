@@ -177,9 +177,11 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             {
                 productsDatabase!!.productsDaoAccess()!!.getAllProducts().observe(this, Observer {t ->
                     productList= t as ArrayList<Product>?
-                    dismissIOSProgress()
                     Log.d("roomdatabase_",productList!!.size.toString())
                     rvlistProduct(productList!!)
+                    rvlistSubcategory(subcatList)
+
+                    dismissIOSProgress()
 
                 })
             },
@@ -254,7 +256,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     }
 
                    // Log.d("kb___", "" + productList.size.toString())
-                    rvlistSubcategory(subcatList)
+                    //rvlistSubcategory(subcatList)
                     //rvlistProduct(productList)
 
                 }
