@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -29,7 +30,7 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
         var location = view.tv_location
         //var ratingTxt = view.ratingTxt
         var deliveryTimeTxt: TextView? = view.tv_deliveryTime
-        var mainLay: RelativeLayout? = view.store_lay
+        var mainLay: LinearLayout? = view.store_lay
         var onOffText: TextView? = view.open_close_status
         //var comingSoon = view.coming_soon_text
         var closingTimeText = view.closing_time
