@@ -39,7 +39,7 @@ class Subcategory(
 
 
 
-
+@Entity(tableName = "Products_table")
 data class Product(
     var cart_quantity: Int = 0,
     var company_name: String = "",
@@ -59,6 +59,9 @@ data class Product(
     var cart_id: String = "",
     var product_sub_category_id: String = "",
     var product_category_id: String = ""
-)
+){
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
 
 

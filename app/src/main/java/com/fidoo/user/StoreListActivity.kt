@@ -13,9 +13,12 @@ import androidx.core.text.HtmlCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.fidoo.user.adapter.StoreAdapter
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.*
+import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
+import com.fidoo.user.grocery.roomdatabase.database.ProductsEntitiy
 import com.fidoo.user.search.activity.SearchItemActivity
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.viewmodels.StoreListingViewModel
@@ -33,6 +36,8 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
     var selectedValue:String?=""
     var distanceStr:String?=""
     var ratingStr:String?=""
+    private lateinit var productsDatabase: ProductsDatabase
+    var product: Product? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +57,15 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
         val serive_id=intent.getStringExtra("serviceId")
 
+        Thread{
+            productsDatabase = Room.databaseBuilder(
+                applicationContext,
+                ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
+             productsDatabase!!.productsDaoAccess()!!.deleteAll()
 
-
+        }.start()
         apicall(serive_id)
 
 
@@ -175,5 +187,19 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
         })
 
+    }
+
+    override fun startActivityForResult(intent: Intent?, requestCode: Int) {
+        super.startActivityForResult(intent, requestCode)
+       // Log.d("sfdhjfdds","aaya")
+        Thread{
+            productsDatabase = Room.databaseBuilder(
+                applicationContext,
+                ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
+            productsDatabase!!.productsDaoAccess()!!.deleteAll()
+
+        }.start()
     }
 }

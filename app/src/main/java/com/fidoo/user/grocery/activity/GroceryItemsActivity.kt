@@ -181,7 +181,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         Handler().postDelayed(
             {
                 productsDatabase!!.productsDaoAccess()!!.getAllProducts().observe(this, Observer {t ->
-                    Log.d("zsdxz",t.size.toString())
+                    productList= t as ArrayList<Product>?
+                    Log.d("zsdxz",productList!!.size.toString())
+                    rvlistProduct(productList!!)
+
                 })
             },
             3000
@@ -222,7 +225,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                                     Thread{
 //                                        Runnable {
                                             productsDatabase!!.productsDaoAccess()!!.insertProducts(
-                                                ProductsEntitiy(productListObj.cart_quantity,
+                                                Product(productListObj.cart_quantity,
                                                 productListObj.company_name,
                                                 productListObj.image,
                                                 productListObj.in_out_of_stock_status,
@@ -257,7 +260,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
                     Log.d("kb___", "" + productList.size.toString())
                     rvlistSubcategory(subcatList)
-                    rvlistProduct(productList)
+                    //rvlistProduct(productList)
 
                 }
             }else{
