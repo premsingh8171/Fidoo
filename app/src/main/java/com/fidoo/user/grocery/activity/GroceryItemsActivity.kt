@@ -35,8 +35,8 @@ import com.fidoo.user.grocery.adapter.GrocerySubItemAdapter
 import com.fidoo.user.grocery.model.getGroceryProducts.Category
 import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.grocery.model.getGroceryProducts.Subcategory
-import com.fidoo.user.grocery.roomdatabase.dao.ProductsDao
 import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
+import com.fidoo.user.grocery.roomdatabase.database.ProductsEntitiy
 import com.fidoo.user.grocery.viewmodel.GroceryProductsViewModel
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
@@ -83,6 +83,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         var viewAll: Int? = 0
         var multipleclick: Int? = 0
         var onresumeHandle: Int? = 0
+
     }
 
     private var layoutManger: LinearLayoutManager? = null
@@ -99,7 +100,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     var storeID: String? = null
     //roomdb
     private lateinit var productsDatabase: ProductsDatabase
-    private lateinit var dao: ProductsDao
+   // private lateinit var dao: ProductsDao
+   var product: ProductsEntitiy? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,9 +117,15 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             productsDatabase = Room.databaseBuilder(
                 applicationContext,
                 ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
+                .fallbackToDestructiveMigration()
                 .build()
+
         }.start()
-        dao = productsDatabase!!.productsDaoAccess()!!
+
+//        Thread{
+//            productsDatabase!!.productsDaoAccess()!!.deleteAll()
+//        }.start()
+//        dao = productsDatabase!!.productsDaoAccess()!!
 
 
         layoutManger = LinearLayoutManager(this)
@@ -172,15 +180,14 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         //to get data from database
         Handler().postDelayed(
             {
-                dao.getAllProducts().observe(
-                    this,
-                    Observer<ArrayList<Product>> { t ->
-                        Log.d("fddffdfdfd","message")
-                    }
-                )
+                productsDatabase!!.productsDaoAccess()!!.getAllProducts().observe(this, Observer {t ->
+                    Log.d("zsdxz",t.size.toString())
+                })
             },
             3000
         )
+
+
 
 
         // rvlistProduct(productsDatabase!!.productsDaoAccess()!!.getAllProducts())
@@ -212,9 +219,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                                     Log.e("Product", Gson().toJson(subCatObj.product[0]))
                                     productList.add(productListObj)
 
-                                    Thread(
-                                        Runnable {
-                                            dao.insertProducts(Product(productListObj.cart_quantity,
+                                    Thread{
+//                                        Runnable {
+                                            productsDatabase!!.productsDaoAccess()!!.insertProducts(
+                                                ProductsEntitiy(productListObj.cart_quantity,
                                                 productListObj.company_name,
                                                 productListObj.image,
                                                 productListObj.in_out_of_stock_status,
@@ -231,9 +239,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                                                 productListObj.cart_id,
                                                 productListObj.product_sub_category_id,
                                                 productListObj.product_category_id
-                                            ))
-                                        }
-                                    ).start()
+                                            )
+                                            )
+                                        //}
+                                    }.start()
                                 }
                             }else{
 //                                val toast = Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
@@ -245,7 +254,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         }
                         catList.add(catObj)
                     }
-                    // Log.d("kb___", "" + productList[0].cart_quantity)
+
+                    Log.d("kb___", "" + productList.size.toString())
                     rvlistSubcategory(subcatList)
                     rvlistProduct(productList)
 

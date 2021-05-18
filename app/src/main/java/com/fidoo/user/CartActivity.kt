@@ -49,6 +49,7 @@ import org.json.JSONObject
 import java.io.File
 import java.lang.NullPointerException
 
+@Suppress("DEPRECATION")
 class CartActivity : BaseActivity(),
     AdapterCartAddRemoveClick,
     AdapterClick,
@@ -240,7 +241,7 @@ class CartActivity : BaseActivity(),
             )
         })
 
-        viewmodel?.addToCartResponse?.observe(this, { user ->
+        viewmodel?.addToCartResponse?.observe(this) { user ->
 
             linear_progress_indicator.visibility = View.GONE
             dismissIOSProgress()
@@ -269,15 +270,13 @@ class CartActivity : BaseActivity(),
             )
 
 
-
-
             //Log.e("DISTANCE1",storeCustomerDistance)
 
             showToast(mModelData.message)
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })
+        }
 
-        viewmodel?.customizeProductResponse?.observe(this, { user ->
+        viewmodel?.customizeProductResponse?.observe(this) { user ->
             dismissIOSProgress()
 
             Log.e("stores response", Gson().toJson(user))
@@ -320,7 +319,7 @@ class CartActivity : BaseActivity(),
             customItemsRecyclerview.setHasFixedSize(true)
             customItemsRecyclerview.adapter = adapter
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })
+        }
 
         delivery_address_lay.setOnClickListener {
             if (!isNetworkConnected) {
@@ -381,7 +380,7 @@ class CartActivity : BaseActivity(),
 
 
 
-        viewmodel?.addRemoveCartResponse?.observe(this, { user ->
+        viewmodel?.addRemoveCartResponse?.observe(this) { user ->
             dismissIOSProgress()
 
             Log.e("cart response", Gson().toJson(user))
@@ -394,9 +393,9 @@ class CartActivity : BaseActivity(),
 
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })
+        }
 
-        viewmodel?.deleteCartResponse?.observe(this, { user ->
+        viewmodel?.deleteCartResponse?.observe(this) { user ->
             dismissIOSProgress()
 
             Log.e("cart response", Gson().toJson(user))
@@ -407,9 +406,9 @@ class CartActivity : BaseActivity(),
                 userLat,
                 userLong
             )
-        })
+        }
 
-        viewmodel?.failureResponse?.observe(this, { user ->
+        viewmodel?.failureResponse?.observe(this) { user ->
             dismissIOSProgress()
 
             Log.e("cart response", Gson().toJson(user))
@@ -417,9 +416,9 @@ class CartActivity : BaseActivity(),
 
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })
+        }
 
-        viewmodel?.getCartDetailsResponse?.observe(this, { user ->
+        viewmodel?.getCartDetailsResponse?.observe(this) { user ->
             dismissIOSProgress()
             linear_progress_indicator.visibility = View.GONE
             if (!user.error) {
@@ -427,8 +426,8 @@ class CartActivity : BaseActivity(),
                     Log.e("cart details response", Gson().toJson(user))
                     val cartIndex = user.cart
 
-                    for (i in 0 until cartIndex.size){
-                        if (user.cart[i].isPrescription == "1"){
+                    for (i in 0 until cartIndex.size) {
+                        if (user.cart[i].isPrescription == "1") {
                             isPrescriptionRequire = user.cart[i].isPrescription
                         }
 
@@ -501,7 +500,8 @@ class CartActivity : BaseActivity(),
                     for (i in 0 until mModelData.cart.size) {
                         tempp = 0.0
                         for (j in 0 until mModelData.cart[i].customizeItem.size) {
-                            tempp = tempp!! + mModelData.cart[i].customizeItem.get(j).price.toDouble()
+                            tempp =
+                                tempp!! + mModelData.cart[i].customizeItem.get(j).price.toDouble()
 
                         }
                         tempp = tempp!! + mModelData.cart[i].offerPrice.toDouble()
@@ -533,14 +533,18 @@ class CartActivity : BaseActivity(),
 
                     //numberOfItemsValue.text = noOfItems.toString() + " Items"
 
-                    tv_place_order.text = "Pay "+ resources.getString(R.string.ruppee) + finalPrice.toFloat().toString()
-                    tv_grand_total.text = resources.getString(R.string.ruppee) + finalPrice.toFloat().toString()
+                    tv_place_order.text =
+                        "Pay " + resources.getString(R.string.ruppee) + finalPrice.toFloat()
+                            .toString()
+                    tv_grand_total.text =
+                        resources.getString(R.string.ruppee) + finalPrice.toFloat().toString()
 
                     Log.e("Bottom Price", tv_place_order.text.toString())
                     Log.e("Grand Total", tv_grand_total.text.toString())
                     //showToast(mModelData.deliveryDiscount)
                     //showToast(finalPrice.toString())
-                    tv_delivery_charges.text = resources.getString(R.string.ruppee) + deliveryChargeWithTax
+                    tv_delivery_charges.text =
+                        resources.getString(R.string.ruppee) + deliveryChargeWithTax
 
                     /*delivery_breakout_info.setOnClickListener {
                         val balloon = createBalloon(baseContext) {
@@ -560,12 +564,14 @@ class CartActivity : BaseActivity(),
                         }
                         delivery_breakout_info.showAlignTop(balloon)
                     }*/
-                    if (mModelData.deliveryDiscount == 0){
+                    if (mModelData.deliveryDiscount == 0) {
                         //delivery_coupon_name.visibility = View.GONE
                         //delivery_coupon_value.visibility = View.GONE
                     }
-                    tv_delivery_discount_label.text = "Delivery Discount ( " +mModelData.delivery_coupon_name +")"
-                    tv_delivery_discount.text = "- " + resources.getString(R.string.ruppee) + mModelData.deliveryDiscount.toFloat()
+                    tv_delivery_discount_label.text =
+                        "Delivery Discount ( " + mModelData.delivery_coupon_name + ")"
+                    tv_delivery_discount.text =
+                        "- " + resources.getString(R.string.ruppee) + mModelData.deliveryDiscount.toFloat()
                     //discountValue.text = resources.getString(R.string.ruppee) + mModelData.discount_amount.toString()
                     //tv_delivery_discount.text = "Cart Discount (" + mModelData.coupon_name +")"
 
@@ -588,11 +594,15 @@ class CartActivity : BaseActivity(),
                         offerIcon.visibility = View.GONE*/
                         tv_cart_discount.visibility = View.VISIBLE
                         tv_cart_discount_label.visibility = View.VISIBLE
-                        tv_coupon.text = "Cart Coupon Applied (" +mModelData.coupon_name+ ")"
-                        tv_cart_discount.text = resources.getString(R.string.ruppee) + user.discount_amount
+                        tv_coupon.text = "Cart Coupon Applied (" + mModelData.coupon_name + ")"
+                        tv_cart_discount.text =
+                            resources.getString(R.string.ruppee) + user.discount_amount
                         totalAmount = totalAmount - mModelData.discount_amount.toDouble()
-                        tv_place_order.text = "Pay "+ resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
-                        tv_grand_total.text = resources.getString(R.string.ruppee) + totalAmount.toString()
+                        tv_place_order.text =
+                            "Pay " + resources.getString(R.string.ruppee) + totalAmount.toFloat()
+                                .toString()
+                        tv_grand_total.text =
+                            resources.getString(R.string.ruppee) + totalAmount.toString()
                         //showToast("Offer applied successfully")
                     } else {
                         tv_cart_discount.visibility = View.GONE
@@ -617,24 +627,24 @@ class CartActivity : BaseActivity(),
 
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })
+        }
 
-        viewmodel?.addRemoveCartResponse?.observe(this, { user ->
+        viewmodel?.addRemoveCartResponse?.observe(this) { user ->
             dismissIOSProgress()
 
             Log.e("cart response", Gson().toJson(user))
             viewmodel?.getCartDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    userLat,
-                    userLong
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                userLat,
+                userLong
             )
 
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })
+        }
 
-        viewmodel?.paymentResponse?.observe(this, { user ->
+        viewmodel?.paymentResponse?.observe(this) { user ->
             dismissIOSProgress()
             tempOrderId = user.orderId
             SessionTwiclo(this).storeId = ""
@@ -649,24 +659,24 @@ class CartActivity : BaseActivity(),
             showToast("Order placed successfully")
 
             startActivity(
-                    Intent(this, TrackOrderActivity::class.java).putExtra(
-                            "orderId",
-                            user.orderId
-                    ).putExtra(
-                            "delivery_boy_name",
-                            ""
-                    ).putExtra(
-                            "delivery_boy_mobile",
-                            ""
-                    ).putExtra(
-                            "type",
-                            ""
-                    )
+                Intent(this, TrackOrderActivity::class.java).putExtra(
+                    "orderId",
+                    user.orderId
+                ).putExtra(
+                    "delivery_boy_name",
+                    ""
+                ).putExtra(
+                    "delivery_boy_mobile",
+                    ""
+                ).putExtra(
+                    "type",
+                    ""
+                )
             )
             finishAffinity()
-        })
+        }
 
-        viewmodel?.uploadPrescriptionResponse?.observe(this, { user ->
+        viewmodel?.uploadPrescriptionResponse?.observe(this) { user ->
 
             dismissIOSProgress()
             Log.e("cart response", Gson().toJson(user))
@@ -675,7 +685,7 @@ class CartActivity : BaseActivity(),
             cart_payment_lay.isEnabled = true
             cart_payment_lay.alpha = 1.0f
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })
+        }
 
         viewmodel?.appplyPromoResponse?.observe(this, { user ->
             dismissIOSProgress()
@@ -825,17 +835,17 @@ class CartActivity : BaseActivity(),
         } else {
             showIOSProgress()
 
-            storeViewModel?.getStoreDetailsApi?.observe(this, {
+            storeViewModel?.getStoreDetailsApi?.observe(this) {
                 try {
                     storeLat = it.storeLatitude
                     storeLong = it.storeLongitude
-                }catch (e:java.lang.Exception){
+                } catch (e: java.lang.Exception) {
                     e.printStackTrace()
                 }
 
                 //calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
 
-            })
+            }
 
 
             viewmodel?.getCartDetails(
