@@ -122,11 +122,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
         }.start()
 
-//        Thread{
-//            productsDatabase!!.productsDaoAccess()!!.deleteAll()
-//        }.start()
-//        dao = productsDatabase!!.productsDaoAccess()!!
-
 
         layoutManger = LinearLayoutManager(this)
         recyclerView = findViewById(R.id.grocery_item_rv)
@@ -182,7 +177,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             {
                 productsDatabase!!.productsDaoAccess()!!.getAllProducts().observe(this, Observer {t ->
                     productList= t as ArrayList<Product>?
-                    Log.d("zsdxz",productList!!.size.toString())
+                    dismissIOSProgress()
+                    Log.d("roomdatabase_",productList!!.size.toString())
                     rvlistProduct(productList!!)
 
                 })
@@ -197,7 +193,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
         //Here we have got api response from observer
         viewmodel?.GroceryProductsResponse?.observe(this, { grocery ->
-            dismissIOSProgress()
             linear_progress_indicator.visibility = View.GONE
             MainActivity.tempProductList!!.clear()
             MainActivity.addCartTempList!!.clear()
@@ -258,7 +253,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         catList.add(catObj)
                     }
 
-                    Log.d("kb___", "" + productList.size.toString())
+                   // Log.d("kb___", "" + productList.size.toString())
                     rvlistSubcategory(subcatList)
                     //rvlistProduct(productList)
 
