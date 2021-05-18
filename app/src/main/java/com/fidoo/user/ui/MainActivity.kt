@@ -47,10 +47,7 @@ import kotlin.collections.ArrayList
 
 
 class MainActivity : BaseActivity(), android.location.LocationListener, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-
     var viewmodel: AddressViewModel? = null
-
-
 
     companion object {
         var tempProductList: ArrayList<TempProductListModel>? = null
@@ -74,7 +71,6 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         var mUpdateManager: UpdateManager? = null
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -95,10 +91,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
         viewmodel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
-
-        // Initialize the Update Manager with the Activity and the Update Mode
         mUpdateManager = UpdateManager.Builder(this).mode(UpdateManagerConstant.IMMEDIATE)
-
         mUpdateManager?.start()
 
 
@@ -114,7 +107,6 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             }
         }
         this.registerReceiver(mBroadcastReceiver, IntentFilter("start_send_package_fragment"))
-
         val navController = findNavController(R.id.fragment4)
         bottomNavigationView.setupWithNavController(navController)
 
@@ -123,44 +115,6 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         addCartTempList = ArrayList()
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
-
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) {
-                locationResult ?: return
-                for (location in locationResult.locations){
-                    // Update UI with location data
-                    // ...
-                    Log.e(
-                        "Location_lat_lng",
-                        " latitude ${location.latitude} longitude ${location.longitude}"
-                    )
-                    SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(
-                        location.latitude,
-                        location.longitude
-                    )
-                    SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
-                    SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
-                    userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
-
-                }
-            }
-        }
-
-       /* FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val token = task.result
-
-            // Log and toast
-            // val msg = getString(R.string.msg_token_fmt, token)
-            Log.d(TAG, token)
-            //  Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
-        })*/
-
 
         if (isNetworkConnected) {
 
@@ -183,6 +137,31 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             showInternetToast()
         }
 
+
+//        if (SessionTwiclo(this@MainActivity).userAddress.isEmpty()) {
+//
+//            locationCallback = object : LocationCallback() {
+//            override fun onLocationResult(locationResult: LocationResult?) {
+//                    locationResult ?: return
+//                    for (location in locationResult!!.locations) {
+//                        // Update UI with location data
+//
+//                        Log.e("Location_lat_lng"," latitude ${location.latitude} longitude ${location.longitude}")
+//                        SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(
+//                            location.latitude,
+//                            location.longitude
+//                        )
+//                        SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
+//                        SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
+//                        userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
+//
+//                    }
+//                }
+//            }
+//        }
+
+
+
         viewmodel?.getAddressesResponse?.observe(this,{user ->
             val addressList: MutableList<GetAddressModel.AddressList>
             addressList=user.addressList
@@ -190,8 +169,15 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                 for (i in addressList.indices) {
                     if (i==0){
                         SessionTwiclo(this).userAddress=addressList.get(0).location
+                        SessionTwiclo(this).userLat = addressList.get(0).latitude
+                        SessionTwiclo(this).userLng = addressList.get(0).longitude
                         userAddress?.text = SessionTwiclo(this).userAddress
                     }
+                }
+
+                if (addressList.size==0) {
+                    Log.d("sfdfgdgf__", "message")
+                    getCurrentLocation()
                 }
             }catch (e:Exception){
                 e.printStackTrace()
@@ -200,9 +186,43 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         })
 
-        if (SessionTwiclo(this).userAddress!=null||!SessionTwiclo(this).userAddress.isEmpty()) {
-            checkLocation()
-        }
+//        if (SessionTwiclo(this).userAddress!=null||!SessionTwiclo(this).userAddress.isEmpty()) {
+//            checkLocation()
+//        }
+    }
+
+    private fun getCurrentLocation() {
+
+            this?.let {
+                EasyLocation(it, object : EasyLocation.EasyLocationCallBack {
+                    override fun permissionDenied() {
+
+                        Log.e("Location", "permission  denied")
+
+
+                    }
+
+                    override fun locationSettingFailed() {
+
+                        Log.e("Location", "setting failed")
+
+
+                    }
+
+                    override fun getLocation(location: Location) {
+
+                        Log.e(
+                                "Location_lat_lng",
+                                " latitude ${location.latitude} longitude ${location.longitude}"
+                        )
+
+                        SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
+                        SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
+                        SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
+                        userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
+                    }
+                })
+            }
     }
 
     private fun checkLocation(){
@@ -290,17 +310,8 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     override fun onResume() {
         super.onResume()
         if (SessionTwiclo(this).userAddress == ""){
-            startLocationUpdates()
+          //  startLocationUpdates()
         }
-
-
-        /* if (SessionTwiclo(this).userAddress.equals("")) {
-        Log.e("ddd","ddddd")
-            initLocation()
-        } else {
-
-
-        }*/
     }
 
 
@@ -331,9 +342,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                             ll = LocationServices.FusedLocationApi.getLastLocation(gac!!)
                             if (ll != null) {
                                 Log.e("ll", ll.toString())
-                                SessionTwiclo(
-                                    this
-                                ).userAddress = getGeoAddressFromLatLong(
+                                SessionTwiclo(this).userAddress = getGeoAddressFromLatLong(
                                     ll!!.latitude,
                                     ll!!.longitude
                                 )

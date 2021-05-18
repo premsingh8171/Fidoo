@@ -482,9 +482,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
             }
         })
-
-
-
     }
 
 //    private fun insertList(productList: ArrayList<Product>) =
