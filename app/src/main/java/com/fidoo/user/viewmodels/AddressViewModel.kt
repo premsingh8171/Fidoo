@@ -27,6 +27,7 @@ class AddressViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun getAddressesApi(accountId: String, accessToken: String, storeLatitude: String, storeLongitude: String) {
+
         WebServiceClient.client.create(BackEndApi::class.java).getAddressesApi(
             accountId = accountId, accessToken = accessToken, storeLatitude = storeLatitude, storeLongitude = storeLongitude
         ).enqueue(this)

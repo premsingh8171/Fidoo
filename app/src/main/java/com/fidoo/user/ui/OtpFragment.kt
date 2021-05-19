@@ -198,12 +198,17 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
 
                     if (code != null) {
                         mView.otp_view.setOTP(code)
-                        /*restfullInstance.verificationUser(
-                            mData.accesstoken,
-                            mData.id,
-                            code,
-                            mApiHandler
-                        )*/
+                        if (mView.otp_view.otp?.length != 6) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Please enter complete OTP",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        }
+                        else{
+                            verificationApi(mView.otp_view.otp)
+                        }
 
                     }
                 }

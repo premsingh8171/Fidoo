@@ -84,7 +84,8 @@ class OrdersAdapter(
             }
             orders[position].orderStatus.equals("3") -> {
                 if (orders[position].is_rate_to_driver.equals("1")) {
-                    holder.buttonValue.visibility = View.GONE
+                    holder.buttonValue.text = "Reviewed"
+                    holder.buttonValue.isClickable = false
                 } else {
                     holder.buttonValue.text = "Review"
                 }

@@ -188,6 +188,52 @@ class StoreItemsActivity :
 
         }
 
+        veg_switch.setOnCheckedChangeListener { _, b ->
+
+            Log.e("b", b.toString())
+
+            if (b) {
+
+
+                if (isNetworkConnected) {
+                    showIOSProgress()
+                    if (SessionTwiclo(this).isLoggedIn) {
+                        viewmodel?.getStoreDetails(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            intent.getStringExtra("storeId"),
+                            "0",
+                            intent.getStringExtra("catId")
+
+                        )
+                        vegSwitch = "0"
+                    } else {
+                        viewmodel?.getStoreDetails("",
+                            "",
+                            intent.getStringExtra("storeId"),
+                            "0",
+                            intent.getStringExtra("catId")
+
+                        )
+                        vegSwitch = "0"
+                    }
+                } else {
+                    showInternetToast()
+                }
+
+            } else {
+
+                showIOSProgress()
+                viewmodel?.getStoreDetails(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    intent.getStringExtra("storeId"),
+                    vegSwitch,
+                    intent.getStringExtra("catId")
+                )
+            }
+        }
+
         if (isNetworkConnected) {
             if (SessionTwiclo(this).isLoggedIn) {
 
@@ -572,51 +618,7 @@ class StoreItemsActivity :
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
-        veg_switch.setOnCheckedChangeListener { _, b ->
 
-            Log.e("b", b.toString())
-
-            if (b) {
-
-
-                if (isNetworkConnected) {
-                    showIOSProgress()
-                    if (SessionTwiclo(this).isLoggedIn) {
-                        viewmodel?.getStoreDetails(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            intent.getStringExtra("storeId"),
-                            "0",
-                            intent.getStringExtra("catId")
-
-                        )
-                        vegSwitch = "0"
-                    } else {
-                        viewmodel?.getStoreDetails("",
-                            "",
-                            intent.getStringExtra("storeId"),
-                            "0",
-                            intent.getStringExtra("catId")
-
-                        )
-                        vegSwitch = "0"
-                    }
-                } else {
-                    showInternetToast()
-                }
-
-            } else {
-
-                showIOSProgress()
-                viewmodel?.getStoreDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    intent.getStringExtra("storeId"),
-                    vegSwitch,
-                    intent.getStringExtra("catId")
-                )
-            }
-        }
 
     }
 

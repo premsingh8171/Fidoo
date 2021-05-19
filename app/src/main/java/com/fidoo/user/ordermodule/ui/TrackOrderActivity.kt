@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -88,6 +89,14 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         tv_order_id.text = intent.getStringExtra("orderId")!!
 
         cancelBtn.visibility = View.GONE
+
+        customer_care.setOnClickListener {
+
+            val dialIntent = Intent(Intent.ACTION_DIAL)
+            dialIntent.data = Uri.parse("tel:" + 8047165887)
+            startActivity(dialIntent)
+
+        }
 
 
         tv_delivery_boy_call.setOnClickListener {
@@ -387,6 +396,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
         orderViewModel?.OrderDetailsResponse?.observe(this, {
             tv_order_id.text = it.orderId
+
             when {
                 it.orderStatus.equals("0") -> {
                     //holder.buttonValue.visibility = View.GONE
@@ -396,6 +406,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     // holder.buttonValue.visibility = View.VISIBLE
                     // holder.buttonValue.visibility = View.GONE
                     order_status.text = "Please wait while we confirm your order"
+                    tv_delivery_boy_call.visibility = View.GONE
                 }
                 it.orderStatus.equals("2") -> {
                     //holder.buttonValue.visibility = View.GONE
@@ -437,6 +448,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     order_status.text = "Your order is out for delivery"
                     tv_order_delivery.setTextColor(Color.rgb(51,147,71))
                     img_to_location.setColorFilter(Color.rgb(51,147,71))
+                    tv_delivery_boy_call.visibility = View.VISIBLE
 
                 }
                 it.orderStatus.equals("7") -> {
@@ -446,19 +458,23 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     order_status.text = it.storeName+" has accepted your order"
                     tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
                     order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
+                    tv_delivery_boy_call.visibility = View.GONE
                 }
                 it.orderStatus.equals("9") -> {
                     //holder.buttonValue.visibility = View.VISIBLE
                     order_status.text = "Your Order is ready and will soon be picked up by " + it.deliveryBoyName
                     tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
+                    order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
                     tv_order_picked.setTextColor(Color.rgb(51,147,71))
                     delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51,147,71))
+                    tv_delivery_boy_call.visibility = View.VISIBLE
                 }
                 it.orderStatus.equals("10") -> {
                     //holder.buttonValue.visibility = View.VISIBLE
                     order_status.text = "Your order is out for delivery"
                     tv_order_delivery.setTextColor(Color.rgb(51,147,71))
                     img_to_location.setColorFilter(Color.rgb(51,147,71))
+                    tv_delivery_boy_call.visibility = View.VISIBLE
                 }
                 it.orderStatus.equals("8") -> {
                     //holder.buttonValue.visibility = View.GONE
@@ -477,6 +493,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     tv_order_id.visibility = View.GONE
                     tv_order_id_label.visibility = View.GONE
                     map.alpha = 0.0f
+                    customer_care.visibility = View.GONE
 
 
                 }

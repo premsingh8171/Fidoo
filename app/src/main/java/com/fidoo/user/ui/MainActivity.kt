@@ -176,7 +176,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     e.printStackTrace()
                 }
             }else{
-                showLoginDialog("Please login to proceed")
+                //showLoginDialog("Please login to proceed")
             }
 
         } else {
