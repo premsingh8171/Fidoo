@@ -176,10 +176,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         Handler().postDelayed(
             {
                 productsDatabase!!.productsDaoAccess()!!.getAllProducts().observe(this, Observer {t ->
-                    productList= t as ArrayList<Product>?
-                    Log.d("roomdatabase_",productList!!.size.toString())
-                    rvlistProduct(productList!!)
-                    rvlistSubcategory(subcatList)
+                  //  productList= t as ArrayList<Product>?
+                  //  Log.d("roomdatabase_",productList!!.size.toString())
+                  //  rvlistProduct(productList!!)
+                   // rvlistSubcategory(subcatList)
 
                     dismissIOSProgress()
 
@@ -256,8 +256,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     }
 
                    // Log.d("kb___", "" + productList.size.toString())
-                    //rvlistSubcategory(subcatList)
-                    //rvlistProduct(productList)
+                    rvlistSubcategory(subcatList)
+                    rvlistProduct(productList)
 
                 }
             }else{
@@ -363,7 +363,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
         //for plus and minus of item
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
-
 
             Log.e("cart_response", Gson().toJson(user))
             if (isNetworkConnected) {
