@@ -14,24 +14,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.*
 import com.fidoo.user.adapter.CategoryAdapter
-import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.databinding.FragmentHomeBinding
 import com.fidoo.user.adapter.SliderAdapter
 import com.fidoo.user.adapter.SliderAdapter.ClickCart
 import com.fidoo.user.data.model.BannerModel
 import com.fidoo.user.data.model.CartCountModel
 import com.fidoo.user.data.model.HomeServicesModel
-import com.fidoo.user.grocery.activity.GroceryItemsActivity
+import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.databinding.FragmentHomeBinding
 import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.CardSliderLayoutManager
 import com.fidoo.user.utils.CardSnapHelper
@@ -42,40 +39,37 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-import com.google.android.material.slider.Slider
 import com.google.gson.Gson
 import com.robin.locationgetter.EasyLocation
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
-import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment() {
 
-    lateinit var mView : View
+    lateinit var mView: View
 
-    var viewmodel : HomeFragmentViewModel? = null
+    var viewmodel: HomeFragmentViewModel? = null
 
     private var _progressDlg: ProgressDialog? = null
     var fragmentHomeBinding: FragmentHomeBinding? = null
     private var currentPosition = 0
     private var layoutManger: CardSliderLayoutManager? = null
-    private var where:String?=""
+    private var where: String? = ""
     lateinit var pref: SessionTwiclo
 
 
     companion object {
-        var service_id:String?=""
-        var service_name:String?=""
-        var itemPosition:Int?=0
+        var service_id: String? = ""
+        var service_name: String? = ""
+        var itemPosition: Int? = 0
     }
 
 
-    var categoryAdapter:CategoryAdapter?=null
+    var categoryAdapter: CategoryAdapter? = null
     private val pics = intArrayOf(
         R.drawable.medicine,
         R.drawable.electronics,
@@ -92,35 +86,35 @@ class HomeFragment : Fragment() {
     )
 
     private val sliderAdapter = SliderAdapter(
-            pics, 10, object : ClickCart{
-        override fun cartOnClick(view: View?) {
-            //  service_name?.let { Log.d("fdfdfd", it) }
-            startActivity(
+        pics, 10, object : ClickCart {
+            override fun cartOnClick(view: View?) {
+                //  service_name?.let { Log.d("fdfdfd", it) }
+                startActivity(
                     Intent(requireActivity(), StoreListActivity::class.java).putExtra(
-                            "serviceId", service_id
+                        "serviceId", service_id
                     ).putExtra("serviceName", service_name)
-            )
-        }
-    })
+                )
+            }
+        })
 
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         fragmentHomeBinding = DataBindingUtil.inflate(
-                inflater,
-                R.layout.fragment_home,
-                container,
-                false
+            inflater,
+            R.layout.fragment_home,
+            container,
+            false
         )
 
 //        activity?.statusBarTransparent()
 
         viewmodel = ViewModelProviders.of(requireActivity()).get(HomeFragmentViewModel::class.java)
         pref = SessionTwiclo(requireContext())
-        where=pref.guestLogin
-        Log.d("where___",where!!)
+        where = pref.guestLogin
+        Log.d("where___", where!!)
 
         // to initialize the main card view slider
         initRecyclerView()
@@ -128,19 +122,32 @@ class HomeFragment : Fragment() {
 
         if ((activity as MainActivity).isNetworkConnected) {
 
-            if (SessionTwiclo(context).isLoggedIn){
+            if (SessionTwiclo(context).isLoggedIn) {
+                try {
+                    _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
+                    _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                    _progressDlg!!.setCancelable(false)
+                    _progressDlg!!.show()
+                } catch (ex: Exception) {
+                    Log.wtf("IOS_error_starting", ex.cause!!)
+                }
 
-
-                viewmodel?.getBanners(
-                        SessionTwiclo(context).loggedInUserDetail.accountId,
-                        SessionTwiclo(context).loggedInUserDetail.accessToken,
-                        "1"
+                viewmodel?.getHomeServices(
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken
                 )
-            }else{
+
                 viewmodel?.getBanners(
-                        "",
-                        "",
-                        "1"
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken,
+                    "1"
+                )
+            } else {
+                viewmodel?.getBanners(
+                    "",
+                    "",
+                    "1"
                 )
             }
 
@@ -152,9 +159,7 @@ class HomeFragment : Fragment() {
 
         fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
 
-        /* fragmentHomeBinding?.userAddress?.setOnClickListener {
-             onSearchCalled()
-         }*/
+
         var sliderItem = com.fidoo.user.data.SliderItem()
 
         viewmodel?.failureResponse?.observe(requireActivity(), { user ->
@@ -199,7 +204,8 @@ class HomeFragment : Fragment() {
                         SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH*/
                     fragmentHomeBinding?.sliderView?.indicatorSelectedColor = Color.WHITE
                     fragmentHomeBinding?.sliderView?.indicatorUnselectedColor = Color.BLACK
-                    fragmentHomeBinding?.sliderView?.scrollTimeInSec = sliderItemList.size - 1 //set scroll delay in seconds :
+                    fragmentHomeBinding?.sliderView?.scrollTimeInSec =
+                        sliderItemList.size - 1 //set scroll delay in seconds :
                     fragmentHomeBinding?.sliderView?.startAutoCycle()
                     adapterr.renewItems(sliderItemList)
                 }
@@ -224,60 +230,41 @@ class HomeFragment : Fragment() {
                 Log.e("servicesResponse", Gson().toJson(mModelData))
                 if (mModelData.serviceList != null) {
                     if (activity != null) {
-                        /*val adapter = CategoriesAdapter(requireActivity(), mModelData.serviceList)
-                        fragmentHomeBinding?.categoriesRecyclerView?.layoutManager =
-                            GridLayoutManager(
-                                context,
-                                2
-                            )
-                        fragmentHomeBinding?.categoriesRecyclerView?.setHasFixedSize(true)
-                        fragmentHomeBinding?.categoriesRecyclerView?.adapter = adapter*/
-
-
                         categoryAdapter = CategoryAdapter(
-                                requireActivity(),
-                                mModelData.serviceList,
-                                object : CategoryAdapter.ItemClick {
-                                    override fun onItemClick(
-                                            pos: Int,
-                                            serviceList: HomeServicesModel.ServiceList
-                                    ) {
+                            requireActivity(),
+                            mModelData.serviceList,
+                            object : CategoryAdapter.ItemClick {
+                                override fun onItemClick(
+                                    pos: Int,
+                                    serviceList: HomeServicesModel.ServiceList
+                                ) {
 
-                                        service_id = serviceList.id
-                                        service_name=serviceList.serviceName
+                                    service_id = serviceList.id
+                                    service_name = serviceList.serviceName
 
-
-                                    }
 
                                 }
+
+                            }
                         )
 
                         fragmentHomeBinding?.categorySmallRecyclerview?.layoutManager =
-                                GridLayoutManager(
-                                        activity,
-                                        4,
-                                        GridLayoutManager.VERTICAL,
-                                        false
-                                )
+                            GridLayoutManager(
+                                activity,
+                                4,
+                                GridLayoutManager.VERTICAL,
+                                false
+                            )
                         fragmentHomeBinding?.categorySmallRecyclerview?.setHasFixedSize(true)
                         fragmentHomeBinding?.categorySmallRecyclerview?.adapter = categoryAdapter
                         categoryAdapter?.updateReceiptsList(itemPosition!!)
                         fragmentHomeBinding?.categorySmallRecyclerview?.smoothScrollToPosition(
-                                itemPosition!!
+                            itemPosition!!
                         )
 
                     }
                 }
 
-                if (mModelData.defaultAddress != null) {
-
-                    // SessionTwiclo(context).userAddress = mModelData.defaultAddress.addressType
-                    //SessionTwiclo(context).userAddressId = mModelData.defaultAddress.address_id
-                    //SessionTwiclo(context).userLat = mModelData.defaultAddress.latitude
-                    // SessionTwiclo(context).userLng = mModelData.defaultAddress.longitude
-                    // fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
-
-                }
             } else {
                 if (user.errorCode == 101) {
                     //showAlertDialog(context!!)
@@ -306,7 +293,14 @@ class HomeFragment : Fragment() {
                         //fragmentHomeBinding?.cartCountTxt?.text = user.count
                     } else {
                         fragmentHomeBinding?.cartCountTxt?.visibility = View.GONE
-                        fragmentHomeBinding?.cartIcon?.setColorFilter(Color.argb(255, 199, 199, 199))
+                        fragmentHomeBinding?.cartIcon?.setColorFilter(
+                            Color.argb(
+                                255,
+                                199,
+                                199,
+                                199
+                            )
+                        )
                     }
                 }
             } else {
@@ -317,37 +311,39 @@ class HomeFragment : Fragment() {
         })
 
         // Inflate the layout for this fragment
-
         fragmentHomeBinding?.cartIcon?.setOnClickListener {
-            if (SessionTwiclo(context).isLoggedIn){
+            if (SessionTwiclo(context).isLoggedIn) {
                 startActivity(
-                    Intent(context, CartActivity::class.java).putExtra("storeId", SessionTwiclo(context).storeId
+                    Intent(context, CartActivity::class.java).putExtra(
+                        "storeId", SessionTwiclo(context).storeId
                     )
                 )
-            }else{
+            } else {
                 showLoginDialog("Please login to proceed")
             }
 
         }
 
         fragmentHomeBinding?.profileIconn?.setOnClickListener {
-            if (SessionTwiclo(context).isLoggedIn){
+            if (SessionTwiclo(context).isLoggedIn) {
                 fragmentManager?.beginTransaction()
                     ?.replace(R.id.container, ProfileFragment())
                     ?.commitAllowingStateLoss()
 
-            }else{
+            } else {
                 showLoginDialog("Please login to proceed")
             }
 
         }
 
         fragmentHomeBinding?.btnDelivery?.setOnClickListener {
-           // if (SessionTwiclo(context).isLoggedIn){
+            // if (SessionTwiclo(context).isLoggedIn){
 
-                //findNavController().navigate(R.id.action_homeFragment_to_sendPacketFragment)
-                startActivity(Intent(context, SendPackageActivity::class.java)
-                    .putExtra("where",where))
+            //findNavController().navigate(R.id.action_homeFragment_to_sendPacketFragment)
+            startActivity(
+                Intent(context, SendPackageActivity::class.java)
+                    .putExtra("where", where)
+            )
 //            }else{
 //                showLoginDialog("Please login to proceed")
 //            }
@@ -355,26 +351,20 @@ class HomeFragment : Fragment() {
 
         fragmentHomeBinding?.addressLay?.setOnClickListener {
             //if (SessionTwiclo(context).isLoggedIn){
-                startActivityForResult(Intent(context, SavedAddressesActivity::class.java)
+            startActivityForResult(
+                Intent(context, SavedAddressesActivity::class.java)
                     .putExtra("type", "address")
-                        .putExtra("where",where
-                    ),AUTOCOMPLETE_REQUEST_CODE
-                )
-          //  }else{
-               // showLoginDialog("Please login to proceed")
+                    .putExtra(
+                        "where", where
+                    ), AUTOCOMPLETE_REQUEST_CODE
+            )
+            //  }else{
+            // showLoginDialog("Please login to proceed")
 
-          //  }
+            //  }
 
         }
 
-//        fragmentHomeBinding?.homeQuestionLay?.setOnClickListener {
-//            if (SessionTwiclo(context).isLoggedIn){
-//                startActivity(Intent(context, ServicesActivity::class.java))
-//            }else{
-//                showLoginDialog("Please login to proceed")
-//            }
-//        }
-           // .putExtra("where",where)
         return fragmentHomeBinding?.root
     }
 
@@ -384,7 +374,7 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding?.categoryRecyclerView?.adapter = sliderAdapter
         fragmentHomeBinding?.categoryRecyclerView?.setHasFixedSize(true)
         fragmentHomeBinding?.categoryRecyclerView?.addOnScrollListener(object :
-                RecyclerView.OnScrollListener() {
+            RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     onActiveCardChange()
@@ -393,14 +383,15 @@ class HomeFragment : Fragment() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val completeleyVisible: Int = layoutManger?.getActiveCardPosition()!!
-                itemPosition =completeleyVisible
+                val completeleyVisible: Int = layoutManger?.activeCardPosition!!
+                itemPosition = completeleyVisible
                 fragmentHomeBinding?.categorySmallRecyclerview?.adapter = categoryAdapter
                 categoryAdapter?.updateReceiptsList(itemPosition!!)
                 fragmentHomeBinding?.categorySmallRecyclerview?.smoothScrollToPosition(itemPosition!!)
             }
         })
-        layoutManger = fragmentHomeBinding?.categoryRecyclerView?.layoutManager as CardSliderLayoutManager
+        layoutManger =
+            fragmentHomeBinding?.categoryRecyclerView?.layoutManager as CardSliderLayoutManager
         CardSnapHelper().attachToRecyclerView(categoryRecyclerView)
     }
 
@@ -430,19 +421,20 @@ class HomeFragment : Fragment() {
 
 
     fun getGeoAddressFromLatLong(
-            latitude: Double,
-            longitude: Double
+        latitude: Double,
+        longitude: Double
     ): String? {
         val geocoder: Geocoder
         val addresses: List<Address>
         geocoder = Geocoder(requireContext(), Locale.getDefault())
         return try {
             addresses = geocoder.getFromLocation(
-                    latitude,
-                    longitude,
-                    1
+                latitude,
+                longitude,
+                1
             ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            val address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            val address =
+                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
             val city = addresses[0].locality
             val state = addresses[0].adminArea
             val country = addresses[0].countryName
@@ -457,53 +449,24 @@ class HomeFragment : Fragment() {
 
 
     override fun onActivityResult(
-            requestCode: Int,
-            resultCode: Int,
-            data: Intent?
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
     ) {
         super.onActivityResult(requestCode, resultCode, data)
         // Result Code is -1 send from Payumoney activity
-        Log.d(
-                "MainActivity____",
-                "request code $requestCode resultcode $resultCode"
-        )
+        Log.d("MainActivity____", "request code $requestCode resultcode $resultCode")
 
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
                     fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
-                    Log.d("dfdffddf",SessionTwiclo(context).userAddress)
-//
-//                    val place = Autocomplete.getPlaceFromIntent(data!!)
-//                    Log.wtf(
-//                            "SearchRide",
-//                            "\nID: " + place.id + "\naddress:" + place.address + "\nName:" + place.name + "\nlatlong: " + place.latLng
-//                    )
-//                    // do query with address
-//                    val addresses: List<Address>
-//                    val geocoder = Geocoder(context, Locale.getDefault())
-//                    //  lat=place.latLng!!.latitude
-//                    // lng=place.latLng!!.latitude
-//                    addresses = geocoder.getFromLocation(
-//                            place.latLng!!.latitude,
-//                            place.latLng!!.longitude,
-//                            1
-//                    ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-//                    /*   if (addressType.equals("from")) {
-//                           fromLat = place.latLng!!.latitude
-//                           fromLng = place.latLng!!.longitude
-//                           fromGoogleAddress.text = addresses.get(0).getAddressLine(0)
-//                       } else if (addressType.equals("to")) {*/
-//                    //toLat = place.latLng!!.latitude
-//                    // toLng = place.latLng!!.longitude
-//                    userAddress.text = addresses[0].getAddressLine(0)
-                    //  }
-
-
+                    Log.d("dfdffddf", SessionTwiclo(context).userAddress)
                 }
                 AutocompleteActivity.RESULT_ERROR -> { // TODO: Handle the error.
                     val status: Status = Autocomplete.getStatusFromIntent(data!!)
-                    Toast.makeText(context, "Error: " + status.statusMessage, Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Error: " + status.statusMessage, Toast.LENGTH_LONG)
+                        .show()
                     // Log.i(FragmentActivity.TAG, status.statusMessage)
                 }
                 Activity.RESULT_CANCELED -> { // The user canceled the operation.
@@ -514,17 +477,17 @@ class HomeFragment : Fragment() {
 
     fun onSearchCalled() { // Set the fields to specify which types of place data to return.
         val fields = Arrays.asList(
-                Place.Field.ID,
-                Place.Field.NAME,
-                Place.Field.ADDRESS,
-                Place.Field.LAT_LNG,
-                Place.Field.ADDRESS_COMPONENTS
+            Place.Field.ID,
+            Place.Field.NAME,
+            Place.Field.ADDRESS,
+            Place.Field.LAT_LNG,
+            Place.Field.ADDRESS_COMPONENTS
         )
         // Start the autocomplete intent.
         val intent = Autocomplete.IntentBuilder(
-                AutocompleteActivityMode.FULLSCREEN, fields
+            AutocompleteActivityMode.FULLSCREEN, fields
         )
-                .build(context as Activity)
+            .build(context as Activity)
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
     }
 
@@ -533,82 +496,70 @@ class HomeFragment : Fragment() {
         super.onResume()
         Log.d("Home_Resume", "RESUME")
 
-        if (SessionTwiclo(context).isLoggedIn){
-
+        if (SessionTwiclo(context).isLoggedIn) {
 
             viewmodel?.getCartCountApi(
-                    SessionTwiclo(context).loggedInUserDetail.accountId,
-                    SessionTwiclo(context).loggedInUserDetail.accessToken
+                SessionTwiclo(context).loggedInUserDetail.accountId,
+                SessionTwiclo(context).loggedInUserDetail.accessToken
             )
 
-            viewmodel?.getHomeServices(
-                    SessionTwiclo(context).loggedInUserDetail.accountId,
-                    SessionTwiclo(context).loggedInUserDetail.accessToken
-            )
+//            viewmodel?.getHomeServices(
+//                    SessionTwiclo(context).loggedInUserDetail.accountId,
+//                    SessionTwiclo(context).loggedInUserDetail.accessToken
+//            )
 
-        }else{
+        } else {
             viewmodel?.getHomeServices(
-                    "",
-                    ""
+                "",
+                ""
             )
             userAddress?.text = SessionTwiclo(context).userAddress
         }
 
 
-        try {
-            _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
-            _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-            _progressDlg!!.setCancelable(false)
-            _progressDlg!!.show()
-        } catch (ex: Exception) {
-            Log.wtf("IOS_error_starting", ex.cause!!)
-        }
-        if (SessionTwiclo(context).userAddress.equals("")) {
 
+//        if (SessionTwiclo(context).userAddress.isEmpty()) {
+//
+//
+//            activity?.let {
+//                EasyLocation(it, object : EasyLocation.EasyLocationCallBack {
+//                    override fun permissionDenied() {
+//
+//                        Log.e("Location", "permission  denied")
+//
+//
+//                    }
+//
+//                    override fun locationSettingFailed() {
+//
+//                        Log.e("Location", "setting failed")
+//
+//
+//                    }
+//
+//                    override fun getLocation(location: Location) {
+//
+//                        Log.e(
+//                                "Location_lat_lng",
+//                                " latitude ${location.latitude} longitude ${location.longitude}"
+//                        )
+//
+//                        SessionTwiclo(context).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
+//                        SessionTwiclo(context).userLat = location.latitude.toString()
+//                        SessionTwiclo(context).userLng = location.longitude.toString()
+//                        userAddress?.text = SessionTwiclo(context).userAddress
+//                    }
+//                })
+//            }
+//
+//        } else {
+//        userAddress?.text = SessionTwiclo(context).userAddress
+//
+//        }
 
-            activity?.let {
-                EasyLocation(it, object : EasyLocation.EasyLocationCallBack {
-                    override fun permissionDenied() {
-
-                        Log.e("Location", "permission  denied")
-
-
-                    }
-
-                    override fun locationSettingFailed() {
-
-                        Log.e("Location", "setting failed")
-
-
-                    }
-
-                    override fun getLocation(location: Location) {
-
-                        Log.e(
-                                "Location_lat_lng",
-                                " latitude ${location.latitude} longitude ${location.longitude}"
-                        )
-
-                        SessionTwiclo(context).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
-                        SessionTwiclo(context).userLat = location.latitude.toString()
-                        SessionTwiclo(context).userLng = location.longitude.toString()
-                        userAddress?.text = SessionTwiclo(context).userAddress
-                    }
-                })
-            }
-
-        } else {
-
-            userAddress?.text = SessionTwiclo(
-                    context
-            ).userAddress
-        }
-        fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
-            Log.d("dfdffddf",SessionTwiclo(context).userAddress)
     }
 
-    private fun showLoginDialog(message: String){
+    private fun showLoginDialog(message: String) {
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
         //set title for alert dialog
         builder.setTitle("Alert")
@@ -619,7 +570,7 @@ class HomeFragment : Fragment() {
         //performing positive action
         builder.setPositiveButton("Login") { _, _ ->
             startActivity(
-                    Intent(activity, SplashActivity::class.java)
+                Intent(activity, SplashActivity::class.java)
             )
 
 

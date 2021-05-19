@@ -24,6 +24,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
+import java.lang.Exception
 
 
 class ProfileFragment : Fragment() {
@@ -141,15 +142,20 @@ class ProfileFragment : Fragment() {
         }
 
         viewmodel?.getlogoutResponse?.observe(requireActivity(), { user ->
-            dismissIOSProgress()
+            try {
+                dismissIOSProgress()
+                Log.e("logout__response", Gson().toJson(user))
+                dismissIOSProgress()
+                sessionTwiclo!!.clearSession()
+                startActivity(Intent(requireActivity(), SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
 
-            Log.e("logout__response", Gson().toJson(user))
-            dismissIOSProgress()
-            sessionTwiclo!!.clearSession()
+            }catch (e:Exception){
+                e.printStackTrace()
+                sessionTwiclo!!.clearSession()
+                startActivity(Intent(requireActivity(), SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
 
-            startActivity(Intent(context, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            )
-        })
+            }
+   })
 
         return mView
     }

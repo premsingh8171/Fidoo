@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGray"
+    android:background="@color/white"
     tools:context=".StoreListActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLay"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:background="@color/white"
         android:elevation="10dp"
         android:outlineSpotShadowColor="@color/background"
@@ -25,25 +25,28 @@
             android:layout_marginLeft="10dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="5dp"
-            android:src="@drawable/arrow_backward"
+            android:rotation="180"
+            android:src="@drawable/ic_back_vector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/colorPrimary" />
 
         <TextView
+            android:layout_marginLeft="@dimen/margin_10"
             android:id="@+id/Store_type_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima"
-            android:gravity="center"
-            android:text="Stores"
+            android:text="Select your favourite store"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.212"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.512" />
 
         <ImageView
             android:id="@+id/search_stores_icon"
@@ -71,6 +74,7 @@
 
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/choose_your_fav_store_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -153,7 +157,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/margin_200dp"
         android:weightSum="10"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -162,8 +165,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/storesRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_20dp" />
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

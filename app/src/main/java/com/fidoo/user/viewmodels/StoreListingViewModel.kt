@@ -45,7 +45,7 @@ class StoreListingViewModel(application: Application) : AndroidViewModel(applica
 
     fun getStores(accountId: String, accessToken: String, service_id: String, latitude: String, longitude: String, distance_start: String?, distance_end: String?,sort_by:String?) {
         // progressDialog?.value = true
-        //Log.d("storeList____",accountId+"--\n"+accessToken+"--\n"+service_id+"--\n"+latitude+"--\n"+distance_start+"--\n"+distance_end+"--\n"+sort_by)
+        Log.d("storeList____",accountId+"--\n"+accessToken+"--\n"+service_id+"--\n"+latitude+"--\n"+longitude+"\n"+distance_start+"--\n"+distance_end+"--\n"+sort_by)
         WebServiceClient.client.create(BackEndApi::class.java).getStoresApi(
             accountId = accountId,
             accessToken = accessToken,
