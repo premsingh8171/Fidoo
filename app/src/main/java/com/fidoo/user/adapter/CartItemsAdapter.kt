@@ -4,12 +4,13 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.AsyncTask
 import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
-import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
+import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.interfaces.AdapterClick
 import kotlinx.android.synthetic.main.cart_item.view.*
 import kotlinx.android.synthetic.main.review_popup.view.*
@@ -21,7 +22,7 @@ class CartItemsAdapter(
         private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
         private val adapterClick: AdapterClick
 ) : RecyclerView.Adapter<CartItemsAdapter.UserViewHolder>() {
-
+   var product_count:Int=0
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.cart_item, parent, false)
@@ -77,23 +78,24 @@ class CartItemsAdapter(
         }
 
         holder.plusLay.setOnClickListener {
-
+            var count: Int = holder.countValue.text.toString().toInt()
+            count++
             if (cart[position].customizeItem != null) {
 
                 if (cart[position].customizeItem.size != 0) {
                     adapterCartAddRemoveClick.onAddItemClick(
                             cart[position].productId,
-                            cart[position].quantity,
+                            items,
                             cart[position].offerPrice,
                             cart[position].is_customize,
                             cart[position].customizeItem[0].productCustomizeId,
-                            cart[position].cart_id
+                            cart[position].cart_id, count.toString()
                     )} else{
                     adapterCartAddRemoveClick.onAddItemClick(
                             cart[position].productId,
-                            cart[position].quantity,
+                            items,
                             cart[position].offerPrice,cart.get(position).is_customize,"", cart[position].cart_id
-                    )
+                   ,count.toString())
                 }
             }
             /*      var count: Int=holder.countValue.text.toString().toInt()
@@ -105,11 +107,10 @@ class CartItemsAdapter(
                   holder.priceTxt.text =
                       con.resources.getString(R.string.ruppee) + itemPrice.toString()*/
         }
-
-
         holder.minusLay.setOnClickListener {
             if (holder.countValue.text.toString().toInt() > 0) {
-
+                var count: Int = holder.countValue.text.toString().toInt()
+                count--
                 if (cart.get(position).customizeItem != null) {
 
                     if (cart.get(position).customizeItem.size != 0) {
@@ -118,22 +119,20 @@ class CartItemsAdapter(
                             cart.get(position).quantity,
                             cart.get(position).is_customize,
                             cart.get(position).customizeItem.get(0).productCustomizeId,
-                            cart[position].cart_id
-                        )}
+                            cart[position].cart_id,
+                            count.toString())}
                     else{
                         adapterCartAddRemoveClick.onRemoveItemClick(
                                 cart[position].productId,
                                 cart[position].quantity,
                                 cart[position].is_customize,
                                 "",
-                                cart[position].cart_id
+                                cart[position].cart_id,count.toString()
                         )
                     }
                 }
 
-                var count: Int = holder.countValue.text.toString().toInt()
 
-                count--
                 holder.countValue.text = count.toString()
                 if (count == 0) {
                     cart.removeAt(position)
@@ -199,4 +198,28 @@ class CartItemsAdapter(
         }
 
     }
+
+
+    interface AdapterCartAddRemoveClick {
+        fun onAddItemClick(
+            productId: String?,
+            items: String?,
+            offerPrice: String?,
+            isCustomize: String?,
+            prodcustCustomizeId: String?,
+            cart_id: String?,
+            cart_quan: String?
+        )
+
+        fun onRemoveItemClick(
+            productId: String?,
+            quantity: String?,
+            isCustomize: String?,
+            prodcustCustomizeId: String?,
+            cart_id: String?,
+            cart_quan:String?
+        )
+    }
+
+
 }

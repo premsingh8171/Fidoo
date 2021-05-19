@@ -170,8 +170,9 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             )
         }
 
+        rvlistProduct(productList!!)
         //to get data from database
-       getRoomData()
+        getRoomData()
 
         //Here we have got api response from observer
         viewmodel?.GroceryProductsResponse?.observe(this, { grocery ->
@@ -181,6 +182,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             catList.clear()
             subcatList.clear()
             productList!!.clear()
+
             if (grocery.category.isNotEmpty()) {
                 if (!grocery.error) {
                     Log.e("Grocery", Gson().toJson(grocery))
@@ -447,8 +449,9 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                  if(onresumeHandle==0) {
                      productList = t as ArrayList<Product>?
                      Log.d("roomdatabase_", productList!!.size.toString())
+                     groceryItemAdapter.setFilter(productList!!)
 
-                     rvlistProduct(productList!!)
+                    // rvlistProduct(productList!!)
                      rvlistSubcategory(subcatList)
 
                      dismissIOSProgress()
@@ -462,8 +465,21 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
                 })
             },
-            100
+            10
         )
+    }
+
+    //delete room data
+    private fun deleteRoomDataBase() {
+        Thread{
+            productsDatabase = Room.databaseBuilder(
+                applicationContext,
+                ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
+            productsDatabase!!.productsDaoAccess()!!.deleteAll()
+
+        }.start()
     }
 
     private fun catPopUp() {
@@ -511,11 +527,13 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 //                filterListShowing(0, catList[i])
 //            }
             showIOSProgress()
+            deleteRoomDataBase()
             viewmodel?.getGroceryProductsFun(
                 SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accountId,
                 SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
                 storeID,cat_id,sub_cat_id
             )
+            getRoomData()
         })
 
         rvCategory(catList)
@@ -591,14 +609,15 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     itemPosition = 0
                     viewAll = 0
                     sub_cat_id=""
-                    //  filterListShowing(pos, grocery)
+
+                    deleteRoomDataBase()
                     showIOSProgress()
                     viewmodel?.getGroceryProductsFun(
                         SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accountId,
                         SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
                         storeID,cat_id,sub_cat_id
                     )
-
+                    getRoomData()
                     //   Log.d("subcategoryAdapter__", pos.toString())
                     //  sub_cat_rv.adapter = subcategoryAdapter
                     //  subcategoryAdapter?.updateReceiptsList(pos)
@@ -606,6 +625,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 }
             })
     }
+
+
 
     //Filter data showing by category
     private fun filterListShowing(pos: Int, grocery: Category) {
@@ -805,26 +826,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     override fun onRemoveItemClick(productId: String?, quantity: String?, isCustomize: String?, prodcustCustomizeId: String?, cart_id: String?
     ) {
-//        Log.d("onRemoveItemClick_count", quantity!!)
-//
-//        if (!isNetworkConnected) {
-//            showToast(resources.getString(R.string.provide_internet))
-//
-//        } else {
-//            //showIOSProgress()
-//            if (cart_id != null) {
-//                viewmodel?.addRemoveCartDetails(
-//                        SessionTwiclo(this).loggedInUserDetail.accountId,
-//                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                        productId!!,
-//                        "remove",
-//                        isCustomize!!,
-//                        prodcustCustomizeId!!,
-//                        cart_id,
-//                        customIdsList!!
-//                )
-//            }
-//        }
     }
 
     private fun showLoginDialog(message: String) {
