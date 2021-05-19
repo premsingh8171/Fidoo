@@ -1,49 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/store_lay"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginBottom="15dp"
+    android:layout_marginBottom="@dimen/margin_15dp"
+    android:orientation="vertical"
     android:background="@color/white">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/productImg"
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:scaleType="fitXY"
-        app:shapeAppearanceOverlay="@style/RoundedSequare"
-        android:layout_margin="15dp" />
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_margin="@dimen/margin_10"
+            android:id="@+id/productImg"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:scaleType="fitXY"
+            app:shapeAppearanceOverlay="@style/RoundedSequare"/>
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:padding="@dimen/margin_2dp"
+                android:layout_alignRight="@+id/productImg"
+                android:id="@+id/storeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/productImg"
+                android:fontFamily="@font/proxima"
+                android:maxLines="1"
+                android:text="Store name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <LinearLayout
+                android:padding="@dimen/margin_2dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:backgroundTint="@color/black"
+                        android:layout_width="@dimen/text_size_17sp"
+                        android:layout_height="@dimen/text_size_17sp"
+                        android:background="@drawable/watch_icon"
+                        android:contentDescription="TODO"
+                        tools:ignore="ContentDescription"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_deliveryTime"
+                        android:text="12Am"
+                        android:textSize="12sp"
+                        android:layout_marginStart="5dp"
+                        android:textColor="@color/colorTextGray"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="15dp">
+
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:paddingBottom="@dimen/margin_10"
+                        android:paddingTop="@dimen/margin_10"
+                        android:layout_width="@dimen/margin_15dp"
+                        android:layout_height="@dimen/margin_10"
+                        android:background="@drawable/pin"
+                        android:contentDescription="TODO"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/tv_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_1_2km"
+                        android:textColor="@color/colorTextGray"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:padding="@dimen/margin_2dp"
+                    android:id="@+id/closing_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btn_like"
+                    android:fontFamily="@font/proxima"
+                    android:maxLines="1"
+                    android:text="closing time"
+                    android:layout_marginEnd="15dp"
+                    android:textSize="11sp"
+                    android:layout_alignBaseline="@id/cuisine_types"
+                    android:layout_alignParentEnd="true" />
+                <TextView
+                    android:paddingEnd="@dimen/margin_10"
+                    android:gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/open_close_status"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@string/open"
+                    android:textSize="12sp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/storeName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/productImg"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/proxima"
-        android:maxLines="1"
-        android:text=""
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:layout_marginStart="15dp"/>
-
-    <TextView
-        android:id="@+id/closing_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_like"
-        android:fontFamily="@font/proxima"
-        android:maxLines="1"
-        android:text="closing time"
-        android:layout_marginEnd="15dp"
-        android:textSize="11sp"
-        android:layout_marginStart="10dp"
-        android:layout_alignBaseline="@id/cuisine_types"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
+        android:visibility="gone"
         android:id="@+id/cuisine_types"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -55,9 +153,6 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="@dimen/margin_10dp"
         android:layout_marginEnd="@dimen/margin_20dp"/>
-
-
-
 
     <ImageView
         android:id="@+id/btn_like"
@@ -75,6 +170,7 @@
 
 
     <View
+        android:visibility="gone"
         android:id="@+id/v1"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
@@ -85,6 +181,7 @@
         android:layout_marginRight="10dp"/>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/locationLyt"
@@ -92,46 +189,6 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:weightSum="3">
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/open_close_status"
-            android:textColor="@color/colorPrimary"
-            android:text="@string/open"
-            android:textSize="12sp"
-            android:layout_marginStart="15dp"
-            android:layout_weight="1"/>
-
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="15dp">
-
-            <ImageView
-                android:layout_width="9dp"
-                android:layout_height="12dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/location_icon"
-                android:contentDescription="TODO"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:id="@+id/tv_location"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:text="@string/_1_2km"
-                android:textColor="@color/colorTextGray"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -161,35 +218,10 @@
         </LinearLayout>
 
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/watch_icon"
-                android:contentDescription="TODO"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_deliveryTime"
-                android:text=""
-                android:textSize="12sp"
-                android:layout_marginStart="5dp"
-                android:textColor="@color/colorTextGray"/>
-
-
-        </LinearLayout>
     </LinearLayout>
 
     <View
+        android:visibility="gone"
         android:id="@+id/v2"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
@@ -200,4 +232,4 @@
         android:layout_marginRight="10dp"/>
 
 
-</RelativeLayout>
+</LinearLayout>

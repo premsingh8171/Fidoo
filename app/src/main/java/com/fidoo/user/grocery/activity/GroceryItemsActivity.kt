@@ -19,9 +19,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.fidoo.user.CartActivity
 import com.fidoo.user.R
 import com.fidoo.user.SplashActivity
@@ -34,6 +36,7 @@ import com.fidoo.user.grocery.model.getGroceryProducts.Category
 import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.grocery.model.getGroceryProducts.Subcategory
 import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
+import com.fidoo.user.grocery.roomdatabase.database.ProductsEntitiy
 import com.fidoo.user.grocery.viewmodel.GroceryProductsViewModel
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
@@ -80,6 +83,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         var viewAll: Int? = 0
         var multipleclick: Int? = 0
         var onresumeHandle: Int? = 0
+
     }
 
     private var layoutManger: LinearLayoutManager? = null
@@ -95,8 +99,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     private lateinit var mMap: GoogleMap
     var storeID: String? = null
     //roomdb
-    var productsDatabase: ProductsDatabase? = null
-
+    private lateinit var productsDatabase: ProductsDatabase
+   // private lateinit var dao: ProductsDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,12 +111,15 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         setContentView(R.layout.activity_grocery_items)
         viewmodel = ViewModelProviders.of(this).get(GroceryProductsViewModel::class.java)
 
-//        productsDatabase = Room.databaseBuilder(
-//            applicationContext,
-//            ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
-//            .fallbackToDestructiveMigration()
-//            .allowMainThreadQueries()
-//            .build()
+        Thread{
+            productsDatabase = Room.databaseBuilder(
+                applicationContext,
+                ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
+
+        }.start()
+
 
         layoutManger = LinearLayoutManager(this)
         recyclerView = findViewById(R.id.grocery_item_rv)
@@ -163,11 +170,11 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             )
         }
 
-        // rvlistProduct(productsDatabase!!.productsDaoAccess()!!.getAllProducts())
+        //to get data from database
+       getRoomData()
 
         //Here we have got api response from observer
         viewmodel?.GroceryProductsResponse?.observe(this, { grocery ->
-            dismissIOSProgress()
             linear_progress_indicator.visibility = View.GONE
             MainActivity.tempProductList!!.clear()
             MainActivity.addCartTempList!!.clear()
@@ -191,7 +198,31 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                                     val productListObj = subCatObj.product[k]
                                     Log.e("Product", Gson().toJson(subCatObj.product[0]))
                                     productList.add(productListObj)
-                                    //insertList(productList)
+
+                                    Thread{
+//                                        Runnable {
+                                            productsDatabase!!.productsDaoAccess()!!.insertProducts(
+                                                Product(productListObj.cart_quantity,
+                                                productListObj.company_name,
+                                                productListObj.image,
+                                                productListObj.in_out_of_stock_status,
+                                                productListObj.is_customize,
+                                                productListObj.is_customize_quantity,
+                                                productListObj.is_nonveg,
+                                                productListObj.is_prescription,
+                                                productListObj.offer_price,
+                                                productListObj.price,
+                                                productListObj.product_id,
+                                                productListObj.product_name,
+                                                productListObj.unit,
+                                                productListObj.weight,
+                                                productListObj.cart_id,
+                                                productListObj.product_sub_category_id,
+                                                productListObj.product_category_id
+                                            )
+                                            )
+                                        //}
+                                    }.start()
                                 }
                             }else{
 //                                val toast = Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
@@ -203,9 +234,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         }
                         catList.add(catObj)
                     }
-                    // Log.d("kb___", "" + productList[0].cart_quantity)
-                    rvlistSubcategory(subcatList)
-                    rvlistProduct(productList)
+
+                   // Log.d("kb___", "" + productList.size.toString())
+                    //rvlistSubcategory(subcatList)
+                    //rvlistProduct(productList)
 
                 }
             }else{
@@ -254,6 +286,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken
             )
+
+
             //showToast(mModelData.message)
             if (isNetworkConnected) {
                 //showIOSProgress()
@@ -273,11 +307,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
                     }
 
-//                    viewmodel?.getGroceryProductsFun(
-//                            SessionTwiclo(this).loggedInUserDetail.accountId, SessionTwiclo(
-//                            this
-//                    ).loggedInUserDetail.accessToken, store_id
-//                    )
                 } else {
                     var product=Product(product_count!!,productList!![itemPosition!!].company_name,
                         productList!![itemPosition!!].image, productList!![itemPosition!!].in_out_of_stock_status, productList!![itemPosition!!].is_customize,
@@ -291,42 +320,25 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     if (product != null) {
                         productList?.set(itemPosition!!,product!!)
                         groceryItemAdapter.notifyItemChanged(itemPosition!!);
-
                     }
-
-//                    viewmodel?.getGroceryProductsFun(
-//                            "",
-//                            "",
-//                            store_id
-//                    )
-
 
                 }
 
             } else {
                 showInternetToast()
             }
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
         //for plus and minus of item
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
 
-
             Log.e("cart_response", Gson().toJson(user))
             if (isNetworkConnected) {
-
                 viewmodel?.getCartCountApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken
                 )
-
                 if (SessionTwiclo(this).isLoggedIn) {
-//                    viewmodel?.getGroceryProductsFun(
-//                            SessionTwiclo(this).loggedInUserDetail.accountId, SessionTwiclo(
-//                            this
-//                    ).loggedInUserDetail.accessToken, store_id
-//                    )
                     var product=Product(product_count!!,productList!![itemPosition!!].company_name,
                         productList!![itemPosition!!].image, productList!![itemPosition!!].in_out_of_stock_status, productList!![itemPosition!!].is_customize,
                         productList!![itemPosition!!].is_customize_quantity,productList!![itemPosition!!].is_nonveg, productList!![itemPosition!!].is_prescription,
@@ -343,9 +355,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     }
 
                 } else {
-//                    viewmodel?.getGroceryProductsFun(
-//                            "", "", store_id
-//                    )
                     val product=Product(product_count!!,productList!![itemPosition!!].company_name,
                         productList!![itemPosition!!].image, productList!![itemPosition!!].in_out_of_stock_status, productList!![itemPosition!!].is_customize,
                         productList!![itemPosition!!].is_customize_quantity,productList!![itemPosition!!].is_nonveg, productList!![itemPosition!!].is_prescription,
@@ -364,8 +373,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             } else {
                 showInternetToast()
             }
-
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
         //cartcount responce
@@ -430,15 +437,34 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
             }
         })
-
-
-
     }
 
-    private fun insertList(productList: ArrayList<Product>) =
-        productsDatabase!!.productsDaoAccess()!!.insertProducts(productList)
+    //get roomdatabase
+    private fun getRoomData() {
+        Handler().postDelayed(
+            {
+                productsDatabase!!.productsDaoAccess()!!.getAllProducts().observe(this, Observer {t ->
+                 if(onresumeHandle==0) {
+                     productList = t as ArrayList<Product>?
+                     Log.d("roomdatabase_", productList!!.size.toString())
 
+                     rvlistProduct(productList!!)
+                     rvlistSubcategory(subcatList)
 
+                     dismissIOSProgress()
+                 }else{
+                     var productListUpdate: ArrayList<Product> = ArrayList()
+                     productListUpdate = t as ArrayList<Product>
+                     Log.d("productListUpdate", productListUpdate!!.size.toString())
+                     groceryItemAdapter.setFilter(productListUpdate)
+                    // groceryItemAdapter?.notifyDataSetChanged()
+                 }
+
+                })
+            },
+            100
+        )
+    }
 
     private fun catPopUp() {
         selectAreaDiolog = Dialog(this)
@@ -499,19 +525,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     //For Products list
     private fun rvlistProduct(listProduct: ArrayList<Product>) {
         productList=listProduct
-        Log.d("sfsfdcssd", productList?.size.toString())
+        Log.d("productList_value", productList?.size.toString())
         var store_id = intent.getStringExtra("storeId")
-
-//        grocery_item_rv.adapter = intent.getStringExtra("storeId")?.let {
-//            GroceryItemAdapter(
-//                this,
-//                listProduct,
-//                this,
-//                this,
-//                0, it,
-//                "",
-//                )
-//        }
 
         groceryItemAdapter = GroceryItemAdapter(
             this,
@@ -521,8 +536,9 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             0,
             store_id!!, ""
         )
+
         grocery_item_rv?.adapter = groceryItemAdapter
-        Log.d("ddsdsds", itemPosition!!.toString())
+        Log.d("itemPosition_value", itemPosition!!.toString())
         if (viewAll == 1) {
             grocery_item_rv.smoothScrollToPosition(viewAll!!)
         } else {
@@ -739,7 +755,16 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         product_count = count.toInt()
         itemPosition = position
         viewAll = 0
-        showIOSProgress()
+
+        Thread{
+            productsDatabase = Room.databaseBuilder(
+                applicationContext,
+                ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
+            productsDatabase!!.productsDaoAccess()!!.updateProducts(count.toInt(),productId!!)
+
+        }.start()
 
         if (type.equals("add")) {
 
@@ -871,20 +896,23 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             if (isNetworkConnected) {
                 showIOSProgress()
                 itemPosition=0
-                if (SessionTwiclo(this).isLoggedIn) {
-                    //Here we have called Api of getGroceryProducts
-                    viewmodel?.getGroceryProductsFun(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        intent.getStringExtra("storeId"),cat_id,sub_cat_id
-                    )
-                } else {
-                    viewmodel?.getGroceryProductsFun(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        intent.getStringExtra("storeId"),cat_id,sub_cat_id
-                    )
-                }
+//                if (SessionTwiclo(this).isLoggedIn) {
+//                    //Here we have called Api of getGroceryProducts
+//                    viewmodel?.getGroceryProductsFun(
+//                        SessionTwiclo(this).loggedInUserDetail.accountId,
+//                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                        intent.getStringExtra("storeId"),cat_id,sub_cat_id
+//                    )
+//                } else {
+//                    viewmodel?.getGroceryProductsFun(
+//                        SessionTwiclo(this).loggedInUserDetail.accountId,
+//                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                        intent.getStringExtra("storeId"),cat_id,sub_cat_id
+//                    )
+//                }
+
+                getRoomData()
+
                 viewmodel?.getCartCountApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken

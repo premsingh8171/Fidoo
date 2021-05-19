@@ -9,6 +9,8 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +19,10 @@ import android.widget.Toast
 import androidx.navigation.fragment.navArgs
 import com.fidoo.user.R
 import com.fidoo.user.data.SendResponse
+import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.utils.SmsBroadcastReceiver
 import com.google.android.gms.auth.api.phone.SmsRetriever
+import kotlinx.android.synthetic.main.activity_search_item.*
 import kotlinx.android.synthetic.main.fragment_otp.view.*
 import kotlinx.android.synthetic.main.fragment_otp.view.tv_resendOtp
 
@@ -198,6 +202,7 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
 
                     if (code != null) {
                         mView.otp_view.setOTP(code)
+                        verificationApi(mView.otp_view.otp)
                         /*restfullInstance.verificationUser(
                             mData.accesstoken,
                             mData.id,
