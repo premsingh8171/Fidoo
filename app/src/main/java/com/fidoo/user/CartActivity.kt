@@ -18,11 +18,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.fidoo.user.adapter.CartItemsAdapter
 import com.fidoo.user.adapter.StoreCustomItemsAdapter
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.grocery.activity.GroceryItemsActivity.Companion.onresumeHandle
+import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
@@ -81,6 +83,7 @@ class CartActivity : BaseActivity(),
     var storelocation: ArrayList<StoreDetailsModel>? = null
     var storeCustomerDistance = ""
     var isSelected: String = ""
+    private lateinit var productsDatabase: ProductsDatabase
 
 
 
@@ -1011,6 +1014,7 @@ class CartActivity : BaseActivity(),
             if (isNetworkConnected) {
                 showIOSProgress()
                 if (cart_id != null) {
+                    updateProductS(0,productId!!)
                     viewmodel?.deleteCartDetails(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!,
@@ -1035,6 +1039,18 @@ class CartActivity : BaseActivity(),
         alertDialog.setCancelable(false)
         alertDialog.show()
 
+    }
+
+    private fun updateProductS(count: Int,productId:String) {
+        Thread{
+            productsDatabase = Room.databaseBuilder(
+                applicationContext,
+                ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
+            productsDatabase!!.productsDaoAccess()!!.updateProducts(count.toInt(),productId!!)
+
+        }.start()
     }
 
     override fun onAddItemClick(productId: String, quantity: String, offerPrice: String, isCustomize: String, productCustomizeId: String, cart_id: String) {
@@ -1067,6 +1083,8 @@ class CartActivity : BaseActivity(),
                     showIOSProgress()
                     customIdsList!!.clear()
                     if (productId != null) {
+                        updateProductS(quantity.toInt(),productId!!)
+
                         viewmodel?.customizeProductApi(
                             SessionTwiclo(this).loggedInUserDetail.accountId,
                             SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -1080,6 +1098,7 @@ class CartActivity : BaseActivity(),
                 builder.setNegativeButton("REPEAT") { dialogInterface, which ->
                     //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
                     showIOSProgress()
+                    updateProductS(quantity.toInt(),productId!!)
                     viewmodel?.addRemoveCartDetails(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -1099,6 +1118,9 @@ class CartActivity : BaseActivity(),
                 alertDialog.show()
             } else {
                 showIOSProgress()
+                Log.d("dsssfdsfa__",quantity+"----"+productId!!)
+                updateProductS(quantity.toInt(),productId!!)
+
                 viewmodel?.addRemoveCartDetails(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -1122,6 +1144,8 @@ class CartActivity : BaseActivity(),
 
         } else {
             showIOSProgress()
+            updateProductS(quantity.toInt(),productId!!)
+
             viewmodel?.addRemoveCartDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken,

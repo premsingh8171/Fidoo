@@ -83,7 +83,7 @@ class CartItemsAdapter(
                 if (cart[position].customizeItem.size != 0) {
                     adapterCartAddRemoveClick.onAddItemClick(
                             cart[position].productId,
-                            items,
+                            cart[position].quantity,
                             cart[position].offerPrice,
                             cart[position].is_customize,
                             cart[position].customizeItem[0].productCustomizeId,
@@ -91,7 +91,7 @@ class CartItemsAdapter(
                     )} else{
                     adapterCartAddRemoveClick.onAddItemClick(
                             cart[position].productId,
-                            items,
+                            cart[position].quantity,
                             cart[position].offerPrice,cart.get(position).is_customize,"", cart[position].cart_id
                     )
                 }
@@ -105,6 +105,8 @@ class CartItemsAdapter(
                   holder.priceTxt.text =
                       con.resources.getString(R.string.ruppee) + itemPrice.toString()*/
         }
+
+
         holder.minusLay.setOnClickListener {
             if (holder.countValue.text.toString().toInt() > 0) {
 
