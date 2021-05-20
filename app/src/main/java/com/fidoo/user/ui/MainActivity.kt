@@ -193,36 +193,36 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     private fun getCurrentLocation() {
 
-            this?.let {
-                EasyLocation(it, object : EasyLocation.EasyLocationCallBack {
-                    override fun permissionDenied() {
+        this?.let {
+            EasyLocation(it, object : EasyLocation.EasyLocationCallBack {
+                override fun permissionDenied() {
 
-                        Log.e("Location", "permission  denied")
-
-
-                    }
-
-                    override fun locationSettingFailed() {
-
-                        Log.e("Location", "setting failed")
+                    Log.e("Location", "permission  denied")
 
 
-                    }
+                }
 
-                    override fun getLocation(location: Location) {
+                override fun locationSettingFailed() {
 
-                        Log.e(
-                                "Location_lat_lng",
-                                " latitude ${location.latitude} longitude ${location.longitude}"
-                        )
+                    Log.e("Location", "setting failed")
 
-                        SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
-                        SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
-                        SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
-                        userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
-                    }
-                })
-            }
+
+                }
+
+                override fun getLocation(location: Location) {
+
+                    Log.e(
+                        "Location_lat_lng",
+                        " latitude ${location.latitude} longitude ${location.longitude}"
+                    )
+
+                    SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
+                    SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
+                    SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
+                    userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
+                }
+            })
+        }
     }
 
     private fun checkLocation(){
@@ -310,7 +310,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     override fun onResume() {
         super.onResume()
         if (SessionTwiclo(this).userAddress == ""){
-          //  startLocationUpdates()
+            //  startLocationUpdates()
         }
     }
 
@@ -318,7 +318,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(
-            requestCode: Int, permissions: Array<String?>, grantResults: IntArray
+        requestCode: Int, permissions: Array<String?>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
@@ -385,10 +385,10 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             locationRequest.fastestInterval = 2000
             locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             gac = GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build()
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build()
         } else {
             showNetAlert()
         }
@@ -400,7 +400,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         builder.setTitle("Alert")
         builder.setMessage("No internet connection. Please Connect you Internet and Try Again!")
         builder.setPositiveButton(
-                "OK"
+            "OK"
         ) { dialog: DialogInterface?, which: Int ->
 
 
@@ -476,20 +476,20 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     private fun showAlert() {
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle("Enable Location")
-                .setMessage("""Your Locations Settings is set to 'Off'.Please Enable Location to use this app""".trimIndent())
-                .setPositiveButton("Location Settings") { _, _ ->
-                    val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                    this.startActivityForResult(myIntent, 100) }
-                .setNegativeButton("Cancel") { _, _ -> }
+            .setMessage("""Your Locations Settings is set to 'Off'.Please Enable Location to use this app""".trimIndent())
+            .setPositiveButton("Location Settings") { _, _ ->
+                val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                this.startActivityForResult(myIntent, 100) }
+            .setNegativeButton("Cancel") { _, _ -> }
         dialog.show()
     }
 
     @SuppressLint("MissingPermission")
     override fun onConnected(p0: Bundle?) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) { ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
+            this,
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
         )
             return
         } else {
@@ -499,8 +499,8 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             )
             if (ll != null) {
                 SessionTwiclo(this).userAddress = getGeoAddressFromLatLong(
-                        ll!!.latitude,
-                        ll!!.longitude
+                    ll!!.latitude,
+                    ll!!.longitude
                 )
                 SessionTwiclo(this).userLat = ll!!.latitude.toString()
                 SessionTwiclo(this).userLng = ll!!.longitude.toString()

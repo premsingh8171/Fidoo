@@ -136,16 +136,29 @@
 
 
     <TextView
+        android:id="@+id/resendOtp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="Didn't receive verification OTP?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView4" />
+
+    <TextView
         android:id="@+id/tv_resendOtp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:maxLines="1"
-        android:text="Didn't received verification OTP Resend Again"
+        android:text="Resend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView4" />
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/resendOtp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

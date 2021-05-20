@@ -172,7 +172,7 @@ class StoreItemsAdapter(
                                 items,
                                 index.offerPrice,
                                 index.isCustomize,
-                                index.customizeItem[position].productCustomizeId,
+                                index.customizeItem[0].productCustomizeId,
                                 productList[position].cartId
                             )
                         } else {
@@ -191,10 +191,10 @@ class StoreItemsAdapter(
                     count++
                     holder.countValue.text = count.toString()
                     adapterAddRemoveClick.onItemAddRemoveClick(
-                            index.productId,
-                            count.toString(),
-                            "add",
-                            index.offerPrice, "",
+                        index.productId,
+                        count.toString(),
+                        "add",
+                        index.offerPrice, "",
                         productList[position].cartId,0
                     )
                 }

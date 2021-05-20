@@ -17,15 +17,15 @@ import kotlinx.android.synthetic.main.review_popup.view.*
 
 
 class CartItemsAdapter(
-        val con: Context,
-        val cart: MutableList<com.fidoo.user.data.model.CartModel.Cart>,
-        private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
-        private val adapterClick: AdapterClick
+    val con: Context,
+    val cart: MutableList<com.fidoo.user.data.model.CartModel.Cart>,
+    private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
+    private val adapterClick: AdapterClick
 ) : RecyclerView.Adapter<CartItemsAdapter.UserViewHolder>() {
-   var product_count:Int=0
+    var product_count:Int=0
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.cart_item, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.cart_item, parent, false)
     )
 
     override fun getItemCount() = cart.size
@@ -35,10 +35,8 @@ class CartItemsAdapter(
         holder.itemName.text = cart[position].productName
         holder.countValue.text = cart[position].quantity
         /*  holder.plusLay.setOnClickListener {
-
           }
           holder.minusLay.setOnClickListener {
-
           }*/
         var items: String? = ""
         if (cart.get(position).customizeItem != null) {
@@ -84,26 +82,24 @@ class CartItemsAdapter(
 
                 if (cart[position].customizeItem.size != 0) {
                     adapterCartAddRemoveClick.onAddItemClick(
-                            cart[position].productId,
-                            items,
-                            cart[position].offerPrice,
-                            cart[position].is_customize,
-                            cart[position].customizeItem[0].productCustomizeId,
-                            cart[position].cart_id, count.toString()
+                        cart[position].productId,
+                        items,
+                        cart[position].offerPrice,
+                        cart[position].is_customize,
+                        cart[position].customizeItem[0].productCustomizeId,
+                        cart[position].cart_id, count.toString()
                     )} else{
                     adapterCartAddRemoveClick.onAddItemClick(
-                            cart[position].productId,
-                            items,
-                            cart[position].offerPrice,cart.get(position).is_customize,"", cart[position].cart_id
-                   ,count.toString())
+                        cart[position].productId,
+                        items,
+                        cart[position].offerPrice,cart.get(position).is_customize,"", cart[position].cart_id
+                        ,count.toString())
                 }
             }
             /*      var count: Int=holder.countValue.text.toString().toInt()
                      count++
                   holder.countValue.setText(count.toString())
-
                   var itemPrice: Int= count.toString().toInt() * cart.get(position).offerPrice.toString().toInt()
-
                   holder.priceTxt.text =
                       con.resources.getString(R.string.ruppee) + itemPrice.toString()*/
         }
@@ -123,11 +119,11 @@ class CartItemsAdapter(
                             count.toString())}
                     else{
                         adapterCartAddRemoveClick.onRemoveItemClick(
-                                cart[position].productId,
-                                cart[position].quantity,
-                                cart[position].is_customize,
-                                "",
-                                cart[position].cart_id,count.toString()
+                            cart[position].productId,
+                            cart[position].quantity,
+                            cart[position].is_customize,
+                            "",
+                            cart[position].cart_id,count.toString()
                         )
                     }
                 }
@@ -142,10 +138,10 @@ class CartItemsAdapter(
 
                 if (count > 0) {
                     var itemPrice: Int =
-                            count.toString().toInt() * cart.get(position).offerPrice.toString().toInt()
+                        count.toString().toInt() * cart.get(position).offerPrice.toString().toInt()
 
                     holder.priceTxt.text =
-                            con.resources.getString(R.string.ruppee) + itemPrice.toString()
+                        con.resources.getString(R.string.ruppee) + itemPrice.toString()
                 }
             }
 

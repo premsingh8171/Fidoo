@@ -63,7 +63,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
                 ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
                 .fallbackToDestructiveMigration()
                 .build()
-             productsDatabase!!.productsDaoAccess()!!.deleteAll()
+            productsDatabase!!.productsDaoAccess()!!.deleteAll()
 
         }.start()
         apicall(serive_id)
@@ -126,27 +126,27 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
             if (SessionTwiclo(this).isLoggedIn){
                 if (serive_id != null) {
                     storeListingViewModel!!.getStores(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            serive_id,
-                            SessionTwiclo(this).userLat,
-                            SessionTwiclo(this).userLng,
-                            "",
-                            "",
-                            selectedValue
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        serive_id,
+                        SessionTwiclo(this).userLat,
+                        SessionTwiclo(this).userLng,
+                        "",
+                        "",
+                        selectedValue
                     )
                 }
             }else{
                 if (serive_id != null) {
                     storeListingViewModel!!.getStores(
-                            "",
-                            "",
-                            serive_id,
-                            SessionTwiclo(this).userLat,
-                            SessionTwiclo(this).userLng,
-                            "",
-                            "",
-                            selectedValue
+                        "",
+                        "",
+                        serive_id,
+                        SessionTwiclo(this).userLat,
+                        SessionTwiclo(this).userLng,
+                        "",
+                        "",
+                        selectedValue
                     )
                 }
             }
@@ -191,7 +191,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
     override fun startActivityForResult(intent: Intent?, requestCode: Int) {
         super.startActivityForResult(intent, requestCode)
-       // Log.d("sfdhjfdds","aaya")
+        // Log.d("sfdhjfdds","aaya")
         Thread{
             productsDatabase = Room.databaseBuilder(
                 applicationContext,

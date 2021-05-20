@@ -116,10 +116,10 @@ class ProfileFragment : Fragment() {
 
         mView.action_logout.setOnClickListener {
 
-            if (SessionTwiclo(requireContext()).isLoggedIn){
+            if (sessionTwiclo!!.isLoggedIn){
                 viewmodel?.logoutapi(
-                    SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
-                    SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
+                    sessionTwiclo!!.loggedInUserDetail.accountId,
+                    sessionTwiclo!!.loggedInUserDetail.accessToken
                 )
 
             }else{
