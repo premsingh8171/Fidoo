@@ -98,11 +98,9 @@ public class StoreDetailsModel {
     }
 
     public class Product {
-
         @SerializedName("product_id")
         @Expose
         public String productId;
-
         @SerializedName("product_name")
         @Expose
         public String productName;

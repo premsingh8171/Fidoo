@@ -66,11 +66,10 @@ class StoreItemsActivity :
     lateinit var storeID : String
 
     companion object {
-
         var customerLatitude: String = ""
         var customerLongitude: String = ""
-
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val window: Window = this.getWindow()
@@ -118,8 +117,6 @@ class StoreItemsActivity :
             }
 
         }
-
-
 
         backIcon.setOnClickListener {
             finish()
@@ -189,8 +186,6 @@ class StoreItemsActivity :
 
         if (isNetworkConnected) {
             if (SessionTwiclo(this).isLoggedIn) {
-
-
                 viewmodel?.getStoreDetails(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -205,7 +200,6 @@ class StoreItemsActivity :
                     SessionTwiclo(this).loggedInUserDetail.accessToken
                 )
             } else {
-
 
                 viewmodel?.getStoreDetails(
                     "",
@@ -623,7 +617,6 @@ class StoreItemsActivity :
     }
 
     override fun onBackPressed() {
-
         if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
             super.onBackPressed()
         } else {
@@ -660,51 +653,49 @@ class StoreItemsActivity :
         alertDialog.show()
     }
 
-    override fun onResume() {
-        super.onResume()
-        storeID = intent.getStringExtra("storeId")!!
-        tv_cuisnes.text = intent.getStringExtra("cuisine_types")
-        tv_distance.text = intent.getStringExtra("distance") + "kms"
-
-        Log.d("OnRESUME", "RESUME")
-        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        if (SessionTwiclo(this).isLoggedIn) {
-            viewmodel?.getCartCountApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
-            )
-        }
-
-
-
-        if (isNetworkConnected) {
-            showIOSProgress()
-            if (SessionTwiclo(this).isLoggedIn) {
-                viewmodel?.getStoreDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    intent.getStringExtra("storeId"),
-                    "",
-                    intent.getStringExtra("catId")
-
-                )
-            } else {
-                viewmodel?.getStoreDetails(
-                    "",
-                    "",
-                    intent.getStringExtra("storeId"),
-                    "",
-                    intent.getStringExtra("catId")
-
-                )
-            }
-
-        } else {
-            showInternetToast()
-        }
-    }
-
-
+//    override fun onResume() {
+//        super.onResume()
+//        storeID = intent.getStringExtra("storeId")!!
+//        tv_cuisnes.text = intent.getStringExtra("cuisine_types")
+//        tv_distance.text = intent.getStringExtra("distance") + "kms"
+//
+//        Log.d("OnRESUME", "RESUME")
+//        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+//        if (SessionTwiclo(this).isLoggedIn) {
+//            viewmodel?.getCartCountApi(
+//                SessionTwiclo(this).loggedInUserDetail.accountId,
+//                SessionTwiclo(this).loggedInUserDetail.accessToken
+//            )
+//        }
+//
+//
+//
+//        if (isNetworkConnected) {
+//            showIOSProgress()
+//            if (SessionTwiclo(this).isLoggedIn) {
+//                viewmodel?.getStoreDetails(
+//                    SessionTwiclo(this).loggedInUserDetail.accountId,
+//                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                    intent.getStringExtra("storeId"),
+//                    "",
+//                    intent.getStringExtra("catId")
+//
+//                )
+//            } else {
+//                viewmodel?.getStoreDetails(
+//                    "",
+//                    "",
+//                    intent.getStringExtra("storeId"),
+//                    "",
+//                    intent.getStringExtra("catId")
+//
+//                )
+//            }
+//
+//        } else {
+//            showInternetToast()
+//        }
+//    }
 
     override fun onItemClick(
         productId: String?,
@@ -870,7 +861,6 @@ class StoreItemsActivity :
         var tempIdPrice: Double? = 0.0
         //plusMinusPrice = 0.0
         tempPrice = 0.0
-
 
 
         for (i in 0 until customIdsListTemp!!.size) {
@@ -1045,16 +1035,7 @@ class StoreItemsActivity :
                         check = "remove"
                         checkPos = i
                         break
-                        //  addCartTempList!!.removeAt(i)
-                        //   tempProductList!!.removeAt(i)
-
                     }
-
-
-                    /*else {
-                    tempProductList!!.get(i).quantity = count
-                    addCartTempList!!.get(i).quantity = count
-                }*/
                 }
             }
             Log.d("checkpos", checkPos.toString())
