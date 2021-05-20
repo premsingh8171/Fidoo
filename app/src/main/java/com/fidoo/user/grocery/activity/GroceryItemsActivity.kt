@@ -466,6 +466,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                    // onresumeHandle=0
 
                 })
+                dismissIOSProgress()
+
             },
             10
         )
