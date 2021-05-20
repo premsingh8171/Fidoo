@@ -17,6 +17,7 @@ import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
@@ -422,5 +423,11 @@ class StoreItemsAdapter(
         var customizable = view.tv_customizable
     }
 
+
+    fun updateData(listData_: ArrayList<StoreDetailsModel.Product>) {
+        arraylist = java.util.ArrayList<StoreDetailsModel.Product>()
+        arraylist.addAll(listData_)
+        notifyDataSetChanged()
+    }
 
 }
