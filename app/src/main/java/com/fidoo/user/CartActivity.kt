@@ -25,7 +25,6 @@ import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.grocery.activity.GroceryItemsActivity.Companion.onresumeHandle
 import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
-import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
 import com.fidoo.user.interfaces.CustomCartAddRemoveClick
@@ -53,7 +52,7 @@ import java.lang.NullPointerException
 
 @Suppress("DEPRECATION")
 class CartActivity : BaseActivity(),
-    AdapterCartAddRemoveClick,
+    CartItemsAdapter.AdapterCartAddRemoveClick,
     AdapterClick,
     CustomCartAddRemoveClick,
     AdapterCustomRadioClick, PaymentResultListener {
@@ -1053,115 +1052,6 @@ class CartActivity : BaseActivity(),
         }.start()
     }
 
-    override fun onAddItemClick(productId: String, quantity: String, offerPrice: String, isCustomize: String, productCustomizeId: String, cart_id: String) {
-
-        if (!isNetworkConnected) {
-            showToast(resources.getString(R.string.provide_internet))
-
-        } else {
-
-            if (!quantity.equals("")) {
-                tempOfferPrice = offerPrice
-                tempProductId = productId
-                val builder = AlertDialog.Builder(this)
-                //set title for alert dialog
-                builder.setTitle("Your previous customization")
-                //set message for alert dialog
-                builder.setMessage(quantity)
-                // builder.setIcon(android.R.drawable.ic_dialog_alert)
-
-                //performing positive action
-                builder.setPositiveButton("I'LL CHOOSE") { dialogInterface, which ->
-
-                    if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                        behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
-                    } else {
-                        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-                    }
-
-                    //  tempProductId = productId
-                    showIOSProgress()
-                    customIdsList!!.clear()
-                    if (productId != null) {
-                        updateProductS(quantity.toInt(),productId!!)
-
-                        viewmodel?.customizeProductApi(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            productId
-                        )
-                    }
-                    //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
-                }
-
-                //performing negative action
-                builder.setNegativeButton("REPEAT") { dialogInterface, which ->
-                    //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
-                    showIOSProgress()
-                    updateProductS(quantity.toInt(),productId!!)
-                    viewmodel?.addRemoveCartDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        productId,
-                        "add",
-                        isCustomize,
-                        productCustomizeId,
-                        cart_id,
-                        customIdsList!!
-                    )
-
-                }
-                // Create the AlertDialog
-                val alertDialog: AlertDialog = builder.create()
-                // Set other dialog properties
-                alertDialog.setCancelable(true)
-                alertDialog.show()
-            } else {
-                showIOSProgress()
-                Log.d("dsssfdsfa__",quantity+"----"+productId!!)
-                updateProductS(quantity.toInt(),productId!!)
-
-                viewmodel?.addRemoveCartDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    productId,
-                    "add",
-                    isCustomize,
-                    productCustomizeId,
-                    cart_id!!,
-                    customIdsList!!
-                )
-                onresumeHandle=1
-            }
-
-
-        }
-    }
-
-    override fun onRemoveItemClick(productId: String, quantity: String, isCustomize: String, productCustomizeId: String, cart_id: String) {
-        if (!isNetworkConnected) {
-            showToast(resources.getString(R.string.provide_internet))
-
-        } else {
-            showIOSProgress()
-            updateProductS(quantity.toInt(),productId!!)
-
-            viewmodel?.addRemoveCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                productId,
-                "remove",
-                isCustomize,
-                productCustomizeId,
-                cart_id,
-                customIdsList!!
-            )
-            onresumeHandle=1
-        }
-
-
-    }
-
     fun uplaodGallaryImage(mImagePth: String?) {
         /* if (!isNetworkConnected()) {
              showToast(resources.getString(R.string.provide_internet))
@@ -1317,6 +1207,123 @@ class CartActivity : BaseActivity(),
         customAddBtn.text = resources.getString(R.string.ruppee) + tempPricee.toString()
 
 
+    }
+
+    override fun onAddItemClick(
+        productId: String?,
+        items: String?,
+        offerPrice: String?,
+        isCustomize: String?,
+        prodcustCustomizeId: String?,
+        cart_id: String?,
+        cart_quan: String?
+    ) {
+        if (!isNetworkConnected) {
+            showToast(resources.getString(R.string.provide_internet))
+
+        } else {
+
+            if (!items.equals("")) {
+                tempOfferPrice = offerPrice
+                tempProductId = productId
+                val builder = AlertDialog.Builder(this)
+                //set title for alert dialog
+                builder.setTitle("Your previous customization")
+                //set message for alert dialog
+                builder.setMessage(items)
+                // builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+                //performing positive action
+                builder.setPositiveButton("I'LL CHOOSE") { dialogInterface, which ->
+
+                    if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                        behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+                    } else {
+                        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+                    }
+
+                    //  tempProductId = productId
+                    showIOSProgress()
+                    customIdsList!!.clear()
+                    if (productId != null) {
+                        updateProductS(cart_quan!!.toInt(),productId!!)
+
+                        viewmodel?.customizeProductApi(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            productId
+                        )
+                    }
+                }
+
+                //performing negative action
+                builder.setNegativeButton("REPEAT") { dialogInterface, which ->
+                    //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
+                    showIOSProgress()
+                    updateProductS(cart_quan!!.toInt(),productId!!)
+                    viewmodel?.addRemoveCartDetails(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        productId,
+                        "add",
+                        isCustomize!!,
+                        prodcustCustomizeId!!,
+                        cart_id!!,
+                        customIdsList!!
+                    )
+
+                }
+                val alertDialog: AlertDialog = builder.create()
+                alertDialog.setCancelable(true)
+                alertDialog.show()
+            } else {
+                showIOSProgress()
+                updateProductS(cart_quan!!.toInt(),productId!!)
+                onresumeHandle=1
+
+                viewmodel?.addRemoveCartDetails(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    productId,
+                    "add",
+                    isCustomize!!,
+                    prodcustCustomizeId!!,
+                    cart_id!!,
+                    customIdsList!!
+                )
+            }
+
+
+        }
+    }
+
+    override fun onRemoveItemClick(
+        productId: String?,
+        quantity: String?,
+        isCustomize: String?,
+        prodcustCustomizeId: String?,
+        cart_id: String?,
+        cart_quan: String?
+    ) {
+        if (!isNetworkConnected) {
+            showToast(resources.getString(R.string.provide_internet))
+
+        } else {
+            showIOSProgress()
+            updateProductS(cart_quan!!.toInt(),productId!!)
+            onresumeHandle=1
+
+            viewmodel?.addRemoveCartDetails(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                productId,
+                "remove",
+                isCustomize!!,
+                prodcustCustomizeId!!,
+                cart_id!!,
+                customIdsList!!
+            )
+        }
     }
 
 

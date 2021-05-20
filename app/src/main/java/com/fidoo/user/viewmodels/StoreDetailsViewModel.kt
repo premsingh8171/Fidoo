@@ -212,6 +212,7 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
         cat_id: String?
     ) {
         // progressDialog?.value = true
+        Log.d("storeDetail_value",accountId+"\n"+accessToken+"\n"+store_id+"\n"+cat_id)
         WebServiceClient.client.create(BackEndApi::class.java).getStoreDetailsApi(
             accountId = accountId,
             accessToken = accessToken,

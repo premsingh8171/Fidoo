@@ -127,7 +127,7 @@ class GroceryItemAdapter(
                             storeID,
                             "",position
                         )
-
+                        SessionTwiclo(context).storeId=storeID
                     } else {
 
                         val builder = AlertDialog.Builder(context)

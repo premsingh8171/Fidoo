@@ -74,6 +74,7 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
         addCartInputModelFinal.cart_id = cart_id
 
         //for (i in 0..products.size-1) {
+        try {
             var temp = Product(
                 products.get(0).productId,
                 products.get(0).customizeSubCatId,
@@ -82,6 +83,10 @@ class GroceryProductsViewModel(application: Application) : AndroidViewModel(appl
                 products.get(0).quantity
             )
             addCartInputModelFinal.products.add(temp)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
         //}
         addCartInputModelList.add(addCartInputModelFinal)
         WebServiceClient.client.create(BackEndApi::class.java).addToCartApi(addCartInputModelFinal)
