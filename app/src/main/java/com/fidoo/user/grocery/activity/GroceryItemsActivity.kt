@@ -596,11 +596,13 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     Log.d("grocery___", subgrocery.sub_cat_id)
                     showIOSProgress()
                     // filterListShowingSub(pos, subgrocery)
+                    deleteRoomDataBase()
                     viewmodel?.getGroceryProductsFun(
                         SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accountId,
                         SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
                         storeID,cat_id,sub_cat_id
                     )
+                    getRoomData()
                 }
             },selectedValue)
 
