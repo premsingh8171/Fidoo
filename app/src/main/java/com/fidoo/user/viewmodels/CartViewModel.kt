@@ -346,7 +346,12 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
     }
 
     override fun onResponse(call: Call<CartModel>?, response: Response<CartModel>?) {
-        getCartDetailsResponse?.value = response?.body()
+        try {
+            getCartDetailsResponse?.value = response?.body()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
 
     }
 
