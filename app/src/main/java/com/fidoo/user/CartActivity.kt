@@ -1279,6 +1279,7 @@ class CartActivity : BaseActivity(),
             } else {
                 showIOSProgress()
                 updateProductS(cart_quan!!.toInt(),productId!!)
+                onresumeHandle=1
 
                 viewmodel?.addRemoveCartDetails(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -1290,7 +1291,6 @@ class CartActivity : BaseActivity(),
                     cart_id!!,
                     customIdsList!!
                 )
-                onresumeHandle=1
             }
 
 
@@ -1311,6 +1311,7 @@ class CartActivity : BaseActivity(),
         } else {
             showIOSProgress()
             updateProductS(cart_quan!!.toInt(),productId!!)
+            onresumeHandle=1
 
             viewmodel?.addRemoveCartDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -1322,7 +1323,6 @@ class CartActivity : BaseActivity(),
                 cart_id!!,
                 customIdsList!!
             )
-            onresumeHandle=1
         }
     }
 
