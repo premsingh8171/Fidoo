@@ -290,7 +290,7 @@ class StoreItemsActivity :
                             productList[0].cartId
                         )
                     storeItemsRecyclerview.adapter = storeItemsAdapter
-                //  countRes=1
+                  countRes=1
                 }else{
                     storeItemsAdapter.updateData(productList)
                 }
