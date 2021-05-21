@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -32,7 +31,7 @@ import com.fidoo.user.databinding.FragmentHomeBinding
 import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.CardSliderLayoutManager
 import com.fidoo.user.utils.CardSnapHelper
-import com.fidoo.user.view.address.SavedAddressesActivity
+import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.HomeFragmentViewModel
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
@@ -40,7 +39,6 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.gson.Gson
-import com.robin.locationgetter.EasyLocation
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -458,22 +456,17 @@ class HomeFragment : Fragment() {
         Log.d("MainActivity____", "request code $requestCode resultcode $resultCode")
 
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            when (resultCode) {
-                Activity.RESULT_OK -> {
+
                     fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
-                    Log.d("dfdffddf", SessionTwiclo(context).userAddress)
-                }
-                AutocompleteActivity.RESULT_ERROR -> { // TODO: Handle the error.
-                    val status: Status = Autocomplete.getStatusFromIntent(data!!)
-                    Toast.makeText(context, "Error: " + status.statusMessage, Toast.LENGTH_LONG)
-                        .show()
-                    // Log.i(FragmentActivity.TAG, status.statusMessage)
-                }
-                Activity.RESULT_CANCELED -> { // The user canceled the operation.
-                }
+
+//                AutocompleteActivity.RESULT_ERROR -> { // TODO: Handle the error.
+//                    val status: Status = Autocomplete.getStatusFromIntent(data!!)
+//                    Toast.makeText(context, "Error: " + status.statusMessage, Toast.LENGTH_LONG)
+//                        .show()
+//                    // Log.i(FragmentActivity.TAG, status.statusMessage)
+//                }
             }
         }
-    }
 
     fun onSearchCalled() { // Set the fields to specify which types of place data to return.
         val fields = Arrays.asList(
@@ -490,7 +483,6 @@ class HomeFragment : Fragment() {
             .build(context as Activity)
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -588,8 +580,6 @@ class HomeFragment : Fragment() {
     }
 
     private class OnCardClickListener : View.OnClickListener {
-        override fun onClick(view: View) {
-
-        }
+        override fun onClick(view: View) {}
     }
 }

@@ -86,7 +86,7 @@
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".view.address.SavedAddressesActivity"
+        <activity android:name=".addressmodule.address.SavedAddressesActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".LoginActivity"
@@ -120,7 +120,7 @@
         <activity android:name=".SendPackageActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".view.ViewPrescriptionActivity"
+        <activity android:name=".addressmodule.ViewPrescriptionActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".profile.EditProfileActivity"

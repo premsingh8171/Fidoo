@@ -16,7 +16,7 @@ import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
 import com.fidoo.user.utils.statusBarTransparent
-import com.fidoo.user.view.ViewPrescriptionActivity
+import com.fidoo.user.addressmodule.ViewPrescriptionActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.activity_order_details.backIcon

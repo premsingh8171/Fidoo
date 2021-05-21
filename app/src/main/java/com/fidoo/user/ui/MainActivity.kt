@@ -309,9 +309,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     override fun onResume() {
         super.onResume()
-        if (SessionTwiclo(this).userAddress == ""){
-          //  startLocationUpdates()
-        }
+//        if (SessionTwiclo(this).userAddress == ""){
+//          //  startLocationUpdates()
+//        }
     }
 
 
