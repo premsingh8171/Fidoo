@@ -16,6 +16,10 @@ interface ProductsDao {
     @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME)
     fun getAllProducts(): LiveData<List<Product>>
 
+    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME +" LIMIT 20")
+    fun getAllProducts2(): LiveData<List<Product>>
+
+
 
     @Query("UPDATE "+ ProductsDatabase.TABLE_NAME +" SET cart_quantity=:quantity WHERE product_id = :product_id")
     fun updateProducts(quantity: Int?, product_id: String)

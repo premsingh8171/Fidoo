@@ -474,7 +474,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     private fun getRoomData() {
         Handler().postDelayed(
             {
-                productsDatabase!!.productsDaoAccess()!!.getAllProducts().observe(this, Observer {t ->
+                productsDatabase!!.productsDaoAccess()!!.getAllProducts2().observe(this, Observer {t ->
                  if(onresumeHandle==0) {
                      productList = t as ArrayList<Product>?
                      Log.d("roomdatabase_", productList!!.size.toString())
@@ -488,7 +488,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                      groceryItemAdapter.setFilter(productListUpdate)
                  }
                    // onresumeHandle=0
-
+                    dismissIOSProgress()
                 })
             },
             10
