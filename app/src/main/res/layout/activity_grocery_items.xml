@@ -141,15 +141,44 @@
             android:layout_marginTop="20dp"
             android:background="@color/colorHint" />
 
-        <LinearLayout
-            android:padding="@dimen/margin_10"
+        <RelativeLayout
+            android:layout_marginTop="@dimen/margin_15dp"
+            android:layout_centerVertical="true"
             android:layout_below="@+id/tv_categories"
-            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <LinearLayout
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginLeft="@dimen/margin_15dp"
+                android:paddingRight="@dimen/dimen_5dp"
+                android:paddingLeft="@dimen/dimen_5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:id="@+id/active_dotLLall"
+                android:background="@drawable/bg_green_roundborder">
+
+
+                <TextView
+                    android:id="@+id/grocery_sub_tvall"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/margin_10"
+                    android:paddingTop="@dimen/dimen_5dp"
+                    android:paddingRight="@dimen/margin_10"
+                    android:paddingBottom="@dimen/dimen_5dp"
+                    android:text="All"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_toRightOf="@+id/active_dotLLall"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:id="@+id/sub_cat_rv"
                 android:layout_width="match_parent"
@@ -158,7 +187,7 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="1" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
 

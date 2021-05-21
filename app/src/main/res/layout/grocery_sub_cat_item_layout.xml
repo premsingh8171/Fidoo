@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="start"
-    android:id="@+id/active_dotLL"
-    android:background="@drawable/bg_green_roundborder"
-    android:layout_margin="@dimen/dimen_5dp">
+    android:id="@+id/grocery_sub_cons"
+    android:layout_gravity="start">
 
     <LinearLayout
-        android:id="@+id/grocery_sub_cons"
+        android:id="@+id/active_dotLL"
+        android:paddingRight="@dimen/margin_10"
+        android:paddingLeft="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/dimen_5dp"
+        android:layout_marginRight="@dimen/dimen_5dp"
+        android:background="@drawable/bg_green_roundborder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
