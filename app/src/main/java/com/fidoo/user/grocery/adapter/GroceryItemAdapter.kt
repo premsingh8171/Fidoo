@@ -2,6 +2,7 @@ package com.fidoo.user.grocery.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
 import com.fidoo.user.data.model.AddCartInputModel
@@ -94,12 +99,42 @@ class GroceryItemAdapter(
             holder.itemView.qua_txt.text = model.cart_quantity.toString()
         }
 
-        Glide.with(context)
-            .load(model.image)
-            .fitCenter()
+//        Glide.with(context)
+//            .load(model.image)
+//            .fitCenter()
+//            .placeholder(R.drawable.about_icon)
+//            .error(R.drawable.about_icon)
+//            .into(holder.itemView.grocery_item_img)
+
+
+//        Picasso.with(mContext)
+//                .load(model.getCover())
+//                .fit()
+//                .transform(transformation)
+//                .into(holder.EdOption_Img);
+        Glide.with(context).load(model.image)
+            .listener(object : RequestListener<Drawable?> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any,
+                    target: Target<Drawable?>,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any,
+                    target: Target<Drawable?>,
+                    dataSource: DataSource,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    return false
+                }
+            })
             .placeholder(R.drawable.about_icon)
-            .error(R.drawable.about_icon)
-            .into(holder.itemView.grocery_item_img)
+            .error(R.drawable.about_icon).into(holder.itemView.grocery_item_img)
 
         if (list[position].in_out_of_stock_status == "1"){
             holder.itemView.stock_status.visibility = View.GONE

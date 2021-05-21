@@ -123,6 +123,7 @@
                     android:layout_alignBaseline="@id/cuisine_types"
                     android:layout_alignParentEnd="true" />
                 <TextView
+                    android:paddingLeft="@dimen/margin_2dp"
                     android:paddingEnd="@dimen/margin_10"
                     android:gravity="end"
                     android:layout_width="wrap_content"

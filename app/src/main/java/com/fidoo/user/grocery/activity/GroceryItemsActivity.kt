@@ -52,6 +52,7 @@ import kotlinx.android.synthetic.main.activity_grocery_items.backIcon
 import kotlinx.android.synthetic.main.activity_grocery_items.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_search_item.*
 import kotlinx.android.synthetic.main.activity_store_items.*
+import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
 import kotlinx.android.synthetic.main.select_cat_popup.*
 
 
@@ -176,6 +177,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         //to get data from database
         getRoomData()
         rvlistProduct(productList!!)
+
 
         //Here we have got api response from observer
         viewmodel?.GroceryProductsResponse?.observe(this, { grocery ->
@@ -418,7 +420,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             finish()
         }
 
-
         searchPrdEt?.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {}
@@ -444,13 +445,36 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
             }
         })
+
+        active_dotLLall.setBackgroundResource(R.drawable.bg_green_roundborder)
+        grocery_sub_tvall.setTextColor(Color.parseColor("#ffffff"))
+
+        active_dotLLall.setOnClickListener {
+            selectedValue=""
+            active_dotLLall.setBackgroundResource(R.drawable.bg_green_roundborder)
+            grocery_sub_tvall.setTextColor(Color.parseColor("#ffffff"))
+            rvlistSubcategory(subcatList)
+//            cat_id = ""
+            subcat_name = ""
+            sub_cat_id=""
+            itemPosition = 0
+            showIOSProgress()
+            deleteRoomDataBase()
+            viewmodel?.getGroceryProductsFun(
+                SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accountId,
+                SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
+                storeID,cat_id,sub_cat_id
+            )
+            getRoomData()
+
+        }
     }
 
     //get roomdatabase
     private fun getRoomData() {
         Handler().postDelayed(
             {
-                productsDatabase!!.productsDaoAccess()!!.getAllProducts().observe(this, Observer {t ->
+                productsDatabase!!.productsDaoAccess()!!.getAllProducts2().observe(this, Observer {t ->
                  if(onresumeHandle==0) {
                      productList = t as ArrayList<Product>?
                      Log.d("roomdatabase_", productList!!.size.toString())
@@ -464,7 +488,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                      groceryItemAdapter.setFilter(productListUpdate)
                  }
                    // onresumeHandle=0
-
+                    dismissIOSProgress()
                 })
                 dismissIOSProgress()
 
@@ -597,7 +621,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     sub_cat_id = subgrocery.sub_cat_id
                     Log.d("grocery___", subgrocery.sub_cat_id)
                     showIOSProgress()
-                    // filterListShowingSub(pos, subgrocery)
+                    active_dotLLall.setBackgroundResource(R.drawable.black_full_rounded_empty)
+                    grocery_sub_tvall.setTextColor(Color.parseColor("#818181"))
                     deleteRoomDataBase()
                     viewmodel?.getGroceryProductsFun(
                         SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accountId,

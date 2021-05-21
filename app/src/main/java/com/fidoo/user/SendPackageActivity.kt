@@ -24,7 +24,7 @@ import com.android.volley.toolbox.Volley
 import com.fidoo.user.data.model.SendPackagesModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterClick
-import com.fidoo.user.view.address.SavedAddressesActivity
+import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.SendPackagesViewModel
 import com.google.gson.Gson
 import com.razorpay.Checkout

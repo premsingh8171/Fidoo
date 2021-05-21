@@ -69,7 +69,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <RelativeLayout
         android:id="@+id/store_details_lay"
         android:layout_width="match_parent"
@@ -460,7 +459,7 @@
 
     <LinearLayout
         android:id="@+id/cartitemView_LLstore"
-        android:visibility="visible"
+        android:visibility="gone"
         android:gravity="center_vertical"
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"

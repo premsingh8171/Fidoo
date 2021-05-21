@@ -1,4 +1,4 @@
-package com.fidoo.user.view.address
+package com.fidoo.user.addressmodule.address
 
 import android.content.Intent
 import android.os.Bundle
@@ -76,8 +76,6 @@ class SavedAddressesActivity : BaseActivity(),
                 showInternetToast()
             }
         }
-
-
 
 
         backIcon_saved_address.setOnClickListener {

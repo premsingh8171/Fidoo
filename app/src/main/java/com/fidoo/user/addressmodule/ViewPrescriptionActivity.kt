@@ -1,4 +1,4 @@
-package com.fidoo.user.view
+package com.fidoo.user.addressmodule
 
 import android.os.Bundle
 import android.util.Log

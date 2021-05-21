@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.store_product.view.*
 class StoreItemsAdapter(
     val con: Context,
     private val adapterClick: AdapterClick,
-    private val productList: ArrayList<StoreDetailsModel.Product>,
+    private var productList: ArrayList<StoreDetailsModel.Product>,
     val catList: ArrayList<StoreDetailsModel.Category>,
     var weight: String,
     var unit: String,
@@ -425,8 +425,8 @@ class StoreItemsAdapter(
 
 
     fun updateData(listData_: ArrayList<StoreDetailsModel.Product>) {
-        arraylist = java.util.ArrayList<StoreDetailsModel.Product>()
-        arraylist.addAll(listData_)
+        productList = java.util.ArrayList<StoreDetailsModel.Product>()
+        productList.addAll(listData_)
         notifyDataSetChanged()
     }
 

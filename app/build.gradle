@@ -57,6 +57,9 @@ android {
     ext {
         kotlin_version = '1.3.50'
     }
+    kapt {
+        generateStubs = true
+    }
 
 //    signingConfigs {
 //        // use for signed apk

@@ -15,14 +15,11 @@ import com.fidoo.user.R
 import com.fidoo.user.SplashActivity
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.profile.EditProfileActivity
-import com.fidoo.user.profile.EditProfileModel
 import com.fidoo.user.profile.EditProfileViewModel
 import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
-import com.fidoo.user.view.address.SavedAddressesActivity
+import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.LogoutViewModel
-import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.lang.Exception
 

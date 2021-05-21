@@ -31,8 +31,7 @@ import com.fidoo.user.data.model.GetAddressModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.MY_PERMISSIONS_REQUEST_CODE
-import com.fidoo.user.view.address.SavedAddressesActivity
-import com.fidoo.user.view.address.SavedAddressesActivity.Companion.savedAddressesActivity
+import com.fidoo.user.addressmodule.address.SavedAddressesActivity.Companion.savedAddressesActivity
 import com.fidoo.user.viewmodels.AddressViewModel
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -228,10 +227,11 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
             } else {
                 if (where.equals("guest")) {
+                    SessionTwiclo(this).userLat = lat.toString()
+                    SessionTwiclo(this).userLng = lng.toString()
+                    SessionTwiclo(this).userAddress=tv_Address.text.toString()
                     savedAddressesActivity.finish().toString()
                     finish()
-                    SessionTwiclo(this).userAddress=tv_Address.text.toString()
-
                 } else {
                     if (ed_name.text.toString().equals("")) {
                         showToast("Please enter your name")

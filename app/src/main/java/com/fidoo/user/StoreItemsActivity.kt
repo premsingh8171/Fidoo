@@ -61,16 +61,20 @@ class StoreItemsActivity :
     var tempType: String? = ""
     var tempCount: String? = ""
     var count: Int = 1
+    var countRes: Int = 0
+    var veg: Int = 0
+    var nonveg: Int = 0
     private lateinit var mMap: GoogleMap
     var cartId: String = ""
     lateinit var storeID : String
 
     companion object {
-
         var customerLatitude: String = ""
         var customerLongitude: String = ""
-
     }
+
+    lateinit var storeItemsAdapter:StoreItemsAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val window: Window = this.getWindow()
@@ -89,8 +93,6 @@ class StoreItemsActivity :
 
         customerLatitude = ""
         customerLongitude = ""
-
-
 
 
         viewmodel = ViewModelProviders.of(this).get(StoreDetailsViewModel::class.java)
@@ -118,8 +120,6 @@ class StoreItemsActivity :
             }
 
         }
-
-
 
         backIcon.setOnClickListener {
             finish()
@@ -189,8 +189,6 @@ class StoreItemsActivity :
 
         if (isNetworkConnected) {
             if (SessionTwiclo(this).isLoggedIn) {
-
-
                 viewmodel?.getStoreDetails(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -205,7 +203,6 @@ class StoreItemsActivity :
                     SessionTwiclo(this).loggedInUserDetail.accessToken
                 )
             } else {
-
 
                 viewmodel?.getStoreDetails(
                     "",
@@ -226,7 +223,8 @@ class StoreItemsActivity :
         //cartcount responce
         viewmodel?.cartCountResponse?.observe(this,{cartcount->
             dismissIOSProgress()
-
+            addCartTempList!!.clear()
+            tempProductList!!.clear()
             //Log.d("cartCountResponse___",cartcount.toString())
             var count = cartcount.count
             var price = cartcount.price
@@ -252,8 +250,7 @@ class StoreItemsActivity :
             linear_progress_indicator.visibility = View.GONE
             tempProductList!!.clear()
             addCartTempList!!.clear()
-            Log.e("store details response", Gson().toJson(storeData))
-
+            Log.e("stor_edetails_res", Gson().toJson(storeData))
 
             val productList: ArrayList<StoreDetailsModel.Product> = ArrayList()
             val catList: ArrayList<StoreDetailsModel.Category> = ArrayList()
@@ -274,24 +271,12 @@ class StoreItemsActivity :
 
                 var catName = catList.size
 
-
-                /*for (i in 0 until storeData.category.size)
-            {
-                var name = catList[i]
-                catList.add(name)
-                Log.d("kb",""+name)
-
-            }*/
+                if(countRes==0) {
 
 
-                //Log.d("kb", "" + productList.toString())
-
-
-                storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)
-                storeItemsRecyclerview.setHasFixedSize(true)
-
-                val adapter = storeID?.let {
-                    StoreItemsAdapter(
+                    storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)
+                    storeItemsRecyclerview.setHasFixedSize(true)
+                    storeItemsAdapter= StoreItemsAdapter(
                         this,
                         this,
                         productList,
@@ -303,15 +288,21 @@ class StoreItemsActivity :
                         this,
                         this,
                         0,
-                        it,
+                        storeID,
                         productList[0].cartId
                     )
+                    storeItemsRecyclerview.adapter = storeItemsAdapter
+                    countRes=1
+                }else{
+                    storeItemsAdapter.updateData(productList)
                 }
-                storeItemsRecyclerview.adapter = adapter
+
+
 
                 /*itemsRecyclerView.layoutManager = LinearLayoutManager(this)
-            itemsRecyclerView.setHasFixedSize(true)
-            itemsRecyclerView.adapter = adapter*/
+              itemsRecyclerView.setHasFixedSize(true)
+               itemsRecyclerView.adapter = adapter*/
+
                 if (storeData.fssai != null) {
                     if (!storeData.fssai.equals("")) {
                         //fssaiTxt.text = "Fssai: " + user.fssai
@@ -359,7 +350,6 @@ class StoreItemsActivity :
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
             dismissIOSProgress()
 
-
             Log.e("cart response", Gson().toJson(user))
             if (isNetworkConnected) {
                 if (SessionTwiclo(this).isLoggedIn) {
@@ -399,6 +389,7 @@ class StoreItemsActivity :
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
+
 
 //        viewmodel?.cartCountResponse?.observe(this, { user ->
 //            dismissIOSProgress()
@@ -441,8 +432,6 @@ class StoreItemsActivity :
             Log.e("stores response", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
             if (tempType.equals("custom")) {
-                tempProductList!!.clear()
-                addCartTempList!!.clear()
                 if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                     behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     //searchLay.visibility = View.GONE
@@ -450,6 +439,7 @@ class StoreItemsActivity :
                     //searchLay.visibility = View.VISIBLE
                     behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
                 }
+
             } else {
                 tempProductList!!.clear()
                 addCartTempList!!.clear()
@@ -573,38 +563,151 @@ class StoreItemsActivity :
 
         veg_switch.setOnCheckedChangeListener { _, b ->
 
-            Log.e("b", b.toString())
+            Log.e("veg__", b.toString())
 
             if (b) {
+                veg=1
 
+                if (veg==nonveg){
+                    getstorelist()
+                }else {
+                    if (isNetworkConnected) {
+                        showIOSProgress()
+                        if (SessionTwiclo(this).isLoggedIn) {
+                            viewmodel?.getStoreDetails(
+                                SessionTwiclo(this).loggedInUserDetail.accountId,
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                intent.getStringExtra("storeId"),
+                                "0",
+                                intent.getStringExtra("catId")
 
-                if (isNetworkConnected) {
-                    showIOSProgress()
-                    if (SessionTwiclo(this).isLoggedIn) {
-                        viewmodel?.getStoreDetails(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            intent.getStringExtra("storeId"),
-                            "0",
-                            intent.getStringExtra("catId")
+                            )
+                        } else {
+                            viewmodel?.getStoreDetails(
+                                "",
+                                "",
+                                intent.getStringExtra("storeId"),
+                                "0",
+                                intent.getStringExtra("catId")
 
-                        )
+                            )
+                        }
                     } else {
-                        viewmodel?.getStoreDetails("",
-                            "",
-                            intent.getStringExtra("storeId"),
-                            "0",
-                            intent.getStringExtra("catId")
-
-                        )
+                        showInternetToast()
                     }
-                } else {
-                    showInternetToast()
                 }
 
             } else {
+                veg=0
+                if (veg==nonveg){
+                    getstorelist()
+                }else {
+                    if (isNetworkConnected) {
+                        showIOSProgress()
+                        if (SessionTwiclo(this).isLoggedIn) {
+                            viewmodel?.getStoreDetails(
+                                SessionTwiclo(this).loggedInUserDetail.accountId,
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                intent.getStringExtra("storeId"),
+                                "1",
+                                intent.getStringExtra("catId")
 
-                showIOSProgress()
+                            )
+                        } else {
+                            viewmodel?.getStoreDetails(
+                                "",
+                                "",
+                                intent.getStringExtra("storeId"),
+                                "1",
+                                intent.getStringExtra("catId")
+
+                            )
+                        }
+                    } else {
+                        showInternetToast()
+                    }
+                }
+
+            }
+        }
+
+
+        egg_switch.setOnCheckedChangeListener { _, b ->
+
+            Log.e("egg", b.toString())
+
+            if (b) {
+                nonveg=1
+
+                if (veg==nonveg){
+                    getstorelist()
+                }else {
+                    if (isNetworkConnected) {
+                        showIOSProgress()
+                        if (SessionTwiclo(this).isLoggedIn) {
+                            viewmodel?.getStoreDetails(
+                                SessionTwiclo(this).loggedInUserDetail.accountId,
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                intent.getStringExtra("storeId"),
+                                "1",
+                                intent.getStringExtra("catId")
+
+                            )
+                        } else {
+                            viewmodel?.getStoreDetails(
+                                "",
+                                "",
+                                intent.getStringExtra("storeId"),
+                                "1",
+                                intent.getStringExtra("catId")
+
+                            )
+                        }
+                    } else {
+                        showInternetToast()
+                    }
+                }
+
+            } else {
+                nonveg=0
+                if (veg==nonveg){
+                    getstorelist()
+                }else {
+                    if (isNetworkConnected) {
+                        showIOSProgress()
+                        if (SessionTwiclo(this).isLoggedIn) {
+                            viewmodel?.getStoreDetails(
+                                SessionTwiclo(this).loggedInUserDetail.accountId,
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                intent.getStringExtra("storeId"),
+                                "0",
+                                intent.getStringExtra("catId")
+
+                            )
+                        } else {
+                            viewmodel?.getStoreDetails(
+                                "",
+                                "",
+                                intent.getStringExtra("storeId"),
+                                "0",
+                                intent.getStringExtra("catId")
+
+                            )
+                        }
+                    } else {
+                        showInternetToast()
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    private fun getstorelist() {
+        if (isNetworkConnected) {
+            showIOSProgress()
+            if (SessionTwiclo(this).isLoggedIn) {
                 viewmodel?.getStoreDetails(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -612,9 +715,16 @@ class StoreItemsActivity :
                     "",
                     intent.getStringExtra("catId")
                 )
+            } else {
+                viewmodel?.getStoreDetails(
+                    "",
+                    "",
+                    intent.getStringExtra("storeId"),
+                    "",
+                    intent.getStringExtra("catId")
+                )
             }
         }
-
     }
 
     override fun clearCart() {
@@ -625,7 +735,6 @@ class StoreItemsActivity :
     }
 
     override fun onBackPressed() {
-
         if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
             super.onBackPressed()
         } else {
@@ -717,13 +826,6 @@ class StoreItemsActivity :
         productType: String?,
         cart_id: String?
     ) {
-        /*  if (behavior?.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-              behavior?.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-          } else {
-              behavior?.setState(BottomSheetBehavior.STATE_COLLAPSED);
-
-          }*/
 
         tempType = type
         tempCount = count
@@ -874,7 +976,6 @@ class StoreItemsActivity :
         tempPrice = 0.0
 
 
-
         for (i in 0 until customIdsListTemp!!.size) {
             tempIdPrice = tempIdPrice!! + customIdsListTemp!![i].price.toDouble()
         }
@@ -1007,11 +1108,17 @@ class StoreItemsActivity :
                 }
                 if (check == "edit") {
 
-                    tempProductList!![tempPos].quantity = count
-                    addCartTempList!![tempPos].quantity = count
+                    try {
+                        if (addCartTempList!!.size!=0) {
+                            tempProductList!![tempPos].quantity = count
+                            addCartTempList!![tempPos].quantity = count
+                        }
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                    }
+
 
                 } else {
-
                     val tempProductListModel = TempProductListModel()
                     tempProductListModel.productId = productId
                     tempProductListModel.quantity = count
@@ -1047,16 +1154,7 @@ class StoreItemsActivity :
                         check = "remove"
                         checkPos = i
                         break
-                        //  addCartTempList!!.removeAt(i)
-                        //   tempProductList!!.removeAt(i)
-
                     }
-
-
-                    /*else {
-                    tempProductList!!.get(i).quantity = count
-                    addCartTempList!!.get(i).quantity = count
-                }*/
                 }
             }
             Log.d("checkpos", checkPos.toString())
@@ -1083,8 +1181,10 @@ class StoreItemsActivity :
 
 
             } else {
-                tempProductList!![checkPos].quantity = count
-                addCartTempList!![checkPos].quantity = count
+                if (tempProductList!!.size!=0) {
+                    tempProductList!![checkPos].quantity = count
+                    addCartTempList!![checkPos].quantity = count
+                }
 
                 if (cartId != null) {
                     viewmodel?.addRemoveCartDetails(
@@ -1180,8 +1280,6 @@ class StoreItemsActivity :
                 customIdsList!!
             )
 
-
-
         }
         // Create the AlertDialog
         val alertDialog: AlertDialog = builder.create()
@@ -1253,7 +1351,6 @@ class StoreItemsActivity :
                      SessionTwiclo(this).loggedInUserDetail.accessToken,
                      addCartTempList!!,
                      ""
-
              )*/
         }
 
