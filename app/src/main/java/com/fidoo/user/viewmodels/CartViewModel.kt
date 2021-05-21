@@ -199,6 +199,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
 
     fun deleteCartDetails(accountId: String, accessToken: String, product_id: String, cart_id: String) {
 
+        Log.d("deleteCartDetails__",accountId+"\n"+accessToken+"\n"+product_id+"\n"+cart_id)
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).deleteCartApi(
             accountId = accountId, accessToken = accessToken, product_id = product_id, cart_id = cart_id

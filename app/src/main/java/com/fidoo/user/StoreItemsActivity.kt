@@ -61,6 +61,7 @@ class StoreItemsActivity :
     var tempType: String? = ""
     var tempCount: String? = ""
     var count: Int = 1
+    var countRes: Int = 0
     private lateinit var mMap: GoogleMap
     var cartId: String = ""
     lateinit var storeID : String
@@ -69,6 +70,8 @@ class StoreItemsActivity :
         var customerLatitude: String = ""
         var customerLongitude: String = ""
     }
+
+    lateinit var storeItemsAdapter:StoreItemsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,8 +91,6 @@ class StoreItemsActivity :
 
         customerLatitude = ""
         customerLongitude = ""
-
-
 
 
         viewmodel = ViewModelProviders.of(this).get(StoreDetailsViewModel::class.java)
@@ -220,7 +221,8 @@ class StoreItemsActivity :
         //cartcount responce
         viewmodel?.cartCountResponse?.observe(this,{cartcount->
             dismissIOSProgress()
-
+            addCartTempList!!.clear()
+            tempProductList!!.clear()
             //Log.d("cartCountResponse___",cartcount.toString())
             var count = cartcount.count
             var price = cartcount.price
@@ -246,8 +248,7 @@ class StoreItemsActivity :
             linear_progress_indicator.visibility = View.GONE
             tempProductList!!.clear()
             addCartTempList!!.clear()
-            Log.e("store details response", Gson().toJson(storeData))
-
+            Log.e("stor_edetails_res", Gson().toJson(storeData))
 
             val productList: ArrayList<StoreDetailsModel.Product> = ArrayList()
             val catList: ArrayList<StoreDetailsModel.Category> = ArrayList()
@@ -268,44 +269,38 @@ class StoreItemsActivity :
 
                 var catName = catList.size
 
-
-                /*for (i in 0 until storeData.category.size)
-            {
-                var name = catList[i]
-                catList.add(name)
-                Log.d("kb",""+name)
-
-            }*/
+                if(countRes==0) {
 
 
-                //Log.d("kb", "" + productList.toString())
-
-
-                storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)
-                storeItemsRecyclerview.setHasFixedSize(true)
-
-                val adapter = storeID?.let {
-                    StoreItemsAdapter(
-                        this,
-                        this,
-                        productList,
-                        catList,
-                        "",
-                        "",
-                        "3.5",
-                        "5",
-                        this,
-                        this,
-                        0,
-                        it,
-                        productList[0].cartId
-                    )
+                    storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)
+                    storeItemsRecyclerview.setHasFixedSize(true)
+                    storeItemsAdapter= StoreItemsAdapter(
+                            this,
+                            this,
+                            productList,
+                            catList,
+                            "",
+                            "",
+                            "3.5",
+                            "5",
+                            this,
+                            this,
+                            0,
+                            storeID,
+                            productList[0].cartId
+                        )
+                    storeItemsRecyclerview.adapter = storeItemsAdapter
+                //  countRes=1
+                }else{
+                    storeItemsAdapter.updateData(productList)
                 }
-                storeItemsRecyclerview.adapter = adapter
+
+
 
                 /*itemsRecyclerView.layoutManager = LinearLayoutManager(this)
-            itemsRecyclerView.setHasFixedSize(true)
-            itemsRecyclerView.adapter = adapter*/
+              itemsRecyclerView.setHasFixedSize(true)
+               itemsRecyclerView.adapter = adapter*/
+
                 if (storeData.fssai != null) {
                     if (!storeData.fssai.equals("")) {
                         //fssaiTxt.text = "Fssai: " + user.fssai
@@ -394,6 +389,7 @@ class StoreItemsActivity :
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
+
 //        viewmodel?.cartCountResponse?.observe(this, { user ->
 //            dismissIOSProgress()
 //            if (!user.error) {
@@ -442,6 +438,7 @@ class StoreItemsActivity :
                     //searchLay.visibility = View.VISIBLE
                     behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
                 }
+
             } else {
                 tempProductList!!.clear()
                 addCartTempList!!.clear()
@@ -708,13 +705,6 @@ class StoreItemsActivity :
         productType: String?,
         cart_id: String?
     ) {
-        /*  if (behavior?.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-              behavior?.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-          } else {
-              behavior?.setState(BottomSheetBehavior.STATE_COLLAPSED);
-
-          }*/
 
         tempType = type
         tempCount = count
@@ -997,11 +987,17 @@ class StoreItemsActivity :
                 }
                 if (check == "edit") {
 
-                    tempProductList!![tempPos].quantity = count
-                    addCartTempList!![tempPos].quantity = count
+                    try {
+                        if (addCartTempList!!.size!=0) {
+                            tempProductList!![tempPos].quantity = count
+                            addCartTempList!![tempPos].quantity = count
+                        }
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                    }
+
 
                 } else {
-
                     val tempProductListModel = TempProductListModel()
                     tempProductListModel.productId = productId
                     tempProductListModel.quantity = count
@@ -1064,8 +1060,10 @@ class StoreItemsActivity :
 
 
             } else {
-                tempProductList!![checkPos].quantity = count
-                addCartTempList!![checkPos].quantity = count
+                if (tempProductList!!.size!=0) {
+                    tempProductList!![checkPos].quantity = count
+                    addCartTempList!![checkPos].quantity = count
+                }
 
                 if (cartId != null) {
                     viewmodel?.addRemoveCartDetails(
@@ -1160,8 +1158,6 @@ class StoreItemsActivity :
                 cart_id!!,
                 customIdsList!!
             )
-
-
 
         }
         // Create the AlertDialog
