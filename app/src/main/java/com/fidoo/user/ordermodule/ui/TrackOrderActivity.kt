@@ -26,6 +26,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fidoo.user.R
+import com.fidoo.user.SendPackageActivity
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterReviewClick
 import com.fidoo.user.interfaces.NotiCheck
@@ -59,7 +60,7 @@ import kotlin.collections.ArrayList
 
 class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallback, OnCurveClickListener, NotiCheck{
 
-    private var curveManager: CurveManager? = null
+    //private var curveManager: CurveManager? = null
     private var mMap: GoogleMap? = null
     private var timer: CountDownTimer? = null
     private var timerr: CountDownTimer? = null
@@ -92,7 +93,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_track_order)
         statusBarTransparent()
-
         viewmodel = ViewModelProviders.of(this).get(TrackViewModel::class.java)
         orderViewModel = ViewModelProviders.of(this).get(OrderDetailsViewModel::class.java)
         userName = intent.getStringExtra("delivery_boy_name")
@@ -116,16 +116,16 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
         tv_delivery_boy_call.setOnClickListener {
 
-            viewmodel?.callCustomerResponse?.observe(this, androidx.lifecycle.Observer {
+            viewmodel?.callCustomerResponse?.observe(this, {
                 val call_status = it.message
                 showToast("" + call_status)
             })
 
             viewmodel?.callCustomerApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    sessionInstance.profileDetail.account.userName,
-                    driverMobileNo!!
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                sessionInstance.profileDetail.account.userName,
+                driverMobileNo!!
             )
         }
 
@@ -135,9 +135,9 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 
         viewmodel?.getLocationApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                intent.getStringExtra("orderId")!!, "user"
+            SessionTwiclo(this).loggedInUserDetail.accountId,
+            SessionTwiclo(this).loggedInUserDetail.accessToken,
+            intent.getStringExtra("orderId")!!, "user"
         )
 
 
@@ -162,10 +162,10 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
             override fun onFinish() {
                 viewmodel?.getLocationApi(
-                        SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
-                        SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accessToken,
-                        intent.getStringExtra("orderId")!!,
-                        "user"
+                    SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
+                    SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accessToken,
+                    intent.getStringExtra("orderId")!!,
+                    "user"
                 )
                 orderViewModel?.getOrderDetails(
                     SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
@@ -190,8 +190,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
         orderDetailsTxt.setOnClickListener {
             startActivity(
-                    Intent(this, OrderDetailsActivity::class.java).putExtra("orderId", intent.getStringExtra("orderId")!!
-                    )
+                Intent(this, OrderDetailsActivity::class.java).putExtra("orderId", intent.getStringExtra("orderId")!!)
             )
         }
 
@@ -199,18 +198,18 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
             showIOSProgress()
             timerr?.cancel()
             viewmodel!!.cancelOrderApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    intent.getStringExtra("orderId")!!
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                intent.getStringExtra("orderId")!!
             )
 
         }
 
         viewmodel?.getLocationApi(
-                SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
-                SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accessToken,
-                intent.getStringExtra("orderId")!!,
-                "user"
+            SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accountId,
+            SessionTwiclo(this@TrackOrderActivity).loggedInUserDetail.accessToken,
+            intent.getStringExtra("orderId")!!,
+            "user"
         )
 
         viewmodel?.cancelOrderResponse?.observe(this, { user ->
@@ -313,39 +312,40 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                  curveOptions.geodesic(false)*/
                 if (origin != null) {
                     mMap?.addMarker(
-                            MarkerOptions()
-                                    .position(origin!!)
-                                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_delivery_bike))
-                                    .anchor(0.5f, 1f)
+                        MarkerOptions()
+                            .position(origin!!)
+                            .icon(bitmapDescriptorFromVector(this, R.drawable.ic_delivery_bike))
+                            .anchor(0.5f, 1f)
                     )
                 }
                 if (mid != null) {
                     mMap?.addMarker(
-                            MarkerOptions()
-                                    .position(mid!!)
-                                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_resturant))
-                                    .anchor(0.5f, 1f)
+                        MarkerOptions()
+                            .position(mid!!)
+                            .icon(bitmapDescriptorFromVector(this, R.drawable.ic_resturant))
+                            .anchor(0.5f, 1f)
                     )
                 }
 
 
                 if (destination != null) {
                     mMap?.addMarker(
-                            MarkerOptions()
-                                    .position(destination!!)
-                                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_home))
-                                    .anchor(0.5f, 1f)
+                        MarkerOptions()
+                            .position(destination!!)
+                            .icon(bitmapDescriptorFromVector(this, R.drawable.ic_home))
+                            .anchor(0.5f, 1f)
                     )
 
                 }
 
                 if (origin != null) {
                     mMap?.moveCamera(
-                            CameraUpdateFactory.newLatLngZoom(origin, 14f)
+                        CameraUpdateFactory.newLatLngZoom(origin, 14f)
                     )
                 }
 
                 drawRoute(route_source, route_desti, waypoint)
+                calculateEstimatedTime(route_source, route_desti)
                 // Draws curve asynchronously
                 // Draws curve asynchronously
                 //   curveManager!!.drawCurveAsync(curveOptions)
@@ -978,6 +978,50 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
             //dismiss dialog
             mAlertDialogg.dismiss()
         }
+
+    }
+
+    fun calculateEstimatedTime(source: String, destination: String) {
+        //source = SendPackageActivity.selectedfromLat.toString() + "," + SendPackageActivity.selectedfromLng.toString()
+        //destination = SendPackageActivity.selectedtoLat.toString() + "," + SendPackageActivity.selectedtoLng.toString()
+        val urlEstimatedTime =
+            "https://maps.googleapis.com/maps/api/directions/json?origin=$source&destination=$destination&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c"
+        val directionsRequest = object :
+            StringRequest(Method.GET, urlEstimatedTime, Response.Listener { response ->
+                val jsonResponse = JSONObject(response)
+                Log.e("res", "routes- $jsonResponse")
+                val routes = jsonResponse.getJSONArray("routes")
+                if (routes.length() != 0) {
+                    val legs = routes.getJSONObject(0).getJSONArray("legs")
+                    val estimatedTime =
+                        legs.getJSONObject(0).getJSONObject("duration").get("text").toString()
+                    //showToast(distance)
+                    //packageDistance = distance
+
+//                    var paymentMode = ""
+//
+//                    paymentMode = if (checkedRadioButtonId == R.id.onlineRadioBtn) {
+//                        "Online"
+//                    } else {
+//                        "Cash"
+//                    }
+
+
+                    if (estimatedTime.isNotEmpty() || estimatedTime != "") {
+                        eta_lay.visibility = View.VISIBLE
+                        estimated_time.text = estimatedTime
+                    } else {
+                        //showToast("There is some issue in Service, please try after sometime")
+                    }
+                }
+            }, Response.ErrorListener { }) {
+
+        }
+        val requestQueue = Volley.newRequestQueue(this)
+        requestQueue.add(directionsRequest)
+
+        //return packageDistance!!
+
 
     }
 }
