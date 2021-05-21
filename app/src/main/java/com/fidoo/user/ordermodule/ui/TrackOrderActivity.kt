@@ -1,17 +1,23 @@
 package com.fidoo.user.ordermodule.ui
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
@@ -21,11 +27,14 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fidoo.user.R
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.interfaces.AdapterReviewClick
 import com.fidoo.user.interfaces.NotiCheck
+import com.fidoo.user.ordermodule.model.Feedback
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.ui.MainActivity.Companion.timerStatus
 import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
 import com.fidoo.user.utils.BaseActivity
+import com.fidoo.user.utils.CommonUtils
 import com.fidoo.user.utils.statusBarTransparent
 import com.fidoo.user.viewmodels.TrackViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -39,6 +48,7 @@ import com.makesense.labs.curvefit.impl.CurveManager
 import com.makesense.labs.curvefit.interfaces.OnCurveClickListener
 import com.makesense.labs.curvefit.interfaces.OnCurveDrawnCallback
 import kotlinx.android.synthetic.main.activity_track_order.*
+import kotlinx.android.synthetic.main.review_popup.view.*
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -47,7 +57,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallback, OnCurveClickListener, NotiCheck {
+class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallback, OnCurveClickListener, NotiCheck{
 
     private var curveManager: CurveManager? = null
     private var mMap: GoogleMap? = null
@@ -63,6 +73,11 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
     var orderViewModel: OrderDetailsViewModel? = null
     var currentOrderId: String? = ""
     var orderId: String? = ""
+
+    var star: String? = "1"
+    var improvement: String? = ""
+
+    var checkStatusOfReview:Int=0
 
 
     companion object {
@@ -434,6 +449,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     tv_order_id.visibility = View.GONE
                     tv_order_id_label.visibility = View.GONE
                     map.alpha = 0.0f
+                    buyPopup(it.orderId)
 
                 }
                 it.orderStatus.equals("5") -> {
@@ -499,6 +515,18 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                 }
             }
 
+        })
+
+        viewmodel?.orderFeedback?.observe(this,{
+                feedback->
+            if (checkStatusOfReview==1) {
+                CommonUtils.dismissIOSProgress()
+
+
+                val model: Feedback = feedback
+                Toast.makeText(this, model.message, Toast.LENGTH_SHORT).show()
+
+            }
         })
     }
 
@@ -807,6 +835,149 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         }/*  trackOrderContext!!.startActivity(Intent(trackOrderContext, HomeActivity::class.java))
         finishAffinity()*/
 
+
+    }
+
+    private fun buyPopup(
+        orderId: String
+    ) {
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.review_popup, null)
+        //AlertDialogBuilder
+        val mBuilder = android.app.AlertDialog.Builder(this)
+            .setView(mDialogView)
+        /// .setTitle("Login Form")
+        //show dialog
+        val mAlertDialogg = mBuilder.show()
+        mAlertDialogg?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(mAlertDialogg.window!!.attributes)
+        lp.gravity = Gravity.CENTER
+
+
+
+        mAlertDialogg!!.window!!.attributes = lp
+        mAlertDialogg.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        mAlertDialogg.window!!.setGravity(Gravity.CENTER)
+        //cancel button click of custom layout
+
+        // img_review_img,reviewName_txt,cancel_reviewPopUp
+        //poor_icon_select
+        //ok_icon_select
+        //good_icon_select
+        //excellent_icon_select
+        //selection_ques_txt
+        //itemPackaging_txt_selection
+        //delivery_txt_selection
+        //appInterface_txt_selection
+        //deliveryExperience_txt_selection
+        //remark_txt
+        //submitTextBtn
+
+
+        mDialogView.poor_icon_select.setBackgroundResource(R.drawable.rectangle_border)
+
+        mDialogView.cancel_reviewPopUp.setOnClickListener { mAlertDialogg.dismiss() }
+
+        mDialogView.poor_icon_select.setOnClickListener {
+            star="1"
+            mDialogView.img_review_img.setBackgroundResource(R.drawable.poor)
+            mDialogView.reviewName_txt.text="Poor"
+            mDialogView.selection_ques_txt.setText(R.string.poor_experince)
+            mDialogView.poor_icon_select.setBackgroundResource(R.drawable.rectangle_border)
+            mDialogView.ok_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.good_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+
+        }
+
+        mDialogView.ok_icon_select.setOnClickListener {
+            star="2"
+            mDialogView.img_review_img.setBackgroundResource(R.drawable.ok)
+            mDialogView.reviewName_txt.text="Oka'ish"
+            mDialogView.selection_ques_txt.setText(R.string.ok_experince)
+            mDialogView.poor_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.ok_icon_select.setBackgroundResource(R.drawable.rectangle_border)
+            mDialogView.good_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+        }
+
+        mDialogView.good_icon_select.setOnClickListener {
+            star="3"
+            mDialogView.img_review_img.setBackgroundResource(R.drawable.good)
+            mDialogView.reviewName_txt.text="Good"
+            mDialogView.selection_ques_txt.setText(R.string.good_experince)
+            mDialogView.poor_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.ok_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.good_icon_select.setBackgroundResource(R.drawable.rectangle_border)
+            mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+        }
+
+        mDialogView.excellent_icon_select.setOnClickListener {
+            star="4"
+            mDialogView.img_review_img.setBackgroundResource(R.drawable.excellent)
+            mDialogView.reviewName_txt.text="Excellent"
+            mDialogView.selection_ques_txt.setText(R.string.excellent_experince)
+            mDialogView.poor_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.ok_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.good_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.rectangle_border)
+        }
+
+        mDialogView.itemPackaging_txt_selection.setOnClickListener {
+            improvement="Item packaging"
+            mDialogView.itemPackaging_txt_selection.setBackgroundResource(R.drawable.black_rounded_solid)
+            mDialogView.delivery_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.appInterface_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.deliveryExperience_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+
+        }
+
+        mDialogView.delivery_txt_selection.setOnClickListener {
+            improvement="Delivery Time"
+            mDialogView.itemPackaging_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.delivery_txt_selection.setBackgroundResource(R.drawable.black_rounded_solid)
+            mDialogView.appInterface_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.deliveryExperience_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+        }
+
+        mDialogView.appInterface_txt_selection.setOnClickListener {
+            improvement="App interface"
+            mDialogView.itemPackaging_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.delivery_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.appInterface_txt_selection.setBackgroundResource(R.drawable.black_rounded_solid)
+            mDialogView.deliveryExperience_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+        }
+
+        mDialogView.deliveryExperience_txt_selection.setOnClickListener {
+            improvement="Delivery experience"
+            mDialogView.itemPackaging_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.delivery_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.appInterface_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
+            mDialogView.deliveryExperience_txt_selection.setBackgroundResource(R.drawable.black_rounded_solid)
+        }
+        mDialogView.submitTxt.setOnClickListener {
+            //dismiss dialog
+            mAlertDialogg.dismiss()
+            showIOSProgress()
+            checkStatusOfReview=1
+            viewmodel?.addfeedbackApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                orderId,
+                star,
+                improvement,
+                mDialogView.remark_txt.text.toString(),
+                "add"
+            )
+
+
+        }
+
+        mDialogView.cancelTxt.setOnClickListener {
+            //dismiss dialog
+            mAlertDialogg.dismiss()
+        }
 
     }
 }

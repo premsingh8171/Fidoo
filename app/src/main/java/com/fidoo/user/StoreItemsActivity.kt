@@ -441,6 +441,8 @@ class StoreItemsActivity :
             Log.e("stores response", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
             if (tempType.equals("custom")) {
+                tempProductList!!.clear()
+                addCartTempList!!.clear()
                 if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                     behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     //searchLay.visibility = View.GONE

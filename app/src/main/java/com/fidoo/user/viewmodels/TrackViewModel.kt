@@ -8,6 +8,8 @@ import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
 import com.fidoo.user.data.model.CallResponseModel
 import com.fidoo.user.data.model.ProceedToOrder
+import com.fidoo.user.ordermodule.model.Feedback
+import com.fidoo.user.ordermodule.model.ReviewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,6 +21,7 @@ class TrackViewModel(application: Application) : AndroidViewModel(application)  
     var failureResponse: MutableLiveData<String>? = null
     var callCustomerResponse: MutableLiveData<com.fidoo.user.data.model.CallResponseModel>? = null
     var proceedToOrderResponse: MutableLiveData<ProceedToOrder>? = null
+    var orderFeedback: MutableLiveData<Feedback>? = null
 
     init {
 
@@ -26,8 +29,9 @@ class TrackViewModel(application: Application) : AndroidViewModel(application)  
         getLocationResponse = MutableLiveData<com.fidoo.user.data.model.LocationResponseModel>()
         cancelOrderResponse = MutableLiveData<com.fidoo.user.data.model.DeleteModel>()
         failureResponse = MutableLiveData<String>()
-        callCustomerResponse = MutableLiveData<com.fidoo.user.data.model.CallResponseModel>()
+        callCustomerResponse = MutableLiveData<CallResponseModel>()
         proceedToOrderResponse = MutableLiveData<ProceedToOrder>()
+        orderFeedback = MutableLiveData<Feedback>()
 
     }
 
@@ -115,6 +119,38 @@ class TrackViewModel(application: Application) : AndroidViewModel(application)  
                 Log.e("Error in making call","--"+t.toString())
             }
         })
+    }
+
+
+    fun addfeedbackApi(
+        accountId: String,
+        accessToken: String,
+        order_id: String?,
+        star: String?,
+        improvement: String?,
+        message: String?,
+        type: String?
+    ) {
+        WebServiceClient.client.create(BackEndApi::class.java).addFeedbackApi(
+            accountId = accountId,
+            accessToken = accessToken,
+            order_id = order_id,
+            star = star,
+            improvement = improvement,
+            message = message,
+            type = type
+        )
+            .enqueue(object : Callback<Feedback> {
+
+                override fun onResponse(call: Call<Feedback>, response: Response<Feedback>) {
+                    orderFeedback?.value = response.body()
+
+                }
+
+                override fun onFailure(call: Call<Feedback>, t: Throwable) {
+                    failureResponse?.value= "Something went wrong"
+                }
+            })
     }
 
 }

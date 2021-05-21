@@ -130,7 +130,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     e.printStackTrace()
                 }
             }else{
-                showLoginDialog("Please login to proceed")
+                //showLoginDialog("Please login to proceed")
             }
 
         } else {
@@ -163,8 +163,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
         viewmodel?.getAddressesResponse?.observe(this,{user ->
-            val addressList: MutableList<GetAddressModel.AddressList>
-            addressList=user.addressList
+            val addressList: MutableList<GetAddressModel.AddressList> = user.addressList
             try {
                 for (i in addressList.indices) {
                     if (i==0){
@@ -193,36 +192,34 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     private fun getCurrentLocation() {
 
-        this?.let {
-            EasyLocation(it, object : EasyLocation.EasyLocationCallBack {
-                override fun permissionDenied() {
+        EasyLocation(this, object : EasyLocation.EasyLocationCallBack {
+            override fun permissionDenied() {
 
-                    Log.e("Location", "permission  denied")
-
-
-                }
-
-                override fun locationSettingFailed() {
-
-                    Log.e("Location", "setting failed")
+                Log.e("Location", "permission  denied")
 
 
-                }
+            }
 
-                override fun getLocation(location: Location) {
+            override fun locationSettingFailed() {
 
-                    Log.e(
-                        "Location_lat_lng",
-                        " latitude ${location.latitude} longitude ${location.longitude}"
-                    )
+                Log.e("Location", "setting failed")
 
-                    SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
-                    SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
-                    SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
-                    userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
-                }
-            })
-        }
+
+            }
+
+            override fun getLocation(location: Location) {
+
+                Log.e(
+                    "Location_lat_lng",
+                    " latitude ${location.latitude} longitude ${location.longitude}"
+                )
+
+                SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
+                SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
+                SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
+                userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
+            }
+        })
     }
 
     private fun checkLocation(){

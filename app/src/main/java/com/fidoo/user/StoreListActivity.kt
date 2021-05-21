@@ -72,10 +72,10 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
         filter_icon.setOnClickListener {
             if (filterVisibility==0) {
                 filtervalueLL.visibility = View.VISIBLE
-                filterVisibility=1;
+                filterVisibility=1
             }else{
                 filtervalueLL.visibility = View.GONE
-                filterVisibility=0;
+                filterVisibility=0
             }
         }
 
@@ -84,12 +84,12 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
             if (selectionDistance==0) {
                 distanceStr="distance"
                 distance_txt.setBackgroundResource(R.drawable.black_rounded_solid)
-                selectionDistance=1;
+                selectionDistance=1
 
             }else{
                 distanceStr=""
                 distance_txt.setBackgroundResource(R.drawable.round_outline)
-                selectionDistance=0;
+                selectionDistance=0
             }
             selectedValue =distanceStr+","+ratingStr
             if (ratingStr!!.isEmpty()){
