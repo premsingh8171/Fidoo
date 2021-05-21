@@ -62,6 +62,8 @@ class StoreItemsActivity :
     var tempCount: String? = ""
     var count: Int = 1
     var countRes: Int = 0
+    var veg: Int = 0
+    var nonveg: Int = 0
     private lateinit var mMap: GoogleMap
     var cartId: String = ""
     lateinit var storeID : String
@@ -348,7 +350,6 @@ class StoreItemsActivity :
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
             dismissIOSProgress()
 
-
             Log.e("cart response", Gson().toJson(user))
             if (isNetworkConnected) {
                 if (SessionTwiclo(this).isLoggedIn) {
@@ -562,38 +563,151 @@ class StoreItemsActivity :
 
         veg_switch.setOnCheckedChangeListener { _, b ->
 
-            Log.e("b", b.toString())
+            Log.e("veg__", b.toString())
 
             if (b) {
+                veg=1
 
+                if (veg==nonveg){
+                    getstorelist()
+                }else {
+                    if (isNetworkConnected) {
+                        showIOSProgress()
+                        if (SessionTwiclo(this).isLoggedIn) {
+                            viewmodel?.getStoreDetails(
+                                SessionTwiclo(this).loggedInUserDetail.accountId,
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                intent.getStringExtra("storeId"),
+                                "0",
+                                intent.getStringExtra("catId")
 
-                if (isNetworkConnected) {
-                    showIOSProgress()
-                    if (SessionTwiclo(this).isLoggedIn) {
-                        viewmodel?.getStoreDetails(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            intent.getStringExtra("storeId"),
-                            "0",
-                            intent.getStringExtra("catId")
+                            )
+                        } else {
+                            viewmodel?.getStoreDetails(
+                                "",
+                                "",
+                                intent.getStringExtra("storeId"),
+                                "0",
+                                intent.getStringExtra("catId")
 
-                        )
+                            )
+                        }
                     } else {
-                        viewmodel?.getStoreDetails("",
-                            "",
-                            intent.getStringExtra("storeId"),
-                            "0",
-                            intent.getStringExtra("catId")
-
-                        )
+                        showInternetToast()
                     }
-                } else {
-                    showInternetToast()
                 }
 
             } else {
+                veg=0
+                if (veg==nonveg){
+                    getstorelist()
+                }else {
+                    if (isNetworkConnected) {
+                        showIOSProgress()
+                        if (SessionTwiclo(this).isLoggedIn) {
+                            viewmodel?.getStoreDetails(
+                                SessionTwiclo(this).loggedInUserDetail.accountId,
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                intent.getStringExtra("storeId"),
+                                "1",
+                                intent.getStringExtra("catId")
 
-                showIOSProgress()
+                            )
+                        } else {
+                            viewmodel?.getStoreDetails(
+                                "",
+                                "",
+                                intent.getStringExtra("storeId"),
+                                "1",
+                                intent.getStringExtra("catId")
+
+                            )
+                        }
+                    } else {
+                        showInternetToast()
+                    }
+                }
+
+            }
+        }
+
+
+        egg_switch.setOnCheckedChangeListener { _, b ->
+
+            Log.e("egg", b.toString())
+
+            if (b) {
+             nonveg=1
+
+                 if (veg==nonveg){
+                    getstorelist()
+                }else {
+                     if (isNetworkConnected) {
+                         showIOSProgress()
+                         if (SessionTwiclo(this).isLoggedIn) {
+                             viewmodel?.getStoreDetails(
+                                 SessionTwiclo(this).loggedInUserDetail.accountId,
+                                 SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                 intent.getStringExtra("storeId"),
+                                 "1",
+                                 intent.getStringExtra("catId")
+
+                             )
+                         } else {
+                             viewmodel?.getStoreDetails(
+                                 "",
+                                 "",
+                                 intent.getStringExtra("storeId"),
+                                 "1",
+                                 intent.getStringExtra("catId")
+
+                             )
+                         }
+                     } else {
+                         showInternetToast()
+                     }
+                 }
+
+            } else {
+                nonveg=0
+                if (veg==nonveg){
+                    getstorelist()
+                }else {
+                    if (isNetworkConnected) {
+                        showIOSProgress()
+                        if (SessionTwiclo(this).isLoggedIn) {
+                            viewmodel?.getStoreDetails(
+                                SessionTwiclo(this).loggedInUserDetail.accountId,
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                intent.getStringExtra("storeId"),
+                                "0",
+                                intent.getStringExtra("catId")
+
+                            )
+                        } else {
+                            viewmodel?.getStoreDetails(
+                                "",
+                                "",
+                                intent.getStringExtra("storeId"),
+                                "0",
+                                intent.getStringExtra("catId")
+
+                            )
+                        }
+                    } else {
+                        showInternetToast()
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    private fun getstorelist() {
+        if (isNetworkConnected) {
+            showIOSProgress()
+            if (SessionTwiclo(this).isLoggedIn) {
                 viewmodel?.getStoreDetails(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -601,9 +715,16 @@ class StoreItemsActivity :
                     "",
                     intent.getStringExtra("catId")
                 )
+            } else {
+                viewmodel?.getStoreDetails(
+                    "",
+                    "",
+                    intent.getStringExtra("storeId"),
+                    "",
+                    intent.getStringExtra("catId")
+                )
             }
         }
-
     }
 
     override fun clearCart() {

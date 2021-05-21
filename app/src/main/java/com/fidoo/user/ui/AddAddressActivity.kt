@@ -228,10 +228,11 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
             } else {
                 if (where.equals("guest")) {
+                    SessionTwiclo(this).userLat = lat.toString()
+                    SessionTwiclo(this).userLng = lng.toString()
+                    SessionTwiclo(this).userAddress=tv_Address.text.toString()
                     savedAddressesActivity.finish().toString()
                     finish()
-                    SessionTwiclo(this).userAddress=tv_Address.text.toString()
-
                 } else {
                     if (ed_name.text.toString().equals("")) {
                         showToast("Please enter your name")

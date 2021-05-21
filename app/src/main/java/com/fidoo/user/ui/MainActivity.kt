@@ -517,9 +517,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     }
 
-    override fun onConnectionSuspended(p0: Int) {
-
-    }
+    override fun onConnectionSuspended(p0: Int) {}
 
     override fun onLocationChanged(p0: Location) {
         p0.let {

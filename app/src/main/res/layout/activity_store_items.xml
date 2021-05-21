@@ -459,7 +459,7 @@
 
     <LinearLayout
         android:id="@+id/cartitemView_LLstore"
-        android:visibility="visible"
+        android:visibility="gone"
         android:gravity="center_vertical"
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
