@@ -18,13 +18,16 @@ import com.fidoo.user.viewmodels.SendPackagesViewModel
 import com.google.gson.Gson
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
+import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.activity_send_package_order_detail.*
+import kotlinx.android.synthetic.main.activity_send_package_order_detail.backIcon
 import kotlinx.android.synthetic.main.activity_send_package_order_detail.cash_lay
 import kotlinx.android.synthetic.main.activity_send_package_order_detail.img_cash
 import kotlinx.android.synthetic.main.activity_send_package_order_detail.img_online
 import kotlinx.android.synthetic.main.activity_send_package_order_detail.online_lay
 import kotlinx.android.synthetic.main.activity_send_package_order_detail.tv_cash
 import kotlinx.android.synthetic.main.activity_send_package_order_detail.tv_grand_total
+import kotlinx.android.synthetic.main.activity_send_package_order_detail.tv_place_order
 import org.json.JSONObject
 
 class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResultListener {
@@ -65,30 +68,60 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         }
 
 
-        cash_lay.setOnClickListener {
-            paymentMode = "cash"
-            cash_lay.setBackgroundColor(R.drawable.bg_green_roundborder)
-            //  cash_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
-            img_cash.setColorFilter(resources.getColor(R.color.colorPrimary))
+          cash_lay.setOnClickListener {
+              paymentMode = "cash"
+            cash_lay.setBackgroundResource(R.drawable.bg_green_roundborder)
+
+            img_cash.setColorFilter(resources.getColor(R.color.white))
             tv_cash.setTextColor(resources.getColor(R.color.white))
+
             online_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
-            tv_online_send_package.setTextColor(resources.getColor(R.color.grey))
+              tv_online_send_package.setTextColor(resources.getColor(R.color.grey))
             img_online.setImageResource(R.drawable.online_pay_grey)
+            img_online.setColorFilter(resources.getColor(R.color.grey))
+
         }
 
 
 
         online_lay.setOnClickListener {
             paymentMode = "online"
-            online_lay.setBackgroundColor(R.drawable.bg_green_roundborder)
+            online_lay.setBackgroundResource(R.drawable.bg_green_roundborder)
 
-            // online_lay.setBackgroundColor(resources.getColor(R.color.colorPrimary))
-            img_online.setColorFilter(resources.getColor(R.color.colorPrimary))
+            img_online.setColorFilter(resources.getColor(R.color.white))
             tv_online_send_package.setTextColor(resources.getColor(R.color.white))
+
             cash_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
             tv_cash.setTextColor(resources.getColor(R.color.grey))
             img_cash.setImageResource(R.drawable.cash_icon_grey)
+            img_cash.setColorFilter(resources.getColor(R.color.grey))
+
         }
+
+
+//        cash_lay.setOnClickListener {
+//            paymentMode = "cash"
+//            cash_lay.setBackgroundColor(R.drawable.bg_green_roundborder)
+//            online_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
+//            tv_cash.setTextColor(resources.getColor(R.color.white))
+//            img_cash.setColorFilter(resources.getColor(R.color.white))
+//
+//            tv_online_send_package.setTextColor(resources.getColor(R.color.grey))
+//            img_online.setImageResource(R.drawable.online_pay_grey)
+//        }
+//
+//
+//
+//        online_lay.setOnClickListener {
+//            paymentMode = "online"
+//            online_lay.setBackgroundColor(R.drawable.bg_green_roundborder)
+//            cash_lay.background = ResourcesCompat.getDrawable(resources, R.drawable.black_rounded_solid, null)
+//            img_online.setColorFilter(resources.getColor(R.color.white))
+//            tv_online_send_package.setTextColor(resources.getColor(R.color.white))
+//
+//            tv_cash.setTextColor(resources.getColor(R.color.grey))
+//            img_cash.setImageResource(R.drawable.cash_icon_grey)
+//        }
         backIcon.setOnClickListener {
             finish()
         }
