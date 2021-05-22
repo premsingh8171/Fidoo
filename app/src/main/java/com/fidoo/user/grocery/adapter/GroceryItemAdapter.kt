@@ -174,15 +174,16 @@ class GroceryItemAdapter(
                         //performing positive action
                         builder.setPositiveButton("Yes") { _, _ ->
                             SessionTwiclo(context).storeId=storeID
-                            adapterAddRemoveClick.clearCart()
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                 list[position].product_id,
                                 count.toString(),
-                                "add",
+                                "Replace",
                                 list[position].offer_price,
                                 storeID,
                                 "",position
                             )
+                            adapterAddRemoveClick.clearCart()
+
 
                             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                         }
