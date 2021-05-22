@@ -353,27 +353,38 @@ class StoreItemsActivity :
 
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
             dismissIOSProgress()
+            Log.e("vegnonveg__", nonveg_str.toString())
 
-            Log.e("cart response", Gson().toJson(user))
+            Log.e("addRemoveCartResponse____", Gson().toJson(user))
             if (isNetworkConnected) {
+
+
                 if (SessionTwiclo(this).isLoggedIn) {
-                    viewmodel?.getStoreDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        intent.getStringExtra("storeId"),
-                        nonveg_str,
-                        intent.getStringExtra("catId")
+                    if (veg==nonveg){
+                        getstorelist()
+                    }else {
+                        viewmodel?.getStoreDetails(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            intent.getStringExtra("storeId"),
+                            nonveg_str,
+                            intent.getStringExtra("catId")
 
-                    )
+                        )
+                    }
                 } else {
-                    viewmodel?.getStoreDetails(
-                        "",
-                        "",
-                        intent.getStringExtra("storeId"),
-                        nonveg_str,
-                        intent.getStringExtra("catId")
+                     if (veg==nonveg){
+                      getstorelist()
+                      }else {
+                         viewmodel?.getStoreDetails(
+                             "",
+                             "",
+                             intent.getStringExtra("storeId"),
+                             nonveg_str,
+                             intent.getStringExtra("catId")
 
-                    )
+                         )
+                     }
                 }
             } else {
                 showInternetToast()
@@ -382,7 +393,6 @@ class StoreItemsActivity :
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
-
 
 
         viewmodel?.failureResponse?.observe(this, { user ->
@@ -457,21 +467,29 @@ class StoreItemsActivity :
             if (isNetworkConnected) {
                 showIOSProgress()
                 if (SessionTwiclo(this).isLoggedIn) {
-                    viewmodel?.getStoreDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        intent.getStringExtra("storeId"),
-                        nonveg_str,
-                        intent.getStringExtra("catId")
-                    )
+                    if (veg==nonveg){
+                        getstorelist()
+                    }else {
+                        viewmodel?.getStoreDetails(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            intent.getStringExtra("storeId"),
+                            nonveg_str,
+                            intent.getStringExtra("catId")
+                        )
+                    }
                 } else {
-                    viewmodel?.getStoreDetails(
-                        "",
-                        "",
-                        intent.getStringExtra("storeId"),
-                        nonveg_str,
-                        intent.getStringExtra("catId")
-                    )
+                     if (veg==nonveg){
+                        getstorelist()
+                    }else {
+                         viewmodel?.getStoreDetails(
+                             "",
+                             "",
+                             intent.getStringExtra("storeId"),
+                             nonveg_str,
+                             intent.getStringExtra("catId")
+                         )
+                     }
                 }
 
             } else {
@@ -607,7 +625,7 @@ class StoreItemsActivity :
                 if (veg==nonveg){
                     getstorelist()
                 }else {
-                    nonveg_str="1"
+                    nonveg_str="2"
                     if (isNetworkConnected) {
                         showIOSProgress()
                         if (SessionTwiclo(this).isLoggedIn) {
@@ -647,7 +665,7 @@ class StoreItemsActivity :
                 if (veg==nonveg){
                     getstorelist()
                 }else {
-                    nonveg_str="1"
+                    nonveg_str="2"
                     if (isNetworkConnected) {
                         showIOSProgress()
                         if (SessionTwiclo(this).isLoggedIn) {

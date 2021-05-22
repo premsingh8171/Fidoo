@@ -83,6 +83,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     companion object {
         var itemPosition: Int? = 0
         var product_count: Int? = 0
+        var product_Id: String? = ""
         var viewAll: Int? = 0
         var multipleclick: Int? = 0
         var onresumeHandle: Int? = 0
@@ -274,13 +275,23 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     ""
                 )
             } else {
+                dismissIOSProgress()
+
+                val addCartInputModel = AddCartInputModel()
+                addCartInputModel.productId = product_Id
+                addCartInputModel.quantity = product_count.toString()
+                addCartInputModel.message = "add product"
+                addCartInputModel.customizeSubCatId = customIdsList!!
+                addCartInputModel.isCustomize = "0"
+                addCartTempList!!.add(0,addCartInputModel)
+
                 viewmodel!!.addToCartApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                     MainActivity.addCartTempList!!,
                     ""
-
                 )
+
             }
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
@@ -288,7 +299,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         //first time add item
         viewmodel?.addToCartResponse?.observe(this, { user ->
             //dismissIOSProgress()
-            Log.e("stores_response", Gson().toJson(user))
+            Log.e("addToCartResponse__", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
             addCartTempList!!.clear()
 
@@ -818,11 +829,16 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         Log.d("countcount", count!!)
         Log.d("ID__", productId!!)
         product_count = count.toInt()
+        product_Id=productId
         itemPosition = position
         viewAll = 0
 
         tempType=type
-        if (type.equals("add")) {
+        if (type.equals("Replace")){
+            SessionTwiclo(this).storeId=storeId
+            Log.d("storeIdstoreId__",storeId!!)
+
+        }else if (type.equals("add")) {
 
             val addCartInputModel = AddCartInputModel()
             addCartInputModel.productId = productId
@@ -915,6 +931,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     }
 
     override fun clearCart() {
+        showIOSProgress()
+        SessionTwiclo(this).storeId=storeID
         viewmodel?.clearCartApi(
             SessionTwiclo(this).loggedInUserDetail.accountId,
             SessionTwiclo(this).loggedInUserDetail.accessToken

@@ -8,7 +8,6 @@
     android:background="#fbfbfb">
 
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLay"
         android:layout_width="0dp"

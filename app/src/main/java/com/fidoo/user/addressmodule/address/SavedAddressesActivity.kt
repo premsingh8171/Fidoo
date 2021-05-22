@@ -16,6 +16,7 @@ import com.fidoo.user.adapter.AddressesAdapter
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.ui.AddAddressActivity
+import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.viewmodels.AddressViewModel
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
@@ -149,8 +150,8 @@ class SavedAddressesActivity : BaseActivity(),
 //        }
 
         tv_add_address.setOnClickListener {
-            startActivity(Intent(this, AddAddressActivity::class.java)
-                .putExtra("where",where))
+            startActivityForResult(Intent(this, AddAddressActivity::class.java)
+                .putExtra("where",where),1)
         }
     }
 
@@ -198,12 +199,37 @@ class SavedAddressesActivity : BaseActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 100 && resultCode == RESULT_OK) {
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (isNetworkConnected) {
+                showIOSProgress()
+                if(intent.getStringExtra("type") == "order"){
+                    viewmodel?.getAddressesApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        storeLat,
+                        storeLong
+                    )
+                }else{
+                    viewmodel?.getAddressesApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        "",
+                        ""
+                    )
+                }
+
+            } else {
+                showInternetToast()
+            }
+        }
+
+
+            if (requestCode == 100 && resultCode == RESULT_OK) {
             var place: com.google.android.libraries.places.api.model.Place =
-                Autocomplete.getPlaceFromIntent(
-                    data!!
-                )
+                Autocomplete.getPlaceFromIntent(data!!)
             ed_search.setText(place.address)
+
+
 
             var locationName = String.format("Locality Name : %s", place.name)
             var latLng = place.latLng
