@@ -610,6 +610,7 @@ class CartActivity : BaseActivity(),
                         tv_cart_discount.visibility = View.GONE
                         tv_cart_discount_label.visibility = View.GONE
                         tv_coupon.visibility = View.GONE
+                        coupon_lay.visibility = View.GONE
                         //discountValue.visibility = View.GONE
                     }
 
