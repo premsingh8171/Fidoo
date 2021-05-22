@@ -82,7 +82,7 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_10"
+                android:padding="@dimen/margin_8dp"
                 android:text="100"
                 android:textColor="@color/black"
                 android:textSize="@dimen/margin_12dp" />
@@ -100,15 +100,19 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
             android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/margin_30dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_marginLeft="@dimen/dimen_5dp"
                 android:layout_weight="9.9"
                 android:id="@+id/tv_unit"
+                android:textSize="11dp"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/tv_price"
@@ -153,7 +157,7 @@
 
             <LinearLayout
                 android:visibility="gone"
-                android:layout_weight=".1"
+                android:layout_weight=".01"
                 android:id="@+id/minusplus_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
