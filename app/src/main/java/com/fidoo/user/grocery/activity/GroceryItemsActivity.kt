@@ -274,13 +274,13 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     ""
                 )
             } else {
-//                viewmodel!!.addToCartApi(
-//                    SessionTwiclo(this).loggedInUserDetail.accountId,
-//                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                    MainActivity.addCartTempList!!,
-//                    ""
-//
-//                )
+                viewmodel!!.addToCartApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    MainActivity.addCartTempList!!,
+                    ""
+
+                )
             }
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
@@ -288,7 +288,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         //first time add item
         viewmodel?.addToCartResponse?.observe(this, { user ->
             //dismissIOSProgress()
-            Log.e("addToCartResponse_", Gson().toJson(user))
+            Log.e("stores_response", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
             addCartTempList!!.clear()
 
@@ -838,8 +838,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 MainActivity.addCartTempList!!,
                 ""
             )
-            updateProductS(count.toInt(),productId!!)
-
         } else {
             viewmodel?.addRemoveCartDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -851,9 +849,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 "",
                 customIdsList!!
             )
-            updateProductS(count.toInt(),productId!!)
-
         }
+        updateProductS(count.toInt(),productId!!)
 
     }
 
