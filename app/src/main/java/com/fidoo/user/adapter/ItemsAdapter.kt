@@ -20,7 +20,7 @@ class ItemsAdapter(val con: Context, val items: MutableList<OrderDetailsModel.It
     override fun getItemCount() = items.size
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
 
-        var itemAmount: Double = items[position].price_with_customization.toDouble() * items.get(position).quantity.toString().toInt()
+        val itemAmount: Double = items[position].price_with_customization.toDouble() * items.get(position).quantity.toString().toInt()
         holder.grandPrice.text = con.resources.getString(R.string.ruppee) + itemAmount.toString()
         holder.itemName.text =
             items.get(position).productName + " (" + items.get(position).quantity.toString() + " * " + con.resources.getString(

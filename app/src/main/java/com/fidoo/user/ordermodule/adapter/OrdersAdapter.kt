@@ -217,7 +217,7 @@ class OrdersAdapter(
         orderId: String
     ) {
 
-        val mDialogView = LayoutInflater.from(con).inflate(R.layout.review_popup, null)
+        val mDialogView = LayoutInflater.from(con).inflate(R.layout.rating_popup, null)
         //AlertDialogBuilder
         val mBuilder = AlertDialog.Builder(con)
             .setView(mDialogView)

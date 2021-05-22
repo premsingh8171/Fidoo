@@ -31,17 +31,17 @@ android {
     androidExtensions {
         experimental = true
     }
-//
-//    buildTypes {
-//        release {
-//            debuggable false
-//            minifyEnabled true
-//            shrinkResources true
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            //use for signed apk release
-//            signingConfig signingConfigs.release
-//        }
-//    }
+
+   /* buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //use for signed apk release
+            signingConfig signingConfigs.release
+        }
+    }*/
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
