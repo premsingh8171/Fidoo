@@ -33,6 +33,7 @@ import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.ordermodule.ui.TrackOrderActivity
 import com.fidoo.user.addressmodule.address.SavedAddressesActivity
+import com.fidoo.user.profile.EditProfileActivity
 import com.fidoo.user.viewmodels.AddressViewModel
 import com.fidoo.user.viewmodels.CartViewModel
 import com.fidoo.user.viewmodels.StoreDetailsViewModel
@@ -828,6 +829,12 @@ class CartActivity : BaseActivity(),
         super.onResume()
 
         storeId = intent.getStringExtra("storeId").toString()
+
+        if (SessionTwiclo(this).profileDetail != null && SessionTwiclo(this).profileDetail.account != null) {
+            if (SessionTwiclo(this).profileDetail.account.name.equals("")) {
+                startActivity(Intent(this, EditProfileActivity::class.java))
+            }
+        }
 
 
         tv_delivery_address_title.text = selectedAddressTitle

@@ -81,11 +81,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         FirebaseApp.initializeApp(this)
         //searchSuggestionsList = ArrayList<String>()
 
-        if (SessionTwiclo(this).profileDetail != null && SessionTwiclo(this).profileDetail.account != null) {
-            if (SessionTwiclo(this).profileDetail.account.name.equals("")) {
-                startActivity(Intent(this, EditProfileActivity::class.java))
-            }
-        }
+
 
 
 
