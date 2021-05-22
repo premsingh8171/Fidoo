@@ -89,7 +89,7 @@
             android:layout_marginTop="@dimen/margin_10dp"
             android:id="@+id/search_products_rv"
             android:orientation="horizontal"
-            app:spanCount="2"
+            app:spanCount="1"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

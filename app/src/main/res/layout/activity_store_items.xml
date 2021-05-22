@@ -200,7 +200,7 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/veg_switch"
-            android:layout_width="40dp"
+            android:layout_width="45dp"
             android:layout_centerVertical="true"
             android:layout_height="15dp"
             android:layout_marginStart="20dp"
@@ -218,7 +218,7 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/egg_switch"
-            android:layout_width="40dp"
+            android:layout_width="45dp"
             android:layout_height="15dp"
             android:layout_marginStart="20dp"
             android:layout_centerVertical="true"

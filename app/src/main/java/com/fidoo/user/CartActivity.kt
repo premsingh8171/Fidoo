@@ -134,7 +134,7 @@ class CartActivity : BaseActivity(),
 
         //For Faster checkout of RazorPay
         Checkout.preload(applicationContext)
-        co.setKeyID("rzp_test_17ihcfTIqBGF9R")
+        co.setKeyID("rzp_live_iceNLz5pb15jtP")
 
 
         storeViewModel?.getStoreDetails(
@@ -660,7 +660,7 @@ class CartActivity : BaseActivity(),
                    }
                    .show()*/
             Log.e("cart response", Gson().toJson(user))
-            showToast("Order placed successfully")
+            //showToast("Order placed successfully")
 
             startActivity(
                 Intent(this, TrackOrderActivity::class.java).putExtra(

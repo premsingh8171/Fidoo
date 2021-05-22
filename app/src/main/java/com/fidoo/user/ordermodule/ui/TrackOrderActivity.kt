@@ -189,9 +189,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         }
 
         orderDetailsTxt.setOnClickListener {
-            startActivity(
-                Intent(this, OrderDetailsActivity::class.java).putExtra("orderId", intent.getStringExtra("orderId")!!)
-            )
+            startActivity(Intent(this, OrderDetailsActivity::class.java).putExtra("orderId", intent.getStringExtra("orderId")!!))
         }
 
         cancelBtn!!.setOnClickListener {
@@ -449,7 +447,9 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     tv_order_id.visibility = View.GONE
                     tv_order_id_label.visibility = View.GONE
                     map.alpha = 0.0f
+                    timer!!.cancel()
                     buyPopup(it.orderId)
+
 
                 }
                 it.orderStatus.equals("5") -> {
@@ -465,6 +465,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     tv_order_delivery.setTextColor(Color.rgb(51,147,71))
                     img_to_location.setColorFilter(Color.rgb(51,147,71))
                     tv_delivery_boy_call.visibility = View.VISIBLE
+                    order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
+                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
 
                 }
                 it.orderStatus.equals("7") -> {
@@ -491,6 +493,10 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     tv_order_delivery.setTextColor(Color.rgb(51,147,71))
                     img_to_location.setColorFilter(Color.rgb(51,147,71))
                     tv_delivery_boy_call.visibility = View.VISIBLE
+                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
+                    order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
+                    tv_order_picked.setTextColor(Color.rgb(51,147,71))
+                    delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51,147,71))
                 }
                 it.orderStatus.equals("8") -> {
                     //holder.buttonValue.visibility = View.GONE
@@ -970,6 +976,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                 mDialogView.remark_txt.text.toString(),
                 "add"
             )
+            startActivity(Intent(this, OrderDetailsActivity::class.java).putExtra("orderId", intent.getStringExtra("orderId")!!))
+            finish()
 
 
         }

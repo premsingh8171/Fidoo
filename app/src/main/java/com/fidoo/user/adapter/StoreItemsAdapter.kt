@@ -90,10 +90,10 @@ class StoreItemsAdapter(
         var count: Int = 0
 
         if (productList[position].isNonveg.equals("0")) {
-            holder.vegIcon.setImageResource(R.drawable.nonveg_icon)
-            holder.vegIcon.setColorFilter(Color.rgb(53, 156, 71))
+            holder.vegIcon.setImageResource(R.drawable.veg)
+            //holder.vegIcon.setColorFilter(Color.rgb(53, 156, 71))
         } else if (productList[position].isNonveg.equals("1")) {
-            holder.vegIcon.setImageResource(R.drawable.nonveg_icon)
+            holder.vegIcon.setImageResource(R.drawable.non_veg)
 
         }
 

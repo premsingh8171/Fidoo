@@ -286,18 +286,14 @@ class HomeFragment : Fragment() {
                 }
                 if (user.count != null) {
                     if (user.count.toInt() > 0) {
+                        fragmentHomeBinding?.cartIcon?.setImageResource(R.drawable.cart_icon)
                         fragmentHomeBinding?.cartIcon?.setColorFilter(Color.argb(255, 53, 156, 71))
                         //fragmentHomeBinding?.cartCountTxt?.visibility = View.VISIBLE
                         //fragmentHomeBinding?.cartCountTxt?.text = user.count
                     } else {
                         fragmentHomeBinding?.cartCountTxt?.visibility = View.GONE
-                        fragmentHomeBinding?.cartIcon?.setColorFilter(
-                            Color.argb(
-                                255,
-                                199,
-                                199,
-                                199
-                            )
+                        fragmentHomeBinding?.cartIcon?.setImageResource(R.drawable.ic_cart)
+                        fragmentHomeBinding?.cartIcon?.setColorFilter(Color.argb(255, 199, 199, 199)
                         )
                     }
                 }

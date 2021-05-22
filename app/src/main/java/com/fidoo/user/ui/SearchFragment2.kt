@@ -86,15 +86,15 @@ class SearchFragment2 : Fragment() , AdapterClick,
 			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
 			override fun onTextChanged(
-					s: CharSequence, start: Int,
-					before: Int, count: Int
+				s: CharSequence, start: Int,
+				before: Int, count: Int
 			) {
 				search_value=s.toString()
 				if (mView.searchEdt_new_fgmt?.text.toString().length >= 2) {
 					if (SessionTwiclo(requireContext()).isLoggedIn) {
 						//showIOSProgress()
 						viewmodel?.getSearchApi(SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
-								SessionTwiclo(requireContext()).loggedInUserDetail.accessToken, search_value!!)
+							SessionTwiclo(requireContext()).loggedInUserDetail.accessToken, search_value!!)
 
 					}
 				} else {
