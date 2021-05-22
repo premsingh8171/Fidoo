@@ -742,8 +742,8 @@ class CartActivity : BaseActivity(),
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
             } else {
-
-                if (SessionTwiclo(this).userAddressId.equals("") || tv_delivery_address.text == ""){
+               // SessionTwiclo(this).userAddressId.equals("") ||
+                if (tv_delivery_address.text == ""){
                     showToast("Please select your address")
                 } else if (isPrescriptionRequire == "1") {
                     if (filePathTemp.equals("")) {

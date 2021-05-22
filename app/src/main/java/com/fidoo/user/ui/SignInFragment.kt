@@ -153,7 +153,12 @@ class SignInFragment : Fragment() {
             val sendData= SendResponse(mModelData.accessToken,mModelData.account.id,binding.phone.text.toString().trim(),"+91")
             val action = SignInFragmentDirections.actionSignInFragmentToOtpFragment(sendData)
             closeProgress()
-            findNavController().navigate(action)
+            try {
+                findNavController().navigate(action)
+
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
 
         })
 
