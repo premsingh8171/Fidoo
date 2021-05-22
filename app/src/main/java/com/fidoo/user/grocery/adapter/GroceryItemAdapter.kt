@@ -173,6 +173,7 @@ class GroceryItemAdapter(
                         builder.setIcon(android.R.drawable.ic_dialog_alert)
                         //performing positive action
                         builder.setPositiveButton("Yes") { _, _ ->
+                            SessionTwiclo(context).storeId=storeID
                             adapterAddRemoveClick.clearCart()
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                 list[position].product_id,
@@ -182,7 +183,6 @@ class GroceryItemAdapter(
                                 storeID,
                                 "",position
                             )
-                            SessionTwiclo(context).storeId=storeID
 
                             //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                         }

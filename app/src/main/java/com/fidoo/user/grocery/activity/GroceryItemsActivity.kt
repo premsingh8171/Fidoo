@@ -74,6 +74,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     var subcat_name: String? = ""
     var selectedValue: String? = "default"
     var sub_cat_id: String? = ""
+    var totalItem: String? = "25"
 
     var customIdsList: ArrayList<String>? = null
     private lateinit var groceryItemAdapter: GroceryItemAdapter
@@ -263,7 +264,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         viewmodel?.clearCartResponse?.observe(this, { user ->
             // dismissIOSProgress()
 
-            Log.e("stores_response", Gson().toJson(user))
+            Log.e("clearCartResponse", Gson().toJson(user))
             if (tempType.equals("custom")) {
 
                 viewmodel!!.addToCartApi(
@@ -273,13 +274,13 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     ""
                 )
             } else {
-                viewmodel!!.addToCartApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    MainActivity.addCartTempList!!,
-                    ""
-
-                )
+//                viewmodel!!.addToCartApi(
+//                    SessionTwiclo(this).loggedInUserDetail.accountId,
+//                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                    MainActivity.addCartTempList!!,
+//                    ""
+//
+//                )
             }
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
@@ -287,7 +288,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         //first time add item
         viewmodel?.addToCartResponse?.observe(this, { user ->
             //dismissIOSProgress()
-            Log.e("stores_response", Gson().toJson(user))
+            Log.e("addToCartResponse_", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
             addCartTempList!!.clear()
 
@@ -474,7 +475,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     private fun getRoomData() {
         Handler().postDelayed(
             {
-                productsDatabase!!.productsDaoAccess()!!.getAllProducts2().observe(this, Observer {t ->
+                productsDatabase!!.productsDaoAccess()!!.getAllProducts2(totalItem).observe(this, Observer {t ->
                  if(onresumeHandle==0) {
                      productList = t as ArrayList<Product>?
                      Log.d("roomdatabase_", productList!!.size.toString())
@@ -820,8 +821,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         itemPosition = position
         viewAll = 0
 
-        updateProductS(count.toInt(),productId!!)
-
+        tempType=type
         if (type.equals("add")) {
 
             val addCartInputModel = AddCartInputModel()
@@ -838,6 +838,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 MainActivity.addCartTempList!!,
                 ""
             )
+            updateProductS(count.toInt(),productId!!)
+
         } else {
             viewmodel?.addRemoveCartDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -849,6 +851,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 "",
                 customIdsList!!
             )
+            updateProductS(count.toInt(),productId!!)
+
         }
 
     }

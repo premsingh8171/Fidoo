@@ -16,8 +16,8 @@ interface ProductsDao {
     @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME)
     fun getAllProducts(): LiveData<List<Product>>
 
-    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME +" LIMIT 20")
-    fun getAllProducts2(): LiveData<List<Product>>
+    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME +" LIMIT :limit")
+    fun getAllProducts2(limit:String?): LiveData<List<Product>>
 
 
 

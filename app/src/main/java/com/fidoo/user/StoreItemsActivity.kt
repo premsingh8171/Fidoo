@@ -64,6 +64,7 @@ class StoreItemsActivity :
     var countRes: Int = 0
     var veg: Int = 0
     var nonveg: Int = 0
+    var nonveg_str: String = ""
     private lateinit var mMap: GoogleMap
     var cartId: String = ""
     lateinit var storeID : String
@@ -193,7 +194,7 @@ class StoreItemsActivity :
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                     intent.getStringExtra("storeId"),
-                    "",
+                    nonveg_str,
                     intent.getStringExtra("catId")
 
                 )
@@ -208,7 +209,7 @@ class StoreItemsActivity :
                     "",
                     "",
                     intent.getStringExtra("storeId"),
-                    "",
+                    nonveg_str,
                     intent.getStringExtra("catId")
 
                 )
@@ -292,7 +293,7 @@ class StoreItemsActivity :
                         productList[0].cartId
                     )
                     storeItemsRecyclerview.adapter = storeItemsAdapter
-                    countRes=1
+                    //countRes=1
                 }else{
                     storeItemsAdapter.updateData(productList)
                 }
@@ -357,7 +358,7 @@ class StoreItemsActivity :
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
                         intent.getStringExtra("storeId"),
-                        "",
+                        nonveg_str,
                         intent.getStringExtra("catId")
 
                     )
@@ -366,7 +367,7 @@ class StoreItemsActivity :
                         "",
                         "",
                         intent.getStringExtra("storeId"),
-                        "",
+                        nonveg_str,
                         intent.getStringExtra("catId")
 
                     )
@@ -457,7 +458,7 @@ class StoreItemsActivity :
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
                         intent.getStringExtra("storeId"),
-                        "",
+                        nonveg_str,
                         intent.getStringExtra("catId")
                     )
                 } else {
@@ -465,7 +466,7 @@ class StoreItemsActivity :
                         "",
                         "",
                         intent.getStringExtra("storeId"),
-                        "",
+                        nonveg_str,
                         intent.getStringExtra("catId")
                     )
                 }
@@ -571,6 +572,7 @@ class StoreItemsActivity :
                 if (veg==nonveg){
                     getstorelist()
                 }else {
+                    nonveg_str="0"
                     if (isNetworkConnected) {
                         showIOSProgress()
                         if (SessionTwiclo(this).isLoggedIn) {
@@ -578,7 +580,7 @@ class StoreItemsActivity :
                                 SessionTwiclo(this).loggedInUserDetail.accountId,
                                 SessionTwiclo(this).loggedInUserDetail.accessToken,
                                 intent.getStringExtra("storeId"),
-                                "0",
+                                nonveg_str,
                                 intent.getStringExtra("catId")
 
                             )
@@ -587,7 +589,7 @@ class StoreItemsActivity :
                                 "",
                                 "",
                                 intent.getStringExtra("storeId"),
-                                "0",
+                                nonveg_str,
                                 intent.getStringExtra("catId")
 
                             )
@@ -602,6 +604,7 @@ class StoreItemsActivity :
                 if (veg==nonveg){
                     getstorelist()
                 }else {
+                    nonveg_str="1"
                     if (isNetworkConnected) {
                         showIOSProgress()
                         if (SessionTwiclo(this).isLoggedIn) {
@@ -609,7 +612,7 @@ class StoreItemsActivity :
                                 SessionTwiclo(this).loggedInUserDetail.accountId,
                                 SessionTwiclo(this).loggedInUserDetail.accessToken,
                                 intent.getStringExtra("storeId"),
-                                "1",
+                                nonveg_str,
                                 intent.getStringExtra("catId")
 
                             )
@@ -618,7 +621,7 @@ class StoreItemsActivity :
                                 "",
                                 "",
                                 intent.getStringExtra("storeId"),
-                                "1",
+                                nonveg_str,
                                 intent.getStringExtra("catId")
 
                             )
@@ -631,7 +634,6 @@ class StoreItemsActivity :
             }
         }
 
-
         egg_switch.setOnCheckedChangeListener { _, b ->
 
             Log.e("egg", b.toString())
@@ -642,6 +644,7 @@ class StoreItemsActivity :
                 if (veg==nonveg){
                     getstorelist()
                 }else {
+                    nonveg_str="1"
                     if (isNetworkConnected) {
                         showIOSProgress()
                         if (SessionTwiclo(this).isLoggedIn) {
@@ -649,7 +652,7 @@ class StoreItemsActivity :
                                 SessionTwiclo(this).loggedInUserDetail.accountId,
                                 SessionTwiclo(this).loggedInUserDetail.accessToken,
                                 intent.getStringExtra("storeId"),
-                                "1",
+                                nonveg_str,
                                 intent.getStringExtra("catId")
 
                             )
@@ -658,7 +661,7 @@ class StoreItemsActivity :
                                 "",
                                 "",
                                 intent.getStringExtra("storeId"),
-                                "1",
+                                nonveg_str,
                                 intent.getStringExtra("catId")
 
                             )
@@ -673,6 +676,7 @@ class StoreItemsActivity :
                 if (veg==nonveg){
                     getstorelist()
                 }else {
+                    nonveg_str="0"
                     if (isNetworkConnected) {
                         showIOSProgress()
                         if (SessionTwiclo(this).isLoggedIn) {
@@ -680,7 +684,7 @@ class StoreItemsActivity :
                                 SessionTwiclo(this).loggedInUserDetail.accountId,
                                 SessionTwiclo(this).loggedInUserDetail.accessToken,
                                 intent.getStringExtra("storeId"),
-                                "0",
+                                nonveg_str,
                                 intent.getStringExtra("catId")
 
                             )
@@ -689,7 +693,7 @@ class StoreItemsActivity :
                                 "",
                                 "",
                                 intent.getStringExtra("storeId"),
-                                "0",
+                                nonveg_str,
                                 intent.getStringExtra("catId")
 
                             )
@@ -795,7 +799,7 @@ class StoreItemsActivity :
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                     intent.getStringExtra("storeId"),
-                    "",
+                    nonveg_str,
                     intent.getStringExtra("catId")
 
                 )
@@ -804,7 +808,7 @@ class StoreItemsActivity :
                     "",
                     "",
                     intent.getStringExtra("storeId"),
-                    "",
+                    nonveg_str,
                     intent.getStringExtra("catId")
 
                 )
