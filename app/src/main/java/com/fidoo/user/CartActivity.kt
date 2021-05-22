@@ -134,7 +134,7 @@ class CartActivity : BaseActivity(),
 
         //For Faster checkout of RazorPay
         Checkout.preload(applicationContext)
-        co.setKeyID("rzp_live_iceNLz5pb15jtP")
+        co.setKeyID("rzp_test_17ihcfTIqBGF9R")
 
 
         storeViewModel?.getStoreDetails(

@@ -820,7 +820,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         startActivity(Intent(this, SplashActivity::class.java))
                         ActivityCompat.finishAffinity(this!!)*/
                     trackOrderContext!!.startActivity(
-                            Intent(trackOrderContext, MainActivity::class.java)
+                        Intent(trackOrderContext, MainActivity::class.java)
                     )
                     finishAffinity()
                 }
