@@ -625,7 +625,7 @@ class StoreItemsActivity :
                 if (veg==nonveg){
                     getstorelist()
                 }else {
-                    nonveg_str="1"
+                    nonveg_str="2"
                     if (isNetworkConnected) {
                         showIOSProgress()
                         if (SessionTwiclo(this).isLoggedIn) {
@@ -665,7 +665,7 @@ class StoreItemsActivity :
                 if (veg==nonveg){
                     getstorelist()
                 }else {
-                    nonveg_str="1"
+                    nonveg_str="2"
                     if (isNetworkConnected) {
                         showIOSProgress()
                         if (SessionTwiclo(this).isLoggedIn) {
