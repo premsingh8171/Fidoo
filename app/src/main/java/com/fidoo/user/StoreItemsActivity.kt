@@ -134,6 +134,16 @@ class StoreItemsActivity :
 
             Log.e("customIdsList", customIdsList.toString())
 
+
+            addCartTempList!!.clear()
+            val addCartInputModel = AddCartInputModel()
+            addCartInputModel.productId = tempProductId
+            addCartInputModel.quantity = countValue.text.toString()
+            addCartInputModel.message = "add product"
+            addCartInputModel.customizeSubCatId = customIdsList!!
+            addCartInputModel.isCustomize = "1"
+            addCartTempList!!.add(addCartInputModel)
+
             if (SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || SessionTwiclo(this).storeId.equals("")) {
                 showIOSProgress()
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
@@ -144,14 +154,7 @@ class StoreItemsActivity :
                    "", countValue.text.toString(), "", "1", customIdsList!!
                 )*/
 
-                addCartTempList!!.clear()
-                val addCartInputModel = AddCartInputModel()
-                addCartInputModel.productId = tempProductId
-                addCartInputModel.quantity = countValue.text.toString()
-                addCartInputModel.message = "add product"
-                addCartInputModel.customizeSubCatId = customIdsList!!
-                addCartInputModel.isCustomize = "1"
-                addCartTempList!!.add(addCartInputModel)
+
 
                 viewmodel!!.addToCartApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
