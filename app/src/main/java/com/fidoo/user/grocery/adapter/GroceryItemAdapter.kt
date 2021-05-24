@@ -274,6 +274,12 @@ class GroceryItemAdapter(
 
         }
 
+        if ((list.size)-2==position){
+            holder.itemView.spaceView.visibility = View.VISIBLE
+        }else{
+            holder.itemView.spaceView.visibility = View.GONE
+        }
+
     }
 
     override fun getItemCount(): Int {

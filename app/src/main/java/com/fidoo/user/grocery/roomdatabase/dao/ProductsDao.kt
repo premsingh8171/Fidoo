@@ -19,6 +19,16 @@ interface ProductsDao {
     @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME +" LIMIT :limit")
     fun getAllProducts2(limit:String?): LiveData<List<Product>>
 
+//    PARAM = search criteria,
+//    PAGESIZE = number of rows to return per page,
+//    PAGEINDEX = what page to return
+
+    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME +" LIMIT :pageSize OFFSET :pageIndex")
+    fun getAllProducts3(pageSize:String,pageIndex:String): LiveData<List<Product>>
+
+    @Query("SELECT COUNT(*) FROM "+  ProductsDatabase.TABLE_NAME)
+    fun getTableCount(): LiveData<Integer>
+
 
 
     @Query("UPDATE "+ ProductsDatabase.TABLE_NAME +" SET cart_quantity=:quantity WHERE product_id = :product_id")

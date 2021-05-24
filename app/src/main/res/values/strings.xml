@@ -68,5 +68,6 @@
     <string name="delivery_time">Delivery time</string>
     <string name="app_interface">App interface</string>
     <string name="delivery_experience">Delivery Experience</string>
+    <string name="Hang_on_loadingcontent">Hang on. Loading content</string>
 
 </resources>

@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -15,6 +14,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.AbsListView
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -22,7 +22,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.fidoo.user.CartActivity
@@ -37,7 +37,6 @@ import com.fidoo.user.grocery.model.getGroceryProducts.Category
 import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.grocery.model.getGroceryProducts.Subcategory
 import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
-import com.fidoo.user.grocery.roomdatabase.database.ProductsEntitiy
 import com.fidoo.user.grocery.viewmodel.GroceryProductsViewModel
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
@@ -54,6 +53,7 @@ import kotlinx.android.synthetic.main.activity_search_item.*
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
 import kotlinx.android.synthetic.main.select_cat_popup.*
+import java.io.UnsupportedEncodingException
 
 
 class GroceryItemsActivity : BaseActivity(), AdapterClick,
@@ -74,7 +74,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     var subcat_name: String? = ""
     var selectedValue: String? = "default"
     var sub_cat_id: String? = ""
-    var totalItem: String? = "25"
 
     var customIdsList: ArrayList<String>? = null
     private lateinit var groceryItemAdapter: GroceryItemAdapter
@@ -87,10 +86,19 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         var viewAll: Int? = 0
         var multipleclick: Int? = 0
         var onresumeHandle: Int? = 0
-
+        var product_listCount: Int? = 0
     }
 
-    private var layoutManger: LinearLayoutManager? = null
+    //for pagination
+    var totalItem: Int? = 20
+    var table_count: Int? = 0
+
+    private var manager: GridLayoutManager? = null
+    private var currentItems = 0
+    private  var totalItems:Int = 0
+    private  var scrollOutItems:Int = 0
+    private var isScrolling = false
+//
 
     var search_value: String? = ""
     var tempProductId: String? = ""
@@ -126,7 +134,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         }.start()
 
 
-        layoutManger = LinearLayoutManager(this)
+        manager = GridLayoutManager(this, 2)
         recyclerView = findViewById(R.id.grocery_item_rv)
         var store_id = intent.getStringExtra("storeId")
         Log.d("store_id___",store_id.toString())
@@ -470,6 +478,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             subcat_name = ""
             sub_cat_id=""
             itemPosition = 0
+            totalItem=20
             showIOSProgress()
             deleteRoomDataBase()
             viewmodel?.getGroceryProductsFun(
@@ -486,17 +495,21 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     private fun getRoomData() {
         Handler().postDelayed(
             {
-                productsDatabase!!.productsDaoAccess()!!.getAllProducts2(totalItem).observe(this, Observer {t ->
+                productsDatabase!!.productsDaoAccess()!!.getTableCount().observe(this,{c ->
+                    Log.d("table_count", c.toString())
+                    table_count=c.toInt()
+                })
+                productsDatabase!!.productsDaoAccess()!!.getAllProducts2(totalItem.toString()).observe(this, Observer {t ->
                  if(onresumeHandle==0) {
                      productList = t as ArrayList<Product>?
-                     Log.d("roomdatabase_", productList!!.size.toString())
-                    // groceryItemAdapter.setFilter(productList!!)
+                     product_listCount=productList!!.size
+                     Log.d("roomdatabase_",product_listCount.toString())
                      rvlistProduct(productList!!)
-
                      dismissIOSProgress()
                  }else{
                      var productListUpdate: ArrayList<Product> = ArrayList()
                      productListUpdate = t as ArrayList<Product>
+                     product_listCount=productListUpdate!!.size
                      groceryItemAdapter.setFilter(productListUpdate)
                  }
                    // onresumeHandle=0
@@ -609,6 +622,41 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         )
 
         grocery_item_rv?.adapter = groceryItemAdapter
+        grocery_item_rv.layoutManager = manager
+        grocery_item_rv?.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrolling = true
+                    onresumeHandle=0
+                }
+
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                currentItems = manager!!.childCount
+                totalItems = manager!!.itemCount
+                scrollOutItems = manager!!.findFirstVisibleItemPosition()
+                Log.d("value_gg_",dy.toString()+"-"+currentItems+"---"+totalItems+"---"+scrollOutItems);
+
+                   if (dy > 1) {
+                    if (isScrolling && currentItems + scrollOutItems == totalItems) {
+                        Log.d("totalItem___", table_count.toString()+"---"+product_listCount)
+                        if (table_count!! > product_listCount!!) {
+                            if (isScrolling == true) {
+                                totalItem = totalItem?.plus(20)
+                                onresumeHandle = 1
+                                showIOSProgress()
+                                getRoomData()
+                                isScrolling = false
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
         Log.d("itemPosition_value", itemPosition!!.toString())
         if (viewAll == 1) {
             grocery_item_rv.smoothScrollToPosition(viewAll!!)
@@ -632,9 +680,11 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     selectedValue=subcat_name
                     sub_cat_id = subgrocery.sub_cat_id
                     Log.d("grocery___", subgrocery.sub_cat_id)
+                    totalItem=20
                     showIOSProgress()
                     active_dotLLall.setBackgroundResource(R.drawable.black_full_rounded_empty)
                     grocery_sub_tvall.setTextColor(Color.parseColor("#818181"))
+                    showIOSProgress()
                     deleteRoomDataBase()
                     viewmodel?.getGroceryProductsFun(
                         SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accountId,
@@ -665,7 +715,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     itemPosition = 0
                     viewAll = 0
                     sub_cat_id=""
-
+                    totalItem=20
                     deleteRoomDataBase()
                     showIOSProgress()
                     viewmodel?.getGroceryProductsFun(

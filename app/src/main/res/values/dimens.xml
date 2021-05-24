@@ -22,4 +22,5 @@
     <dimen name="margin_120dp">120</dimen>
     <dimen name="dimen_16sp">16dp</dimen>
     <dimen name="margin_15dp">15dp</dimen>
+    <dimen name="dimen_25dp">25dp</dimen>
 </resources>

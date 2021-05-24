@@ -1,4 +1,4 @@
-package com.fidoo.user
+ package com.fidoo.user
 
 import android.app.Activity
 import android.content.Intent
