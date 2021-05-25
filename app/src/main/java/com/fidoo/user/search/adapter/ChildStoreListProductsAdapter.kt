@@ -272,4 +272,40 @@ class ChildStoreListProductsAdapter(
         alertDialog.show()
     }
 
+//    private fun update(list_:ArrayList<SearchModel.ProductList>,position:Int?){
+//        var model= SearchModel.ProductList()
+//            model.productId=list_[position!!].productId
+//            model.productName=list_[position!!].productName
+//            model.productDesc=list_[position!!].productDesc
+//            model.productImage=list_[position!!].productImage
+//            model.price=list_[position!!].price
+//            model.offerPrice=list_[position!!].offerPrice
+//            model.companyName=list_[position!!].companyName
+//            model.weight=list_[position!!].weight
+//            model.unit=list_[position!!].unit
+//            model.categoryName=list_[position!!].categoryName
+//            model.storeId=list_[position!!].storeId
+//            model.cartId=list_[position!!].cartId
+//            model.storeName=list_[position!!].storeName
+//            model.storeAddress=list_[position!!].storeAddress
+//            model.storeImage=list_[position!!].storeImage
+//            model.serviceName=list_[position!!].serviceName
+//            model.isCustomize=list_[position!!].isCustomize
+//            model.isPrescription=list_[position!!].isPrescription
+//            model.isNonveg=list_[position!!].isNonveg
+//            model.cartQuantity=count
+//            model.isCustomizeQuantity=list_[position!!].isCustomizeQuantity
+//            model.rating=list_[position!!].rating
+//            model.deliveryTime=list_[position!!].deliveryTime
+//            model.customizeItem=list_[position!!].customizeItem
+//
+//            if (model != null) {
+//                list?.set(2!!,model!!)
+//               // list.addAll(list)
+//                notifyDataSetChanged()
+//            }
+//
+//
+//    }
+
 }

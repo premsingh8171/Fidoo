@@ -100,7 +100,7 @@
                         android:textColor="@color/black"
                         android:text="@={viewmodel.mobileNo}"
                         android:onTextChanged="@{viewmodel::onPasswordChanged}"
-                        android:inputType="text" />
+                        android:inputType="number" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

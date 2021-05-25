@@ -52,7 +52,7 @@ public class SearchModel {
 
 
 
-    public class ProductList {
+    public static class ProductList {
 
         @SerializedName("product_id")
         @Expose

@@ -87,7 +87,7 @@
                         android:drawableStart="@drawable/india"
                         android:drawablePadding="5dp"
                         android:hint="+91"
-                        android:inputType="text" />
+                        android:inputType="number" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

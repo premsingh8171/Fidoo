@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/primary_color</item>
         <item name="fontFamily">@font/proxima</item>
     </style>
 
@@ -60,4 +60,15 @@
             <item name="android:windowEnterAnimation">@anim/slide_right_to_left</item>
             <item name="android:windowExitAnimation">@anim/slide_left_to_right</item>
         </style>
+
+    <style name="ThemeOverlay.App.Switch" parent="">
+        <item name="colorOnSurface">@color/primary_color</item>
+        <item name="colorSecondary">@color/background</item>
+    </style>
+
+    <style name="BrandedSwitch.control" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#e6e600</item>
+        <item name="colorSwitchThumbNormal">#cc0000</item>
+    </style>
     </resources>

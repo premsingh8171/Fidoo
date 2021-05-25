@@ -16,19 +16,20 @@
 
 
         <LinearLayout
-            android:layout_marginTop="@dimen/margin_10dp"
+            android:gravity="center_vertical"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="@dimen/margin_10dp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_50dp"
+            android:layout_height="60dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:tint="@color/primary_color"
                 android:id="@+id/back_newsearch"
                 android:padding="@dimen/margin_10dp"
+                android:rotation="180"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/arrow_backward"
+                android:src="@drawable/ic_back_vector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 

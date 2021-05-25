@@ -274,7 +274,7 @@ class GroceryItemAdapter(
 
         }
 
-        if ((list.size)-2==position){
+        if ((list.size)-1==position){
             holder.itemView.spaceView.visibility = View.VISIBLE
         }else{
             holder.itemView.spaceView.visibility = View.GONE

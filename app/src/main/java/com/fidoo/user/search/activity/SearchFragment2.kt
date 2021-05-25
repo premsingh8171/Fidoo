@@ -1,4 +1,4 @@
-package com.fidoo.user.ui
+package com.fidoo.user.search.activity
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -27,6 +27,7 @@ import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.search.adapter.ParentStoreListAdapter
 import com.fidoo.user.search.model.Store
+import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.utils.CommonUtils
 import com.fidoo.user.viewmodels.SearchFragmentViewModel
 import com.google.gson.Gson
@@ -59,7 +60,6 @@ class SearchFragment2 : Fragment() , AdapterClick,
 	var checkvalidation: Int? = 0//for onresume handle
 	lateinit var mView : View
 	private var _progressDlg: ProgressDialog? = null
-
 	lateinit var sessionTwiclo:SessionTwiclo
 
 	override fun onCreateView(

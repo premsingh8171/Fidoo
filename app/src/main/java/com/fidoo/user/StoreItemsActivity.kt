@@ -399,8 +399,6 @@ class StoreItemsActivity :
             dismissIOSProgress()
             Log.e("cart response", Gson().toJson(user))
             //showToast(user)
-
-
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
@@ -839,7 +837,6 @@ class StoreItemsActivity :
             showInternetToast()
         }
     }
-
 
 
     override fun onItemClick(

@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.fidoo.user.ui.SearchFragment2"
+        android:name="com.fidoo.user.search.activity.SearchFragment2"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search2" />
 

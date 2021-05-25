@@ -62,6 +62,11 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
     var tempProductId: String? = ""
     var mCustomizeCount: Int? = 0
 
+    companion object{
+        lateinit var model: SearchModel
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val window: Window = this.getWindow()
@@ -74,7 +79,7 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
         mProductsList= ArrayList()
         customIdsList= ArrayList()
         customIdsListTemp= ArrayList()
-
+        model = SearchModel()
 
 
         searchEdt_new?.addTextChangedListener(object : TextWatcher {
@@ -151,8 +156,6 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
         //Here we observe searchApi responce
         viewmodel?.searchResponse?.observe(this,{searchResponce->
             if (!searchResponce.error!!){
-
-
                 val storeList: ArrayList<SearchModel.Store> = ArrayList()
                 val productList: ArrayList<SearchModel.ProductList> = ArrayList()
 
@@ -170,6 +173,7 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
                 mProductStoreList=storeList
 
                 total_itemTxt.text = "Items ("+mProductsList.size.toString()+")"
+
                 parentStoreListAdapter = ParentStoreListAdapter(
                         this,mProductStoreList,this,storeID,this,this
                 )
@@ -240,26 +244,23 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
         //add to cart
         viewmodel?.addToCartResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
-            Log.e("stores response", Gson().toJson(user))
+            Log.e("stores_addToCartResponse", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
+
+
             if (tempType.equals("custom")) {
-//                if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-//                    behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-//                    //searchLay.visibility = View.GONE
-//                } else {
-//                    //searchLay.visibility = View.VISIBLE
-//                    behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-//                }
             } else {
                 MainActivity.tempProductList!!.clear()
                 MainActivity.addCartTempList!!.clear()
 
             }
+
             viewmodel?.getCartCountApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken
             )
-            //showToast(mModelData.message)
+
+
             if (isNetworkConnected) {
                 //showIOSProgress()
                 if (SessionTwiclo(this).isLoggedIn) {
@@ -279,7 +280,6 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
             } else {
                 showInternetToast()
             }
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
         //clear cart all item
@@ -367,13 +367,6 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
     // this click to use for customize item first time add
     override fun onItemClick(productId: String?, type: String?, count: String?, offerPrice: String?, customize_count: Int?, productType: String?, cart_id: String?)
     {
-        /*  if (behavior?.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-              behavior?.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-          } else {
-              behavior?.setState(BottomSheetBehavior.STATE_COLLAPSED);
-
-          }*/
 
         tempType = type
         tempCount = count
@@ -385,17 +378,6 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
         if (type == "custom") {
             if (mCustomizeCount == 0) {
                 customIdsListTemp?.clear()
-
-//
-//                if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-//                    behavior.state = BottomSheetBehavior.STATE_EXPANDED
-//                    //searchLay.visibility = View.GONE
-//
-//                } else {
-//                    //searchLay.visibility = View.VISIBLE
-//                    behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-//
-//                }
                 //  tempProductId = productId
                 //showIOSProgress()
                 customIdsList!!.clear()
@@ -410,14 +392,6 @@ class SearchItemActivity : BaseActivity() , AdapterClick,
                 builder.setTitle("Your previous customization")
                 builder.setMessage(tempCount)
                 builder.setPositiveButton("I'LL CHOOSE") { dialogInterface, which ->
-
-//                    if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-//                        behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
-//                        //searchLay.visibility = View.GONE
-//                    } else {
-//                        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-//                        //searchLay.visibility = View.VISIBLE
-//                    }
 
                     customIdsList!!.clear()
                     if (productId != null) {

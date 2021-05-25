@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
 import com.fidoo.user.data.model.SearchModel
+import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
@@ -41,7 +42,7 @@ class ParentStoreListAdapter(
 
          customIdsList= list[position]?.list as ArrayList<SearchModel.ProductList>?
 
-       // Log.d("sfddffdd", customIdsList?.get(position)?.productName.toString())
+        Log.d("sfddffdd", customIdsList?.get(position)?.productName.toString())
         childStoreListProductsAdapter = ChildStoreListProductsAdapter(context, customIdsList!!,object: AdapterClick{
             override fun onItemClick(productId: String?, type: String?, count: String?, offerPrice: String?, customize_count: Int?, productType: String?, cart_id: String?) {
                 adapterClick.onItemClick(productId,type,count,offerPrice,customize_count,productType,cart_id)
@@ -71,4 +72,10 @@ class ParentStoreListAdapter(
     override fun getItemCount(): Int {
         return list.size
     }
+
+//    fun setUpdate(listData_: ArrayList<SearchModel.Store>) {
+//        list = ArrayList<SearchModel.Store>()
+//        list.addAll(listData_)
+//        notifyDataSetChanged()
+//    }
 }
