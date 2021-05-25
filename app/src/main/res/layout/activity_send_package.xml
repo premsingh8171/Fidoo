@@ -180,7 +180,7 @@
                 android:id="@+id/tv_address_to"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select Address"
+                android:hint="Select Address"
                 android:layout_toEndOf="@id/location_icon_to"
                 android:layout_below="@id/tv_address_title_to"
                 android:fontFamily="@font/proxima"

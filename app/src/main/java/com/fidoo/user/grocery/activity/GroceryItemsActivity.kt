@@ -134,6 +134,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         }.start()
 
 
+
         manager = GridLayoutManager(this, 2)
         recyclerView = findViewById(R.id.grocery_item_rv)
         var store_id = intent.getStringExtra("storeId")
