@@ -23,6 +23,7 @@ import com.fidoo.user.search.activity.SearchItemActivity
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.viewmodels.StoreListingViewModel
 import com.google.gson.Gson
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_store_list.*
 
 
@@ -53,7 +54,10 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
         storeListingViewModel = ViewModelProviders.of(this).get(StoreListingViewModel::class.java)
 
 
-        backIcon.setOnClickListener { finish() }
+        backIcon.setOnClickListener {
+            finish()
+            AppUtils.finishActivityLeftToRight(this)
+        }
 
         val serive_id=intent.getStringExtra("serviceId")
 
@@ -201,5 +205,10 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
             productsDatabase!!.productsDaoAccess()!!.deleteAll()
 
         }.start()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        AppUtils.finishActivityLeftToRight(this)
     }
 }

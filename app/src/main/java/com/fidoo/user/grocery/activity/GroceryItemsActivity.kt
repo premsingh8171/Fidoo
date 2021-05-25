@@ -46,6 +46,7 @@ import com.fidoo.user.ui.MainActivity.Companion.addCartTempList
 import com.fidoo.user.utils.BaseActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.gson.Gson
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.activity_grocery_items.backIcon
 import kotlinx.android.synthetic.main.activity_grocery_items.linear_progress_indicator
@@ -439,6 +440,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
         backIcon.setOnClickListener {
             finish()
+            AppUtils.finishActivityLeftToRight(this);
         }
 
         searchPrdEt?.addTextChangedListener(object : TextWatcher {
@@ -1026,6 +1028,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        AppUtils.finishActivityLeftToRight(this);
+    }
 
 
 }

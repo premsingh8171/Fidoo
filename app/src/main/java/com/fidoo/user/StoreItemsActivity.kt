@@ -74,6 +74,9 @@ class StoreItemsActivity :
         var customerLongitude: String = ""
     }
 
+    var veg_filter: Int = 0
+    var egg_filter: Int = 0
+
     lateinit var storeItemsAdapter:StoreItemsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -581,149 +584,180 @@ class StoreItemsActivity :
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
-        veg_switch.setOnCheckedChangeListener { _, b ->
 
-            Log.e("veg__", b.toString())
-
-            if (b) {
-                veg=1
-
-                if (veg==nonveg){
-                    getstorelist()
-                }else {
-                    nonveg_str="0"
-                    if (isNetworkConnected) {
-                        showIOSProgress()
-                        if (SessionTwiclo(this).isLoggedIn) {
-                            viewmodel?.getStoreDetails(
-                                SessionTwiclo(this).loggedInUserDetail.accountId,
-                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                intent.getStringExtra("storeId"),
-                                nonveg_str,
-                                intent.getStringExtra("catId")
-
-                            )
-                        } else {
-                            viewmodel?.getStoreDetails(
-                                "",
-                                "",
-                                intent.getStringExtra("storeId"),
-                                nonveg_str,
-                                intent.getStringExtra("catId")
-
-                            )
-                        }
-                    } else {
-                        showInternetToast()
-                    }
-                }
-
-            } else {
-                veg=0
-                if (veg==nonveg){
-                    getstorelist()
-                }else {
-                    nonveg_str="2"
-                    if (isNetworkConnected) {
-                        showIOSProgress()
-                        if (SessionTwiclo(this).isLoggedIn) {
-                            viewmodel?.getStoreDetails(
-                                SessionTwiclo(this).loggedInUserDetail.accountId,
-                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                intent.getStringExtra("storeId"),
-                                nonveg_str,
-                                intent.getStringExtra("catId")
-
-                            )
-                        } else {
-                            viewmodel?.getStoreDetails(
-                                "",
-                                "",
-                                intent.getStringExtra("storeId"),
-                                nonveg_str,
-                                intent.getStringExtra("catId")
-
-                            )
-                        }
-                    } else {
-                        showInternetToast()
-                    }
-                }
-
+        veg_switch_img.setOnClickListener {
+            if (veg_filter==0){
+                veg_switch_img.setImageResource(R.drawable.filter_on)
+                egg_switch_img.setImageResource(R.drawable.filter_off)
+                egg_filter=0
+                veg_filter=1
+                nonveg_str="0"
+            }else{
+                veg_switch_img.setImageResource(R.drawable.filter_off)
+                veg_filter=0
+                nonveg_str=""
             }
+            getstorelist()
         }
 
-        egg_switch.setOnCheckedChangeListener { _, b ->
+        egg_switch_img.setOnClickListener {
+            if (egg_filter==0){
+                egg_switch_img.setImageResource(R.drawable.filter_on)
+                veg_switch_img.setImageResource(R.drawable.filter_off)
+                veg_filter=0
+                egg_filter=1
+                nonveg_str="2"
 
-            Log.e("egg", b.toString())
-
-            if (b) {
-                nonveg=1
-
-                if (veg==nonveg){
-                    getstorelist()
-                }else {
-                    nonveg_str="2"
-                    if (isNetworkConnected) {
-                        showIOSProgress()
-                        if (SessionTwiclo(this).isLoggedIn) {
-                            viewmodel?.getStoreDetails(
-                                SessionTwiclo(this).loggedInUserDetail.accountId,
-                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                intent.getStringExtra("storeId"),
-                                nonveg_str,
-                                intent.getStringExtra("catId")
-
-                            )
-                        } else {
-                            viewmodel?.getStoreDetails(
-                                "",
-                                "",
-                                intent.getStringExtra("storeId"),
-                                nonveg_str,
-                                intent.getStringExtra("catId")
-
-                            )
-                        }
-                    } else {
-                        showInternetToast()
-                    }
-                }
-
-            } else {
-                nonveg=0
-                if (veg==nonveg){
-                    getstorelist()
-                }else {
-                    nonveg_str="0"
-                    if (isNetworkConnected) {
-                        showIOSProgress()
-                        if (SessionTwiclo(this).isLoggedIn) {
-                            viewmodel?.getStoreDetails(
-                                SessionTwiclo(this).loggedInUserDetail.accountId,
-                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                intent.getStringExtra("storeId"),
-                                nonveg_str,
-                                intent.getStringExtra("catId")
-
-                            )
-                        } else {
-                            viewmodel?.getStoreDetails(
-                                "",
-                                "",
-                                intent.getStringExtra("storeId"),
-                                nonveg_str,
-                                intent.getStringExtra("catId")
-
-                            )
-                        }
-                    } else {
-                        showInternetToast()
-                    }
-                }
+            }else{
+                egg_switch_img.setImageResource(R.drawable.filter_off)
+                egg_filter=0
+                nonveg_str=""
 
             }
+            getstorelist()
         }
+
+//        veg_switch.setOnCheckedChangeListener { _, b ->
+//
+//            Log.e("veg__", b.toString())
+//
+//            if (b) {
+//                veg=1
+//
+//                if (veg==nonveg){
+//                    getstorelist()
+//                }else {
+//                    nonveg_str="0"
+//                    if (isNetworkConnected) {
+//                        showIOSProgress()
+//                        if (SessionTwiclo(this).isLoggedIn) {
+//                            viewmodel?.getStoreDetails(
+//                                SessionTwiclo(this).loggedInUserDetail.accountId,
+//                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                                intent.getStringExtra("storeId"),
+//                                nonveg_str,
+//                                intent.getStringExtra("catId")
+//
+//                            )
+//                        } else {
+//                            viewmodel?.getStoreDetails(
+//                                "",
+//                                "",
+//                                intent.getStringExtra("storeId"),
+//                                nonveg_str,
+//                                intent.getStringExtra("catId")
+//
+//                            )
+//                        }
+//                    } else {
+//                        showInternetToast()
+//                    }
+//                }
+//
+//            } else {
+//                veg=0
+//                if (veg==nonveg){
+//                    getstorelist()
+//                }else {
+//                    nonveg_str="2"
+//                    if (isNetworkConnected) {
+//                        showIOSProgress()
+//                        if (SessionTwiclo(this).isLoggedIn) {
+//                            viewmodel?.getStoreDetails(
+//                                SessionTwiclo(this).loggedInUserDetail.accountId,
+//                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                                intent.getStringExtra("storeId"),
+//                                nonveg_str,
+//                                intent.getStringExtra("catId")
+//
+//                            )
+//                        } else {
+//                            viewmodel?.getStoreDetails(
+//                                "",
+//                                "",
+//                                intent.getStringExtra("storeId"),
+//                                nonveg_str,
+//                                intent.getStringExtra("catId")
+//
+//                            )
+//                        }
+//                    } else {
+//                        showInternetToast()
+//                    }
+//                }
+//
+//            }
+//        }
+//
+//        egg_switch.setOnCheckedChangeListener { _, b ->
+//            Log.e("egg", b.toString())
+//            if (b) {
+//                nonveg=1
+//
+//                if (veg==nonveg){
+//                    getstorelist()
+//                }else {
+//                    nonveg_str="2"
+//                    if (isNetworkConnected) {
+//                        showIOSProgress()
+//                        if (SessionTwiclo(this).isLoggedIn) {
+//                            viewmodel?.getStoreDetails(
+//                                SessionTwiclo(this).loggedInUserDetail.accountId,
+//                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                                intent.getStringExtra("storeId"),
+//                                nonveg_str,
+//                                intent.getStringExtra("catId")
+//
+//                            )
+//                        } else {
+//                            viewmodel?.getStoreDetails(
+//                                "",
+//                                "",
+//                                intent.getStringExtra("storeId"),
+//                                nonveg_str,
+//                                intent.getStringExtra("catId")
+//
+//                            )
+//                        }
+//                    } else {
+//                        showInternetToast()
+//                    }
+//                }
+//
+//            } else {
+//                nonveg=0
+//                if (veg==nonveg){
+//                    getstorelist()
+//                }else {
+//                    nonveg_str="0"
+//                    if (isNetworkConnected) {
+//                        showIOSProgress()
+//                        if (SessionTwiclo(this).isLoggedIn) {
+//                            viewmodel?.getStoreDetails(
+//                                SessionTwiclo(this).loggedInUserDetail.accountId,
+//                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                                intent.getStringExtra("storeId"),
+//                                nonveg_str,
+//                                intent.getStringExtra("catId")
+//
+//                            )
+//                        } else {
+//                            viewmodel?.getStoreDetails(
+//                                "",
+//                                "",
+//                                intent.getStringExtra("storeId"),
+//                                nonveg_str,
+//                                intent.getStringExtra("catId")
+//
+//                            )
+//                        }
+//                    } else {
+//                        showInternetToast()
+//                    }
+//                }
+//
+//            }
+//        }
 
     }
 
@@ -735,7 +769,7 @@ class StoreItemsActivity :
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                     intent.getStringExtra("storeId"),
-                    "",
+                    nonveg_str,
                     intent.getStringExtra("catId")
                 )
             } else {
@@ -743,7 +777,7 @@ class StoreItemsActivity :
                     "",
                     "",
                     intent.getStringExtra("storeId"),
-                    "",
+                    nonveg_str,
                     intent.getStringExtra("catId")
                 )
             }
