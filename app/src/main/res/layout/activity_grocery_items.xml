@@ -42,7 +42,7 @@
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.149"
+            app:layout_constraintHorizontal_bias="0.180"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -228,6 +228,8 @@
 
     </LinearLayout>
 
+
+
     <LinearLayout
         android:id="@+id/cartitemView_LL"
         android:visibility="visible"
@@ -284,14 +286,15 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/cartviewFromGrocery"
-                android:padding="10dp"
-                android:textSize="12sp"
-                android:text="View Cart"
+                android:gravity="end|center_vertical"
+                android:padding="@dimen/margin_5dp"
+                android:textSize="@dimen/text_size_14sp"
+                android:text="VIEW CART"
                 android:textColor="@color/white"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:maxLines="1"/>
+                android:drawableTint="@color/white"
+                android:drawableLeft="@color/quantum_amber100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <ImageView
                 android:visibility="gone"

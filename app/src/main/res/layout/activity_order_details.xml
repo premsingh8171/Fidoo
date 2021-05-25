@@ -12,37 +12,40 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/topLay"
             android:layout_width="0dp"
-            android:layout_height="55dp"
+            android:layout_height="60dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:rotation="180"
                 android:id="@+id/backIcon"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="@dimen/margin_30dp"
+                android:layout_height="@dimen/margin_30dp"
                 android:layout_marginLeft="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="5dp"
-                android:src="@drawable/arrow_backward"
+                android:src="@drawable/ic_back_vector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/primary_color" />
+
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima"
                 android:gravity="center"
                 android:text="Order Details"
-                android:fontFamily="@font/proxima"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintHorizontal_bias="0.170"
+                app:layout_constraintVertical_bias="0.512"                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
 
             <ImageView
                 android:id="@+id/profileIcon"

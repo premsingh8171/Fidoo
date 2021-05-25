@@ -25,6 +25,7 @@
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
+                android:layout_margin="@dimen/margin_2dp"
                 app:cardCornerRadius="@dimen/text_size_15sp"
                 android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"

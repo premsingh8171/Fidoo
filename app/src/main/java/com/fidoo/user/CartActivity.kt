@@ -41,6 +41,7 @@ import com.fidoo.user.viewmodels.TrackViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import kotlinx.android.synthetic.main.activity_cart.*
@@ -153,7 +154,8 @@ class CartActivity : BaseActivity(),
         )
 
         backIcon.setOnClickListener {
-            finish()
+            AppUtils.finishActivityLeftToRight(this@CartActivity);
+
         }
 
         cb_no_contact_delivery.setOnCheckedChangeListener { _, b ->
@@ -1334,5 +1336,9 @@ class CartActivity : BaseActivity(),
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        AppUtils.finishActivityLeftToRight(this@CartActivity);
+    }
 
 }
