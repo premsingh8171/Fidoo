@@ -13,15 +13,14 @@ import com.bumptech.glide.Glide
 import com.fidoo.user.AboutUsActivity
 import com.fidoo.user.R
 import com.fidoo.user.SplashActivity
+import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.profile.EditProfileActivity
 import com.fidoo.user.profile.EditProfileViewModel
 import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
-import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.LogoutViewModel
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_profile.view.*
-import java.lang.Exception
 
 
 class ProfileFragment : Fragment() {
@@ -96,6 +95,10 @@ class ProfileFragment : Fragment() {
             startActivity(Intent(context, AboutUsActivity::class.java).putExtra("about_us", "about_us"))
         }
 
+        mView.tv_sharefriend.setOnClickListener {
+            shareApp()
+        }
+
         if (SessionTwiclo(requireContext()).isLoggedIn){
             mView.action_logout.visibility = View.VISIBLE
             //mView.tv_email.visibility = View.VISIBLE
@@ -155,6 +158,24 @@ class ProfileFragment : Fragment() {
    })
 
         return mView
+    }
+
+    private fun shareApp() {
+        try {
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name")
+            var shareMessage =
+                """ Hey, I use FIDOO to order anything I want be it food, medicine delivery, my pet items, groceries, daily needs & more. Everything delivered right to your doorstep. You’ll love this, download now!
+            """.trimIndent()
+            shareMessage = """${shareMessage}Click the link to download 
+            https://play.google.com/store/apps/details?id=com.fidoo.user
+            
+            """.trimIndent()
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+            startActivity(Intent.createChooser(shareIntent, "choose one"))
+        } catch (e: Exception) {
+        }
     }
 
 

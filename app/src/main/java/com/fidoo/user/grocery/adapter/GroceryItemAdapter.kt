@@ -49,8 +49,8 @@ class GroceryItemAdapter(
         val model = list[position]
         holder.itemView.grocery_item_tv.text = list[position].product_name
         holder.itemView.qua_txt.text = list[position].cart_quantity.toString()
-        holder.itemView.tv_price.text = context.resources.getString(R.string.ruppee) + "" + list[position].offer_price
-        holder.itemView.tv_unit.text = list[position].weight + list[position].unit
+        holder.itemView.tv_price.text = context.resources.getString(R.string.ruppee) + " " + list[position].offer_price
+        holder.itemView.tv_unit.text = list[position].weight +" "+ list[position].unit
         holder.itemView.minusplus_ll.visibility = View.GONE
         if (model.is_prescription == "1"){
             holder.itemView.medicine_prescription_lay.visibility = View.VISIBLE

@@ -28,6 +28,10 @@ android {
         multiDexEnabled true
     }
 
+//    configurations.all() {
+//        resolutionStrategy.force "org.antlr:antlr4-runtime:4.5.3"
+//        resolutionStrategy.force "org.antlr:antlr4-tool:4.5.3"
+//    }
     androidExtensions {
         experimental = true
     }
@@ -233,5 +237,6 @@ dependencies {
     implementation "androidx.paging:paging-guava:$paging_version"
 
     implementation "androidx.multidex:multidex:2.0.1"
-
+ //   def work_version = '2.5.0-SNAPSHOT'
+ //   implementation "androidx.work:work-runtime:$work_version"
 }

@@ -3,6 +3,7 @@ package com.fidoo.user
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -14,11 +15,17 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.fidoo.user.adapter.StoreCustomItemsAdapter
 import com.fidoo.user.adapter.StoreItemsAdapter
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.grocery.activity.GroceryItemsActivity
+import com.fidoo.user.grocery.model.getGroceryProducts.Product
+import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 import com.fidoo.user.interfaces.*
+import com.fidoo.user.restaurents.roomdatabase.database.RestaurantProductsDatabase
+import com.fidoo.user.restaurents.roomdatabase.entity.StoreItemProductsEntity
 import com.fidoo.user.ui.MainActivity.Companion.addCartTempList
 import com.fidoo.user.ui.MainActivity.Companion.tempProductList
 import com.fidoo.user.utils.BaseActivity
@@ -76,8 +83,11 @@ class StoreItemsActivity :
 
     var veg_filter: Int = 0
     var egg_filter: Int = 0
-
     lateinit var storeItemsAdapter:StoreItemsAdapter
+
+
+    //roomdb
+    private lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +107,16 @@ class StoreItemsActivity :
 
         customerLatitude = ""
         customerLongitude = ""
+        
+        Thread{
+            restaurantProductsDatabase = Room.databaseBuilder(
+                applicationContext,
+                 RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
 
+        }.start()
+        getRoomData()
 
         viewmodel = ViewModelProviders.of(this).get(StoreDetailsViewModel::class.java)
         cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
@@ -266,21 +285,39 @@ class StoreItemsActivity :
             if (storeData.category.size != 0) {
 
                 for (i in 0 until storeData.category.size) {
-
-
                     for (j in 0 until storeData.category[i].product.size) {
-//                    var catObj = storeData.category[i]
-//                    catList.add(catObj)
                         val productData = storeData.category[i].product[j]
                         productList.add(productData)
+                        Log.e("Product_", j.toString())
+
+                        Thread{
+                            //Runnable {
+                            restaurantProductsDatabase!!.resProductsDaoAccess()!!.insertResProducts(
+                                StoreItemProductsEntity(productData.cartQuantity,
+                                    productData.companyName,
+                                    productData.image,
+                                    productData.in_out_of_stock_status,
+                                    productData.isCustomize,
+                                    productData.is_customize_quantity,
+                                    productData.isNonveg,
+                                    productData.isPrescription,
+                                    productData.offerPrice,
+                                    productData.price,
+                                    productData.productId,
+                                    productData.productName,
+                                    productData.weight,
+                                    productData.unit,
+                                    productData.cartId,
+                                    productData.customizeItem.toString(),
+                                )
+                            )
+                           // }
+                        }.start()
                     }
                 }
 
                 var catName = catList.size
-
                 if(countRes==0) {
-
-
                     storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)
                     storeItemsRecyclerview.setHasFixedSize(true)
                     storeItemsAdapter= StoreItemsAdapter(
@@ -356,16 +393,10 @@ class StoreItemsActivity :
 
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
             dismissIOSProgress()
-            Log.e("vegnonveg__", nonveg_str.toString())
-
             Log.e("addRemoveCartResponse____", Gson().toJson(user))
             if (isNetworkConnected) {
-
-
                 if (SessionTwiclo(this).isLoggedIn) {
-                    if (veg==nonveg){
-                        getstorelist()
-                    }else {
+                        deleteRoomDataBase()
                         viewmodel?.getStoreDetails(
                             SessionTwiclo(this).loggedInUserDetail.accountId,
                             SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -374,11 +405,8 @@ class StoreItemsActivity :
                             intent.getStringExtra("catId")
 
                         )
-                    }
+                    deleteRoomDataBase()
                 } else {
-                     if (veg==nonveg){
-                      getstorelist()
-                      }else {
                          viewmodel?.getStoreDetails(
                              "",
                              "",
@@ -387,14 +415,13 @@ class StoreItemsActivity :
                              intent.getStringExtra("catId")
 
                          )
-                     }
+                    deleteRoomDataBase()
                 }
+                getRoomData()
             } else {
                 showInternetToast()
             }
 
-
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
 
@@ -405,46 +432,9 @@ class StoreItemsActivity :
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
-
-//        viewmodel?.cartCountResponse?.observe(this, { user ->
-//            dismissIOSProgress()
-//            if (!user.error) {
-//                val mModelData: com.fidoo.user.data.model.CartCountModel = user
-//                SessionTwiclo(this).storeId = mModelData.store_id
-//                Log.e("Store ID", mModelData.store_id)
-//                Log.e("countResponse", Gson().toJson(mModelData))
-//                tempProductList
-//                if (user.count.toInt() > 0) {
-//                    cartIcon.setImageResource(R.drawable.cart_icon)
-//                    cartIcon.setColorFilter(Color.argb(255, 53, 156, 71))
-//
-//                    //Toast.makeText(this,""+count,Toast.LENGTH_SHORT).show()
-//
-//                    //  bottomPrice=user.price.toDouble()
-//                    //cartCountTxt.visibility = View.VISIBLE
-//                    //ll_view_cart.visibility = View.VISIBLE
-//                    //cartCountTxt.text = user.count
-//                    //txt_price_.text = resources.getString(R.string.ruppee) + user.price
-//                    if (user.count.equals("1")) {
-//                        //txt_items_.text = user.count + " item"
-//                    } else {
-//                        //txt_items_.text = user.count + " items"
-//                    }
-//                } else {
-//                    cartIcon.setImageResource(R.drawable.ic_cart)
-//                    //cartCountTxt.visibility = View.GONE
-//                    //ll_view_cart.visibility = View.GONE
-//                }
-//            } else {
-//                if (user.errorCode == 101) {
-//                    showAlertDialog(this)
-//                }
-//            }
-//        })
-
         viewmodel?.addToCartResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
-            Log.e("stores response", Gson().toJson(user))
+            Log.e("stores_addresponse", Gson().toJson(user))
             val mModelData: com.fidoo.user.data.model.AddToCartModel = user
             if (tempType.equals("custom")) {
                 if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
@@ -467,10 +457,8 @@ class StoreItemsActivity :
             //showToast(mModelData.message)
             if (isNetworkConnected) {
                 showIOSProgress()
+                deleteRoomDataBase()
                 if (SessionTwiclo(this).isLoggedIn) {
-                    if (veg==nonveg){
-                        getstorelist()
-                    }else {
                         viewmodel?.getStoreDetails(
                             SessionTwiclo(this).loggedInUserDetail.accountId,
                             SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -478,11 +466,8 @@ class StoreItemsActivity :
                             nonveg_str,
                             intent.getStringExtra("catId")
                         )
-                    }
+
                 } else {
-                     if (veg==nonveg){
-                        getstorelist()
-                    }else {
                          viewmodel?.getStoreDetails(
                              "",
                              "",
@@ -490,9 +475,9 @@ class StoreItemsActivity :
                              nonveg_str,
                              intent.getStringExtra("catId")
                          )
-                     }
-                }
 
+                }
+                getRoomData()
             } else {
                 showInternetToast()
             }
@@ -616,148 +601,33 @@ class StoreItemsActivity :
             }
             getstorelist()
         }
+    }
 
-//        veg_switch.setOnCheckedChangeListener { _, b ->
-//
-//            Log.e("veg__", b.toString())
-//
-//            if (b) {
-//                veg=1
-//
-//                if (veg==nonveg){
-//                    getstorelist()
-//                }else {
-//                    nonveg_str="0"
-//                    if (isNetworkConnected) {
-//                        showIOSProgress()
-//                        if (SessionTwiclo(this).isLoggedIn) {
-//                            viewmodel?.getStoreDetails(
-//                                SessionTwiclo(this).loggedInUserDetail.accountId,
-//                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                                intent.getStringExtra("storeId"),
-//                                nonveg_str,
-//                                intent.getStringExtra("catId")
-//
-//                            )
-//                        } else {
-//                            viewmodel?.getStoreDetails(
-//                                "",
-//                                "",
-//                                intent.getStringExtra("storeId"),
-//                                nonveg_str,
-//                                intent.getStringExtra("catId")
-//
-//                            )
-//                        }
-//                    } else {
-//                        showInternetToast()
-//                    }
-//                }
-//
-//            } else {
-//                veg=0
-//                if (veg==nonveg){
-//                    getstorelist()
-//                }else {
-//                    nonveg_str="2"
-//                    if (isNetworkConnected) {
-//                        showIOSProgress()
-//                        if (SessionTwiclo(this).isLoggedIn) {
-//                            viewmodel?.getStoreDetails(
-//                                SessionTwiclo(this).loggedInUserDetail.accountId,
-//                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                                intent.getStringExtra("storeId"),
-//                                nonveg_str,
-//                                intent.getStringExtra("catId")
-//
-//                            )
-//                        } else {
-//                            viewmodel?.getStoreDetails(
-//                                "",
-//                                "",
-//                                intent.getStringExtra("storeId"),
-//                                nonveg_str,
-//                                intent.getStringExtra("catId")
-//
-//                            )
-//                        }
-//                    } else {
-//                        showInternetToast()
-//                    }
-//                }
-//
-//            }
-//        }
-//
-//        egg_switch.setOnCheckedChangeListener { _, b ->
-//            Log.e("egg", b.toString())
-//            if (b) {
-//                nonveg=1
-//
-//                if (veg==nonveg){
-//                    getstorelist()
-//                }else {
-//                    nonveg_str="2"
-//                    if (isNetworkConnected) {
-//                        showIOSProgress()
-//                        if (SessionTwiclo(this).isLoggedIn) {
-//                            viewmodel?.getStoreDetails(
-//                                SessionTwiclo(this).loggedInUserDetail.accountId,
-//                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                                intent.getStringExtra("storeId"),
-//                                nonveg_str,
-//                                intent.getStringExtra("catId")
-//
-//                            )
-//                        } else {
-//                            viewmodel?.getStoreDetails(
-//                                "",
-//                                "",
-//                                intent.getStringExtra("storeId"),
-//                                nonveg_str,
-//                                intent.getStringExtra("catId")
-//
-//                            )
-//                        }
-//                    } else {
-//                        showInternetToast()
-//                    }
-//                }
-//
-//            } else {
-//                nonveg=0
-//                if (veg==nonveg){
-//                    getstorelist()
-//                }else {
-//                    nonveg_str="0"
-//                    if (isNetworkConnected) {
-//                        showIOSProgress()
-//                        if (SessionTwiclo(this).isLoggedIn) {
-//                            viewmodel?.getStoreDetails(
-//                                SessionTwiclo(this).loggedInUserDetail.accountId,
-//                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                                intent.getStringExtra("storeId"),
-//                                nonveg_str,
-//                                intent.getStringExtra("catId")
-//
-//                            )
-//                        } else {
-//                            viewmodel?.getStoreDetails(
-//                                "",
-//                                "",
-//                                intent.getStringExtra("storeId"),
-//                                nonveg_str,
-//                                intent.getStringExtra("catId")
-//
-//                            )
-//                        }
-//                    } else {
-//                        showInternetToast()
-//                    }
-//                }
-//
-//            }
-//        }
+    private fun getRoomData() {
+        Handler().postDelayed(
+            {
+                restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllProducts2("10").observe(this, Observer {t ->
+
+                    Log.d("restaurantProductsDatabase",t.size.toString())
+                })
+                dismissIOSProgress()
+
+            },
+            10
+        )
+    }
+
+    //delete room data
+    private fun deleteRoomDataBase() {
+            Thread{
+                restaurantProductsDatabase = Room.databaseBuilder(
+                    applicationContext,
+                    RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME)
+                    .fallbackToDestructiveMigration()
+                    .build()
+               // restaurantProductsDatabase!!.resProductsDaoAccess()!!.deleteAll()
+
+            }.start()
 
     }
 
@@ -943,22 +813,10 @@ class StoreItemsActivity :
                             SessionTwiclo(this).loggedInUserDetail.accessToken, productId
                         )
                     }
-                    //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
                 }
 
                 //performing negative action
                 builder.setNegativeButton("REPEAT") { dialogInterface, which ->
-                    //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
-                    //showIOSProgress()
-                    /*     viewmodel?.addRemoveCartDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        productId,
-                        "add",
-                        isCustomize,
-                        productCustomizeId
-                    )*/
-
                 }
                 // Create the AlertDialog
                 val alertDialog: AlertDialog = builder.create()

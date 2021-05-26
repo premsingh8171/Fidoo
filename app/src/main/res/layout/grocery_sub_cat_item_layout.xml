@@ -20,8 +20,8 @@
         android:orientation="vertical">
 
         <TextView
-            android:paddingTop="@dimen/dimen_5dp"
-            android:paddingBottom="@dimen/dimen_5dp"
+            android:paddingTop="@dimen/text_size_7sp"
+            android:paddingBottom="@dimen/text_size_7sp"
             android:paddingRight="@dimen/margin_10"
             android:paddingLeft="@dimen/margin_10"
             android:layout_gravity="center"

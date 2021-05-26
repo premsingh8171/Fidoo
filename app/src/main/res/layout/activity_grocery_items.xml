@@ -88,6 +88,7 @@
             android:paddingRight="@dimen/margin_15dp"
             android:paddingLeft="@dimen/margin_15dp"
             android:background="@null"
+            android:textSize="@dimen/margin_14dp"
             android:drawableEnd="@drawable/places_ic_search"
             android:layout_width="match_parent"
             android:id="@+id/searchPrdEt"
@@ -168,9 +169,9 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:paddingLeft="@dimen/margin_10"
-                    android:paddingTop="@dimen/dimen_5dp"
-                    android:paddingRight="@dimen/margin_10"
-                    android:paddingBottom="@dimen/dimen_5dp"
+                    android:paddingTop="@dimen/text_size_7sp"
+                    android:paddingRight="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/text_size_7sp"
                     android:text="All"
                     android:textSize="12sp" />
 

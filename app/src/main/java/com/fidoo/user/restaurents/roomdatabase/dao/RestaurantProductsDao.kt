@@ -2,37 +2,43 @@ package com.fidoo.user.restaurents.roomdatabase.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.fidoo.user.data.model.Product
-import com.fidoo.user.data.model.StoreDetailsModel
-import com.fidoo.user.restaurents.roomdatabase.database.RestaurantProductDB
+import com.fidoo.user.grocery.model.getGroceryProducts.Product
+import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
+import com.fidoo.user.restaurents.roomdatabase.database.RestaurantProductsDatabase
+import com.fidoo.user.restaurents.roomdatabase.entity.StoreItemProductsEntity
 
 @Dao
 interface RestaurantProductsDao {
     @Insert
-    fun insertProducts( vararg product: StoreDetailsModel.Product)
+    fun insertResProducts( vararg product: StoreItemProductsEntity)
 
     @Insert
-    fun insertProducts(productList: List<StoreDetailsModel.Product>)
+    fun insertProducts(productList: ArrayList<StoreItemProductsEntity>)
 
-    @Query("SELECT * FROM " + RestaurantProductDB.TABLE_NAME)
-    fun getAllProducts(): LiveData<List<Product>>
+    @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME)
+    fun getAllProducts(): LiveData<List<StoreItemProductsEntity>>
+
+    @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" LIMIT :limit")
+    fun getAllProducts2(limit:String?): LiveData<List<StoreItemProductsEntity>>
 
 
-    @Query("UPDATE "+ RestaurantProductDB.TABLE_NAME +" SET cart_quantity=:quantity WHERE product_id = :product_id")
+    @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" LIMIT :pageSize OFFSET :pageIndex")
+    fun getAllProducts3(pageSize:String,pageIndex:String): LiveData<List<StoreItemProductsEntity>>
+
+    @Query("SELECT COUNT(*) FROM "+  RestaurantProductsDatabase.TABLE_NAME)
+    fun getTableCount(): LiveData<Integer>
+
+
+    @Query("UPDATE "+ RestaurantProductsDatabase.TABLE_NAME +" SET cartQuantity=:quantity WHERE productId = :product_id")
     fun updateProducts(quantity: Int?, product_id: String)
 
-//    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME + " WHERE product_category_id = :product_category_id")
-//    fun getProductsListByCategory(category: String?): ArrayList<Product?>?
-
-//    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME + " WHERE product_sub_category_id = :product_sub_category_id")
-//    fun getProductsListBySubCat(subcategoryId: String): Product?
 
     @Update
-    fun updateProduct(products: StoreDetailsModel.Product): Int
+    fun updateProduct(products: StoreItemProductsEntity): Int
 
     @Delete
-    fun deleteProduct(products: StoreDetailsModel.Product): Int
+    fun deleteProduct(products: StoreItemProductsEntity): Int
 
-    @Query("DELETE FROM Products_table")
+    @Query("DELETE FROM RestaurantProducts_table")
     fun deleteAll()
 }
