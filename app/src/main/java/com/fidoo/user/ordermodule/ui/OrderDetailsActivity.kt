@@ -18,6 +18,7 @@ import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
 import com.fidoo.user.utils.statusBarTransparent
 import com.fidoo.user.addressmodule.ViewPrescriptionActivity
 import com.google.gson.Gson
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.activity_order_details.backIcon
 import kotlinx.android.synthetic.main.activity_order_details.prescriptionLabel
@@ -46,7 +47,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             else {
 
                 finish()
-
+                AppUtils.finishActivityLeftToRight(this)
             }
         }
 
@@ -197,6 +198,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         }
         else {
             finish()
+            AppUtils.finishActivityLeftToRight(this)
         }
     }
 
@@ -209,4 +211,6 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                 SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId")
         )
     }
+
+
 }

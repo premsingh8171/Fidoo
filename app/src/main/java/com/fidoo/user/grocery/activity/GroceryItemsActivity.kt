@@ -124,7 +124,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_grocery_items)
         viewmodel = ViewModelProviders.of(this).get(GroceryProductsViewModel::class.java)
-
+        grocery_item_rv
         Thread{
             productsDatabase = Room.databaseBuilder(
                 applicationContext,

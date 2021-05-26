@@ -52,6 +52,7 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.gson.Gson
 import com.mancj.materialsearchbar.MaterialSearchBar
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.skyfishjy.library.RippleBackground
 import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.android.synthetic.main.content_map.*
@@ -315,7 +316,7 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             dismissIOSProgress()
             showToast("Address added successfully")
             finish()
-
+            AppUtils.finishActivityLeftToRight(this)
         })
 
         viewmodel?.failureResponse?.observe(this, {
@@ -664,7 +665,7 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        finish()
+        AppUtils.finishActivityLeftToRight(this)
     }
 
 

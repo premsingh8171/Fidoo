@@ -1,5 +1,6 @@
 package com.fidoo.user.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -14,6 +15,7 @@ import com.fidoo.user.SendPackageActivity
 import com.fidoo.user.StoreListActivity
 import com.fidoo.user.data.model.HomeServicesModel
 import com.fidoo.user.data.session.SessionTwiclo
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.category_adapter.view.*
 
 
@@ -51,18 +53,17 @@ class CategoryAdapter(
 
                 if (SessionTwiclo(con).isLoggedIn){
                     //con.sendBroadcast(Intent("start_send_package_fragment"))
-                    con.startActivity(Intent(con, SendPackageActivity::class.java))
+                   // con.startActivity(Intent(con, SendPackageActivity::class.java))
+                    AppUtils.startActivityRightToLeft(con as Activity?, Intent(con, SendPackageActivity::class.java));
 
                 }else{
                     showLoginDialog("Please login to proceed")
                 }
 
             } else {
-                con.startActivity(
-                    Intent(con, StoreListActivity::class.java).putExtra(
-                        "serviceId", serviceList[position].id
-                    ).putExtra("serviceName", serviceList[position].serviceName)
-                )
+                AppUtils.startActivityRightToLeft(con as Activity?,  Intent(con, StoreListActivity::class.java).putExtra(
+                    "serviceId", serviceList[position].id
+                ).putExtra("serviceName", serviceList[position].serviceName));
             }
         }
 

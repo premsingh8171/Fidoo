@@ -22,6 +22,7 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.gson.Gson
 import com.fidoo.user.utils.BaseActivity
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_saved_addresses.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
 
@@ -81,6 +82,7 @@ class SavedAddressesActivity : BaseActivity(),
 
         backIcon_saved_address.setOnClickListener {
             finish()
+            AppUtils.finishActivityLeftToRight(this)
         }
 //        tv_add_address.setOnClickListener {
 //            var intent = Intent(applicationContext, AddAddressActivity::class.java)
@@ -237,5 +239,9 @@ class SavedAddressesActivity : BaseActivity(),
             var status = Autocomplete.getStatusFromIntent(data!!)
             Toast.makeText(this, status.statusMessage, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onBackPressed() {
+        AppUtils.finishActivityLeftToRight(this)
     }
 }

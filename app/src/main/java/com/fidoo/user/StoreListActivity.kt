@@ -119,7 +119,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
         }
 
         search_stores_icon?.setOnClickListener {
-            startActivity(Intent(this,SearchItemActivity::class.java))
+            AppUtils.startActivityRightToLeft(this,Intent(this,SearchItemActivity::class.java))
         }
     }
 

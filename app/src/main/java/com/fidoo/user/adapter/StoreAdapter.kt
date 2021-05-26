@@ -1,5 +1,6 @@
 package com.fidoo.user.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -13,8 +14,10 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
+import com.fidoo.user.SendPackageActivity
 import com.fidoo.user.StoreItemsActivity
 import com.fidoo.user.grocery.activity.GroceryItemsActivity
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fav_store_item.view.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -106,25 +109,22 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
             if (storeList[position].status.equals("1")) {
                 if (storeList[position].open_close_status.equals("1")) {
                     if (storeList[position].has_product_categories.equals("1")) {
-                        context.startActivity(
-                            Intent(context, GroceryItemsActivity::class.java)
-                                .putExtra("storeId", storeList[position].id)
-                                .putExtra("store_name", storeList.get(position).name)
-                                .putExtra("store_location", storeList[position].address)
-                                .putExtra("delivery_time", storeList[position].delivery_time)
-                                .putExtra("cuisine_types", storeList[position].cuisines.joinToString (separator = ", "))
-                                .putExtra("distance", storeList[position].distance)
-                        )
+                        AppUtils.startActivityRightToLeft(context as Activity?, Intent(context, GroceryItemsActivity::class.java)
+                            .putExtra("storeId", storeList[position].id)
+                            .putExtra("store_name", storeList.get(position).name)
+                            .putExtra("store_location", storeList[position].address)
+                            .putExtra("delivery_time", storeList[position].delivery_time)
+                            .putExtra("cuisine_types", storeList[position].cuisines.joinToString (separator = ", "))
+                            .putExtra("distance", storeList[position].distance))
+
                     } else {
-                        context.startActivity(
-                            Intent(context, StoreItemsActivity::class.java)
-                                .putExtra("storeId", storeList[position].id)
-                                .putExtra("storeName", storeList[position].name)
-                                .putExtra("store_location", storeList[position].address)
-                                .putExtra("delivery_time", storeList[position].delivery_time)
-                                .putExtra("cuisine_types", storeList[position].cuisines.joinToString (separator = ", "))
-                                .putExtra("distance", storeList[position].distance)
-                        )
+                        AppUtils.startActivityRightToLeft(context as Activity?, Intent(context, StoreItemsActivity::class.java)
+                            .putExtra("storeId", storeList[position].id)
+                            .putExtra("storeName", storeList[position].name)
+                            .putExtra("store_location", storeList[position].address)
+                            .putExtra("delivery_time", storeList[position].delivery_time)
+                            .putExtra("cuisine_types", storeList[position].cuisines.joinToString (separator = ", "))
+                            .putExtra("distance", storeList[position].distance));
                     }
                 } else if (storeList[position].open_close_status.equals("0")) {
                     Toast.makeText(context, "Currently store is offline", Toast.LENGTH_SHORT).show()

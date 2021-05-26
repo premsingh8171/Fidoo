@@ -48,6 +48,7 @@ import com.makesense.labs.curvefit.Curve
 import com.makesense.labs.curvefit.impl.CurveManager
 import com.makesense.labs.curvefit.interfaces.OnCurveClickListener
 import com.makesense.labs.curvefit.interfaces.OnCurveDrawnCallback
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_track_order.*
 import kotlinx.android.synthetic.main.review_popup.view.*
 import org.json.JSONObject
@@ -185,6 +186,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                 finishAffinity()
             } else {
                 finish()
+                AppUtils.finishActivityLeftToRight(this)
             }
         }
 
@@ -558,6 +560,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
             finishAffinity()
         } else {
             super.onBackPressed()
+            AppUtils.finishActivityLeftToRight(this)
         }
     }
 
@@ -1032,4 +1035,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 
     }
+
+
 }

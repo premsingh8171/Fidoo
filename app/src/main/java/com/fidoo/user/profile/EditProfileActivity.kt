@@ -14,6 +14,7 @@ import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.utils.BaseActivity
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -56,6 +57,7 @@ class EditProfileActivity : BaseActivity() {
         backIconProfile.setOnClickListener {
 
             finish()
+            AppUtils.finishActivityLeftToRight(this)
         }
         fab_image_camera.setOnClickListener {
             ImagePicker.with(this)
@@ -167,5 +169,10 @@ class EditProfileActivity : BaseActivity() {
 
         // showIOSProgress();
         // getRestfullInstance().uploadImageToGallary(column_number, mImageParts, mApiHandler)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        AppUtils.finishActivityLeftToRight(this)
     }
 }

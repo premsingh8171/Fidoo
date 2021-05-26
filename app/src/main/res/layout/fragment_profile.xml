@@ -322,7 +322,7 @@
             android:layout_height="20dp"
             app:layout_constraintTop_toBottomOf="@id/separator_four5"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:src="@drawable/ic_share"
+            android:src="@drawable/share"
             android:layout_marginStart="20dp"
             android:layout_margin="20dp"/>
 
@@ -339,6 +339,7 @@
             android:textColor="@color/black"/>
 
         <TextView
+
             android:layout_marginBottom="@dimen/ib_fr_space_20"
             android:id="@+id/tv_sharefriend"
             android:layout_width="250dp"

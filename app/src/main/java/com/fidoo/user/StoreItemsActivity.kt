@@ -36,6 +36,7 @@ import com.fidoo.user.viewmodels.TrackViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.activity_store_items.backIcon
@@ -145,7 +146,7 @@ class StoreItemsActivity :
         }
 
         backIcon.setOnClickListener {
-            finish()
+            AppUtils.finishActivityLeftToRight(this)
         }
 
         customAddBtn.setOnClickListener {
@@ -669,6 +670,7 @@ class StoreItemsActivity :
             behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
 
         }
+        AppUtils.finishActivityLeftToRight(this)
     }
 
     private fun clearCartPopup() {
@@ -1269,4 +1271,5 @@ class StoreItemsActivity :
         }
 
     }
+
 }

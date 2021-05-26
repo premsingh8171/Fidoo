@@ -27,6 +27,7 @@ import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.SendPackagesViewModel
 import com.google.gson.Gson
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import kotlinx.android.synthetic.main.activity_send_package.*
@@ -213,6 +214,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
 
         back_action.setOnClickListener {
             finish()
+            AppUtils.finishActivityLeftToRight(this)
         }
 
         tv_placeOrder.setOnClickListener {
@@ -623,5 +625,10 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         super.onResume()
         tv_address_from.text = selectedFromAddress
         tv_address_to.text = selectedToAddress
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        AppUtils.finishActivityLeftToRight(this)
     }
 }

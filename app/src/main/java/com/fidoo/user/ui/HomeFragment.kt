@@ -39,6 +39,7 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.gson.Gson
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -87,11 +88,11 @@ class HomeFragment : Fragment() {
         pics, 10, object : ClickCart {
             override fun cartOnClick(view: View?) {
                 //  service_name?.let { Log.d("fdfdfd", it) }
-                startActivity(
-                    Intent(requireActivity(), StoreListActivity::class.java).putExtra(
-                        "serviceId", service_id
-                    ).putExtra("serviceName", service_name)
-                )
+                AppUtils.startActivityRightToLeft(requireActivity(),Intent(requireActivity(), StoreListActivity::class.java).putExtra(
+                    "serviceId", service_id
+                ).putExtra("serviceName", service_name));
+
+               // startActivity()
             }
         })
 
@@ -307,11 +308,9 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         fragmentHomeBinding?.cartIcon?.setOnClickListener {
             if (SessionTwiclo(context).isLoggedIn) {
-                startActivity(
-                    Intent(context, CartActivity::class.java).putExtra(
-                        "storeId", SessionTwiclo(context).storeId
-                    )
-                )
+                AppUtils.startActivityRightToLeft(requireActivity(), Intent(context, CartActivity::class.java).putExtra(
+                    "storeId", SessionTwiclo(context).storeId
+                ));
             } else {
                 showLoginDialog("Please login to proceed")
             }
@@ -334,10 +333,9 @@ class HomeFragment : Fragment() {
             // if (SessionTwiclo(context).isLoggedIn){
 
             //findNavController().navigate(R.id.action_homeFragment_to_sendPacketFragment)
-            startActivity(
-                Intent(context, SendPackageActivity::class.java)
-                    .putExtra("where", where)
-            )
+            AppUtils.startActivityRightToLeft(requireActivity(),Intent(context, SendPackageActivity::class.java)
+                .putExtra("where", where));
+
 //            }else{
 //                showLoginDialog("Please login to proceed")
 //            }
@@ -557,10 +555,7 @@ class HomeFragment : Fragment() {
 
         //performing positive action
         builder.setPositiveButton("Login") { _, _ ->
-            startActivity(
-                Intent(activity, SplashActivity::class.java)
-            )
-
+            AppUtils.startActivityRightToLeft(requireActivity(), Intent(activity, SplashActivity::class.java));
 
         }
 

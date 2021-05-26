@@ -28,6 +28,7 @@ import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.utils.statusBarTransparent
 import com.fidoo.user.viewmodels.ProductDetailsViewModel
 import com.google.gson.Gson
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
@@ -57,6 +58,7 @@ class SingleProductActivity : BaseActivity(), AdapterImageClick {
         viewmodel = ViewModelProviders.of(this).get(ProductDetailsViewModel::class.java)
         backIcon.setOnClickListener {
             finish()
+            AppUtils.finishActivityLeftToRight(this)
         }
         showIOSProgress()
 
@@ -481,5 +483,10 @@ class SingleProductActivity : BaseActivity(), AdapterImageClick {
         // Set other dialog properties
         alertDialog.setCancelable(true)
         alertDialog.show()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        AppUtils.finishActivityLeftToRight(this)
     }
 }

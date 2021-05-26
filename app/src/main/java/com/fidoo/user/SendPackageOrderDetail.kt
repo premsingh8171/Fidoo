@@ -16,6 +16,7 @@ import com.fidoo.user.data.model.SendPackagesModel
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.viewmodels.SendPackagesViewModel
 import com.google.gson.Gson
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import kotlinx.android.synthetic.main.activity_cart.*
@@ -124,6 +125,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
 //        }
         backIcon.setOnClickListener {
             finish()
+            AppUtils.finishActivityLeftToRight(this)
         }
 
 
@@ -323,4 +325,8 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
     }
 
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        AppUtils.finishActivityLeftToRight(this)
+    }
 }

@@ -5,6 +5,7 @@ import android.util.Log
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
 import com.fidoo.user.utils.BaseActivity
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_view_prescription.*
 
 
@@ -20,7 +21,12 @@ class ViewPrescriptionActivity : BaseActivity() {
         // myZoomageView?.setImageURI(Uri.parse(intent.getStringExtra("image"))!!)
         backIcon.setOnClickListener {
             finish()
+            AppUtils.finishActivityLeftToRight(this)
         }
+    }
+
+    override fun onBackPressed() {
+        AppUtils.finishActivityLeftToRight(this)
     }
 
 }
