@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/tv_price"
                 android:layout_alignParentEnd="true"
-                android:layout_marginLeft="@dimen/dimen_5dp"
+                android:layout_marginLeft="@dimen/margin_4dp"
                 android:layout_weight="9.9"
                 android:padding="@dimen/margin_5dp"
                 android:text="1gm"

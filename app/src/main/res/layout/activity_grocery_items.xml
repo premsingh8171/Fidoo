@@ -152,7 +152,7 @@
 
             <LinearLayout
                 android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginLeft="@dimen/margin_15dp"
+                android:layout_marginLeft="@dimen/margin_20dp"
                 android:paddingRight="@dimen/dimen_5dp"
                 android:paddingLeft="@dimen/dimen_5dp"
                 android:layout_width="wrap_content"
@@ -170,7 +170,7 @@
                     android:gravity="center"
                     android:paddingLeft="@dimen/margin_10"
                     android:paddingTop="@dimen/text_size_7sp"
-                    android:paddingRight="@dimen/margin_8dp"
+                    android:paddingRight="@dimen/margin_10"
                     android:paddingBottom="@dimen/text_size_7sp"
                     android:text="All"
                     android:textSize="12sp" />
@@ -180,7 +180,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_toRightOf="@+id/active_dotLLall"
-                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginLeft="@dimen/dimen_5dp"
                 android:id="@+id/sub_cat_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
