@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.fidoo.user.CartActivity
@@ -54,7 +55,6 @@ import kotlinx.android.synthetic.main.activity_search_item.*
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
 import kotlinx.android.synthetic.main.select_cat_popup.*
-import java.io.UnsupportedEncodingException
 
 
 class GroceryItemsActivity : BaseActivity(), AdapterClick,
@@ -71,6 +71,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     var subcatListFilter: ArrayList<Subcategory> = ArrayList()
     var selectAreaDiolog: Dialog? = null
     lateinit var catrecyclerView: RecyclerView
+    lateinit var  viewAll_txt: TextView
     var cat_id: String? = ""
     var subcat_name: String? = ""
     var selectedValue: String? = "default"
@@ -79,6 +80,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     var customIdsList: ArrayList<String>? = null
     private lateinit var groceryItemAdapter: GroceryItemAdapter
     private var slide_: Animation? = null
+    var selected_cat:Int=-1
+    var selected_Subcat:Int=0
 
     companion object {
         var itemPosition: Int? = 0
@@ -478,6 +481,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             grocery_sub_tvall.setTextColor(Color.parseColor("#ffffff"))
             rvlistSubcategory(subcatList)
 //            cat_id = ""
+            selected_Subcat=0
             subcat_name = ""
             sub_cat_id=""
             itemPosition = 0
@@ -566,7 +570,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         selectAreaDiolog?.setCanceledOnTouchOutside(true)
         selectAreaDiolog?.show()
         val txtError = selectAreaDiolog?.findViewById<TextView>(R.id.txtError)
-        val viewAll_txt = selectAreaDiolog?.findViewById<TextView>(R.id.viewAll_txt)
+        viewAll_txt = selectAreaDiolog?.findViewById<TextView>(R.id.viewAll_txt)!!
         val dismisspopUp = selectAreaDiolog?.findViewById<ImageView>(R.id.dismisspopUp)
         catrecyclerView = selectAreaDiolog?.findViewById(R.id.catRecyclerview)!!
 
@@ -583,18 +587,23 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             selectAreaDiolog?.dismiss()
 
         })
+        if (selected_cat==-1){
+            viewAll_txt.setTextColor(Color.parseColor("#339347"))
+        }else{
+            viewAll_txt.setTextColor(Color.parseColor("#000000"))
+        }
 
         viewAll_txt?.setOnClickListener(View.OnClickListener {
             selectAreaDiolog?.dismiss()
+            selected_cat==-1
             cat_id = ""
             subcat_name = ""
             sub_cat_id=""
             itemPosition = 0
             viewAll = 1
             tv_categories.text = "Select category"
-//            for (i in 0 until catList.size) {
-//                filterListShowing(0, catList[i])
-//            }
+
+
             showIOSProgress()
             deleteRoomDataBase()
             viewmodel?.getGroceryProductsFun(
@@ -670,7 +679,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     }
 
-    //For SubCategory list Showing on left side of Activity view
+    //For SubCategory list Showing on top of view tab like
     private fun rvlistSubcategory(subcatList: ArrayList<Subcategory>) {
         sub_cat_rv.adapter = GrocerySubItemAdapter(
             this,
@@ -682,7 +691,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     subcat_name = subgrocery.subcategory_name
                     selectedValue=subcat_name
                     sub_cat_id = subgrocery.sub_cat_id
-                    Log.d("grocery___", subgrocery.sub_cat_id)
+                    selected_Subcat=pos
                     totalItem=20
                     showIOSProgress()
                     active_dotLLall.setBackgroundResource(R.drawable.black_full_rounded_empty)
@@ -697,6 +706,17 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     getRoomData()
                 }
             },selectedValue)
+        grocery_item_rv.layoutManager = manager
+        sub_cat_rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dx == dy) {
+                    sub_cat_rv.smoothScrollToPosition(selected_Subcat)
+                 //   manager?.scrollToPositionWithOffset(selected_Subcat, -10)
+
+                }
+            }
+        })
 
 
     }
@@ -705,6 +725,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     private fun rvCategory(catList: ArrayList<Category>) {
         catrecyclerView.adapter = GroceryCategoryAdapter(
             this,
+            selected_cat,
             catList,
             object : GroceryCategoryAdapter.CategoryItemClick {
 
@@ -714,6 +735,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     slide_ = AnimationUtils.loadAnimation(this@GroceryItemsActivity, R.anim.slide_in_left)
                     selectAreaDiolog?.layout_catPopup?.startAnimation(slide_)
                     selectAreaDiolog?.dismiss()
+                    viewAll_txt.setTextColor(Color.parseColor("#000000"))
+                    selected_cat= pos
                     cat_id = grocery.cat_id
                     itemPosition = 0
                     viewAll = 0

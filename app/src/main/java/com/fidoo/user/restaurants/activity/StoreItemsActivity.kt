@@ -87,9 +87,9 @@ class StoreItemsActivity :
     private lateinit var mMap: GoogleMap
     var cartId: String = ""
     lateinit var storeID : String
-
+    var cat_listShow: Int = 0
     companion object {
-        var cat_listShow: Int = 0
+
         var customerLatitude: String = ""
         var customerLongitude: String = ""
     }
