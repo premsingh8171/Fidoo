@@ -89,6 +89,7 @@ class StoreItemsActivity :
     lateinit var storeID : String
 
     companion object {
+        var cat_listShow: Int = 0
         var customerLatitude: String = ""
         var customerLongitude: String = ""
     }
@@ -302,7 +303,9 @@ class StoreItemsActivity :
             linear_progress_indicator.visibility = View.GONE
             tempProductList!!.clear()
             addCartTempList!!.clear()
-            catList!!.clear()
+            if (cat_listShow==0){
+                catList!!.clear()
+            }
             Log.e("stor_edetails_res", Gson().toJson(storeData))
 
             val productList: ArrayList<StoreDetailsModel.Product> = ArrayList()
@@ -344,7 +347,11 @@ class StoreItemsActivity :
 //                        }.start()
                     }
 
-                    catList.add(categoryData)
+                    if (cat_listShow==0){
+                        catList.add(categoryData)
+                    }
+
+
                 }
 
                 rvStoreItemlisting(productList)
@@ -555,7 +562,7 @@ class StoreItemsActivity :
             //api call here
             getStoreDetailsApiCall()
         })
-
+        cat_listShow=1
        rvCategory(catList)
 
     }
