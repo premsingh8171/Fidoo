@@ -28,13 +28,13 @@ import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentSearchBinding
 import com.fidoo.user.interfaces.*
+import com.fidoo.user.restaurants.model.CustomCheckBoxModel
+import com.fidoo.user.restaurants.model.CustomListModel
+import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
 import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
-import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.viewmodels.SearchFragmentViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
-import com.vanillaplacepicker.utils.ToastUtils.showToast
-import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 
@@ -208,7 +208,6 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
                 SessionTwiclo(context).loggedInUserDetail.accountId,
                 SessionTwiclo(context).loggedInUserDetail.accessToken
             )
-
         })
 
         viewmodel?.customizeProductResponse?.observe(requireActivity(), Observer { user ->
@@ -224,7 +223,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
 
             for (i in 0 until mModelDataTemp?.category?.size!!) {
                 if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
-                    var customListModel: CustomListModel? = CustomListModel()
+                    var customListModel: CustomListModel? =
+                        CustomListModel()
                     customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
                     customListModel.id = mModelDataTemp?.category?.get(i)!!.subCat.get(0).id.toInt()
                     customListModel.price = mModelDataTemp?.category?.get(i)!!.subCat.get(0).price
@@ -782,7 +782,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
     override fun onIdSelected(productId: String, type: String, price: String, maxSelectionCount: Int) {
         if (type == "select") {
             customIdsList!!.add(productId)
-            val customCheckBoxModel = CustomCheckBoxModel()
+            val customCheckBoxModel =
+                CustomCheckBoxModel()
             customCheckBoxModel.id = productId
             customCheckBoxModel.price = price
             customIdsListTemp!!.add(customCheckBoxModel)
@@ -854,7 +855,8 @@ class SearchFragment : Fragment(), AdapterClick, CustomCartAddRemoveClick, Adapt
             categoryy!!.get(tempAddEditId!!.toInt()).id = checkedId!!.toInt()
             categoryy!!.get(tempAddEditId.toInt()).price = tempPrice
         } else {
-            var customListModel: CustomListModel? = CustomListModel()
+            var customListModel: CustomListModel? =
+                CustomListModel()
             customListModel!!.category = tempCat
             customListModel.id = checkedId!!.toInt()
             customListModel.price = tempPrice

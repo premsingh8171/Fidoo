@@ -8,6 +8,7 @@ import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
 import com.fidoo.user.data.model.*
 import com.fidoo.user.ordermodule.model.UploadPresModel
+import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call

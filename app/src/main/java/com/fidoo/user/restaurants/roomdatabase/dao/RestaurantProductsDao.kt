@@ -1,11 +1,9 @@
-package com.fidoo.user.restaurents.roomdatabase.dao
+package com.fidoo.user.restaurants.roomdatabase.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.fidoo.user.grocery.model.getGroceryProducts.Product
-import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
-import com.fidoo.user.restaurents.roomdatabase.database.RestaurantProductsDatabase
-import com.fidoo.user.restaurents.roomdatabase.entity.StoreItemProductsEntity
+import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
+import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 
 @Dao
 interface RestaurantProductsDao {

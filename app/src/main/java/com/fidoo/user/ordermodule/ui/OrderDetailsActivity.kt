@@ -45,7 +45,6 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             }
 
             else {
-
                 finish()
                 AppUtils.finishActivityLeftToRight(this)
             }
@@ -105,7 +104,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                 user.orderStatus.equals("6") -> {
                     // holder.buttonValue.visibility = View.VISIBLE
 
-                    orderStatusValue.text = "Out for Delivery"
+                    orderStatusValue.text = "Delivered to Delivery Address"
                 }
                 user.orderStatus.equals("7") -> {
                     orderStatusValue.text = "Accepted"
@@ -114,7 +113,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                     orderStatusValue.text = "In Progress"
                 }
                 user.orderStatus.equals("10") -> {
-                    orderStatusValue.text = "Out for delivery"
+                    orderStatusValue.text = "Delivered to Delivery Addressy"
                 }
                 user.orderStatus.equals("8") -> {
                     orderStatusValue.text = "Rejected"

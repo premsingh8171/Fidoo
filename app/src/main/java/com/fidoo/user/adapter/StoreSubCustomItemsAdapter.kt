@@ -8,19 +8,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
-import com.fidoo.user.data.model.CustomizeProductResponseModel
+import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
 import com.fidoo.user.interfaces.CustomCartAddRemoveClick
 import kotlinx.android.synthetic.main.custom_sub_items_adapter.view.*
 
 
 class StoreSubCustomItemsAdapter(
-        val con: Context,
-        val maxSelectionCount: String,
-        val subCat: MutableList<CustomizeProductResponseModel.SubCat>,
-        val customCartAddRemoveClick: CustomCartAddRemoveClick,
-        var typeview: String? = "",
-        val adapterCustomRadioClick: AdapterCustomRadioClick
+    val con: Context,
+    val maxSelectionCount: String,
+    val subCat: MutableList<CustomizeProductResponseModel.SubCat>,
+    val customCartAddRemoveClick: CustomCartAddRemoveClick,
+    var typeview: String? = "",
+    val adapterCustomRadioClick: AdapterCustomRadioClick
 ) :
     RecyclerView.Adapter<StoreSubCustomItemsAdapter.UserViewHolder>() {
 

@@ -83,6 +83,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 
     companion object {
+        var reviewpopup:Int=0
 
         var trackOrderContext: Context? = null
 
@@ -450,7 +451,10 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     tv_order_id_label.visibility = View.GONE
                     map.alpha = 0.0f
                     timer!!.cancel()
-                    buyPopup(it.orderId)
+                    if (reviewpopup==0){
+                        buyPopup(it.orderId)
+                        reviewpopup=1
+                    }
 
 
                 }
@@ -527,11 +531,18 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
         viewmodel?.orderFeedback?.observe(this,{
                 feedback->
+              dismissIOSProgress()
             if (checkStatusOfReview==1) {
                 CommonUtils.dismissIOSProgress()
-
-
                 val model: Feedback = feedback
+                    var reviewpopup:Int=0
+                startActivity(
+                    Intent(this, OrderDetailsActivity::class.java).putExtra(
+                        "orderId",
+                        intent.getStringExtra("orderId")!!
+                    )
+                )
+                finish()
                 Toast.makeText(this, model.message, Toast.LENGTH_SHORT).show()
 
             }
@@ -868,21 +879,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         mAlertDialogg!!.window!!.attributes = lp
         mAlertDialogg.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         mAlertDialogg.window!!.setGravity(Gravity.CENTER)
-        //cancel button click of custom layout
-
-        // img_review_img,reviewName_txt,cancel_reviewPopUp
-        //poor_icon_select
-        //ok_icon_select
-        //good_icon_select
-        //excellent_icon_select
-        //selection_ques_txt
-        //itemPackaging_txt_selection
-        //delivery_txt_selection
-        //appInterface_txt_selection
-        //deliveryExperience_txt_selection
-        //remark_txt
-        //submitTextBtn
-
 
         mDialogView.poor_icon_select.setBackgroundResource(R.drawable.rectangle_border)
 
@@ -965,8 +961,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
             mDialogView.appInterface_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
             mDialogView.deliveryExperience_txt_selection.setBackgroundResource(R.drawable.black_rounded_solid)
         }
-        mDialogView.submitTxt.setOnClickListener {
-            //dismiss dialog
+        mDialogView.submitTextBtn.setOnClickListener {
             mAlertDialogg.dismiss()
             showIOSProgress()
             checkStatusOfReview=1
@@ -979,9 +974,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                 mDialogView.remark_txt.text.toString(),
                 "add"
             )
-            startActivity(Intent(this, OrderDetailsActivity::class.java).putExtra("orderId", intent.getStringExtra("orderId")!!))
-            finish()
-
 
         }
 

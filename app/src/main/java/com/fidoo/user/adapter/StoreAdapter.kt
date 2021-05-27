@@ -8,14 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
-import com.fidoo.user.SendPackageActivity
-import com.fidoo.user.StoreItemsActivity
+import com.fidoo.user.restaurants.activity.StoreItemsActivity
 import com.fidoo.user.grocery.activity.GroceryItemsActivity
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fav_store_item.view.*

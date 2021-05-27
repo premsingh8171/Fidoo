@@ -1,11 +1,9 @@
-package com.fidoo.user.restaurents.roomdatabase.database
+package com.fidoo.user.restaurants.roomdatabase.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.fidoo.user.grocery.model.getGroceryProducts.Product
-import com.fidoo.user.grocery.roomdatabase.dao.ProductsDao
-import com.fidoo.user.restaurents.roomdatabase.dao.RestaurantProductsDao
-import com.fidoo.user.restaurents.roomdatabase.entity.StoreItemProductsEntity
+import com.fidoo.user.restaurants.roomdatabase.dao.RestaurantProductsDao
+import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 
 @Database(entities = arrayOf(StoreItemProductsEntity::class), version = 1)
 abstract class RestaurantProductsDatabase: RoomDatabase() {

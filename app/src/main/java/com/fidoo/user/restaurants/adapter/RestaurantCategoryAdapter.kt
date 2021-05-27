@@ -1,21 +1,26 @@
-package com.fidoo.user.grocery.adapter
+package com.fidoo.user.restaurants.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
 import com.fidoo.user.grocery.model.getGroceryProducts.Category
+import com.fidoo.user.restaurants.model.StoreDetailsModel
 import kotlinx.android.synthetic.main.grocery_cat_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.grocery_sub_tv
 
-class GroceryCategoryAdapter(
+class RestaurantCategoryAdapter(
     var context: Context,
-    var list:ArrayList<Category>,
-    var categoryItemClick:CategoryItemClick): RecyclerView.Adapter<GroceryCategoryAdapter.ViewHolder>() {
+    var list:ArrayList<StoreDetailsModel.Category>,
+    var active_or_not:Int=-1,
+    var categoryItemClick:CategoryItemClick): RecyclerView.Adapter<RestaurantCategoryAdapter.ViewHolder>() {
+    var index:Int=-1
+
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
@@ -25,11 +30,18 @@ class GroceryCategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.cat_tv.text = list.get(position).cat_name
+        holder.itemView.cat_tv.text = list.get(position).catName
         holder.itemView.category_constL.setOnClickListener {
+         //   index=position
+            active_or_not=position
             categoryItemClick.onItemClick(position,list.get(position))
-           // notifyItemRemoved(position)
             notifyDataSetChanged()
+        }
+
+        if (active_or_not==position){
+            holder.itemView.cat_tv.setTextColor(Color.parseColor("#339347"))
+        }else{
+            holder.itemView.cat_tv.setTextColor(Color.parseColor("#000000"))
         }
     }
 
@@ -38,7 +50,7 @@ class GroceryCategoryAdapter(
     }
 
     interface CategoryItemClick {
-        fun onItemClick(pos: Int,grocery:Category)
+        fun onItemClick(pos: Int,category:StoreDetailsModel.Category)
     }
 
 }

@@ -1,7 +1,6 @@
-package com.fidoo.user.restaurents.roomdatabase.entity
+package com.fidoo.user.restaurants.roomdatabase.entity
 
 import androidx.annotation.NonNull
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

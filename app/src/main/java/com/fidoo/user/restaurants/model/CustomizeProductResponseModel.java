@@ -1,4 +1,4 @@
-package com.fidoo.user.data.model;
+package com.fidoo.user.restaurants.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -131,6 +131,8 @@ class TrackViewModel(application: Application) : AndroidViewModel(application)  
         message: String?,
         type: String?
     ) {
+        Log.d("addfeedbackApi",accountId+"-\n"+accessToken+"-\n"+order_id+"-\n"+star
+                +"-\n"+improvement+"-\n"+message+"-\n"+type)
         WebServiceClient.client.create(BackEndApi::class.java).addFeedbackApi(
             accountId = accountId,
             accessToken = accessToken,

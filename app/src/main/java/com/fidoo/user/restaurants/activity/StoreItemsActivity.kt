@@ -1,37 +1,47 @@
-package com.fidoo.user
+package com.fidoo.user.restaurants.activity
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
+import com.fidoo.user.CartActivity
+import com.fidoo.user.LoginActivity
+import com.fidoo.user.R
 import com.fidoo.user.adapter.StoreCustomItemsAdapter
 import com.fidoo.user.adapter.StoreItemsAdapter
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.grocery.activity.GroceryItemsActivity
-import com.fidoo.user.grocery.model.getGroceryProducts.Product
-import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 import com.fidoo.user.interfaces.*
-import com.fidoo.user.restaurents.roomdatabase.database.RestaurantProductsDatabase
-import com.fidoo.user.restaurents.roomdatabase.entity.StoreItemProductsEntity
+import com.fidoo.user.restaurants.adapter.RestaurantCategoryAdapter
+import com.fidoo.user.restaurants.model.CustomCheckBoxModel
+import com.fidoo.user.restaurants.model.CustomListModel
+import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
+import com.fidoo.user.restaurants.model.StoreDetailsModel
+import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.ui.MainActivity.Companion.addCartTempList
 import com.fidoo.user.ui.MainActivity.Companion.tempProductList
 import com.fidoo.user.utils.BaseActivity
-import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.viewmodels.CartViewModel
-import com.fidoo.user.viewmodels.StoreDetailsViewModel
+import com.fidoo.user.restaurants.viewmodel.StoreDetailsViewModel
 import com.fidoo.user.viewmodels.TrackViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -44,6 +54,7 @@ import kotlinx.android.synthetic.main.activity_store_items.linear_progress_indic
 import kotlinx.android.synthetic.main.activity_store_items.tv_deliveryTime
 import kotlinx.android.synthetic.main.activity_store_items.tv_location
 import kotlinx.android.synthetic.main.activity_store_items.tv_store_name
+import kotlinx.android.synthetic.main.select_cat_popup.*
 import java.lang.NumberFormatException
 
 class StoreItemsActivity :
@@ -58,9 +69,9 @@ class StoreItemsActivity :
     private var mModelDataTemp: CustomizeProductResponseModel? = null
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
     var customIdsListTemp: ArrayList<CustomCheckBoxModel>? = null
-    var cartViewModel: CartViewModel? = null
+    var cartViewModel: CartViewModel? = null //Un used
     var viewmodel: StoreDetailsViewModel? = null
-    var distanceViewModel: TrackViewModel? = null
+    var distanceViewModel: TrackViewModel? = null//Un used
     var customIdsList: ArrayList<String>? = null
     var tempProductId: String? = ""
     var mCustomizeCount: Int? = 0
@@ -85,6 +96,14 @@ class StoreItemsActivity :
     var veg_filter: Int = 0
     var egg_filter: Int = 0
     lateinit var storeItemsAdapter:StoreItemsAdapter
+    lateinit var restaurantCategoryAdapter:RestaurantCategoryAdapter
+
+    var selectCategoryDiolog: Dialog? = null
+    lateinit var catrecyclerView: RecyclerView
+    lateinit var viewAll_txt:TextView
+    var cat_id: String? = ""
+    var active_or_not:Int=-1
+    val catList: ArrayList<StoreDetailsModel.Category> = ArrayList()
 
 
     //roomdb
@@ -149,15 +168,17 @@ class StoreItemsActivity :
             AppUtils.finishActivityLeftToRight(this)
         }
 
+        cat_FloatBtn.setOnClickListener {
+            catPopUp()
+        }
+
         customAddBtn.setOnClickListener {
             Log.e("addCartTempList", Gson().toJson(addCartTempList))
 
             for (i in 0 until categoryy!!.size) {
                 customIdsList!!.add(categoryy!![i].id.toString())
             }
-
             Log.e("customIdsList", customIdsList.toString())
-
 
             addCartTempList!!.clear()
             val addCartInputModel = AddCartInputModel()
@@ -194,12 +215,43 @@ class StoreItemsActivity :
             }
         }
 
+        veg_switch_img.setOnClickListener {
+            if (veg_filter==0){
+                veg_switch_img.setImageResource(R.drawable.filter_on)
+                egg_switch_img.setImageResource(R.drawable.filter_off)
+                egg_filter=0
+                veg_filter=1
+                nonveg_str="0"
+            }else{
+                veg_switch_img.setImageResource(R.drawable.filter_off)
+                veg_filter=0
+                nonveg_str=""
+            }
+            getStoreDetailsApiCall()
+        }
+
+        egg_switch_img.setOnClickListener {
+            if (egg_filter==0){
+                egg_switch_img.setImageResource(R.drawable.filter_on)
+                veg_switch_img.setImageResource(R.drawable.filter_off)
+                veg_filter=0
+                egg_filter=1
+                nonveg_str="2"
+
+            }else{
+                egg_switch_img.setImageResource(R.drawable.filter_off)
+                egg_filter=0
+                nonveg_str=""
+
+            }
+            getStoreDetailsApiCall()
+        }
+
         //Default behaviour of Bottom Sheet
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         tv_store_name.text = intent.getStringExtra("storeName")
         //storeID = intent.getStringExtra("storeId")!!
-
 
         transLay.setOnClickListener {
             if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
@@ -215,37 +267,10 @@ class StoreItemsActivity :
         }
 
         if (isNetworkConnected) {
-            if (SessionTwiclo(this).isLoggedIn) {
-                viewmodel?.getStoreDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    intent.getStringExtra("storeId"),
-                    nonveg_str,
-                    intent.getStringExtra("catId")
-
-                )
-
-                viewmodel?.getCartCountApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken
-                )
-            } else {
-
-                viewmodel?.getStoreDetails(
-                    "",
-                    "",
-                    intent.getStringExtra("storeId"),
-                    nonveg_str,
-                    intent.getStringExtra("catId")
-
-                )
-            }
+            getStoreDetailsApiCall()
         } else {
             showInternetToast()
         }
-
-
-
 
         //cartcount responce
         viewmodel?.cartCountResponse?.observe(this,{cartcount->
@@ -277,76 +302,54 @@ class StoreItemsActivity :
             linear_progress_indicator.visibility = View.GONE
             tempProductList!!.clear()
             addCartTempList!!.clear()
+            catList!!.clear()
             Log.e("stor_edetails_res", Gson().toJson(storeData))
 
             val productList: ArrayList<StoreDetailsModel.Product> = ArrayList()
-            val catList: ArrayList<StoreDetailsModel.Category> = ArrayList()
+          //  val catList: ArrayList<StoreDetailsModel.Category> = ArrayList()
 
 
             if (storeData.category.size != 0) {
 
                 for (i in 0 until storeData.category.size) {
+                    val categoryData = storeData.category[i]
+
                     for (j in 0 until storeData.category[i].product.size) {
                         val productData = storeData.category[i].product[j]
                         productList.add(productData)
                         Log.e("Product_", j.toString())
 
-                        Thread{
-                            //Runnable {
-                            restaurantProductsDatabase!!.resProductsDaoAccess()!!.insertResProducts(
-                                StoreItemProductsEntity(productData.cartQuantity,
-                                    productData.companyName,
-                                    productData.image,
-                                    productData.in_out_of_stock_status,
-                                    productData.isCustomize,
-                                    productData.is_customize_quantity,
-                                    productData.isNonveg,
-                                    productData.isPrescription,
-                                    productData.offerPrice,
-                                    productData.price,
-                                    productData.productId,
-                                    productData.productName,
-                                    productData.weight,
-                                    productData.unit,
-                                    productData.cartId,
-                                    productData.customizeItem.toString(),
-                                )
-                            )
-                           // }
-                        }.start()
+//                        Thread{
+//                            //Runnable {
+//                            restaurantProductsDatabase!!.resProductsDaoAccess()!!.insertResProducts(
+//                                StoreItemProductsEntity(productData.cartQuantity,
+//                                    productData.companyName,
+//                                    productData.image,
+//                                    productData.in_out_of_stock_status,
+//                                    productData.isCustomize,
+//                                    productData.is_customize_quantity,
+//                                    productData.isNonveg,
+//                                    productData.isPrescription,
+//                                    productData.offerPrice,
+//                                    productData.price,
+//                                    productData.productId,
+//                                    productData.productName,
+//                                    productData.weight,
+//                                    productData.unit,
+//                                    productData.cartId,
+//                                    productData.customizeItem.toString(),
+//                                )
+//                            )
+//                           // }
+//                        }.start()
                     }
+
+                    catList.add(categoryData)
                 }
 
-                var catName = catList.size
-                if(countRes==0) {
-                    storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)
-                    storeItemsRecyclerview.setHasFixedSize(true)
-                    storeItemsAdapter= StoreItemsAdapter(
-                        this,
-                        this,
-                        productList,
-                        catList,
-                        "",
-                        "",
-                        "3.5",
-                        "5",
-                        this,
-                        this,
-                        0,
-                        storeID,
-                        productList[0].cartId
-                    )
-                    storeItemsRecyclerview.adapter = storeItemsAdapter
-                    //countRes=1
-                }else{
-                    storeItemsAdapter.updateData(productList)
-                }
+                rvStoreItemlisting(productList)
 
 
-
-                /*itemsRecyclerView.layoutManager = LinearLayoutManager(this)
-              itemsRecyclerView.setHasFixedSize(true)
-               itemsRecyclerView.adapter = adapter*/
 
                 if (storeData.fssai != null) {
                     if (!storeData.fssai.equals("")) {
@@ -356,36 +359,15 @@ class StoreItemsActivity :
                 //ratingValue.text = user.rating
                 tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
 
-
-                /* val adapterr = PromosAdapter(this, user.offers)
-             promosRecyclerView.layoutManager = LinearLayoutManager(
-                 this, LinearLayoutManager.HORIZONTAL,
-                 false
-             )*/
-
-                /*promosRecyclerView.setHasFixedSize(true)
-            promosRecyclerView.adapter = adapterr*/
                 if (storeData.categoryId != null) {
                     if (storeData.categoryId.equals("5")) {
                         //vegOnlySwitch.visibility = View.VISIBLE
                     } else {
-
                         //vegOnlySwitch.visibility = View.GONE
                     }
                 }
 
-                if (SessionTwiclo(this).isLoggedIn) {
 
-                    viewmodel?.getCartCountApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken
-                    )
-                }
-
-                //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-
-                //calculateStoreCustomerDistance(user.storeLatitude+","+user.storeLongitude , SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
-                //Log.e("DISTANCE", customerLatitude)
             }else{
                 val toast = Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
                 toast.show()
@@ -395,36 +377,16 @@ class StoreItemsActivity :
         viewmodel?.addRemoveCartResponse?.observe(this, { user ->
             dismissIOSProgress()
             Log.e("addRemoveCartResponse____", Gson().toJson(user))
-            if (isNetworkConnected) {
-                if (SessionTwiclo(this).isLoggedIn) {
-                        deleteRoomDataBase()
-                        viewmodel?.getStoreDetails(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            intent.getStringExtra("storeId"),
-                            nonveg_str,
-                            intent.getStringExtra("catId")
-
-                        )
-                    deleteRoomDataBase()
-                } else {
-                         viewmodel?.getStoreDetails(
-                             "",
-                             "",
-                             intent.getStringExtra("storeId"),
-                             nonveg_str,
-                             intent.getStringExtra("catId")
-
-                         )
-                    deleteRoomDataBase()
-                }
-                getRoomData()
-            } else {
-                showInternetToast()
+            if (SessionTwiclo(this).isLoggedIn) {
+                viewmodel?.getCartCountApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken
+                )
             }
 
-        })
+            getStoreDetailsApiCall()
 
+        })
 
         viewmodel?.failureResponse?.observe(this, { user ->
             dismissIOSProgress()
@@ -455,34 +417,7 @@ class StoreItemsActivity :
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken
             )
-            //showToast(mModelData.message)
-            if (isNetworkConnected) {
-                showIOSProgress()
-                deleteRoomDataBase()
-                if (SessionTwiclo(this).isLoggedIn) {
-                        viewmodel?.getStoreDetails(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                            intent.getStringExtra("storeId"),
-                            nonveg_str,
-                            intent.getStringExtra("catId")
-                        )
-
-                } else {
-                         viewmodel?.getStoreDetails(
-                             "",
-                             "",
-                             intent.getStringExtra("storeId"),
-                             nonveg_str,
-                             intent.getStringExtra("catId")
-                         )
-
-                }
-                getRoomData()
-            } else {
-                showInternetToast()
-            }
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+            getStoreDetailsApiCall()
         })
 
         viewmodel?.customizeProductResponse?.observe(this, Observer { user ->
@@ -496,7 +431,8 @@ class StoreItemsActivity :
 
             for (i in 0 until mModelDataTemp?.category?.size!! ) {
                 if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
-                    var customListModel: CustomListModel? = CustomListModel()
+                    var customListModel: CustomListModel? =
+                        CustomListModel()
                     customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
                     customListModel.id = mModelDataTemp?.category?.get(i)!!.subCat[0].id.toInt()
                     customListModel.price = mModelDataTemp?.category?.get(i)!!.subCat[0].price
@@ -571,37 +507,100 @@ class StoreItemsActivity :
         })
 
 
-        veg_switch_img.setOnClickListener {
-            if (veg_filter==0){
-                veg_switch_img.setImageResource(R.drawable.filter_on)
-                egg_switch_img.setImageResource(R.drawable.filter_off)
-                egg_filter=0
-                veg_filter=1
-                nonveg_str="0"
-            }else{
-                veg_switch_img.setImageResource(R.drawable.filter_off)
-                veg_filter=0
-                nonveg_str=""
+    }
+
+
+
+    private fun catPopUp() {
+        selectCategoryDiolog = Dialog(this)
+        selectCategoryDiolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        selectCategoryDiolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        selectCategoryDiolog?.setContentView(R.layout.select_cat_restaurant_popup)
+        selectCategoryDiolog?.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+         selectCategoryDiolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+        selectCategoryDiolog?.setCanceledOnTouchOutside(true)
+        selectCategoryDiolog?.show()
+        val txtError = selectCategoryDiolog?.findViewById<TextView>(R.id.txtError)
+        viewAll_txt = selectCategoryDiolog?.findViewById<TextView>(R.id.viewAll_txt_)!!
+        val dismisspopUp = selectCategoryDiolog?.findViewById<ImageView>(R.id.dismisspopUp)
+        catrecyclerView = selectCategoryDiolog?.findViewById(R.id.cat_resRecyclerview)!!
+
+        // catRecyclerview
+        txtError?.setOnClickListener(View.OnClickListener {
+            selectCategoryDiolog?.dismiss()
+        })
+
+        dismisspopUp?.setOnClickListener(View.OnClickListener {
+            selectCategoryDiolog?.dismiss()
+
+        })
+
+        if (active_or_not==-1){
+            viewAll_txt.setTextColor(Color.parseColor("#339347"))
+        }else{
+            viewAll_txt.setTextColor(Color.parseColor("#000000"))
+
+        }
+        viewAll_txt?.setOnClickListener(View.OnClickListener {
+            cat_id = ""
+            active_or_not=-1
+            viewAll_txt.setTextColor(Color.parseColor("#339347"))
+            restaurantCategoryAdapter.notifyDataSetChanged()
+            selectCategoryDiolog?.dismiss()
+
+            //  showIOSProgress()
+            //api call here
+            getStoreDetailsApiCall()
+        })
+
+       rvCategory(catList)
+
+    }
+
+    private fun rvCategory(catList: ArrayList<StoreDetailsModel.Category>) {
+        restaurantCategoryAdapter = RestaurantCategoryAdapter(this,catList,active_or_not,object :RestaurantCategoryAdapter.CategoryItemClick{
+            override fun onItemClick(pos: Int, category: StoreDetailsModel.Category) {
+                Log.d("category_id__",category.catId)
+                active_or_not=pos
+                cat_id=category.catId
+                viewAll_txt.setTextColor(Color.parseColor("#000000"))
+                selectCategoryDiolog?.dismiss()
+                getStoreDetailsApiCall()
             }
-            getstorelist()
+
+        })
+        catrecyclerView?.adapter=restaurantCategoryAdapter
+
+    }
+
+    private fun rvStoreItemlisting(productList_: ArrayList<StoreDetailsModel.Product>) {
+        if(countRes==0) {
+            storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)
+            storeItemsRecyclerview.setHasFixedSize(true)
+            storeItemsAdapter= StoreItemsAdapter(
+                this,
+                this,
+                productList_,
+                catList,
+                "",
+                "",
+                "3.5",
+                "5",
+                this,
+                this,
+                0,
+                storeID,
+                productList_[0].cartId
+            )
+            storeItemsRecyclerview.adapter = storeItemsAdapter
+            //countRes=1
+        }else{
+            storeItemsAdapter.updateData(productList_)
         }
 
-        egg_switch_img.setOnClickListener {
-            if (egg_filter==0){
-                egg_switch_img.setImageResource(R.drawable.filter_on)
-                veg_switch_img.setImageResource(R.drawable.filter_off)
-                veg_filter=0
-                egg_filter=1
-                nonveg_str="2"
-
-            }else{
-                egg_switch_img.setImageResource(R.drawable.filter_off)
-                egg_filter=0
-                nonveg_str=""
-
-            }
-            getstorelist()
-        }
     }
 
     private fun getRoomData() {
@@ -632,7 +631,7 @@ class StoreItemsActivity :
 
     }
 
-    private fun getstorelist() {
+    private fun getStoreDetailsApiCall() {
         if (isNetworkConnected) {
             showIOSProgress()
             if (SessionTwiclo(this).isLoggedIn) {
@@ -641,7 +640,7 @@ class StoreItemsActivity :
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                     intent.getStringExtra("storeId"),
                     nonveg_str,
-                    intent.getStringExtra("catId")
+                    cat_id
                 )
             } else {
                 viewmodel?.getStoreDetails(
@@ -649,9 +648,11 @@ class StoreItemsActivity :
                     "",
                     intent.getStringExtra("storeId"),
                     nonveg_str,
-                    intent.getStringExtra("catId")
+                    cat_id
                 )
             }
+        }else{
+            showInternetToast()
         }
     }
 
@@ -660,17 +661,6 @@ class StoreItemsActivity :
             SessionTwiclo(this).loggedInUserDetail.accountId,
             SessionTwiclo(this).loggedInUserDetail.accessToken
         )
-    }
-
-    override fun onBackPressed() {
-        if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-            super.onBackPressed()
-        } else {
-            //searchLay.visibility = View.VISIBLE
-            behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-
-        }
-        AppUtils.finishActivityLeftToRight(this)
     }
 
     private fun clearCartPopup() {
@@ -699,51 +689,6 @@ class StoreItemsActivity :
         alertDialog.setCancelable(false)
         alertDialog.show()
     }
-
-    override fun onResume() {
-        super.onResume()
-        storeID = intent.getStringExtra("storeId")!!
-        tv_cuisnes.text = intent.getStringExtra("cuisine_types")
-        tv_distance.text = intent.getStringExtra("distance") + "kms"
-
-        Log.d("OnRESUME", "RESUME")
-        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        if (SessionTwiclo(this).isLoggedIn) {
-            viewmodel?.getCartCountApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
-            )
-        }
-
-
-
-        if (isNetworkConnected) {
-            showIOSProgress()
-            if (SessionTwiclo(this).isLoggedIn) {
-                viewmodel?.getStoreDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    intent.getStringExtra("storeId"),
-                    nonveg_str,
-                    intent.getStringExtra("catId")
-
-                )
-            } else {
-                viewmodel?.getStoreDetails(
-                    "",
-                    "",
-                    intent.getStringExtra("storeId"),
-                    nonveg_str,
-                    intent.getStringExtra("catId")
-
-                )
-            }
-
-        } else {
-            showInternetToast()
-        }
-    }
-
 
     override fun onItemClick(
         productId: String?,
@@ -860,7 +805,8 @@ class StoreItemsActivity :
             if (productId != null) {
                 customIdsList!!.add(productId)
             }
-            val customCheckBoxModel = CustomCheckBoxModel()
+            val customCheckBoxModel =
+                CustomCheckBoxModel()
             customCheckBoxModel.id = productId
             customCheckBoxModel.price = price
             customIdsListTemp!!.add(customCheckBoxModel)
@@ -876,16 +822,6 @@ class StoreItemsActivity :
             }
         }
 
-        /* if (type.equals("select")) {
-             customIdsList!!.add(productId!!)
-         } else {
-             for (i in 0..customIdsList!!.size - 1) {
-                 if (customIdsList!!.get(i).equals(productId)) {
-                     customIdsList!!.removeAt(i)
-                     break
-                 }
-             }
-         }*/
 
         var tempIdPrice: Double? = 0.0
         //plusMinusPrice = 0.0
@@ -945,7 +881,8 @@ class StoreItemsActivity :
             categoryy!!.get(tempAddEditId!!.toInt()).id = checkedId!!.toInt()
             categoryy!!.get(tempAddEditId.toInt()).price = tempPrice
         } else {
-            var customListModel: CustomListModel? = CustomListModel()
+            var customListModel: CustomListModel? =
+                CustomListModel()
             customListModel!!.category = tempCat
             customListModel.id = checkedId!!.toInt()
             customListModel.price = tempPrice
@@ -1233,13 +1170,8 @@ class StoreItemsActivity :
 
     private fun showLoginDialog(message: String){
         val builder = AlertDialog.Builder(this)
-        //set title for alert dialog
         builder.setTitle("Alert")
-        //set message for alert dialog
         builder.setMessage(message)
-        // builder.setIcon(android.R.drawable.ic_dialog_alert)
-
-        //performing positive action
         builder.setPositiveButton("Login") { _, which ->
             startActivity(
                 Intent(this, LoginActivity::class.java)
@@ -1247,29 +1179,46 @@ class StoreItemsActivity :
 
 
         }
-
-        //performing negative action
         builder.setNegativeButton("Cancel") { _, _ ->
 
         }
-        // Create the AlertDialog`
         val alertDialog: AlertDialog = builder.create()
-        // Set other dialog properties
         alertDialog.setCancelable(true)
         alertDialog.show()
     }
 
-    override fun onPause() {
-        super.onPause()
+
+
+    override fun onResume() {
+        super.onResume()
+        storeID = intent.getStringExtra("storeId")!!
+        tv_cuisnes.text = intent.getStringExtra("cuisine_types")
+        tv_distance.text = intent.getStringExtra("distance") + "kms"
+
+        Log.d("OnRESUME", "RESUME")
+        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
         if (SessionTwiclo(this).isLoggedIn) {
-            /* viewmodel!!.addToCartApi(
-                     SessionTwiclo(this).loggedInUserDetail.accountId,
-                     SessionTwiclo(this).loggedInUserDetail.accessToken,
-                     addCartTempList!!,
-                     ""
-             )*/
+            viewmodel?.getCartCountApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken
+            )
         }
 
+
+       // getStoreDetailsApiCall()
+
+    }
+
+
+    override fun onBackPressed() {
+        if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+            super.onBackPressed()
+        } else {
+            //searchLay.visibility = View.VISIBLE
+            behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+
+        }
+        AppUtils.finishActivityLeftToRight(this)
     }
 
 }

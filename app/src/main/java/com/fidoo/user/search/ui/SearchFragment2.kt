@@ -1,4 +1,4 @@
-package com.fidoo.user.search.activity
+package com.fidoo.user.search.ui
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.fidoo.user.CartActivity
 import com.fidoo.user.R
 import com.fidoo.user.data.model.AddCartInputModel
-import com.fidoo.user.data.model.CustomCheckBoxModel
+import com.fidoo.user.restaurants.model.CustomCheckBoxModel
 import com.fidoo.user.data.model.SearchModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
@@ -31,9 +31,6 @@ import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.utils.CommonUtils
 import com.fidoo.user.viewmodels.SearchFragmentViewModel
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_search_item.*
-import kotlinx.android.synthetic.main.activity_search_item.view.*
-import kotlinx.android.synthetic.main.fragment_search2.*
 import kotlinx.android.synthetic.main.fragment_search2.view.*
 import java.lang.Exception
 

@@ -1,4 +1,4 @@
-package com.fidoo.user.data.model;
+package com.fidoo.user.restaurants.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class StoreDetailsModel {
-
     @SerializedName("error")
     @Expose
     public Boolean error;
@@ -88,9 +87,11 @@ public class StoreDetailsModel {
         @SerializedName("product_sub_category_id")
         @Expose
         public String catId;
+
         @SerializedName("subcategory_name")
         @Expose
         public String catName;
+
         @SerializedName("product")
         @Expose
         public List<Product> product = null;

@@ -3,7 +3,6 @@ package com.fidoo.user.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Paint
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,15 +11,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
+import com.fidoo.user.restaurants.model.StoreDetailsModel
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.ui.MainActivity.Companion.tempProductList
 import com.google.gson.Gson

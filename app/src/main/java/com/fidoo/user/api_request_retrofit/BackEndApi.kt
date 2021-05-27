@@ -4,6 +4,8 @@ import com.fidoo.user.data.model.*
 import com.fidoo.user.grocery.model.getGroceryProducts.GroceryProductsResponse
 import com.fidoo.user.ordermodule.model.*
 import com.fidoo.user.profile.EditProfileModel
+import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
+import com.fidoo.user.restaurants.model.StoreDetailsModel
 import com.fidoo.user.search.model.SearchListModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

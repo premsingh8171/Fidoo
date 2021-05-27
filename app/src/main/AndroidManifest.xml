@@ -54,7 +54,7 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity android:name=".search.activity.SearchItemActivity"
+        <activity android:name=".search.ui.SearchItemActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ChatActivity"
@@ -113,7 +113,7 @@
         <activity android:name=".ServicesActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".StoreItemsActivity"
+        <activity android:name=".restaurants.activity.StoreItemsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
 

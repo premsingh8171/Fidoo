@@ -2,29 +2,25 @@ package com.fidoo.user.adapter
 
 import android.content.Context
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
-import com.fidoo.user.data.model.CustomListModel
-import com.fidoo.user.data.model.CustomizeProductResponseModel
+import com.fidoo.user.restaurants.model.CustomListModel
+import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
 import com.fidoo.user.interfaces.CustomCartAddRemoveClick
 import kotlinx.android.synthetic.main.store_customization_adapter.view.*
 
 
 class StoreCustomItemsAdapter(
-        val con: Context,
-        val category: MutableList<CustomizeProductResponseModel.Category>,
-        val customCartAddRemoveClick: CustomCartAddRemoveClick,
-        val categoryy: ArrayList<CustomListModel>?,
-        val adapterCustomRadioClick: AdapterCustomRadioClick
+    val con: Context,
+    val category: MutableList<CustomizeProductResponseModel.Category>,
+    val customCartAddRemoveClick: CustomCartAddRemoveClick,
+    val categoryy: ArrayList<CustomListModel>?,
+    val adapterCustomRadioClick: AdapterCustomRadioClick
 ) :
     RecyclerView.Adapter<StoreCustomItemsAdapter.UserViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(

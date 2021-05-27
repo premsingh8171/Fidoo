@@ -34,9 +34,13 @@ import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.ordermodule.ui.TrackOrderActivity
 import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.profile.EditProfileActivity
+import com.fidoo.user.restaurants.model.CustomCheckBoxModel
+import com.fidoo.user.restaurants.model.CustomListModel
+import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
+import com.fidoo.user.restaurants.model.StoreDetailsModel
 import com.fidoo.user.viewmodels.AddressViewModel
 import com.fidoo.user.viewmodels.CartViewModel
-import com.fidoo.user.viewmodels.StoreDetailsViewModel
+import com.fidoo.user.restaurants.viewmodel.StoreDetailsViewModel
 import com.fidoo.user.viewmodels.TrackViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -291,7 +295,8 @@ class CartActivity : BaseActivity(),
 
             for (i in 0..mModelDataTemp?.category?.size!! - 1) {
                 if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
-                    var customListModel: CustomListModel? = CustomListModel()
+                    var customListModel: CustomListModel? =
+                        CustomListModel()
                     customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
                     customListModel.id = mModelDataTemp?.category?.get(i)!!.subCat.get(0).id.toInt()
                     customListModel.price = mModelDataTemp?.category?.get(i)!!.subCat.get(0).price
@@ -1116,7 +1121,8 @@ class CartActivity : BaseActivity(),
             if (productId != null) {
                 customIdsList!!.add(productId)
             }
-            val customCheckBoxModel = CustomCheckBoxModel()
+            val customCheckBoxModel =
+                CustomCheckBoxModel()
             customCheckBoxModel.id = productId
             customCheckBoxModel.price = price
 
@@ -1195,7 +1201,8 @@ class CartActivity : BaseActivity(),
 
         } else {
 
-            val customListModel: CustomListModel = CustomListModel()
+            val customListModel: CustomListModel =
+                CustomListModel()
             customListModel!!.category = tempCat
             customListModel.id = checkedId!!.toInt()
             customListModel.price = tempPrice

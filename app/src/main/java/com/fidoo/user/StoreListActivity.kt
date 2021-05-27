@@ -18,7 +18,7 @@ import com.fidoo.user.adapter.StoreAdapter
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.*
 import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
-import com.fidoo.user.search.activity.SearchItemActivity
+import com.fidoo.user.search.ui.SearchItemActivity
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.viewmodels.StoreListingViewModel
 import com.google.gson.Gson

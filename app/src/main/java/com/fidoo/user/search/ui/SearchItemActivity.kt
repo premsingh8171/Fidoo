@@ -1,8 +1,6 @@
-package com.fidoo.user.search.activity
+package com.fidoo.user.search.ui
 
 import android.content.Intent
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,37 +8,28 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.fidoo.user.CartActivity
 import com.fidoo.user.R
-import com.fidoo.user.adapter.StoreCustomItemsAdapter
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
+import com.fidoo.user.restaurants.model.CustomCheckBoxModel
 import com.fidoo.user.search.adapter.ParentStoreListAdapter
-import com.fidoo.user.search.model.ProductsList
-import com.fidoo.user.search.model.SearchListModel
 import com.fidoo.user.search.model.Store
-import com.fidoo.user.search.viewmodel.SearchListViewModel
 import com.fidoo.user.ui.MainActivity
-import com.fidoo.user.ui.SearchFragment
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.CommonUtils
 import com.fidoo.user.viewmodels.SearchFragmentViewModel
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_search_item.*
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.fragment_search.*
-import java.lang.NumberFormatException
 
 class SearchItemActivity : BaseActivity() , AdapterClick,
         AdapterAddRemoveClick,
