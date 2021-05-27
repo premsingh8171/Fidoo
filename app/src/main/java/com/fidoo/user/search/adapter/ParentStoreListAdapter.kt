@@ -42,7 +42,7 @@ class ParentStoreListAdapter(
 
          customIdsList= list[position]?.list as ArrayList<SearchModel.ProductList>?
 
-        Log.d("sfddffdd", customIdsList?.get(position)?.productName.toString())
+       // Log.d("sfddffdd", customIdsList?.get(position)?.productName.toString())
         childStoreListProductsAdapter = ChildStoreListProductsAdapter(context, customIdsList!!,object: AdapterClick{
             override fun onItemClick(productId: String?, type: String?, count: String?, offerPrice: String?, customize_count: Int?, productType: String?, cart_id: String?) {
                 adapterClick.onItemClick(productId,type,count,offerPrice,customize_count,productType,cart_id)

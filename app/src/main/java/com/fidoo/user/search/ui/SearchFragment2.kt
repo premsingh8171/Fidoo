@@ -158,13 +158,15 @@ class SearchFragment2 : Fragment() , AdapterClick,
 
 				val mModelData: SearchModel = searchResponce
 				for (i in 0 until mModelData.store.size) {
-					val storeModel = mModelData.store[i]
-					for (j in 0 until mModelData.store[i].list.size) {
-						val productData = mModelData.store[i].list[j]
-						productList.add(productData)
-					}
+					if (mModelData.store.size > 0 || mModelData.store.size < 2) {
+						val storeModel = mModelData.store[i]
+						for (j in 0 until mModelData.store[i].list.size) {
+							val productData = mModelData.store[i].list[j]
+							productList.add(productData)
+						}
 
-					storeList.add(storeModel)
+						storeList.add(storeModel)
+					}
 				}
 				mProductsList=productList
 				mProductStoreList=storeList
