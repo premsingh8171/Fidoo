@@ -162,7 +162,7 @@
                         app:sliderIndicatorMargin="5dp"
                         app:sliderIndicatorOrientation="horizontal"
                         app:sliderIndicatorPadding="3dp"
-                        app:sliderIndicatorRadius="2dp"
+                        app:sliderIndicatorRadius="1dp"
                         app:sliderIndicatorSelectedColor="@color/primary_color"
                         app:sliderIndicatorUnselectedColor="#C7C7C7"
                         app:sliderScrollTimeInSec="1"
