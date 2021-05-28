@@ -191,21 +191,21 @@ class HomeFragment : Fragment() {
                     }
 
                     val adapterr = com.fidoo.user.adapter.SliderAdapterExample(activity)
+                    adapterr.renewItems(sliderItemList)
 
                     fragmentHomeBinding?.sliderView?.setSliderAdapter(adapterr)
 
-                    fragmentHomeBinding?.sliderView?.setIndicatorAnimation(IndicatorAnimationType.SWAP) //set indicator animation by using IndicatorAnimationType. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                    fragmentHomeBinding?.sliderView?.setIndicatorAnimation(IndicatorAnimationType.SLIDE) //set indicator animation by using IndicatorAnimationType. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
 
                     fragmentHomeBinding?.sliderView?.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
                     /*fragmentHomeBinding?.sliderView?.autoCycleDirection =
                         SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH*/
 
-                    fragmentHomeBinding?.sliderView?.indicatorSelectedColor = Color.GREEN
-                    fragmentHomeBinding?.sliderView?.indicatorUnselectedColor = Color.BLACK
-                    fragmentHomeBinding?.sliderView?.scrollTimeInSec =
+                   // fragmentHomeBinding?.sliderView?.indicatorSelectedColor = Color.GREEN
+                 //   fragmentHomeBinding?.sliderView?.indicatorUnselectedColor = Color.BLACK
+                    fragmentHomeBinding?.sliderView?.scrollTimeInSec =4
                         sliderItemList.size - 1 //set scroll delay in seconds :
                     fragmentHomeBinding?.sliderView?.startAutoCycle()
-                    adapterr.renewItems(sliderItemList)
                 }
             } else {
 
