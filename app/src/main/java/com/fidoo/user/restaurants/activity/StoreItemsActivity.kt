@@ -10,11 +10,9 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -100,6 +98,7 @@ class StoreItemsActivity :
     lateinit var restaurantCategoryAdapter:RestaurantCategoryAdapter
 
     var selectCategoryDiolog: Dialog? = null
+    private var slide_: Animation? = null
     lateinit var catrecyclerView: RecyclerView
     lateinit var viewAll_txt:TextView
     var cat_id: String? = ""
@@ -527,9 +526,12 @@ class StoreItemsActivity :
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
         )
-         selectCategoryDiolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+        slide_ = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
+        selectCategoryDiolog?.layout_catPopup?.startAnimation(slide_)
+      //selectCategoryDiolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
         selectCategoryDiolog?.setCanceledOnTouchOutside(true)
         selectCategoryDiolog?.show()
+        val outsid_viewRl = selectCategoryDiolog?.findViewById<RelativeLayout>(R.id.outsid_viewRl)
         val txtError = selectCategoryDiolog?.findViewById<TextView>(R.id.txtError)
         viewAll_txt = selectCategoryDiolog?.findViewById<TextView>(R.id.viewAll_txt_)!!
         val dismisspopUp = selectCategoryDiolog?.findViewById<ImageView>(R.id.dismisspopUp)
@@ -537,6 +539,9 @@ class StoreItemsActivity :
 
         // catRecyclerview
         txtError?.setOnClickListener(View.OnClickListener {
+            selectCategoryDiolog?.dismiss()
+        })
+        outsid_viewRl?.setOnClickListener(View.OnClickListener {
             selectCategoryDiolog?.dismiss()
         })
 

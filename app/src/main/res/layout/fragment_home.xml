@@ -72,8 +72,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
             <ImageView
                 android:id="@+id/cartIcon"
                 android:layout_width="30dp"
@@ -90,12 +88,13 @@
                 android:id="@+id/cartCountTxt"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_marginRight="13dp"
-                android:background="@drawable/grey_rounded_solid"
+                android:layout_marginTop="-10dp"
+                android:layout_marginRight="@dimen/margin_10"
+                android:background="@drawable/badge_bg"
                 android:gravity="center"
                 android:textColor="@android:color/black"
                 android:textSize="9sp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintRight_toLeftOf="@+id/profileIconn"
                 app:layout_constraintTop_toTopOf="@+id/cartIcon" />
 
