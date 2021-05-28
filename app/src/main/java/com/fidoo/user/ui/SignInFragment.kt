@@ -161,6 +161,9 @@ class SignInFragment : Fragment() {
             }
 
         })
+        viewmodel?.failureResponse?.observe(requireActivity(),{
+            dismissIOSProgress()
+        })
 
         return binding.root
     }

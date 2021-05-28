@@ -57,6 +57,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:maxEms="22"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:id="@+id/userAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
