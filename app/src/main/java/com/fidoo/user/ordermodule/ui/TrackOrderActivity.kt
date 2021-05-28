@@ -341,7 +341,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
                 if (origin != null) {
                     mMap?.moveCamera(
-                        CameraUpdateFactory.newLatLngZoom(origin, 14f)
+                        CameraUpdateFactory.newLatLngZoom(origin, 10f)
                     )
                 }
 

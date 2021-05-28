@@ -430,6 +430,8 @@ class CartActivity : BaseActivity(),
 
         viewmodel?.getCartDetailsResponse?.observe(this) { user ->
             dismissIOSProgress()
+
+            isPrescriptionRequire = "0"
             linear_progress_indicator.visibility = View.GONE
             if (!user.error) {
                 if (user.cart != null) {
@@ -441,15 +443,17 @@ class CartActivity : BaseActivity(),
                             isPrescriptionRequire = user.cart[i].isPrescription
                         }
 
-                        if (user.cart[i].isPrescription.equals("1")) {
+
+
+                    }
+
+                    if (isPrescriptionRequire.equals("1")) {
 
                             prescriptionLay.visibility = View.VISIBLE
                         } else {
 
                             prescriptionLay.visibility = View.GONE
                         }
-
-                    }
 
 
 
