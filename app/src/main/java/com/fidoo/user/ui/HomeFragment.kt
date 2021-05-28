@@ -23,6 +23,7 @@ import com.fidoo.user.*
 import com.fidoo.user.adapter.CategoryAdapter
 import com.fidoo.user.adapter.SliderAdapter
 import com.fidoo.user.adapter.SliderAdapter.ClickCart
+import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.data.model.BannerModel
 import com.fidoo.user.data.model.CartCountModel
 import com.fidoo.user.data.model.HomeServicesModel
@@ -31,12 +32,9 @@ import com.fidoo.user.databinding.FragmentHomeBinding
 import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.CardSliderLayoutManager
 import com.fidoo.user.utils.CardSnapHelper
-import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.HomeFragmentViewModel
-import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.gson.Gson
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
@@ -201,7 +199,8 @@ class HomeFragment : Fragment() {
                     fragmentHomeBinding?.sliderView?.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
                     /*fragmentHomeBinding?.sliderView?.autoCycleDirection =
                         SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH*/
-                    fragmentHomeBinding?.sliderView?.indicatorSelectedColor = Color.WHITE
+
+                    fragmentHomeBinding?.sliderView?.indicatorSelectedColor = Color.GREEN
                     fragmentHomeBinding?.sliderView?.indicatorUnselectedColor = Color.BLACK
                     fragmentHomeBinding?.sliderView?.scrollTimeInSec =
                         sliderItemList.size - 1 //set scroll delay in seconds :

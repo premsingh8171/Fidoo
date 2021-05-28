@@ -166,9 +166,9 @@ class ProfileFragment : Fragment() {
             shareIntent.type = "text/plain"
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name")
             var shareMessage =
-                """ Hey, I use FIDOO to order anything I want be it food, medicine delivery, my pet items, groceries, daily needs & more. Everything delivered right to your doorstep. You’ll love this, download now!
+                """ Hey, I use FIDOO to order anything I want be it food, medicine delivery, my pet items, groceries, daily needs & more. Everything delivered right to your doorstep. You’ll love this,
             """.trimIndent()
-            shareMessage = """${shareMessage}Click the link to download 
+            shareMessage = """${shareMessage}Click the link to download! 
             https://play.google.com/store/apps/details?id=com.fidoo.user
             
             """.trimIndent()
