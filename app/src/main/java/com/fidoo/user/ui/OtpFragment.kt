@@ -61,6 +61,7 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
                 otpTemp = otp
             }
         }
+
         mView.tv_resendOtp.setOnClickListener {
             resendApi()
         }
