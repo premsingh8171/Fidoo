@@ -858,10 +858,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
     }
 
-    private fun buyPopup(
-        orderId: String
-    ) {
-
+    private fun buyPopup(orderId: String) {
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.review_popup, null)
         //AlertDialogBuilder
         val mBuilder = android.app.AlertDialog.Builder(this)
@@ -874,8 +871,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         lp.copyFrom(mAlertDialogg.window!!.attributes)
         lp.gravity = Gravity.CENTER
 
-
-
         mAlertDialogg!!.window!!.attributes = lp
         mAlertDialogg.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         mAlertDialogg.window!!.setGravity(Gravity.CENTER)
@@ -887,9 +882,23 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         mDialogView.poor_icon_select.setOnClickListener {
             star="1"
             mDialogView.img_review_img.setBackgroundResource(R.drawable.poor)
-            mDialogView.reviewName_txt.text="Poor"
+            mDialogView.reviewName_txt.text="Very bad"
             mDialogView.selection_ques_txt.setText(R.string.poor_experince)
             mDialogView.poor_icon_select.setBackgroundResource(R.drawable.rectangle_border)
+            mDialogView.ok_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.good_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.bad_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+
+        }
+
+        mDialogView.bad_icon_select.setOnClickListener {
+            star="2"
+            mDialogView.img_review_img.setBackgroundResource(R.drawable.bad)
+            mDialogView.reviewName_txt.text="Bad"
+            mDialogView.selection_ques_txt.setText(R.string.poor_experince)
+            mDialogView.bad_icon_select.setBackgroundResource(R.drawable.rectangle_border)
+            mDialogView.poor_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
             mDialogView.ok_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
             mDialogView.good_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
             mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
@@ -897,18 +906,19 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         }
 
         mDialogView.ok_icon_select.setOnClickListener {
-            star="2"
+            star="3"
             mDialogView.img_review_img.setBackgroundResource(R.drawable.ok)
-            mDialogView.reviewName_txt.text="Oka'ish"
+            mDialogView.reviewName_txt.text="Average"
             mDialogView.selection_ques_txt.setText(R.string.ok_experince)
             mDialogView.poor_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
             mDialogView.ok_icon_select.setBackgroundResource(R.drawable.rectangle_border)
             mDialogView.good_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
             mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.bad_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
         }
 
         mDialogView.good_icon_select.setOnClickListener {
-            star="3"
+            star="4"
             mDialogView.img_review_img.setBackgroundResource(R.drawable.good)
             mDialogView.reviewName_txt.text="Good"
             mDialogView.selection_ques_txt.setText(R.string.good_experince)
@@ -916,16 +926,18 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
             mDialogView.ok_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
             mDialogView.good_icon_select.setBackgroundResource(R.drawable.rectangle_border)
             mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.bad_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
         }
 
         mDialogView.excellent_icon_select.setOnClickListener {
-            star="4"
+            star="5"
             mDialogView.img_review_img.setBackgroundResource(R.drawable.excellent)
-            mDialogView.reviewName_txt.text="Excellent"
+            mDialogView.reviewName_txt.text="loveed it!"
             mDialogView.selection_ques_txt.setText(R.string.excellent_experince)
             mDialogView.poor_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
             mDialogView.ok_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
             mDialogView.good_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
+            mDialogView.bad_icon_select.setBackgroundResource(R.drawable.white_rounded_empty)
             mDialogView.excellent_icon_select.setBackgroundResource(R.drawable.rectangle_border)
         }
 

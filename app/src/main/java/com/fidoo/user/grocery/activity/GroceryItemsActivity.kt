@@ -419,11 +419,15 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             if (!cartcount.error){
                 if (count!="0"){
                     itemQuantity_text.text=count
-                    totalprice_txt.text= "₹"+price
-                    cartitemView_LL.visibility=View.VISIBLE
+                    totalprice_txt.text= "₹ "+price
+                    cartitemView_LL.visibility= View.VISIBLE
+                    slide_ = AnimationUtils.loadAnimation(this, R.anim.rv_left_right_anim)
+                    cartitemView_LL?.startAnimation(slide_)
                 }else{
                     SessionTwiclo(this@GroceryItemsActivity).storeId=""
                     cartitemView_LL.visibility=View.GONE
+                    slide_ = AnimationUtils.loadAnimation(this, R.anim.slide_out_left)
+                    cartitemView_LL?.startAnimation(slide_)
                 }
             }
 

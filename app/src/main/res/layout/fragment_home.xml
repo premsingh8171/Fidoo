@@ -153,6 +153,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.smarteist.autoimageslider.SliderView
+                        android:visibility="gone"
                         android:id="@+id/sliderView"
                         android:layout_width="match_parent"
                         android:layout_height="170dp"
@@ -168,9 +169,30 @@
                         app:sliderScrollTimeInSec="1"
                         app:sliderStartAutoCycle="true" />
 
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/viewPagerBanner"
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp">
+
+                    </androidx.viewpager.widget.ViewPager>
 
                 </androidx.cardview.widget.CardView>
 
+                <com.google.android.material.tabs.TabLayout
+                    android:layout_marginTop="@dimen/margin_10"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    android:id="@+id/tabDotsHome"
+                    android:backgroundTint="#FBFBFB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin_15dp"
+                    android:layout_gravity="center|bottom"
+                    app:tabPaddingStart="7dp"
+                    app:tabPaddingEnd="7dp"
+                    android:visibility="visible"
+                    app:tabBackground="@drawable/tab_selector"
+                    app:tabIndicatorHeight="0dp" />
 
                 <LinearLayout
                     android:focusable="false"
@@ -178,9 +200,9 @@
                     android:id="@+id/home_question_lay"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    app:layout_constraintTop_toBottomOf="@id/cardView"
+                    app:layout_constraintTop_toBottomOf="@id/tabDotsHome"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="@dimen/margin_16dp">
+                    android:layout_marginTop="@dimen/margin_10">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -320,10 +342,11 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
+                    android:orientation="vertical"
                     android:id="@+id/delivery_lay"
                     android:layout_width="match_parent"
-                    android:layout_height="330dp"
+                    android:layout_height="match_parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -331,8 +354,9 @@
                     tools:layout_editor_absoluteX="0dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="@id/delivery_lay"
                         app:layout_constraintLeft_toLeftOf="parent"
                         android:orientation="vertical"
@@ -342,20 +366,20 @@
                             android:id="@+id/tv_quick_delivery"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Quick Delivery"
+                            android:text="FIDOO"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="@id/delivery_lay"
                             android:fontFamily="@font/proxima"
                             android:textSize="30sp"
                             android:textColor="#339347"
-                            android:layout_marginTop="60dp"
+                            android:layout_marginTop="@dimen/margin_20dp"
                             android:layout_marginStart="20dp"/>
 
                         <TextView
                             android:id="@+id/tv_doorstep"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="at your doorstep"
+                            android:text="for anything or everything"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_quick_delivery"
                             android:fontFamily="@font/proxima"
@@ -365,27 +389,53 @@
 
                         <TextView
                             android:id="@+id/tv_main_content"
-                            android:layout_width="238dp"
-                            android:layout_height="46dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
-                            android:layout_marginTop="30dp"
+                            android:layout_marginTop="@dimen/margin_20dp"
                             android:fontFamily="@font/proxima"
-                            android:text="Home delivery from restaurants, café, medicine, electronics and groceries."
+                            android:text="Need more reasons?"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_doorstep" />
 
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="200dp"
-                        android:layout_height="300dp"
-                        android:src="@drawable/delivery"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        android:layout_marginTop="20dp"/>
+                        android:layout_marginLeft="@dimen/margin_20dp"
+                        android:layout_marginRight="@dimen/margin_20dp"
+                        android:layout_marginTop="@dimen/margin_20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_100dp"
+                        android:src="@drawable/fiddo_5"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/delivery_lay"
+                        app:layout_constraintRight_toRightOf="parent"/>
+
+                    <ImageView
+                        android:layout_marginLeft="@dimen/margin_20dp"
+                        android:layout_marginRight="@dimen/margin_20dp"
+                        android:layout_marginTop="@dimen/dimen_5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_100dp"
+                        android:src="@drawable/fiddo_6"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/delivery_lay"
+                        app:layout_constraintRight_toRightOf="parent"/>
+
+                    <ImageView
+                        android:layout_marginBottom="@dimen/margin_50dp"
+                        android:layout_marginLeft="@dimen/margin_20dp"
+                        android:layout_marginRight="@dimen/margin_20dp"
+                        android:layout_marginTop="@dimen/dimen_5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_100dp"
+                        android:src="@drawable/fiddo_7"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/delivery_lay"
+                        app:layout_constraintRight_toRightOf="parent"/>
 
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

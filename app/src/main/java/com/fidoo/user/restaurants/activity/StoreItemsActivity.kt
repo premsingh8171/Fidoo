@@ -286,12 +286,16 @@ class StoreItemsActivity :
                     cartIcon.setImageResource(R.drawable.cart_icon)
                     cartIcon.setColorFilter(Color.argb(255, 53, 156, 71))
                     itemQuantity_textstore.text=count
-                    totalprice_txtstore.text= "₹"+price
+                    totalprice_txtstore.text= "₹ "+price
                     cartitemView_LLstore.visibility=View.VISIBLE
+                    slide_ = AnimationUtils.loadAnimation(this, R.anim.rv_left_right_anim)
+                    cartitemView_LLstore?.startAnimation(slide_)
                 }else{
                     cartIcon.setImageResource(R.drawable.ic_cart)
                     cartIcon.setColorFilter(Color.argb(255, 199, 199, 199))
                     cartitemView_LLstore.visibility=View.GONE
+                    slide_ = AnimationUtils.loadAnimation(this, R.anim.slide_out_left)
+                    cartitemView_LLstore?.startAnimation(slide_)
                 }
             }
 
@@ -1217,7 +1221,7 @@ class StoreItemsActivity :
         }
 
 
-       // getStoreDetailsApiCall()
+        getStoreDetailsApiCall()
 
     }
 

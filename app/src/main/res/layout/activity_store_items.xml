@@ -328,7 +328,6 @@
     <LinearLayout
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_10"
-        app:layout_constraintBottom_toTopOf="@+id/cartitemView_LLstore"
         app:layout_constraintRight_toRightOf="@+id/store_preference_lay"
         app:layout_constraintLeft_toLeftOf="@+id/store_preference_lay"
         app:layout_constraintTop_toBottomOf="@id/store_preference_lay"
@@ -513,12 +512,18 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
-    <LinearLayout
+    <FrameLayout
+        android:layout_marginRight="@dimen/margin_20dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/cart_bg"
+        android:backgroundTint="@color/white_trans"
         android:id="@+id/cartitemView_LLstore"
-        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/margin_50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+    <LinearLayout
         android:gravity="center_vertical"
-        android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -529,12 +534,12 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_marginLeft="@dimen/margin_5dp"
             android:id="@+id/itemQuantity_textstore"
-            android:padding="@dimen/margin_10dp"
+            android:padding="@dimen/dimen_5dp"
             android:textSize="@dimen/text_size_14sp"
             android:text="0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"/>
+            android:textColor="@color/primary_color"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:padding="@dimen/margin_5dp"
@@ -542,7 +547,7 @@
             android:text="Item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"/>
+            android:textColor="@color/primary_color"/>
 
         <View
             android:layout_marginLeft="@dimen/margin_5dp"
@@ -550,17 +555,17 @@
             android:layout_marginTop="18dp"
             android:layout_marginBottom="18dp"
             android:layout_width="1dp"
-            android:background="@color/white"
+            android:background="@color/primary_color"
             android:layout_height="match_parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/totalprice_txtstore"
             android:padding="@dimen/margin_5dp"
             android:textSize="@dimen/text_size_14sp"
-            android:text="Rs.200"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"/>
+            android:textColor="@color/primary_color"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -570,17 +575,26 @@
             android:layout_gravity="end|center">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:id="@+id/cartviewFromStore"
                 android:gravity="end|center_vertical"
                 android:padding="@dimen/margin_5dp"
                 android:textSize="@dimen/text_size_14sp"
                 android:text="VIEW CART"
-                android:textColor="@color/white"
+                android:textColor="@color/primary_color"
                 android:drawableTint="@color/white"
                 android:drawableLeft="@color/quantum_amber100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
+            <ImageView
+                android:layout_marginEnd="@dimen/margin_15dp"
+                android:layout_width="@dimen/margin_15dp"
+                android:layout_height="@dimen/margin_15dp"
+                android:src="@drawable/ic_cart"
+                app:tint="@color/primary_color"
+                android:layout_gravity="end|center_vertical"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 
@@ -588,6 +602,7 @@
 
     </LinearLayout>
 
+    </FrameLayout>
 
     <FrameLayout
         android:layout_marginRight="@dimen/margin_20dp"

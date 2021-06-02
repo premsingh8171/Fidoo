@@ -45,12 +45,12 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/grocery_item_tv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="60dp"
                     android:background="@color/primary_color"
                     android:maxLines="2"
                     android:lineSpacingExtra="2dp"
                     android:padding="@dimen/margin_10"
-                    android:text="Banana"
+                    android:text="Banana\nprem"
                     android:textColor="@color/white" />
 
             </LinearLayout>
