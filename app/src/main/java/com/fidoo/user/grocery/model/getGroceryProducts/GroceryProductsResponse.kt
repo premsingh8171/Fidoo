@@ -21,7 +21,8 @@ class GroceryProductsResponse(
     val service_id: String,
     val service_name: String,
     val status: String,
-    val store_name: String
+    val store_name: String,
+    val has_subcategory: Int
 )
 
 class Category(

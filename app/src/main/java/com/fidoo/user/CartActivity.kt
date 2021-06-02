@@ -753,6 +753,7 @@ class CartActivity : BaseActivity(),
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
             } else {
+             Log.d("userAddressId_",SessionTwiclo(this).userAddressId)
                // SessionTwiclo(this).userAddressId.equals("") ||
                 if (tv_delivery_address.text == ""){
                     showToast("Please select your address")
@@ -761,6 +762,7 @@ class CartActivity : BaseActivity(),
                         showToast("Please upload prescription")
 
                     } else {
+
                         if (isNetworkConnected) {
                             showIOSProgress()
                             viewmodel?.orderPlaceApi(SessionTwiclo(this).loggedInUserDetail.accountId,

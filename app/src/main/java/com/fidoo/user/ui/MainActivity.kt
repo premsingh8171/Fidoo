@@ -36,6 +36,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import com.robin.locationgetter.EasyLocation
 import com.sanojpunchihewa.updatemanager.UpdateManager
@@ -105,6 +106,32 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         this.registerReceiver(mBroadcastReceiver, IntentFilter("start_send_package_fragment"))
         val navController = findNavController(R.id.fragment4)
         bottomNavigationView.setupWithNavController(navController)
+
+//        val mOnNavigationItemSelectedListener= BottomNavigationView.OnNavigationItemSelectedListener { item ->
+//            val i = item.itemId
+//            bottomNavigationView.menu.getItem(0).setIcon(R.drawable.ic_baseline_home_24)
+//            bottomNavigationView.menu.getItem(1).setIcon(R.drawable.un_search_product)
+//            bottomNavigationView.menu.getItem(2).setIcon(R.drawable.order_icon_grey)
+//            bottomNavigationView.menu.getItem(3).setIcon(R.drawable.un_user_profile)
+//            when (i) {
+//                R.id.homeFragment -> {
+//                    item.setIcon(R.drawable.home_on)
+//                }
+//                R.id.searchFragment -> {
+//                    item.setIcon(R.drawable.search_on)
+//                }
+//                R.id.ordersFragment -> {
+//                    item.setIcon(R.drawable.order_on)
+//                }
+//                R.id.profileFragment -> {
+//                    item.setIcon(R.drawable.profile_on)
+//                }
+//
+//            }
+//            return@OnNavigationItemSelectedListener true
+//        }
+//        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         tempProductList = ArrayList()
@@ -183,15 +210,13 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
             }
 
-
-
-
         })
 
 //        if (SessionTwiclo(this).userAddress!=null||!SessionTwiclo(this).userAddress.isEmpty()) {
 //            checkLocation()
 //        }
     }
+
 
     private fun getCurrentLocation() {
 

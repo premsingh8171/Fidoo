@@ -91,6 +91,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         var multipleclick: Int? = 0
         var onresumeHandle: Int? = 0
         var product_listCount: Int? = 0
+        var has_subcategory: Int? = 1
     }
 
     //for pagination
@@ -207,11 +208,16 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 if (!grocery.error) {
                     Log.e("Grocery", Gson().toJson(grocery))
                     // val subcatList: ArrayList<Subcategory> = ArrayList()
+                    has_subcategory=grocery.has_subcategory
+                    if (has_subcategory==0){
+                        cat_rl.visibility=View.GONE
+                    }else{
+                        cat_rl.visibility=View.VISIBLE
+                    }
                     val productList: ArrayList<Product> = ArrayList()
                     for (i in grocery.category.indices) {
                         val catObj = grocery.category[i]
                         // tv_categories.text = "Select category"
-
                         for (j in 0 until grocery.category[i].subcategory.size) {
                             val subCatObj = catObj.subcategory[j]
 
@@ -599,7 +605,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
         viewAll_txt?.setOnClickListener(View.OnClickListener {
             selectAreaDiolog?.dismiss()
-            selected_cat==-1
+            selected_cat=-1
             cat_id = ""
             subcat_name = ""
             sub_cat_id=""
