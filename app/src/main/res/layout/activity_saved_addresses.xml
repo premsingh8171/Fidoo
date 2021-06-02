@@ -26,8 +26,9 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:padding="5dp"
+                android:rotation="180"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/arrow_backward"
+                android:src="@drawable/ic_back_vector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -37,15 +38,17 @@
                 android:id="@+id/tv_yourAddresses"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima"
                 android:gravity="center"
                 android:text="Saved Addresses"
-                android:fontFamily="@font/proxima"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.17"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.509" />
 
             <ImageView
                 android:id="@+id/search_stores_icon"

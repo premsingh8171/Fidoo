@@ -1,5 +1,6 @@
 package com.fidoo.user.adapter
 
+import android.R.id.message
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -15,7 +16,6 @@ import com.fidoo.user.SendPackageActivity
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.ui.AddAddressActivity
-import com.fidoo.user.ui.MainActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.saved_address_items.view.*
 
@@ -118,8 +118,13 @@ class AddressesAdapter(
                             SessionTwiclo(con).userAddress = "Other"
                         }
                     }
+                    SessionTwiclo(con).userLat = addressList[position].latitude
+                    SessionTwiclo(con).userLng = addressList[position].longitude
                     SessionTwiclo(con).userAddressId = addressList[position].id
                     CartActivity.selectedAddressTitle = SessionTwiclo(con).userAddress
+
+                    val result = Intent()
+                    (con as Activity).setResult(101, result)
                     (con as Activity).finish()
                 }
 

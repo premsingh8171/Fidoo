@@ -41,6 +41,8 @@ import com.fidoo.user.restaurants.model.StoreDetailsModel
 import com.fidoo.user.viewmodels.AddressViewModel
 import com.fidoo.user.viewmodels.CartViewModel
 import com.fidoo.user.restaurants.viewmodel.StoreDetailsViewModel
+import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
+import com.fidoo.user.utils.FORADDRESS_REQUEST_CODE
 import com.fidoo.user.viewmodels.TrackViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -88,6 +90,7 @@ class CartActivity : BaseActivity(),
     var storelocation: ArrayList<StoreDetailsModel>? = null
     var storeCustomerDistance = ""
     var isSelected: String = ""
+    var address_id: String = ""
     private lateinit var productsDatabase: ProductsDatabase
 
 
@@ -122,8 +125,9 @@ class CartActivity : BaseActivity(),
         behavior = BottomSheetBehavior.from(bottom_sheet)
         selectedAddressId = ""
         selectedAddressName = SessionTwiclo(this).userAddress
-        selectedAddressTitle = ""
-        selectedCouponName = ""
+        tv_delivery_address_title.text = selectedAddressTitle
+        tv_delivery_address.text = selectedAddressName
+        address_id= SessionTwiclo(this).userAddressId
         selectedCouponId = ""
         storeCustomerDistance = ""
         userLat = SessionTwiclo(this).userLat
@@ -336,9 +340,9 @@ class CartActivity : BaseActivity(),
                 showToast(resources.getString(R.string.provide_internet))
 
             } else {
-                startActivity(
+                startActivityForResult(
                     Intent(this, SavedAddressesActivity::class.java)
-                        .putExtra("type", "order")
+                        .putExtra("type", "order"),FORADDRESS_REQUEST_CODE
                 )
             }
         }
@@ -754,22 +758,21 @@ class CartActivity : BaseActivity(),
                 showToast(resources.getString(R.string.provide_internet))
             } else {
              Log.d("userAddressId_",SessionTwiclo(this).userAddressId)
-               // SessionTwiclo(this).userAddressId.equals("") ||
-                if (tv_delivery_address.text == ""){
+               //
+                if (address_id.equals("") || tv_delivery_address.text == ""){
                     showToast("Please select your address")
                 } else if (isPrescriptionRequire == "1") {
                     if (filePathTemp.equals("")) {
                         showToast("Please upload prescription")
 
                     } else {
-
                         if (isNetworkConnected) {
                             showIOSProgress()
                             viewmodel?.orderPlaceApi(SessionTwiclo(this).loggedInUserDetail.accountId,
                                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                                     finalPrice.toFloat().toString(),
                                     deliveryOption,
-                                    SessionTwiclo(this).userAddressId,
+                                address_id,
                                     "",
                                     ed_delivery_instructions.text.toString(),
                                     isSelected
@@ -787,7 +790,7 @@ class CartActivity : BaseActivity(),
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
                         finalPrice.toFloat().toString(),
                         deliveryOption,
-                        SessionTwiclo(this).userAddressId,
+                        address_id,
                         "",
                         ed_delivery_instructions.text.toString(),
                         isSelected
@@ -849,9 +852,11 @@ class CartActivity : BaseActivity(),
             }
         }
 
-
+        address_id= SessionTwiclo(this).userAddressId
+        Log.d("address_id_____",""+address_id)
         tv_delivery_address_title.text = selectedAddressTitle
         tv_delivery_address.text = selectedAddressName
+
         if (!isNetworkConnected) {
             showToast(resources.getString(R.string.provide_internet))
 
@@ -978,11 +983,9 @@ class CartActivity : BaseActivity(),
         data: Intent?
     ) {
         super.onActivityResult(requestCode, resultCode, data)
+
         // Result Code is -1 send from Payumoney activity
-        Log.d(
-            "MainActivity",
-            "request code $requestCode resultcode $resultCode"
-        )
+        Log.d("cartActivity__", "request code $requestCode resultcode $resultCode")
         if (requestCode == Checkout.RZP_REQUEST_CODE && resultCode == RESULT_OK && data != null)
         else {
             when (resultCode) {
@@ -992,7 +995,6 @@ class CartActivity : BaseActivity(),
                     Log.e("data", data.toString())
                     val fileUri = data?.data
                     prescriptionImg.setImageURI(fileUri)
-
                     //You can get File object from intent
                     val file: File = ImagePicker.getFile(data)!!
 
@@ -1008,6 +1010,12 @@ class CartActivity : BaseActivity(),
                     Toast.makeText(this, "Please upload your prescription", Toast.LENGTH_SHORT).show()
                 }
             }
+
+            if (resultCode==FORADDRESS_REQUEST_CODE){
+                Log.v("userAddressId",SessionTwiclo(this).userAddressId)
+
+            }
+
         }
     }
 
