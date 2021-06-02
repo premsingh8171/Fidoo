@@ -10,6 +10,7 @@ plugins {
 }
 
 android {
+
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -17,8 +18,8 @@ android {
         applicationId "com.fidoo.user"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 11
-        versionName "1.0.9"
+        versionCode 15
+        versionName "1.0.13"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
@@ -71,17 +72,17 @@ android {
         generateStubs = true
     }
 
-//    signingConfigs {
-//        // use for signed apk
-//        release {
-//            storeFile file("../fidoo.jks")
-//            storePassword "Fidoo@twiclo2021"
-//            keyAlias "fidookey"
-//            keyPassword "Fidoo@twiclo2021"
-//            v1SigningEnabled true
-//            v2SigningEnabled true
-//        }
-//    }
+    signingConfigs {
+        // use for signed apk
+        'live-release' {
+            storeFile file("../fidoo.jks")
+            storePassword "Fidoo@twiclo2021"
+            keyAlias "fidookey"
+            keyPassword "Fidoo@twiclo2021"
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
 
     flavorDimensions "client"
     productFlavors {
@@ -237,6 +238,8 @@ dependencies {
     implementation "androidx.paging:paging-guava:$paging_version"
 
     implementation "androidx.multidex:multidex:2.0.1"
+
+    implementation 'com.facebook.android:facebook-android-sdk:8.2.0'
  //   def work_version = '2.5.0-SNAPSHOT'
  //   implementation "androidx.work:work-runtime:$work_version"
 }

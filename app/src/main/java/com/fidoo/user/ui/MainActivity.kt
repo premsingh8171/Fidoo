@@ -159,7 +159,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
         viewmodel?.getAddressesResponse?.observe(this,{user ->
-            val addressList: MutableList<GetAddressModel.AddressList> = user.addressList
+            if (user.addressList != null){
+
+                val addressList: MutableList<GetAddressModel.AddressList> = user.addressList
             try {
                 for (i in addressList.indices) {
                     if (i==0){
@@ -178,6 +180,10 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             }catch (e:Exception){
                 e.printStackTrace()
             }
+
+            }
+
+
 
 
         })
