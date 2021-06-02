@@ -782,7 +782,6 @@ class CartActivity : BaseActivity(),
                             showInternetToast()
                         }
                     }
-
                 } else {
                     showIOSProgress()
                     viewmodel?.orderPlaceApi(
