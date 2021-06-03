@@ -232,6 +232,7 @@
 
 
     <FrameLayout
+        android:elevation="@dimen/margin_20dp"
         android:id="@+id/cartitemView_LL"
         android:layout_marginRight="@dimen/margin_20dp"
         android:layout_marginBottom="80dp"
@@ -323,6 +324,7 @@
     </FrameLayout>
 
     <FrameLayout
+        android:elevation="@dimen/dimen_5dp"
         android:layout_marginRight="@dimen/margin_20dp"
         android:layout_marginBottom="80dp"
         android:background="@drawable/circular_border"
@@ -334,6 +336,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
+
 
         <ImageView
             android:padding="@dimen/margin_15dp"
