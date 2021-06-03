@@ -24,12 +24,13 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/proxima"
-        android:text="Office"
+        android:text=""
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/locationImage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:paddingEnd="@dimen/margin_20dp"
         android:id="@+id/tv_location"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -38,9 +39,10 @@
         android:ellipsize="end"
         android:fontFamily="@font/proxima"
         android:layout_marginEnd="10dp"
-        android:text="1204, Emaar the palm square, Sector 66, Gurgaon"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/locationImage"
+        android:text=""
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/locationImage"
         app:layout_constraintTop_toBottomOf="@+id/tv_address_title" />
 
     <View

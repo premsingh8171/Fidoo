@@ -145,14 +145,13 @@ class ProfileFragment : Fragment() {
             try {
                 dismissIOSProgress()
                 Log.e("logout__response", Gson().toJson(user))
-                dismissIOSProgress()
                 sessionTwiclo!!.clearSession()
                 startActivity(Intent(requireActivity(), SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
 
             }catch (e:Exception){
                 e.printStackTrace()
-                sessionTwiclo!!.clearSession()
-                startActivity(Intent(requireActivity(), SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
+//                sessionTwiclo!!.clearSession()
+//                startActivity(Intent(requireActivity(), SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
 
             }
    })

@@ -257,7 +257,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 //                                toast.show()
                             }
 
-                            subcatList.add(subCatObj)
+                            if (!subCatObj.subcategory_name.equals("")){
+                                subcatList.add(subCatObj)
+                           }
+
 
                         }
                         rvlistSubcategory(subcatList)

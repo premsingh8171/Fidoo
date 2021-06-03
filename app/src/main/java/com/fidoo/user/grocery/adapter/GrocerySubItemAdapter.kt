@@ -48,6 +48,15 @@ var selectvalue:String?=""): RecyclerView.Adapter<GrocerySubItemAdapter.ViewHold
 
         }
 
+//        if (list.get(position)?.subcategory_name.toString().equals("")){
+//            holder.itemView.grocery_sub_cons.visibility=View.GONE
+//        }else{
+//            holder.itemView.grocery_sub_cons.visibility=View.VISIBLE
+//
+//        }
+
+
+
 
 
 //        if(index==position){
