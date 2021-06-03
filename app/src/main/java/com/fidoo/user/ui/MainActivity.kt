@@ -59,7 +59,6 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         var isearchSuggestionsList: ArrayList<String>? = null
         var timerStatus = true
 
-
         var ll: Location? = null
         var gac: GoogleApiClient? = null
         private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -186,28 +185,32 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
         viewmodel?.getAddressesResponse?.observe(this,{user ->
-            if (user.addressList != null){
+            if (user.addressList != null) {
 
                 val addressList: MutableList<GetAddressModel.AddressList> = user.addressList
-            try {
-                for (i in addressList.indices) {
-                    if (i==0){
-                        SessionTwiclo(this).userAddress=addressList.get(0).location
-                        SessionTwiclo(this).userLat = addressList.get(0).latitude
-                        SessionTwiclo(this).userLng = addressList.get(0).longitude
-                        userAddress?.text = SessionTwiclo(this).userAddress
-                        SessionTwiclo(this).userAddressId= addressList.get(0).is_default
+                if (addressList != null) {
+                    try {
+                        for (i in addressList.indices) {
+                            if (i == 0) {
+                                SessionTwiclo(this).userAddress = addressList.get(0).location
+                                SessionTwiclo(this).userLat = addressList.get(0).latitude
+                                SessionTwiclo(this).userLng = addressList.get(0).longitude
+                                userAddress?.text = SessionTwiclo(this).userAddress
+                                SessionTwiclo(this).userAddressId = addressList.get(0).is_default
+                            }
+                        }
+
+                        if (addressList.size == 0) {
+                            Log.d("sfdfgdgf__", "message")
+                            getCurrentLocation()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
-                }
 
-                if (addressList.size==0) {
-                    Log.d("sfdfgdgf__", "message")
-                    getCurrentLocation()
                 }
-            }catch (e:Exception){
-                e.printStackTrace()
-            }
-
+            }else{
+                getCurrentLocation()
             }
 
         })

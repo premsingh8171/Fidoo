@@ -3,10 +3,10 @@ package com.fidoo.user.ui
 import `in`.aabhasjindal.otptextview.OTPListener
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Message
 import android.util.Log
@@ -17,10 +17,10 @@ import android.widget.Toast
 import androidx.navigation.fragment.navArgs
 import com.fidoo.user.R
 import com.fidoo.user.data.SendResponse
+import com.fidoo.user.data.model.*
 import com.fidoo.user.utils.SmsBroadcastReceiver
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import kotlinx.android.synthetic.main.fragment_otp.view.*
-import kotlinx.android.synthetic.main.fragment_otp.view.tv_resendOtp
 
 
 class OtpFragment : com.fidoo.user.utils.BaseFragment() {
@@ -31,7 +31,8 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
     val args: OtpFragmentArgs by navArgs()
     lateinit var mData: SendResponse
     lateinit var smsBroadcastReceiver: SmsBroadcastReceiver
-
+    private var countDownTimer: CountDownTimer? = null
+    private var timeLeftInmilliSeconds: Long = 60000
     companion object{
         const val TAG = "SMS_USER_CONSENT"
 
@@ -61,9 +62,10 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
                 otpTemp = otp
             }
         }
-
+        startTimer()
         mView.tv_resendOtp.setOnClickListener {
             resendApi()
+
         }
 
         mView.tv_phone.text = mData.mobile
@@ -98,14 +100,14 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
             when (msg.what) {
                 com.fidoo.user.api_request_retrofit.ApiInterface.RESEND_SUCCESS -> {
                     dismissIOSProgress()
-                    val mModelData: com.fidoo.user.data.model.ResendModel = msg.obj as com.fidoo.user.data.model.ResendModel
+                    val mModelData: ResendModel = msg.obj as ResendModel
                     Toast.makeText(requireContext(), mModelData.message, Toast.LENGTH_SHORT).show()
 
                 }
                 com.fidoo.user.api_request_retrofit.ApiInterface.OTP_SUCCESS -> {
                     dismissIOSProgress()
 
-                    val mModelData: com.fidoo.user.data.model.VerificationModel = msg.obj as com.fidoo.user.data.model.VerificationModel
+                    val mModelData: VerificationModel = msg.obj as VerificationModel
                     // store user details
                     sessionInstance.storeLoggedInUserDetail(mModelData)
 
@@ -122,14 +124,13 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
                 }
                 com.fidoo.user.api_request_retrofit.ApiInterface.OTP_FAILURE -> {
                     dismissIOSProgress()
-                    val mModelData: com.fidoo.user.data.model.VerificationModel = msg.obj as com.fidoo.user.data.model.VerificationModel
+                    val mModelData: VerificationModel = msg.obj as VerificationModel
                     showToast(mModelData.errorMessage)
                 }
 
             }
         }
     }
-
 
     private fun verificationApi(otp: String?) {
         if (!isNetworkConnected) {
@@ -157,6 +158,7 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
             mData.id, mData.accesstoken,
             mApiHandler
         )
+        startTimer()
     }
 
     private fun startSmsUserConsent() {
@@ -173,8 +175,8 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
     }
 
     private fun registerToSmsBroadcastReceiver() {
-        smsBroadcastReceiver = SmsBroadcastReceiver().also {
-            it.smsBroadcastReceiverListener = object : SmsBroadcastReceiver.SmsBroadcastReceiverListener {
+        smsBroadcastReceiver = SmsBroadcastReceiver().also {broadcast ->
+            broadcast.smsBroadcastReceiverListener = object : SmsBroadcastReceiver.SmsBroadcastReceiverListener {
                 override fun onSuccess(intent: Intent?) {
                     intent?.let { context -> startActivityForResult(context, REQ_USER_CONSENT) }
                 }
@@ -188,30 +190,61 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
         context?.registerReceiver(smsBroadcastReceiver, intentFilter)
     }
 
+    fun startTimer() {
+        countDownTimer = object : CountDownTimer(timeLeftInmilliSeconds, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                timeLeftInmilliSeconds = millisUntilFinished
+                updateTimer1()
+            }
+
+            override fun onFinish() {
+                mView?.timer_otp.setVisibility(View.GONE)
+                mView?.resendOtp.setVisibility(View.VISIBLE)
+                mView?.tv_resendOtp.setVisibility(View.VISIBLE)
+                updateTimer1()
+                timeLeftInmilliSeconds = 60000
+            }
+        }.start()
+    }
+    fun updateTimer1() {
+        val minute = (timeLeftInmilliSeconds / 60000).toInt()
+        val seconds = (timeLeftInmilliSeconds % 60000 / 1000).toInt()
+        var timeLeftText: String
+        timeLeftText = "" + minute
+        timeLeftText += ":"
+        if (seconds < 10) timeLeftText += "0"
+        timeLeftText += seconds
+        mView?.timer_otp.setText("$timeLeftText left")
+        mView?.timer_otp.setVisibility(View.VISIBLE)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQ_USER_CONSENT -> {
                 if ((resultCode == Activity.RESULT_OK) && (data != null)) {
                     //That gives all message to us. We need to get the code from inside with regex
-                    val message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
-                    val code = message?.let { fetchVerificationCode(it) }
+               try {
+                   val message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
+                   val code = message?.let { fetchVerificationCode(it) }
 
-                    if (code != null) {
-                        mView.otp_view.setOTP(code)
-                        if (mView.otp_view.otp?.length != 6) {
-                            Toast.makeText(
-                                requireContext(),
-                                "Please enter complete OTP",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                   if (code != null) {
+                       mView.otp_view.setOTP(code)
+                       if (mView.otp_view.otp?.length != 6) {
+                           Toast.makeText(
+                               requireContext(),
+                               "Please enter complete OTP",
+                               Toast.LENGTH_SHORT
+                           ).show()
 
-                        }
-                        else{
-                            verificationApi(mView.otp_view.otp)
-                        }
+                       }
+                       else{
+                           verificationApi(mView.otp_view.otp)
+                       }
 
-                    }
+                   }
+               }catch (e:Exception){e.printStackTrace()}
+
                 }
             }
         }

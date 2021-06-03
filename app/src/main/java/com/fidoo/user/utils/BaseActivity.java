@@ -32,10 +32,13 @@ import java.util.Locale;
 public  abstract class BaseActivity extends AppCompatActivity implements Handler.Callback {
 
     public Activity _context = null;
-    public Handler _handler = null;
+  //  public Handler _handler = null;
     private UiHandleMethods mUihandler;
     private ProgressDialog _progressDlg;
     private Vibrator _vibrator;
+    private static String Address = "", City = "", State = "", Country = "", Locality = "", Pincode = "",
+            mAdminArea = "", mSubAdminArea = "", mSubLocality = "", mThoroughfare = "", mSubThoroughfare = "",
+            mCountryCode = "", mPhone = "", mUrl = "", mFeatureName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public  abstract class BaseActivity extends AppCompatActivity implements Handler
         mUihandler = new UiHandleMethods(this);
         _context = this;
         _vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        _handler = new Handler(this);
+      //  _handler = new Handler(this);
 
 
     }
@@ -143,25 +146,235 @@ public  abstract class BaseActivity extends AppCompatActivity implements Handler
     }
 
 
+//    public String getGeoAddressFromLatLong(double latitude, double longitude) {
+//        Geocoder geocoder;
+//        List<Address> addresses;
+//        geocoder = new Geocoder(this, Locale.getDefault());
+//        try {
+//            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+//            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+//            String city = addresses.get(0).getLocality();
+//            String state = addresses.get(0).getAdminArea();
+//            String country = addresses.get(0).getCountryName();
+//            String postalCode = addresses.get(0).getPostalCode();
+//            //   String knownName = addresses.get(0).getFeatureName(); // Only if available else return
+//
+//            return address;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return "";
+//        }
+//    }
+
     public String getGeoAddressFromLatLong(double latitude, double longitude) {
-        Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(this, Locale.getDefault());
 
+        final Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            String city = addresses.get(0).getLocality();
-            String state = addresses.get(0).getAdminArea();
-            String country = addresses.get(0).getCountryName();
-            String postalCode = addresses.get(0).getPostalCode();
-            //   String knownName = addresses.get(0).getFeatureName(); // Only if available else return
+            final List<android.location.Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addressList != null && addressList.size() > 0) {
+                android.location.Address address = addressList.get(0);
 
-            return address;
+                for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+                    Address += (address.getAddressLine(i)) + (",");
+                }
+                try {
+
+                    if (Address != null) {
+                        Address = Address.substring(0, Address.length() - 1);
+                    } else {
+                        Address = "";
+                    }
+
+                    if (address.getLocality() != null) {
+                        City = address.getLocality();
+                    } else {
+                        City = "";
+                    }
+
+                    if (address.getAdminArea() != null) {
+                        State = address.getAdminArea();
+                    } else {
+                        State = "";
+                    }
+
+                    if (address.getCountryName() != null) {
+                        Country = address.getCountryName();
+                    } else {
+                        Country = "";
+                    }
+
+                    if (address.getLocality() != null) {
+                        Locality = address.getLocality();
+                    } else {
+                        Locality = "";
+                    }
+
+                    if (address.getPostalCode() != null) {
+                        Pincode = address.getPostalCode();
+                    } else {
+                        Pincode = "";
+
+                    }
+
+                    if (address.getAdminArea() != null) {
+                        mAdminArea = address.getAdminArea();
+                    } else {
+                        mAdminArea = "";
+
+                    }
+
+                    if (address.getSubAdminArea() != null) {
+                        mSubAdminArea = address.getSubAdminArea();
+                    } else {
+                        mSubAdminArea = "";
+
+                    }
+                    if (address.getSubLocality() != null) {
+                        mSubLocality = address.getSubLocality();
+                    } else {
+                        mSubLocality = "";
+
+                    }
+
+                    if (address.getThoroughfare() != null) {
+                        mThoroughfare = address.getPostalCode();
+                    } else {
+                        mThoroughfare = "";
+
+                    }
+
+                    if (address.getSubThoroughfare() != null) {
+                        mSubThoroughfare = address.getSubThoroughfare();
+                    } else {
+                        mSubThoroughfare = "";
+
+                    }
+
+                    if (address.getPhone() != null) {
+                        mPhone = address.getPhone();
+                    } else {
+                        mPhone = "";
+                    }
+
+                    if (address.getUrl() != null) {
+                        mUrl = address.getUrl();
+                    } else {
+                        mUrl = "";
+
+                    }
+                    if (address.getFeatureName() != null) {
+                        mFeatureName = address.getFeatureName();
+                    } else {
+                        mFeatureName = "";
+
+                    }
+
+                } catch (Exception ex) {
+                    if (addressList.get(0).getAddressLine(0) != null) {
+                        Address = addressList.get(0).getAddressLine(0);//// If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    } else {
+                        Address = "";
+                    }
+
+                    if (Address != null) {
+                        Address = Address.substring(0, Address.length() - 1);
+                    } else {
+                        Address = "";
+                    }
+
+                    if (address.getLocality() != null) {
+                        City = address.getLocality();
+                    } else {
+                        City = "";
+                    }
+
+                    if (address.getAdminArea() != null) {
+                        State = address.getAdminArea();
+                    } else {
+                        State = "";
+                    }
+
+                    if (address.getCountryName() != null) {
+                        Country = address.getCountryName();
+                    } else {
+                        Country = "";
+                    }
+
+                    if (address.getLocality() != null) {
+                        Locality = address.getLocality();
+                    } else {
+                        Locality = "";
+                    }
+
+                    if (address.getPostalCode() != null) {
+                        Pincode = address.getPostalCode();
+                    } else {
+                        Pincode = "";
+
+                    }
+
+                    if (address.getAdminArea() != null) {
+                        mAdminArea = address.getAdminArea();
+                    } else {
+                        mAdminArea = "";
+
+                    }
+
+                    if (address.getSubAdminArea() != null) {
+                        mSubAdminArea = address.getSubAdminArea();
+                    } else {
+                        mSubAdminArea = "";
+
+                    }
+                    if (address.getSubLocality() != null) {
+                        mSubLocality = address.getSubLocality();
+                    } else {
+                        mSubLocality = "";
+
+                    }
+
+                    if (address.getThoroughfare() != null) {
+                        mThoroughfare = address.getPostalCode();
+                    } else {
+                        mThoroughfare = "";
+
+                    }
+
+                    if (address.getSubThoroughfare() != null) {
+                        mSubThoroughfare = address.getSubThoroughfare();
+                    } else {
+                        mSubThoroughfare = "";
+
+                    }
+
+                    if (address.getPhone() != null) {
+                        mPhone = address.getPhone();
+                    } else {
+                        mPhone = "";
+                    }
+
+                    if (address.getUrl() != null) {
+                        mUrl = address.getUrl();
+                    } else {
+                        mUrl = "";
+
+                    }
+                    if (address.getFeatureName() != null) {
+                        mFeatureName = address.getFeatureName();
+                    } else {
+                        mFeatureName = "";
+
+                    }
+
+                }
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
-            return "";
+        } catch (Exception ex) {
+
         }
+        return Address;
     }
 
     public void closeProgress() {

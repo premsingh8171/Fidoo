@@ -185,6 +185,7 @@ class HomeFragment : Fragment() {
         viewmodel?.bannersResponse?.observe(requireActivity(), { user ->
             // dismissIOSProgress()
 
+            if (user!=null){
             if (!user.error) {
                 val mModelData: BannerModel = user
                 Log.e("bannerResponse", Gson().toJson(mModelData))
@@ -241,9 +242,7 @@ class HomeFragment : Fragment() {
 
 
                 }
-            } else {
-
-
+            }
             }
             //   goForVerificationScreen(VerificationActivity::class.java,mModelData.accessToken,mModelData.account.id,mobileNoEdt.text.toString())
 
@@ -257,49 +256,52 @@ class HomeFragment : Fragment() {
                 _progressDlg!!.dismiss()
                 _progressDlg = null
             }
-            if (!user.error) {
-                val mModelData: HomeServicesModel = user
-                Log.e("servicesResponse", Gson().toJson(mModelData))
-                if (mModelData.serviceList != null) {
-                    if (activity != null) {
-                        categoryAdapter = CategoryAdapter(
-                            requireActivity(),
-                            mModelData.serviceList,
-                            object : CategoryAdapter.ItemClick {
-                                override fun onItemClick(
-                                    pos: Int,
-                                    serviceList: HomeServicesModel.ServiceList
-                                ) {
+            if (user!=null) {
+                if (!user.error) {
+                    val mModelData: HomeServicesModel = user
+                    Log.e("servicesResponse", Gson().toJson(mModelData))
+                    if (mModelData.serviceList != null) {
+                        if (activity != null) {
+                            categoryAdapter = CategoryAdapter(
+                                requireActivity(),
+                                mModelData.serviceList,
+                                object : CategoryAdapter.ItemClick {
+                                    override fun onItemClick(
+                                        pos: Int,
+                                        serviceList: HomeServicesModel.ServiceList
+                                    ) {
 
-                                    service_id = serviceList.id
-                                    service_name = serviceList.serviceName
+                                        service_id = serviceList.id
+                                        service_name = serviceList.serviceName
 
+
+                                    }
 
                                 }
-
-                            }
-                        )
-
-                        fragmentHomeBinding?.categorySmallRecyclerview?.layoutManager =
-                            GridLayoutManager(
-                                activity,
-                                4,
-                                GridLayoutManager.VERTICAL,
-                                false
                             )
-                        fragmentHomeBinding?.categorySmallRecyclerview?.setHasFixedSize(true)
-                        fragmentHomeBinding?.categorySmallRecyclerview?.adapter = categoryAdapter
-                        categoryAdapter?.updateReceiptsList(itemPosition!!)
-                        fragmentHomeBinding?.categorySmallRecyclerview?.smoothScrollToPosition(
-                            itemPosition!!
-                        )
 
+                            fragmentHomeBinding?.categorySmallRecyclerview?.layoutManager =
+                                GridLayoutManager(
+                                    activity,
+                                    4,
+                                    GridLayoutManager.VERTICAL,
+                                    false
+                                )
+                            fragmentHomeBinding?.categorySmallRecyclerview?.setHasFixedSize(true)
+                            fragmentHomeBinding?.categorySmallRecyclerview?.adapter =
+                                categoryAdapter
+                            categoryAdapter?.updateReceiptsList(itemPosition!!)
+                            fragmentHomeBinding?.categorySmallRecyclerview?.smoothScrollToPosition(
+                                itemPosition!!
+                            )
+
+                        }
                     }
-                }
 
-            } else {
-                if (user.errorCode == 101) {
-                    //showAlertDialog(context!!)
+                } else {
+                    if (user.errorCode == 101) {
+                        //showAlertDialog(context!!)
+                    }
                 }
             }
         })
@@ -311,29 +313,39 @@ class HomeFragment : Fragment() {
                 _progressDlg = null
             }
 
-            if (!user.error) {
-                val mModelData: CartCountModel = user
-                Log.e("countResponse", Gson().toJson(mModelData))
-                Log.e("user count", user.count + "---")
-                if (context != null) {
-                    SessionTwiclo(context).storeId = mModelData.store_id
-                }
-                if (user.count != null) {
-                    if (user.count.toInt() > 0) {
-                        fragmentHomeBinding?.cartIcon?.setImageResource(R.drawable.cart_icon)
-                        fragmentHomeBinding?.cartIcon?.setColorFilter(Color.argb(255, 53, 156, 71))
-                        fragmentHomeBinding?.cartCountTxt?.visibility = View.VISIBLE
-                        //fragmentHomeBinding?.cartCountTxt?.text = user.count
-                    } else {
-                        fragmentHomeBinding?.cartCountTxt?.visibility = View.GONE
-                        fragmentHomeBinding?.cartIcon?.setImageResource(R.drawable.ic_cart)
-                        fragmentHomeBinding?.cartIcon?.setColorFilter(Color.argb(255, 199, 199, 199)
-                        )
+            if (user!=null) {
+                if (!user.error) {
+                    val mModelData: CartCountModel = user
+                    Log.e("countResponse", Gson().toJson(mModelData))
+                    Log.e("user count", user.count + "---")
+                    if (context != null) {
+                        SessionTwiclo(context).storeId = mModelData.store_id
                     }
-                }
-            } else {
-                if (user.errorCode == 101) {
-                    //showAlertDialog(context!!)
+                    if (user.count != null) {
+                        if (user.count.toInt() > 0) {
+                            fragmentHomeBinding?.cartIcon?.setImageResource(R.drawable.cart_icon)
+                            fragmentHomeBinding?.cartIcon?.setColorFilter(
+                                Color.argb(
+                                    255,
+                                    53,
+                                    156,
+                                    71
+                                )
+                            )
+                            fragmentHomeBinding?.cartCountTxt?.visibility = View.VISIBLE
+                            //fragmentHomeBinding?.cartCountTxt?.text = user.count
+                        } else {
+                            fragmentHomeBinding?.cartCountTxt?.visibility = View.GONE
+                            fragmentHomeBinding?.cartIcon?.setImageResource(R.drawable.ic_cart)
+                            fragmentHomeBinding?.cartIcon?.setColorFilter(
+                                Color.argb(255, 199, 199, 199)
+                            )
+                        }
+                    }
+                } else {
+                    if (user.errorCode == 101) {
+                        //showAlertDialog(context!!)
+                    }
                 }
             }
         })

@@ -631,8 +631,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     //For Products list
     private fun rvlistProduct(listProduct: ArrayList<Product>) {
         productList=listProduct
-        Log.d("productList_value", productList?.size.toString())
-//        var store_id = intent.getStringExtra("storeId")
+    //  var store_id = intent.getStringExtra("storeId")
 
         groceryItemAdapter = GroceryItemAdapter(
             this,

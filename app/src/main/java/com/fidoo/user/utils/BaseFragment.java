@@ -106,8 +106,7 @@ public abstract class BaseFragment extends Fragment  implements Handler.Callback
 
 
     public void goForVerificationScreen(Class<?> mClass, String accessToken, String id, String mobile, String otp) {
-
-        Intent i = new Intent(requireActivity(), mClass);
+        Intent i = new Intent(requireContext(), mClass);
         i.putExtra("accessToken",accessToken);
         i.putExtra("id",id);
         i.putExtra("mobile",mobile);

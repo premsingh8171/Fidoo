@@ -66,7 +66,7 @@
                     android:layout_marginStart="5dp"
                     android:fontFamily="@font/proxima"
                     android:singleLine="true"
-                    android:text=""
+                    android:text="Select your location"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/text_size_14sp"
                     app:layout_constraintLeft_toRightOf="@+id/routeIcon"

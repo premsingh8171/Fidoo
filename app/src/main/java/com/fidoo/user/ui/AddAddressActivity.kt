@@ -231,7 +231,7 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                     SessionTwiclo(this).userLat = lat.toString()
                     SessionTwiclo(this).userLng = lng.toString()
                     SessionTwiclo(this).userAddress=tv_Address.text.toString()
-                    savedAddressesActivity.finish().toString()
+                    savedAddressesActivity!!.finish().toString()
                     finish()
                 } else {
                     if (ed_name.text.toString().equals("")) {

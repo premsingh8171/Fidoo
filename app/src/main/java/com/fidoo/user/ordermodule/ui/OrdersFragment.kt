@@ -356,8 +356,11 @@ class OrdersFragment : Fragment(),
 
 
         } else {
-            _progressDlg!!.dismiss()
-            (activity as MainActivity).showInternetToast()
+            _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
+            if (_progressDlg!=null) {
+                _progressDlg!!.dismiss()
+                (activity as MainActivity).showInternetToast()
+            }
         }
 
     }

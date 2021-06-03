@@ -136,6 +136,7 @@ class StoreItemsActivity :
                 .build()
 
         }.start()
+
         getRoomData()
 
         viewmodel = ViewModelProviders.of(this).get(StoreDetailsViewModel::class.java)
@@ -192,13 +193,6 @@ class StoreItemsActivity :
             if (SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || SessionTwiclo(this).storeId.equals("")) {
                 showIOSProgress()
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
-
-                /* viewmodel!!.addToCartApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                   "", countValue.text.toString(), "", "1", customIdsList!!
-                )*/
-
 
 
                 viewmodel!!.addToCartApi(
@@ -515,7 +509,6 @@ class StoreItemsActivity :
             }
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
-
 
     }
 
@@ -1203,8 +1196,6 @@ class StoreItemsActivity :
         alertDialog.show()
     }
 
-
-
     override fun onResume() {
         super.onResume()
         storeID = intent.getStringExtra("storeId")!!
@@ -1224,7 +1215,6 @@ class StoreItemsActivity :
         getStoreDetailsApiCall()
 
     }
-
 
     override fun onBackPressed() {
         if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {

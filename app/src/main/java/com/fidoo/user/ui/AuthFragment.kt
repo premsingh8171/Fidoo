@@ -19,12 +19,12 @@ class AuthFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_auth, container, false)
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        val activity = context as Activity
-        val layout = activity.findViewById<ConstraintLayout>(R.id.fidooTxtLayout)
-        layout.visibility = View.VISIBLE
-
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//
+//        val activity = context as Activity
+//        val layout = activity.findViewById<ConstraintLayout>(R.id.fidooTxtLayout)
+//        layout.visibility = View.VISIBLE
+//
+//    }
 }

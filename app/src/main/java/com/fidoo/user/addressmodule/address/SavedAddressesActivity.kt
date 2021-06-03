@@ -34,8 +34,7 @@ class SavedAddressesActivity : BaseActivity(),
     var where:String?=""
 
     companion object{
-        lateinit var savedAddressesActivity: SavedAddressesActivity
-
+        var savedAddressesActivity: SavedAddressesActivity?=null
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -211,13 +210,18 @@ class SavedAddressesActivity : BaseActivity(),
                         storeLat,
                         storeLong
                     )
-                }else{
-                    viewmodel?.getAddressesApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        "",
-                        ""
-                    )
+                }else {
+                    try {
+                        if (SessionTwiclo(this).loggedInUserDetail.accountId.isNotEmpty()) {
+                            viewmodel?.getAddressesApi(
+                                SessionTwiclo(this).loggedInUserDetail.accountId,
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                "",
+                                ""
+                            )
+                        }
+                    }catch (e:Exception){e.printStackTrace()}
+
                 }
 
             } else {

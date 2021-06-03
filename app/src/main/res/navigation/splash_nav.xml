@@ -20,4 +20,5 @@
         android:name="com.fidoo.user.ui.AuthFragment"
         android:label="AuthFragment" />
 
+    
 </navigation>

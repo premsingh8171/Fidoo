@@ -93,9 +93,6 @@ class CartActivity : BaseActivity(),
     var address_id: String = ""
     private lateinit var productsDatabase: ProductsDatabase
 
-
-
-
     companion object {
         var selectedAddressId: String = ""
         var selectedAddressName: String = ""
