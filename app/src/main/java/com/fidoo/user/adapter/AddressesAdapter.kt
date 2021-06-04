@@ -191,7 +191,7 @@ class AddressesAdapter(
 
         }
 
-        holder.mainLay.setOnLongClickListener {
+        holder.itemView.editAdd.setOnClickListener {
             if (stringExtra.equals("address")) {
                 con.startActivity(Intent(con, AddAddressActivity::class.java).putExtra("data", Gson().toJson(addressList[position])))
             }
@@ -201,6 +201,7 @@ class AddressesAdapter(
 
 
     }
+
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var tv_address_title = view.tv_location
         var storeName = view.tv_address_title

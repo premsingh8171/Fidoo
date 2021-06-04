@@ -27,6 +27,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.fidoo.user.R
+import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.data.model.GetAddressModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.utils.BaseActivity
@@ -225,7 +226,6 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         btn_continue.setOnClickListener {
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
-
             } else {
                 if (where.equals("guest")) {
                     SessionTwiclo(this).userLat = lat.toString()
@@ -310,6 +310,15 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                 }
             }
         }
+
+
+        viewmodel?.editAddressResponse?.observe(this, {
+            dismissIOSProgress()
+            SavedAddressesActivity.editAdd=1
+            showToast("Address Edited successfully")
+            finish()
+            AppUtils.finishActivityLeftToRight(this)
+        })
 
         viewmodel?.addAddressResponse?.observe(this, {
 

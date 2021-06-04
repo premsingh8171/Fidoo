@@ -35,6 +35,7 @@ class SavedAddressesActivity : BaseActivity(),
 
     companion object{
         var savedAddressesActivity: SavedAddressesActivity?=null
+        var editAdd: Int?=0
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,6 +159,29 @@ class SavedAddressesActivity : BaseActivity(),
 
     override fun onResume() {
         super.onResume()
+        if (editAdd==1){
+            if (isNetworkConnected) {
+                showIOSProgress()
+                if(intent.getStringExtra("type") == "order"){
+                    viewmodel?.getAddressesApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        storeLat,
+                        storeLong
+                    )
+                }else{
+                    viewmodel?.getAddressesApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        "",
+                        ""
+                    )
+                }
+                editAdd=0
+            } else {
+                showInternetToast()
+            }
+        }
 
     }
 
@@ -248,4 +272,5 @@ class SavedAddressesActivity : BaseActivity(),
     override fun onBackPressed() {
         AppUtils.finishActivityLeftToRight(this)
     }
+
 }
