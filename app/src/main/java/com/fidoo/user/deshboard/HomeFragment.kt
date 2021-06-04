@@ -9,11 +9,14 @@ import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.os.Handler
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -59,7 +62,8 @@ class HomeFragment : Fragment() {
     private var where: String? = ""
     lateinit var pref: SessionTwiclo
 
-    //end
+    var height = 0
+    var width = 0
     var currentPage = 0
     var timer: Timer? = null
     val DELAY_MS: Long = 1000 //delay in milliseconds before task is to be executed
@@ -90,13 +94,19 @@ class HomeFragment : Fragment() {
 
     private val sliderAdapter = SliderAdapter(
         pics, 10, object : ClickCart {
-            override fun cartOnClick(view: View?) {
+            override fun cartOnClick(view: View?,position:Int) {
                 //  service_name?.let { Log.d("fdfdfd", it) }
-                AppUtils.startActivityRightToLeft(requireActivity(),Intent(requireActivity(), StoreListActivity::class.java).putExtra(
-                    "serviceId", service_id
-                ).putExtra("serviceName", service_name));
 
-               // startActivity()
+                if (position == itemPosition) {
+                    AppUtils.startActivityRightToLeft(
+                        requireActivity(),
+                        Intent(requireActivity(), StoreListActivity::class.java).putExtra(
+                            "serviceId", service_id
+                        ).putExtra("serviceName", service_name)
+                    );
+
+                    // startActivity()
+                }
             }
         })
 
@@ -118,6 +128,22 @@ class HomeFragment : Fragment() {
         pref = SessionTwiclo(requireContext())
         where = pref.guestLogin
         Log.d("where___", where!!)
+
+        // Display size
+
+        // Display size
+        val displayMetrics = DisplayMetrics()
+        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+        //  int height = displayMetrics.heightPixels;
+        //  int height = displayMetrics.heightPixels;
+        width = displayMetrics.widthPixels
+        height = Math.round(width * 0.45).toInt()
+        Log.d("height___", height?.toString())
+
+        fragmentHomeBinding?.viewPagerBanner!!.layoutParams = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            height
+        )
 
         // to initialize the main card view slider
         initRecyclerView()

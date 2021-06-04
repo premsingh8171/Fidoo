@@ -172,7 +172,7 @@
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/viewPagerBanner"
                         android:layout_width="match_parent"
-                        android:layout_height="170dp">
+                        android:layout_height="wrap_content">
 
                     </androidx.viewpager.widget.ViewPager>
 

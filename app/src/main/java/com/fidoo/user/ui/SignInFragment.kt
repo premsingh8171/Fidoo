@@ -90,13 +90,11 @@ class SignInFragment : Fragment() {
             } else {
 
                 //   startActivity(Intent(this,VerificationActivity::class.java))
-                if (binding.phone.text.toString().equals("")) {
+                if (binding.phone.text.toString().equals("") or binding.phone.text.toString().equals(" ")) {
                     showToast(requireContext(), "Please enter mobile number")
-                } else
-                    if (binding.phone.text.toString().length != 10) {
+                } else if (binding.phone.text.toString().length != 10) {
                         showToast(requireContext(), "Please enter valid number")
-                    } else
-                        if (binding.phone.text.toString().startsWith("0")) {
+                } else if (binding.phone.text.toString().startsWith("0")) {
                             showToast(requireContext(), "Number can't be starts with zero")
                         } else {
                             showIOSProgress()

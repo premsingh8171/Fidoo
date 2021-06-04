@@ -1,12 +1,18 @@
 package com.fidoo.user.ui
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -15,12 +21,15 @@ import com.fidoo.user.R
 import com.fidoo.user.SplashActivity
 import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.grocery.activity.GroceryItemsActivity
 import com.fidoo.user.profile.EditProfileActivity
 import com.fidoo.user.profile.EditProfileViewModel
 import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
 import com.fidoo.user.viewmodels.LogoutViewModel
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
+import kotlinx.android.synthetic.main.select_cat_popup.*
 
 
 class ProfileFragment : Fragment() {
@@ -30,6 +39,7 @@ class ProfileFragment : Fragment() {
     var profileViewModel: EditProfileViewModel? = null
     var filePathTemp: String? = ""
     var sessionTwiclo: SessionTwiclo?=null
+    var logoutDiolog: Dialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,21 +125,11 @@ class ProfileFragment : Fragment() {
         }
 
         mView.action_logout.setOnClickListener {
-
             if (sessionTwiclo!!.isLoggedIn){
-                viewmodel?.logoutapi(
-                    sessionTwiclo!!.loggedInUserDetail.accountId,
-                    sessionTwiclo!!.loggedInUserDetail.accessToken
-                )
-
+                logoutPopUp()
             }else{
                 startActivity(Intent(context, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
-
-
-                // Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
             }
-
-
         }
 
 
@@ -177,5 +177,39 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun logoutPopUp() {
+        logoutDiolog = Dialog(requireActivity())
+        logoutDiolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        logoutDiolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        logoutDiolog?.setContentView(R.layout.logout_popup)
+        logoutDiolog?.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        logoutDiolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+        logoutDiolog?.setCanceledOnTouchOutside(true)
+        logoutDiolog?.show()
+        val cencelBtn = logoutDiolog?.findViewById<CardView>(R.id.cencelBtn)
+        val logoutBtn = logoutDiolog?.findViewById<CardView>(R.id.logoutBtn)
+        val rll_logout = logoutDiolog?.findViewById<RelativeLayout>(R.id.rll_logout)
+
+        cencelBtn?.setOnClickListener(View.OnClickListener {
+            logoutDiolog?.dismiss()
+        })
+        rll_logout?.setOnClickListener(View.OnClickListener {
+            logoutDiolog?.dismiss()
+        })
+
+        logoutBtn?.setOnClickListener(View.OnClickListener {
+            viewmodel?.logoutapi(
+                sessionTwiclo!!.loggedInUserDetail.accountId,
+                sessionTwiclo!!.loggedInUserDetail.accessToken
+            )
+            logoutDiolog?.dismiss()
+
+        })
+
+
+    }
 
 }

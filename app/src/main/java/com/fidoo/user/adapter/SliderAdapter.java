@@ -1,5 +1,6 @@
 package com.fidoo.user.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,13 +29,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderCard> {
                 .inflate(R.layout.layout_slider_card, parent, false);
 
        // if (clickCart != null) {
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                  //  listener.onClick(view);
-                    clickCart.cartOnClick(view);
-                }
-            });
+
        // }
 
         return new SliderCard(view);
@@ -43,6 +38,12 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderCard> {
     @Override
     public void onBindViewHolder(SliderCard holder, int position) {
         holder.setContent(content[position % content.length]);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickCart.cartOnClick(view,position);
+            }
+        });
     }
 
     @Override
@@ -56,7 +57,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderCard> {
     }
 
      public interface ClickCart{
-        public void cartOnClick(View view);
+        public void cartOnClick(View view,int position);
     }
 
 }
