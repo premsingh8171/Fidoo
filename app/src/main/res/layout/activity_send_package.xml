@@ -28,16 +28,16 @@
             app:tint="@color/blue_color" />
 
         <TextView
-            android:layout_centerVertical="true"
-            android:textColor="@color/blue_color"
             android:id="@+id/tv_pick_drop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="65dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="62dp"
+            android:layout_marginBottom="@dimen/ib_fr_space_20"
             android:text="Pick and Drop"
-            android:textSize="16sp"
-            />
+            android:textColor="@color/blue_color"
+            android:textSize="16sp" />
 
 
     </RelativeLayout>
@@ -128,8 +128,10 @@
                 android:layout_marginTop="5dp"/>
 
             <TextView
+                android:ellipsize="end"
+                android:ems="15"
                 android:id="@+id/tv_address_from"
-                android:layout_width="match_parent"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:hint="Select Address"
                 android:maxLines="1"
@@ -177,8 +179,10 @@
                 android:layout_marginTop="5dp"/>
 
             <TextView
+                android:ems="15"
+                android:ellipsize="end"
+                android:layout_width="220dp"
                 android:id="@+id/tv_address_to"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Select Address"
                 android:layout_toEndOf="@id/location_icon_to"
@@ -189,12 +193,10 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/arrow_downward"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"/>
-
-
+                android:layout_marginEnd="22dp"
+                android:src="@drawable/arrow_downward" />
 
 
         </RelativeLayout>

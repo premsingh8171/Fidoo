@@ -281,28 +281,30 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         val destination = selectedtoLat.toString() + "," + selectedtoLng.toString()
         val urlDirections =
             "https://maps.googleapis.com/maps/api/directions/json?origin=$source&destination=$destination&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c"
+        Log.e("urlDirections", urlDirections)
+        var dist_:Float=0f
         val directionsRequest = object :
             StringRequest(Request.Method.GET, urlDirections, Response.Listener<String> { response ->
                 val jsonResponse = JSONObject(response)
-                Log.e("res", "routes- $jsonResponse")
-                val routes = jsonResponse.getJSONArray("routes")
-                if (routes.length() != 0) {
-                    val legs = routes.getJSONObject(0).getJSONArray("legs")
-                    val distance =
-                        legs.getJSONObject(0).getJSONObject("distance").get("value").toString()
-                    //showToast(distance)
-                    //packageDistance = distance
+                dismissIOSProgress()
+                Log.e("res_routes", "routes- $jsonResponse")
+                var status=jsonResponse.optString("status")
+                if (!status.equals("ZERO_RESULTS")) {
+                    val routes = jsonResponse.optJSONArray("routes")
+                    if (routes.length() != 0) {
+                        val legs = routes.optJSONObject(0).optJSONArray("legs")
+                        val distance = legs.optJSONObject(0).optJSONObject("distance").get("value").toString()
+                        val distanceTex = legs.optJSONObject(0).optJSONObject("distance").get("text").toString()
+                        val dist: List<String> = distanceTex.split(" ")
+                        val distStr=dist[0]
+                        dist_=distStr.toFloat()
+                        Log.e("distance_", dist_.toString())
 
-//                    var paymentMode = ""
-//
-//                    paymentMode = if (checkedRadioButtonId == R.id.onlineRadioBtn) {
-//                        "Online"
-//                    } else {
-//                        "Cash"
-//                    }
+                        //showToast(distance)
+                        //packageDistance = distance
+                        //var paymentMode = ""
 
-
-                    if (distance.isNotEmpty() || distance != "") {
+                    if (distance.isNotEmpty() || dist_<15.0) {
                         viewmodel?.getPackageDetails(
                             SessionTwiclo(
                                 this
@@ -315,6 +317,9 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                     } else {
                         showToast("There is some issue in Service, please try after sometime")
                     }
+                    }
+                }else{
+                    showToast("No result found")
                 }
             }, Response.ErrorListener { }) {
 
