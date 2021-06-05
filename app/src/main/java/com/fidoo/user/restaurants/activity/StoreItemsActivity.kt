@@ -82,6 +82,7 @@ class StoreItemsActivity :
     var veg: Int = 0
     var nonveg: Int = 0
     var nonveg_str: String = ""
+    var contains_egg: String = ""
     private lateinit var mMap: GoogleMap
     var cartId: String = ""
     lateinit var storeID : String
@@ -94,6 +95,7 @@ class StoreItemsActivity :
 
     var veg_filter: Int = 0
     var egg_filter: Int = 0
+    var cat_visible: Int = 0
     lateinit var storeItemsAdapter:StoreItemsAdapter
     lateinit var restaurantCategoryAdapter:RestaurantCategoryAdapter
 
@@ -170,7 +172,14 @@ class StoreItemsActivity :
         }
 
         cat_FloatBtn.setOnClickListener {
-            catPopUp()
+           try {
+               if (cat_visible==1) {
+                   catPopUp()
+               }
+           }catch (e:Exception){
+               e.printStackTrace()
+           }
+
         }
 
         customAddBtn.setOnClickListener {
@@ -212,33 +221,37 @@ class StoreItemsActivity :
         veg_switch_img.setOnClickListener {
             if (veg_filter==0){
                 veg_switch_img.setImageResource(R.drawable.filter_on)
-                egg_switch_img.setImageResource(R.drawable.filter_off)
-                egg_filter=0
-                veg_filter=1
+               // egg_switch_img.setImageResource(R.drawable.filter_off)
+              //  egg_filter=0
                 nonveg_str="0"
+                getStoreDetailsApiCall()
+                veg_filter=1
+
             }else{
                 veg_switch_img.setImageResource(R.drawable.filter_off)
-                veg_filter=0
                 nonveg_str=""
+                getStoreDetailsApiCall()
+                veg_filter=0
+
             }
-            getStoreDetailsApiCall()
+
         }
 
         egg_switch_img.setOnClickListener {
             if (egg_filter==0){
                 egg_switch_img.setImageResource(R.drawable.filter_on)
-                veg_switch_img.setImageResource(R.drawable.filter_off)
-                veg_filter=0
+               // veg_switch_img.setImageResource(R.drawable.filter_off)
+                contains_egg="1"
+                getStoreDetailsApiCall()
                 egg_filter=1
-                nonveg_str="2"
 
             }else{
                 egg_switch_img.setImageResource(R.drawable.filter_off)
+                contains_egg=""
+                getStoreDetailsApiCall()
                 egg_filter=0
-                nonveg_str=""
 
             }
-            getStoreDetailsApiCall()
         }
 
         //Default behaviour of Bottom Sheet
@@ -370,9 +383,12 @@ class StoreItemsActivity :
                         //vegOnlySwitch.visibility = View.GONE
                     }
                 }
-
+                 cat_visible=1
 
             }else{
+                cat_visible=0
+                productList.clear()!!
+                rvStoreItemlisting(productList)
                 val toast = Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
                 toast.show()
             }
@@ -602,7 +618,7 @@ class StoreItemsActivity :
                 this,
                 0,
                 storeID,
-                productList_[0].cartId
+                ""
             )
             storeItemsRecyclerview.adapter = storeItemsAdapter
             //countRes=1
@@ -649,7 +665,8 @@ class StoreItemsActivity :
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                     intent.getStringExtra("storeId"),
                     nonveg_str,
-                    cat_id
+                    cat_id,
+                    contains_egg
                 )
             } else {
                 viewmodel?.getStoreDetails(
@@ -657,7 +674,8 @@ class StoreItemsActivity :
                     "",
                     intent.getStringExtra("storeId"),
                     nonveg_str,
-                    cat_id
+                    cat_id,
+                    contains_egg
                 )
             }
         }else{

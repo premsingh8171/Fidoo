@@ -211,16 +211,18 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
         accessToken: String,
         store_id: String?,
         is_nonveg: String?,
-        cat_id: String?
+        cat_id: String?,
+        contains_egg: String?
     ) {
         // progressDialog?.value = true
-        Log.d("storeDetail_value",accountId+"\n"+accessToken+"\n"+store_id+"\n"+cat_id)
+        Log.d("storeDetail_value",accountId+"\n"+accessToken+"\n"+store_id+"\n"+cat_id+"\n"+contains_egg)
         WebServiceClient.client.create(BackEndApi::class.java).getStoreDetailsApi(
             accountId = accountId,
             accessToken = accessToken,
             store_id = store_id,
             is_nonveg = is_nonveg,
-            cat_id = cat_id
+            cat_id = cat_id,
+            contains_egg = contains_egg
         )
             .enqueue(this)
 

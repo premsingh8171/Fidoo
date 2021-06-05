@@ -148,8 +148,8 @@ class CartActivity : BaseActivity(),
             SessionTwiclo(this).loggedInUserDetail.accessToken,
             SessionTwiclo(this).storeId,
             "",
-            intent.getStringExtra("catId")
-        )
+            intent.getStringExtra("catId"),""
+         )
 
         addressViewModel?.getAddressesApi(
             SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -268,7 +268,7 @@ class CartActivity : BaseActivity(),
                 SessionTwiclo(this).loggedInUserDetail.accessToken,
                 SessionTwiclo(this).storeId,
                 "",
-                intent.getStringExtra("catId")
+                intent.getStringExtra("catId"),""
 
             )
 

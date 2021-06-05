@@ -73,7 +73,8 @@ interface BackEndApi {
         @Field("accessToken") accessToken: String?,
         @Field("store_id") store_id: String?,
         @Field("is_nonveg") is_nonveg: String?,
-        @Field("cat_id") cat_id: String?
+        @Field("cat_id") cat_id: String?,
+        @Field("contains_egg") contains_egg: String?
 
     ): Call<StoreDetailsModel>
 
