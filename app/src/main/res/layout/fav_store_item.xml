@@ -20,14 +20,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_margin="@dimen/margin_10"
             android:id="@+id/productImg"
             android:layout_width="90dp"
             android:layout_height="90dp"
+            android:layout_margin="@dimen/margin_10"
             android:scaleType="fitXY"
-            app:shapeAppearanceOverlay="@style/RoundedSequare"/>
-
+            app:shapeAppearanceOverlay="@style/RoundedSequare" />
 
         <LinearLayout
             android:orientation="vertical"

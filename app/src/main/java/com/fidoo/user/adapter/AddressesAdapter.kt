@@ -192,7 +192,7 @@ class AddressesAdapter(
         }
 
         holder.itemView.editAdd.setOnClickListener {
-            if (stringExtra.equals("address")) {
+            if (stringExtra.equals("address")||stringExtra.equals("from")||stringExtra.equals("to")) {
                 con.startActivity(Intent(con, AddAddressActivity::class.java).putExtra("data", Gson().toJson(addressList[position])))
             }
 

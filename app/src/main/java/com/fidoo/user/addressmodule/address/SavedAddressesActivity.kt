@@ -91,7 +91,7 @@ class SavedAddressesActivity : BaseActivity(),
 
         viewmodel?.getAddressesResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
-            Log.e("addresses response", Gson().toJson(user))
+            Log.e("addresses_response", Gson().toJson(user))
             linear_progress_indicator.visibility = View.GONE
             if (user.addressList.isNullOrEmpty()) {
                 SessionTwiclo(this).userAddress = ""

@@ -3,7 +3,7 @@ package com.fidoo.user.adapter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.graphics.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +13,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
-import com.fidoo.user.restaurants.activity.StoreItemsActivity
 import com.fidoo.user.grocery.activity.GroceryItemsActivity
+import com.fidoo.user.restaurants.activity.StoreItemsActivity
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fav_store_item.view.*
 import java.text.ParseException
@@ -75,7 +75,6 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
 
         if(storeList[position].status.equals("1")) {
 
-
             if (storeList[position].open_close_status.equals("1")){
                 holder.onOffText?.visibility=View.VISIBLE
                 holder.onOffText?.text = "Open"
@@ -98,7 +97,7 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
             //    holder.onOffText?.setTextColor(Color.parseColor("#818181"))
                 holder.storeName?.setTextColor(Color.parseColor("#818181"))
                 holder.onOffText?.visibility = View.VISIBLE
-                holder.itemView.productImg.alpha= 0.3f
+                holder.itemView.productImg.alpha= 0.2f
                 holder.itemView.storeName.alpha= 0.3f
                 holder.itemView.timeStore.alpha= 0.3f
                 holder.itemView.distance_storeImg.alpha= 0.3f
@@ -107,16 +106,37 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
                 holder.itemView.closing_time.alpha= 0.3f
                 holder.itemView.timeStore.setColorFilter(R.color.background)
                 holder.itemView.distance_storeImg.setColorFilter(R.color.background)
-                holder.itemView.productFram.visibility=View.VISIBLE
+              //  holder.itemView.productFram.visibility=View.VISIBLE
 
                 //   holder.itemView.store_lay.alpha= 0.5f
                // holder.itemView.store_lay.setBackgroundResource(R.color.background)
-            }
+
+//                var arrayofColor= arrayOf(Color.WHITE,Color.BLACK,Color.WHITE)
+//                var arraySize=arrayofColor.size
+//                holder.storeImg.setColorFilter(arrayofColor[Random().nextInt(arraySize)],PorterDuff.Mode.OVERLAY)
+          }
 
         }else if (storeList[position].status.equals("2")){
             //holder.onOffText.setTextColor(Color.rgb(245,195,48))
             holder.onOffText?.setTextColor(Color.rgb(245,195,48))
             holder.onOffText?.text = "Coming Soon"
+
+            holder.storeName?.setTextColor(Color.parseColor("#818181"))
+            holder.onOffText?.visibility = View.VISIBLE
+            holder.itemView.productImg.alpha= 0.2f
+            holder.itemView.storeName.alpha= 0.3f
+            holder.itemView.timeStore.alpha= 0.3f
+            holder.itemView.distance_storeImg.alpha= 0.3f
+            holder.itemView.tv_deliveryTime.alpha= 0.3f
+            holder.itemView.tv_location.alpha= 0.3f
+            holder.itemView.closing_time.alpha= 0.3f
+            holder.itemView.timeStore.setColorFilter(R.color.background)
+            holder.itemView.distance_storeImg.setColorFilter(R.color.background)
+           // holder.itemView.productFram.visibility=View.VISIBLE
+
+//            var arrayofColor= arrayOf(Color.BLACK,Color.BLACK,Color.BLACK)
+//            var arraySize=arrayofColor.size
+//            holder.storeImg.setColorFilter(arrayofColor[Random().nextInt(arraySize)],PorterDuff.Mode.OVERLAY)
         }
 
         holder.deliveryTimeTxt?.text = storeList[position].delivery_time + " minutes"
@@ -127,6 +147,8 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
             .load(storeList[position].image)
             .fitCenter()
             .into(holder.storeImg)
+//        val matrix = Matrix()
+//        holder.storeImg.colorFilter = ColorMatrixColorFilter(matrix)
 
         holder.mainLay?.setOnClickListener {
 
@@ -161,7 +183,9 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
         }
     }
 
+
     override fun getItemCount() = storeList.size
+
 
 
 }

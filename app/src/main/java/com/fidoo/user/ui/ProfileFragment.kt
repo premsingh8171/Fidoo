@@ -81,7 +81,7 @@ class ProfileFragment : Fragment() {
 
         mView.tv_yourAddresses.setOnClickListener {
             if (SessionTwiclo(requireContext()).isLoggedIn){
-                startActivity(Intent(context, SavedAddressesActivity::class.java))
+                startActivity(Intent(context, SavedAddressesActivity::class.java).putExtra("type","address"))
             }else{
                 Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()
             }

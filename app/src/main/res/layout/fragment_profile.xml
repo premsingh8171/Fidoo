@@ -342,12 +342,11 @@
             android:textColor="@color/black"/>
 
         <TextView
-
             android:layout_marginBottom="@dimen/ib_fr_space_20"
             android:id="@+id/tv_sharefriend"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="Share app with your friends and femily"
+            android:text="Share app with your friends and family"
             android:layout_marginStart="40dp"
             app:layout_constraintLeft_toLeftOf="@id/img_map"
             app:layout_constraintTop_toBottomOf="@id/tv_share"
