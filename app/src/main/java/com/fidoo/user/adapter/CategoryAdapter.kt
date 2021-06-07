@@ -69,12 +69,13 @@ class CategoryAdapter(
 
 
         if (index == position) {
+            //holder.itemView.itemLay.setBackgroundResource(R.drawable.round_box)
             holder.itemView.itemLay.setBackgroundResource(R.drawable.rectangle_shap)
-            holder.itemView.imageLay.setColorFilter(con.getResources().getColor(R.color.white));
+           // holder.itemView.imageLay.setColorFilter(con.getResources().getColor(R.color.white));
             itemClick.onItemClick(position,serviceList[position])
         } else {
             holder.itemView.itemLay.setBackgroundResource(R.drawable.round_box)
-            holder.itemView.imageLay.setColorFilter(con.getResources().getColor(R.color.primary_color));
+           // holder.itemView.imageLay.setColorFilter(con.getResources().getColor(R.color.primary_color));
 
         }
     }

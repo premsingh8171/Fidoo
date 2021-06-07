@@ -60,13 +60,18 @@ class StoreItemsAdapter(
 //        Log.d("kb cat postion",""+categotyList[position].product[position])
 
 
-        if (index.price.toInt() > index.offerPrice.toInt()){
-            holder.offerPrice.paintFlags = holder.offerPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            holder.offerPrice.text = con.resources.getString(R.string.ruppee) + "" + index.price
-            holder.priceAfterDiscount.text = con.resources.getString(R.string.ruppee) + "" + index.offerPrice
-        }else{
-            holder.priceAfterDiscount.text = con.resources.getString(R.string.ruppee) + "" + index.offerPrice
+        try {
+            if (index.price.toFloat() > index.offerPrice.toFloat()){
+                holder.offerPrice.paintFlags = holder.offerPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                holder.offerPrice.text = con.resources.getString(R.string.ruppee) + "" + index.price
+                holder.priceAfterDiscount.text = con.resources.getString(R.string.ruppee) + "" + index.offerPrice
+            }else{
+                holder.priceAfterDiscount.text = con.resources.getString(R.string.ruppee) + "" + index.offerPrice
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
         }
+
 
         //holder.qty.text = product[position].weight + product[position].unit
         //holder.storeName.isSelected = true
