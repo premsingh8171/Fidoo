@@ -97,16 +97,20 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/margin_8dp"
                 android:paddingLeft="@dimen/margin_8dp"
-                android:text="100"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="@dimen/margin_12dp" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:backgroundTint="@color/lightGray"
+                android:elevation="@dimen/margin_10"
+                android:background="@drawable/round_box"
                 android:id="@+id/stock_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_5dp"
+                android:padding="@dimen/text_size_7sp"
+                android:textColor="@color/primary_color"
                 android:text="Out of Stock"
                 android:visibility="gone" />
 
@@ -130,7 +134,7 @@
                 android:layout_marginLeft="@dimen/margin_4dp"
                 android:layout_weight="9.9"
                 android:padding="@dimen/margin_5dp"
-                android:text="1gm"
+                android:text="0gm"
                 android:textColor="@color/black"
                 android:textSize="11dp" />
 

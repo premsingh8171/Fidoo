@@ -129,6 +129,7 @@ class StoreItemsActivity :
 
         customerLatitude = ""
         customerLongitude = ""
+      //  store_preference_Rlay  for meat ui Gone
         
         Thread{
             restaurantProductsDatabase = Room.databaseBuilder(

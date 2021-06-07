@@ -74,15 +74,14 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
         }
 
         if(storeList[position].status.equals("1")) {
-
             if (storeList[position].open_close_status.equals("1")){
-                holder.onOffText?.visibility=View.VISIBLE
                 holder.onOffText?.text = "Open"
                 holder.onOffText?.setTextColor(Color.rgb(51, 147, 71))
                 holder.storeName?.setTextColor(Color.parseColor("#000000"))
+                holder.itemView.storeName.alpha= 1f
                 holder.itemView.productImg.alpha=1f
                 holder.itemView.timeStore.alpha= 1f
-               // holder.itemView.distance_storeImg.alpha= 1f
+                holder.itemView.distance_storeImg.alpha= 1f
                 holder.itemView.tv_deliveryTime.alpha= 1f
                 holder.itemView.tv_location.alpha= 1f
                 holder.itemView.closing_time.alpha=1f
@@ -94,9 +93,7 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
             }else if (storeList[position].open_close_status.equals("0")){
                 holder.onOffText?.text = "Offline"
                 holder.onOffText?.setTextColor(Color.rgb(240, 0, 0))
-            //    holder.onOffText?.setTextColor(Color.parseColor("#818181"))
                 holder.storeName?.setTextColor(Color.parseColor("#818181"))
-                holder.onOffText?.visibility = View.VISIBLE
                 holder.itemView.productImg.alpha= 0.2f
                 holder.itemView.storeName.alpha= 0.3f
                 holder.itemView.timeStore.alpha= 0.3f
@@ -117,12 +114,10 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
           }
 
         }else if (storeList[position].status.equals("2")){
-            //holder.onOffText.setTextColor(Color.rgb(245,195,48))
             holder.onOffText?.setTextColor(Color.rgb(245,195,48))
             holder.onOffText?.text = "Coming Soon"
 
             holder.storeName?.setTextColor(Color.parseColor("#818181"))
-            holder.onOffText?.visibility = View.VISIBLE
             holder.itemView.productImg.alpha= 0.2f
             holder.itemView.storeName.alpha= 0.3f
             holder.itemView.timeStore.alpha= 0.3f
@@ -137,6 +132,9 @@ class StoreAdapter(val context: Context, private val storeList: MutableList<com.
 //            var arrayofColor= arrayOf(Color.BLACK,Color.BLACK,Color.BLACK)
 //            var arraySize=arrayofColor.size
 //            holder.storeImg.setColorFilter(arrayofColor[Random().nextInt(arraySize)],PorterDuff.Mode.OVERLAY)
+        }else{
+            holder.storeName?.setTextColor(Color.parseColor("#000000"))
+
         }
 
         holder.deliveryTimeTxt?.text = storeList[position].delivery_time + " minutes"

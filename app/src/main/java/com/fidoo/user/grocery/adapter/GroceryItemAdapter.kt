@@ -138,6 +138,8 @@ class GroceryItemAdapter(
 
         if (list[position].in_out_of_stock_status == "1"){
             holder.itemView.stock_status.visibility = View.GONE
+            holder.itemView.tv_price.visibility = View.VISIBLE
+            holder.itemView.tv_unit.visibility = View.VISIBLE
 
             //add first time click
             holder.itemView.add_itemll.setOnClickListener {
@@ -270,7 +272,9 @@ class GroceryItemAdapter(
 
             holder.itemView.add_itemll.visibility = View.GONE
             holder.itemView.minusplus_ll.visibility = View.GONE
+            holder.itemView.tv_price.visibility = View.GONE
             holder.itemView.stock_status.visibility = View.VISIBLE
+            holder.itemView.tv_unit.visibility = View.VISIBLE
 
         }
 
