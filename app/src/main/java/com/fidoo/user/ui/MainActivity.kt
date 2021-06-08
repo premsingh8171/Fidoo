@@ -83,9 +83,6 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
 
-
-
-
         viewmodel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
         mUpdateManager = UpdateManager.Builder(this).mode(UpdateManagerConstant.IMMEDIATE)
         mUpdateManager?.start()
@@ -192,11 +189,16 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     try {
                         for (i in addressList.indices) {
                             if (i == 0) {
-                                SessionTwiclo(this).userAddress = addressList.get(0).location
-                                SessionTwiclo(this).userLat = addressList.get(0).latitude
-                                SessionTwiclo(this).userLng = addressList.get(0).longitude
-                                userAddress?.text = SessionTwiclo(this).userAddress
-                                SessionTwiclo(this).userAddressId = addressList.get(0).is_default
+                                if (SessionTwiclo(this).userAddress!=null || SessionTwiclo(this).userAddress!=""){
+                                    //Log.d("default_add",SessionTwiclo(this).userAddress)
+                                }else {
+                                    SessionTwiclo(this).userAddress = addressList.get(0).location
+                                    SessionTwiclo(this).userLat = addressList.get(0).latitude
+                                    SessionTwiclo(this).userLng = addressList.get(0).longitude
+                                    userAddress?.text = SessionTwiclo(this).userAddress
+                                    SessionTwiclo(this).userAddressId =
+                                        addressList.get(0).is_default
+                                }
                             }
                         }
 

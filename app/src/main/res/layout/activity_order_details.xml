@@ -104,44 +104,60 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/topLayy"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/storeImg"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="25dp"
+                <LinearLayout
+                    app:layout_constraintBottom_toTopOf="@+id/nameLabel"
+                    android:id="@+id/ord_LL"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/storeImg"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="top"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <LinearLayout
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/storeName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:fontFamily="@font/proxima"
+                            android:textColor="@android:color/black"
+                            app:layout_constraintStart_toEndOf="@id/storeImg"
+                            android:layout_marginStart="10dp"
+                            app:layout_constraintTop_toTopOf="parent" />
 
+                        <TextView
+                            android:text=""
+                            android:paddingBottom="@dimen/margin_10"
+                            android:id="@+id/locText"
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/proxima"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            app:layout_constraintStart_toEndOf="@id/storeImg"
+                            app:layout_constraintTop_toBottomOf="@+id/storeName"
+                            android:layout_marginEnd="10dp"
+                            app:layout_constraintEnd_toEndOf="@id/itemsLay"/>
 
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/storeName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
-                    android:text=""
-                    android:fontFamily="@font/proxima"
-                    android:textColor="@android:color/black"
-                    app:layout_constraintStart_toEndOf="@id/storeImg"
-                    android:layout_marginStart="10dp"
-                    app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/locText"
-                    android:layout_width="0dp"
-                    android:fontFamily="@font/proxima"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text=""
-                    app:layout_constraintStart_toEndOf="@id/storeImg"
-                    app:layout_constraintTop_toBottomOf="@+id/storeName"
-                    android:layout_marginEnd="10dp"
-                    app:layout_constraintEnd_toEndOf="@id/itemsLay"/>
 
                 <TextView
                     android:id="@+id/nameLabel"
@@ -157,8 +173,9 @@
                     android:textSize="15sp"
                     android:fontFamily="@font/proxima"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/storeImg"
+                    app:layout_constraintTop_toBottomOf="@+id/ord_LL"
                     android:visibility="gone"/>
+
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/itemsLay"
