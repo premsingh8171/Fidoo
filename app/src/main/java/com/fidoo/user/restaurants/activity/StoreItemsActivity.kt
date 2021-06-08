@@ -96,6 +96,7 @@ class StoreItemsActivity :
     var veg_filter: Int = 0
     var egg_filter: Int = 0
     var cat_visible: Int = 0
+    var isCustomizeOpen: Int = 0
     lateinit var storeItemsAdapter:StoreItemsAdapter
     lateinit var restaurantCategoryAdapter:RestaurantCategoryAdapter
 
@@ -169,7 +170,13 @@ class StoreItemsActivity :
         }
 
         backIcon.setOnClickListener {
-            AppUtils.finishActivityLeftToRight(this)
+            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                AppUtils.finishActivityLeftToRight(this)
+            } else {
+                behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+                cartitemView_LLstore.visibility = View.VISIBLE
+                cat_FloatBtn.visibility = View.VISIBLE
+            }
         }
 
         cat_FloatBtn.setOnClickListener {
@@ -269,6 +276,7 @@ class StoreItemsActivity :
                 //searchLay.visibility = View.VISIBLE
                 behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
                 cartitemView_LLstore.visibility = View.VISIBLE
+                cat_FloatBtn.visibility = View.VISIBLE
 
             }
 
@@ -321,6 +329,17 @@ class StoreItemsActivity :
 
             val productList: ArrayList<StoreDetailsModel.Product> = ArrayList()
           //  val catList: ArrayList<StoreDetailsModel.Category> = ArrayList()
+
+            try {
+                if (storeData.service_id.equals("7")){
+                    store_preference_Rlay.visibility=View.GONE
+                }else{
+                    store_preference_Rlay.visibility=View.VISIBLE
+                }
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+
 
 
             if (storeData.category.size != 0) {
@@ -444,6 +463,7 @@ class StoreItemsActivity :
         viewmodel?.customizeProductResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
             cartitemView_LLstore.visibility = View.GONE
+            cat_FloatBtn.visibility = View.GONE
 
             Log.e("stores___esponse", Gson().toJson(user))
             mModelDataTemp = user
@@ -1237,13 +1257,13 @@ class StoreItemsActivity :
 
     override fun onBackPressed() {
         if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-            super.onBackPressed()
+            AppUtils.finishActivityLeftToRight(this)
         } else {
-            //searchLay.visibility = View.VISIBLE
             behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-
+            cartitemView_LLstore.visibility = View.VISIBLE
+            cat_FloatBtn.visibility = View.VISIBLE
         }
-        AppUtils.finishActivityLeftToRight(this)
+
     }
 
 }
