@@ -12,37 +12,46 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DefaultItemAnimator
 import com.fidoo.user.CartActivity
 import com.fidoo.user.R
 import com.fidoo.user.data.model.AddCartInputModel
-import com.fidoo.user.restaurants.model.CustomCheckBoxModel
 import com.fidoo.user.data.model.SearchModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
+import com.fidoo.user.restaurants.model.CustomCheckBoxModel
 import com.fidoo.user.search.adapter.ParentStoreListAdapter
+import com.fidoo.user.search.adapter.RecentSearchAdapter
 import com.fidoo.user.search.model.Store
 import com.fidoo.user.ui.MainActivity
 import com.fidoo.user.utils.CommonUtils
 import com.fidoo.user.viewmodels.SearchFragmentViewModel
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_search2.view.*
-import java.lang.Exception
 
 
 class SearchFragment2 : Fragment() , AdapterClick,
 		AdapterAddRemoveClick,
 		AdapterCartAddRemoveClick {
 	private lateinit var parentStoreListAdapter: ParentStoreListAdapter
+	private lateinit var recentSearchAdapter: RecentSearchAdapter
 	val storeList: ArrayList<Store> = ArrayList()
 	var viewmodel: SearchFragmentViewModel? = null
 	lateinit var mProductStoreList: ArrayList<SearchModel.Store>
 	lateinit var mProductsList: ArrayList<SearchModel.ProductList>
+	lateinit var recentsearchArrayList: ArrayList<String>
+
 	var storeID: String = ""
 	var tempType: String? = ""
 	var search_value: String? = ""
@@ -68,6 +77,7 @@ class SearchFragment2 : Fragment() , AdapterClick,
 		viewmodel = ViewModelProviders.of(requireActivity()).get(SearchFragmentViewModel::class.java)
 		mProductStoreList= ArrayList()
 		mProductsList= ArrayList()
+		recentsearchArrayList= ArrayList()
 		customIdsList= ArrayList()
 		customIdsListTemp= ArrayList()
 
@@ -75,6 +85,17 @@ class SearchFragment2 : Fragment() , AdapterClick,
 		parentStoreListAdapter = ParentStoreListAdapter(
 			requireContext(),mProductStoreList,this,storeID,this,this
 		)
+
+		try {
+			if (!sessionTwiclo.getRecentSearchArrayList("Recent_Search").equals("")){
+				recentsearchArrayList = sessionTwiclo.getRecentSearchArrayList("Recent_Search")
+				RecentSearchRv(recentsearchArrayList)
+		     }
+		}catch (e:Exception){
+			e.printStackTrace()
+		}
+
+
 
 		mView.searchEdt_new_fgmt?.addTextChangedListener(object : TextWatcher {
 
@@ -155,6 +176,7 @@ class SearchFragment2 : Fragment() , AdapterClick,
 
 				val storeList: ArrayList<SearchModel.Store> = ArrayList()
 				val productList: ArrayList<SearchModel.ProductList> = ArrayList()
+				var recentArrayList: ArrayList<String> = ArrayList()
 
 				val mModelData: SearchModel = searchResponce
 				for (i in 0 until mModelData.store.size) {
@@ -167,6 +189,29 @@ class SearchFragment2 : Fragment() , AdapterClick,
 
 						storeList.add(storeModel)
 					}
+				}
+				try {
+
+					recentsearchArrayList.add(productList[0].categoryName.toString())
+					val s: Set<String> = LinkedHashSet<String>(recentsearchArrayList)
+					recentsearchArrayList.clear()
+					//for (k in s.indices){
+
+						recentsearchArrayList.addAll(0,s)
+						sessionTwiclo.saveRecentSearchArrayList(recentsearchArrayList,"Recent_Search")
+
+//						if (s.contains(recentsearchArrayList[k].toString())) {
+//							//recentArrayList.add(recentsearchArrayList[k].toString())
+//							recentArrayList.add(s.toString())
+//							Log.d("recentArrayList___",recentArrayList[0].toString())
+//							sessionTwiclo.saveRecentSearchArrayList(recentArrayList,"Recent_Search")
+//						}
+				//	}
+
+					RecentSearchRv(recentsearchArrayList)
+
+				}catch (e:Exception){
+					e.printStackTrace()
 				}
 				mProductsList=productList
 				mProductStoreList=storeList
@@ -326,6 +371,25 @@ class SearchFragment2 : Fragment() , AdapterClick,
 		viewmodel?.failureResponse?.observe(requireActivity(), Observer { user ->
 			Log.e("cart_response", Gson().toJson(user))
 		})
+
+	}
+
+	private fun RecentSearchRv(recentList: ArrayList<String>) {
+		recentSearchAdapter = RecentSearchAdapter(requireContext(),recentList,object :RecentSearchAdapter.RecentSearchItemClick{
+			override fun onItemClick(pos: Int,value:String) {
+				search_value=value
+				mView.searchEdt_new_fgmt?.setText(search_value)
+				mView.searchEdt_new_fgmt?.setSelection(mView.searchEdt_new_fgmt?.text.toString().length)
+			}
+		})
+		val layoutManager = FlexboxLayoutManager(context)
+		layoutManager.flexDirection = FlexDirection.ROW
+		layoutManager.flexWrap = FlexWrap.WRAP
+		layoutManager.justifyContent = JustifyContent.FLEX_START
+		mView.recentsearch_rv_fgmt.setLayoutManager(layoutManager)
+		mView.recentsearch_rv_fgmt.setHasFixedSize(true)
+		mView.recentsearch_rv_fgmt.setItemAnimator(DefaultItemAnimator())
+		mView.recentsearch_rv_fgmt.adapter=recentSearchAdapter
 
 	}
 

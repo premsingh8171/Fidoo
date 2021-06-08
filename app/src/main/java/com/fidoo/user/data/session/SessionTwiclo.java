@@ -3,9 +3,13 @@ package com.fidoo.user.data.session;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.fidoo.user.profile.EditProfileModel;
 import com.fidoo.user.data.model.VerificationModel;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 
 public class SessionTwiclo {
@@ -177,6 +181,23 @@ public class SessionTwiclo {
         editor.putString("guest_login", guest_login);
         editor.commit();
 
+    }
+
+    //String
+    public void saveRecentSearchArrayList(ArrayList<String> list, String key) {
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor.putString(key, json);
+        editor.apply();
+    }
+
+    public ArrayList<String> getRecentSearchArrayList(String key) {
+        Gson gson = new Gson();
+        String json = pref.getString(key, null);
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
+        return gson.fromJson(json, type);
     }
 
 }

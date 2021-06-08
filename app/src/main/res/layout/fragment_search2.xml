@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightGray"
     tools:context=".search.ui.SearchItemActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,7 +28,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_margin="@dimen/margin_2dp"
-                app:cardCornerRadius="@dimen/text_size_15sp"
+                app:cardCornerRadius="@dimen/margin_12dp"
                 android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_40dp">
@@ -87,7 +89,57 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginBottom="@dimen/margin_50dp"
+            android:layout_marginRight="@dimen/dimen_5dp"
+            android:layout_marginLeft="@dimen/dimen_5dp"
+            android:layout_marginTop="@dimen/margin_10"
+            android:background="@color/white"
+            android:id="@+id/header_recentsearch_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.023">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+
+                android:fontFamily="@font/metropolis_black"
+                android:textSize="@dimen/text_size_16sp"
+                android:textColor="@color/black"
+                android:id="@+id/store_item_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:padding="@dimen/text_size_15sp"
+                android:text="Recent Searches" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginLeft="@dimen/margin_10"
+                android:id="@+id/recentsearch_rv_fgmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_marginTop="@dimen/margin_10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -106,24 +158,34 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
+        android:elevation="@dimen/margin_10"
         android:id="@+id/new_cartitemView_LLsearch_fgmt"
-        android:visibility="gone"
+        android:layout_marginRight="@dimen/margin_20dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/cart_bg"
+        android:backgroundTint="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/margin_50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+    <LinearLayout
         android:gravity="center_vertical"
-        android:background="@color/colorGreenText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="match_parent"
+        android:orientation="horizontal"
         android:layout_height="@dimen/margin_50dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_marginLeft="@dimen/margin_5dp"
             android:id="@+id/new_itemQuantity_textsearch_fgmt"
-            android:padding="@dimen/margin_10dp"
+            android:padding="@dimen/dimen_5dp"
             android:textSize="@dimen/text_size_14sp"
             android:text="0"
-            android:textColor="@color/white"
+            android:textColor="@color/primary_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -131,7 +193,7 @@
             android:padding="@dimen/margin_5dp"
             android:textSize="@dimen/text_size_14sp"
             android:text="Item"
-            android:textColor="@color/white"
+            android:textColor="@color/primary_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -140,7 +202,7 @@
             android:layout_marginRight="@dimen/margin_5dp"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="18dp"
-            android:background="@color/white"
+            android:background="@color/primary_color"
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
 
@@ -148,24 +210,35 @@
             android:id="@+id/new_totalprice_txtsearch_fgmt"
             android:padding="@dimen/margin_5dp"
             android:textSize="@dimen/text_size_14sp"
-            android:text="Rs.200"
-            android:textColor="@color/white"
+            android:text=""
+            android:textColor="@color/primary_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
             android:id="@+id/new_viewcartfromSearch_fgmt"
             android:gravity="end|center_vertical"
             android:padding="@dimen/margin_5dp"
             android:textSize="@dimen/text_size_14sp"
             android:text="VIEW CART"
-            android:textColor="@color/white"
+            android:textColor="@color/primary_color"
             android:drawableTint="@color/white"
             android:drawableLeft="@color/quantum_amber100"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <ImageView
+            android:layout_marginEnd="@dimen/margin_15dp"
+            android:layout_width="@dimen/margin_15dp"
+            android:layout_height="@dimen/margin_15dp"
+            android:src="@drawable/ic_cart"
+            app:tint="@color/primary_color"
+            android:layout_gravity="end|center_vertical"
+            android:layout_weight="1"/>
+
     </LinearLayout>
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
