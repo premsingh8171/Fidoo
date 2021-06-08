@@ -189,8 +189,8 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     try {
                         for (i in addressList.indices) {
                             if (i == 0) {
-                                if (SessionTwiclo(this).userAddress!=null || SessionTwiclo(this).userAddress!=""){
-                                    //Log.d("default_add",SessionTwiclo(this).userAddress)
+                                if (SessionTwiclo(this).userAddress!=""){
+                                   // Log.d("default_add___","="+SessionTwiclo(this).userAddress)
                                 }else {
                                     SessionTwiclo(this).userAddress = addressList.get(0).location
                                     SessionTwiclo(this).userLat = addressList.get(0).latitude

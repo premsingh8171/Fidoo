@@ -15,21 +15,26 @@ class SmsBroadcastReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action == SmsRetriever.SMS_RETRIEVED_ACTION) {
+            try {
+                val extras = intent.extras
+                val smsRetrieverStatus = extras?.get(SmsRetriever.EXTRA_STATUS) as Status
 
-            val extras = intent.extras
-            val smsRetrieverStatus = extras?.get(SmsRetriever.EXTRA_STATUS) as Status
+                when (smsRetrieverStatus.statusCode) {
 
-            when (smsRetrieverStatus.statusCode) {
-                CommonStatusCodes.SUCCESS -> {
-                    extras.getParcelable<Intent>(SmsRetriever.EXTRA_CONSENT_INTENT).also {
-                        smsBroadcastReceiverListener.onSuccess(it)
+                    CommonStatusCodes.SUCCESS -> {
+                        extras.getParcelable<Intent>(SmsRetriever.EXTRA_CONSENT_INTENT).also { receiver->
+                            smsBroadcastReceiverListener.onSuccess(receiver)
+                        }
+                    }
+
+                    CommonStatusCodes.TIMEOUT -> {
+                        smsBroadcastReceiverListener.onFailure()
                     }
                 }
-
-                CommonStatusCodes.TIMEOUT -> {
-                    smsBroadcastReceiverListener.onFailure()
-                }
+            }catch (e:Exception){
+                e.printStackTrace()
             }
+
         }
     }
 
