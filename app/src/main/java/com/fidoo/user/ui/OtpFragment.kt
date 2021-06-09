@@ -178,7 +178,10 @@ class OtpFragment : com.fidoo.user.utils.BaseFragment() {
         smsBroadcastReceiver = SmsBroadcastReceiver().also {broadcast ->
             broadcast.smsBroadcastReceiverListener = object : SmsBroadcastReceiver.SmsBroadcastReceiverListener {
                 override fun onSuccess(intent: Intent?) {
-                    intent?.let { context -> startActivityForResult(context, REQ_USER_CONSENT) }
+                    try {
+                        intent?.let { context -> startActivityForResult(context, REQ_USER_CONSENT) }
+
+                    }catch (e:Exception){}
                 }
 
                 override fun onFailure() {

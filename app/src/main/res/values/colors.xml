@@ -22,5 +22,6 @@
     <color name="primary_color">#339347</color>
     <color name="blue_color">#2B2B94</color>
     <color name="Red_color">#FF0000</color>
+    <color name="profile_b">#FBFBFB</color>
 
 </resources>

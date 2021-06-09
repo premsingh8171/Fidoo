@@ -52,6 +52,7 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_track_order.*
 import kotlinx.android.synthetic.main.review_popup.view.*
 import org.json.JSONObject
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -413,119 +414,126 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         orderViewModel?.OrderDetailsResponse?.observe(this, {
             tv_order_id.text = it.orderId
 
-            when {
-                it.orderStatus.equals("0") -> {
-                    //holder.buttonValue.visibility = View.GONE
-                    order_status.text = "Failed"
-                }
-                it.orderStatus.equals("1") -> {
-                    // holder.buttonValue.visibility = View.VISIBLE
-                    // holder.buttonValue.visibility = View.GONE
-                    order_status.text = "Please wait while we confirm your order"
-                    tv_delivery_boy_call.visibility = View.GONE
-                }
-                it.orderStatus.equals("2") -> {
-                    //holder.buttonValue.visibility = View.GONE
-                    order_status.text = "Your order is cancelled"
-                }
-                it.orderStatus.equals("11") -> {
-                    order_status.text = "Your order is being prepared"
-                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
-                    order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
-                }
-                it.orderStatus.equals("3") -> {
-                    /*if (it.is_rate_to_driver.equals("1")) { // TODO
-                        //holder.buttonValue.visibility = View.GONE
-                    } else {
-                        holder.buttonValue.text = "Review"
-                    }*/
+            try {
+                if (it.orderStatus!=null) {
+                    when {
+                        it.orderStatus.equals("0") -> {
+                            //holder.buttonValue.visibility = View.GONE
+                            order_status.text = "Failed"
+                        }
+                        it.orderStatus.equals("1") -> {
+                            // holder.buttonValue.visibility = View.VISIBLE
+                            // holder.buttonValue.visibility = View.GONE
+                            order_status.text = "Please wait while we confirm your order"
+                            tv_delivery_boy_call.visibility = View.GONE
+                        }
+                        it.orderStatus.equals("2") -> {
+                            //holder.buttonValue.visibility = View.GONE
+                            order_status.text = "Your order is cancelled"
+                        }
+                        it.orderStatus.equals("11") -> {
+                            order_status.text = "Your order is being prepared"
+                            tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
+                            order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                        }
+                        it.orderStatus.equals("3") -> {
+                            /*if (it.is_rate_to_driver.equals("1")) { // TODO
+                            //holder.buttonValue.visibility = View.GONE
+                        } else {
+                            holder.buttonValue.text = "Review"
+                        }*/
 
-                    tv_order_rejection.text = "your order has been delivered. Enjoy!!"
+                            tv_order_rejection.text = "your order has been delivered. Enjoy!!"
 
-                    order_status.text = "Your order is delivered"
-                    address_details_lay.visibility = View.GONE
-                    tv_order_rejection.visibility = View.GONE
-                    tv_delivery_boy_call.visibility = View.GONE
-                    separator_one.visibility = View.GONE
-                    tv_order_id.visibility = View.GONE
-                    tv_order_id_label.visibility = View.GONE
-                    map.alpha = 0.0f
-                    timer!!.cancel()
-                    if (reviewpopup==0){
-                        buyPopup(it.orderId)
-                        reviewpopup=1
+                            order_status.text = "Your order is delivered"
+                            address_details_lay.visibility = View.GONE
+                            tv_order_rejection.visibility = View.GONE
+                            tv_delivery_boy_call.visibility = View.GONE
+                            separator_one.visibility = View.GONE
+                            tv_order_id.visibility = View.GONE
+                            tv_order_id_label.visibility = View.GONE
+                            map.alpha = 0.0f
+                            timer!!.cancel()
+                            if (reviewpopup == 0) {
+                                buyPopup(it.orderId)
+                                reviewpopup = 1
+                            }
+
+
+                        }
+                        it.orderStatus.equals("5") -> {
+                            //  holder.buttonValue.visibility = View.VISIBLE
+                            //holder.buttonValue.visibility = View.GONE
+                            order_status.text = "Order is in progress"
+                        }
+                        it.orderStatus.equals("6") -> {
+                            // holder.buttonValue.visibility = View.VISIBLE
+
+                            //holder.buttonValue.visibility = View.GONE
+                            order_status.text = "Your order is out for delivery"
+                            tv_order_delivery.setTextColor(Color.rgb(51, 147, 71))
+                            img_to_location.setColorFilter(Color.rgb(51, 147, 71))
+                            tv_delivery_boy_call.visibility = View.VISIBLE
+                            order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                            tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
+
+                        }
+                        it.orderStatus.equals("7") -> {
+                            //holder.buttonValue.visibility = View.VISIBLE
+
+
+                            order_status.text = it.storeName + " has accepted your order"
+                            tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
+                            order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                            tv_delivery_boy_call.visibility = View.GONE
+                        }
+                        it.orderStatus.equals("9") -> {
+                            //holder.buttonValue.visibility = View.VISIBLE
+                            order_status.text =
+                                "Your Order is ready and will soon be picked up by " + it.deliveryBoyName
+                            tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
+                            order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                            tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
+                            delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                            tv_delivery_boy_call.visibility = View.VISIBLE
+                        }
+                        it.orderStatus.equals("10") -> {
+                            //holder.buttonValue.visibility = View.VISIBLE
+                            order_status.text = "Your order is out for delivery"
+                            tv_order_delivery.setTextColor(Color.rgb(51, 147, 71))
+                            img_to_location.setColorFilter(Color.rgb(51, 147, 71))
+                            tv_delivery_boy_call.visibility = View.VISIBLE
+                            tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
+                            order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                            tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
+                            delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                        }
+                        it.orderStatus.equals("8") -> {
+                            //holder.buttonValue.visibility = View.GONE
+
+                            if (it.paymentMode == "online") {
+                                order_status.text =
+                                    "Your order is rejected. Don't worry, we have processed your refund and same will be credited to your account within 3-5 business days"
+                            } else {
+                                order_status.text = "Your order is rejected."
+                            }
+
+
+                            address_details_lay.visibility = View.GONE
+                            tv_order_rejection.visibility = View.VISIBLE
+                            tv_delivery_boy_call.visibility = View.GONE
+                            separator_one.visibility = View.GONE
+                            tv_order_id.visibility = View.GONE
+                            tv_order_id_label.visibility = View.GONE
+                            map.alpha = 0.0f
+                            customer_care.visibility = View.GONE
+
+
+                        }
                     }
-
-
                 }
-                it.orderStatus.equals("5") -> {
-                    //  holder.buttonValue.visibility = View.VISIBLE
-                    //holder.buttonValue.visibility = View.GONE
-                    order_status.text = "Order is in progress"
-                }
-                it.orderStatus.equals("6") -> {
-                    // holder.buttonValue.visibility = View.VISIBLE
+            }catch (e:Exception){}
 
-                    //holder.buttonValue.visibility = View.GONE
-                    order_status.text = "Your order is out for delivery"
-                    tv_order_delivery.setTextColor(Color.rgb(51,147,71))
-                    img_to_location.setColorFilter(Color.rgb(51,147,71))
-                    tv_delivery_boy_call.visibility = View.VISIBLE
-                    order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
-                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
-
-                }
-                it.orderStatus.equals("7") -> {
-                    //holder.buttonValue.visibility = View.VISIBLE
-
-
-                    order_status.text = it.storeName+" has accepted your order"
-                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
-                    order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
-                    tv_delivery_boy_call.visibility = View.GONE
-                }
-                it.orderStatus.equals("9") -> {
-                    //holder.buttonValue.visibility = View.VISIBLE
-                    order_status.text = "Your Order is ready and will soon be picked up by " + it.deliveryBoyName
-                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
-                    order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
-                    tv_order_picked.setTextColor(Color.rgb(51,147,71))
-                    delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51,147,71))
-                    tv_delivery_boy_call.visibility = View.VISIBLE
-                }
-                it.orderStatus.equals("10") -> {
-                    //holder.buttonValue.visibility = View.VISIBLE
-                    order_status.text = "Your order is out for delivery"
-                    tv_order_delivery.setTextColor(Color.rgb(51,147,71))
-                    img_to_location.setColorFilter(Color.rgb(51,147,71))
-                    tv_delivery_boy_call.visibility = View.VISIBLE
-                    tv_order_confirmed.setTextColor(Color.rgb(51,147,71))
-                    order_confirm_pointer.setColorFilter(Color.rgb(51,147,71))
-                    tv_order_picked.setTextColor(Color.rgb(51,147,71))
-                    delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51,147,71))
-                }
-                it.orderStatus.equals("8") -> {
-                    //holder.buttonValue.visibility = View.GONE
-
-                    if (it.paymentMode == "online"){
-                        order_status.text = "Your order is rejected. Don't worry, we have processed your refund and same will be credited to your account within 3-5 business days"
-                    }else{
-                        order_status.text = "Your order is rejected."
-                    }
-
-
-                    address_details_lay.visibility = View.GONE
-                    tv_order_rejection.visibility = View.VISIBLE
-                    tv_delivery_boy_call.visibility = View.GONE
-                    separator_one.visibility = View.GONE
-                    tv_order_id.visibility = View.GONE
-                    tv_order_id_label.visibility = View.GONE
-                    map.alpha = 0.0f
-                    customer_care.visibility = View.GONE
-
-
-                }
-            }
 
         })
 
