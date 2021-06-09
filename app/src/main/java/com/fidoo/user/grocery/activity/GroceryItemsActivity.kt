@@ -529,8 +529,9 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                  }else{
                      var productListUpdate: ArrayList<Product> = ArrayList()
                      productListUpdate = t as ArrayList<Product>
+                     productList=productListUpdate
                      product_listCount=productListUpdate!!.size
-                     groceryItemAdapter.setFilter(productListUpdate)
+                     groceryItemAdapter.setFilter(productList!!)
                  }
                    // onresumeHandle=0
                     dismissIOSProgress()

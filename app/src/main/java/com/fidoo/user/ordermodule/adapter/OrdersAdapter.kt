@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -61,6 +62,16 @@ class OrdersAdapter(
             holder.buttonValue.visibility = View.VISIBLE
             holder.loc_icon.visibility = View.VISIBLE
             holder.storeName.text = orders[position].storeName
+//            try {
+//                if (!orders[position].storeName.equals("")){
+//                    holder.itemLay.visibility=View.VISIBLE
+//                }else{
+//                     holder.itemLay.visibility=View.GONE
+//                }
+//            }catch (e:Exception){
+//                  e.printStackTrace()
+//            }
+
         }
 
         //  0:failed, 1:success, 2: cancel, 3 delivered, 4: received, 5: in progress, 6: Out for delivery ,11:preparing
@@ -145,20 +156,32 @@ class OrdersAdapter(
         }
 
         holder.buttonValue.setOnClickListener {
+            if (holder.itemLay.buttonValue.text.equals("Reviewed")){}else {
+                if (orders[position].serviceTypeId == "4" && orders[position].orderStatus.equals("3")) {
 
-            if (orders[position].serviceTypeId == "4" && orders[position].orderStatus.equals("3")){
-
-                if (orders[position].is_rate_to_driver.equals("0")) {
-                    buyPopup(adapterReviewClick, orders[position].orderId)
-                }
-
-
+                    if (orders[position].is_rate_to_driver.equals("0")) {
+                        buyPopup(adapterReviewClick, orders[position].orderId)
+                    }
 
 //                con.startActivity(Intent(con, ChatRoomActivity::class.java).putExtra("APIKey", "gS0Bcjk3qQye7BbQQt+TsO4uT3Ja8zBVGzaNTQRfmNY="))
-            }else if (orders[position].orderStatus.equals("3")) {
-                if (orders[position].is_rate_to_driver.equals("0")) {
-                    buyPopup(adapterReviewClick, orders[position].orderId)
-                } else {
+                } else if (orders[position].orderStatus.equals("3")) {
+                    if (orders[position].is_rate_to_driver.equals("0")) {
+                        buyPopup(adapterReviewClick, orders[position].orderId)
+                    } else {
+                        con.startActivity(
+                            Intent(con, TrackOrderActivity::class.java)
+                                .putExtra("orderId", orders[position].orderId)
+                                .putExtra("delivery_boy_name", orders[position].delivery_boy_name)
+                                .putExtra(
+                                    "delivery_boy_mobile",
+                                    orders[position].delivery_boy_mobile
+                                )
+                                .putExtra("order_status", holder.orderStatusTxt.text)
+                        )
+                    }
+                }
+                // adapterClick.onItemClick(orders.get(position).orderId,"","")
+                else {
                     con.startActivity(
                         Intent(con, TrackOrderActivity::class.java)
                             .putExtra("orderId", orders[position].orderId)
@@ -168,17 +191,8 @@ class OrdersAdapter(
                     )
                 }
             }
-            // adapterClick.onItemClick(orders.get(position).orderId,"","")
-            else {
-                con.startActivity(
-                    Intent(con, TrackOrderActivity::class.java)
-                        .putExtra("orderId", orders[position].orderId)
-                        .putExtra("delivery_boy_name", orders[position].delivery_boy_name)
-                        .putExtra("delivery_boy_mobile", orders[position].delivery_boy_mobile)
-                        .putExtra("order_status", holder.orderStatusTxt.text)
-                )
-            }
         }
+
         holder.itemLay.setOnClickListener {
             // adapterClick.onItemClick(orders.get(position).orderId,"","")
             if (orders[position].serviceTypeId == "4") {

@@ -50,6 +50,9 @@ class OrdersFragment : Fragment(),
     var mmContext: Context? = null
     var fragmentOrdersBinding: FragmentOrdersBinding? = null
     var checkStatusOfReview:Int=0
+    companion object{
+        var handleApiResponce:Int=0
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -129,6 +132,7 @@ class OrdersFragment : Fragment(),
                     fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
                     // Toast.makeText(context,"No Orders", Toast.LENGTH_SHORT).show()
                 }
+                handleApiResponce=0
             } else {
                 if (user.errorCode == 101) {
                     showAlertDialog(requireContext())
@@ -344,10 +348,12 @@ class OrdersFragment : Fragment(),
         if ((activity as MainActivity).isNetworkConnected) {
             if (SessionTwiclo(requireContext()).isLoggedIn){
                 Log.e("ONRESUME", "get orders")
-                viewmodel?.getMyOrders(
-                    SessionTwiclo(activity).loggedInUserDetail.accountId,
-                    SessionTwiclo(activity).loggedInUserDetail.accessToken
-                )
+                if (handleApiResponce==1) {
+                    viewmodel?.getMyOrders(
+                        SessionTwiclo(activity).loggedInUserDetail.accountId,
+                        SessionTwiclo(activity).loggedInUserDetail.accessToken
+                    )
+                }
             }else{
                 fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
                 Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG).show()

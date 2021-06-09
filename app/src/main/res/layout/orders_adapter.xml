@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@null"
+    android:id="@+id/itemLay"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/itemLay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="5dp"
@@ -214,7 +214,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/metropolis_regular"
-
                 android:text="26 Oct 2020 at 11:48 AM"
                 android:textColor="@android:color/black"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -229,7 +228,6 @@
                 android:text="Total Price"
                 android:textAllCaps="true"
                 android:fontFamily="@font/metropolis_semi_bold"
-
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/orderOnValue" />
@@ -242,7 +240,6 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/_50_00"
                 android:fontFamily="@font/metropolis_regular"
-
                 android:textColor="@android:color/black"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/totalPriceLabel" />

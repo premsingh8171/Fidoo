@@ -80,10 +80,10 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
     var improvement: String? = ""
 
     var checkStatusOfReview:Int=0
+    var reviewpopup:Int=0
 
 
     companion object {
-        var reviewpopup:Int=0
 
         var trackOrderContext: Context? = null
 
@@ -536,6 +536,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                 CommonUtils.dismissIOSProgress()
                 val model: Feedback = feedback
                     var reviewpopup:Int=0
+                OrdersFragment.handleApiResponce=1
                 startActivity(
                     Intent(this, OrderDetailsActivity::class.java).putExtra(
                         "orderId",
@@ -973,6 +974,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
             mDialogView.appInterface_txt_selection.setBackgroundResource(R.drawable.black_rounded_empty)
             mDialogView.deliveryExperience_txt_selection.setBackgroundResource(R.drawable.black_rounded_solid)
         }
+
         mDialogView.submitTextBtn.setOnClickListener {
             mAlertDialogg.dismiss()
             showIOSProgress()
