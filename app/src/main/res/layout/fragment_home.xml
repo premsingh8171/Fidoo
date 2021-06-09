@@ -170,6 +170,9 @@
                         app:sliderStartAutoCycle="true" />
 
                     <androidx.viewpager.widget.ViewPager
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:touchscreenBlocksFocus="false"
                         android:id="@+id/viewPagerBanner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
