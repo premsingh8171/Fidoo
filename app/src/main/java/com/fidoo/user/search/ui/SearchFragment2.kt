@@ -198,11 +198,11 @@ class SearchFragment2 : Fragment() , AdapterClick,
 					val s: Set<String> = LinkedHashSet<String>(recentsearchArrayList)
 					recentsearchArrayList.clear()
 					recentsearchArrayList.addAll(0,s)
-					val sortAsc = recentsearchArrayList.reversed() as java.util.ArrayList<String>
+					//val sortAsc = recentsearchArrayList.reversed() as java.util.ArrayList<String>
+                   // Log.d("sortAsc____",recentsearchArrayList.toString())
+					sessionTwiclo.saveRecentSearchArrayList(recentsearchArrayList ,"Recent_Search")
 
-					sessionTwiclo.saveRecentSearchArrayList(sortAsc ,"Recent_Search")
-
-					RecentSearchRv(sortAsc)
+					RecentSearchRv(recentsearchArrayList)
 
 				}catch (e:Exception){
 					e.printStackTrace()
