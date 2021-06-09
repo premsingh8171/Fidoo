@@ -94,8 +94,11 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_track_order)
-        statusBarTransparent()
+
         viewmodel = ViewModelProviders.of(this).get(TrackViewModel::class.java)
         orderViewModel = ViewModelProviders.of(this).get(OrderDetailsViewModel::class.java)
         userName = intent.getStringExtra("delivery_boy_name")

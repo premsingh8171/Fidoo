@@ -4,9 +4,8 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.fidoo.user.R
 import com.fidoo.user.data.session.SessionTwiclo
@@ -24,6 +23,11 @@ class SplashFragment : BaseFragment() {
         parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val window: Window = requireActivity().getWindow()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ContextCompat.getColor(requireActivity(), R.color.colorPrimary)
+
         mView = inflater!!.inflate(R.layout.fragment_splash, parent, false)
 //        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 //        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
