@@ -125,6 +125,7 @@ class CartActivity : BaseActivity(),
         tv_delivery_address_title.text = selectedAddressTitle
         tv_delivery_address.text = selectedAddressName
         address_id= SessionTwiclo(this).userAddressId
+        Log.d("address_idaddress_id",address_id)
         selectedCouponId = ""
         storeCustomerDistance = ""
         userLat = SessionTwiclo(this).userLat
@@ -769,7 +770,7 @@ class CartActivity : BaseActivity(),
                                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                                     finalPrice.toFloat().toString(),
                                     deliveryOption,
-                                address_id,
+                                    address_id,
                                     "",
                                     ed_delivery_instructions.text.toString(),
                                     isSelected

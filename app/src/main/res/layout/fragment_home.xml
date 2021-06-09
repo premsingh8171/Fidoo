@@ -57,9 +57,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:maxEms="20"
+                    android:layout_marginEnd="@dimen/margin_12dp"
+                    app:layout_constraintRight_toRightOf="parent"
                     android:maxLines="1"
-                    android:ellipsize="end"
                     android:id="@+id/userAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -70,6 +70,20 @@
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/text_size_14sp"
                     app:layout_constraintLeft_toRightOf="@+id/routeIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/text" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/dotted_"
+                    android:maxLines="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima"
+                    android:singleLine="true"
+                    android:text="..."
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/text_size_14sp"
                     app:layout_constraintTop_toBottomOf="@+id/text" />
 
 
