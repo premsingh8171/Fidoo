@@ -35,7 +35,7 @@ class SearchFragmentViewModel(application: Application) : AndroidViewModel(appli
 
 
     fun getSearchApi(accountId: String, accessToken: String, search: String) {
-        // progressDialog?.value = true
+        Log.d("getSearchApi__",accountId+"\n"+accessToken+"\n"+search)
         WebServiceClient.client.create(BackEndApi::class.java).searchApi(
                 accountId = accountId, accessToken = accessToken, search = search
         ).enqueue(this)

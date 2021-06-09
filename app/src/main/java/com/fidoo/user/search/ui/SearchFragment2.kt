@@ -88,7 +88,7 @@ class SearchFragment2 : Fragment() , AdapterClick,
 
 		try {
 			if (!sessionTwiclo.getRecentSearchArrayList("Recent_Search").equals("")){
-				recentsearchArrayList = sessionTwiclo.getRecentSearchArrayList("Recent_Search")
+				recentsearchArrayList = sessionTwiclo.getRecentSearchArrayList("Recent_Search").reversed() as ArrayList<String>
 				RecentSearchRv(recentsearchArrayList)
 		     }
 		}catch (e:Exception){
@@ -171,6 +171,8 @@ class SearchFragment2 : Fragment() , AdapterClick,
 		//Here we observe searchApi responce
 		viewmodel?.searchResponse?.observe(requireActivity(),{searchResponce->
 			//dismissIOSProgress()
+			Log.d("ffdffddf",searchResponce.errorCode.toString()+"--"+searchResponce.error.toString())
+
 			if (!searchResponce.error!!){
 
 
@@ -195,20 +197,12 @@ class SearchFragment2 : Fragment() , AdapterClick,
 					recentsearchArrayList.add(productList[0].categoryName.toString())
 					val s: Set<String> = LinkedHashSet<String>(recentsearchArrayList)
 					recentsearchArrayList.clear()
-					//for (k in s.indices){
+					recentsearchArrayList.addAll(0,s)
+					val sortAsc = recentsearchArrayList.reversed() as java.util.ArrayList<String>
 
-						recentsearchArrayList.addAll(0,s)
-						sessionTwiclo.saveRecentSearchArrayList(recentsearchArrayList,"Recent_Search")
+					sessionTwiclo.saveRecentSearchArrayList(sortAsc ,"Recent_Search")
 
-//						if (s.contains(recentsearchArrayList[k].toString())) {
-//							//recentArrayList.add(recentsearchArrayList[k].toString())
-//							recentArrayList.add(s.toString())
-//							Log.d("recentArrayList___",recentArrayList[0].toString())
-//							sessionTwiclo.saveRecentSearchArrayList(recentArrayList,"Recent_Search")
-//						}
-				//	}
-
-					RecentSearchRv(recentsearchArrayList)
+					RecentSearchRv(sortAsc)
 
 				}catch (e:Exception){
 					e.printStackTrace()
@@ -216,7 +210,7 @@ class SearchFragment2 : Fragment() , AdapterClick,
 				mProductsList=productList
 				mProductStoreList=storeList
 
-				mView.total_itemTxt_fgmt.text = "Items ("+mProductsList.size.toString()+")"
+				//mView.total_itemTxt_fgmt.text = "Items ("+mProductsList.size.toString()+")"
 			try {
 				parentStoreListAdapter = ParentStoreListAdapter(
 					requireContext(),mProductStoreList,this,storeID,this,this
@@ -246,7 +240,7 @@ class SearchFragment2 : Fragment() , AdapterClick,
 					mView.new_itemQuantity_textsearch_fgmt.text=count
 					mView.new_totalprice_txtsearch_fgmt.text= "₹"+price
 					mView.new_cartitemView_LLsearch_fgmt.visibility= View.VISIBLE
-					mView.item_lay.visibility = View.VISIBLE
+				//	mView.item_lay.visibility = View.VISIBLE
 					try {
 						SessionTwiclo(context).storeId=cartcount.store_id
 						sessionTwiclo.storeId=cartcount.store_id

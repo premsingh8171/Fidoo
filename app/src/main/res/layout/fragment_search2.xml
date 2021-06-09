@@ -159,7 +159,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:elevation="@dimen/margin_10"
+        android:elevation="@dimen/dimen_5dp"
         android:id="@+id/new_cartitemView_LLsearch_fgmt"
         android:layout_marginRight="@dimen/margin_20dp"
         android:layout_marginBottom="80dp"

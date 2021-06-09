@@ -66,8 +66,8 @@ class HomeFragment : Fragment() {
     var width = 0
     var currentPage = 0
     var timer: Timer? = null
-    val DELAY_MS: Long = 1000 //delay in milliseconds before task is to be executed
-    val PERIOD_MS: Long = 2000 // time in milliseconds between successive task executions.
+    val DELAY_MS: Long = 3000 //delay in milliseconds before task is to be executed
+    val PERIOD_MS: Long = 4000 // time in milliseconds between successive task executions.
 
     companion object {
         var service_id: String? = ""
