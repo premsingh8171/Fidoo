@@ -48,10 +48,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     var catId: String = ""
     var start_point: String = ""
     var end_point: String = ""
-    private var start_Lat: Double? = 0.0
-    private var start_Lng: Double? = 0.0
-    private var end_Lat: Double? = 0.0
-    private var end_Lng: Double? = 0.0
+
     private val co = Checkout()
     private val getAddFromLatLong: GetAddFromLatLong? = null
     private val trackGPSLocation: TrackGPSLocation? = null
@@ -66,6 +63,13 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         var fromNumber: String = ""
         var toName: String = ""
         var toNumber: String = ""
+
+        //for send packages
+         var start_Lat: Double? = 0.0
+         var start_Lng: Double? = 0.0
+         var end_Lat: Double? = 0.0
+         var end_Lng: Double? = 0.0
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

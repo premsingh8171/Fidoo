@@ -159,7 +159,11 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                                                             paymentMode,
                                                             distance,
                                                             paymentAmount,
-                                                            deliveryTime
+                                                            deliveryTime ,
+                                                            SendPackageActivity.start_Lat.toString()!!,
+                                                            SendPackageActivity.start_Lng.toString()!!,
+                                                            SendPackageActivity.end_Lat.toString()!!,
+                                                            SendPackageActivity.end_Lng.toString()!!
                                                         )
                                                     } else {
                                                         showToast("There is some issue in payment, please try after sometime")
@@ -182,7 +186,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
 
         sendPackagesViewModel?.sendPackagesResponse?.observe(this) {
 
-            Log.e("send package response", it.toString())
+            Log.e("send_package_response", it.toString())
 
             val razorpayId = it.razorPayOrderId
 

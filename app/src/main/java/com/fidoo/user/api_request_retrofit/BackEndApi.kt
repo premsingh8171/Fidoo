@@ -437,7 +437,11 @@ interface BackEndApi {
         @Field("payment_mode") payment_mode: String?,
         @Field("package_distance") package_distance: String?,
         @Field("payment_amount") payment_amount: String?,
-        @Field("package_delivery_time") package_delivery_time: String?
+        @Field("package_delivery_time") package_delivery_time: String?,
+        @Field("from_latitude") from_latitude: String?,
+        @Field("from_longitude") from_longitude: String?,
+        @Field("to_latitude") to_latitude: String?,
+        @Field("to_longitude") to_longitude: String?
     ): Call<SendPackageOrderDetailModel>
 
     /*@Field("from_address") from_address: String?,

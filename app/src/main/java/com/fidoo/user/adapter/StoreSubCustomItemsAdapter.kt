@@ -54,7 +54,8 @@ class StoreSubCustomItemsAdapter(
                     } else {
                         customCartAddRemoveClick.onIdSelected(
                             subCat[position].id, "unselect",
-                            subCat[position].price, tempSelectionCount
+                            subCat[position].price,
+                            tempSelectionCount
                         )
                     }
 
@@ -94,7 +95,6 @@ class StoreSubCustomItemsAdapter(
 //
 //                }
             }
-
 
             holder.itemLabel.text = subCat[position].subCatName + " (" + con.resources.getString(R.string.ruppee) + subCat[position].price + ")"
         }else{

@@ -472,12 +472,16 @@ class StoreItemsActivity :
 
             for (i in 0 until mModelDataTemp?.category?.size!! ) {
                 if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
-                    var customListModel: CustomListModel? =
-                        CustomListModel()
-                    customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
-                    customListModel.id = mModelDataTemp?.category?.get(i)!!.subCat[0].id.toInt()
-                    customListModel.price = mModelDataTemp?.category?.get(i)!!.subCat[0].price
-                    categoryy!!.add(customListModel)
+                    if (mModelDataTemp?.category?.get(i)!!.isMandatory.equals("0")){
+                    }else{
+                        var customListModel: CustomListModel? =
+                            CustomListModel()
+                        customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
+                        customListModel.id = mModelDataTemp?.category?.get(i)!!.subCat[0].id.toInt()
+                        customListModel.price = mModelDataTemp?.category?.get(i)!!.subCat[0].price
+                        categoryy!!.add(customListModel)
+                    }
+
                 } else {
 
                 }

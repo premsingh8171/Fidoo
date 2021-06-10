@@ -199,5 +199,4 @@ public class SessionTwiclo {
         }.getType();
         return gson.fromJson(json, type);
     }
-
 }

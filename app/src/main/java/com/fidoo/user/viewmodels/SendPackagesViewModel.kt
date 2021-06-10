@@ -96,7 +96,8 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
         payment_mode: String,
         package_distance: String,
         payment_amount: String,
-        package_delivery_time: String) {
+        package_delivery_time: String,from_latitude: String,
+        from_longitude: String,to_latitude: String,to_longitude: String) {
 
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).sendPackageApi(
@@ -112,7 +113,11 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
             payment_mode = payment_mode,
             package_distance = package_distance,
             payment_amount = payment_amount,
-            package_delivery_time = package_delivery_time
+            package_delivery_time = package_delivery_time,
+            from_latitude = from_latitude,
+            from_longitude = from_longitude,
+            to_latitude = to_latitude,
+            to_longitude = to_longitude
 
         )
             .enqueue(object : Callback<SendPackageOrderDetailModel> {
@@ -120,7 +125,7 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
                 override fun onResponse(call: Call<SendPackageOrderDetailModel>, response: Response<SendPackageOrderDetailModel>) {
                     // progressDialog?.value = false
                     sendPackagesResponse?.value = response.body()
-                    Log.e("RESPONSE", sendPackagesResponse?.value.toString())
+                    Log.e("RESPONSE___", sendPackagesResponse?.value.toString())
 
                 }
 
