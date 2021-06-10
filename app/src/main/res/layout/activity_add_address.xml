@@ -62,6 +62,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_address_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/margin_15dp"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/lato"
                     android:text=""
