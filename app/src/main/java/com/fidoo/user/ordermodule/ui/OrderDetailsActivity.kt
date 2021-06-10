@@ -29,7 +29,6 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
 
     var viewmodel: OrderDetailsViewModel? = null
     var mPresImg:String=""
-    var address:String=""
     var items: MutableList<OrderDetailsModel.Item>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

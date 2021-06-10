@@ -530,6 +530,7 @@ class HomeFragment : Fragment() {
 //                    SessionTwiclo(context).loggedInUserDetail.accountId,
 //                    SessionTwiclo(context).loggedInUserDetail.accessToken
 //            )
+            userAddress?.text = SessionTwiclo(context).userAddress
 
         } else {
             viewmodel?.getHomeServices(

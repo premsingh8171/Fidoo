@@ -592,29 +592,29 @@ open class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
     /* //  public void showProgress() {
         showProgress(false);
     }*/
-    override fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String? {
-        val geocoder: Geocoder
-        val addresses: List<Address>
-        geocoder = Geocoder(this, Locale.getDefault())
-        return try {
-            addresses = geocoder.getFromLocation(
-                latitude,
-                longitude,
-                1
-            ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            val address =
-                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            val city = addresses[0].locality
-            val state = addresses[0].adminArea
-            val country = addresses[0].countryName
-            val postalCode = addresses[0].postalCode
-            //   String knownName = addresses.get(0).getFeatureName(); // Only if available else return
-            address
-        } catch (e: IndexOutOfBoundsException) {
-            e.printStackTrace()
-            ""
-        }
-    }
+//    override fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String? {
+//        val geocoder: Geocoder
+//        val addresses: List<Address>
+//        geocoder = Geocoder(this, Locale.getDefault())
+//        return try {
+//            addresses = geocoder.getFromLocation(
+//                latitude,
+//                longitude,
+//                1
+//            ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+//            val address =
+//                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+//            val city = addresses[0].locality
+//            val state = addresses[0].adminArea
+//            val country = addresses[0].countryName
+//            val postalCode = addresses[0].postalCode
+//            //   String knownName = addresses.get(0).getFeatureName(); // Only if available else return
+//            address
+//        } catch (e: IndexOutOfBoundsException) {
+//            e.printStackTrace()
+//            ""
+//        }
+//    }
 
     override fun onResume() {
         super.onResume()

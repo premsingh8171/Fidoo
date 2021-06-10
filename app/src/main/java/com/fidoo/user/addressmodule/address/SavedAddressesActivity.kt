@@ -37,6 +37,7 @@ class SavedAddressesActivity : BaseActivity(),
         var savedAddressesActivity: SavedAddressesActivity?=null
         var editAdd: Int?=0
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_saved_addresses)

@@ -107,21 +107,26 @@ class AddressesAdapter(
                     //StoreItemsActivity.customerLongitude = addressList[position].longitude
                     when {
                         addressList[position].addressType.equals("1") -> {
-                            SessionTwiclo(con).userAddress = "Home"
+                           /// SessionTwiclo(con).userAddress = "Home"
+                            CartActivity.selectedAddressTitle= "Home"
                         }
 
                         addressList[position].addressType.equals("2") -> {
-                            SessionTwiclo(con).userAddress = "Office"
+                            CartActivity.selectedAddressTitle= "Office"
+
+                           // SessionTwiclo(con).userAddress = "Office"
                         }
 
                         else -> {
-                            SessionTwiclo(con).userAddress = "Other"
+                           // SessionTwiclo(con).userAddress = "Other"
+                            CartActivity.selectedAddressTitle= "Other"
+
                         }
                     }
                     SessionTwiclo(con).userLat = addressList[position].latitude
                     SessionTwiclo(con).userLng = addressList[position].longitude
                     SessionTwiclo(con).userAddressId = addressList[position].id
-                    CartActivity.selectedAddressTitle = SessionTwiclo(con).userAddress
+                    SessionTwiclo(con).userAddress=addressList.get(position).location
 
                     val result = Intent()
                     (con as Activity).setResult(101, result)
@@ -144,6 +149,7 @@ class AddressesAdapter(
 
                         }
                     }
+
                     SessionTwiclo(con).userAddress = addressList[position].location
                     SessionTwiclo(con).userAddressId = addressList[position].id
                     SessionTwiclo(con).userLat = addressList[position].latitude

@@ -19,6 +19,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.fidoo.user.adapter.CartItemsAdapter
 import com.fidoo.user.adapter.StoreCustomItemsAdapter
 import com.fidoo.user.data.model.*
@@ -91,7 +95,15 @@ class CartActivity : BaseActivity(),
     var storeCustomerDistance = ""
     var isSelected: String = ""
     var address_id: String = ""
+    var islocationValid: Int=0
     private lateinit var productsDatabase: ProductsDatabase
+
+    private var start_Lat: Double? = 0.0
+    private var start_Lng: Double? = 0.0
+    private var end_Lat: Double? = 0.0
+    private var end_Lng: Double? = 0.0
+    var start_point: String = ""
+    var end_point: String = ""
 
     companion object {
         var selectedAddressId: String = ""
@@ -104,6 +116,8 @@ class CartActivity : BaseActivity(),
         var storeLat: String = ""
         var storeLong: String = ""
         //var storeCustomerDistance: String = ""
+        var delivery_Lat: Double? = 0.0
+        var delivery_Lng: Double? = 0.0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -239,6 +253,7 @@ class CartActivity : BaseActivity(),
             try {
                 storeLat = it.storeLatitude
                 storeLong = it.storeLongitude
+
             }catch (e:Exception){
                 e.printStackTrace()
             }
@@ -701,7 +716,7 @@ class CartActivity : BaseActivity(),
             Toast.makeText(this, user.message, Toast.LENGTH_SHORT).show()
             cart_payment_lay.isEnabled = true
             cart_payment_lay.alpha = 1.0f
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+            //  Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         }
 
         viewmodel?.appplyPromoResponse?.observe(this, { user ->
@@ -757,7 +772,9 @@ class CartActivity : BaseActivity(),
             } else {
              Log.d("userAddressId_",SessionTwiclo(this).userAddressId)
                //
-                if (address_id.equals("") || tv_delivery_address.text == ""){
+                if (address_id.equals("") && tv_delivery_address.text == ""){
+                    tv_delivery_address.text="Select address"
+                    tv_delivery_address_title.text=""
                     showToast("Please select your address")
                 } else if (isPrescriptionRequire == "1") {
                     if (filePathTemp.equals("")) {
@@ -798,38 +815,44 @@ class CartActivity : BaseActivity(),
 
         viewmodel?.orderPlaceResponse?.observe(this, { user ->
             dismissIOSProgress()
-            if (isSelected == "online") {
-                if (user.error.equals(true)){
-                    if(user.storeOffline == 1){
-                        showToast(user.message)
+            Log.d("orderPlaceResponse____", user.errorCode.toString())
+            if (user.errorCode==200) {
+                if (isSelected == "online") {
+                    if (user.error.equals(true)) {
+                        if (user.storeOffline == 1) {
+                            showToast(user.message)
+                        }
+                        if (user.productOutOfStock == 1) {
+                            showToast(user.message)
+                        }
+                        if (user.storeOffline == 1 && user.productOutOfStock == 1) {
+                            showToast("This Store/Item is not available at this moment")
+                        }
+                    } else {
+                        startPayment()
+                        tempOrderId = user.orderId
                     }
-                    if (user.productOutOfStock == 1){
-                        showToast(user.message)
-                    }
-                    if (user.storeOffline == 1 && user.productOutOfStock == 1){
-                        showToast("This Store/Item is not available at this moment")
-                    }
-                }else{
-                    startPayment()
-                    tempOrderId = user.orderId
-                }
-                //launchPayUMoneyFlow()
+                    //launchPayUMoneyFlow()
 
-
-            } else {
-                if (isNetworkConnected) {
-                    viewmodel?.paymentApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        user.orderId,
-                        "",
-                        "",
-                        "cash"
-                    )
 
                 } else {
-                    showInternetToast()
+                    if (isNetworkConnected) {
+                        viewmodel?.paymentApi(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            user.orderId,
+                            "",
+                            "",
+                            "cash"
+                        )
+
+                    } else {
+                        showInternetToast()
+                    }
+
                 }
+            }else if (user.errorCode==400){
+                Toast.makeText(this, ""+user.message, Toast.LENGTH_LONG).show()
 
             }
             Log.e("cart response", Gson().toJson(user))
@@ -872,6 +895,7 @@ class CartActivity : BaseActivity(),
 
             }
 
+            calculateStoreCustomerDistance()
 
             viewmodel?.getCartDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -1353,6 +1377,69 @@ class CartActivity : BaseActivity(),
             )
         }
     }
+
+    fun calculateStoreCustomerDistance() {
+        val source = userLat + "," + userLong
+       // val destination = delivery_Lat.toString() + "," + delivery_Lng.toString()
+        val destination = userLat + "," + userLong
+        val urlDirections =
+            "https://maps.googleapis.com/maps/api/directions/json?origin=$source&destination=$destination&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c"
+        Log.e("urlDirections", urlDirections)
+        var dist_:Float=0f
+        val directionsRequest = object :
+            StringRequest(Request.Method.GET, urlDirections, Response.Listener<String> { response ->
+                val jsonResponse = JSONObject(response)
+                dismissIOSProgress()
+                Log.e("res_routes", "routes- $jsonResponse")
+                var status=jsonResponse.optString("status")
+                if (!status.equals("ZERO_RESULTS")) {
+                    val routes = jsonResponse.optJSONArray("routes")
+                    if (routes.length() != 0) {
+                        val legs = routes.optJSONObject(0).optJSONArray("legs")
+                        val distance = legs.optJSONObject(0).optJSONObject("distance").get("value").toString()
+                        val distanceTex = legs.optJSONObject(0).optJSONObject("distance").get("text").toString()
+                        val dist: List<String> = distanceTex.split(" ")
+                        val distStr=dist[0]
+                        dist_=distStr.toFloat()
+                        Log.e("distance_", dist_.toString())
+
+                        start_Lat=legs.optJSONObject(0).optJSONObject("start_location").opt("lat").toString().toDouble()
+                        start_Lng=legs.optJSONObject(0).optJSONObject("start_location").opt("lng").toString().toDouble()
+                        getGeoAddressFromLatLong2(start_Lat!!,start_Lng!!)
+                        end_Lat=legs.optJSONObject(0).optJSONObject("end_location").opt("lat").toString().toDouble()
+                        end_Lng=legs.optJSONObject(0).optJSONObject("end_location").opt("lng").toString().toDouble()
+                        getGeoAddressFromLatLong2(end_Lat!!,end_Lng!!)
+                        end_point=city.toLowerCase()
+                        start_point=city.toLowerCase()
+                        Log.d("end_point__", start_point+"=="+end_point)
+
+                        if (end_point.equals("gurugram")&&start_point.equals("gurugram")) {
+                           // && dist_ < 15.0
+                            if (distance.isNotEmpty() && dist_ < 15.0) {
+                                islocationValid=1
+                                place_order_lay.visibility=View.VISIBLE
+                            } else {
+                                place_order_lay.visibility=View.GONE
+                                showToast("There is some issue in Service, please try after sometime")
+                            }
+                        }else{
+                            showToastLong("Restaurant is currently unserviceable.")
+                        }
+                    }
+                }else{
+                    showToast("No result found")
+                }
+            }, Response.ErrorListener { }) {
+
+        }
+        val requestQueue = Volley.newRequestQueue(this)
+        requestQueue.add(directionsRequest)
+
+        //return packageDistance!!
+
+
+    }
+
 
     override fun onBackPressed() {
         super.onBackPressed()

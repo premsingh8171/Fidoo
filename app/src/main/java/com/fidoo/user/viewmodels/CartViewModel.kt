@@ -272,7 +272,9 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
 
 
     fun orderPlaceApi(accountId: String, accessToken: String, payment_amt: String, delivery_option: String, address_id: String, promo_id: String, delivery_instructions: String, payment_mode: String) {
-
+        try {
+            Log.d("orderPlaceApi__",accountId+"\n"+accessToken+"\n"+payment_amt+"\n"+delivery_option+"\n"+address_id+"\n"+promo_id+"\n"+delivery_instructions+"\n"+payment_mode)
+        }catch (e:Exception){}
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).orderPlaceApi(
             accountId = accountId,
@@ -285,6 +287,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
             payment_mode = payment_mode
         )
             .enqueue(object : Callback<OrderPlaceModel> {
+
 
                 override fun onResponse(call: Call<OrderPlaceModel>, response: Response<OrderPlaceModel>) {
                     // progressDialog?.value = false

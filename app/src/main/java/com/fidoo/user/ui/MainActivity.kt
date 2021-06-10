@@ -196,8 +196,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                                     SessionTwiclo(this).userLat = addressList.get(0).latitude
                                     SessionTwiclo(this).userLng = addressList.get(0).longitude
                                     userAddress?.text = SessionTwiclo(this).userAddress
-                                    SessionTwiclo(this).userAddressId =
-                                        addressList.get(0).is_default
+                                    SessionTwiclo(this).userAddressId = addressList.get(0).id
                                 }
                             }
                         }

@@ -21,18 +21,21 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.data.model.SendPackagesModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterClick
-import com.fidoo.user.addressmodule.address.SavedAddressesActivity
 import com.fidoo.user.viewmodels.SendPackagesViewModel
 import com.google.gson.Gson
+import com.premsinghdaksha.currentlocation_library.GetAddFromLatLong
+import com.premsinghdaksha.currentlocation_library.TrackGPSLocation
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import kotlinx.android.synthetic.main.activity_send_package.*
 import kotlinx.android.synthetic.main.buy_popup.view.*
 import org.json.JSONObject
+
 
 class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     AdapterClick, PaymentResultListener {
@@ -43,12 +46,15 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     var addressType: String = ""
     var where: String = ""
     var catId: String = ""
-    private var fromLat: Double? = 0.0
-    private var fromLng: Double? = 0.0
-    private var toLat: Double? = 0.0
-    private var toLng: Double? = 0.0
+    var start_point: String = ""
+    var end_point: String = ""
+    private var start_Lat: Double? = 0.0
+    private var start_Lng: Double? = 0.0
+    private var end_Lat: Double? = 0.0
+    private var end_Lng: Double? = 0.0
     private val co = Checkout()
-
+    private val getAddFromLatLong: GetAddFromLatLong? = null
+    private val trackGPSLocation: TrackGPSLocation? = null
     companion object {
         var selectedfromLat: Double? = 0.0
         var selectedfromLng: Double? = 0.0
@@ -300,23 +306,35 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                         dist_=distStr.toFloat()
                         Log.e("distance_", dist_.toString())
 
-                        //showToast(distance)
-                        //packageDistance = distance
-                        //var paymentMode = ""
+                        start_Lat=legs.optJSONObject(0).optJSONObject("start_location").opt("lat").toString().toDouble()
+                        start_Lng=legs.optJSONObject(0).optJSONObject("start_location").opt("lng").toString().toDouble()
+                        getGeoAddressFromLatLong2(start_Lat!!,start_Lng!!)
+                        end_Lat=legs.optJSONObject(0).optJSONObject("end_location").opt("lat").toString().toDouble()
+                        end_Lng=legs.optJSONObject(0).optJSONObject("end_location").opt("lng").toString().toDouble()
+                        getGeoAddressFromLatLong2(end_Lat!!,end_Lng!!)
 
-                    if (distance.isNotEmpty() || dist_<15.0) {
-                        viewmodel?.getPackageDetails(
-                            SessionTwiclo(
-                                this
-                            ).loggedInUserDetail.accountId,
-                            SessionTwiclo(
-                                this
-                            ).loggedInUserDetail.accessToken,
-                            distance
-                        )
-                    } else {
-                        showToast("There is some issue in Service, please try after sometime")
-                    }
+                        end_point=city.toLowerCase()
+                        start_point=city.toLowerCase()
+                        Log.d("end_point__", start_point+"=="+end_point)
+
+                        if (end_point.equals("gurugram")&&start_point.equals("gurugram")) {
+                            if (distance.isNotEmpty() && dist_ < 15.0) {
+                                viewmodel?.getPackageDetails(
+                                    SessionTwiclo(
+                                        this
+                                    ).loggedInUserDetail.accountId,
+                                    SessionTwiclo(
+                                        this
+                                    ).loggedInUserDetail.accessToken,
+                                    distance
+                                )
+                            } else {
+                                showToast("There is some issue in Service, please try after sometime")
+                            }
+                        }else{
+                            showToastLong("Service is available only Gurugram!")
+
+                        }
                     }
                 }else{
                     showToast("No result found")

@@ -377,6 +377,238 @@ public  abstract class BaseActivity extends AppCompatActivity implements Handler
         return Address;
     }
 
+    public String getGeoAddressFromLatLong2(double latitude, double longitude) {
+
+        final Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            final List<android.location.Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addressList != null && addressList.size() > 0) {
+                android.location.Address address = addressList.get(0);
+
+                for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+                    Address += (address.getAddressLine(i)) + (",");
+                }
+                try {
+
+                    if (Address != null) {
+                        Address = Address.substring(0, Address.length() - 1);
+                    } else {
+                        Address = "";
+                    }
+
+                    if (address.getLocality() != null) {
+                        City = address.getLocality();
+                    } else {
+                        City = "";
+                    }
+
+                    if (address.getAdminArea() != null) {
+                        State = address.getAdminArea();
+                    } else {
+                        State = "";
+                    }
+
+                    if (address.getCountryName() != null) {
+                        Country = address.getCountryName();
+                    } else {
+                        Country = "";
+                    }
+
+                    if (address.getLocality() != null) {
+                        Locality = address.getLocality();
+                    } else {
+                        Locality = "";
+                    }
+
+                    if (address.getPostalCode() != null) {
+                        Pincode = address.getPostalCode();
+                    } else {
+                        Pincode = "";
+
+                    }
+
+                    if (address.getAdminArea() != null) {
+                        mAdminArea = address.getAdminArea();
+                    } else {
+                        mAdminArea = "";
+
+                    }
+
+                    if (address.getSubAdminArea() != null) {
+                        mSubAdminArea = address.getSubAdminArea();
+                    } else {
+                        mSubAdminArea = "";
+
+                    }
+                    if (address.getSubLocality() != null) {
+                        mSubLocality = address.getSubLocality();
+                    } else {
+                        mSubLocality = "";
+
+                    }
+
+                    if (address.getThoroughfare() != null) {
+                        mThoroughfare = address.getPostalCode();
+                    } else {
+                        mThoroughfare = "";
+
+                    }
+
+                    if (address.getSubThoroughfare() != null) {
+                        mSubThoroughfare = address.getSubThoroughfare();
+                    } else {
+                        mSubThoroughfare = "";
+
+                    }
+
+                    if (address.getPhone() != null) {
+                        mPhone = address.getPhone();
+                    } else {
+                        mPhone = "";
+                    }
+
+                    if (address.getUrl() != null) {
+                        mUrl = address.getUrl();
+                    } else {
+                        mUrl = "";
+
+                    }
+                    if (address.getFeatureName() != null) {
+                        mFeatureName = address.getFeatureName();
+                    } else {
+                        mFeatureName = "";
+
+                    }
+
+                } catch (Exception ex) {
+                    if (addressList.get(0).getAddressLine(0) != null) {
+                        Address = addressList.get(0).getAddressLine(0);//// If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    } else {
+                        Address = "";
+                    }
+
+                    if (Address != null) {
+                        Address = Address.substring(0, Address.length() - 1);
+                    } else {
+                        Address = "";
+                    }
+
+                    if (address.getLocality() != null) {
+                        City = address.getLocality();
+                    } else {
+                        City = "";
+                    }
+
+                    if (address.getAdminArea() != null) {
+                        State = address.getAdminArea();
+                    } else {
+                        State = "";
+                    }
+
+                    if (address.getCountryName() != null) {
+                        Country = address.getCountryName();
+                    } else {
+                        Country = "";
+                    }
+
+                    if (address.getLocality() != null) {
+                        Locality = address.getLocality();
+                    } else {
+                        Locality = "";
+                    }
+
+                    if (address.getPostalCode() != null) {
+                        Pincode = address.getPostalCode();
+                    } else {
+                        Pincode = "";
+
+                    }
+
+                    if (address.getAdminArea() != null) {
+                        mAdminArea = address.getAdminArea();
+                    } else {
+                        mAdminArea = "";
+
+                    }
+
+                    if (address.getSubAdminArea() != null) {
+                        mSubAdminArea = address.getSubAdminArea();
+                    } else {
+                        mSubAdminArea = "";
+
+                    }
+                    if (address.getSubLocality() != null) {
+                        mSubLocality = address.getSubLocality();
+                    } else {
+                        mSubLocality = "";
+
+                    }
+
+                    if (address.getThoroughfare() != null) {
+                        mThoroughfare = address.getPostalCode();
+                    } else {
+                        mThoroughfare = "";
+
+                    }
+
+                    if (address.getSubThoroughfare() != null) {
+                        mSubThoroughfare = address.getSubThoroughfare();
+                    } else {
+                        mSubThoroughfare = "";
+
+                    }
+
+                    if (address.getPhone() != null) {
+                        mPhone = address.getPhone();
+                    } else {
+                        mPhone = "";
+                    }
+
+                    if (address.getUrl() != null) {
+                        mUrl = address.getUrl();
+                    } else {
+                        mUrl = "";
+
+                    }
+                    if (address.getFeatureName() != null) {
+                        mFeatureName = address.getFeatureName();
+                    } else {
+                        mFeatureName = "";
+
+                    }
+
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+
+        }
+        return null;
+    }
+
+    public String getAddress() { return Address; }
+
+    public String getCity() { return City; }
+
+    public String getState() {
+        return State;
+    }
+
+    public String getCountry() {
+        return Country;
+    }
+
+    public String getLocality() {
+        return Locality;
+    }
+
+    public String getPincode() {
+        return Pincode;
+    }
+
+
     public void closeProgress() {
 
         if (_progressDlg == null) {
@@ -416,6 +648,7 @@ public  abstract class BaseActivity extends AppCompatActivity implements Handler
      *
      * @param toast_string
      */
+
     public void showToast(String toast_string) {
         Toast.makeText(_context, toast_string, Toast.LENGTH_SHORT).show();
     }
