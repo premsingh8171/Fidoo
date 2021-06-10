@@ -312,14 +312,15 @@ class CartActivity : BaseActivity(),
 
             for (i in 0..mModelDataTemp?.category?.size!! - 1) {
                 if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
+                    if (mModelDataTemp?.category?.get(i)!!.isMandatory.equals("0")){
+                    }else{
                     var customListModel: CustomListModel? =
                         CustomListModel()
                     customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
                     customListModel.id = mModelDataTemp?.category?.get(i)!!.subCat.get(0).id.toInt()
                     customListModel.price = mModelDataTemp?.category?.get(i)!!.subCat.get(0).price
                     categoryy!!.add(customListModel)
-                } else {
-
+                }
                 }
             }
 
