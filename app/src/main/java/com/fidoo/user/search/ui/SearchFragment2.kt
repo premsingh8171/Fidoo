@@ -440,6 +440,7 @@ class SearchFragment2 : Fragment() , AdapterClick,
 
           }*/
 
+		Log.d("onItemClick___",type!!)
 		tempType = type
 		tempCount = count
 		tempProductId = productId
