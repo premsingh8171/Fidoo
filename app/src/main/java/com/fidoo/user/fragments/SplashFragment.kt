@@ -71,7 +71,8 @@ class SplashFragment : BaseFragment() {
         mSessionTwiclo = SessionTwiclo(requireContext())
 
         if (isNetworkConnected) {
-            custAppVerCheck(BuildConfig.VERSION_NAME)
+           // custAppVerCheck(BuildConfig.VERSION_NAME)
+            custAppVerCheck("1.0.37")
         } else {
             showInternetToast()
         }

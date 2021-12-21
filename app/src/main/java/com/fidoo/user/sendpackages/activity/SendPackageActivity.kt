@@ -243,7 +243,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         viewmodel?.getPackageResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
             Log.e("cat_response", Gson().toJson(user))
-            standard_charges = user.standard_charges
+         //   standard_charges = user.standard_charges
 
             try {
                 tv_base_charges.text =
@@ -281,7 +281,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                     .putExtra("discount",user.discount)
                     .putExtra("coupon_name",user.coupon_name)
                     .putExtra("value_after_discount",user.value_after_discount)
-                    .putExtra("standard_charges",user.standard_charges)
+                    .putExtra("standard_charges","")
                     .putExtra("charges_one",user.charges_one)
                     .putExtra("charges_two",user.charges_two)
 

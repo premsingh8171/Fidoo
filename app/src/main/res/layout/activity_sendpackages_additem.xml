@@ -270,7 +270,7 @@
             android:layout_marginLeft="@dimen/dimen_5dp"
             android:fontFamily="@font/proxima"
             android:text="I agree that I'am not sending any"
-            android:textColor="@color/icon_tin"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_size_12sp"
             android:visibility="visible" />
 
@@ -282,6 +282,7 @@
             android:text=" Restriction Item. "
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_12sp"
+            android:textStyle="bold"
             android:visibility="visible" />
 
         <ImageView
