@@ -14,21 +14,20 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.AbsListView
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
-import com.fidoo.user.CartActivity
 import com.fidoo.user.R
-import com.fidoo.user.SplashActivity
+import com.fidoo.user.activity.AuthActivity
+import com.fidoo.user.activity.MainActivity
+import com.fidoo.user.activity.MainActivity.Companion.addCartTempList
+import com.fidoo.user.activity.SplashActivity
+import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.grocery.adapter.GroceryCategoryAdapter
@@ -42,11 +41,12 @@ import com.fidoo.user.grocery.viewmodel.GroceryProductsViewModel
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
-import com.fidoo.user.ui.MainActivity
-import com.fidoo.user.ui.MainActivity.Companion.addCartTempList
+import com.fidoo.user.store.activity.StoreListActivity
+import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.BaseActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.gson.Gson
+import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.activity_grocery_items.backIcon
@@ -54,14 +54,17 @@ import kotlinx.android.synthetic.main.activity_grocery_items.linear_progress_ind
 import kotlinx.android.synthetic.main.activity_search_item.*
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
+import kotlinx.android.synthetic.main.no_internet_connection.*
+import kotlinx.android.synthetic.main.no_item_found.*
 import kotlinx.android.synthetic.main.select_cat_popup.*
 
 
+@Suppress("DEPRECATION")
 class GroceryItemsActivity : BaseActivity(), AdapterClick,
     AdapterAddRemoveClick,
     AdapterCartAddRemoveClick {
     var viewmodel: GroceryProductsViewModel? = null
-
+    var viewmodelusertrack: UserTrackerViewModel? = null
     lateinit var recyclerView: RecyclerView
     val catList: ArrayList<Category> = ArrayList()
     var productList: ArrayList<Product>? = null
@@ -69,20 +72,19 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     val subcatList: ArrayList<Subcategory> = ArrayList()
     var catListFilter: ArrayList<Category> = ArrayList()
     var subcatListFilter: ArrayList<Subcategory> = ArrayList()
-    var selectAreaDiolog: Dialog? = null
+    var cat_Diolog: Dialog? = null
     lateinit var catrecyclerView: RecyclerView
     lateinit var  viewAll_txt: TextView
     var cat_id: String? = ""
     var subcat_name: String? = ""
     var selectedValue: String? = "default"
     var sub_cat_id: String? = ""
-
     var customIdsList: ArrayList<String>? = null
     private lateinit var groceryItemAdapter: GroceryItemAdapter
     private var slide_: Animation? = null
     var selected_cat:Int=-1
     var selected_Subcat:Int=0
-
+    private var mMixpanel: MixpanelAPI? = null
     companion object {
         var itemPosition: Int? = 0
         var product_count: Int? = 0
@@ -103,8 +105,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     private  var totalItems:Int = 0
     private  var scrollOutItems:Int = 0
     private var isScrolling = false
-//
-
     var search_value: String? = ""
     var tempProductId: String? = ""
     var mCustomizeCount: Int? = 0
@@ -113,8 +113,10 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     var tempType: String? = ""
     var tempCount: String? = ""
     var count: Int = 1
+    var total_cart_count: Int = 0
     private lateinit var mMap: GoogleMap
     var storeID: String? = null
+    var sessionTwiclo: SessionTwiclo?=null
 
     //roomdb
     private lateinit var productsDatabase: ProductsDatabase
@@ -128,17 +130,19 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_grocery_items)
         viewmodel = ViewModelProviders.of(this).get(GroceryProductsViewModel::class.java)
-        grocery_item_rv
+        viewmodelusertrack = ViewModelProviders.of(this).get(UserTrackerViewModel::class.java)
+        sessionTwiclo = SessionTwiclo(this)
+
+        mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
+
+        //    grocery_item_rv
         Thread{
             productsDatabase = Room.databaseBuilder(
                 applicationContext,
                 ProductsDatabase::class.java, ProductsDatabase.DB_NAME)
                 .fallbackToDestructiveMigration()
                 .build()
-
         }.start()
-
-
 
         manager = GridLayoutManager(this, 2)
         recyclerView = findViewById(R.id.grocery_item_rv)
@@ -155,39 +159,100 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
         productList!!.clear()
 
         cartitemView_LL.setOnClickListener {
+
             if (SessionTwiclo(this).isLoggedIn) {
                 startActivity(
-                    Intent(this, CartActivity::class.java).putExtra(
-                        "store_id", SessionTwiclo(
-                            this
-                        ).storeId
-                    )
+                    Intent(this, CartActivity::class.java).putExtra("store_id", SessionTwiclo(this).storeId)
                 )
             } else {
                 showLoginDialog("Please login to proceed")
-
             }
 
         }
 
         //Here we have called Api of getGroceryProducts
-        if (SessionTwiclo(this).isLoggedIn){
-            viewmodel?.getGroceryProductsFun(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                store_id,cat_id,sub_cat_id
-            )
+        if (isNetworkConnected) {
+            deleteRoomDataBase()
+            if (SessionTwiclo(this).isLoggedIn) {
+                viewmodel?.getGroceryProductsFun(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    store_id, cat_id, sub_cat_id
+                )
 
-            viewmodel?.getCartCountApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
+                viewmodel?.getCartCountApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken
+                )
+            } else {
+                viewmodel?.getGroceryProductsFun(
+                    "",
+                    "",
+                    store_id, cat_id, sub_cat_id
+                )
+            }
+            getRoomData()
+            linear_progress_indicator.visibility=View.VISIBLE
+            grocery_constL.visibility=View.VISIBLE
+            cat_rlFloat.visibility=View.VISIBLE
+            no_internet_grocery.visibility=View.GONE
+            no_internet_Ll.visibility=View.GONE
+            viewmodelusertrack?.customerActivityLog(SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).mobileno,"Grocery Screen",
+                SplashActivity.appversion, StoreListActivity.serive_id_,SessionTwiclo(this).deviceToken
             )
         }else{
-            viewmodel?.getGroceryProductsFun(
-                "",
-                "",
-                store_id,cat_id,sub_cat_id
-            )
+            grocery_constL.visibility=View.GONE
+            cartitemView_LL.visibility=View.GONE
+            cat_rlFloat.visibility=View.GONE
+            linear_progress_indicator.visibility=View.GONE
+            no_internet_grocery.visibility=View.VISIBLE
+            no_internet_Ll.visibility=View.VISIBLE
+            dismissIOSProgress()
+        }
+
+        retry_onRefresh.setOnClickListener {
+            if (isNetworkConnected) {
+                deleteRoomDataBase()
+                if (SessionTwiclo(this).isLoggedIn) {
+                    viewmodel?.getGroceryProductsFun(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        store_id, cat_id, sub_cat_id
+                    )
+
+                    viewmodel?.getCartCountApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken
+                    )
+
+                    viewmodelusertrack?.customerActivityLog(SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).mobileno,"Grocery Screen",
+                        SplashActivity.appversion, StoreListActivity.serive_id_,SessionTwiclo(this).deviceToken
+                    )
+
+                } else {
+                    viewmodel?.getGroceryProductsFun(
+                        "",
+                        "",
+                        store_id, cat_id, sub_cat_id
+                    )
+                }
+                getRoomData()
+                linear_progress_indicator.visibility=View.VISIBLE
+                linear_progress_indicator.visibility=View.VISIBLE
+                grocery_constL.visibility=View.VISIBLE
+                cat_rlFloat.visibility=View.VISIBLE
+                no_internet_grocery.visibility=View.GONE
+                no_internet_Ll.visibility=View.GONE
+            }else{
+                grocery_constL.visibility=View.GONE
+                cartitemView_LL.visibility=View.GONE
+                cat_rlFloat.visibility=View.GONE
+                linear_progress_indicator.visibility=View.GONE
+                no_internet_grocery.visibility=View.VISIBLE
+                dismissIOSProgress()
+            }
         }
 
         //to get data from database
@@ -209,63 +274,75 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     Log.e("Grocery", Gson().toJson(grocery))
                     // val subcatList: ArrayList<Subcategory> = ArrayList()
                     has_subcategory=grocery.has_subcategory
+
                     if (has_subcategory==0){
                         cat_rl.visibility=View.GONE
                     }else{
                         cat_rl.visibility=View.VISIBLE
                     }
+
                     val productList: ArrayList<Product> = ArrayList()
-                    for (i in grocery.category.indices) {
-                        val catObj = grocery.category[i]
-                        // tv_categories.text = "Select category"
-                        for (j in 0 until grocery.category[i].subcategory.size) {
-                            val subCatObj = catObj.subcategory[j]
+                    if (grocery.category.size!=0) {
+                        for (i in grocery.category.indices) {
+                            val catObj = grocery.category[i]
+                            // tv_categories.text = "Select category"
 
-                            if (grocery.category[i].subcategory[j].product.size!=0) {
-                                for (k in 0 until grocery.category[i].subcategory[j].product.size) {
-                                    val productListObj = subCatObj.product[k]
-                                    Log.e("Product", Gson().toJson(subCatObj.product[0]))
-                                    productList.add(productListObj)
+                            for (j in 0 until grocery.category[i].subcategory.size) {
+                                val subCatObj = catObj.subcategory[j]
 
-                                    Thread{
+                                if (grocery.category[i].subcategory[j].product.size != 0) {
+                                    for (k in 0 until grocery.category[i].subcategory[j].product.size) {
+                                        val productListObj = subCatObj.product[k]
+                                        Log.e("Product", Gson().toJson(subCatObj.product[0]))
+                                        productList.add(productListObj)
+                                        Thread {
 //                                        Runnable {
                                             productsDatabase!!.productsDaoAccess()!!.insertProducts(
-                                                Product(productListObj.cart_quantity,
-                                                productListObj.company_name,
-                                                productListObj.image,
-                                                productListObj.in_out_of_stock_status,
-                                                productListObj.is_customize,
-                                                productListObj.is_customize_quantity,
-                                                productListObj.is_nonveg,
-                                                productListObj.is_prescription,
-                                                productListObj.offer_price,
-                                                productListObj.price,
-                                                productListObj.product_id,
-                                                productListObj.product_name,
-                                                productListObj.unit,
-                                                productListObj.weight,
-                                                productListObj.cart_id,
-                                                productListObj.product_sub_category_id,
-                                                productListObj.product_category_id
+                                                Product(
+                                                    productListObj.cart_quantity,
+                                                    productListObj.company_name,
+                                                    productListObj.image,
+                                                    productListObj.in_out_of_stock_status,
+                                                    productListObj.is_customize,
+                                                    productListObj.is_customize_quantity,
+                                                    productListObj.is_nonveg,
+                                                    productListObj.is_prescription,
+                                                    productListObj.offer_price,
+                                                    productListObj.price,
+                                                    productListObj.product_id,
+                                                    productListObj.product_name,
+                                                    productListObj.unit,
+                                                    productListObj.weight,
+                                                    productListObj.cart_id,
+                                                    productListObj.product_sub_category_id,
+                                                    productListObj.product_category_id
+                                                )
                                             )
-                                            )
-                                        //}
-                                    }.start()
-                                }
-                            }else{
+                                            //}
+                                        }.start()
+                                    }
+                                } else {
+
 //                                val toast = Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
 //                                toast.show()
+
+                                }
+
+                                if (!subCatObj.subcategory_name.equals("")) {
+                                    subcatList.add(subCatObj)
+                                }
                             }
 
-                            if (!subCatObj.subcategory_name.equals("")){
-                                subcatList.add(subCatObj)
-                           }
+                            rvlistSubcategory(subcatList)
 
-
+                            catList.add(catObj)
                         }
-                        rvlistSubcategory(subcatList)
 
-                        catList.add(catObj)
+                        no_item_foundll.visibility=View.GONE
+                        no_item_foundlll.visibility=View.GONE
+                    }else{
+                        no_item_foundll.visibility=View.VISIBLE
+                        no_item_foundlll.visibility=View.VISIBLE
                     }
 
                    // Log.d("kb___", "" + productList.size.toString())
@@ -280,7 +357,9 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
         })
 
-        viewmodel?.failureResponse?.observe(this, {})
+        viewmodel?.failureResponse?.observe(this, {
+            dismissIOSProgress()
+        })
         //end observer
 
         //for clear store item
@@ -315,7 +394,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 )
 
             }
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
 
         //first time add item
@@ -331,43 +409,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
             )
             onresumeHandle=1
             getRoomData()
-//            if (isNetworkConnected) {
-//                if (SessionTwiclo(this).isLoggedIn) {
-//                    var product=Product(product_count!!,productList!![itemPosition!!].company_name,
-//                        productList!![itemPosition!!].image, productList!![itemPosition!!].in_out_of_stock_status, productList!![itemPosition!!].is_customize,
-//                        productList!![itemPosition!!].is_customize_quantity,productList!![itemPosition!!].is_nonveg, productList!![itemPosition!!].is_prescription,
-//                        productList!![itemPosition!!].offer_price, productList!![itemPosition!!].price, productList!![itemPosition!!].product_id,
-//                        productList!![itemPosition!!].product_name, productList!![itemPosition!!].unit, productList!![itemPosition!!].weight,
-//                        productList!![itemPosition!!].cart_id
-//                    )
-//
-//
-//                    if (product != null) {
-//                        productList?.set(itemPosition!!,product!!)
-//                        groceryItemAdapter.notifyItemChanged(itemPosition!!);
-//
-//                    }
-//
-//                } else {
-//                    var product=Product(product_count!!,productList!![itemPosition!!].company_name,
-//                        productList!![itemPosition!!].image, productList!![itemPosition!!].in_out_of_stock_status, productList!![itemPosition!!].is_customize,
-//                        productList!![itemPosition!!].is_customize_quantity,productList!![itemPosition!!].is_nonveg, productList!![itemPosition!!].is_prescription,
-//                        productList!![itemPosition!!].offer_price, productList!![itemPosition!!].price, productList!![itemPosition!!].product_id,
-//                        productList!![itemPosition!!].product_name, productList!![itemPosition!!].unit, productList!![itemPosition!!].weight,
-//                        productList!![itemPosition!!].cart_id
-//                    )
-//
-//
-//                    if (product != null) {
-//                        productList?.set(itemPosition!!,product!!)
-//                        groceryItemAdapter.notifyItemChanged(itemPosition!!);
-//                    }
-//
-//                }
-//
-//            } else {
-//                showInternetToast()
-//            }
         })
 
         //for plus and minus of item
@@ -380,36 +421,6 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     SessionTwiclo(this).loggedInUserDetail.accessToken
                 )
 
-//                if (SessionTwiclo(this).isLoggedIn) {
-//                    var product=Product(product_count!!,productList!![itemPosition!!].company_name,
-//                        productList!![itemPosition!!].image, productList!![itemPosition!!].in_out_of_stock_status, productList!![itemPosition!!].is_customize,
-//                        productList!![itemPosition!!].is_customize_quantity,productList!![itemPosition!!].is_nonveg, productList!![itemPosition!!].is_prescription,
-//                        productList!![itemPosition!!].offer_price, productList!![itemPosition!!].price, productList!![itemPosition!!].product_id,
-//                        productList!![itemPosition!!].product_name, productList!![itemPosition!!].unit, productList!![itemPosition!!].weight,
-//                        productList!![itemPosition!!].cart_id
-//                    )
-//
-//
-//                    if (product != null) {
-//                        productList?.set(itemPosition!!,product!!)
-//                        groceryItemAdapter.notifyItemChanged(itemPosition!!);
-//
-//                    }
-//
-//                } else {
-//                    val product=Product(product_count!!,productList!![itemPosition!!].company_name,
-//                        productList!![itemPosition!!].image, productList!![itemPosition!!].in_out_of_stock_status, productList!![itemPosition!!].is_customize,
-//                        productList!![itemPosition!!].is_customize_quantity,productList!![itemPosition!!].is_nonveg, productList!![itemPosition!!].is_prescription,
-//                        productList!![itemPosition!!].offer_price, productList!![itemPosition!!].price, productList!![itemPosition!!].product_id,
-//                        productList!![itemPosition!!].product_name, productList!![itemPosition!!].unit, productList!![itemPosition!!].weight,
-//                        productList!![itemPosition!!].cart_id
-//                    )
-//                    if (product != null) {
-//                        productList?.set(itemPosition!!,product!!)
-//                        groceryItemAdapter.notifyItemChanged(itemPosition!!)
-//
-//                    }
-//                }
                 onresumeHandle=1
                 getRoomData()
             } else {
@@ -430,11 +441,15 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     itemQuantity_text.text=count
                     totalprice_txt.text= "₹ "+price
                     cartitemView_LL.visibility= View.VISIBLE
-                    slide_ = AnimationUtils.loadAnimation(this, R.anim.rv_left_right_anim)
-                    cartitemView_LL?.startAnimation(slide_)
+                    if (total_cart_count==0) {
+                        total_cart_count = 1
+                        slide_ = AnimationUtils.loadAnimation(this, R.anim.rv_left_right_anim)
+                        cartitemView_LL?.startAnimation(slide_)
+                    }
                 }else{
                     SessionTwiclo(this@GroceryItemsActivity).storeId=""
                     cartitemView_LL.visibility=View.GONE
+                    total_cart_count = 0
                     slide_ = AnimationUtils.loadAnimation(this, R.anim.slide_out_left)
                     cartitemView_LL?.startAnimation(slide_)
                 }
@@ -476,11 +491,12 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 if (productList!!.isEmpty()) {
                     return;
                 }
-                productListFilter= filterProducts(productList!!, search_value!!) as ArrayList<Product>
-                groceryItemAdapter.setFilter(productListFilter!!)
-                groceryItemAdapter?.notifyDataSetChanged()
+                //productListFilter= filterProducts(productList!!, search_value!!) as ArrayList<Product>
+               // groceryItemAdapter.setFilter(productListFilter!!)
+               // groceryItemAdapter?.notifyDataSetChanged()
 
-
+           //searchquery
+                searchQuery(search_value)
 
             }
         })
@@ -506,37 +522,67 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
                 storeID,cat_id,sub_cat_id
             )
+            searchPrdEt.getText()!!.clear()
             getRoomData()
 
         }
+    }
+
+    //search query get data
+    private fun searchQuery(query:String?) {
+        var search_key="%$query%"
+        Log.d("searchdata_",search_key.toString())
+        Handler().postDelayed(
+            {
+                productsDatabase!!.productsDaoAccess()!!.searchQuery(search_key).observe(this, Observer {search->
+                  if (!query.equals("")) {
+                      productListFilter = search as ArrayList<Product>
+                      groceryItemAdapter.setFilter(productListFilter!!)
+                  }else {
+                      groceryItemAdapter.setFilter(productList!!)
+                  }
+                    groceryItemAdapter?.notifyDataSetChanged()
+                    Log.d("searchdata_",search.toString())
+
+                })
+            },
+            10
+        )
     }
 
     //get roomdatabase
     private fun getRoomData() {
         Handler().postDelayed(
             {
-                productsDatabase!!.productsDaoAccess()!!.getTableCount().observe(this,{c ->
-                    Log.d("table_count", c.toString())
-                    table_count=c.toInt()
-                })
-                productsDatabase!!.productsDaoAccess()!!.getAllProducts2(totalItem.toString()).observe(this, Observer {t ->
-                 if(onresumeHandle==0) {
-                     productList = t as ArrayList<Product>?
-                     product_listCount=productList!!.size
-                     Log.d("roomdatabase_",product_listCount.toString())
-                     rvlistProduct(productList!!)
-                     dismissIOSProgress()
-                 }else{
-                     var productListUpdate: ArrayList<Product> = ArrayList()
-                     productListUpdate = t as ArrayList<Product>
-                     productList=productListUpdate
-                     product_listCount=productListUpdate!!.size
-                     groceryItemAdapter.setFilter(productList!!)
-                 }
-                   // onresumeHandle=0
+                if (searchPrdEt.getText().toString().equals("") || searchPrdEt.getText().toString().startsWith(" ")) {
+
+                    productsDatabase!!.productsDaoAccess()!!.getTableCount().observe(this, { c ->
+                        Log.d("table_count", c.toString())
+                        table_count = c.toInt()
+                    })
+
+                    productsDatabase!!.productsDaoAccess()!!.getAllProducts2(totalItem.toString())
+                        .observe(this, Observer { t ->
+                            if (onresumeHandle == 0) {
+                                productList = t as ArrayList<Product>?
+                                product_listCount = productList!!.size
+                                Log.d("roomdatabase_", product_listCount.toString())
+                                rvlistProduct(productList!!)
+                                dismissIOSProgress()
+                            } else {
+                                var productListUpdate: ArrayList<Product> = ArrayList()
+                                productListUpdate = t as ArrayList<Product>
+                                productList = productListUpdate
+                                product_listCount = productListUpdate!!.size
+                                groceryItemAdapter.setFilter(productList!!)
+                            }
+                            // onresumeHandle=0
+                            dismissIOSProgress()
+                        })
                     dismissIOSProgress()
-                })
-                dismissIOSProgress()
+                }else{
+                    searchQuery(search_value)
+                }
 
             },
             10
@@ -570,45 +616,45 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
     }
 
     private fun catPopUp() {
-        selectAreaDiolog = Dialog(this)
-        selectAreaDiolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        selectAreaDiolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        selectAreaDiolog?.setContentView(R.layout.select_cat_popup)
-        selectAreaDiolog?.window?.setLayout(
+        cat_Diolog = Dialog(this)
+        cat_Diolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        cat_Diolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        cat_Diolog?.setContentView(R.layout.select_cat_popup)
+        cat_Diolog?.window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
         )
         slide_ = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
-        selectAreaDiolog?.layout_catPopup?.startAnimation(slide_)
-        // selectAreaDiolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
-        selectAreaDiolog?.setCanceledOnTouchOutside(true)
-        selectAreaDiolog?.show()
-        val txtError = selectAreaDiolog?.findViewById<TextView>(R.id.txtError)
-        viewAll_txt = selectAreaDiolog?.findViewById<TextView>(R.id.viewAll_txt)!!
-        val dismisspopUp = selectAreaDiolog?.findViewById<ImageView>(R.id.dismisspopUp)
-        catrecyclerView = selectAreaDiolog?.findViewById(R.id.catRecyclerview)!!
+        cat_Diolog?.layout_catPopup?.startAnimation(slide_)
+        // cat_Diolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+        cat_Diolog?.setCanceledOnTouchOutside(true)
+        cat_Diolog?.show()
+        val txtError = cat_Diolog?.findViewById<TextView>(R.id.txtError)
+        viewAll_txt = cat_Diolog?.findViewById<TextView>(R.id.viewAll_txt)!!
+        val dismisspopUp = cat_Diolog?.findViewById<RelativeLayout>(R.id.dismisspopUp)
+        catrecyclerView = cat_Diolog?.findViewById(R.id.catRecyclerview)!!
 
         // catRecyclerview
         txtError?.setOnClickListener(View.OnClickListener {
             slide_ = AnimationUtils.loadAnimation(this, R.anim.slide_in_left)
-            selectAreaDiolog?.layout_catPopup?.startAnimation(slide_)
-            selectAreaDiolog?.dismiss()
+            cat_Diolog?.layout_catPopup?.startAnimation(slide_)
+            cat_Diolog?.dismiss()
         })
 
         dismisspopUp?.setOnClickListener(View.OnClickListener {
             slide_ = AnimationUtils.loadAnimation(this, R.anim.slide_in_left)
-            selectAreaDiolog?.layout_catPopup?.startAnimation(slide_)
-            selectAreaDiolog?.dismiss()
+            cat_Diolog?.layout_catPopup?.startAnimation(slide_)
+            cat_Diolog?.dismiss()
 
         })
         if (selected_cat==-1){
-            viewAll_txt.setTextColor(Color.parseColor("#339347"))
+            viewAll_txt.setTextColor(Color.parseColor("#a9a9a9"))
         }else{
             viewAll_txt.setTextColor(Color.parseColor("#000000"))
         }
 
         viewAll_txt?.setOnClickListener(View.OnClickListener {
-            selectAreaDiolog?.dismiss()
+            cat_Diolog?.dismiss()
             selected_cat=-1
             cat_id = ""
             subcat_name = ""
@@ -625,6 +671,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                 SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
                 storeID,cat_id,sub_cat_id
             )
+            searchPrdEt.getText()!!.clear()
             getRoomData()
         })
 
@@ -660,25 +707,27 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                currentItems = manager!!.childCount
-                totalItems = manager!!.itemCount
-                scrollOutItems = manager!!.findFirstVisibleItemPosition()
-                Log.d("value_gg_",dy.toString()+"-"+currentItems+"---"+totalItems+"---"+scrollOutItems);
+               if (searchPrdEt.getText().toString().equals("") || searchPrdEt.getText().toString().startsWith(" ")) {
+                   currentItems = manager!!.childCount
+                   totalItems = manager!!.itemCount
+                   scrollOutItems = manager!!.findFirstVisibleItemPosition()
+                   Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems");
 
                    if (dy > 1) {
-                    if (isScrolling && currentItems + scrollOutItems == totalItems) {
-                        Log.d("totalItem___", table_count.toString()+"---"+product_listCount)
-                        if (table_count!! > product_listCount!!) {
-                            if (isScrolling == true) {
-                                totalItem = totalItem?.plus(20)
-                                onresumeHandle = 1
-                                showIOSProgress()
-                                getRoomData()
-                                isScrolling = false
-                            }
-                        }
-                    }
-                }
+                       if (isScrolling && currentItems + scrollOutItems == totalItems) {
+                           Log.d("totalItem___", table_count.toString() + "---" + product_listCount)
+                           if (table_count!! > product_listCount!!) {
+                               if (isScrolling == true) {
+                                   totalItem = totalItem?.plus(20)
+                                   onresumeHandle = 1
+                                   showIOSProgress()
+                                   getRoomData()
+                                   isScrolling = false
+                               }
+                           }
+                       }
+                   }
+               }
             }
         })
 
@@ -716,6 +765,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
                         storeID,cat_id,sub_cat_id
                     )
+                    searchPrdEt.getText()!!.clear()
                     getRoomData()
                 }
             },selectedValue)
@@ -746,8 +796,8 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                     Log.d("grocery___", grocery.cat_id)
                     tv_categories.text = grocery.cat_name
                     slide_ = AnimationUtils.loadAnimation(this@GroceryItemsActivity, R.anim.slide_in_left)
-                    selectAreaDiolog?.layout_catPopup?.startAnimation(slide_)
-                    selectAreaDiolog?.dismiss()
+                    cat_Diolog?.layout_catPopup?.startAnimation(slide_)
+                    cat_Diolog?.dismiss()
                     viewAll_txt.setTextColor(Color.parseColor("#000000"))
                     selected_cat= pos
                     cat_id = grocery.cat_id
@@ -762,6 +812,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
                         SessionTwiclo(this@GroceryItemsActivity).loggedInUserDetail.accessToken,
                         storeID,cat_id,sub_cat_id
                     )
+                    searchPrdEt.getText()!!.clear()
                     getRoomData()
                     //   Log.d("subcategoryAdapter__", pos.toString())
                     //  sub_cat_rv.adapter = subcategoryAdapter
@@ -966,56 +1017,17 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
     private fun showLoginDialog(message: String) {
         val builder = AlertDialog.Builder(this)
-        //set title for alert dialog
         builder.setTitle("Alert")
-        //set message for alert dialog
         builder.setMessage(message)
         // builder.setIcon(android.R.drawable.ic_dialog_alert)
-
-        //performing positive action
         builder.setPositiveButton("Login") { _, _ ->
-            startActivity(
-                Intent(this, SplashActivity::class.java)
-            )
-
-
+            sessionTwiclo!!.clearSession()
+            startActivity(Intent(this, AuthActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
         }
 
-        //performing negative action
-        builder.setNegativeButton("Cancel") { _, _ ->
-
-        }
-        // Create the AlertDialog`
+        builder.setNegativeButton("Cancel") { _, _ -> }
         val alertDialog: AlertDialog = builder.create()
-        // Set other dialog properties
         alertDialog.setCancelable(true)
-        alertDialog.show()
-    }
-
-    private fun clearCartPopup() {
-        val builder = AlertDialog.Builder(this)
-        //set title for alert dialog
-        builder.setTitle("Replace cart item!")
-        //set message for alert dialog
-        builder.setMessage("Do you want to discard the previous selection?")
-        builder.setIcon(android.R.drawable.ic_dialog_alert)
-        //performing positive action
-        builder.setPositiveButton("Yes") { _, _ ->
-            viewmodel?.clearCartApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
-            )
-            //Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
-        }
-
-        //performing negative action
-        builder.setNegativeButton("No") { dialogInterface, which ->
-            //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
-        }
-        // Create the AlertDialog
-        val alertDialog: AlertDialog = builder.create()
-        // Set other dialog properties
-        alertDialog.setCancelable(false)
         alertDialog.show()
     }
 
@@ -1059,7 +1071,7 @@ class GroceryItemsActivity : BaseActivity(), AdapterClick,
 
 
             } else {
-                showInternetToast()
+              dismissIOSProgress()
             }
         }
     }

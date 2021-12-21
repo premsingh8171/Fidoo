@@ -1,10 +1,8 @@
 package com.fidoo.user.grocery.model.getGroceryProducts
 
-import androidx.annotation.NonNull
-import androidx.room.ColumnInfo
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 
 class GroceryProductsResponse(
     val accessToken: String,
@@ -32,19 +30,21 @@ class Category(
     val subcategory: List<Subcategory>
 )
 
+@Entity(tableName = "Products_Sub_cat_table")
 class Subcategory(
     val product: List<Product>,
     val subcategory_name: String,
     val sub_cat_id: String
-)
-
+){
+    @PrimaryKey(autoGenerate = true)
+    var scid: Int = 0
+}
 
 
 @Entity(tableName = "Products_table")
 data class Product(
     var cart_quantity: Int = 0,
     var company_name: String = "",
-    // var customize_item: List<Any>,
     var image: String = "",
     var in_out_of_stock_status: String = "",
     var is_customize: String = "",

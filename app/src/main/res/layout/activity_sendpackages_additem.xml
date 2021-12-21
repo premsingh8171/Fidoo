@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGray"
+    tools:context=".sendpackages.activity.SendPackagesAddItem">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sendPackagesConstAddItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2B2B94"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/header_lay"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#2B2B94"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/back_actionAddItem"
+                android:layout_width="@dimen/margin_30dp"
+                android:layout_height="@dimen/margin_30dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:padding="@dimen/margin_2dp"
+                android:rotation="180"
+                android:src="@drawable/ic_back_vector"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_pick_drop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="62dp"
+                android:layout_marginBottom="@dimen/ib_fr_space_20"
+                android:fontFamily="@font/proxima"
+                android:text="Pick and Drop"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/tv_pickup_drop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:fontFamily="@font/proxima"
+            android:text="Fidoo Express"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header_lay" />
+
+        <TextView
+            android:id="@+id/tv_leave_delivery_hassel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/proxima"
+            android:text="Leave your parcel delivery\nhassel to us!"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_pickup_drop" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_60dp"
+            android:src="@drawable/drop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sendPackagesConstCardAddItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/et_round_new"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/addItemConstll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_20dp"
+            android:layout_marginTop="@dimen/margin_35dp"
+            android:layout_marginRight="@dimen/margin_20dp"
+            android:layout_marginBottom="@dimen/margin_30dp"
+            android:visibility="visible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <RelativeLayout
+                android:id="@+id/itemNameConLl"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_45dp"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:background="@drawable/corner_radius_gray"
+                android:backgroundTint="@color/input_fieldcolor"
+                android:padding="10dp"
+                android:visibility="visible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <TextView
+                    android:id="@+id/selectCat_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/proxima"
+                    android:hint="Item Name"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/hint_color_tin"
+                    android:textSize="@dimen/text_size_14sp" />
+
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/itemList_eTxt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_100dp"
+                android:layout_marginTop="@dimen/margin_20dp"
+                android:background="@drawable/corner_radius_gray"
+                android:backgroundTint="@color/input_fieldcolor"
+                android:fontFamily="@font/proxima"
+                android:gravity="top"
+                android:hint="Item list"
+                android:paddingStart="@dimen/margin_20dp"
+                android:paddingTop="@dimen/margin_20dp"
+                android:textSize="@dimen/text_size_14sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/itemNameConLl" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginBottom="@dimen/dimen_25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addItemConstll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/addItemImgll"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:padding="@dimen/dimen_5dp"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:padding="@dimen/margin_3dp"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/ic_photo_camera_"
+                    android:layout_width="@dimen/margin_24dp"
+                    android:layout_height="@dimen/margin_24dp"
+                    app:tint="@color/primary_color" />
+                <TextView
+                    android:layout_marginLeft="@dimen/dimen_5dp"
+                    android:text="Add Image"
+                    android:fontFamily="@font/proxima"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <!-- start additemImag view -->
+            <LinearLayout
+                app:layout_goneMarginBottom="@dimen/margin_10"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addItemImgll"
+                android:id="@+id/addItemRecLl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginLeft="@dimen/margin_20dp"
+                    android:layout_marginRight="@dimen/margin_20dp"
+                    android:id="@+id/addItem_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/prescriptionImg"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/margin_10"
+                    android:paddingBottom="@dimen/margin_10"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:spanCount="1" />
+
+            </LinearLayout>
+            <!-- end additemImag view -->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:layout_marginBottom="90dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/infoll_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageView
+            android:id="@+id/info_agreeImg"
+            android:layout_width="@dimen/margin_24dp"
+            android:layout_height="@dimen/margin_24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dimen_5dp"
+            android:padding="@dimen/margin_1dp"
+            android:src="@drawable/circular_check"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dimen_5dp"
+            android:fontFamily="@font/proxima"
+            android:text="I agree that I'am not sending any"
+            android:textColor="@color/icon_tin"
+            android:textSize="@dimen/text_size_12sp"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/proxima"
+            android:text=" Restriction Item. "
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_12sp"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/info_imTop"
+            android:layout_width="@dimen/margin_24dp"
+            android:layout_height="@dimen/margin_24dp"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/margin_4dp"
+            android:src="@drawable/icon_info" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/save_itemll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_45dp"
+        android:layout_margin="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/corner_radius_button"
+        android:backgroundTint="@color/background"
+        android:elevation="@dimen/margin_2dp"
+        android:fontFamily="@font/proxima"
+        android:gravity="center"
+        android:text="Save"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintCircleRadius="@dimen/dimen_50dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

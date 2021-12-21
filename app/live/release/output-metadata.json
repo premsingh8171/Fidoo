@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "artifactType": {
     "type": "APK",
     "kind": "Directory"
@@ -10,9 +10,16 @@
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 16,
-      "versionName": "1.0.13",
+      "attributes": [],
+<<<<<<< HEAD
+      "versionCode": 45,
+      "versionName": "1.0.32",
+=======
+      "versionCode": 47,
+      "versionName": "1.0.34",
+>>>>>>> 9aab44fe919af2a4e7edbba44ba77eef54a81be3
       "outputFile": "app-live-release.apk"
     }
-  ]
+  ],
+  "elementType": "File"
 }

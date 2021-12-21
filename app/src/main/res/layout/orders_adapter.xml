@@ -1,112 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@null"
+    android:layout_marginBottom="@dimen/margin_10"
+    android:background="@color/lightGray"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:backgroundTint="@color/white"
+    <LinearLayout
         android:id="@+id/itemLay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginVertical="10dp"
-        android:elevation="5dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="8dp">
+        android:background="@color/lightGray">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="@dimen/margin_20dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/storeImg"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:visibility="gone"
+                android:layout_width="@dimen/dimen_60dp"
+                android:layout_height="@dimen/dimen_60dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="25dp"
-                android:src="@drawable/dummt_store_img"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginTop="@dimen/dimen_25dp"
+                android:scaleType="fitXY"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/RoundedSequare"
+                tools:srcCompat="@drawable/default_store" />
 
             <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/dimen_25dp"
                 android:id="@+id/storeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginLeft="15dp"
+                android:fontFamily="@font/proxima"
                 android:gravity="center"
                 android:maxLines="2"
                 android:text="Daily Grocery"
-                android:fontFamily="@font/metropolisbold"
                 android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_14sp"
                 app:layout_constraintLeft_toRightOf="@+id/storeImg"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/orderStatusTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text=""
-                android:fontFamily="@font/metropolisbold"
-                android:textColor="@android:color/black"
+            <ImageView
+                android:layout_width="@dimen/margin_30dp"
+                android:layout_height="@dimen/margin_30dp"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:layout_marginRight="@dimen/margin_10"
+                android:fontFamily="@font/proxima"
+                android:padding="@dimen/dimen_7dp"
+                android:src="@drawable/arrow_forward"
+                android:text="Daily Grocery"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/black" />
+
 
             <ImageView
                 android:id="@+id/loc_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="7dp"
-
                 android:layout_marginTop="10dp"
                 android:src="@drawable/loc_icon"
+                android:visibility="gone"
                 app:layout_constraintLeft_toRightOf="@+id/storeImg"
                 app:layout_constraintTop_toBottomOf="@+id/storeName" />
 
             <TextView
                 android:id="@+id/locText"
                 android:layout_width="0dp"
-                android:fontFamily="@font/metropolis_regular"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="@dimen/dimen_50dp"
+                android:fontFamily="@font/proxima"
                 android:gravity="center_vertical"
-                android:maxLines="2"
-                android:text="Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016"
-                android:textColor="#80000000"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/txt_color"
+                android:textSize="@dimen/text_size_12sp"
                 app:layout_constraintLeft_toRightOf="@+id/loc_icon"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/storeName" />
 
             <TextView
-                android:id="@+id/too"
-                android:layout_width="0dp"
-
+                android:layout_marginLeft="15dp"
+                android:id="@+id/orderStatusTxt"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:fontFamily="@font/proxima"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/primary_color"
+                android:textSize="@dimen/text_size_12sp"
+                app:layout_constraintLeft_toRightOf="@+id/storeImg"
+                app:layout_constraintTop_toBottomOf="@+id/locText" />
+
+            <TextView
+                android:id="@+id/too"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/metropolis_semi_bold"
                 android:gravity="center_vertical"
                 android:maxLines="2"
-                android:fontFamily="@font/metropolis_semi_bold"
-
                 android:text="To"
                 android:textColor="#000000"
+                android:visibility="visible"
                 app:layout_constraintLeft_toRightOf="@+id/loc_icon"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/locText" />
@@ -114,157 +129,241 @@
             <TextView
                 android:id="@+id/locToText"
                 android:layout_width="0dp"
-                android:fontFamily="@font/metropolis_regular"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="@dimen/margin_20dp"
+                android:fontFamily="@font/proxima"
                 android:gravity="center_vertical"
-                android:maxLines="2"
-                android:text="Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016"
-                android:textColor="#80000000"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/txt_color"
+                android:textSize="@dimen/text_size_12sp"
+                android:visibility="visible"
                 app:layout_constraintLeft_toRightOf="@+id/loc_icon"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/too" />
-            <ImageView
+
+            <View
                 android:id="@+id/view"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="15dp"
-                android:background="#60000000"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginHorizontal="@dimen/margin_20dp"
+                android:layout_marginTop="@dimen/margin_35dp"
+                android:background="@color/lightGray"
+                android:backgroundTint="@color/background"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/locToText" />
 
+
             <TextView
-                android:id="@+id/itemsLabel"
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:id="@+id/Itemlabeltxt"
                 android:layout_width="wrap_content"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="ITEMS"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_14sp"
                 android:fontFamily="@font/metropolis_semi_bold"
-
-                android:textColor="@android:color/darker_gray"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                android:text="Items"
+                android:textColor="@android:color/black"/>
 
             <TextView
-                android:id="@+id/itemValue"
+                app:layout_goneMarginRight="@dimen/margin_20dp"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:fontFamily="@font/proxima"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/Itemlabeltxt"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:id="@+id/itemListTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:text="HP Seridon"
-                android:fontFamily="@font/metropolis_regular"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_20dp"
+                android:textSize="@dimen/text_size_12sp"
+                android:text=""
+                android:textColor="@color/txt_color"/>
 
-                android:textColor="@android:color/black"
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/itemRecyclerview_"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/itemsLabel" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Itemlabeltxt"
+                app:spanCount="1" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/orderIdLabel"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:text="ORDER ID"
                 android:fontFamily="@font/metropolis_semi_bold"
-
+                android:text="ORDER ID"
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                app:layout_constraintTop_toBottomOf="@+id/itemListTxt" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/orderIdValue"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
+                android:fontFamily="@font/proxima"
                 android:text="4325235"
-                android:fontFamily="@font/metropolis_regular"
-
                 android:textColor="@android:color/black"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/orderIdLabel" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/orderOnLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="@dimen/margin_20dp"
                 android:layout_marginTop="10dp"
-                android:text="ORDER ON"
                 android:fontFamily="@font/metropolis_semi_bold"
-
+                android:text="ORDER ON"
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/itemValue" />
+                app:layout_constraintTop_toBottomOf="@+id/itemListTxt" />
 
             <TextView
+                android:textSize="@dimen/text_size_12sp"
                 android:id="@+id/orderOnValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/metropolis_regular"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginTop="@dimen/margin_12dp"
+                android:fontFamily="@font/proxima"
                 android:text="26 Oct 2020 at 11:48 AM"
-                android:textColor="@android:color/black"
+                android:textColor="@color/txt_color"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/orderOnLabel" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/totalPriceLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="@dimen/margin_20dp"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/metropolis_semi_bold"
                 android:text="Total Price"
                 android:textAllCaps="true"
-                android:fontFamily="@font/metropolis_semi_bold"
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/orderOnValue" />
 
             <TextView
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_12sp"
+                android:layout_marginEnd="@dimen/margin_20dp"
                 android:id="@+id/totalPriceValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:fontFamily="@font/proxima"
                 android:text="@string/_50_00"
-                android:fontFamily="@font/metropolis_regular"
                 android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/orderOnValue"
+                app:layout_constraintTop_toTopOf="@+id/orderOnValue"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginHorizontal="@dimen/margin_20dp"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@color/lightGray"
+                android:backgroundTint="@color/background"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/totalPriceLabel" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/totalPriceValue" />
 
             <TextView
+                android:backgroundTint="@color/primary_color"
                 android:id="@+id/buttonValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/black_rounded_solid"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:layout_marginRight="@dimen/margin_20dp"
+                android:background="@drawable/rectangle_border"
+                android:fontFamily="@font/proxima"
                 android:gravity="center"
                 android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp"
+                android:paddingVertical="7dp"
                 android:text="Track Order"
-                android:fontFamily="@font/metropolis_regular"
-                android:textColor="#339347"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/totalPriceLabel" />
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/view2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/rating_txt_ll"
+                app:layout_constraintTop_toBottomOf="@+id/view2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:paddingLeft="@dimen/margin_10"
+                    android:drawablePadding="@dimen/margin_10"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:drawableTint="@color/primary_color"
+                    android:drawableEnd="@drawable/star_rate"
+                    android:layout_marginTop="@dimen/margin_15dp"
+                    android:fontFamily="@font/proxima"
+                    android:paddingVertical="7dp"
+                    android:text="You have rated:"
+                    android:textColor="@color/txt_color"
+                    app:layout_constraintTop_toBottomOf="@+id/view2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+                <TextView
+                    android:id="@+id/rating_txt_"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="17dp"
+                    android:fontFamily="@font/proxima"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toBottomOf="@+id/view2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+
+            </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 
 </RelativeLayout>

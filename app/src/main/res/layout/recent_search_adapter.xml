@@ -8,31 +8,30 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        app:cardCornerRadius="8dp"
-        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/black_full_rounded_empty"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:background="@drawable/black_full_rounded_empty">
 
             <TextView
                 android:id="@+id/searchTxt"
-                android:minWidth="100dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="30dp"
                 android:layout_gravity="center_horizontal"
-                android:paddingHorizontal="10dp"
-                android:fontFamily="@font/metropolis_regular"
+                android:fontFamily="@font/proxima"
                 android:gravity="center"
-                android:textSize="12sp"
                 android:maxLines="2"
+                android:minWidth="100dp"
+                android:minHeight="30dp"
+                android:paddingHorizontal="10dp"
                 android:text="TWICLO20"
                 android:textColor="@android:color/black"
+                android:textSize="12sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

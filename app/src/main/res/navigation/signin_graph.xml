@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/signin_graph"
     app:startDestination="@id/signInFragment">
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.fidoo.user.ui.SignInFragment"
+        android:name="com.fidoo.user.fragments.SignInFragment"
         android:label="SignInFragment" >
 
-        <action
-            android:id="@+id/action_signInFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment"
-            app:enterAnim="@animator/anim_slide_in_right"
-            app:exitAnim="@animator/anim_slide_out_left"
-            app:popEnterAnim="@animator/anim_slide_in_left" />
+        <!--        <action-->
+        <!--            android:id="@+id/action_signInFragment_to_signUpFragment"-->
+        <!--            app:destination="@id/signUpFragment"-->
+        <!--            app:enterAnim="@animator/anim_slide_in_right"-->
+        <!--            app:exitAnim="@animator/anim_slide_out_left"-->
+        <!--            app:popEnterAnim="@animator/anim_slide_in_left" />-->
         <action
             android:id="@+id/action_signInFragment_to_otpFragment"
             app:destination="@id/otpFragment"
@@ -27,7 +26,7 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.fidoo.user.ui.SignUpFragment"
+        android:name="com.fidoo.user.fragments.SignUpFragment"
         android:label="SignUpFragment" >
         <action
             android:id="@+id/action_signUpFragment_to_signInFragment"
@@ -36,15 +35,35 @@
 
     <fragment
         android:id="@+id/otpFragment"
-        android:name="com.fidoo.user.ui.OtpFragment"
+        android:name="com.fidoo.user.fragments.OtpFragment"
         android:label="OtpFragment" >
 
         <argument
             android:name="data"
             app:argType="com.fidoo.user.data.SendResponse" />
+
         <action
             android:id="@+id/action_otpFragment_to_signInFragment"
-            app:destination="@id/signInFragment" />
+            app:destination="@id/signInFragment"
+            app:popUpTo="@id/signin_graph" />
+
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/SignUpScreen_Fm"
+            app:enterAnim="@animator/anim_slide_in_right"
+            app:exitAnim="@animator/anim_slide_out_left"
+            app:popEnterAnim="@animator/anim_slide_in_left" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/SignUpScreen_Fm"
+        android:name="com.fidoo.user.fragments.SignUpScreenFm"
+        android:label="SignUpScreenFm" >
+        <argument
+            android:name="data"
+            app:argType="com.fidoo.user.data.SendResponse" />
     </fragment>
 
 </navigation>

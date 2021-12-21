@@ -38,7 +38,7 @@
         android:text="@string/pizzas"
         android:maxLines="2"
         android:textStyle="bold"
-        android:fontFamily="@font/lato"
+        android:fontFamily="@font/proxima"
         android:textColor="@color/colorTitle"
         app:layout_constraintEnd_toEndOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="@+id/cardView"

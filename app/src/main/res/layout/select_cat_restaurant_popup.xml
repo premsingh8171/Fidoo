@@ -1,78 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/outsid_viewRl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/outsid_viewRl"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center">
 
+
     <LinearLayout
-        android:layout_marginBottom="140dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:orientation="vertical"
-        android:layout_marginLeft="@dimen/margin_30dp"
-        android:layout_marginRight="@dimen/margin_20dp"
         android:id="@+id/layout_catPopup"
-        android:layout_width="wrap_content"
-        android:layout_height="350dp"
-        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_marginLeft="@dimen/margin_40dp"
+        android:layout_marginRight="@dimen/margin_40dp"
+        android:background="@drawable/top_corner_bg"
         android:backgroundTint="@color/white"
-        android:background="@drawable/round_box">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
-            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:visibility="gone">
 
             <TextView
-                android:layout_marginLeft="@dimen/margin_15dp"
-                android:gravity="start"
-                android:padding="@dimen/margin_2dp"
-                android:textSize="@dimen/text_size_14sp"
                 android:id="@+id/viewAll_txt_"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="All"
-                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_15dp"
                 android:layout_marginTop="@dimen/margin_20dp"
-                android:textColor="@color/colorPrimary"/>
+                android:fontFamily="@font/proxima"
+                android:gravity="start"
+                android:paddingLeft="@dimen/margin_2dp"
+                android:paddingBottom="@dimen/dimen_5dp"
+                android:text="All"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_14sp"
+                android:textStyle="bold" />
 
             <ImageView
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/margin_10"
-                android:layout_gravity="center_vertical"
                 android:id="@+id/dismisspopUp"
-                android:padding="@dimen/dimen_5dp"
-                android:layout_marginRight="@dimen/dimen_5dp"
-                android:gravity="end"
-                android:layout_alignParentEnd="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginRight="@dimen/dimen_5dp"
+                android:contentDescription="@string/todo"
+                android:gravity="end"
+                android:padding="@dimen/dimen_5dp"
                 android:src="@drawable/cancel_icon"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone" />
 
         </LinearLayout>
 
-
         <LinearLayout
-            android:layout_marginLeft="@dimen/dimen_5dp"
-            android:layout_marginRight="@dimen/margin_20dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/txtError"
-            android:layout_marginTop="@dimen/margin_10"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_10">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginBottom="10dp"
                 android:id="@+id/cat_resRecyclerview"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_10"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:spanCount="1">
 
@@ -81,18 +80,20 @@
         </LinearLayout>
 
         <TextView
-            android:visibility="gone"
-            android:layout_marginBottom="@dimen/margin_10dp"
-            android:layout_marginRight="15dp"
-            android:padding="@dimen/margin_5dp"
-            android:layout_gravity="end"
-            android:gravity="end"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:text="View All"
-            android:textStyle="bold"
+            android:layout_gravity="end"
             android:layout_marginTop="@dimen/margin_20dp"
-            android:textColor="@color/colorPrimary"/>
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="@dimen/margin_10dp"
+            android:fontFamily="@font/proxima"
+            android:gravity="end"
+            android:padding="@dimen/margin_5dp"
+            android:text="View All"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
     </LinearLayout>
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

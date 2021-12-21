@@ -6,10 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
-import com.fidoo.user.ordermodule.model.Feedback
-import com.fidoo.user.ordermodule.model.MyOrdersModel
-import com.fidoo.user.ordermodule.model.ReviewModel
-import com.fidoo.user.ordermodule.model.UploadPresModel
+import com.fidoo.user.data.model.DeleteModel
+import com.fidoo.user.ordermodule.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -20,6 +18,8 @@ import retrofit2.Response
 class MyOrdersFragmentViewModel(application: Application) : AndroidViewModel(application),
     Callback<MyOrdersModel> {
 
+    var cancelOrderResponse: MutableLiveData<DeleteModel>? = null
+    var repeatOrderResponse: MutableLiveData<RepeatOrderModel>? = null
 
     var orderFeedback: MutableLiveData<Feedback>? = null
     var myOrdersResponse: MutableLiveData<MyOrdersModel>? = null
@@ -27,6 +27,9 @@ class MyOrdersFragmentViewModel(application: Application) : AndroidViewModel(app
     var uploadPrescriptionResponse: MutableLiveData<UploadPresModel>? = null
     var failureResponse: MutableLiveData<String>? = null
     init {
+        cancelOrderResponse = MutableLiveData<DeleteModel>()
+        repeatOrderResponse = MutableLiveData<RepeatOrderModel>()
+
         orderFeedback = MutableLiveData<Feedback>()
         failureResponse = MutableLiveData<String>()
         myOrdersResponse = MutableLiveData<MyOrdersModel>()
@@ -75,7 +78,7 @@ class MyOrdersFragmentViewModel(application: Application) : AndroidViewModel(app
         delivery_rating: String?,
         delivery_review: String?
     ) {
-
+        Log.e("reviewSubmitApi__","$accountId--$accessToken--$order_id--$store_rating--$store_review--$delivery_rating--$delivery_review")
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).reviewSubmitApi(
             accountId = accountId,
@@ -149,6 +152,44 @@ class MyOrdersFragmentViewModel(application: Application) : AndroidViewModel(app
     }
 
 
+    fun cancelOrderApi(accountId: String, accessToken: String, orderId: String) {
+
+        WebServiceClient.client.create(BackEndApi::class.java).cancelOrderApi(
+            accountId = accountId, accessToken = accessToken, order_id = orderId
+        )
+            .enqueue(object : Callback<com.fidoo.user.data.model.DeleteModel> {
+
+                override fun onResponse(call: Call<com.fidoo.user.data.model.DeleteModel>, response: Response<com.fidoo.user.data.model.DeleteModel>) {
+
+                    cancelOrderResponse?.value = response.body()
+
+                }
+
+                override fun onFailure(call: Call<com.fidoo.user.data.model.DeleteModel>, t: Throwable) {
+                    failureResponse?.value="Something went wrong"
+                }
+            })
+    }
+
+
+    fun repeatOrderApi(accountId: String, accessToken: String, orderId: String) {
+       Log.e("repeatorder_params","$accountId--$accessToken--$orderId")
+        WebServiceClient.client.create(BackEndApi::class.java).repeatOrderApi(
+            accountId = accountId, accessToken = accessToken, order_id = orderId
+        )
+            .enqueue(object : Callback<RepeatOrderModel> {
+
+                override fun onResponse(call: Call<RepeatOrderModel>, response: Response<RepeatOrderModel>) {
+
+                    repeatOrderResponse?.value = response.body()
+
+                }
+
+                override fun onFailure(call: Call<RepeatOrderModel>, t: Throwable) {
+                    failureResponse?.value="Something went wrong"
+                }
+            })
+    }
 
 
 }

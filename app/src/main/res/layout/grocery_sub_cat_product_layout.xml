@@ -6,28 +6,73 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentEnd="true"
+    android:layout_marginTop="@dimen/margin_10"
+    android:background="@color/backgroung_lay"
+
     android:orientation="vertical">
 
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/grocery_subHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:text="hello"
-        android:textSize="12sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/grocery_product_rv"
+    <LinearLayout
+        android:id="@+id/headerSubcatview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"/>
+        android:layout_height="wrap_content"
+        android:background="@color/backgroung_lay"
+        android:padding="@dimen/margin_10"
+        android:weightSum="10">
+
+        <TextView
+            android:id="@+id/grocery_subHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_weight="9"
+            android:fontFamily="@font/proxima"
+            android:paddingLeft="@dimen/margin_10"
+            android:text="hello"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_14sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/viewAllItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_weight="1"
+            android:padding="@dimen/dimen_5dp"
+            android:fontFamily="@font/proxima"
+            android:gravity="end"
+            android:paddingRight="@dimen/margin_10"
+            android:text="View all"
+            android:textColor="@color/primary_color"
+            android:textSize="@dimen/text_size_14sp"
+            android:visibility="visible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginLeft="@dimen/margin_15dp"
+            android:layout_marginBottom="@dimen/margin_30dp"
+            android:id="@+id/grocery_product_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen_5dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:spanCount="2" />
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>

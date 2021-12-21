@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/lightGray"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/itme_LL_viewAll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
+        android:background="@color/lightGray"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/margin_15dp"
+        android:paddingTop="@dimen/margin_15dp"
+        android:paddingRight="@dimen/margin_15dp"
+        android:paddingBottom="@dimen/margin_20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="@dimen/margin_15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/grocery_item_img_viewAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/default_item" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_20dp">
+
+                <LinearLayout
+                    android:id="@+id/medicine_prescription_lay_viewAll"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/corner_radius_green_label"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/prescriptionImg"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center"
+                        android:src="@drawable/prescription"
+                        android:visibility="visible"
+                        app:tint="@color/white" />
+
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_15dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/grocery_item_tv_viewAll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:fontFamily="@font/proxima"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="1"
+                android:paddingRight="@dimen/margin_20dp"
+                android:text="Banana"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/item_detail_lay_viewAll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/grocery_item_tv_viewAll"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_price_viewAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="price"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_12sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_unit_viewAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_20dp"
+                    android:layout_toRightOf="@+id/tv_price_viewAll"
+                    android:fontFamily="@font/proxima"
+                    android:text="0gm"
+                    android:textAllCaps="false"
+                    app:textAllCaps="false"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/text_size_12sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/stock_status_viewAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_box"
+                    android:backgroundTint="@color/lightGray"
+                    android:elevation="@dimen/margin_10"
+                    android:fontFamily="@font/proxima"
+                    android:padding="@dimen/text_size_7sp"
+                    android:text="Out of Stock"
+                    android:textColor="@color/primary_color"
+                    android:visibility="gone" />
+
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/discription_ofPrd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_detail_lay_viewAll"
+                android:layout_toLeftOf="@+id/additem"
+                android:fontFamily="@font/proxima"
+                android:paddingRight="@dimen/margin_20dp"
+                android:text="Banana"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_size_11sp" />
+
+            <LinearLayout
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/margin_20dp"
+                android:id="@+id/additem"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+
+                <LinearLayout
+                    android:id="@+id/add_itemll_viewAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_weight=".01"
+                    android:background="@drawable/black_rounded_solid"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="@dimen/margin_10"
+                        android:layout_height="@dimen/margin_12dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:src="@drawable/ic_add"
+                        app:tint="@color/colorPrimary" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_5dp"
+                        android:layout_marginEnd="@dimen/dimen_5dp"
+                        android:fontFamily="@font/proxima"
+                        android:padding="@dimen/margin_5dp"
+                        android:text="Add "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_12sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/minusplus_ll_viewAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="@dimen/margin_10dp"
+                    android:layout_weight=".01"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/subt_img_viewAll"
+                        android:layout_width="@dimen/margin_24dp"
+                        android:layout_height="@dimen/margin_24dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/margin_10dp"
+                        android:background="@drawable/active_dot"
+                        android:padding="@dimen/text_size_7sp"
+                        android:src="@drawable/minus_sign"
+                        app:tint="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/qua_txt_viewAll"
+                        android:layout_width="@dimen/margin_20dp"
+                        android:layout_height="@dimen/margin_20dp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/proxima"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                    <ImageView
+                        android:id="@+id/add_img_viewAll"
+                        android:layout_width="@dimen/margin_24dp"
+                        android:layout_height="@dimen/margin_24dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/dimen_5dp"
+                        android:background="@drawable/active_dot"
+                        android:padding="@dimen/text_size_7sp"
+                        android:src="@drawable/ic_add"
+                        app:tint="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/storeview_reviewOrd"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:background="@color/colorHint"
+        android:backgroundTint="@color/colorHint" />
+
+    <LinearLayout
+        android:id="@+id/spaceView_viewAll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_100dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/itme_LL" />
+
+
+</LinearLayout>

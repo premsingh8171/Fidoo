@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:innerRadius="@dimen/margin_40dp"
+    android:shape="rectangle">
+    <size
+        android:width="@dimen/margin_40dp"
+        android:height="@dimen/margin_20dp"/>
+    <corners
+        android:topLeftRadius="@dimen/dimen_60dp"
+        android:topRightRadius="@dimen/dimen_60dp"/>
+    <gradient
+        android:angle="270"
+        android:startColor = "@color/menu_1"
+        android:centerColor="@color/menu_2"
+        android:endColor = "@color/menu_3" />
+</shape>

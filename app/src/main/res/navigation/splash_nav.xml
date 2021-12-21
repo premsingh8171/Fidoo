@@ -7,18 +7,18 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.fidoo.user.ui.SplashFragment"
+        android:name="com.fidoo.user.fragments.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
-        <action
-            android:id="@+id/action_splashFragment_to_authFragment"
-            app:destination="@id/fragment_auth" />
+<!--        <action-->
+<!--            android:id="@+id/action_splashFragment_to_authFragment"-->
+<!--            app:destination="@id/fragment_auth" />-->
     </fragment>
 
-    <fragment
-        android:id="@+id/fragment_auth"
-        android:name="com.fidoo.user.ui.AuthFragment"
-        android:label="AuthFragment" />
+<!--    <fragment-->
+<!--        android:id="@+id/fragment_auth"-->
+<!--        android:name="com.fidoo.user.fragments.AuthFragment"-->
+<!--        android:label="AuthFragment" />-->
 
     
 </navigation>

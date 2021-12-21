@@ -24,7 +24,7 @@
         android:layout_width="128dp"
         android:layout_height="wrap_content"
         android:text="@string/lorem_ipsum_dolor"
-        android:fontFamily="@font/lato"
+       android:fontFamily="@font/proxima"
         android:layout_marginTop="5dp"
         android:layout_marginStart="2dp"
         android:textColor="@color/colorTitle"
@@ -55,6 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_1_2_km"
+            android:fontFamily="@font/proxima"
             android:textColor="@color/colorTextGray"
             android:textSize="12sp"
             android:layout_marginStart="2dp"
@@ -74,6 +75,7 @@
             android:contentDescription="@string/todo" />
 
         <TextView
+            android:fontFamily="@font/proxima"
             android:id="@+id/tv_min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

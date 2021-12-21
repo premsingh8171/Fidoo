@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
+import com.fidoo.user.activity.AuthActivity
+import com.fidoo.user.dashboard.model.HomeServicesModel
 import kotlinx.android.synthetic.main.service_adapter.view.*
 
-class ServiceAdapter(val con: Context, private val serviceList: MutableList<com.fidoo.user.data.model.HomeServicesModel.ServiceList>) : RecyclerView.Adapter<ServiceAdapter.UserViewHolder>() {
+class ServiceAdapter(val con: Context, private val serviceList: MutableList<HomeServicesModel.ServiceList>) : RecyclerView.Adapter<ServiceAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.service_adapter, parent, false)
@@ -40,7 +41,6 @@ class ServiceAdapter(val con: Context, private val serviceList: MutableList<com.
 
         }
 
-        //TODO
 //        holder.categoryLay.setOnClickListener {
 //
 //            if(serviceList[position].serviceName.equals("Send Packages")) {
@@ -77,7 +77,7 @@ class ServiceAdapter(val con: Context, private val serviceList: MutableList<com.
 
         //performing positive action
         builder.setPositiveButton("Login") { _, _ ->
-            con.startActivity(Intent(con, LoginActivity::class.java))
+            con.startActivity(Intent(con, AuthActivity::class.java))
 
 
         }

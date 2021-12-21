@@ -14,15 +14,15 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
+import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.grocery.model.getGroceryProducts.Product
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
-import com.fidoo.user.ui.MainActivity
+import com.fidoo.user.activity.MainActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 
@@ -52,6 +52,7 @@ class GroceryItemAdapter(
         holder.itemView.tv_price.text = context.resources.getString(R.string.ruppee) + " " + list[position].offer_price
         holder.itemView.tv_unit.text = list[position].weight +" "+ list[position].unit
         holder.itemView.minusplus_ll.visibility = View.GONE
+
         if (model.is_prescription == "1"){
             holder.itemView.medicine_prescription_lay.visibility = View.VISIBLE
         }else{
@@ -102,8 +103,8 @@ class GroceryItemAdapter(
 //        Glide.with(context)
 //            .load(model.image)
 //            .fitCenter()
-//            .placeholder(R.drawable.about_icon)
-//            .error(R.drawable.about_icon)
+//            .placeholder(R.drawable.default_item)
+//            .error(R.drawable.default_item)
 //            .into(holder.itemView.grocery_item_img)
 
 
@@ -133,8 +134,8 @@ class GroceryItemAdapter(
                     return false
                 }
             })
-            .placeholder(R.drawable.about_icon)
-            .error(R.drawable.about_icon).into(holder.itemView.grocery_item_img)
+            .placeholder(R.drawable.default_item)
+            .error(R.drawable.default_item).into(holder.itemView.grocery_item_img)
 
         if (list[position].in_out_of_stock_status == "1"){
             holder.itemView.stock_status.visibility = View.GONE
@@ -308,8 +309,8 @@ class GroceryItemAdapter(
 
         //performing positive action
         builder.setPositiveButton("Login") { _, _ ->
-            context.startActivity(Intent(context, LoginActivity::class.java))
-
+          //  context.startActivity(Intent(context, LoginActivity::class.java))
+            context.startActivity(Intent( context, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
 
         }
 

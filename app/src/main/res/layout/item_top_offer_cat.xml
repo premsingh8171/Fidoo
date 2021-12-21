@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dimen_5dp"
+    android:background="@color/lightGray">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/lightGray"
+        android:layout_marginBottom="@dimen/margin_20dp">
+
+        <androidx.cardview.widget.CardView
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/cardtopOfferView"
+            android:layout_width="@dimen/margin_150dp"
+            android:layout_height="106dp"
+            android:layout_margin="@dimen/margin_2dp"
+            android:background="@drawable/btn_bg_green"
+            android:elevation="0dp"
+            app:cardCornerRadius="@dimen/margin_15dp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/offer_catImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/default_item" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/offer_Fm_lable"
+                android:layout_width="@dimen/dimen_70dp"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_gravity="end|bottom"
+                android:background="@drawable/rectangle_shap"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/offer_discount_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/proxima"
+                    android:maxLines="2"
+                    android:paddingLeft="@dimen/margin_4dp"
+                    android:paddingTop="2dp"
+                    android:paddingRight="@dimen/margin_2dp"
+                    android:paddingBottom="2dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/margin_10" />
+            </FrameLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/itemNameTopOfferTxt"
+            android:layout_width="@dimen/margin_160dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:fontFamily="@font/proxima"
+            android:maxLines="1"
+            android:paddingTop="2dp"
+            android:paddingLeft="@dimen/dimen_5dp"
+            android:paddingRight="@dimen/dimen_5dp"
+            android:text="item name\nprem"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardtopOfferView" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:paddingLeft="@dimen/dimen_5dp"
+            android:id="@+id/topOfferTxtTime"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginTop="@dimen/dimen_5dp"
+            android:fontFamily="@font/proxima"
+            android:maxLines="1"
+            android:paddingBottom="2dp"
+            android:text="item name"
+            android:textColor="@color/colorTextGray"
+            android:textSize="@dimen/dimen_16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/itemNameTopOfferTxt" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,15 +6,15 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
+import com.fidoo.user.data.model.CartCountModel
 import com.fidoo.user.data.model.*
 import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SearchFragmentViewModel(application: Application) : AndroidViewModel(application), Callback<SearchModel> {
-
-
     var searchResponse : MutableLiveData<SearchModel>? = null
     var addToCartResponse: MutableLiveData<AddToCartModel>? = null
     var cartCountResponse: MutableLiveData<CartCountModel>? = null
@@ -34,10 +34,17 @@ class SearchFragmentViewModel(application: Application) : AndroidViewModel(appli
     }
 
 
-    fun getSearchApi(accountId: String, accessToken: String, search: String) {
-        Log.d("getSearchApi__",accountId+"\n"+accessToken+"\n"+search)
+    fun searchApiCall(accountId: String, accessToken: String, search: String,store_id:String) {
+        Log.d("getSearchApi__", "$accountId--$accessToken--$search--$store_id")
         WebServiceClient.client.create(BackEndApi::class.java).searchApi(
-                accountId = accountId, accessToken = accessToken, search = search
+                accountId = accountId, accessToken = accessToken, search = search,store_id=store_id
+        ).enqueue(this)
+    }
+
+    fun getSearchApi(accountId: String, accessToken: String, search: String,store_id:String) {
+        Log.d("getSearchApi__", "$accountId--$accessToken--$search--$store_id")
+        WebServiceClient.client.create(BackEndApi::class.java).searchApi(
+                accountId = accountId, accessToken = accessToken, search = search,store_id=""
         ).enqueue(this)
     }
 
@@ -95,37 +102,85 @@ class SearchFragmentViewModel(application: Application) : AndroidViewModel(appli
                 })
     }
 
-    fun addToCartApi(accountId: String, accessToken: String,products: ArrayList<AddCartInputModel>, cart_id: String) {
+    fun addToCartApi(accountId: String, accessToken: String, products: ArrayList<AddCartInputModel>, cart_id: String) {
+        var addCartInputModelList = ArrayList<AddCartInputModelFinal>()
+
         var addCartInputModelFinal = AddCartInputModelFinal()
         addCartInputModelFinal.accessToken = accessToken
         addCartInputModelFinal.accountId = accountId
         addCartInputModelFinal.products = ArrayList<Product>()
         addCartInputModelFinal.cart_id = cart_id
-        for (i in 0..products.size - 1) {
+        //  for (i in 0..products.size-1) {
+        try {
             var temp = Product(
-                    products.get(i).productId,
-                    products.get(i).customizeSubCatId,
-                    products.get(i).isCustomize,
-                    products.get(i).message,
-                    products.get(i).quantity)
-
+                products.get(0).productId,
+                products.get(0).customizeSubCatId,
+                products.get(0).isCustomize,
+                products.get(0).message,
+                products.get(0).quantity
+            )
             addCartInputModelFinal.products.add(temp)
+            Log.d("temptemp_v_",temp.productId+"=="+temp.quantity+"\n"+addCartInputModelFinal.accessToken+"\n"+cart_id)
+        }catch (e:Exception){
+            e.printStackTrace()
+            // Log.d("printStackTrace__", e.printStackTrace().toString())
+
         }
+        //  }
+        addCartInputModelList.add(addCartInputModelFinal)
+        Log.e("addCartFinal__", Gson().toJson(addCartInputModelFinal))
+
+        // Log.d("addCartInputModelList__",addCartInputModelList.size.toString())
 
         WebServiceClient.client.create(BackEndApi::class.java).addToCartApi(addCartInputModelFinal)
-                .enqueue(object : Callback<AddToCartModel> {
+            .enqueue(object : Callback<AddToCartModel> {
 
-                    override fun onResponse(call: Call<AddToCartModel>, response: Response<AddToCartModel>) {
+                override fun onResponse(
+                    call: Call<AddToCartModel>,
+                    response: Response<AddToCartModel>
+                ) {
+                    products.clear()
+                    addCartInputModelList.clear()
+                    addToCartResponse?.value = response.body()
+                }
 
-                        addToCartResponse?.value = response.body()
-
-                    }
-
-                    override fun onFailure(call: Call<AddToCartModel>, t: Throwable) {
-                        failureResponse?.value="Something went wrong"
-                    }
-                })
+                override fun onFailure(call: Call<AddToCartModel>, t: Throwable) {
+                    failureResponse?.value = "Something went wrong"
+                }
+            })
     }
+
+//    fun addToCartApi(accountId: String, accessToken: String,products: ArrayList<AddCartInputModel>, cart_id: String) {
+//        var addCartInputModelFinal = AddCartInputModelFinal()
+//        addCartInputModelFinal.accessToken = accessToken
+//        addCartInputModelFinal.accountId = accountId
+//        addCartInputModelFinal.products = ArrayList<Product>()
+//        addCartInputModelFinal.cart_id = cart_id
+//        for (i in 0..products.size - 1) {
+//            var temp = Product(
+//                    products.get(i).productId,
+//                    products.get(i).customizeSubCatId,
+//                    products.get(i).isCustomize,
+//                    products.get(i).message,
+//                    products.get(i).quantity)
+//
+//            addCartInputModelFinal.products.add(temp)
+//        }
+//
+//        WebServiceClient.client.create(BackEndApi::class.java).addToCartApi(addCartInputModelFinal)
+//                .enqueue(object : Callback<AddToCartModel> {
+//
+//                    override fun onResponse(call: Call<AddToCartModel>, response: Response<AddToCartModel>) {
+//
+//                        addToCartResponse?.value = response.body()
+//
+//                    }
+//
+//                    override fun onFailure(call: Call<AddToCartModel>, t: Throwable) {
+//                        failureResponse?.value="Something went wrong"
+//                    }
+//                })
+//    }
 
     fun addRemoveCartDetails(accountId: String, accessToken: String, product_id: String, addRemoveType: String, is_customize: String, product_customize_id: String, cart_id: String, customize_sub_cat_id: ArrayList<String>) {
 
@@ -171,9 +226,7 @@ class SearchFragmentViewModel(application: Application) : AndroidViewModel(appli
         }*/
 
     override fun onResponse(call: Call<SearchModel>?, response: Response<SearchModel>?) {
-
         searchResponse?.value = response?.body()
-
     }
 
     override fun onFailure(call: Call<SearchModel>?, t: Throwable?) {

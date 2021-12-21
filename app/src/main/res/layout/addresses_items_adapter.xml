@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainLay"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/mainLay"
     android:background="@null"
     android:orientation="vertical">
-
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/itemLay"
         android:layout_width="match_parent"
-        android:layout_marginRight="15dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:minHeight="110dp"
         android:layout_marginVertical="10dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="15dp"
         android:elevation="5dp"
+        android:minHeight="110dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp">
 
@@ -27,15 +26,15 @@
             android:layout_marginBottom="10dp">
 
             <ImageView
+                android:id="@+id/addressTypeIcon"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:id="@+id/addressTypeIcon"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="40dp"
                 android:src="@drawable/loc_icon"
-                app:tint="@color/colorPrimary"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="40dp"/>
+                app:tint="@color/colorPrimary" />
 
 
             <TextView
@@ -45,8 +44,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="45dp"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/proxima"
                 android:gravity="center"
-                android:fontFamily="@font/metropolisbold"
                 android:maxLines="2"
                 android:text="Home"
                 android:textColor="@android:color/black"
@@ -57,56 +56,56 @@
                 android:id="@+id/deleteIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/delete_icon"
-                android:padding="5dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginRight="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:fontFamily="@font/metropolis_regular"
+                android:padding="5dp"
+                android:src="@drawable/delete_icon"
+                android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginRight="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/locText"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toBottomOf="@+id/locText" />
 
 
             <ImageView
                 android:id="@+id/editIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/edit_icon"
-                android:padding="5dp"
                 android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/metropolis_regular"
                 android:layout_marginTop="5dp"
-                app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginRight="10dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:visibility="gone"/>
+                android:fontFamily="@font/metropolis_regular"
+                android:padding="5dp"
+                android:src="@drawable/edit_icon"
+                android:visibility="gone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <TextView
                 android:id="@+id/nameText"
                 android:layout_width="0dp"
-                android:fontFamily="@font/metropolis_regular"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="45dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/proxima"
                 android:gravity="center_vertical"
                 android:text=""
                 android:textColor="@color/colorPrimary"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/storeName" />
 
             <TextView
                 android:id="@+id/locText"
                 android:layout_width="0dp"
-                android:fontFamily="@font/metropolis_regular"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="45dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/proxima"
                 android:gravity="center_vertical"
                 android:text="Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016"
                 android:textColor="#80000000"
@@ -117,21 +116,20 @@
             <TextView
                 android:id="@+id/countryText"
                 android:layout_width="0dp"
-                android:visibility="gone"
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="45dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/proxima"
                 android:gravity="center_vertical"
                 android:maxLines="2"
-                android:fontFamily="@font/metropolis_regular"
                 android:text="India"
                 android:textColor="#80000000"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/locText" />
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

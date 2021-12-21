@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,38 +18,41 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:contentDescription="@string/todo"
+                android:rotation="180"
                 android:id="@+id/backIcon"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
+                android:layout_marginStart="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-
-                android:layout_marginLeft="10dp"
                 android:padding="5dp"
-                android:src="@drawable/back_arrow"
+                android:src="@drawable/ic_back_vector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/black" />
 
             <TextView
+                android:fontFamily="@font/proxima"
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
                 android:gravity="center"
-android:visibility="gone"
-                android:text="Prescription"
+                android:text="@string/prescription"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:fontFamily="@font/proxima"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016 "
+                android:text="@string/add_pre"
                 android:visibility="gone"
                 app:layout_constraintRight_toLeftOf="@+id/profileIcon"
                 app:layout_constraintTop_toBottomOf="@+id/text" />
@@ -60,10 +62,10 @@ android:visibility="gone"
             <ImageView
                 android:id="@+id/profileIcon"
                 android:layout_width="35dp"
-
+                android:contentDescription="@string/todo"
                 android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
                 android:padding="8dp"
                 android:src="@drawable/filter_icon"
                 android:visibility="gone"
@@ -72,11 +74,12 @@ android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:contentDescription="@string/todo"
                 android:id="@+id/cartIcon"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
                 android:padding="8dp"
                 android:src="@drawable/cart_icon"
                 android:visibility="gone"
@@ -100,32 +103,31 @@ android:visibility="gone"
         <com.jsibbold.zoomage.ZoomageView
             android:id="@+id/myZoomageView"
             android:layout_width="0dp"
-             android:layout_height="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintLeft_toLeftOf="parent"
 
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:zoomage_restrictBounds="false"
+            app:layout_constraintTop_toBottomOf="@+id/view"
             app:zoomage_animateOnReset="true"
-            app:zoomage_autoResetMode="UNDER"
             app:zoomage_autoCenter="false"
-            app:zoomage_zoomable="true"
-
-            app:zoomage_minScale="0.6"
+            app:zoomage_autoResetMode="UNDER"
             app:zoomage_maxScale="8"
-            />
+            app:zoomage_minScale="0.6"
+
+            app:zoomage_restrictBounds="false"
+            app:zoomage_zoomable="true" />
 
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/photo_view"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:visibility="gone"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
 
-            android:layout_width="0dp"
-            android:layout_height="0dp"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

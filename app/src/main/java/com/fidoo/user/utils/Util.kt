@@ -42,9 +42,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
-import com.fidoo.user.SplashActivity
+import com.fidoo.user.activity.AuthActivity
+import com.fidoo.user.activity.SplashActivity
 import java.io.File
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -266,7 +266,7 @@ fun Fragment.showAlertDialog(context: Context) {
         "OK"
     ) { dialog, which -> // MyActivity.this.finish();
        com.fidoo.user.data.session.SessionTwiclo(context).clearSession()
-        startActivity(Intent(activity, LoginActivity::class.java))
+        startActivity(Intent(activity, AuthActivity::class.java))
         ActivityCompat.finishAffinity(activity!!)
     }
     // customBuilder.setIcon(R.drawable.logo)

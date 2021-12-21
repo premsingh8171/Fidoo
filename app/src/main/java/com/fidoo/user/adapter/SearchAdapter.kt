@@ -8,8 +8,8 @@ import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
+import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.SearchModel
 import com.fidoo.user.data.model.TempProductListModel
@@ -17,8 +17,7 @@ import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterCartAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
-import com.fidoo.user.ui.MainActivity
-import com.fidoo.user.ui.SingleProductActivity
+import com.fidoo.user.activity.MainActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.store_sub_item_adapter.view.*
 
@@ -442,7 +441,7 @@ class SearchAdapter(
 
         //performing positive action
         builder.setPositiveButton("Login") { dialogInterface, which ->
-            con.startActivity(Intent(con, LoginActivity::class.java))
+            con.startActivity(Intent(con, AuthActivity::class.java))
 
 
         }

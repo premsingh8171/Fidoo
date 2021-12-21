@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/backgroung_lay"
+
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/dividerOfCatView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_10"
+        android:background="@color/colorGray"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/mainlist_daily"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/header_bgLL"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/mainHeaderDailyneddll"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_75dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:id="@+id/headerTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_15dp"
+                    android:layout_weight="9"
+                    android:fontFamily="@font/proxima"
+                    android:gravity="bottom"
+                    android:text="#"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:id="@+id/headerTxtViewAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_15dp"
+                    android:layout_marginRight="@dimen/margin_15dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/proxima"
+                    android:gravity="end"
+                    android:text="View all"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/text_size_14sp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/iceCream_subCat_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dailyNeed_Cat_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginBottom="@dimen/margin_40dp"
+                android:id="@+id/dailyNeed2_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="4" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/banner_with_marque_catll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/house_n_essentials_banner"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
+                android:touchscreenBlocksFocus="false"
+                android:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/house_n_essentials_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_40dp"
+                android:layout_marginBottom="@dimen/margin_30dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="4" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/itemHotspotSpaceBelow_ll"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_120dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@+id/shopItemClickll"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

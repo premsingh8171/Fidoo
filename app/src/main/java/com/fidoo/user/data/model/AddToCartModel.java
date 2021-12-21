@@ -23,4 +23,26 @@ public class AddToCartModel {
     @SerializedName("store_id")
     @Expose
     public String store_id;
+
+
+    @SerializedName("product_id")
+    @Expose
+    public String product_id;
+
+    @SerializedName("cart_id")
+    @Expose
+    public String cart_id;
+
+    @SerializedName("is_customize_quantity")
+    @Expose
+    public String is_customize_quantity;
+
+    @SerializedName("cart_quantity")
+    @Expose
+    public String cart_quantity;
+
+    @SerializedName("product_customize_id")
+    @Expose
+    public String product_customize_id;
+
 }

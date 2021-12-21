@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGray"
+        android:fitsSystemWindows="true"
+        tools:context=".views.home.HomeFragment">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@color/lightGray"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima"
+                        android:gravity="center"
+                        android:text="Review Items"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_bias=".1"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.512" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/visible_View_ReviewOrdLl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:id="@+id/Delivered_Itemsll"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/margin_2dp"
+                        android:background="@color/lightGray"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@+id/shop_and_add_ll">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/itemListRv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_10"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:layout_marginBottom="@dimen/margin_20dp"
+                            android:orientation="vertical"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+        <LinearLayout
+            android:id="@+id/payment_method_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/margin_15dp"
+            android:layout_marginBottom="@dimen/margin_15dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="@dimen/margin_10"
+            android:weightSum="10">
+
+
+            <LinearLayout
+                android:id="@+id/cancel_orderLl"
+                android:layout_width="@dimen/margin_120dp"
+                android:layout_height="@dimen/margin_45dp"
+                android:layout_marginLeft="@dimen/margin_15dp"
+                android:layout_marginRight="@dimen/margin_10"
+                android:layout_weight="5"
+                android:background="@drawable/rounded_border_black"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@+id/tv_pay_using"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_cash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/proxima"
+                    android:text="Cancel Order"
+                    android:textColor="@color/grey"
+                    app:layout_constraintStart_toEndOf="@id/img_cash" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/accept_orderLll"
+                android:layout_width="@dimen/margin_120dp"
+                android:layout_height="@dimen/margin_45dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_15dp"
+                android:layout_weight="5"
+                android:background="@drawable/black_rounded_solid"
+                android:backgroundTint="@color/colorGreenText"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@+id/cash_lay"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_online"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/proxima"
+                    android:text="Accept"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toEndOf="@id/tv_cash"
+                    app:layout_constraintTop_toBottomOf="@id/img_cash" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

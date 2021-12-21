@@ -12,24 +12,33 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
+import com.fidoo.user.activity.SplashActivity
+import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.adapter.ItemsAdapter
 import com.fidoo.user.ordermodule.model.OrderDetailsModel
 import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.ui.MainActivity
+import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
-import com.fidoo.user.utils.statusBarTransparent
-import com.fidoo.user.addressmodule.ViewPrescriptionActivity
+import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
+import com.fidoo.user.viewprescription.ViewPrescriptionActivity
 import com.google.gson.Gson
+import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.activity_order_details.backIcon
 import kotlinx.android.synthetic.main.activity_order_details.prescriptionLabel
 
+@Suppress("DEPRECATION")
 class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
 
     var viewmodel: OrderDetailsViewModel? = null
+    var viewmodelusertrack: UserTrackerViewModel? = null
     var mPresImg:String=""
     var items: MutableList<OrderDetailsModel.Item>? = null
+
+    private var mMixpanel: MixpanelAPI? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +47,14 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_order_details)
         viewmodel = ViewModelProviders.of(this).get(OrderDetailsViewModel::class.java)
+        viewmodelusertrack = ViewModelProviders.of(this).get(UserTrackerViewModel::class.java)
+
+        mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
         backIcon.setOnClickListener {
 
-
             if(intent.hasExtra("type")) {
-                startActivity(Intent(this,MainActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
                 finishAffinity()
             }
 
@@ -59,7 +70,8 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
 
         supportCall.setOnClickListener {
             val dialIntent = Intent(Intent.ACTION_DIAL)
-            dialIntent.data = Uri.parse("tel:" + 8047165887)
+          //  dialIntent.data = Uri.parse("tel:" + 8047165887)
+            dialIntent.data = Uri.parse("tel:" + 8047165893)
             startActivity(dialIntent)
 
             // Syrow API for chat Support
@@ -68,11 +80,10 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         }
 
 
-
-
         // Inflate the layout for this fragment
 
         viewmodel?.OrderDetailsResponse?.observe(this, { user ->
+            Log.e("orderDetails__",Gson().toJson(user))
             dismissIOSProgress()
             val mModelData: OrderDetailsModel = user
             items = mModelData.items
@@ -98,7 +109,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                 user.orderStatus.equals("3") -> {
 
                    // orderStatusValue.text = "Delivered"
-                    orderStatusValue.text = "Delivered to Delivery Address"
+                    orderStatusValue.text = "Delivered"
                 }
                 user.orderStatus.equals("5") -> {
                     //  holder.buttonValue.visibility = View.VISIBLE
@@ -157,7 +168,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             }
 
 
-            tv_order_id.text = "Order ID: " +mModelData.orderId
+            tv_order_id.text = "Order: #" +mModelData.orderId
             locText.text = mModelData.storeAddress
             orderOnValue.text = mModelData.dateTime
             //itemTotal.text = items?.get(0)?.price_with_customization
@@ -166,16 +177,25 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                 label_cart_discount.visibility = View.GONE
                 cart_discount.visibility = View.GONE
             }else{
-                cart_discount.text = mModelData.discount
-                label_cart_discount.text = "Cart Discount (" + mModelData.coupon_name +")"
+                cart_discount.text = "-" + resources.getString(R.string.ruppee) + "" + mModelData.discount
+                label_cart_discount.text = "Cart Discount (" + mModelData.coupon_name +" )"
             }
-
 
 
             val deliveryChargeWithTax = mModelData.deliveryCharge + mModelData.tax
             delivery_charge.text = resources.getString(R.string.ruppee) + "" + deliveryChargeWithTax
             delivery_coupon_label.text = "Delivery Discount (" +mModelData.delivery_coupon_name +")"
-            delivery_coupon.text = "-" +resources.getString(R.string.ruppee) + "" + mModelData.delivery_discount.toFloat()
+
+            if ( mModelData.delivery_discount.toFloat().toString().equals("0.0")){
+                label_delivery_charge.visibility=View.GONE
+                delivery_coupon.visibility=View.GONE
+            }else {
+                label_delivery_charge.visibility=View.VISIBLE
+                delivery_coupon.visibility=View.VISIBLE
+                delivery_coupon.text =
+                    "-" + resources.getString(R.string.ruppee) + "" + mModelData.delivery_discount.toFloat()
+            }
+
             grand_price.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
             sub_total.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
         })
@@ -183,12 +203,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
 
         viewmodel?.failureResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
-
             Log.e("cart response", Gson().toJson(user))
-            //showToast(user)
-
-
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
     }
 
@@ -196,7 +211,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         super.onBackPressed()
         if(intent.hasExtra("type"))
         {
-            startActivity(Intent(this,MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             finishAffinity()
         }
         else {
@@ -212,6 +227,10 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         viewmodel?.getOrderDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId")
+        )
+        viewmodelusertrack?.customerActivityLog(SessionTwiclo(this).loggedInUserDetail.accountId,
+            SessionTwiclo(this).mobileno,"OrderDetails Screen",
+            SplashActivity.appversion, StoreListActivity.serive_id_,SessionTwiclo(this).deviceToken
         )
     }
 

@@ -9,11 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
+import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.grocery.model.getGroceryProducts.Subcategory
-import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
 
 class GrocerySubItemAdapter(var context: Context,
@@ -105,7 +104,7 @@ var selectvalue:String?=""): RecyclerView.Adapter<GrocerySubItemAdapter.ViewHold
 
         //performing positive action
         builder.setPositiveButton("Login") { _, _ ->
-            context.startActivity(Intent(context, LoginActivity::class.java))
+            context.startActivity(Intent(context, AuthActivity::class.java))
 
 
         }

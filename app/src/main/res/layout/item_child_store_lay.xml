@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/categoryTypeConsLl"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_5dp"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/categoryImgTxtChild"
+            android:layout_width="@dimen/dimen_50dp"
+            android:layout_height="@dimen/dimen_50dp"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:background="@color/white"
+            android:scaleType="fitXY"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/RoundedSequare"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/vegOrNonVeg"
+            android:layout_width="@dimen/margin_20dp"
+            android:layout_height="@dimen/margin_20dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/veg"
+            app:layout_constraintStart_toEndOf="@+id/categoryImgTxtChild"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <TextView
+            android:id="@+id/categoryTypeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_15dp"
+            android:fontFamily="@font/proxima"
+            android:maxLines="1"
+            android:text="premprempremprempremprempremprempremprempremprempremprempremprem"
+            android:textColor="@color/colorTitle"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/vegOrNonVeg"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/productPriceTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginTop="@dimen/dimen_5dp"
+            android:fontFamily="@font/proxima"
+            android:maxLines="1"
+            android:text="price"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/vegOrNonVeg"
+            app:layout_constraintTop_toBottomOf="@+id/categoryTypeTxt" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

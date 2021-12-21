@@ -3,9 +3,12 @@ package com.fidoo.user.data.session;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.fidoo.user.data.SendResponse;
+import com.fidoo.user.data.model.LoginModel;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.fidoo.user.profile.EditProfileModel;
+import com.fidoo.user.profile.model.EditProfileModel;
 import com.fidoo.user.data.model.VerificationModel;
 
 import java.lang.reflect.Type;
@@ -25,7 +28,7 @@ public class SessionTwiclo {
 
         PRIVATE_MODE = 0;
         _context = context;
-        if(_context!=null) {
+        if (_context != null) {
             pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
             editor = pref.edit();
 
@@ -43,6 +46,7 @@ public class SessionTwiclo {
         editor.commit();
 
     }
+
     public String getUserAddress() {
         return pref.getString("user_address", "");
     }
@@ -72,6 +76,7 @@ public class SessionTwiclo {
         editor.commit();
 
     }
+
     public String getUserLng() {
         return pref.getString("user_lng", "");
     }
@@ -81,6 +86,7 @@ public class SessionTwiclo {
         editor.commit();
 
     }
+
     public String getDeviceToken() {
         return pref.getString("device_token", "");
     }
@@ -90,15 +96,24 @@ public class SessionTwiclo {
         editor.commit();
 
     }
+
+
     public String getStoreId() {
         return pref.getString("store_id", "");
     }
 
-
-    // Crash on pressing on search icon twice
-
     public void setStoreId(String store_id) {
         editor.putString("store_id", store_id);
+        editor.commit();
+
+    }
+
+    public String getServiceId() {
+        return pref.getString("service_id", "");
+    }
+
+    public void setServiceId(String service_id) {
+        editor.putString("service_id", service_id);
         editor.commit();
 
     }
@@ -118,12 +133,20 @@ public class SessionTwiclo {
         editor.commit();
     }
 
+    public void storeLoginDetail(LoginModel mModelCategory) {
+        Gson gson = new Gson();
+        String jsonFavorites = gson.toJson(mModelCategory);
+        editor.putString("store_login_details", jsonFavorites);
+        editor.commit();
+    }
+
     public void storeProfileDetail(EditProfileModel mModelCategory) {
         Gson gson = new Gson();
         String jsonFavorites = gson.toJson(mModelCategory);
         editor.putString("store_profile_details", jsonFavorites);
         editor.commit();
     }
+
     public void storeLoggedInUserDetail(VerificationModel mModelCategory) {
         Gson gson = new Gson();
         String jsonFavorites = gson.toJson(mModelCategory);
@@ -148,6 +171,8 @@ public class SessionTwiclo {
         }
         return favorites;
     }
+
+
     //   To retrieve sub category details
     public EditProfileModel getProfileDetail() {
         EditProfileModel favorites;
@@ -158,6 +183,24 @@ public class SessionTwiclo {
             Gson gson = new Gson();
 
             EditProfileModel favoriteItems = gson.fromJson(jsonFavorites, EditProfileModel.class);
+            favorites = favoriteItems;
+
+        } else {
+            return null;
+        }
+        return favorites;
+    }
+
+
+    public LoginModel getLoginDetail() {
+        LoginModel favorites;
+
+        if (pref.contains("store_login_details")) {
+
+            String jsonFavorites = pref.getString("store_login_details", null);
+            Gson gson = new Gson();
+
+            LoginModel favoriteItems = gson.fromJson(jsonFavorites, LoginModel.class);
             favorites = favoriteItems;
 
         } else {
@@ -183,6 +226,27 @@ public class SessionTwiclo {
 
     }
 
+    public String getMobileno() {
+        return pref.getString("mobile", "");
+    }
+
+    public void setMobileno(String mobile) {
+        editor.putString("mobile", mobile);
+        editor.commit();
+
+    }
+
+
+    public String getReferralId() {
+        return pref.getString("referral_Id", "");
+    }
+
+    public void setReferralId(String referral_Id) {
+        editor.putString("referral_Id", referral_Id);
+        editor.commit();
+
+    }
+
     //String
     public void saveRecentSearchArrayList(ArrayList<String> list, String key) {
         SharedPreferences.Editor editor = pref.edit();
@@ -199,4 +263,71 @@ public class SessionTwiclo {
         }.getType();
         return gson.fromJson(json, type);
     }
+
+
+    public String getStoreName() {
+        return pref.getString("store_name", "");
+    }
+
+    public void setStoreName(String store_name) {
+        editor.putString("store_name", store_name);
+        editor.commit();
+    }
+
+    public String getStoreImg() {
+        return pref.getString("store_img", "");
+    }
+
+    public void setStoreImg(String store_img) {
+        editor.putString("store_img", store_img);
+        editor.commit();
+    }
+
+    public String getOrderId() {
+        return pref.getString("order_Id", "");
+    }
+
+    public void setOrderId(String order_Id) {
+        editor.putString("order_Id", order_Id);
+        editor.commit();
+    }
+
+
+    //String
+    public void saveSendResponseList(ArrayList<SendResponse> list, String key) {
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor.putString(key, json);
+        editor.apply();
+    }
+
+    public ArrayList<String> getSendResponseList(String key) {
+        Gson gson = new Gson();
+        String json = pref.getString(key, null);
+        Type type = new TypeToken<ArrayList<SendResponse>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+
+
+
+    //for rider polyline
+    public void saveRiderLatLongArrayList(ArrayList<LatLng> list, String key) {
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor.putString(key, json);
+        editor.apply();
+    }
+
+    public ArrayList<LatLng> getRiderLatLongArrayList(String key) {
+        Gson gson = new Gson();
+        String json = pref.getString(key, null);
+        Type type = new TypeToken<ArrayList<LatLng>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
 }

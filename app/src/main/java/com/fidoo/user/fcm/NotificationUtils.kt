@@ -30,7 +30,6 @@ private val NOTIFICATION_ID = 0
 private val REQUEST_CODE = 0
 private val FLAGS = 0
 
-// TODO: Step 1.1 extension function to send messages (GIVEN)
 /**
  * Builds and delivers the notification.
  *
@@ -40,10 +39,8 @@ private val FLAGS = 0
 fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
 
 
-    // TODO: Step 1.11 create intent
     val contentIntent = Intent(applicationContext, OrderDetailsActivity::class.java)
 
-    // TODO: Step 1.12 create PendingIntent
     val contentPendingIntent = PendingIntent.getActivity(
         applicationContext,
         NOTIFICATION_ID,
@@ -51,49 +48,37 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         PendingIntent.FLAG_UPDATE_CURRENT
     )
 
-// TODO: Step 2.0 add style
     val eggImage = BitmapFactory.decodeResource(
         applicationContext.resources,
-        R.drawable.logo
+        R.drawable.fidoo_green
     )
     val bigPicStyle = NotificationCompat.BigPictureStyle()
         .bigPicture(eggImage)
         .bigLargeIcon(null)
 
 
-    // TODO: Step 2.2 add snooze action
-
-
-    // TODO: Step 1.2 get an instance of NotificationCompat.Builder
     // Build the notification
     val builder = NotificationCompat.Builder(
         applicationContext,"aa"
     )
-        // TODO: Step 1.3 set title, text and icon to builder
-        .setSmallIcon(R.drawable.logo)
+        .setSmallIcon(R.drawable.fidoo_small_icon)
         .setContentTitle(applicationContext.getString(R.string.app_name))
         .setContentText(messageBody)
-        // TODO: Step 1.13 set content intent
         .setContentIntent(contentPendingIntent)
-        // TODO: Step 2.1 add style to builder
         .setStyle(bigPicStyle)
         .setLargeIcon(eggImage)
-        // TODO: Step 2.3 add snooze action
         /* .addAction(
            R.drawable.egg_icon,
             applicationContext.getString(R.string.snooze),
             snoozePendingIntent
         )*/
-        // TODO: Step 2.5 set priority
+
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setAutoCancel(true)
-
-    // TODO Step 1.4 call notify
     // Deliver the notification
     notify(NOTIFICATION_ID, builder.build())
 }
 
-// TODO: Step 1.14 Cancel all notifications
 /**
  * Cancels all notifications.
  *

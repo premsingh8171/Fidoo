@@ -16,37 +16,59 @@ android {
 
     defaultConfig {
         applicationId "com.fidoo.user"
-        minSdkVersion 26
+        minSdkVersion 23
         targetSdkVersion 30
-        versionCode 16
-        versionName "1.0.14"
+        versionCode 47
+        versionName "1.0.34"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.incremental":"true"]
+                arguments = ["room.incremental": "true"]
             }
         }
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
+
         multiDexEnabled true
+        useLibrary 'org.apache.http.legacy'
+
     }
 
 //    configurations.all() {
 //        resolutionStrategy.force "org.antlr:antlr4-runtime:4.5.3"
 //        resolutionStrategy.force "org.antlr:antlr4-tool:4.5.3"
 //    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+
+    aaptOptions {
+        cruncherEnabled = false
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     androidExtensions {
         experimental = true
     }
-
-   /* buildTypes {
-        release {
-            debuggable false
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            //use for signed apk release
-            signingConfig signingConfigs.release
-        }
-    }*/
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -68,6 +90,7 @@ android {
     ext {
         kotlin_version = '1.3.50'
     }
+
     kapt {
         generateStubs = true
     }
@@ -85,27 +108,35 @@ android {
     }
 
     flavorDimensions "client"
+
     productFlavors {
         // use for live debug and release build
         live {
             dimension "client"
             buildConfigField("String", "BASE_URL", "\"https://fidoo.in/api/method/\"")
+            buildConfigField("String", "pay_key", "\"rzp_live_iceNLz5pb15jtP\"")
+            buildConfigField "boolean", "Debugging", 'true'
+
             //signingConfig signingConfigs.release
+            manifestPlaceholders = [pay_key: "rzp_live_iceNLz5pb15jtP"]
 
         }
         // use for quality debug and release build
-        Dev{
+        Dev {
             dimension "client"
             buildConfigField("String", "BASE_URL", "\"https://twiclo.com/api/method/\"")
+            buildConfigField("String", "pay_key", "\"rzp_test_17ihcfTIqBGF9R\"")
+            buildConfigField "boolean", "Debugging", 'true'
+            manifestPlaceholders = [pay_key: "rzp_test_17ihcfTIqBGF9R"]
         }
 
-
     }
+
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -116,21 +147,19 @@ dependencies {
     implementation 'com.google.android.gms:play-services-gcm:17.0.0'
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     implementation 'androidx.wear:wear:1.1.0'
-    implementation 'com.google.firebase:firebase-crashlytics:17.4.1'
-    implementation 'com.google.firebase:firebase-analytics:18.0.3'
+
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "androidx.preference:preference-ktx:1.1.1"
 
     implementation 'com.github.GoodieBag:Pinview:v1.4'
-
     def fragment_version = "1.3.3"
-
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
     implementation 'com.hbb20:ccp:2.4.0'
-    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.github.smarteist:autoimageslider:1.3.9-appcompat'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
@@ -142,6 +171,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-common:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation "android.arch.lifecycle:extensions:1.1.1"
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -165,8 +195,17 @@ dependencies {
     implementation 'com.github.Temidtech:AndroidOtpCustomViewmaster:1.0'
 
     //for fcm
-    implementation platform('com.google.firebase:firebase-bom:27.1.0')
-    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-crashlytics:17.4.1'
+    implementation 'com.google.firebase:firebase-analytics:18.0.3'
+    implementation 'com.google.firebase:firebase-dynamic-links:20.1.0'
+    implementation 'com.google.firebase:firebase-core:19.0.0'
+    implementation 'com.firebase:firebase-client-android:2.3.1'
+    implementation 'com.google.android.gms:play-services-base:17.6.0'
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx:20.1.0'
+
+    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+    implementation 'com.google.firebase:firebase-messaging:22.0.0 '
+    implementation 'com.google.firebase:firebase-analytics:19.0.0'
     implementation 'com.google.firebase:firebase-iid:21.1.0'
     implementation 'android.arch.work:work-runtime:1.0.1'
     implementation('com.github.ar-android:DrawRouteMaps:1.0.0')
@@ -174,8 +213,9 @@ dependencies {
                 exclude group: 'com.google.android.gms', module: 'play-services'
             }
     implementation 'com.github.sarweshkumar47:curve-fit:1.1.1'
-    implementation 'com.github.aabhasr1:OtpView:v1.1.2-ktx'
     implementation 'com.github.robinkrsingh:easylocation:0.1.0'
+
+    implementation 'com.github.aabhasr1:OtpView:v1.1.2-ktx'
 
     //Razorpay
     implementation 'com.razorpay:checkout:1.5.16'
@@ -190,6 +230,7 @@ dependencies {
     implementation 'com.github.mancj:MaterialSearchBar:0.8.1'
     implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    implementation 'com.github.premsingh8171:rippale_effect_lib:1.0.1'
 
     // Lifecycle components
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.5'
@@ -201,9 +242,9 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
 
 
-
     //For in-app updates
     implementation 'com.github.SanojPunchihewa:InAppUpdater:1.0.5'
+    implementation 'org.jsoup:jsoup:1.10.2'
 
     //rotation view
     implementation 'rongi.rotate-layout:rotate-layout:3.0.0'
@@ -213,7 +254,7 @@ dependencies {
     // For Auto Read OTP -- SMS Consent API Google
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
-
+    // implementation 'com.google.maps.android:android-maps-utils:0.5'
 
 
     def room_version = "2.2.5"
@@ -242,6 +283,23 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
 
     implementation 'com.facebook.android:facebook-android-sdk:8.2.0'
- //   def work_version = '2.5.0-SNAPSHOT'
- //   implementation "androidx.work:work-runtime:$work_version"
+
+    implementation 'com.google.android.play:core:1.10.0'
+    //   def work_version = '2.5.0-SNAPSHOT'
+    //   implementation "androidx.work:work-runtime:$work_version"
+    implementation "com.snap.appadskit:appadskit:1.0.0"
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+
+    implementation([
+            'com.snapchat.kit.sdk:creative:1.10.0',
+            'com.snapchat.kit.sdk:core:1.10.0'
+    ])
+
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.32"
+
+    //for httpclient
+    implementation 'org.apache.httpcomponents:httpcore:4.4.10'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.6'
+
+    implementation 'com.mixpanel.android:mixpanel-android:5.9.5'
 }

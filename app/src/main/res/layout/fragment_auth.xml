@@ -4,37 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:fitsSystemWindows="true">
 
+        <ImageView
+            android:contentDescription="@string/todo"
+            android:visibility="gone"
+            android:background="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/fidoo_text_logo"/>
 
-
-<!--    <RelativeLayout-->
-<!--        android:id="@+id/fidooTxtLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="300dp"-->
-<!--        android:background="@color/colorPrimary">-->
-
-
-<!--        <ImageView-->
-<!--            android:id="@+id/fidooSplashLogo"-->
-<!--            android:layout_width="200dp"-->
-<!--            android:layout_height="200dp"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:src="@drawable/fidoo_text_logo" />-->
-
-
-<!--    </RelativeLayout>-->
-
-
-
-
-
-        <androidx.fragment.app.FragmentContainerView
+        <fragment
             android:id="@+id/fragment3"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:defaultNavHost="true"
+            android:label="fragment_auth"
             app:navGraph="@navigation/signin_graph" />
 
 

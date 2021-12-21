@@ -15,6 +15,14 @@ public class BannerModel {
     @SerializedName("accessToken")
     @Expose
     public String accessToken;
+
+    @SerializedName("show_slider")
+    @Expose
+    public String show_slider;
+    @SerializedName("show_send_package")
+    @Expose
+    public String show_send_package;
+
     @SerializedName("banner")
     @Expose
     public List<String> banner = null;

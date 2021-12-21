@@ -35,7 +35,7 @@ class GroceryCategoryAdapter(
             notifyDataSetChanged()
         }
         if (index==position){
-            holder.itemView.cat_tv.setTextColor(Color.parseColor("#339347"))
+            holder.itemView.cat_tv.setTextColor(Color.parseColor("#a9a9a9"))
         }else{
             holder.itemView.cat_tv.setTextColor(Color.parseColor("#000000"))
         }

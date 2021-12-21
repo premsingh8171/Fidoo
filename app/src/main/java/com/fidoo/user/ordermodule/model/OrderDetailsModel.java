@@ -27,13 +27,24 @@ public class OrderDetailsModel {
     @SerializedName("order_status")
     @Expose
     public String orderStatus;
+    @SerializedName("allow_cancel")
+    @Expose
+    public String allow_cancel;
     @SerializedName("store_name")
     @Expose
     public String storeName;
 
+    @SerializedName("store_phone")
+    @Expose
+    public String store_phone;
+
     @SerializedName("delivery_boy_name")
     @Expose
     public String deliveryBoyName;
+
+    @SerializedName("delivery_boy_phone")
+    @Expose
+    public String delivery_boy_phone;
 
     @SerializedName("store_address")
     @Expose
@@ -100,6 +111,10 @@ public class OrderDetailsModel {
     @SerializedName("prescription")
     @Expose
     public String prescription;
+
+    @SerializedName("request_id")
+    @Expose
+    public String request_id;
 
     @SerializedName("items")
     @Expose

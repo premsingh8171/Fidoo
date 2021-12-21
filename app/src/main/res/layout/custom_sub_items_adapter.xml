@@ -34,8 +34,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="10dp"
-        android:fontFamily="@font/metropolis_regular"
         android:buttonTint="@android:color/black"
+        android:checked="false"
+        android:fontFamily="@font/proxima"
         android:gravity="center_vertical"
         android:layoutDirection="rtl"
         android:minHeight="35dp"
@@ -45,8 +46,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:checked="false"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="10dp"
-            android:fontFamily="@font/metropolis_regular"
+            android:fontFamily="@font/proxima"
             android:buttonTint="@android:color/black"
             android:gravity="center_vertical"
             android:layoutDirection="rtl"

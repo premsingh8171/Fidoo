@@ -2,16 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/margin_5dp"
-    android:layout_marginEnd="@dimen/margin_5dp"
-    android:layout_height="wrap_content">
+    android:id="@+id/parentLayout_const"
+    android:layout_marginEnd="@dimen/margin_5dp">
 
     <LinearLayout
-        android:background="@color/white"
         android:id="@+id/header_search_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_20dp"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:weightSum="10"
@@ -22,9 +23,9 @@
         app:layout_constraintVertical_bias="0.023">
 
         <androidx.cardview.widget.CardView
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:cardCornerRadius="@dimen/margin_10dp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -33,7 +34,7 @@
                 android:layout_height="@dimen/margin_100dp"
                 android:padding="@dimen/text_size_15sp"
                 android:scaleType="fitXY"
-                android:src="@drawable/about_icon" />
+                android:src="@drawable/default_item" />
 
         </androidx.cardview.widget.CardView>
 
@@ -44,23 +45,23 @@
             android:layout_weight="9">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:fontFamily="@font/metropolis_black"
-                android:textSize="@dimen/text_size_16sp"
-                android:textColor="@color/black"
                 android:id="@+id/store_item_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/metropolis_black"
                 android:maxLines="1"
                 android:padding="@dimen/text_size_15sp"
-                android:text="" />
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_16sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:visibility="gone"
                 android:id="@+id/tv_distance_ofStore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/store_item_tv"
-                android:text="100" />
+                android:text="100"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -77,22 +78,22 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:background="@color/lightGray"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_search_ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/lightGray"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_search_ll">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="@dimen/margin_10dp"
             android:id="@+id/search_products_rv"
-            android:orientation="horizontal"
-            app:spanCount="1"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="1" />
 
 
     </LinearLayout>

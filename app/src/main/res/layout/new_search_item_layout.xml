@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/categoryTypeConsLl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/categoryImgTxt"
+            android:layout_width="@dimen/dimen_60dp"
+            android:layout_height="@dimen/dimen_60dp"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:background="@color/white"
+            android:scaleType="fitXY"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/RoundedSequare"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/categoryTypeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:paddingRight="@dimen/ib_fr_space_20"
+            android:layout_marginRight="@dimen/margin_10"
+            android:maxLines="1"
+            android:layout_marginTop="@dimen/margin_15dp"
+            android:fontFamily="@font/proxima"
+            android:text=""
+            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/colorTitle"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/categoryImgTxt"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/productPriceTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginTop="@dimen/dimen_5dp"
+            android:fontFamily="@font/proxima"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="@color/primary_color"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toRightOf="@+id/categoryImgTxt"
+            app:layout_constraintTop_toBottomOf="@+id/categoryTypeTxt" />
+
+        <TextView
+            android:id="@+id/opening_timeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginTop="@dimen/dimen_5dp"
+            android:fontFamily="@font/proxima"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="@color/primary_color"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toRightOf="@+id/categoryImgTxt"
+            app:layout_constraintTop_toBottomOf="@+id/productPriceTxt" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_1dp"
+            android:layout_marginTop="@dimen/margin_15dp"
+            android:background="@color/background"
+            app:layout_constraintTop_toBottomOf="@+id/opening_timeTxt" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/progressRl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_100dp"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginBottom="@dimen/margin_20dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/categoryTypeConsLl">
+
+        <ProgressBar
+            android:layout_width="@dimen/margin_35dp"
+            android:layout_height="@dimen/margin_35dp"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/primary_color"
+            android:indeterminateTintMode="src_atop" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

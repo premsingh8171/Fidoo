@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/lato"
+                    android:fontFamily="@font/proxima"
                     android:text="Office"
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@+id/locationImage"
@@ -84,7 +84,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/lato"
+                    android:fontFamily="@font/proxima"
                     android:text="1204, Emaar the palm square, Sector 66, Gurgaon"
                     android:textSize="12sp"
                     app:layout_constraintStart_toEndOf="@+id/locationImage"
@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/lato"
+                    android:fontFamily="@font/proxima"
                     android:text="Change"
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -116,6 +116,7 @@
 
 
                 <com.google.android.material.button.MaterialButton
+                    android:fontFamily="@font/proxima"
                     android:id="@+id/btn_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -131,6 +132,7 @@
 
 
                 <com.google.android.material.button.MaterialButton
+                    android:fontFamily="@font/proxima"
                     android:id="@+id/btn_office"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -144,6 +146,7 @@
 
 
                 <com.google.android.material.button.MaterialButton
+                    android:fontFamily="@font/proxima"
                     android:id="@+id/btn_other"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

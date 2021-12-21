@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_margin="@dimen/margin_20dp"
+        android:elevation="@dimen/dimen_5dp"
+        android:layout_marginRight="@dimen/margin_20dp"
+        android:background="@drawable/circular_border"
+        android:backgroundTint="@color/white"
+        android:id="@+id/add_address_frmLL"
+        android:layout_width="@dimen/margin_40dp"
+        android:layout_height="@dimen/margin_40dp">
+
+
+        <ImageView
+            android:rotation="180"
+            android:background="@color/white"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_back_vector"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:tint="@color/black" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:visibility="gone"
+            android:id="@+id/linear_progress_indicator_map"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="@id/topLay" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_weight="5"
+            android:id="@+id/mapLayout"
+            android:layout_marginBottom="240dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                android:id="@+id/mapView2"
+                layout="@layout/content_map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressindicatorAdd"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/add_new_add_ll"
+        android:indeterminate="true" />
+
+    <LinearLayout
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/feedback_bg"
+        android:orientation="vertical"
+        android:id="@+id/add_new_add_ll"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+
+        <TextView
+            android:fontFamily="@font/proxima"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_10"
+            android:layout_margin="@dimen/dimen_5dp"
+            android:textColor="@color/black"
+            android:text="Select location"
+            android:textSize="@dimen/dimen_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/live_add"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+                        android:id="@+id/locationImage"
+                        android:layout_width="@dimen/margin_24dp"
+                        android:layout_height="@dimen/margin_24dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/location"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/tv_address_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/proxima"
+
+                        android:text="fff"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toEndOf="@+id/locationImage"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_marginTop="@dimen/dimen_5dp"
+                        android:padding="@dimen/dimen_5dp"
+                        android:textColor="@color/black"
+                        android:layout_marginEnd="@dimen/margin_70dp"
+                        android:id="@+id/tv_Address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_40dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/proxima"
+                        android:text=""
+                        android:textSize="12sp"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/locationImage"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_address_title" />
+
+                    <TextView
+                        android:layout_marginTop="@dimen/margin_15dp"
+                        android:id="@+id/change_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/proxima"
+                        android:text="Change"
+                        android:textColor="@color/colorPrimary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_address_title"
+                        android:visibility="visible" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <RadioGroup
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:paddingLeft="@dimen/margin_20dp"
+                        android:paddingRight="@dimen/margin_20dp"
+                        android:layout_marginRight="@dimen/margin_10"
+                        android:id="@+id/homeRadioBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:fontFamily="@font/proxima"
+
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_selector"
+                        android:button="@android:color/transparent"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="Home" />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:paddingLeft="@dimen/margin_20dp"
+                        android:paddingRight="@dimen/margin_20dp"
+                        android:id="@+id/officeRadioBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/proxima"
+
+                        android:background="@drawable/radio_selector"
+                        android:button="@android:color/transparent"
+                        android:gravity="center"
+                        android:text="Office" />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:paddingLeft="@dimen/margin_20dp"
+                        android:paddingRight="@dimen/margin_20dp"
+                        android:id="@+id/otherRadioBtn"
+                        android:layout_marginRight="@dimen/margin_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_selector"
+                        android:fontFamily="@font/proxima"
+                        android:button="@android:color/transparent"
+                        android:gravity="center"
+                        android:text="Other" />
+
+                </RadioGroup>
+
+
+                <CheckBox
+                    android:visibility="visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"
+                    android:id="@+id/defaultCheckBox"
+                    android:paddingHorizontal="5dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tl_landmark"
+                    android:text="Set as default address" />
+
+                <View
+                    android:visibility="gone"
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@color/colorGray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/live_add" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:id="@+id/tl_address"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusBottomStart="15dp"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:boxCornerRadiusTopStart="15dp"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    android:importantForAutofill="no"
+                    app:hintTextColor="@color/colorHint"
+                    app:boxStrokeColor="@color/backGround_et"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tl_phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="no"
+                        android:textColor="@color/black"
+                        android:id="@+id/ed_address"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/proxima"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="@string/house_flat_block"
+                        android:inputType="text|textNoSuggestions" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_landmark"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusBottomStart="15dp"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:boxCornerRadiusTopStart="15dp"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    app:boxStrokeColor="@color/backGround_et"
+                    app:hintTextColor="@color/colorHint"
+                    android:importantForAutofill="no"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tl_phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:textColor="@color/black"
+                        android:id="@+id/ed_landmark"
+                        android:textSize="12sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:fontFamily="@font/proxima"
+                        android:hint="@string/landmark"
+                        android:importantForAutofill="no"
+                        android:inputType="text|textNoSuggestions" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:fontFamily="@font/proxima"
+                    android:textSize="12sp"
+                    android:id="@+id/contact_name_txt"
+                    android:layout_gravity="center"
+                    android:textColorHint="@color/primary_color"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:drawablePadding="@dimen/dimen_5dp"
+                    android:drawableLeft="@drawable/ic_call"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/primary_color"
+                    android:layout_height="25dp"
+                    android:text="Add contact no." />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_marginBottom="@dimen/margin_20dp"
+                    android:id="@+id/btn_continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_marginEnd="30dp"
+                    android:padding="15dp"
+                    android:fontFamily="@font/proxima"
+                    android:text="@string/confirm_proceed"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:cornerRadius="25dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/defaultCheckBox" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/contact_add_ll"
+        android:visibility="gone"
+        android:background="@drawable/feedback_bg"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="280dp">
+
+        <TextView
+            android:layout_margin="@dimen/dimen_5dp"
+            android:padding="@dimen/margin_10"
+            android:textColor="@color/black"
+            android:text="Add contact details"
+            android:textSize="@dimen/dimen_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_phone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            android:importantForAutofill="no"
+            app:hintTextColor="@color/colorHint"
+            app:boxStrokeColor="@color/backGround_et"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_phone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:textColor="@color/black"
+                android:hint="Contact number"
+                android:textSize="12sp"
+                android:id="@+id/ed_phone"
+                android:digits="0123456789"
+                android:maxLength="10"
+                android:importantForAutofill="no"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="phone" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            android:importantForAutofill="no"
+            app:hintTextColor="@color/colorHint"
+            app:boxStrokeColor="@color/backGround_et"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_phone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:textColor="@color/black"
+                android:hint="Contact Name"
+                android:textSize="12sp"
+                android:id="@+id/ed_name"
+                android:importantForAutofill="no"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="text|textNoSuggestions" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginBottom="@dimen/margin_20dp"
+            android:id="@+id/add_contactBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:padding="15dp"
+            android:text="Add Contact"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/colorPrimary"
+            app:cornerRadius="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/defaultCheckBox" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

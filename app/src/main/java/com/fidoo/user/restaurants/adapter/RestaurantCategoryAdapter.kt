@@ -15,42 +15,47 @@ import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.grocery_sub_tv
 
 class RestaurantCategoryAdapter(
-    var context: Context,
-    var list:ArrayList<StoreDetailsModel.Category>,
-    var active_or_not:Int=-1,
-    var categoryItemClick:CategoryItemClick): RecyclerView.Adapter<RestaurantCategoryAdapter.ViewHolder>() {
-    var index:Int=-1
+	var context: Context,
+	var list: ArrayList<StoreDetailsModel.Category>,
+	var active_or_not: Int = -1,
+	var categoryItemClick: CategoryItemClick
+) : RecyclerView.Adapter<RestaurantCategoryAdapter.ViewHolder>() {
+	var index: Int = -1
 
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    }
+	inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {}
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.grocery_cat_item_layout, parent, false))
-    }
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+		return ViewHolder(
+			LayoutInflater.from(context).inflate(R.layout.grocery_cat_item_layout, parent, false)
+		)
+	}
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.cat_tv.text = list.get(position).catName
-        holder.itemView.category_constL.setOnClickListener {
-         //   index=position
-            active_or_not=position
-            categoryItemClick.onItemClick(position,list.get(position))
-            notifyDataSetChanged()
-        }
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+		holder.itemView.cat_tv.text = list.get(position).catName
+		holder.itemView.countTxt.text = "( "+list[position].product.size.toString()+" )";
+		holder.itemView.category_constL.setOnClickListener {
+			//   index=position
+			active_or_not = position
+			categoryItemClick.onItemClick(position, list.get(position))
+			notifyDataSetChanged()
+		}
 
-        if (active_or_not==position){
-            holder.itemView.cat_tv.setTextColor(Color.parseColor("#339347"))
-        }else{
-            holder.itemView.cat_tv.setTextColor(Color.parseColor("#000000"))
-        }
-    }
+		if (active_or_not == position) {
+			holder.itemView.cat_tv.setTextColor(Color.parseColor("#339347"))
+			holder.itemView.countTxt.setTextColor(Color.parseColor("#339347"))
+		} else {
+			holder.itemView.cat_tv.setTextColor(Color.parseColor("#000000"))
+			holder.itemView.countTxt.setTextColor(Color.parseColor("#000000"))
+		}
+	}
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
+	override fun getItemCount(): Int {
+		return list.size
+	}
 
-    interface CategoryItemClick {
-        fun onItemClick(pos: Int,category:StoreDetailsModel.Category)
-    }
+	interface CategoryItemClick {
+		fun onItemClick(pos: Int, category: StoreDetailsModel.Category)
+	}
 
 }

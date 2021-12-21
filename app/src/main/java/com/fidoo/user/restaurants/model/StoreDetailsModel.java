@@ -99,12 +99,22 @@ public class StoreDetailsModel {
     }
 
     public class Product {
+        @SerializedName("product_sub_category_id")
+        @Expose
+        public String product_sub_category_id;
+
+        @SerializedName("subcategory_name")
+        @Expose
+        public String subcategory_name;
+
         @SerializedName("product_id")
         @Expose
         public String productId;
+
         @SerializedName("product_name")
         @Expose
         public String productName;
+
         @SerializedName("company_name")
         @Expose
         public String companyName;
@@ -126,6 +136,9 @@ public class StoreDetailsModel {
         @SerializedName("is_nonveg")
         @Expose
         public String isNonveg;
+        @SerializedName("contains_egg")
+        @Expose
+        public String contains_egg;
         @SerializedName("is_customize")
         @Expose
         public String isCustomize;
@@ -147,6 +160,10 @@ public class StoreDetailsModel {
         @SerializedName("in_out_of_stock_status")
         @Expose
         public String in_out_of_stock_status;
+
+        @SerializedName("product_desc")
+        @Expose
+        public String product_desc;
 
         @SerializedName("customize_item")
         @Expose

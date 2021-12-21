@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/backgroung_lay"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:visibility="gone"
+        android:background="@color/lightGray"
+        android:orientation="vertical"
+        android:id="@+id/no_internet_Ll"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginBottom="-50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/no_internet" />
+
+            <TextView
+                android:fontFamily="@font/proxima"
+                android:gravity="center"
+                android:textSize="@dimen/margin_14dp"
+                android:textColor="@color/black"
+                android:text="No Internet Connection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:fontFamily="@font/proxima"
+                android:lineSpacingExtra="@dimen/margin_2dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:paddingLeft="60dp"
+                android:paddingRight="60dp"
+                android:gravity="center"
+                android:textSize="@dimen/margin_12dp"
+                android:textColor="@color/colorTextGray"
+                android:text="Please check your internet connectivity and try again..."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:fontFamily="@font/proxima"
+                android:id="@+id/retry_onRefresh"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/margin_15dp"
+                android:lineSpacingExtra="@dimen/margin_2dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:paddingLeft="60dp"
+                android:paddingRight="60dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="@dimen/margin_12dp"
+                android:textColor="@color/primary_color"
+                android:text="Retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

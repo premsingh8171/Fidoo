@@ -2,20 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/dismisspopUp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center">
 
     <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_120dp"
         android:layout_marginBottom="140dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:orientation="vertical"
-        android:layout_marginLeft="@dimen/margin_20dp"
         android:layout_marginRight="@dimen/margin_20dp"
         android:id="@+id/layout_catPopup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:backgroundTint="@color/white"
         android:background="@drawable/round_box">
 
@@ -25,11 +24,13 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:layout_marginBottom="@dimen/dimen_5dp"
+                android:fontFamily="@font/proxima"
                 android:padding="@dimen/margin_2dp"
                 android:textSize="@dimen/text_size_14sp"
                 android:id="@+id/viewAll_txt"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="18dp"
                 android:layout_width="@dimen/margin_120dp"
                 android:layout_height="wrap_content"
                 android:text="All"
@@ -37,9 +38,10 @@
                 android:textColor="@color/colorPrimary"/>
 
             <ImageView
+                android:contentDescription="@string/todo"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_gravity="center_vertical"
-                android:id="@+id/dismisspopUp"
                 android:padding="@dimen/dimen_5dp"
                 android:layout_marginRight="@dimen/dimen_5dp"
                 android:gravity="end"
@@ -52,25 +54,26 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_marginTop="@dimen/margin_5dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@+id/txtError">
+<!--        <LinearLayout-->
+<!--            android:layout_marginTop="@dimen/margin_5dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_below="@+id/txtError">-->
 
             <androidx.recyclerview.widget.RecyclerView
                 app:spanCount="1"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:id="@+id/catRecyclerview"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/margin_200dp"
                 android:layout_height="match_parent">
 
             </androidx.recyclerview.widget.RecyclerView>
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
         <TextView
+            android:fontFamily="@font/proxima"
             android:visibility="gone"
             android:layout_marginBottom="@dimen/margin_10dp"
             android:layout_marginRight="15dp"

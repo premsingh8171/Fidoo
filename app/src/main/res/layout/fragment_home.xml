@@ -6,21 +6,21 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment"
-        android:background="#FBFBFB">
+        android:background="@color/colorGray"
+        tools:context=".fragments.home.HomeFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/topLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/white"
+            android:background="@color/lightGray"
+            android:elevation="10dp"
+            android:outlineSpotShadowColor="@color/white"
             android:paddingTop="10dp"
             android:paddingBottom="15dp"
-            android:elevation="10dp"
-            android:outlineSpotShadowColor="@color/white">
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/address_lay"
@@ -33,12 +33,11 @@
 
                 <ImageView
                     android:id="@+id/routeIcon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
-                    android:padding="3dp"
-                    android:src="@drawable/loc_icon"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:src="@drawable/location"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="#339347" />
@@ -53,39 +52,49 @@
                     android:text="You are in"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     app:layout_constraintLeft_toRightOf="@+id/routeIcon"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrow_downward"
+                    app:layout_constraintBottom_toBottomOf="@+id/text"
+                    app:layout_constraintLeft_toRightOf="@+id/text"
+                    app:layout_constraintTop_toTopOf="@+id/text"
+                    app:tint="@color/black" />
+
                 <TextView
-                    android:layout_marginEnd="@dimen/margin_12dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:maxLines="1"
                     android:id="@+id/userAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="@dimen/margin_12dp"
                     android:fontFamily="@font/proxima"
+                    android:maxLines="1"
                     android:singleLine="true"
                     android:text="Select your location"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/cart_icon_color"
                     android:textSize="@dimen/text_size_14sp"
                     app:layout_constraintLeft_toRightOf="@+id/routeIcon"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text" />
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/dotted_"
-                    android:maxLines="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima"
+                    android:maxLines="1"
                     android:singleLine="true"
                     android:text="..."
-                    app:layout_constraintRight_toRightOf="parent"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/text_size_14sp"
+                    android:visibility="gone"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -93,27 +102,31 @@
                 android:id="@+id/cartIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginTop="@dimen/margin_10"
                 android:layout_marginRight="15dp"
                 android:padding="5dp"
                 android:src="@drawable/ic_cart"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/profileIconn"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/colorHint"/>
+                app:tint="@color/black" />
 
             <TextView
                 android:id="@+id/cartCountTxt"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginTop="-10dp"
-                android:layout_marginRight="@dimen/margin_10"
+                android:layout_width="@dimen/margin_20dp"
+                android:layout_height="@dimen/margin_20dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
                 android:background="@drawable/badge_bg"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:maxLength="2"
+                android:text="0"
+                android:textColor="@android:color/white"
                 android:textSize="9sp"
-                android:visibility="visible"
-                app:layout_constraintRight_toLeftOf="@+id/profileIconn"
-                app:layout_constraintTop_toTopOf="@+id/cartIcon" />
+                android:visibility="gone"
+                app:layout_constraintHorizontal_bias="1.2"
+                app:layout_constraintLeft_toLeftOf="@+id/cartIcon"
+                app:layout_constraintRight_toRightOf="@+id/cartIcon"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/profileIconn"
@@ -123,10 +136,10 @@
                 android:layout_marginRight="15dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/profile_icon"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -137,327 +150,462 @@
             android:layout_height="1dp"
             android:layout_marginTop="5dp"
             android:background="#70000000"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topLay"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/topLay" />
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="0dp"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/deshbordRefresh"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view">
+            app:layout_constraintTop_toBottomOf="@+id/topLay">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/main_view_NestedS"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="15dp"
-                    app:cardCornerRadius="8dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.smarteist.autoimageslider.SliderView
-                        android:visibility="gone"
-                        android:id="@+id/sliderView"
-                        android:layout_width="match_parent"
-                        android:layout_height="170dp"
-                        app:sliderAnimationDuration="600"
-                        app:sliderIndicatorAnimationDuration="600"
-                        app:sliderIndicatorGravity="center_horizontal|bottom"
-                        app:sliderIndicatorMargin="5dp"
-                        app:sliderIndicatorOrientation="horizontal"
-                        app:sliderIndicatorPadding="5dp"
-                        app:sliderIndicatorRadius="1dp"
-                        app:sliderIndicatorSelectedColor="@color/white"
-                        app:sliderIndicatorUnselectedColor="@color/white"
-                        app:sliderScrollTimeInSec="1"
-                        app:sliderStartAutoCycle="true" />
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:touchscreenBlocksFocus="false"
-                        android:id="@+id/viewPagerBanner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    </androidx.viewpager.widget.ViewPager>
-
-                </androidx.cardview.widget.CardView>
-
-                <com.google.android.material.tabs.TabLayout
-                    android:layout_marginTop="@dimen/margin_10"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView"
-                    android:id="@+id/tabDotsHome"
-                    android:backgroundTint="#FBFBFB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/margin_15dp"
-                    android:layout_gravity="center|bottom"
-                    app:tabPaddingStart="7dp"
-                    app:tabPaddingEnd="7dp"
-                    android:visibility="visible"
-                    app:tabBackground="@drawable/tab_selector"
-                    app:tabIndicatorHeight="0dp" />
-
-                <LinearLayout
-                    android:focusable="false"
-                    android:clickable="false"
-                    android:id="@+id/home_question_lay"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    app:layout_constraintTop_toBottomOf="@id/tabDotsHome"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="@dimen/margin_10">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="What you want to order today?"
-                        android:layout_gravity="center_vertical"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/proxima"/>
-
-                    <ImageView
-                        android:visibility="gone"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="100dp"
-                        android:baselineAlignBottom="false"
-                        android:src="@drawable/arrow_forward" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/categoryRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="260dp"
-                    android:layout_marginTop="@dimen/margin_10dp"
-                    android:layout_marginStart="9dp"
-                    android:clipChildren="true"
-                    android:overScrollMode="never"
-                    app:layout_constraintTop_toBottomOf="@id/home_question_lay"
-                    app:layoutManager="com.fidoo.user.utils.CardSliderLayoutManager"
-                    app:viewUpdater="com.fidoo.user.adapter.CardsUpdater">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="@dimen/margin_10dp"
-                    android:layout_width="match_parent"
-                    app:spanCount="4"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/categorySmallRecyclerview"
-                    app:layout_constraintTop_toBottomOf="@id/categoryRecyclerView"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    app:layout_constraintRight_toRightOf="parent" />
-
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/categoriesRecyclerView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="5dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/categorySmallRecyclerview"
-                    android:visibility="gone"/>
+                android:layout_height="match_parent"
+                android:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_marginTop="@dimen/margin_20dp"
-                    android:id="@+id/standalone_section"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    app:layout_constraintTop_toBottomOf="@+id/categoriesRecyclerView"
-                    android:background="#2B2B94"
-                    android:padding="30dp">
+                    android:layout_height="wrap_content">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
+                        android:id="@+id/bannerLL"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/lightGray"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/viewPagerBanner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_20dp"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:paddingLeft="7dp"
+                            android:paddingRight="@dimen/dimen_50dp"
+                            android:touchscreenBlocksFocus="false"
+                            android:visibility="visible"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        </androidx.viewpager.widget.ViewPager>
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/tabDotsHome"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/margin_15dp"
+                            android:layout_gravity="center|bottom"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:layout_marginBottom="@dimen/margin_20dp"
+                            android:backgroundTint="@color/lightGray"
+                            android:visibility="visible"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/viewPagerBanner"
+                            app:tabBackground="@drawable/tab_selector"
+                            app:tabIndicatorHeight="0dp"
+                            app:tabPaddingEnd="7dp"
+                            app:tabPaddingStart="7dp" />
+
+                    </LinearLayout>
+
+                    <!--start category view-->
+                    <LinearLayout
+                        android:id="@+id/categoriesViewLL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:background="@color/lightGray"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/bannerLL">
+
+                        <LinearLayout
+                            android:id="@+id/home_question_lay"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="@dimen/margin_20dp"
+                            android:clickable="false"
+                            android:focusable="false">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/proxima"
+                                android:text="What you want to order today?"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="100dp"
+                                android:baselineAlignBottom="false"
+                                android:src="@drawable/arrow_forward"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/categoryRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="260dp"
+                            android:layout_marginStart="9dp"
+                            android:layout_marginTop="@dimen/margin_10dp"
+                            android:clipChildren="true"
+                            android:overScrollMode="never"
+                            android:visibility="gone"
+                            app:layoutManager="com.fidoo.user.utils.CardSliderLayoutManager"
+                            app:layout_constraintTop_toBottomOf="@id/home_question_lay"
+                            app:viewUpdater="com.fidoo.user.adapter.CardsUpdater">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                        <LinearLayout
+                            android:id="@+id/categorySmallRecyclerview1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/margin_10"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:layout_marginBottom="@dimen/margin_30dp"
+                            android:gravity="center">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:layout_gravity="center"
+                                android:id="@+id/categorySmallRecyclerview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/categoryRecyclerView"
+                                app:spanCount="4" />
+                        </LinearLayout>
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/categoriesRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="5dp"
+                            android:visibility="gone"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/categorySmallRecyclerview1" />
+                    </LinearLayout>
+                    <!--end category view-->
+
+                    <!--start send packags view-->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/standalone_section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:background="@color/lightGray"
+                        android:visibility="visible"
+                        app:layout_constraintTop_toBottomOf="@+id/categoriesViewLL">
+
+                        <LinearLayout
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginRight="@dimen/margin_20dp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/btn_delivery"
+                                android:elevation="0dp"
+                                app:cardCornerRadius="@dimen/margin_15dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:layout_marginTop="@dimen/margin_30dp"
+                                android:layout_marginBottom="@dimen/margin_30dp"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:layout_width="match_parent"
+                                android:layout_height="180dp">
+                                <ImageView
+                                    android:scaleType="fitXY"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/pickup_"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent" />
+
+                            </androidx.cardview.widget.CardView>
+
+                        </LinearLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginTop="@dimen/margin_30dp"
+                            android:layout_marginRight="@dimen/margin_20dp"
+                            android:layout_marginBottom="@dimen/margin_30dp"
+                            android:background="@drawable/corner_radius"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintCircleRadius="30dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+
+                            <TextView
+                                android:id="@+id/tv_pickup_drop"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="40dp"
+                                android:fontFamily="@font/proxima"
+                                android:text="Pickup and Drop"
+                                android:textColor="@color/white"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_leave_delivery_hassel"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/proxima"
+                                android:lineSpacingExtra="@dimen/dimen_5dp"
+                                android:text="Leave your parcel delivery hassel to us!"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_size_14sp"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_pickup_drop" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/margin_35dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/corner_radius_button"
+                                android:backgroundTint="#2B2B94"
+                                android:fontFamily="@font/proxima"
+                                android:paddingLeft="@dimen/margin_10"
+                                android:paddingRight="@dimen/margin_10"
+                                android:text="Pickup now"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_size_12sp"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_leave_delivery_hassel" />
+
+                            <LinearLayout
+                                android:layout_marginRight="-1dp"
+                                android:layout_marginTop="@dimen/margin_10"
+                                android:layout_marginBottom="@dimen/margin_10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintRight_toRightOf="parent">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/drop"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent" />
+
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <!--end send packags view-->
+
+                    <!--start fidoo bottom view-->
+                    <LinearLayout
+                        android:id="@+id/delivery_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:background="@color/lightGray"
+                        android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        android:background="@drawable/corner_radius"
-                        app:layout_constraintCircleRadius="30dp">
+                        app:layout_constraintTop_toBottomOf="@id/standalone_section">
 
-
-                        <TextView
-                            android:id="@+id/tv_pickup_drop"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Pickup and Drop"
-                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginTop="15dp"
+                            android:orientation="vertical"
                             app:layout_constraintLeft_toLeftOf="parent"
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/proxima"
-                            android:textSize="20sp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="40dp"/>
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/delivery_lay">
 
-                        <TextView
-                            android:id="@+id/tv_leave_delivery_hassel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Leave the delivery hassel to us"
-                            app:layout_constraintTop_toBottomOf="@id/tv_pickup_drop"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            android:fontFamily="@font/proxima"
-                            android:textColor="@color/white"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="10dp"/>
+                            <ImageView
+                                android:id="@+id/tv_quick_delivery"
+                                android:layout_width="105dp"
+                                android:layout_height="@dimen/margin_20dp"
+                                android:layout_gravity="start"
+                                android:layout_marginLeft="@dimen/margin_20dp"
+                                android:layout_marginTop="@dimen/margin_20dp"
+                                android:src="@drawable/fidoo_ico"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/delivery_lay" />
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:paddingBottom="@dimen/margin_12dp"
-                            android:id="@+id/btn_delivery"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:background="@drawable/corner_radius_button"
-                            android:fontFamily="@font/proxima"
-                            android:text="pickup"
-                            android:textColor="@color/white"
-                            android:layout_marginStart="20dp"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            android:backgroundTint="#2B2B94"
-                            app:layout_constraintTop_toBottomOf="@id/tv_leave_delivery_hassel" />
+                            <TextView
+                                android:id="@+id/tv_doorstep"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="@dimen/dimen_5dp"
+                                android:fontFamily="@font/proxima"
+                                android:text="for anything or everything"
+                                android:textColor="@color/black"
+                                android:textSize="20sp"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_quick_delivery" />
+
+                            <TextView
+                                android:id="@+id/tv_main_content"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="@dimen/margin_10"
+                                android:fontFamily="@font/proxima"
+                                android:text="Need more reasons?"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_size_14sp"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_doorstep" />
+
+                        </LinearLayout>
 
                         <ImageView
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/drop"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/margin_100dp"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginTop="@dimen/margin_20dp"
+                            android:layout_marginRight="@dimen/margin_20dp"
+                            android:src="@drawable/fidoo_5"
+                            app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintDimensionRatio="1:1"/>
+                            app:layout_constraintTop_toBottomOf="@+id/delivery_lay" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/margin_100dp"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginRight="@dimen/margin_20dp"
+                            android:src="@drawable/fidoo_6"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/delivery_lay" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/margin_100dp"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginRight="@dimen/margin_20dp"
+                            android:layout_marginBottom="@dimen/margin_100dp"
+                            android:src="@drawable/fidoo_7"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/delivery_lay" />
 
 
-
+                    </LinearLayout>
+                    <!--end fidoo bottom view-->
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/delivery_lay"
+        <LinearLayout
+            android:id="@+id/no_internet_onHomeLl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/lightGray"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topLay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/standalone_section"
-                    tools:layout_editor_absoluteX="0dp">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="-50dp"
+                    android:src="@drawable/no_internet" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/delivery_lay"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        android:orientation="vertical"
-                        android:layout_marginTop="15dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="No Internet Connection"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/margin_14dp" />
 
-                        <TextView
-                            android:id="@+id/tv_quick_delivery"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="FIDOO"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/delivery_lay"
-                            android:fontFamily="@font/proxima"
-                            android:textSize="30sp"
-                            android:textColor="#339347"
-                            android:layout_marginTop="@dimen/margin_20dp"
-                            android:layout_marginStart="20dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="@dimen/margin_2dp"
+                    android:paddingLeft="60dp"
+                    android:paddingRight="60dp"
+                    android:text="Please check your internet connectivity and try again..."
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="@dimen/margin_12dp" />
 
-                        <TextView
-                            android:id="@+id/tv_doorstep"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="for anything or everything"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_quick_delivery"
-                            android:fontFamily="@font/proxima"
-                            android:textColor="@color/black"
-                            android:textSize="20dp"
-                            android:layout_marginStart="20dp"/>
+                <TextView
+                    android:id="@+id/retry_onHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="@dimen/margin_2dp"
+                    android:padding="@dimen/margin_15dp"
+                    android:paddingLeft="60dp"
+                    android:paddingRight="60dp"
+                    android:text="Retry"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/margin_12dp" />
 
-                        <TextView
-                            android:id="@+id/tv_main_content"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="@dimen/margin_20dp"
-                            android:fontFamily="@font/proxima"
-                            android:text="Need more reasons?"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_doorstep" />
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_marginLeft="@dimen/margin_20dp"
-                        android:layout_marginRight="@dimen/margin_20dp"
-                        android:layout_marginTop="@dimen/margin_20dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/margin_100dp"
-                        android:src="@drawable/fiddo_5"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/delivery_lay"
-                        app:layout_constraintRight_toRightOf="parent"/>
-
-                    <ImageView
-                        android:layout_marginLeft="@dimen/margin_20dp"
-                        android:layout_marginRight="@dimen/margin_20dp"
-                        android:layout_marginTop="@dimen/dimen_5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/margin_100dp"
-                        android:src="@drawable/fiddo_6"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/delivery_lay"
-                        app:layout_constraintRight_toRightOf="parent"/>
-
-                    <ImageView
-                        android:layout_marginBottom="@dimen/margin_50dp"
-                        android:layout_marginLeft="@dimen/margin_20dp"
-                        android:layout_marginRight="@dimen/margin_20dp"
-                        android:layout_marginTop="@dimen/dimen_5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/margin_100dp"
-                        android:src="@drawable/fiddo_7"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/delivery_lay"
-                        app:layout_constraintRight_toRightOf="parent"/>
+            </LinearLayout>
 
 
-                </LinearLayout>
+        </LinearLayout>
 
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

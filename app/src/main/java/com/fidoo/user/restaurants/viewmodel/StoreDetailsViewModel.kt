@@ -6,9 +6,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
+import com.fidoo.user.data.model.CartCountModel
 import com.fidoo.user.data.model.*
 import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
 import com.fidoo.user.restaurants.model.StoreDetailsModel
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +39,7 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun getCartCountApi(accountId: String, accessToken: String) {
-        Log.e("cart count params", accountId + ", " + accessToken)
+        Log.e("cart_count_params", "$accountId, $accessToken")
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).cartCountApi(
             accountId = accountId, accessToken = accessToken
@@ -60,7 +62,10 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun addRemoveCartDetails(accountId: String, accessToken: String, product_id: String, addRemoveType: String, is_customize: String, product_customize_id: String, cart_id: String, customize_sub_cat_id: ArrayList<String>) {
-
+        try {
+            Log.d("addRemoveCartDetails_",accountId+"\n"+accessToken+"\n"+product_id+"\n"+addRemoveType
+            +"\n"+is_customize+"\n"+product_customize_id+"\n"+cart_id+"\n"+customize_sub_cat_id)
+        }catch (e:Exception){}
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).addRemoveCartApi(
             accountId = accountId,
@@ -89,35 +94,44 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
     }
 
 
-    fun addToCartApi(accountId: String, accessToken: String, products: ArrayList<AddCartInputModel>, cart_id: String
-    ) {
+    fun addToCartApi(accountId: String, accessToken: String, products: ArrayList<AddCartInputModel>, cart_id: String) {
+        var addCartInputModelList = ArrayList<AddCartInputModelFinal>()
 
         var addCartInputModelFinal = AddCartInputModelFinal()
         addCartInputModelFinal.accessToken = accessToken
         addCartInputModelFinal.accountId = accountId
         addCartInputModelFinal.products = ArrayList<Product>()
         addCartInputModelFinal.cart_id = cart_id
-        for (i in 0..products.size - 1) {
+      //  for (i in 0..products.size-1) {
+        try {
             var temp = Product(
-                products.get(i).productId,
-                products.get(i).customizeSubCatId,
-                products.get(i).isCustomize,
-                products.get(i).message,
-                products.get(i).quantity
+                products.get(0).productId,
+                products.get(0).customizeSubCatId,
+                products.get(0).isCustomize,
+                products.get(0).message,
+                products.get(0).quantity
             )
-
             addCartInputModelFinal.products.add(temp)
+            Log.d("temptemp_v",temp.productId+"=="+temp.quantity+"\n"+addCartInputModelFinal.accessToken+"\n"+cart_id)
+        }catch (e:Exception){
+            e.printStackTrace()
+           // Log.d("printStackTrace__", e.printStackTrace().toString())
         }
-        //    addCartInputModelFinal.products.addAll()
-        WebServiceClient.client.create(BackEndApi::class.java).addToCartApi(
-            addCartInputModelFinal
-        )
+      //  }
+        addCartInputModelList.add(addCartInputModelFinal)
+        Log.e("addCartInputModelFinal__", Gson().toJson(addCartInputModelFinal))
+
+       // Log.d("addCartInputModelList__",addCartInputModelList.size.toString())
+
+        WebServiceClient.client.create(BackEndApi::class.java).addToCartApi(addCartInputModelFinal)
             .enqueue(object : Callback<AddToCartModel> {
 
                 override fun onResponse(
                     call: Call<AddToCartModel>,
                     response: Response<AddToCartModel>
                 ) {
+                    products.clear()
+                    addCartInputModelList.clear()
                     addToCartResponse?.value = response.body()
                 }
 
@@ -126,6 +140,7 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
                 }
             })
     }
+
 
     fun clearCartApi(accountId: String, accessToken: String) {
 
@@ -151,7 +166,7 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun customizeProductApi(accountId: String, accessToken: String, product_id: String) {
-
+       Log.e("customizeProductApi_","$accountId--$accessToken--$product_id")
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).customizeProductApi(
             accountId = accountId, accessToken = accessToken, product_id = product_id
@@ -215,7 +230,7 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
         contains_egg: String?
     ) {
         // progressDialog?.value = true
-        Log.d("storeDetail_value",accountId+"\n"+accessToken+"\n"+store_id+"\n"+cat_id+"\n"+contains_egg)
+        Log.d("storeDetail_value",accountId+"\n ="+accessToken+"\n ="+store_id+"\n="+is_nonveg+"\n ="+cat_id+"\n ="+contains_egg)
         WebServiceClient.client.create(BackEndApi::class.java).getStoreDetailsApi(
             accountId = accountId,
             accessToken = accessToken,
@@ -223,9 +238,7 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
             is_nonveg = is_nonveg,
             cat_id = cat_id,
             contains_egg = contains_egg
-        )
-            .enqueue(this)
-
+        ) .enqueue(this)
     }
 
     override fun onResponse(

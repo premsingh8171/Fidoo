@@ -3,18 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-android:background="@null"
+    android:background="@null"
     android:layout_height="wrap_content"
-    android:minHeight="35dp"
-    >
+    android:minHeight="35dp">
 
     <TextView
-
+        android:fontFamily="@font/proxima"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="10dp"
-        android:fontFamily="@font/metropolis_regular"
         android:gravity="center_vertical"
         android:id="@+id/itemName"
         android:maxLines="2"
@@ -24,17 +22,16 @@ android:background="@null"
         android:textColor="@android:color/black"
         android:textSize="13sp"
         app:layout_constraintLeft_toLeftOf="parent"
-app:layout_constraintRight_toLeftOf="@+id/grandPrice"
+        app:layout_constraintRight_toLeftOf="@+id/grandPrice"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
+        android:fontFamily="@font/proxima"
         android:id="@+id/customitemName"
         android:layout_width="0dp"
         android:visibility="gone"
         android:layout_height="wrap_content"
-
         android:layout_marginHorizontal="10dp"
-
-android:layout_marginBottom="5dp"
+        android:layout_marginBottom="5dp"
         android:text=""
         android:textColor="@android:color/darker_gray"
         android:textSize="12sp"
@@ -45,12 +42,12 @@ android:layout_marginBottom="5dp"
 
 
     <TextView
+        android:fontFamily="@font/proxima"
         android:id="@+id/grandPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="10dp"
-
         android:gravity="center"
         android:maxLines="2"
         android:textStyle="bold"

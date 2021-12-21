@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightGray"
     tools:context=".search.ui.SearchItemActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -17,61 +19,92 @@
 
         <LinearLayout
             android:gravity="center_vertical"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/margin_10dp"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/margin_50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:tint="@color/primary_color"
-                android:id="@+id/back_newsearch"
-                android:padding="@dimen/margin_10dp"
+            <ImageView
+                android:id="@+id/searchBack"
+                android:padding="@dimen/margin_10"
                 android:rotation="180"
-                android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_back_vector"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                app:tint="@color/black" />
 
             <androidx.cardview.widget.CardView
-                app:cardCornerRadius="@dimen/text_size_15sp"
+                android:layout_marginTop="@dimen/margin_2dp"
+                android:layout_marginBottom="@dimen/margin_2dp"
+                android:layout_marginEnd="@dimen/margin_15dp"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_weight="9"
+                app:cardCornerRadius="@dimen/margin_12dp"
                 android:layout_gravity="center_vertical"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/margin_40dp">
-
-                <EditText
-
-                    android:drawableLeft="@drawable/places_ic_search"
-                    android:id="@+id/searchEdt_new"
+                <LinearLayout
+                    android:weightSum="10"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@null"
-                    android:fontFamily="@font/metropolis_regular"
-                    android:gravity="center_vertical"
-                    android:hint="Search for products, restaurants and more.."
-                    android:imeOptions="actionSearch"
-                    android:maxLines="1"
-                    android:drawablePadding="@dimen/margin_10dp"
-                    android:paddingLeft="@dimen/margin_10dp"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black"
-                    android:textSize="13sp" />
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:layout_weight="1.5"
+                        android:id="@+id/searchEdt_new_fgmt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@null"
+                        android:fontFamily="@font/proxima"
+                        android:gravity="center_vertical"
+                        android:hint="Search your favourite item"
+                        android:imeOptions="actionSearch"
+                        android:maxLines="1"
+                        android:drawablePadding="@dimen/margin_10dp"
+                        android:paddingLeft="@dimen/margin_10dp"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/clear_searchImg_changeAdd"
+                        android:padding="@dimen/margin_10"
+                        android:src="@drawable/ic_clear"
+                        android:layout_weight="8.5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                    <ImageView
+                        android:id="@+id/search_iconImg_changeAdd"
+                        android:padding="@dimen/dimen_8dp"
+                        android:src="@drawable/places_ic_search"
+                        android:layout_weight="8.5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:tint="@color/black" />
+
+                </LinearLayout>
 
 
             </androidx.cardview.widget.CardView>
 
 
+
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="@dimen/margin_10dp"
+            android:id="@+id/item_lay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
-                android:id="@+id/total_itemTxt"
+                android:id="@+id/total_itemTxt_fgmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -83,27 +116,60 @@
                 android:textStyle="bold" />
 
             <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
                 android:layout_marginTop="@dimen/margin_2dp"
                 android:layout_marginRight="@dimen/margin_10dp"
-                android:layout_marginLeft="@dimen/margin_10dp"
-                android:background="@color/colorGreenText"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:background="@color/colorGreenText" />
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginBottom="@dimen/margin_50dp"
-            android:layout_marginTop="@dimen/margin_10dp"
+            android:id="@+id/header_recentsearch_ll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_5dp"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginRight="@dimen/dimen_5dp"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.023">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:textStyle="bold"
+                android:id="@+id/store_item_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima"
+                android:maxLines="1"
+                android:padding="@dimen/text_size_15sp"
+                android:text="No Recent Searches"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_16sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_10">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_rv"
+                android:id="@+id/recentsearch_rv_fgmt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:spanCount="1"
+                android:layout_marginLeft="@dimen/margin_10"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
@@ -111,68 +177,290 @@
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/new_cartitemView_LLsearch"
-        android:visibility="visible"
-        android:gravity="center_vertical"
-        android:background="@color/colorGreenText"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_50dp">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_marginLeft="@dimen/margin_5dp"
-            android:id="@+id/new_itemQuantity_textsearch"
-            android:padding="@dimen/margin_10dp"
-            android:textSize="@dimen/text_size_14sp"
-            android:text="0"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:padding="@dimen/margin_5dp"
-            android:textSize="@dimen/text_size_14sp"
-            android:text="Item"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <View
-            android:layout_marginLeft="@dimen/margin_5dp"
-            android:layout_marginRight="@dimen/margin_5dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp"
-            android:background="@color/white"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/new_totalprice_txtsearch"
-            android:padding="@dimen/margin_5dp"
-            android:textSize="@dimen/text_size_14sp"
-            android:text="Rs.200"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/new_viewcartfromSearch"
-            android:gravity="end|center_vertical"
-            android:padding="@dimen/margin_5dp"
-            android:textSize="@dimen/text_size_14sp"
-            android:text="VIEW CART"
-            android:textColor="@color/white"
-            android:drawableTint="@color/white"
-            android:drawableLeft="@color/quantum_amber100"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_rv_fgmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:spanCount="1">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/bottomSheet_searchActivity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="6dp"
+            android:orientation="vertical"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="@string/bottom_sheet_behavior"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout">
+
+            <RelativeLayout
+                android:id="@+id/transLay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#50000000">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="200dp"
+                    android:layout_marginBottom="60dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:fontFamily="@font/proxima"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Customization"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:id="@+id/filterIcon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginHorizontal="15dp" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:fontFamily="@font/metropolis_regular"
+                        android:text="Choose your customization"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/customItemsRv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+
+                        />
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@android:color/white"
+                    android:elevation="5dp"
+                    android:fadingEdgeLength="2dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/add_remove_lay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="#30000000"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:visibility="gone">
+
+
+                        <TextView
+                            android:fontFamily="@font/proxima"
+                            android:id="@+id/minusLay"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:text="-"
+                            android:textSize="20dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/countValuee"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:fontFamily="@font/proxima"
+                            android:id="@+id/countValuee"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:text="1"
+                            android:textColor="@android:color/black"
+                            android:textSize="20dp"
+                            app:layout_constraintLeft_toRightOf="@+id/minusLay"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:fontFamily="@font/proxima"
+                            android:id="@+id/plusLay"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginEnd="5dp"
+                            android:gravity="center"
+                            android:text="+"
+                            android:textSize="20sp"
+                            app:layout_constraintLeft_toRightOf="@+id/countValuee"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:fontFamily="@font/proxima"
+                        android:backgroundTint="@color/primary_color"
+                        android:id="@+id/customAddBtn_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginHorizontal="10dp"
+                        android:background="@drawable/black_full_rounded_empty"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="7dp"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/placesDown"
+                    android:layout_width="280dp"
+                    android:layout_height="55dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="85dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    <FrameLayout
+        android:visibility="gone"
+        android:id="@+id/new_cartitemView_LLsearch_fgmt"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/margin_50dp"
+        android:layout_marginRight="@dimen/margin_20dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/cart_bg"
+        android:backgroundTint="@color/white"
+        android:elevation="@dimen/dimen_5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/new_itemQuantity_textsearch_fgmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_5dp"
+                android:padding="@dimen/dimen_5dp"
+                android:text="0"
+                android:fontFamily="@font/proxima"
+                android:textColor="@color/primary_color"
+                android:textSize="@dimen/text_size_14sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_5dp"
+                android:text="Item"
+                android:fontFamily="@font/proxima"
+                android:textColor="@color/primary_color"
+                android:textSize="@dimen/text_size_14sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_5dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="@dimen/margin_5dp"
+                android:layout_marginBottom="18dp"
+                android:background="@color/primary_color" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/new_totalprice_txtsearch_fgmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_5dp"
+                android:text=""
+                android:fontFamily="@font/proxima"
+                android:textColor="@color/primary_color"
+                android:textSize="@dimen/text_size_14sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/new_viewcartfromSearch_fgmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@color/quantum_amber100"
+                android:drawableTint="@color/white"
+                android:gravity="end|center_vertical"
+                android:padding="@dimen/margin_5dp"
+                android:fontFamily="@font/proxima"
+                android:text="VIEW CART"
+                android:textColor="@color/primary_color"
+                android:textSize="@dimen/text_size_14sp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="@dimen/margin_15dp"
+                android:layout_height="@dimen/margin_15dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="@dimen/margin_15dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_cart"
+                app:tint="@color/primary_color" />
+
+        </LinearLayout>
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -102,7 +102,6 @@ public class ApiCalls {
     }
 
 
-
     public void loginUser(String country_code, String mobile_no, final Handler mHandler) {
         final Message msg = new Message();
         Log.e("yes","yes");
@@ -142,10 +141,9 @@ public class ApiCalls {
         });
     }
 
-
     public void resendOtp(String accountId, String accessToken, final Handler mHandler) {
         final Message msg = new Message();
-Log.e("yes","yes");
+        Log.e("yes","yes");
         Call<ResendModel> call = apiInterface.resendOtp(accountId, accessToken);
         call.enqueue(new Callback<ResendModel>() {
             @Override

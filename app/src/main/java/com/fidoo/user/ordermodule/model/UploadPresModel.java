@@ -20,4 +20,7 @@ public class UploadPresModel {
     @SerializedName("message")
     @Expose
     public String message;
+    @SerializedName("document_id")
+    @Expose
+    public String document_id ;
 }

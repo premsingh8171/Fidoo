@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Base application theme. -->
@@ -15,6 +16,7 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+
     <style name="SwitchCompatTheme" >
         <item name="colorControlActivated">@android:color/holo_green_light</item>
     </style>
@@ -45,6 +47,19 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="cusProgressDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:background">@color/white</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
     <style name="circleImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20%</item>
@@ -55,11 +70,16 @@
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
+    <style name="diologIntertnetanimation">
+        <item name="android:windowEnterAnimation">@anim/slide_down</item>
+        <item name="android:windowExitAnimation">@anim/slide_up</item>
 
-        <style name="diologIntertnet1">
-            <item name="android:windowEnterAnimation">@anim/slide_right_to_left</item>
-            <item name="android:windowExitAnimation">@anim/slide_left_to_right</item>
-        </style>
+    </style>
+
+    <style name="diologIntertnet1">
+        <item name="android:windowEnterAnimation">@anim/slide_right_to_left</item>
+        <item name="android:windowExitAnimation">@anim/slide_left_to_right</item>
+    </style>
 
     <style name="ThemeOverlay.App.Switch" parent="">
         <item name="colorOnSurface">@color/primary_color</item>
@@ -71,4 +91,51 @@
         <item name="colorControlActivated">#e6e600</item>
         <item name="colorSwitchThumbNormal">#cc0000</item>
     </style>
-    </resources>
+
+    <style name="BaseAppTheme" parent="android:Theme.Material">
+        <!-- enable window content transitions -->
+        <item name="android:windowActivityTransitions">true</item>
+
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition">
+            @anim/rv_right_left_anim</item>
+        <item name="android:windowSharedElementExitTransition">
+            @anim/slide_left_to_right</item>
+    </style>
+
+<!--    <style name="CustomRatingBar" parent="@android:style/Widget.RatingBar">-->
+<!--        <item name="android:progressDrawable">@drawable/ratingbar</item>-->
+<!--        <item name="android:minHeight">@dimen/margin_24dp</item>-->
+<!--        <item name="android:maxHeight">@dimen/margin_24dp</item>-->
+<!--    </style>-->
+
+    <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/black</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="boxStrokeColor">@color/colorGray</item>
+    </style>
+
+    <style name="MyTextInputEditText" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="android:textColor">@color/colorGray</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
+    <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">12dp</item>
+        <item name="android:fontFamily">@font/proxima</item>
+    </style>
+
+    <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">13dp</item>
+        <item name="android:fontFamily">@font/proxima</item>
+    </style>
+
+</resources>

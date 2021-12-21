@@ -23,14 +23,57 @@
         app:rb_duration="3000"
         app:rb_scale="6">
 
+        <FrameLayout
+            android:id="@+id/visibleTopToBottom_fm"
+            android:translationY="-5dp"
+            android:layout_above="@+id/markerLocation"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:backgroundTint="@color/white"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:background="@drawable/label_bg"
+                android:layout_width="240dp"
+                android:layout_height="80dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:fontFamily="@font/proxima"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:text="Your item will be delivered here"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/margin_12dp" />
+
+                <TextView
+                    android:fontFamily="@font/proxima"
+                    android:layout_marginTop="@dimen/margin_2dp"
+                    android:layout_marginBottom="@dimen/margin_20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:text="Please place the pin accurately on the map"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/margin_10" />
+
+
+            </LinearLayout>
+
+        </FrameLayout>
+
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/margin_24dp"
+            android:layout_height="@dimen/text_size_27sp"
             android:layout_centerInParent="true"
             android:translationY="-18dp"
             android:id="@+id/markerLocation"
-            android:src="@drawable/location_icon"
-            app:tint="@color/colorPrimary"/>
+            android:src="@drawable/home_locpin"/>
     </com.skyfishjy.library.RippleBackground>
 
     <com.mancj.materialsearchbar.MaterialSearchBar
@@ -44,7 +87,7 @@
         android:layout_margin="16dp"
         app:mt_navIconEnabled="true"
         android:elevation="5dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:outlineProvider="bounds"
         app:mt_placeholder="Search a place"/>
 
@@ -59,5 +102,6 @@
         android:background="@color/colorPrimary"
         android:layout_margin="16dp"
         android:textStyle="bold"/>
+
 
 </RelativeLayout>

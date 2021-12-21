@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1052086294613-g0cas9pqm8p9f9tebcegbm2sr3da655r.apps.googleusercontent.com",
+          "client_id": "1052086294613-kgue1vtqeui3tmpsi20agmhpejgc24mr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.fidoo.user",
-            "certificate_hash": "bbcf2f359255c5b05737f5c5e712b34f46e50ae7"
+            "certificate_hash": "5dbc694abfaa8dccd4d98d478a2ec4080c921078"
           }
         },
         {

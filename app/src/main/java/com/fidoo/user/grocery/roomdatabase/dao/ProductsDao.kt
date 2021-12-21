@@ -19,6 +19,10 @@ interface ProductsDao {
     @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME +" LIMIT :limit")
     fun getAllProducts2(limit:String?): LiveData<List<Product>>
 
+
+    @Query("SELECT * FROM " + ProductsDatabase.TABLE_NAME +" WHERE product_name LIKE :query")
+    fun searchQuery(query:String?): LiveData<List<Product>>
+
 //    PARAM = search criteria,
 //    PAGESIZE = number of rows to return per page,
 //    PAGEINDEX = what page to return

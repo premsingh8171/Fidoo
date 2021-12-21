@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.fidoo.user.restaurants.roomdatabase.dao.RestaurantProductsDao
 import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 
-@Database(entities = arrayOf(StoreItemProductsEntity::class), version = 1)
+@Database(entities = arrayOf(StoreItemProductsEntity::class), version = 6,exportSchema = false)
 abstract class RestaurantProductsDatabase: RoomDatabase() {
     companion object{
        const val DB_NAME = "RestaurantProductList"

@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@null"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/itemLay"
         android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginHorizontal="5dp"
         android:layout_marginVertical="5dp"
+        app:cardCornerRadius="4dp">
 
-        app:cardCornerRadius="4dp"
-        android:id="@+id/itemLay"
-
-        android:layout_height="70dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
 
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:id="@+id/imageView"
 
-                android:src="@drawable/banner_dummy" />
+                android:src="@drawable/default_item" />
             <!--  app:layout_constraintLeft_toRightOf="@+id/storeImg" -->
 
 

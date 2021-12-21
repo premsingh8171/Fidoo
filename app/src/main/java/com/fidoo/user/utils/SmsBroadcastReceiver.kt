@@ -8,10 +8,7 @@ import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.Status
 
 class SmsBroadcastReceiver: BroadcastReceiver() {
-
     lateinit var smsBroadcastReceiverListener: SmsBroadcastReceiverListener
-
-
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action == SmsRetriever.SMS_RETRIEVED_ACTION) {

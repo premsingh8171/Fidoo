@@ -7,10 +7,16 @@ public class CustomListModel {
     @SerializedName("price")
     @Expose
     public String price;
+
     @SerializedName("category")
     @Expose
     public String category;
+
     @SerializedName("id")
     @Expose
     public Integer id;
+
+    @SerializedName("sub_cat_name")
+    @Expose
+    public String subCatName;
 }

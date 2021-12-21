@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.fidoo.user.deshboard.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        android:name="com.fidoo.user.dashboard.ui.HomeNewUiFragment"
+        android:label="fragment_home_newui"
+        tools:layout="@layout/fragment_home_newui" >
         <action
             android:id="@+id/action_homeFragment_to_sendPacketFragment"
             app:destination="@id/sendPacketFragment" />
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.fidoo.user.search.ui.SearchFragment2"
+        android:name="com.fidoo.user.newsearch.ui.SearchFragmentNew"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search2" />
 
@@ -30,12 +30,12 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.fidoo.user.ui.ProfileFragment"
+        android:name="com.fidoo.user.profile.ui.ProfileFragment"
         android:label="ProfileFragment" />
 
     <dialog
         android:id="@+id/itemsBottomSheetFragment"
-        android:name="com.fidoo.user.ui.ItemsBottomSheetFragment"
+        android:name="com.fidoo.user.fragments.ItemsBottomSheetFragment"
         android:label="ItemsBottomSheetFragment" >
 
         <action
@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/sendPacketFragment"
-        android:name="com.fidoo.user.ui.SendPacketFragment"
+        android:name="com.fidoo.user.fragments.SendPacketFragment"
         android:label="SendPacketFragment" >
 
         <action

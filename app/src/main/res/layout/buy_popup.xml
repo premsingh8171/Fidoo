@@ -27,9 +27,10 @@
                     android:padding="3dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
                     android:id="@+id/closeIcon"
-                    android:layout_height="35dp"/>
+                    android:layout_height="35dp"
+                    android:contentDescription="@string/todo" />
 
                 <ImageView
                     android:layout_width="150dp"
@@ -40,7 +41,8 @@
                     android:layout_marginTop="20dp"
                     android:id="@+id/logo"
                     android:backgroundTint="@color/colorPrimary"
-                    android:layout_height="70dp"/>
+                    android:layout_height="70dp"
+                    android:contentDescription="@string/todo" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -72,12 +74,12 @@
                                 android:layout_marginTop="10dp"
                                 android:id="@+id/base_distance_label"
                                 android:gravity="center"
-                                android:text="Base Distance"
-                                android:fontFamily="@font/metropolis_regular"
+                                android:text="@string/base_distance"
+                                android:fontFamily="@font/proxima"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 android:layout_marginStart="5dp"
-                                android:textSize="10sp"/>
+                                android:textSize="12sp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -85,7 +87,7 @@
                                 android:layout_marginTop="10dp"
                                 android:id="@+id/base_distance"
                                 android:gravity="center"
-                                android:text="4.20 KM"
+                                android:text="@string/_4_20_km"
                                 android:textColor="@android:color/black"
                                 android:fontFamily="@font/metropolisbold"
                                 app:layout_constraintRight_toRightOf="parent"
@@ -100,12 +102,12 @@
                                 android:layout_marginTop="10dp"
                                 android:id="@+id/additional_distance_label"
                                 android:gravity="center"
-                                android:text="Additional Distance"
-                                android:fontFamily="@font/metropolis_regular"
+                                android:text="@string/additional_distance"
+                                android:fontFamily="@font/proxima"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/base_distance_label"
                                 android:layout_marginStart="5dp"
-                                android:textSize="10sp"/>
+                                android:textSize="12sp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -113,7 +115,7 @@
                                 android:layout_marginTop="10dp"
                                 android:id="@+id/additional_distance"
                                 android:gravity="center"
-                                android:text="4.20 KM"
+                                android:text="@string/_4_20_km"
                                 android:textColor="@android:color/black"
                                 android:fontFamily="@font/metropolisbold"
                                 app:layout_constraintRight_toRightOf="parent"
@@ -138,8 +140,8 @@
                                 android:layout_marginTop="20dp"
                                 android:id="@+id/total_distance_label"
                                 android:gravity="center"
-                                android:text="Total Distance"
-                                android:fontFamily="@font/metropolis_regular"
+                                android:text="@string/total_distance"
+                                android:fontFamily="@font/proxima"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/additional_distance_label"
                                 android:layout_marginStart="5dp"
@@ -151,7 +153,7 @@
                                 android:layout_marginTop="20dp"
                                 android:id="@+id/total_distance"
                                 android:gravity="center"
-                                android:text="4.20 KM"
+                                android:text="@string/_4_20_km"
                                 android:fontFamily="@font/metropolisbold"
                                 android:textColor="@android:color/black"
                                 app:layout_constraintRight_toRightOf="parent"
@@ -180,20 +182,20 @@
                                 android:layout_marginTop="20dp"
                                 android:id="@+id/timeLabel"
                                 android:gravity="center"
-                                android:text="Time"
-                                android:fontFamily="@font/metropolis_regular"
+                                android:text="@string/time"
+                                android:fontFamily="@font/proxima"
                                 android:textColor="@android:color/black"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 app:layout_constraintRight_toRightOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                android:textSize="10sp"/>
+                                android:textSize="12sp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:id="@+id/timeValue"
                                 android:gravity="center"
-                                android:text="15 min"
+                                android:text="@string/_15_min"
                                 android:fontFamily="@font/metropolisbold"
                                 android:textColor="@android:color/black"
                                 app:layout_constraintLeft_toLeftOf="parent"
@@ -221,13 +223,13 @@
                         android:layout_width="0dp"
                         app:layout_constraintHorizontal_weight="5"
                         android:layout_height="30dp"
-                        android:text="Base Price"
+                        android:text="@string/base_price"
                         android:gravity="center_vertical"
-                        android:fontFamily="@font/metropolis_regular"
+                        android:fontFamily="@font/proxima"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_marginStart="5dp"
-                        android:textSize="10sp"/>
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/base_price"
@@ -236,7 +238,7 @@
                         android:layout_height="30dp"
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
-                        android:fontFamily="@font/metropolis_semi_bold"
+                        android:fontFamily="@font/proxima"
                         android:textSize="12sp"
                         android:layout_marginRight="10dp"
                         app:layout_constraintRight_toLeftOf="@+id/proceedTxt"
@@ -250,13 +252,13 @@
                         android:layout_width="0dp"
                         app:layout_constraintHorizontal_weight="5"
                         android:layout_height="30dp"
-                        android:text="Additional Price"
+                        android:text="@string/additional_price"
                         android:gravity="center_vertical"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:fontFamily="@font/metropolis_regular"
+                        android:fontFamily="@font/proxima"
                         app:layout_constraintTop_toBottomOf="@id/baseprice_label"
                         android:layout_marginStart="5dp"
-                        android:textSize="10sp"/>
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/additional_price"
@@ -265,7 +267,7 @@
                         android:layout_height="30dp"
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
-                        android:fontFamily="@font/metropolis_semi_bold"
+                        android:fontFamily="@font/proxima"
                         android:textSize="12sp"
                         android:layout_marginRight="10dp"
                         app:layout_constraintRight_toLeftOf="@+id/proceedTxt"
@@ -279,12 +281,12 @@
                         android:layout_width="0dp"
                         app:layout_constraintHorizontal_weight="5"
                         android:layout_height="30dp"
-                        android:text="Tax"
+                        android:text="@string/tax"
                         android:gravity="center_vertical"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/additionalPrice_label"
                         android:layout_marginStart="5dp"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tax"
@@ -293,7 +295,7 @@
                         android:layout_height="30dp"
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
-                        android:fontFamily="@font/metropolis_semi_bold"
+                        android:fontFamily="@font/proxima"
                         android:textSize="12sp"
                         android:layout_marginRight="10dp"
                         app:layout_constraintRight_toLeftOf="@+id/proceedTxt"
@@ -317,7 +319,7 @@
                         android:layout_width="0dp"
                         app:layout_constraintHorizontal_weight="5"
                         android:layout_height="30dp"
-                        android:text="Grand Total"
+                        android:text="@string/grand_total"
                         android:gravity="center_vertical"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/view"
@@ -330,9 +332,8 @@
                         android:layout_width="0dp"
                         app:layout_constraintHorizontal_weight="5"
                         android:layout_height="30dp"
-                        android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
-                        android:fontFamily="@font/metropolis_semi_bold"
+                        android:fontFamily="@font/proxima"
                         android:textSize="16sp"
                         app:layout_constraintRight_toLeftOf="@+id/proceedTxt"
                         android:textColor="@android:color/black"
@@ -347,8 +348,8 @@
                         android:layout_marginRight="10dp"
                         android:background="@drawable/black_rounded_solid"
                         android:gravity="center"
-                        android:text="Proceed"
-                        android:fontFamily="@font/metropolis_regular"
+                        android:text="@string/proceed"
+                        android:fontFamily="@font/proxima"
                         android:layout_marginLeft="10dp"
                         android:id="@+id/proceedTxt"
                         android:textColor="@android:color/white"

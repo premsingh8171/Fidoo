@@ -1,21 +1,11 @@
 package com.fidoo.user.search.adapter
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.fidoo.user.LoginActivity
 import com.fidoo.user.R
-import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.grocery.model.getGroceryProducts.Subcategory
-import kotlinx.android.synthetic.main.grocery_item_layout.view.*
-import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
-import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.grocery_sub_cons
 import kotlinx.android.synthetic.main.recent_search_item.view.*
 
 class RecentSearchAdapter(var context: Context,

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dismisspopUp_"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+
+        <LinearLayout
+            android:layout_marginRight="@dimen/margin_20dp"
+            android:layout_marginTop="@dimen/margin_120dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/round_box"
+            android:layout_marginBottom="@dimen/dimen_25dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:padding="@dimen/dimen_5dp"
+                android:id="@+id/relevance"
+                android:fontFamily="@font/proxima"
+                android:textSize="@dimen/text_size_14sp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Relevance"
+                android:layout_marginTop="@dimen/dimen_25dp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:padding="@dimen/dimen_5dp"
+                android:id="@+id/RatingTxt_"
+                android:fontFamily="@font/proxima"
+                android:textSize="@dimen/text_size_14sp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rating"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:padding="@dimen/dimen_5dp"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:id="@+id/delivery_timeTxt"
+                android:fontFamily="@font/proxima"
+                android:textSize="@dimen/text_size_14sp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delivery Time"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:textColor="@color/black"/>
+
+
+        </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

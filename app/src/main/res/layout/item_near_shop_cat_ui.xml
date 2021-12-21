@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginLeft="@dimen/margin_20dp"
+        android:elevation="0dp"
+        app:cardElevation="0dp"
+        android:id="@+id/shopItemClickll"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/margin_15dp"
+        app:cardCornerRadius="@dimen/margin_15dp"
+        android:layout_width="@dimen/margin_130dp"
+        android:layout_height="@dimen/margin_170dp"
+        android:background="@drawable/popular_curations_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/nearShop_cat_itemImg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/default_item" />
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:visibility="gone"
+        app:layout_constraintLeft_toRightOf="@+id/shopItemClickll"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/itemSpace_ll"
+        android:orientation="vertical"
+        android:layout_width="@dimen/dimen_25dp"
+        android:layout_height="match_parent"/>
+
+
+
+</LinearLayout>

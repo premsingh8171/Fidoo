@@ -22,6 +22,7 @@ public class MyOrdersModel {
     @SerializedName("orders")
     @Expose
     public List<Order> orders = null;
+
     public class Order {
 
         @SerializedName("message")
@@ -33,9 +34,23 @@ public class MyOrdersModel {
         @SerializedName("order_status")
         @Expose
         public String orderStatus;
+
         @SerializedName("is_rate_to_driver")
         @Expose
         public String is_rate_to_driver;
+
+        @SerializedName("delivery_rating")
+        @Expose
+        public String delivery_rating;
+
+        @SerializedName("is_rate_to_merchant")
+        @Expose
+        public String is_rate_to_merchant;
+
+        @SerializedName("merchant_rating")
+        @Expose
+        public String merchant_rating;
+
         @SerializedName("store_name")
         @Expose
         public String storeName;
@@ -69,33 +84,43 @@ public class MyOrdersModel {
         @SerializedName("from_note")
         @Expose
         public String fromNote;
+
         @SerializedName("from_latitude")
         @Expose
         public String fromLatitude;
+
         @SerializedName("from_longitude")
         @Expose
         public String fromLongitude;
+
         @SerializedName("to_address")
         @Expose
         public String toAddress;
+
         @SerializedName("to_note")
         @Expose
         public String toNote;
+
         @SerializedName("to_latitude")
         @Expose
         public String toLatitude;
+
         @SerializedName("to_longitude")
         @Expose
         public String toLongitude;
+
         @SerializedName("distance")
         @Expose
         public String distance;
+
         @SerializedName("delivery_time")
         @Expose
         public String deliveryTime;
+
         @SerializedName("category_id")
         @Expose
         public String category_id;
+
         @SerializedName("prescription")
         @Expose
         public String prescription;
@@ -104,19 +129,52 @@ public class MyOrdersModel {
         @Expose
         public String delivery_boy_name;
 
-
         @SerializedName("delivery_boy_mobile")
         @Expose
         public String delivery_boy_mobile;
 
+        @SerializedName("package_item_name")
+        @Expose
+        public String package_item_name;
 
+        @SerializedName("package_item_image")
+        @Expose
+        public String package_item_image;
+
+        @SerializedName("items")
+        @Expose
+        public List<Item> items = null;
+    }
+
+
+    public class Item {
+        @SerializedName("product_id")
+        @Expose
+        public String productId;
+        @SerializedName("product_name")
+        @Expose
+        public String productName;
+        @SerializedName("quantity")
+        @Expose
+        public String quantity;
+        @SerializedName("product_desc")
+        @Expose
+        public String product_desc;
+        @SerializedName("price")
+        @Expose
+        public String price;
+        @SerializedName("offer_price")
+        @Expose
+        public String offerPrice;
+        @SerializedName("date_time")
+        @Expose
+        public String dateTime;
         @SerializedName("customize_item")
         @Expose
         public List<CustomizeItem> customizeItem = null;
     }
 
     public class CustomizeItem {
-
         @SerializedName("id")
         @Expose
         public String id;

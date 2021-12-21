@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGray"
+    tools:context=".grocerynewui.activity.GroceryNewUiActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topLay"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@color/backgroung_lay"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/backIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="5dp"
+            android:rotation="180"
+            android:src="@drawable/ic_back_vector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/store_nameTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:fontFamily="@font/proxima"
+            android:gravity="center"
+            android:text="Store Name"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.180"
+            app:layout_constraintLeft_toRightOf="@+id/backIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.512" />
+
+        <ImageView
+            android:id="@+id/search_onDailyNeed"
+            android:layout_width="@dimen/margin_24dp"
+            android:layout_height="@dimen/margin_24dp"
+            android:layout_marginRight="@dimen/margin_15dp"
+            android:src="@drawable/places_ic_search"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/black" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/linear_progress_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/topLay" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/grocery_constL"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topLay">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/backgroung_lay"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/backGround_et" />
+
+            <RelativeLayout
+                android:id="@+id/cat_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/search_LL">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15dp"
+                    android:layout_marginTop="@dimen/margin_15dp"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/grocery_sub_tvViewall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9.7"
+                        android:fontFamily="@font/proxima"
+                        android:paddingLeft="@dimen/dimen_5dp"
+                        android:paddingTop="@dimen/text_size_7sp"
+                        android:paddingRight="@dimen/margin_10"
+                        android:paddingBottom="@dimen/text_size_7sp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_14sp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/grocery_sub_cat_rvViewAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/no_internet_grocery"
+        layout="@layout/no_internet_connection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/no_item_foundlll"
+        layout="@layout/no_item_found"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/cartitemView_LL"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/margin_50dp"
+        android:layout_marginRight="@dimen/margin_20dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/cart_bg"
+        android:backgroundTint="@color/white"
+        android:elevation="@dimen/margin_10"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_50dp"
+            android:gravity="center_vertical"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemQuantity_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_5dp"
+                android:fontFamily="@font/proxima"
+                android:padding="@dimen/dimen_5dp"
+                android:text="0"
+                android:textColor="@color/primary_color"
+                android:textSize="@dimen/text_size_14sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima"
+                android:padding="@dimen/margin_5dp"
+                android:text="Item"
+                android:textColor="@color/primary_color"
+                android:textSize="@dimen/text_size_14sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_5dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="@dimen/margin_5dp"
+                android:layout_marginBottom="18dp"
+                android:background="@color/primary_color" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/totalprice_txt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/proxima"
+                android:padding="@dimen/margin_5dp"
+                android:text=""
+                android:textColor="@color/primary_color"
+                android:textSize="@dimen/text_size_14sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/cartviewFromGrocery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@color/quantum_amber100"
+                    android:drawableTint="@color/white"
+                    android:fontFamily="@font/proxima"
+                    android:gravity="end|center_vertical"
+                    android:padding="@dimen/margin_5dp"
+                    android:text="VIEW CART"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/text_size_14sp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:layout_width="@dimen/margin_15dp"
+                    android:layout_height="@dimen/margin_15dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="@dimen/margin_15dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_cart"
+                    app:tint="@color/primary_color" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

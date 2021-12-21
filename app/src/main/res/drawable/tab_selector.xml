@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/selected_dot"
-        android:state_selected="true"/>
-    <item android:drawable="@drawable/unselect_dot"/>
-</selector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/primary_color" />
+    <corners
+        android:bottomLeftRadius="@dimen/margin_10"
+        android:bottomRightRadius="@dimen/margin_10"
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp" />
+</shape>
+<!--<selector xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <item android:drawable="@drawable/selected_tab"-->
+<!--        android:state_selected="true"/>-->
+<!--    <item android:drawable="@drawable/unselect_tab"/>-->
+<!--</selector>-->

@@ -1,3 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello_world">Hello Round World!</string>
+    <string name="app_name" translatable="false">Fidoo</string>
+    <string name="sign_in" translatable="false">Sign In</string>
+    <string name="don_t_have_an_account_signup" translatable="false">Don\'t have an account? Sign Up</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="otp_verification" translatable="false">Verification</string>
+    <string name="please_enter_verificarion_code_sent_to" translatable="false">Please enter verification code sent to</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCbBE8w8jZTrhLeeDMHowmGshS_CqK6ZlQ</string>
+    <string name="please_enter_your_phone_number" translatable="false">Please enter your phone number</string>
+    <string name="sign_up" translatable="false">Sign Up</string>
+    <string name="already_have_an_account_sign_in" translatable="false">Already have an account? Sign In</string>
+    <string name="lorem_ipasum" translatable="false">Lorem Ipasum</string>
+    <string name="open">Open</string>
+    <string name="personal_details">Personal Details</string>
+    <string name="kanhiya_bisht">Kanhiya Bisht</string>
+    <string name="you_haven_t_order_anything">You "haven't" order anything</string>
+    <string name="search_for_a_services_you_want_from_the_home_section">Search for a services you want from the Home section</string>
+    <string name="go_to_home">Go to Home</string>
+    <string name="hi">Hi</string>
+    <string name="user">User</string>
+    <string name="email">xyz@gmail.com</string>
+    <string name="your_addess">Your Addess</string>
+    <string name="manage_your_address">Manage your address</string>
+    <string name="pizzas">Pizzas</string>
+    <string name="popular_foods_near_you">Popular Foods near you</string>
+    <string name="lorem_ipsum_dolor">Lorem Ipsum dolor</string>
+    <string name="_30_min">30 min</string>
+    <string name="_1_2_km">1.2 km</string>
+    <string name="recommend">Recommend</string>
+    <string name="_1_2km">1.2km</string>
+    <string name="sushi_party_set">psd</string>
+    <string name="sushi">Sushi</string>
+    <string name="u20b9_100">₹ 100</string>
+    <string name="add_item">+ Add Item</string>
+    <string name="healthy_food_salads_italian">cuisines</string>
+    <string name="delivered">Delivered</string>
+    <string name="product_name">Sushi Party Set</string>
+    <string name="suashi">Suashi</string>
+    <string name="house_flat_block">House No/Flat/Block/Locality</string>
+    <string name="landmark">Landmark</string>
+    <string name="confirm_proceed"><![CDATA[Confirm & Proceed]]></string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="choose_your_fav_store"><span style="color:#339347">Choose </span> <span>your <br />Favorite</span> <span style="color:#339347">store</span></string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="lorem_ipsum">Lorem Ipsum</string>
+    <string name="provide_internet">Please provide internet</string>
+    <string name="office">Office</string>
+    <string name="todo">TODO</string>
+    <string name="ruppee">\u20B9</string>
+    <string name="search_for_are_street_name">Search for area, street name...</string>
+    <string name="_50_00">00.00</string>
+    <string name="leave_delivery_instructions_optional"><font size="12">Leave delivery instructions (optional)</font></string>
+    <string name="title_activity_add_address">AddAddressActivity</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="poor_experince">What should we fix immediately?</string>
+    <string name="ok_experince">What can we improve?</string>
+    <string name="good_experince">How can we make excellent for you?</string>
+    <string name="excellent_experince">What you like the most?</string>
+    <string name="tell_us_more_exp">Tell us more about your experience?</string>
+
+    <string name="item_packaging">Item packaging</string>
+    <string name="delivery_time">Delivery time</string>
+    <string name="app_interface">App interface</string>
+    <string name="delivery_experience">Delivery Experience</string>
+    <string name="Hang_on_loadingcontent">Hang on. Loading content</string>
+
+    <string name="facebook_app_id">586148045696184</string>
+    <string name="gps_disabled_message">To continue,let your device turn on location using Googles location services</string>
+    <string name="title_activity_review_order">ReviewOrderActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="feedback_info">Our partners work hard to get your order, Please take sometime to give your precious feedback</string>
+
+    <string name="payment_failed">If any amount is deducted, a refund shall be processed within 24 hrs. Please try again or use a different payment method.</string>
+
+    <string name="for_screen_1">Price you see in offline store is the price you see on FIDOO, no more inflated prices.</string>
+    <string name="for_screen_2">Send packages or even parcels to your nearest and dearest ones, We will pick up and drop it for you.</string>
+    <string name="for_screen_3">Hyperlocal super app, get everything anything in one app for all your needs.</string>
+    <string name="you_and_your_friend_both_enjoy_free_delivery">You and your friend both enjoy free delivery</string>
+    <string name="your_friends_join_fidoo">Your friends join FIDOO</string>
+    <string name="_1">1</string>
+    <string name="shop_from_stores_you_love">Shop from stores you love</string>
+    <string name="invite_your_friends">Invite your friends</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="how_it_works">How it works?</string>
+    <string name="share_your_referral_link_with_friends">Share your referral link with friends</string>
+    <string name="favorite_stores">Favorite Stores</string>
+    <string name="payments">Payments</string>
+    <string name="manage_payments_methods">Manage payments methods</string>
+    <string name="when_they_sign_up_on_fidoo_they_get_the_first_ordered_delivered_free">When they sign up on Fidoo, they get the first ordered delivered free</string>
+    <string name="both_get_rewarded">Both get rewarded</string>
+    <string name="referral_link">Referral Link</string>
+    <string name="you_get_free_deliveries_for_five_orders_when_your_friend_makes_the_first_order">You get free deliveries for five orders when your friend makes the first order</string>
+    <string name="invite_now">Invite Now</string>
+    <string name="grocery">Grocery</string>
+    <string name="prescription">Prescription</string>
+    <string name="add_pre">Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016 </string>
+    <string name="base_distance">Base Distance</string>
+    <string name="_4_20_km">4.20 KM</string>
+    <string name="base_price">Base Price</string>
+    <string name="additional_price">Additional Price</string>
+    <string name="additional_distance">Additional Distance</string>
+    <string name="proceed">Proceed</string>
+    <string name="grand_total">Grand Total</string>
+    <string name="tax">Tax</string>
+    <string name="_15_min">15 min</string>
+    <string name="total_distance">Total Distance</string>
+    <string name="time">Time</string>
+    <string name="out_of_stock">Out of Stock</string>
+    <string name="add">Add</string>
+    <string name="new_update_available">NEW UPDATE AVAILABLE</string>
+    <string name="fidoo_recommends_">FIDOO recommends that you update to the latest version for seamless experience.</string>
+    <string name="update_now">UPDATE NOW</string>
+    <string name="enchantments_to_make_the_fidoo_exp">Enchantments to make the Fidoo experience seamless.</string>
+    <string name="fixed_a_bug_that_">Fixed a bug that was interrupting you to place a successful order.</string>
+    <string name="val_">#</string>
+    <string name="customizable">Customizable</string>
+    <string name="license">License</string>
+    <string name="restaurant_name">Restaurant Name</string>
+    <string name="restaurant_add">Restaurant add</string>
+    <string name="saved_addresses">Saved Addresses</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="rating_for_store">Rating For Store</string>
+    <string name="submit">Submit</string>
+    <string name="write_a_review_here">Write a review here...</string>
+    <string name="rating_for_driver">Rating For Driver</string>
+    <string name="cancel">Cancel</string>
+    <string name="cancel_order">Cancel Order</string>
+    <string name="very_bad">Very bad</string>
+    <string name="store_name">Store name</string>
+    <string name="_12am">12Am</string>
+    <string name="closing_time">closing time</string>
+    <string name="_0">0</string>
+    <string name="order_placed">Order Placed Successfully</string>
+    <string name="order_placed2">Hey, your order will be delivered soon!</string>
+    <string name="order_cancelled">Order Cancelled</string>
+    <string name="order_cancelledtry">Hey, try to order again sometimes later!</string>
+    <string name="leave_parcel_send">Leave your parcel delivery\nhassel to us!</string>
+
 </resources>

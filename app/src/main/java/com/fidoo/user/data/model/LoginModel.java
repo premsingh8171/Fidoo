@@ -19,6 +19,14 @@ public class LoginModel {
     @SerializedName("accessToken")
     @Expose
     public String accessToken;
+    @SerializedName("is_new_user")
+    @Expose
+    public String is_new_user;
+
+    @SerializedName("otp")
+    @Expose
+    public String otp;
+
     @SerializedName("error_description")
     @Expose
     public String errorDescription;

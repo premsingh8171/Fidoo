@@ -5,6 +5,6 @@
 
     <fragment
         android:id="@+id/addrAddressMapsFragment"
-        android:name="com.fidoo.user.ui.AddrAddressMapsFragment"
+        android:name="com.fidoo.user.fragments.AddrAddressMapsFragment"
         android:label="AddrAddressMapsFragment" />
 </navigation>

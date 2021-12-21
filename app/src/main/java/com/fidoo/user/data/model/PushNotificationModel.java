@@ -35,4 +35,12 @@ public class PushNotificationModel {
     @SerializedName("timestamp")
     @Expose
     public String timestamp;
+
+    @SerializedName("screen")
+    @Expose
+    public String screen;
+
+    @SerializedName("service_id")
+    @Expose
+    public String service_id;
 }

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/lightGray"
-        android:layout_height="match_parent">
-
-
+        android:layout_height="match_parent"
+        android:background="@color/lightGray">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/searchLay"
@@ -37,10 +34,10 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginHorizontal="20dp"
                     android:background="@null"
+                    android:fontFamily="@font/proxima"
                     android:gravity="center_vertical"
                     android:hint="Search..."
                     android:imeOptions="actionSearch"
-                    android:fontFamily="@font/metropolis_regular"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
@@ -58,18 +55,18 @@
         <TextView
             android:id="@+id/autoCompleteTextView1"
             android:layout_width="0dp"
-            android:layout_marginHorizontal="15dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:fontFamily="@font/proxima"
             android:text="Recent Searches"
             android:textStyle="bold"
-            android:fontFamily="@font/metropolis_semi_bold"
-            android:layout_centerHorizontal="true"
-            app:layout_constraintTop_toBottomOf="@+id/searchLay"
-            android:layout_marginTop="10dp"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:ems="10" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchLay" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recentSearhRecyclerView"
@@ -102,16 +99,16 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="5dp"
+            android:fontFamily="@font/proxima"
             android:gravity="center"
             android:singleLine="true"
-            android:fontFamily="@font/metropolis_semi_bold"
             android:text="Can't find your favourite store?"
             android:textColor="@color/colorPrimary"
             android:textSize="19sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/emptyDescTxt"
@@ -121,9 +118,9 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="5dp"
+            android:fontFamily="@font/proxima"
             android:gravity="center"
             android:singleLine="true"
-            android:fontFamily="@font/metropolis_regular"
             android:text="Make a list and order from any store"
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp"
@@ -131,71 +128,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emptyTitleTxt" />
 
-       <!-- <RelativeLayout
-            android:id="@+id/ll_view_cart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:padding="@dimen/margin_8dp"
-            >
-
-            <ImageView
-                android:id="@+id/img_cart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/txt_cart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/img_cart"
-                android:maxLines="1"
-                android:paddingLeft="@dimen/margin_8dp"
-                android:paddingRight="@dimen/margin_8dp"
-                android:fontFamily="@font/metropolis_semi_bold"
-                android:singleLine="true"
-                android:text="View cart"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_15sp" />
-
-            <TextView
-                android:id="@+id/txt_items_"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_cart"
-                android:layout_alignLeft="@+id/txt_cart"
-                android:fontFamily="@font/metropolis_regular"
-                android:paddingLeft="@dimen/margin_8dp"
-                android:paddingRight="@dimen/margin_8dp"
-                android:singleLine="true"
-                android:text="0 items"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_13sp" />
-
-
-            <TextView
-                android:id="@+id/txt_price_"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:gravity="right"
-                android:maxLines="2"
-                android:fontFamily="@font/metropolis_regular"
-                android:paddingLeft="@dimen/margin_12dp"
-                android:paddingRight="@dimen/margin_12dp"
-                android:singleLine="true"
-                android:text="@string/_50_00"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_17sp" />
-
-
-        </RelativeLayout>-->
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -240,6 +172,7 @@
                             android:gravity="center_horizontal">
 
                             <TextView
+                                android:fontFamily="@font/proxima"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginHorizontal="15dp"
@@ -257,6 +190,7 @@
                         </RelativeLayout>
 
                         <TextView
+                            android:fontFamily="@font/proxima"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="15dp"
@@ -300,6 +234,7 @@
 
 
                             <TextView
+                                android:fontFamily="@font/proxima"
                                 android:id="@+id/minusLay"
                                 android:layout_width="35dp"
                                 android:layout_height="35dp"
@@ -313,6 +248,7 @@
 
 
                             <TextView
+                                android:fontFamily="@font/proxima"
                                 android:id="@+id/countValue"
                                 android:layout_width="35dp"
                                 android:layout_height="35dp"
@@ -325,6 +261,7 @@
 
 
                             <TextView
+                                android:fontFamily="@font/proxima"
                                 android:id="@+id/plusLay"
                                 android:layout_width="35dp"
                                 android:layout_height="35dp"
@@ -340,7 +277,7 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
-
+                            android:fontFamily="@font/proxima"
                             android:id="@+id/customAddBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -369,63 +306,67 @@
 
         <LinearLayout
             android:id="@+id/cartitemView_LLsearch"
-            android:visibility="gone"
-            android:gravity="center_vertical"
-            android:background="@color/colorGreenText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_50dp">
+            android:layout_height="@dimen/margin_50dp"
+            android:background="@color/colorGreenText"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_marginLeft="@dimen/margin_5dp"
+                android:fontFamily="@font/proxima"
                 android:id="@+id/itemQuantity_textsearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_5dp"
                 android:padding="@dimen/margin_10dp"
-                android:textSize="@dimen/text_size_14sp"
                 android:text="0"
                 android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textSize="@dimen/text_size_14sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:fontFamily="@font/proxima"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/margin_5dp"
-                android:textSize="@dimen/text_size_14sp"
                 android:text="Item"
                 android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textSize="@dimen/text_size_14sp" />
 
             <View
-                android:layout_marginLeft="@dimen/margin_5dp"
-                android:layout_marginRight="@dimen/margin_5dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginBottom="18dp"
-                android:background="@color/white"
                 android:layout_width="1dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_5dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="@dimen/margin_5dp"
+                android:layout_marginBottom="18dp"
+                android:background="@color/white" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:fontFamily="@font/proxima"
                 android:id="@+id/totalprice_txtsearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/margin_5dp"
-                android:textSize="@dimen/text_size_14sp"
                 android:text="Rs.200"
                 android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textSize="@dimen/text_size_14sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:fontFamily="@font/proxima"
                 android:id="@+id/viewcartfromSearch"
-                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@color/quantum_amber100"
+                android:drawableTint="@color/white"
                 android:gravity="end|center_vertical"
                 android:padding="@dimen/margin_5dp"
-                android:textSize="@dimen/text_size_14sp"
                 android:text="VIEW CART"
                 android:textColor="@color/white"
-                android:drawableTint="@color/white"
-                android:drawableLeft="@color/quantum_amber100"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:textSize="@dimen/text_size_14sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

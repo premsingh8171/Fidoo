@@ -19,6 +19,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:fontFamily="@font/proxima"
             android:paddingTop="@dimen/text_size_7sp"
             android:paddingBottom="@dimen/text_size_7sp"
             android:paddingRight="@dimen/margin_10"

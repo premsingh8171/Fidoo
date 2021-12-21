@@ -27,6 +27,7 @@ class ParentStoreListAdapter(
 ): RecyclerView.Adapter<ParentStoreListAdapter.ViewHolder>()  {
     private lateinit var childStoreListProductsAdapter: ChildStoreListProductsAdapter
     var customIdsList: ArrayList<SearchModel.ProductList>? = null
+    var updateProduct_list:String=""
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
@@ -42,7 +43,8 @@ class ParentStoreListAdapter(
 
          customIdsList= list[position]?.list as ArrayList<SearchModel.ProductList>?
 
-       // Log.d("sfddffdd", customIdsList?.get(position)?.productName.toString())
+        //Log.d("sfddffdd", customIdsList?.get(position)?.productName.toString())
+
         childStoreListProductsAdapter = ChildStoreListProductsAdapter(context, customIdsList!!,object: AdapterClick{
             override fun onItemClick(productId: String?, type: String?, count: String?, offerPrice: String?, customize_count: Int?, productType: String?, cart_id: String?) {
                 adapterClick.onItemClick(productId,type,count,offerPrice,customize_count,productType,cart_id)
@@ -73,9 +75,10 @@ class ParentStoreListAdapter(
         return list.size
     }
 
-//    fun setUpdate(listData_: ArrayList<SearchModel.Store>) {
-//        list = ArrayList<SearchModel.Store>()
-//        list.addAll(listData_)
-//        notifyDataSetChanged()
-//    }
+    fun setUpdate(listData_: ArrayList<SearchModel.Store>,product_:String) {
+        list = ArrayList<SearchModel.Store>()
+        list.addAll(listData_)
+        updateProduct_list=product_
+        notifyDataSetChanged()
+    }
 }

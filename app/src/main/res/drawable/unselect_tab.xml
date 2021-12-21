@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <rotate
+            android:fromDegrees="180"
+            android:toDegrees="90"
+            android:pivotX="50%"
+            android:pivotY="50%" >
+            <shapese
+                android:shape="rectangle"
+                android:top="1dp">
+                <solid android:color="@color/grey"/>
+                <corners android:radius="@dimen/margin_10"/>
+                <stroke
+                    android:color="@color/grey"
+                    android:width="@dimen/dimen_5dp"
+                    />
+            </shapese>
+        </rotate>
+    </item>
+</layer-list>
+
