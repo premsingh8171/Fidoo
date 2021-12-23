@@ -32,14 +32,14 @@
             android:id="@+id/store_name_"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/proxima"
             android:layout_marginRight="@dimen/margin_35dp"
+            android:fontFamily="@font/proxima"
+            android:text="Store Name"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:text="Store Name"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/backIcon_"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -93,7 +93,7 @@
     <FrameLayout
         android:id="@+id/cartCountFm"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/margin_50dp"
+        android:layout_height="@dimen/dimen_60dp"
         android:layout_marginRight="@dimen/margin_20dp"
         android:layout_marginBottom="80dp"
         android:background="@drawable/cart_bg"
@@ -105,7 +105,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_50dp"
+            android:layout_height="@dimen/dimen_60dp"
             android:gravity="center_vertical"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -121,7 +121,7 @@
                 android:padding="@dimen/dimen_5dp"
                 android:text="0"
                 android:textColor="@color/primary_color"
-                android:textSize="@dimen/text_size_14sp" />
+                android:textSize="@dimen/dimen_16sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -130,7 +130,7 @@
                 android:padding="@dimen/margin_5dp"
                 android:text="Item"
                 android:textColor="@color/primary_color"
-                android:textSize="@dimen/text_size_14sp" />
+                android:textSize="@dimen/dimen_16sp" />
 
             <View
                 android:layout_width="1dp"
@@ -150,7 +150,7 @@
                 android:padding="@dimen/margin_5dp"
                 android:text="#"
                 android:textColor="@color/primary_color"
-                android:textSize="@dimen/text_size_14sp" />
+                android:textSize="@dimen/dimen_16sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -159,8 +159,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="@dimen/margin_15dp"
-                    android:layout_height="@dimen/margin_15dp"
+                    android:layout_width="@dimen/margin_24dp"
+                    android:layout_height="@dimen/margin_24dp"
                     android:layout_gravity="end|center_vertical"
                     android:layout_marginEnd="@dimen/margin_15dp"
                     android:layout_weight="1"

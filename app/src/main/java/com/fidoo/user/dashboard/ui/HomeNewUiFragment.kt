@@ -103,23 +103,17 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		fragmentHomeBinding =
-			DataBindingUtil.inflate(inflater, R.layout.fragment_home_newui, container, false)
+		fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_newui, container, false)
 
 		analytics = FirebaseAnalytics.getInstance(requireContext())
 
 		viewmodel = ViewModelProviders.of(requireActivity()).get(HomeFragmentViewModel::class.java)
-		viewmodelusertrack =
-			ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
-
+		viewmodelusertrack = ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
 		mMixpanel = MixpanelAPI.getInstance(requireContext(), "defeff96423cfb1e8c66f8ba83ab87fd")
 
 
 
 		props.put("Dashboard initialized", true)
-
-
-
 		mMixpanel?.track("DashBoard", props)
 
 		pref = SessionTwiclo(requireContext())

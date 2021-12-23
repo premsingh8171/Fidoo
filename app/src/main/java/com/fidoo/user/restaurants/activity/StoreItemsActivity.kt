@@ -951,13 +951,13 @@ class StoreItemsActivity :
 		txtError?.setOnClickListener(View.OnClickListener {
 			selectCategoryDiolog?.dismiss()
 		})
+
 		outsid_viewRl?.setOnClickListener(View.OnClickListener {
 			selectCategoryDiolog?.dismiss()
 		})
 
 		dismisspopUp?.setOnClickListener(View.OnClickListener {
 			selectCategoryDiolog?.dismiss()
-
 		})
 
 		if (active_or_not == 0) {
@@ -966,6 +966,7 @@ class StoreItemsActivity :
 			viewAll_txt.setTextColor(Color.parseColor("#000000"))
 
 		}
+
 		viewAll_txt?.setOnClickListener(View.OnClickListener {
 			cat_id = ""
 			active_or_not = 0
@@ -984,6 +985,7 @@ class StoreItemsActivity :
 			getRoomData()
 
 		})
+
 		cat_listShow = 1
 		rvCategory(catList)
 
