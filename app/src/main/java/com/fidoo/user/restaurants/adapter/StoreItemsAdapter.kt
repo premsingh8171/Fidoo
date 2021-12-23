@@ -74,6 +74,12 @@ class StoreItemsAdapter(
             e.printStackTrace()
         }
 
+        if (index.offerPrice.equals("0")){
+            holder.priceAfterDiscount.visibility=View.GONE
+        }else{
+            holder.priceAfterDiscount.visibility=View.VISIBLE
+        }
+
         try {
             if (index.headerActiveornot.equals("1")) {
                 if (position == 0) {

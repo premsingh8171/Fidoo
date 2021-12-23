@@ -26,14 +26,14 @@ public class SessionTwiclo {
 
     public SessionTwiclo(Context context) {
 
-        PRIVATE_MODE = 0;
+         PRIVATE_MODE = 0;
         _context = context;
+
         if (_context != null) {
             pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
             editor = pref.edit();
 
         }
-
 
     }
 
