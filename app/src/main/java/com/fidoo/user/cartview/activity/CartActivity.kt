@@ -552,6 +552,9 @@ class CartActivity : BaseActivity(),
 				viewmodel?.getCartDetails(accountId, accessToken, userLat, userLong)
 
 				showToast(mModelData.message)
+			}else if(user.errorCode == 101){
+				showAlertDialog(this)
+
 			}
 		}
 
@@ -659,6 +662,8 @@ class CartActivity : BaseActivity(),
 				getStoreDetails()
 
 
+			}else if(user.errorCode==101){
+				showAlertDialog(this)
 			}
 
 		}
@@ -666,15 +671,19 @@ class CartActivity : BaseActivity(),
 		viewmodel?.deleteCartResponse?.observe(this) { user ->
 			dismissIOSProgress()
 
-			Log.e("deleteCartResponse_", Gson().toJson(user))
-			Toast.makeText(this, user.message, Toast.LENGTH_LONG).show()
-			viewmodel?.getCartDetails(
-				accountId,
-				accessToken,
-				userLat,
-				userLong
-			)
-			getStoreDetails()
+			if (user.errorCode==200) {
+				Log.e("deleteCartResponse_", Gson().toJson(user))
+				Toast.makeText(this, user.message, Toast.LENGTH_LONG).show()
+				viewmodel?.getCartDetails(
+					accountId,
+					accessToken,
+					userLat,
+					userLong
+				)
+				getStoreDetails()
+			}else if(user.errorCode == 101){
+				showAlertDialog(this)
+			}
 		}
 
 		viewmodel?.getCartDetailsResponse?.observe(this) { user ->

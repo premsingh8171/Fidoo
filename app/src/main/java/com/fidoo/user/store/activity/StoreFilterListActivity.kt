@@ -70,7 +70,6 @@ class StoreFilterListActivity : BaseActivity() {
     var adapterStore: StoreAdapter? = null
     private var mMixpanel: MixpanelAPI? = null
 
-
     companion object {
         var serive_id_: String? = ""
         var cuisine_to_search: String? = ""
@@ -123,6 +122,7 @@ class StoreFilterListActivity : BaseActivity() {
             service_idStr=serive_id
 
             serive_id_ = serive_id
+
             if (serive_id.equals("5")) {
                 restaurant_curationll_.visibility = View.VISIBLE
                 sortRlheader.visibility = View.VISIBLE
@@ -141,6 +141,7 @@ class StoreFilterListActivity : BaseActivity() {
                 curationNameTxt.text=cusineName
 
             }
+
 //            val gson = Gson()
 //            val type: Type = object : TypeToken<ArrayList<StoreListingModel.StoreList?>?>() {}.getType()
 //            val storeList: ArrayList<StoreListingModel.StoreList> = gson.fromJson(list_val, type)
@@ -154,6 +155,7 @@ class StoreFilterListActivity : BaseActivity() {
 //            } else {
 //                no_shop_ll.visibility = View.VISIBLE
 //            }
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -178,7 +180,6 @@ class StoreFilterListActivity : BaseActivity() {
         retry_onRefresh.setOnClickListener {
             apicall(serive_id_)
         }
-
 
     }
 
@@ -299,7 +300,6 @@ class StoreFilterListActivity : BaseActivity() {
 
 
     }
-
 
     private fun apicall(serive_id: String?) {
 

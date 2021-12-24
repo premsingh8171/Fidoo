@@ -455,11 +455,12 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 				if (!user.error) {
 
 					val mModelData: StoreListingModel = user
-
 					storeListUpdated!!.clear()
+
 					hit=0
 					if (pagecount==0) {
 						curationList = mModelData.curations as ArrayList
+
 						if (curationList!!.isNotEmpty()) {
 
 							var curationsAdapter = RestaurantCurationsAdapter(
@@ -501,6 +502,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 							curation_RecyclerView.visibility = View.GONE
 							sortRl.visibility = View.GONE
 						}
+
 					}
 
 					isMore = user.more_value

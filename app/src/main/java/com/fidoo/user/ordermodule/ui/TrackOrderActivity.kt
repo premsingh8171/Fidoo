@@ -22,10 +22,9 @@ import android.os.CountDownTimer
 import android.os.Handler
 import android.util.Log
 import android.view.*
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
@@ -44,7 +43,6 @@ import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.onBackpressHandle
 import com.fidoo.user.activity.MainActivity.Companion.timerStatus
 import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.NotiCheck
@@ -72,6 +70,7 @@ import com.makesense.labs.curvefit.interfaces.OnCurveDrawnCallback
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.prudhvir3ddy.rideshare.utils.AnimationUtils
+import com.prudhvir3ddy.rideshare.utils.Constants
 import com.prudhvir3ddy.rideshare.utils.MapUtils
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.activity_track_order.*
@@ -122,6 +121,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 	private var locationManager: LocationManager? = null
 	private val REQUEST_CHECK_SETTINGS = 0x1
 	var order_cancel_Diolog: Dialog? = null
+	var call_Diolog: Dialog? = null
 	private lateinit var prescriptionDatabase: PrescriptionDatabase
 	lateinit var behavior: BottomSheetBehavior<LinearLayout>
 	var hit: Long = 5
@@ -149,6 +149,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 	var check=0
 	var handleClick=0
 
+	@SuppressLint("SetTextI18n")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -207,7 +208,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 //				val dialIntent = Intent(Intent.ACTION_DIAL)
 //				dialIntent.data = Uri.parse("tel:" + store_phone)
 //				startActivity(dialIntent)
-
+				onCallPopUp(0)
 				if (sessionInstance.profileDetail != null) {
 					viewmodel?.customerCallMerchantApi(
 						SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -235,6 +236,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 //				startActivity(dialIntent)
 //			}
 
+			onCallPopUp(1)
 			if (sessionInstance.profileDetail != null) {
 				viewmodel?.callCustomerApi(
 					SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -377,7 +379,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		val mapFragment = supportFragmentManager
 			.findFragmentById(R.id.map) as SupportMapFragment?
 		mapFragment!!.getMapAsync(this)
-
 
 		viewmodel?.getLocationResponse?.observe(this, { user ->
 			try {
@@ -726,7 +727,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 						it.orderStatus.equals("1") -> {
 							// holder.buttonValue.visibility = View.VISIBLE
 							// holder.buttonValue.visibility = View.GONE
-							status_store_txt.text = "has recieved you order"
+							status_store_txt.text = "has received you order"
 							order_status.text = "Please wait while we confirm your order"
 							tv_delivery_boy_call.visibility = View.GONE
 							driver_cardView.visibility = View.GONE
@@ -743,6 +744,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							}else{
 								finish()
 							}
+
 						}
 
 						it.orderStatus.equals("3") -> 	{
@@ -770,7 +772,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 						}
 
 						it.orderStatus.equals("11") -> {
-							status_store_txt.text = "is prepararing your order"
+							status_store_txt.text = "is preparing your order"
 							order_status.text = "Your order is being prepared"
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
@@ -781,7 +783,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 						it.orderStatus.equals("5") -> {
 							//  holder.buttonValue.visibility = View.VISIBLE
 							//holder.buttonValue.visibility = View.GONE
-							status_store_txt.text = "is prepararing your order"
+							status_store_txt.text = "is preparing your order"
 							order_status.text = "Order is in progress"
 							cancelBtn.visibility = View.GONE
 						}
@@ -803,7 +805,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 						it.orderStatus.equals("7") -> {
 							//holder.buttonValue.visibility = View.VISIBLE
-							status_store_txt.text = "is prepararing your order"
+							status_store_txt.text = "is preparing your order"
 							order_status.text = it.storeName + " has accepted your order"
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
@@ -1711,5 +1713,44 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		}
 		valueAnimator.start()
 	}
+
+	private fun onCallPopUp(type:Int) {
+		call_Diolog = Dialog(this)
+		call_Diolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		call_Diolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+		call_Diolog?.setContentView(R.layout.call_popup)
+		call_Diolog?.window?.setLayout(
+			WindowManager.LayoutParams.MATCH_PARENT,
+			WindowManager.LayoutParams.MATCH_PARENT
+		)
+		call_Diolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+		call_Diolog?.setCanceledOnTouchOutside(true)
+		call_Diolog?.show()
+
+		val callTypeTxt = call_Diolog?.findViewById<TextView>(R.id.callTypeTxt)
+		val regImg = call_Diolog?.findViewById<ImageView>(R.id.regImg)
+		val cancelDialogConstL = call_Diolog?.findViewById<ConstraintLayout>(R.id.cancelDialogConstL)
+
+		if (regImg != null) {
+			Glide.with(this)
+				.load(R.drawable.call_wait)
+				.fitCenter()
+				.error(R.drawable.default_item)
+				.into(regImg)
+		}
+
+		if (type==0){
+			callTypeTxt!!.setText("Just a minute, connecting with the merchant in a bit.")
+		}else{
+			callTypeTxt!!.setText("Just a minute, connecting with the rider in a bit.")
+		}
+
+
+		cancelDialogConstL?.setOnClickListener {
+			call_Diolog?.dismiss()
+		}
+
+	}
+
 
 }

@@ -124,8 +124,8 @@
             android:id="@+id/storesRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_marginLeft="@dimen/margin_10" />
+            android:layout_marginLeft="@dimen/margin_10"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </LinearLayout>
 
@@ -291,14 +291,14 @@
                 android:paddingBottom="@dimen/margin_2dp"
                 android:text="Relevance"
                 android:textColor="@color/primary_color"
-                android:textSize="@dimen/text_size_14sp" />
+                android:textSize="@dimen/dimen_16sp" />
 
             <TextView
                 android:id="@+id/ratingTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_20dp"
-                android:layout_marginTop="@dimen/margin_2dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
                 android:fontFamily="@font/proxima"
                 android:maxLines="1"
                 android:padding="@dimen/dimen_5dp"
@@ -306,14 +306,14 @@
                 android:paddingBottom="@dimen/margin_2dp"
                 android:text="Rating"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_14sp" />
+                android:textSize="@dimen/margin_16dp" />
 
             <TextView
                 android:id="@+id/timingTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_20dp"
-                android:layout_marginTop="@dimen/margin_2dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
                 android:layout_marginRight="@dimen/margin_20dp"
                 android:layout_marginBottom="@dimen/margin_20dp"
                 android:fontFamily="@font/proxima"
@@ -323,7 +323,7 @@
                 android:paddingBottom="@dimen/margin_2dp"
                 android:text="Delivery Time"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_14sp" />
+                android:textSize="@dimen/margin_16dp" />
 
         </LinearLayout>
 

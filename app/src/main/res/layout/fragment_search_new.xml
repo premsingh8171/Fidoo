@@ -77,8 +77,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_20dp"
-                android:text="Cancel"
                 android:fontFamily="@font/proxima"
+                android:text="Cancel"
                 android:textColor="@color/black" />
 
         </LinearLayout>
@@ -92,6 +92,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:weightSum="10">
 
             <TextView
@@ -115,8 +116,7 @@
                 android:fontFamily="@font/proxima"
                 android:text="Clear History"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_14sp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/text_size_14sp" />
 
         </LinearLayout>
 
@@ -139,9 +139,9 @@
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginTop="@dimen/margin_20dp"
             android:layout_weight="9"
+            android:fontFamily="@font/proxima"
             android:text="Suggested Search"
             android:textColor="@color/black"
-            android:fontFamily="@font/proxima"
             android:textSize="@dimen/dimen_16sp"
             android:textStyle="bold" />
 

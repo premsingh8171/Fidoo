@@ -18,8 +18,8 @@
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
             android:background="@color/lightGray"
+            android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
             app:toolbarId="@+id/toolbar">
 
@@ -181,9 +181,9 @@
                     android:gravity="center"
                     android:maxLength="35"
                     android:text=""
-                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -273,10 +273,12 @@
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/store_nameTxt"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/dimen_5dp"
-                android:layout_marginEnd="@dimen/margin_10"
+                android:layout_marginEnd="@dimen/dimen_5dp"
                 android:fontFamily="@font/proxima"
-                android:maxLines="1"
+                android:gravity="end"
+                android:maxLines="2"
                 android:paddingLeft="@dimen/margin_4dp"
                 android:text="#"
                 android:textColor="@color/black"
@@ -284,11 +286,9 @@
 
             <TextView
                 android:id="@+id/tv_location"
-                android:layout_width="130dp"
+                android:layout_width="@dimen/margin_200dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/store_nameTxt"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="@dimen/dimen_5dp"
                 android:ellipsize="marquee"
                 android:focusable="true"
@@ -296,9 +296,9 @@
                 android:focusedByDefault="true"
                 android:fontFamily="@font/proxima"
                 android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="2"
                 android:paddingLeft="@dimen/dimen_5dp"
                 android:selectAllOnFocus="true"
-                android:singleLine="true"
                 android:text=""
                 android:textColor="@color/black"
                 android:textSize="12sp" />
@@ -309,7 +309,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_location"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/margin_10"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -340,6 +340,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_cuisnes"
+                android:layout_marginTop="@dimen/dimen_5dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -373,16 +374,17 @@
                 android:layout_below="@+id/tv_cuisnes"
                 android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/dimen_5dp"
                 android:layout_toRightOf="@+id/timelL"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
                 <ImageView
-                    android:layout_width="13dp"
-                    android:layout_height="16dp"
+                    android:layout_width="@dimen/margin_24dp"
+                    android:layout_height="@dimen/margin_24dp"
                     android:layout_below="@id/tv_location"
                     android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_marginTop="@dimen/margin_15dp"
+                    android:layout_marginTop="@dimen/margin_10"
                     android:layout_marginEnd="8dp"
                     android:padding="@dimen/margin_2dp"
                     android:src="@drawable/offer_icon" />

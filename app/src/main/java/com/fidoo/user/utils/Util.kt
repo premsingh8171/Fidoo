@@ -260,7 +260,7 @@ fun Activity.statusBarTransparent() {
 fun Fragment.showAlertDialog(context: Context) {
     val customBuilder =
         AlertDialog.Builder(context)
-    customBuilder.setTitle("Twiclo")
+    customBuilder.setTitle("Fidoo")
     customBuilder.setMessage("Your session has been expired. Another device has logged into this account.")
     customBuilder.setNegativeButton(
         "OK"
@@ -284,7 +284,7 @@ fun Fragment.showAlertDialog(context: Context) {
 fun Activity.showAlertDialog(context: Context) {
     val customBuilder =
         AlertDialog.Builder(context)
-    customBuilder.setTitle("Twiclo")
+    customBuilder.setTitle("Fidoo")
     customBuilder.setMessage("Your session has been expired. Another device has logged into this account.")
     customBuilder.setNegativeButton(
         "OK"

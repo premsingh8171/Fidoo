@@ -91,6 +91,7 @@ class StoreAdapter(
 		var date: Date? = null
 
 		try {
+
 			if (storeList[position].storeClosingTime.equals("")) {
 				holder.closingTimeText.visibility = View.GONE
 				holder.closingTimeText.text = " "
@@ -99,7 +100,6 @@ class StoreAdapter(
 				holder.closingTimeText?.setTextColor(Color.rgb(240, 0, 0))
 				holder.closingTimeText.visibility = View.VISIBLE
 			}
-
 			holder.itemView.opening_timetxt.text = storeList[position].storeOpeningTime
 
 		} catch (e: ParseException) {
@@ -242,7 +242,7 @@ class StoreAdapter(
 							context as Activity?, Intent(context, GroceryNewUiActivity::class.java)
 								.putExtra("storeId", storeList[position].id)
 								.putExtra("store_name", storeList.get(position).name)
-								.putExtra("store_location", storeList[position].locality)
+								.putExtra("store_location", storeList[position].address)
 								.putExtra(
 									"delivery_time",
 									storeList[position].delivery_time.toString()
@@ -259,7 +259,7 @@ class StoreAdapter(
 							context as Activity?, Intent(context, StoreItemsActivity::class.java)
 								.putExtra("storeId", storeList[position].id)
 								.putExtra("storeName", storeList[position].name)
-								.putExtra("store_location", storeList[position].locality)
+								.putExtra("store_location", storeList[position].address)
 								.putExtra(
 									"delivery_time",
 									storeList[position].delivery_time.toString()

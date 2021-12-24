@@ -59,6 +59,7 @@ import com.fidoo.user.restaurants.viewmodel.StoreDetailsViewModel
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.BaseActivity
+import com.fidoo.user.utils.showAlertDialog
 import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory.executor
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.appbar.AppBarLayout
@@ -67,7 +68,6 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
-import kotlinx.android.synthetic.main.activity_send_package_order_detail.*
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.activity_store_items.backIcon
 import kotlinx.android.synthetic.main.activity_store_items.linear_progress_indicator
@@ -599,6 +599,7 @@ class StoreItemsActivity :
 			}
 
 			if (storeData.category.size != 0) {
+
 				executor().execute {
 					for (i in storeData.category.indices) {
 						val categoryData = storeData.category[i]
@@ -678,7 +679,6 @@ class StoreItemsActivity :
 
 					}
 				}
-
 				//  rvHeaderCategory(catList)
 				Log.e("Product_", productList.size.toString())
 
@@ -698,6 +698,8 @@ class StoreItemsActivity :
 				no_itemsFound_res.visibility = View.GONE
 				no_item_foundll.visibility = View.GONE
 
+			}else if (storeData.errorCode == 101){
+				showAlertDialog(this)
 			} else {
 				cat_visible = 0
 				productList.clear()!!
@@ -741,6 +743,9 @@ class StoreItemsActivity :
 						SessionTwiclo(this).loggedInUserDetail.accessToken
 					)
 				}
+			} else if (user.errorCode == 101) {
+				showAlertDialog(this)
+
 			}
 			//   getStoreDetailsApiCall()
 		}
@@ -793,6 +798,9 @@ class StoreItemsActivity :
 					SessionTwiclo(this).loggedInUserDetail.accountId,
 					SessionTwiclo(this).loggedInUserDetail.accessToken
 				)
+			} else if (user.errorCode == 101) {
+				showAlertDialog(this)
+
 			}
 			// getStoreDetailsApiCall()
 		})
@@ -801,121 +809,133 @@ class StoreItemsActivity :
 			dismissIOSProgress()
 			cartitemView_LLstore.visibility = View.GONE
 			cat_FloatBtn.visibility = View.GONE
+			if (user.errorCode==200) {
+				Log.e("stores___esponse", Gson().toJson(user))
+				mModelDataTemp = user
 
-			Log.e("stores___esponse", Gson().toJson(user))
-			mModelDataTemp = user
+				categoryy = ArrayList()
 
-			categoryy = ArrayList()
+				for (i in 0 until mModelDataTemp?.category?.size!!) {
+					if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
+						try {
+							if (mModelDataTemp?.category?.get(i)!!.isMandatory.equals("0")) {
+							} else {
+								var customListModel: CustomListModel? = CustomListModel()
+								customListModel!!.category =
+									mModelDataTemp?.category?.get(i)!!.catId
+								try {
+									customListModel!!.id =
+										mModelDataTemp?.category?.get(i)!!.subCat[0].id.toInt()
+									customListModel!!.price =
+										mModelDataTemp?.category?.get(i)!!.subCat[0].price
+									customListModel!!.subCatName =
+										mModelDataTemp?.category?.get(i)!!.subCat[0].subCatName
+								} catch (e: Exception) {
+								}
 
-			for (i in 0 until mModelDataTemp?.category?.size!!) {
-				if (mModelDataTemp?.category?.get(i)!!.isMultiple.equals("0")) {
-					try {
-						if (mModelDataTemp?.category?.get(i)!!.isMandatory.equals("0")) {
-						} else {
-							var customListModel: CustomListModel? = CustomListModel()
-							customListModel!!.category = mModelDataTemp?.category?.get(i)!!.catId
-							try{
-								customListModel!!.id =
-									mModelDataTemp?.category?.get(i)!!.subCat[0].id.toInt()
-								customListModel!!.price = mModelDataTemp?.category?.get(i)!!.subCat[0].price
-								customListModel!!.subCatName =
-									mModelDataTemp?.category?.get(i)!!.subCat[0].subCatName
-							}catch(e:Exception){
+								categoryy!!.add(customListModel)
 							}
-
-							categoryy!!.add(customListModel)
+						} catch (e: java.lang.Exception) {
+							e.printStackTrace()
 						}
-					}catch (e:java.lang.Exception){e.printStackTrace()}
+					}
 				}
-			}
 
-			tempPrice = 0.0
+				tempPrice = 0.0
 
-			//var tempPrice: Double? = 0.0
-			for (i in 0 until customIdsListTemp!!.size) {
-				tempPrice = tempPrice!! + customIdsListTemp!!.get(i).price.toDouble()
-			}
-
-			for (i in 0 until categoryy!!.size) {
-				if (categoryy!!.get(i).price != null) {
-					tempPrice = tempPrice!! + categoryy!![i].price.toDouble()
+				//var tempPrice: Double? = 0.0
+				for (i in 0 until customIdsListTemp!!.size) {
+					tempPrice = tempPrice!! + customIdsListTemp!!.get(i).price.toDouble()
 				}
+
+				for (i in 0 until categoryy!!.size) {
+					if (categoryy!!.get(i).price != null) {
+						tempPrice = tempPrice!! + categoryy!![i].price.toDouble()
+					}
+				}
+				Log.e("tempPrice", tempPrice.toString())
+
+				try {
+					tempPrice = tempOfferPrice!!.toDouble() + tempPrice!!
+				} catch (e: NumberFormatException) {
+					Log.e("Exception", e.toString())
+				}
+
+
+				//tempPrice = tempPrice!! + plusMinusPrice
+				//showToast(tempPrice.toString())
+				Log.e("tempPriceTotal", tempPrice.toString())
+
+				// customAddBtn.text = "Item total "+resources.getString(R.string.ruppee) + tempPrice.toString()
+				customAddBtn.text =
+					"Add | " + resources.getString(R.string.ruppee) + tempPrice.toString()
+
+				//	Log.e("tempPriceTotal_", mModelDataTemp?.category!![0].subCat.size.toString())
+				try {
+					if (mModelDataTemp?.category!![0].subCat.size == 0) {
+						customAddBtn.visibility = View.GONE
+					} else {
+						customAddBtn.visibility = View.VISIBLE
+
+					}
+				} catch (e: java.lang.Exception) {
+					e.printStackTrace()
+				}
+
+
+				val adapter = StoreCustomItemsAdapter(
+					this,
+					mModelDataTemp?.category!!,
+					this,
+					categoryy,
+					this
+				)
+				customItemsRecyclerview.layoutManager = LinearLayoutManager(this)
+				customItemsRecyclerview.setHasFixedSize(true)
+				customItemsRecyclerview.adapter = adapter
+				// Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+			}else if (user.errorCode==101){
+				showAlertDialog(this)
+
 			}
-			Log.e("tempPrice", tempPrice.toString())
-
-			try {
-				tempPrice = tempOfferPrice!!.toDouble() + tempPrice!!
-			} catch (e: NumberFormatException) {
-				Log.e("Exception", e.toString())
-			}
-
-
-			//tempPrice = tempPrice!! + plusMinusPrice
-			//showToast(tempPrice.toString())
-			Log.e("tempPriceTotal", tempPrice.toString())
-
-			// customAddBtn.text = "Item total "+resources.getString(R.string.ruppee) + tempPrice.toString()
-			customAddBtn.text =
-				"Add | " + resources.getString(R.string.ruppee) + tempPrice.toString()
-
-		//	Log.e("tempPriceTotal_", mModelDataTemp?.category!![0].subCat.size.toString())
-			try {
-			  if ( mModelDataTemp?.category!![0].subCat.size==0){
-				  customAddBtn.visibility=View.GONE
-			}else{
-				  customAddBtn.visibility=View.VISIBLE
-
-			  }
-			}catch (e:java.lang.Exception){
-				e.printStackTrace()
-			}
-
-
-			val adapter = StoreCustomItemsAdapter(
-				this,
-				mModelDataTemp?.category!!,
-				this,
-				categoryy,
-				this
-			)
-			customItemsRecyclerview.layoutManager = LinearLayoutManager(this)
-			customItemsRecyclerview.setHasFixedSize(true)
-			customItemsRecyclerview.adapter = adapter
-			// Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
 		})
 
 		viewmodel?.clearCartResponse?.observe(this, Observer { user ->
 			dismissIOSProgress()
+			if (user.errorCode == 200) {
+				Log.e("stores_response", Gson().toJson(user))
+				if (tempType.equals("custom")) {
 
-			Log.e("stores_response", Gson().toJson(user))
-			if (tempType.equals("custom")) {
+					viewmodel!!.addToCartApi(
+						SessionTwiclo(this).loggedInUserDetail.accountId,
+						SessionTwiclo(this).loggedInUserDetail.accessToken,
+						addCartTempList!!,
+						""
+					)
+				} else {
 
-				viewmodel!!.addToCartApi(
-					SessionTwiclo(this).loggedInUserDetail.accountId,
-					SessionTwiclo(this).loggedInUserDetail.accessToken,
-					addCartTempList!!,
-					""
-				)
-			} else {
+					addCartTempList!!.clear()
+					val addCartInputModel = AddCartInputModel()
+					addCartInputModel.productId = cus_itemProductId
+					addCartInputModel.quantity = "1"
+					addCartInputModel.message = "add product"
+					addCartInputModel.customizeSubCatId = customIdsList!!
+					addCartInputModel.isCustomize = "0"
+					addCartTempList!!.add(0, addCartInputModel)
 
-				addCartTempList!!.clear()
-				val addCartInputModel = AddCartInputModel()
-				addCartInputModel.productId = cus_itemProductId
-				addCartInputModel.quantity = "1"
-				addCartInputModel.message = "add product"
-				addCartInputModel.customizeSubCatId = customIdsList!!
-				addCartInputModel.isCustomize = "0"
-				addCartTempList!!.add(0, addCartInputModel)
+					viewmodel!!.addToCartApi(
+						SessionTwiclo(this).loggedInUserDetail.accountId,
+						SessionTwiclo(this).loggedInUserDetail.accessToken,
+						addCartTempList!!,
+						""
 
-				viewmodel!!.addToCartApi(
-					SessionTwiclo(this).loggedInUserDetail.accountId,
-					SessionTwiclo(this).loggedInUserDetail.accessToken,
-					addCartTempList!!,
-					""
+					)
+				}
+				//   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+			} else if (user.errorCode == 101) {
+				showAlertDialog(this)
 
-				)
 			}
-			//   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
 		})
 
 	}

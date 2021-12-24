@@ -641,7 +641,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			context as Activity?, Intent(context, StoreItemsActivity::class.java)
 				.putExtra("storeId", model.store_id)
 				.putExtra("storeName", model.store_name)
-				.putExtra("store_location", model.locality)
+				.putExtra("store_location", model.address)
 				.putExtra("delivery_time", model.delivery_time)
 				.putExtra("cuisine_types", model.cuisines.joinToString(separator = ", "))
 				.putExtra("coupon_desc", model.coupon_desc)
