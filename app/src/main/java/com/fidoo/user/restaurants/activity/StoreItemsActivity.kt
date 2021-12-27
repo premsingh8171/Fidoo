@@ -216,7 +216,7 @@ class StoreItemsActivity :
 		viewmodel = ViewModelProvider(this).get(StoreDetailsViewModel::class.java)
 		cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
 		viewmodelusertrack = ViewModelProvider(this).get(UserTrackerViewModel::class.java)
-		tv_location.text = intent.getStringExtra("store_location")
+		tv_location.text = intent.getStringExtra("store_location").toString().replace(" ,",", ")
 
 		cartitemView_LLstore.setOnClickListener {
 			if (SessionTwiclo(this).isLoggedIn) {
@@ -1937,7 +1937,7 @@ class StoreItemsActivity :
 		super.onResume()
 		storeID = intent.getStringExtra("storeId")!!
 		storeIDCheckOnCart = storeID
-		tv_cuisnes.text = intent.getStringExtra("cuisine_types")
+		tv_cuisnes.text = intent.getStringExtra("cuisine_types").toString()
 		tv_distance.text = intent.getStringExtra("distance") + "km"
 		if (!intent.getStringExtra("coupon_desc").equals("")) {
 			tv_coupon.text = intent.getStringExtra("coupon_desc")
@@ -1957,9 +1957,7 @@ class StoreItemsActivity :
 				)
 			}
 		}
-
 		// getStoreDetailsApiCall()
-
 
 	}
 

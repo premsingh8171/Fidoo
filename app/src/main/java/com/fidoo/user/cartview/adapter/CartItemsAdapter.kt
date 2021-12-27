@@ -139,6 +139,7 @@ class CartItemsAdapter(
                 if (holder.countValue.text.toString().toInt() > 0) {
                     var count: Int = holder.countValue.text.toString().toInt()
                     count--
+
                     if (cart.get(position).customizeItem != null) {
 
                         if (cart.get(position).customizeItem.size != 0) {
@@ -161,22 +162,23 @@ class CartItemsAdapter(
                         }
                     }
 
-
                     holder.countValue.text = count.toString()
+
                     if (count == 0) {
                         cart.removeAt(position)
                         notifyDataSetChanged()
-
                     }
 
                     if (count > 0) {
-                        var itemPrice: Int =
+                        var itemPrice: Float =
                             count.toString().toInt() * cart.get(position).offerPrice.toString()
-                                .toInt()
+                                .toFloat()
+
 
                         holder.priceTxt.text =
                             con.resources.getString(R.string.ruppee) + itemPrice.toString()
                     }
+
                 }
             }
 

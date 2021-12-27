@@ -42,7 +42,7 @@
         android:id="@+id/catName"
         android:layout_width="80sp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/proxima"
         android:maxLines="2"
         android:text="@string/grocery"

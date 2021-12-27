@@ -132,7 +132,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 			if (serive_id.equals("5")) {
 				restaurant_curationll.visibility = View.VISIBLE
-				sortRl.visibility = View.VISIBLE
+				sortRl.visibility = View.GONE
 			} else {
 				restaurant_curationll.visibility = View.GONE
 				sortRl.visibility = View.GONE
@@ -691,7 +691,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			RatingTxt_!!.setTextColor(getResources().getColor(R.color.black))
 			delivery_timeTxt!!.setTextColor(getResources().getColor(R.color.black))
 
-			sortRl.visibility = View.VISIBLE
+			sortRl.visibility = View.GONE
 			restaurant_curationll.visibility = View.VISIBLE
 			sortRlheader.visibility = View.GONE
 
@@ -717,7 +717,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			relevanceTxt.setTextColor(getResources().getColor(R.color.black))
 			ratingTxt.setTextColor(getResources().getColor(R.color.primary_color))
 			timingTxt.setTextColor(getResources().getColor(R.color.black))
-			sortRlheader.visibility = View.VISIBLE
+			sortRlheader.visibility = View.GONE
 
 			val intent = Intent(this@StoreListActivity, StoreFilterListActivity::class.java)
 				.putExtra("selectedValue", "rating")
@@ -766,7 +766,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 	override fun onResume() {
 		super.onResume()
 		if (onBackPressHandle == 1) {
-			sortRl.visibility = View.VISIBLE
+			sortRl.visibility = View.GONE
 			restaurant_curationll.visibility = View.VISIBLE
 			sortRlheader.visibility = View.GONE
 			sortFmBg.visibility = View.GONE

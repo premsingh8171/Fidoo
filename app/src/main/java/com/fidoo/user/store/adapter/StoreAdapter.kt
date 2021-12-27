@@ -58,7 +58,8 @@ class StoreAdapter(
 
 	override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
 		if (!storeList[position].cuisines.isNullOrEmpty()) {
-			holder.cuisine?.text = storeList[position].cuisines.joinToString(separator = ", ")
+			holder.cuisine?.text =
+				storeList[position].cuisines.joinToString(separator = ", ").replace(",", ", ").trim()
 			holder.cuisine?.visibility = View.VISIBLE
 		} else {
 			holder.cuisine?.visibility = View.GONE
@@ -86,7 +87,8 @@ class StoreAdapter(
 				holder.itemView.v1.visibility = View.GONE
 
 			}
-		} catch (e: Exception) { }
+		} catch (e: Exception) {
+		}
 
 		var date: Date? = null
 
@@ -108,7 +110,8 @@ class StoreAdapter(
 			holder.closingTimeText.text = " "
 		}
 
-		var retStr = storeList[position].name.toLowerCase().substring(0, 1).toUpperCase() + storeList[position].name.toLowerCase().substring(1)
+		var retStr = storeList[position].name.toLowerCase().substring(0, 1)
+			.toUpperCase() + storeList[position].name.toLowerCase().substring(1)
 		holder.storeName?.text = retStr
 
 		if (storeList[position].rating.toString() == "") {
@@ -210,8 +213,16 @@ class StoreAdapter(
 
 		holder.star_ratingtxt?.text = storeList[position].rating.toString()
 		holder.deliveryTimeTxt?.text = storeList[position].delivery_time.toString() + " minutes"
-		holder. location?.text = " " + storeList[position].distance.toString() + "km"
-		holder.tv_locality?.text = storeList[position].locality.toString() + " |"
+		holder.location?.text = " " + storeList[position].distance.toString() + "km"
+
+		try {
+			var retStr2 = storeList[position].locality.toString().toLowerCase().substring(0, 1)
+				.toUpperCase() + storeList[position].locality.toString().toLowerCase().substring(1)
+			holder.tv_locality?.text = retStr2 + " |"
+		} catch (e: Exception) {
+			e.printStackTrace()
+		}
+
 
 
 		Glide.with(context)

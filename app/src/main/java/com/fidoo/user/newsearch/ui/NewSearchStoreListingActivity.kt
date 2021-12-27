@@ -7,12 +7,15 @@ import android.widget.AbsListView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.ActivityNewSearchStorelistingBinding
+import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 import com.fidoo.user.newsearch.adapter.SearchCategoryStoreAdapter
 import com.fidoo.user.newsearch.model.Store
 import com.fidoo.user.newsearch.viewmodel.SearchNewViewModel
 import com.fidoo.user.restaurants.activity.StoreItemsActivity
+import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.utils.BaseActivity
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 
@@ -45,6 +48,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
     private var pagecount = 0
     var mainList: ArrayList<Store>? = null
     var latestList: ArrayList<Store>? = null
+    private lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -203,4 +207,22 @@ class NewSearchStoreListingActivity : BaseActivity() {
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        deleteRoomDataBase()
+    }
+    //delete room data
+    private fun deleteRoomDataBase() {
+        Thread {
+            restaurantProductsDatabase = Room.databaseBuilder(
+                applicationContext,
+                RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
+            )
+                .fallbackToDestructiveMigration()
+                .build()
+            restaurantProductsDatabase!!.resProductsDaoAccess()!!.deleteAll()
+
+        }.start()
+
+    }
 }

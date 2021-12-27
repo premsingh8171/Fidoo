@@ -108,7 +108,7 @@ class ServiceDetailsAdapter(
                             ?.let { loadImg(it.image, holder.itemView.fruit_img) }
 
                     } else if (i == 1) {
-//						Log.d("hygfyk",serviceList[position].services?.get(1)!!.image)
+						Log.d("hygfyk",serviceList[position].services?.get(1)!!.image)
                         holder.itemView.restaurant_txt.text =
                             serviceList[position].services?.get(1)!!.service_name.replace(" ", "\n")
 

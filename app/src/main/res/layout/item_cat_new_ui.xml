@@ -40,7 +40,6 @@
             android:id="@+id/cat_itemTxt"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/margin_40dp"
-            android:layout_marginTop="@dimen/margin_10"
             android:layout_marginBottom="@dimen/margin_20dp"
             android:fontFamily="@font/proxima"
             android:gravity="center"

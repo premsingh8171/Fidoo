@@ -9,14 +9,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_barRes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dimen_60dp"
         android:background="@color/colorGray"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/lightGray"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
@@ -37,6 +37,7 @@
                     android:layout_marginTop="@dimen/dimen_60dp"
                     android:background="@drawable/curation_store_gradient"
                     android:orientation="vertical"
+                    android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -65,7 +66,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -82,6 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_20dp"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/restaurant_curationll">
 
             <TextView
@@ -121,11 +122,11 @@
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="@dimen/margin_40dp"
             android:id="@+id/storesRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_10"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_marginLeft="@dimen/margin_10" />
 
     </LinearLayout>
 

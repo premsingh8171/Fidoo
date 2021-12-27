@@ -225,8 +225,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 		)
 
 
-
-
 		timer = object : CountDownTimer(10000, 1000) {
 
 			override fun onTick(millisUntilFinished: Long) {

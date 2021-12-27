@@ -82,7 +82,6 @@ class CategoryAdapter(
             }
         }
 
-
 //        if (index == position) {
 //            //holder.itemView.itemLay.setBackgroundResource(R.drawable.round_box)
 //            holder.itemView.itemLay.setBackgroundResource(R.drawable.rectangle_shap)

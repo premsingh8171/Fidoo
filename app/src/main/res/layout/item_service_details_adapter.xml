@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/mainHeaderServicell"
@@ -156,8 +156,6 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_alignParentBottom="true"
                                 android:layout_gravity="bottom|end"
-                                android:layout_marginRight="0dp"
-                                android:layout_marginBottom="0dp"
                                 android:scaleType="fitXY"
                                 android:src="@drawable/default_item"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -577,7 +575,7 @@
         android:layout_marginTop="@dimen/margin_20dp"
         android:background="@color/lightGray"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:paddingLeft="@dimen/margin_3dp"

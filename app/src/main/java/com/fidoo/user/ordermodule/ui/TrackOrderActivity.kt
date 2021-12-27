@@ -701,8 +701,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 					storeDetailsViewContsl.visibility = View.GONE
 				}
 
-			} catch (e: Exception) {
-			}
+			} catch (e: Exception) { }
 
 //			try {
 //				if (it.allow_cancel.equals("0")) {
