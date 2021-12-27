@@ -76,6 +76,10 @@ import kotlinx.android.synthetic.main.no_item_found.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashSet
+import android.R.string
+
+
+
 
 
 class StoreItemsActivity :
@@ -1937,7 +1941,9 @@ class StoreItemsActivity :
 		super.onResume()
 		storeID = intent.getStringExtra("storeId")!!
 		storeIDCheckOnCart = storeID
-		tv_cuisnes.text = intent.getStringExtra("cuisine_types").toString()
+		val sb: StringBuffer = StringBuffer(intent.getStringExtra("cuisine_types"))
+		sb.deleteCharAt(sb.length - 1)
+		tv_cuisnes.text = sb.toString()
 		tv_distance.text = intent.getStringExtra("distance") + "km"
 		if (!intent.getStringExtra("coupon_desc").equals("")) {
 			tv_coupon.text = intent.getStringExtra("coupon_desc")
