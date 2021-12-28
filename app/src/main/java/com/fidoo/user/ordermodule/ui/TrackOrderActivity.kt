@@ -70,7 +70,6 @@ import com.makesense.labs.curvefit.interfaces.OnCurveDrawnCallback
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.prudhvir3ddy.rideshare.utils.AnimationUtils
-import com.prudhvir3ddy.rideshare.utils.Constants
 import com.prudhvir3ddy.rideshare.utils.MapUtils
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.activity_track_order.*
@@ -86,7 +85,7 @@ import kotlin.collections.ArrayList
 @Suppress("DEPRECATION")
 class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallback,
 	OnCurveClickListener, NotiCheck,
-	LocationListener {
+	LocationListener{
 	//private var curveManager: CurveManager? = null
 	private var mMap: GoogleMap? = null
 	private var timer: CountDownTimer? = null
@@ -1176,6 +1175,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 			intent.getStringExtra("orderId")!!, "user"
 		)
 		timer!!.start()
+
 	}
 
 	override fun onPause() {
@@ -1183,6 +1183,10 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		timer!!.cancel()
 		MainActivity.check = "no"
 		Log.e("upcoming Pause", "yes")
+
+		if (call_Diolog!=null){
+			call_Diolog!!.dismiss()
+		}
 	}
 
 	override fun onStop() {
@@ -1516,6 +1520,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 			val status = result.status
 			Log.d("resultt", result.toString())
 			Log.d("statuss", status.toString())
+
 			when (status.statusCode) {
 				LocationSettingsStatusCodes.SUCCESS -> {
 				}

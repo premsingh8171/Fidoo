@@ -67,7 +67,6 @@
 
         </LinearLayout>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -244,15 +243,12 @@
         <RelativeLayout
             android:id="@+id/store_details_lay"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_100dp"
+            android:layout_height="@dimen/margin_110dp"
             android:background="@color/lightGray"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/margin_10"
             android:paddingRight="@dimen/margin_10"
-            android:visibility="visible"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/store_nameTxt"
@@ -278,7 +274,7 @@
                 android:layout_marginEnd="@dimen/dimen_5dp"
                 android:fontFamily="@font/proxima"
                 android:gravity="end"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:paddingLeft="@dimen/margin_4dp"
                 android:text="#"
                 android:textColor="@color/black"
@@ -286,7 +282,7 @@
 
             <TextView
                 android:id="@+id/tv_location"
-                android:layout_width="@dimen/margin_200dp"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/store_nameTxt"
                 android:layout_marginTop="@dimen/dimen_5dp"
@@ -296,7 +292,7 @@
                 android:focusedByDefault="true"
                 android:fontFamily="@font/proxima"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:paddingLeft="@dimen/dimen_5dp"
                 android:selectAllOnFocus="true"
                 android:text=""
@@ -339,7 +335,7 @@
                 android:id="@+id/timelL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_cuisnes"
+                android:layout_below="@+id/tv_location"
                 android:layout_marginTop="@dimen/dimen_5dp"
                 android:orientation="horizontal">
 
@@ -371,7 +367,7 @@
                 android:id="@+id/coupan_view_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_cuisnes"
+                android:layout_below="@+id/tv_location"
                 android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="@dimen/dimen_5dp"
@@ -400,7 +396,6 @@
                     android:textColor="@color/primary_color"
                     android:textSize="12sp" />
             </LinearLayout>
-
 
         </RelativeLayout>
 

@@ -62,8 +62,6 @@ import kotlin.collections.ArrayList
 import org.json.JSONObject
 
 
-
-
 @Suppress("DEPRECATION")
 class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	lateinit var analytics: FirebaseAnalytics

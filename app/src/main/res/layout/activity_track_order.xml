@@ -51,7 +51,8 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="320dp"
+                android:layout_alignParentBottom="true"
                 android:layout_above="@id/ordstatus_lay_new"
                 android:id="@+id/eta_lay"
                 android:layout_width="wrap_content"

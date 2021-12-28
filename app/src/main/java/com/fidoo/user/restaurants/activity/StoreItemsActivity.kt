@@ -76,10 +76,6 @@ import kotlinx.android.synthetic.main.no_item_found.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashSet
-import android.R.string
-
-
-
 
 
 class StoreItemsActivity :
@@ -220,11 +216,16 @@ class StoreItemsActivity :
 		viewmodel = ViewModelProvider(this).get(StoreDetailsViewModel::class.java)
 		cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
 		viewmodelusertrack = ViewModelProvider(this).get(UserTrackerViewModel::class.java)
-		tv_location.text = intent.getStringExtra("store_location").toString().replace(" ,",", ")
+		tv_location.text = intent.getStringExtra("store_location").toString().replace(" ,", ", ")
 
 		cartitemView_LLstore.setOnClickListener {
 			if (SessionTwiclo(this).isLoggedIn) {
-				startActivity(Intent(this, CartActivity::class.java).putExtra("store_id", SessionTwiclo(this).storeId))
+				startActivity(
+					Intent(this, CartActivity::class.java).putExtra(
+						"store_id",
+						SessionTwiclo(this).storeId
+					)
+				)
 			} else {
 				showLoginDialog("Please login to proceed")
 			}
@@ -237,16 +238,16 @@ class StoreItemsActivity :
 				// scrolling up
 				fabVisible = false
 				Log.e("fabVisible", "up")
-				store_details_lay.visibility=View.GONE
-				tv_store_name.visibility=View.VISIBLE
-				category_header_TXt.visibility=View.GONE
+				store_details_lay.visibility = View.GONE
+				tv_store_name.visibility = View.VISIBLE
+				category_header_TXt.visibility = View.GONE
 			} else if (dy < 0 && !fabVisible) {
 				// scrolling down
 				fabVisible = true
 				Log.e("fabVisible", "down")
-				store_details_lay.visibility=View.VISIBLE
-				tv_store_name.visibility=View.INVISIBLE
-				category_header_TXt.visibility=View.GONE
+				store_details_lay.visibility = View.VISIBLE
+				tv_store_name.visibility = View.INVISIBLE
+				category_header_TXt.visibility = View.GONE
 			}
 		})
 
@@ -360,7 +361,10 @@ class StoreItemsActivity :
 			addCartInputModel.isCustomize = "1"
 			addCartTempList!!.add(0, addCartInputModel)
 
-			Log.d("fdgdgd",intent.getStringExtra("storeId").toString()+"\n"+SessionTwiclo(this).storeId)
+			Log.d(
+				"fdgdgd",
+				intent.getStringExtra("storeId").toString() + "\n" + SessionTwiclo(this).storeId
+			)
 
 			if (SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || SessionTwiclo(
 					this
@@ -444,8 +448,10 @@ class StoreItemsActivity :
 
 		storeName = intent.getStringExtra("storeName").toString()
 
-		tv_store_name.text = storeName.split(' ').joinToString(" ") { it.capitalize(Locale.getDefault()) }
-		store_nameTxt.text = storeName.split(' ').joinToString(" ") { it.capitalize(Locale.getDefault()) }
+		tv_store_name.text =
+			storeName.split(' ').joinToString(" ") { it.capitalize(Locale.getDefault()) }
+		store_nameTxt.text =
+			storeName.split(' ').joinToString(" ") { it.capitalize(Locale.getDefault()) }
 
 		//storeID = intent.getStringExtra("storeId")!!
 
@@ -474,7 +480,7 @@ class StoreItemsActivity :
 				linear_progress_indicator.visibility = View.GONE
 				no_internet_store.visibility = View.GONE
 				no_internet_Ll.visibility = View.GONE
-				if(SessionTwiclo(this).loggedInUserDetail.accountId!=null) {
+				if (SessionTwiclo(this).loggedInUserDetail.accountId != null) {
 					viewmodelusertrack?.customerActivityLog(
 						SessionTwiclo(this).loggedInUserDetail.accountId,
 						SessionTwiclo(this).mobileno,
@@ -484,7 +490,7 @@ class StoreItemsActivity :
 						SessionTwiclo(this).deviceToken
 					)
 				}
-			}else{
+			} else {
 				getStoreDetailsApiCall()
 			}
 		} else {
@@ -516,7 +522,7 @@ class StoreItemsActivity :
 						SessionTwiclo(this).deviceToken
 					)
 					getRoomData()
-				}else{
+				} else {
 					deleteRoomDataBase()
 					getStoreDetailsApiCall()
 					getRoomData()
@@ -581,7 +587,9 @@ class StoreItemsActivity :
 			tempProductList!!.clear()
 			addCartTempList!!.clear()
 
-			if (cat_listShow == 0) { catList!!.clear() }
+			if (cat_listShow == 0) {
+				catList!!.clear()
+			}
 
 			//fidooLoaderCancel()
 
@@ -679,7 +687,9 @@ class StoreItemsActivity :
 							Log.e("custom_catNamesList_api", lastCustomized_str)
 						}
 
-						if (cat_listShow == 0) { catList.add(categoryData) }
+						if (cat_listShow == 0) {
+							catList.add(categoryData)
+						}
 
 					}
 				}
@@ -702,7 +712,7 @@ class StoreItemsActivity :
 				no_itemsFound_res.visibility = View.GONE
 				no_item_foundll.visibility = View.GONE
 
-			}else if (storeData.errorCode == 101){
+			} else if (storeData.errorCode == 101) {
 				showAlertDialog(this)
 			} else {
 				cat_visible = 0
@@ -813,7 +823,7 @@ class StoreItemsActivity :
 			dismissIOSProgress()
 			cartitemView_LLstore.visibility = View.GONE
 			cat_FloatBtn.visibility = View.GONE
-			if (user.errorCode==200) {
+			if (user.errorCode == 200) {
 				Log.e("stores___esponse", Gson().toJson(user))
 				mModelDataTemp = user
 
@@ -898,7 +908,7 @@ class StoreItemsActivity :
 				customItemsRecyclerview.setHasFixedSize(true)
 				customItemsRecyclerview.adapter = adapter
 				// Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-			}else if (user.errorCode==101){
+			} else if (user.errorCode == 101) {
 				showAlertDialog(this)
 
 			}
@@ -958,7 +968,10 @@ class StoreItemsActivity :
 		selectCategoryDiolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
 		selectCategoryDiolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		selectCategoryDiolog?.setContentView(R.layout.select_cat_restaurant_popup)
-		selectCategoryDiolog?.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+		selectCategoryDiolog?.window?.setLayout(
+			WindowManager.LayoutParams.MATCH_PARENT,
+			WindowManager.LayoutParams.MATCH_PARENT
+		)
 
 //        slide_ = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
 //        selectCategoryDiolog?.layout_catPopup?.startAnimation(slide_)
@@ -1100,20 +1113,25 @@ class StoreItemsActivity :
 					scrollOutItems = manager!!.findFirstVisibleItemPosition()
 					var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
 
-				//	 Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem--$--"+mainlist!!.get(firstvisibleItem)!!.subcategory_name.toString());
+					//	 Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem--$--"+mainlist!!.get(firstvisibleItem)!!.subcategory_name.toString());
 
 					if (searchEdt_ResPrd.getText().toString()
 							.equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
 					) {
 						try {
 							category_header_.visibility = View.VISIBLE
-							category_header_.text = mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
-							category_header_TXt.text = mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
+							category_header_.text =
+								mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
+							category_header_TXt.text =
+								mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
 							//Log.d("totalItem___", table_count.toString())
 
 							try {
 								for (i in catList.indices) {
-									if (catList[i].catName.equals(category_header_.getText().toString())) {
+									if (catList[i].catName.equals(
+											category_header_.getText().toString()
+										)
+									) {
 										Log.d("totalItem__gg_", "$i--${catList.size}")
 										active_or_not = i
 										restaurantCategoryAdapter.notifyDataSetChanged()
@@ -1174,7 +1192,10 @@ class StoreItemsActivity :
 					.observe(this, Observer { search ->
 						if (!query.equals("")) {
 							productListFilter = search as ArrayList<StoreItemProductsEntity>
-							storeItemsAdapter.updateData(productListFilter!!, productListFilter!!.size.toInt())
+							storeItemsAdapter.updateData(
+								productListFilter!!,
+								productListFilter!!.size.toInt()
+							)
 
 							try {
 								category_header_.text =
@@ -1210,7 +1231,8 @@ class StoreItemsActivity :
 					.toString().startsWith(" ")
 			) {
 
-				restaurantProductsDatabase!!.resProductsDaoAccess()!!.getTableCount().observe(this, { c ->
+				restaurantProductsDatabase!!.resProductsDaoAccess()!!.getTableCount()
+					.observe(this, { c ->
 						Log.d("table_count", c.toString())
 						table_count = c.toInt()
 					})
@@ -1628,8 +1650,8 @@ class StoreItemsActivity :
 		cartId: String?,
 		position: Int
 	) {
-		cus_itemProductId=productId.toString()
-		Log.d("count__add", count!! + "=" + cartId+"="+type)
+		cus_itemProductId = productId.toString()
+		Log.d("count__add", count!! + "=" + cartId + "=" + type)
 		Log.d("count__addID", productId!!)
 		// showIOSProgress()
 
@@ -1941,9 +1963,17 @@ class StoreItemsActivity :
 		super.onResume()
 		storeID = intent.getStringExtra("storeId")!!
 		storeIDCheckOnCart = storeID
-		val sb: StringBuffer = StringBuffer(intent.getStringExtra("cuisine_types"))
-		sb.deleteCharAt(sb.length - 1)
-		tv_cuisnes.text = sb.toString()
+
+		var str = intent.getStringExtra("cuisine_types")
+		if (str!!.endsWith(",")) {
+			var sb = StringBuffer(str)
+			sb.deleteCharAt(sb.length - 1)
+			tv_cuisnes.text = sb.toString()
+		} else {
+			tv_cuisnes.text = str
+		}
+
+
 		tv_distance.text = intent.getStringExtra("distance") + "km"
 		if (!intent.getStringExtra("coupon_desc").equals("")) {
 			tv_coupon.text = intent.getStringExtra("coupon_desc")
