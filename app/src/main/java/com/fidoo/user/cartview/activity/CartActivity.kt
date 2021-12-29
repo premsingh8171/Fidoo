@@ -1048,11 +1048,11 @@ class CartActivity : BaseActivity(),
 				tv_grand_total.text =
 					resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
 				Log.e("Grand Total after promo", tv_grand_total.text.toString())
-				Log.e("Final Price after promo", tv_place_order.text.toString())
+			//	Log.e("Final Price after promo", tv_place_order.text.toString())
 
 				//discountLabel.visibility = View.VISIBLE
 				//discountValue.visibility = View.VISIBLE
-				//showToast("Offer applied successfully")
+				//showToast("0.0Offer applied successfully")
 
 			} else {
 

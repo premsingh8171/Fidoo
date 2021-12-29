@@ -245,7 +245,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			timingTxt.setTextColor(getResources().getColor(R.color.black))
 			sortRl.visibility = View.VISIBLE
 			restaurant_curationll.visibility = View.VISIBLE
-			sortRlheader.visibility = View.GONE
+			sortRlheader.visibility = View.VISIBLE
 			sortFmBg.visibility = View.GONE
 			sortFm.visibility = View.GONE
 
@@ -328,7 +328,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 			} else if (dy < 0 && !fabVisible) {
 				// scrolling down
-				sortRlheader.visibility = View.GONE
+				sortRlheader.visibility = View.VISIBLE
 
 				fabVisible = true
 				Log.e("fabVisibleRes", "down")
@@ -693,7 +693,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 			sortRl.visibility = View.GONE
 			restaurant_curationll.visibility = View.VISIBLE
-			sortRlheader.visibility = View.GONE
+			sortRlheader.visibility = View.VISIBLE
 
 			relevanceTxt.setTextColor(getResources().getColor(R.color.primary_color))
 			ratingTxt.setTextColor(getResources().getColor(R.color.black))
@@ -717,7 +717,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			relevanceTxt.setTextColor(getResources().getColor(R.color.black))
 			ratingTxt.setTextColor(getResources().getColor(R.color.primary_color))
 			timingTxt.setTextColor(getResources().getColor(R.color.black))
-			sortRlheader.visibility = View.GONE
+			sortRlheader.visibility = View.VISIBLE
 
 			val intent = Intent(this@StoreListActivity, StoreFilterListActivity::class.java)
 				.putExtra("selectedValue", "rating")
@@ -768,7 +768,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 		if (onBackPressHandle == 1) {
 			sortRl.visibility = View.GONE
 			restaurant_curationll.visibility = View.VISIBLE
-			sortRlheader.visibility = View.GONE
+			sortRlheader.visibility = View.VISIBLE
 			sortFmBg.visibility = View.GONE
 			sortFm.visibility = View.GONE
 			check_ = "0"

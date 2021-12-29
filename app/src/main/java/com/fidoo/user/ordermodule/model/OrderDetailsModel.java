@@ -27,6 +27,9 @@ public class OrderDetailsModel {
     @SerializedName("order_status")
     @Expose
     public String orderStatus;
+    @SerializedName("item_count")
+    @Expose
+    public String item_count;
     @SerializedName("allow_cancel")
     @Expose
     public String allow_cancel;

@@ -58,7 +58,7 @@ class SplashActivity : BaseActivity() {
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_splash)
-        appversion = "1.0.37"
+        appversion = "1.0.38"
       //  appversion = BuildConfig.VERSION_NAME
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)

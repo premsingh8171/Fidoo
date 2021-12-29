@@ -172,13 +172,10 @@ class SearchFragment2 : Fragment(), AdapterClick,
                         )
                     }
                 }
-
             }
-
         })
 
         if (sessionTwiclo.isLoggedIn) {
-
             try {
                 viewmodelusertrack?.customerActivityLog(
                     sessionTwiclo.loggedInUserDetail.accountId,

@@ -246,7 +246,6 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
         response: Response<StoreDetailsModel>?
     ) {
         getStoreDetailsApi?.value = response?.body()
-
     }
 
     override fun onFailure(call: Call<StoreDetailsModel>?, t: Throwable?) {

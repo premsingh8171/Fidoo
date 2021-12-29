@@ -248,7 +248,7 @@
                         android:layout_marginLeft="@dimen/margin_20dp"
                         android:fontFamily="@font/proxima"
                         android:paddingEnd="@dimen/margin_20dp"
-                        android:text="123456"
+                        android:text="#"
                         android:textColor="@color/colorTextGray"
                         android:textSize="10sp" />
 

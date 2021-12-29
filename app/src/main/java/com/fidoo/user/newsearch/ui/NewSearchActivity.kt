@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.AbsListView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -82,19 +83,32 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				isMore = it.more_value
 				latestList!!.clear()
 				binding.showingResult.text = "Showing Results (" + it.total_count.toString() + ")"
-
 				Log.d("keyword___", Gson().toJson(it))
 
-				if (pagecount > 0) {
-					latestList = it.suggestions as ArrayList
-					mainList!!.addAll(latestList!!)
-					searchCategoryAdapter!!.updateData(mainList!!, isMore)
-					searchCategoryAdapter!!.notifyDataSetChanged()
-				} else {
-					mainList = it.suggestions as ArrayList
-					rvCategoryList(mainList!!)
+				if(search_value!!.isNotEmpty()) {
+					binding.rvSearchResult!!.visibility=View.VISIBLE
+					binding.showingResult.visibility=View.VISIBLE
+					if (pagecount > 0) {
+						latestList = it.suggestions as ArrayList
+						mainList!!.addAll(latestList!!)
+						//here we remove duplicate item
+						val s: Set<SuggestionX> = LinkedHashSet<SuggestionX>(mainList)
+						mainList!!.clear()
+						mainList!!.addAll(s)
+						searchCategoryAdapter!!.updateData(mainList!!, isMore)
+						searchCategoryAdapter!!.notifyDataSetChanged()
+					} else {
+						mainList = it.suggestions as ArrayList
+						//here we remove duplicate item
+						val s: Set<SuggestionX> = LinkedHashSet<SuggestionX>(mainList)
+						mainList!!.clear()
+						mainList!!.addAll(s)
+						rvCategoryList(mainList!!)
+					}
+				}else{
+					binding.rvSearchResult!!.visibility=View.GONE
+					binding.showingResult!!.visibility=View.GONE
 				}
-
 			}
 		})
 	}
@@ -240,6 +254,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 
 				if (search_value!!.isNotEmpty()) {
+					binding.rvSearchResult!!.visibility=View.VISIBLE
 					if (sessionTwiclo!!.isLoggedIn) {
 						viewModel!!.keywordBasedSearchSuggestionsApi(
 							sessionTwiclo!!.loggedInUserDetail.accountId,
@@ -268,6 +283,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 						}
 					}
 				} else {
+					binding.rvSearchResult!!.visibility=View.GONE
+
 					if (sessionTwiclo!!.isLoggedIn) {
 						viewModel!!.keywordBasedSearchSuggestionsApi(
 							sessionTwiclo!!.loggedInUserDetail.accountId,
