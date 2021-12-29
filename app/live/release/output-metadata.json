@@ -11,13 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-<<<<<<< HEAD
-      "versionCode": 45,
-      "versionName": "1.0.32",
-=======
-      "versionCode": 47,
-      "versionName": "1.0.34",
->>>>>>> 9aab44fe919af2a4e7edbba44ba77eef54a81be3
+      "versionCode": 51,
+      "versionName": "1.0.38",
       "outputFile": "app-live-release.apk"
     }
   ],
