@@ -772,6 +772,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 						it.orderStatus.equals("11") -> {
 							status_store_txt.text = "is preparing your order"
 							order_status.text = "Your order is being prepared"
+							tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
 							cancelBtn.visibility = View.GONE
