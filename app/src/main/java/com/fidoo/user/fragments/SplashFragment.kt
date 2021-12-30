@@ -72,7 +72,7 @@ class SplashFragment : BaseFragment() {
 
         if (isNetworkConnected) {
            // custAppVerCheck(BuildConfig.VERSION_NAME)
-            custAppVerCheck("1.0.37")
+            SplashActivity.appversion?.let { custAppVerCheck(it) }
         } else {
             showInternetToast()
         }

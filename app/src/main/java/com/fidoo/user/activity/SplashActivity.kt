@@ -49,10 +49,7 @@ class SplashActivity : BaseActivity() {
             window.addFlags(flags)
         }
 
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
@@ -60,6 +57,7 @@ class SplashActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
         appversion = "1.0.38"
       //  appversion = BuildConfig.VERSION_NAME
+
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         splashActivity = this
@@ -119,13 +117,10 @@ class SplashActivity : BaseActivity() {
                             pref.referralId = referralId
                             Log.d("deepLink__", referral[1])
                             //   showToastLong("user_id-$referralId")
-
                         }
-
 
                     } catch (e: Exception) {
                         e.printStackTrace()
-
                     }
 
                 }
