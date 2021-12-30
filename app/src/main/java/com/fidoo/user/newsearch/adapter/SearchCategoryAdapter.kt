@@ -40,24 +40,24 @@ class SearchCategoryAdapter(
             .into(holder.itemView.categoryImgTxt)
 
         holder.itemView.categoryTypeConsLl.setOnClickListener {
-            if (list.get(position).available.equals("1")) {
+            if (list.get(position).available.equals("1")|| list.get(position).available == "") {
                 index = position
                 categoryItemClick.onItemClick(position, list.get(position))
             }
         }
 
-        if (list.get(position).available.equals("1")) {
-            holder.itemView.categoryImgTxt.alpha = 1f
-            holder.itemView?.categoryTypeTxt.setTextColor(Color.parseColor("#000000"))
-            holder.itemView.categoryTypeTxt.alpha = 1f
-            holder.itemView?.productPriceTxt.setTextColor(Color.parseColor("#359c47"))
-            holder.itemView.productPriceTxt.alpha = 1f
-        } else {
+        if (list.get(position).available.equals("0")) {
             holder.itemView.categoryImgTxt.alpha = 0.2f
             holder.itemView?.categoryTypeTxt.setTextColor(Color.parseColor("#818181"))
             holder.itemView.categoryTypeTxt.alpha = 0.3f
             holder.itemView?.productPriceTxt.setTextColor(Color.parseColor("#359c47"))
             holder.itemView.productPriceTxt.alpha = 0.3f
+        } else {
+            holder.itemView.categoryImgTxt.alpha = 1f
+            holder.itemView?.categoryTypeTxt.setTextColor(Color.parseColor("#000000"))
+            holder.itemView.categoryTypeTxt.alpha = 1f
+            holder.itemView?.productPriceTxt.setTextColor(Color.parseColor("#359c47"))
+            holder.itemView.productPriceTxt.alpha = 1f
         }
 
         if (list.size - 1 == position) {

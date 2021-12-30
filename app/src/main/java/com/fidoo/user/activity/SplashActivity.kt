@@ -32,7 +32,7 @@ class SplashActivity : BaseActivity() {
     private var mMixpanel: MixpanelAPI? = null
 
     companion object {
-        var appversion: String? = ""
+        var appversion: String? = "1.0.38"
         var mobile_number: String? = ""
         var splashActivity: SplashActivity? = null
     }
