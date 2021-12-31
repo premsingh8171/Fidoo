@@ -432,7 +432,6 @@ class ServiceDailyNeedActivity : BaseActivity(), ItemOnClickListener {
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onActivityResult(requestCode, resultCode, data)
 		Log.e("search_result_coe", "$requestCode - $SEARCH_RESULT_CODE - $resultCode")
-		Log.e("search_result_coe", "$requestCode - $VIEWALL_RESULT_CODE - $resultCode")
 
 		if (requestCode == SEARCH_RESULT_CODE) {
 			if (resultCode == RESULT_OK) {
@@ -443,7 +442,9 @@ class ServiceDailyNeedActivity : BaseActivity(), ItemOnClickListener {
 				product_Update = 0
 			}
 		}
+
 		if (requestCode == VIEWALL_RESULT_CODE) {
+
 			if (resultCode == RESULT_OK) {
 				product_Update = 1
 				//dataList?.clear()
