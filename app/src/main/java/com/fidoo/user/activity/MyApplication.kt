@@ -20,7 +20,7 @@ class MyApplication : Application(), LifecycleObserver, Application.ActivityLife
 
     override fun onCreate() {
         super.onCreate()
-        Log.wtf("run", "onCreate")
+      //  Log.wtf("run", "onCreate")
 
         Places.initialize(applicationContext, "AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c")
      /*   FirebaseApp.initializeApp(this)

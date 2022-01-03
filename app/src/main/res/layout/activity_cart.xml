@@ -153,11 +153,10 @@
                 android:id="@+id/cartItemsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_5dp"
-                android:layout_marginRight="@dimen/dimen_5dp"
                 android:background="@color/lightGray"
                 android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@+id/store_header_ll" />
+                app:layout_constraintTop_toBottomOf="@+id/store_header_ll"
+                tools:layout_editor_absoluteX="4dp" />
 
             <RelativeLayout
                 android:id="@+id/store_instructionRl"

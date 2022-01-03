@@ -32,7 +32,7 @@ class SplashActivity : BaseActivity() {
     private var mMixpanel: MixpanelAPI? = null
 
     companion object {
-        var appversion: String? = "1.0.38"
+        var appversion: String? = "1.0.39"
         var mobile_number: String? = ""
         var splashActivity: SplashActivity? = null
     }
@@ -40,6 +40,7 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val window = window
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -55,7 +56,7 @@ class SplashActivity : BaseActivity() {
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_splash)
-        appversion = "1.0.38"
+        appversion = "1.0.39"
       //  appversion = BuildConfig.VERSION_NAME
 
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -81,7 +82,6 @@ class SplashActivity : BaseActivity() {
 
         firebaseGetDynamiclink()
 
-
         try {
             val mSnapAppAdsKit = SAAKApplication.getSnapAppAdsKit()
             if (mSnapAppAdsKit != null) {
@@ -98,7 +98,6 @@ class SplashActivity : BaseActivity() {
             e.printStackTrace()
         }
 
-
     }
 
     private fun firebaseGetDynamiclink() {
@@ -106,6 +105,7 @@ class SplashActivity : BaseActivity() {
             .getDynamicLink(intent)
             .addOnSuccessListener(this) { pendingDynamicLinkData ->
                 var deepLink: Uri? = null
+
                 if (pendingDynamicLinkData != null) {
                     deepLink = pendingDynamicLinkData.link
 
@@ -135,7 +135,6 @@ class SplashActivity : BaseActivity() {
         var refreshedToken = FirebaseInstanceId.getInstance().token
         SessionTwiclo(this).deviceToken = refreshedToken
         Log.d("Refreshed_token", refreshedToken.toString())
-
 
     }
 
