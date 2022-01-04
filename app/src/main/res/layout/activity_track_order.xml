@@ -324,7 +324,7 @@
                                         android:layout_marginLeft="@dimen/dimen_5dp"
                                         android:fontFamily="@font/proxima"
                                         android:maxLines="1"
-                                        android:text="is prepararing your order"
+                                        android:text="is preparing your order"
                                         android:textColor="@color/colorTitle"
                                         android:textSize="12sp"
                                         app:layout_constraintBottom_toBottomOf="@+id/store_name_txt_info"
