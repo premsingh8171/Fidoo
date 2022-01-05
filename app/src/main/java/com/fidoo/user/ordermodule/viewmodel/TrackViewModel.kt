@@ -93,14 +93,11 @@ class TrackViewModel(application: Application) : AndroidViewModel(application) {
             accessToken = accessToken,
             orderId = orderId
         ).enqueue(object : Callback<ProceedToOrder> {
-
             override fun onResponse(
                 call: Call<ProceedToOrder>,
                 response: Response<ProceedToOrder>
             ) {
-
                 proceedToOrderResponse?.value = response.body()
-
             }
 
             override fun onFailure(call: Call<ProceedToOrder>, t: Throwable) {

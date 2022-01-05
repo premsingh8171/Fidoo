@@ -285,7 +285,6 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
 
-
                                     <com.google.android.material.imageview.ShapeableImageView
                                         android:id="@+id/store_img_onOrder"
                                         android:layout_width="@dimen/margin_45dp"
