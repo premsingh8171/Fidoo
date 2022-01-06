@@ -666,6 +666,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 			try {
 				if (it.request_id.equals("0") || it.request_id.equals("")) {
+
 				} else {
 					AppUtils.startActivityRightToLeft(
 						this,
