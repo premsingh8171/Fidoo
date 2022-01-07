@@ -215,7 +215,6 @@ interface BackEndApi {
         @Field("store_review") store_review: String?,
         @Field("delivery_rating") delivery_rating: String?,
         @Field("delivery_review") delivery_review: String?
-
     ): Call<ReviewModel>
 
     @FormUrlEncoded
@@ -230,7 +229,6 @@ interface BackEndApi {
         @Field("improvement[]") improvement: String?,
         @Field("message") message: String?,
         @Field("type") type: String?
-
     ): Call<Feedback>
 
     @FormUrlEncoded

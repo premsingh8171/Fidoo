@@ -207,6 +207,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 //				val dialIntent = Intent(Intent.ACTION_DIAL)
 //				dialIntent.data = Uri.parse("tel:" + store_phone)
 //				startActivity(dialIntent)
+
 				onCallPopUp(0)
 				if (sessionInstance.profileDetail != null) {
 					viewmodel?.customerCallMerchantApi(
@@ -223,7 +224,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 						store_phone!!
 					)
 				}
-
 			}
 		}
 
@@ -236,6 +236,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 //			}
 
 			onCallPopUp(1)
+
 			if (sessionInstance.profileDetail != null) {
 				viewmodel?.callCustomerApi(
 					SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -251,6 +252,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 					driverMobileNo!!
 				)
 			}
+
 		}
 
 //		viewmodel?.callCustomerResponse?.observe(this, {
@@ -343,7 +345,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 				SessionTwiclo(this).loggedInUserDetail.accessToken,
 				intent.getStringExtra("orderId")!!
 			)
-
 		}
 
 		viewmodel?.getLocationApi(
@@ -623,7 +624,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 								ordstatus_lay_new.visibility = View.VISIBLE
 								order_status.text = "Please wait while we confirm your order"
 							}
-
 						}
 
 						override fun onFinish() {

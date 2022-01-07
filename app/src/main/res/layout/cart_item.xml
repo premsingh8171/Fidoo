@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="Product Name"
-                android:textSize="12sp"
+                android:textSize="@dimen/dimen_14dp"
                 android:fontFamily="@font/proxima"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/productImage"
@@ -55,7 +55,7 @@
                 android:layout_marginTop="5dp"
                 android:text="customize items"
                 android:textColor="@color/txt_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/dimen_14dp"
                 app:layout_constraintStart_toStartOf="@+id/productName"
                 app:layout_constraintTop_toBottomOf="@+id/productName" />
 
