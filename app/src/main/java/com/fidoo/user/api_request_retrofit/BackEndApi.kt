@@ -12,6 +12,7 @@ import com.fidoo.user.dashboard.model.HomeServicesModel
 import com.fidoo.user.dashboard.model.newmodel.ServiceDetailsModel
 import com.fidoo.user.data.model.*
 import com.fidoo.user.grocerynewui.model.getGroceryProducts.GroceryProductsResponse
+import com.fidoo.user.newRestaurants.model.NewStoreDetailsModel
 import com.fidoo.user.newsearch.model.KeywordBasedSearchResultsModel
 import com.fidoo.user.newsearch.model.KeywordBasedSearchSuggestionsModel
 import com.fidoo.user.newsearch.model.SearchSuggestionsModel
@@ -113,6 +114,19 @@ interface BackEndApi {
         @Field("contains_egg") contains_egg: String?
 
     ): Call<StoreDetailsModel>
+
+    //new storeDetailsApi
+    @FormUrlEncoded
+    @POST("storeDetails_v2.inc.php")
+    fun getStoreDetailsApiNew(
+        @Field("accountId") accountId: String?,
+        @Field("accessToken") accessToken: String?,
+        @Field("store_id") store_id: String?,
+        @Field("is_nonveg") is_nonveg: String?,
+        @Field("cat_id") cat_id: String?,
+        @Field("contains_egg") contains_egg: String?,
+        @Field("start_id") start_id: String?,
+    ): Call<NewStoreDetailsModel>
 
     //for grocery
     @FormUrlEncoded

@@ -24,7 +24,6 @@ class CategoryHeaderAdapter(
     var categoryItemClick:CategoryItemClick): RecyclerView.Adapter<CategoryHeaderAdapter.ViewHolder>(){
 
 
-
     private lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {}

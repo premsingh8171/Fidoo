@@ -210,6 +210,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".newRestaurants.activity.NewStoreItemsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".sendpackages.activity.SendPackageActivity"
             android:screenOrientation="portrait" />
