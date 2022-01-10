@@ -276,7 +276,8 @@ class SendPackagesAddItem : BaseActivity() {
         showIOSProgress()
         viewmodel?.uploadSendPackagesImage(
             accountId,
-            accessToken, mImageParts
+            accessToken,
+                mImageParts
         )
 
     }
