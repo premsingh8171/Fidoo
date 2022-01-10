@@ -207,6 +207,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 //				val dialIntent = Intent(Intent.ACTION_DIAL)
 //				dialIntent.data = Uri.parse("tel:" + store_phone)
 //				startActivity(dialIntent)
+
 				onCallPopUp(0)
 				if (sessionInstance.profileDetail != null) {
 					viewmodel?.customerCallMerchantApi(
@@ -223,7 +224,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 						store_phone!!
 					)
 				}
-
 			}
 		}
 
@@ -236,6 +236,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 //			}
 
 			onCallPopUp(1)
+
 			if (sessionInstance.profileDetail != null) {
 				viewmodel?.callCustomerApi(
 					SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -251,6 +252,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 					driverMobileNo!!
 				)
 			}
+
 		}
 
 //		viewmodel?.callCustomerResponse?.observe(this, {
@@ -338,13 +340,11 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 			showIOSProgress()
 			timerr?.cancel()
 			stopService(Intent(applicationContext, OrderBackgroundgService::class.java))
-
 			viewmodel!!.cancelOrderApi(
 				SessionTwiclo(this).loggedInUserDetail.accountId,
 				SessionTwiclo(this).loggedInUserDetail.accessToken,
 				intent.getStringExtra("orderId")!!
 			)
-
 		}
 
 		viewmodel?.getLocationApi(
@@ -624,7 +624,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 								ordstatus_lay_new.visibility = View.VISIBLE
 								order_status.text = "Please wait while we confirm your order"
 							}
-
 						}
 
 						override fun onFinish() {
@@ -667,6 +666,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 			try {
 				if (it.request_id.equals("0") || it.request_id.equals("")) {
+
 				} else {
 					AppUtils.startActivityRightToLeft(
 						this,
@@ -869,6 +869,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 						it.orderStatus.equals("8") -> {
 							//holder.buttonValue.visibility = View.GONE
+							handleClick=1
 
 							if (it.paymentMode == "online") {
 								order_status.text =
@@ -888,7 +889,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							cancelBtn.visibility = View.GONE
 
 							if (onBackpressHandle.equals("1")){
-								startActivity(Intent(this, MainActivity::class.java))
+								startActivity(Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
 							}else{
 								finish()
 							}
