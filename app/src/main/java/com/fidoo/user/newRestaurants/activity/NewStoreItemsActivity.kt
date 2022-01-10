@@ -569,18 +569,17 @@ class NewStoreItemsActivity :
 
 			if (storeData.subcategory.isNotEmpty()) {
 
-				executor().execute {
-					for (i in storeData.subcategory.indices) {
-						val categoryData = storeData.subcategory[i]
-
-						if (cat_listShow == 0) {
-							//catList.add(categoryData)
-						}
-
-					}
+//				executor().execute {
+//					for (i in storeData.subcategory.indices) {
+//						val categoryData = storeData.subcategory[i]
+//
+//						if (cat_listShow == 0) {
+//							//catList.add(categoryData)
+//						}
+//					}
 
 					recyclerviewListData(storeData.subcategory as ArrayList)
-				}
+			//	}
 
 				tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
 
@@ -620,8 +619,8 @@ class NewStoreItemsActivity :
 		viewmodel?.failureResponse?.observe(this) { user ->
 			dismissIOSProgress()
 			Log.e("cart response", Gson().toJson(user))
-			//showToast(user)
-			//   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+			// showToast(user)
+			//  Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
 		}
 
 		viewmodel?.addToCartResponse?.observe(this, Observer { user ->
@@ -784,7 +783,6 @@ class NewStoreItemsActivity :
 				//   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
 			} else if (user.errorCode == 101) {
 				showAlertDialog(this)
-
 			}
 		})
 
@@ -946,7 +944,7 @@ class NewStoreItemsActivity :
 					scrollOutItems = manager!!.findFirstVisibleItemPosition()
 					var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
 
-					//	 Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem--$--"+mainlist!!.get(firstvisibleItem)!!.subcategory_name.toString());
+					Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem--$--"+mainlist!!.get(firstvisibleItem)!!.subcategory_name.toString());
 
 					if (searchEdt_ResPrd.getText().toString()
 							.equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
@@ -957,22 +955,22 @@ class NewStoreItemsActivity :
 								mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
 							category_header_TXt.text =
 								mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
-							//Log.d("totalItem___", table_count.toString())
+							 Log.d("totalItem__h_", scrollOutItems.toString())
 
-							try {
-								for (i in catList.indices) {
-									if (catList[i].catName.equals(
-											category_header_.getText().toString()
-										)
-									) {
-										Log.d("totalItem__gg_", "$i--${catList.size}")
-										active_or_not = i
-										restaurantCategoryAdapter.notifyDataSetChanged()
-									}
-								}
-							} catch (e: java.lang.Exception) {
-								e.printStackTrace()
-							}
+//							try {
+//								for (i in catList.indices) {
+//									if (catList[i].catName.equals(
+//											category_header_.getText().toString()
+//										)
+//									) {
+//										Log.d("totalItem__gg_", "$i--${catList.size}")
+//										active_or_not = i
+//										restaurantCategoryAdapter.notifyDataSetChanged()
+//									}
+//								}
+//							} catch (e: java.lang.Exception) {
+//								e.printStackTrace()
+//							}
 
 						} catch (e: Exception) {
 							e.printStackTrace()
@@ -1032,37 +1030,36 @@ class NewStoreItemsActivity :
 
 		storeItemsRecyclerview.adapter = newStoreDetailsItemAdapter
 
-//		storeItemsRecyclerview.layoutManager = manager
-//		storeItemsRecyclerview?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//
-//			override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//				super.onScrollStateChanged(recyclerView, newState)
-//				if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-//					isScrolling = true
-//					handleresponce = 0
-//				}
-//			}
-//
-//			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//				super.onScrolled(recyclerView, dx, dy)
-//				currentItems = manager!!.childCount
-//				totalItems = manager!!.itemCount
-//				scrollOutItems = manager!!.findFirstVisibleItemPosition()
-//				var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
-//
-//			//	Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem--$--"+mainlist!!.get(firstvisibleItem)!!.subcategory_name.toString());
-//
-//				if (searchEdt_ResPrd.getText().toString()
-//						.equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
-//				) {
-//					try {
-//						category_header_.visibility = View.VISIBLE
-//						category_header_.text =
-//							mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
-//						category_header_TXt.text =
-//							mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
-//						//Log.d("totalItem___", table_count.toString())
-//
+		storeItemsRecyclerview.layoutManager = manager
+		storeItemsRecyclerview?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+			override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+				super.onScrollStateChanged(recyclerView, newState)
+				if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+					isScrolling = true
+					handleresponce = 0
+				}
+			}
+
+			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+				super.onScrolled(recyclerView, dx, dy)
+				currentItems = manager!!.childCount
+				totalItems = manager!!.itemCount
+				scrollOutItems = manager!!.findFirstVisibleItemPosition()
+				var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
+
+				//Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem--$--"+mainlist!!.get(firstvisibleItem)!!.subcategory_name.toString());
+
+				if (searchEdt_ResPrd.getText().toString()
+						.equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
+				) {
+					try {
+						category_header_.visibility = View.VISIBLE
+						category_header_.text =
+							mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
+						category_header_TXt.text =
+							mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
+
 //						try {
 //							for (i in catList.indices) {
 //								if (catList[i].catName.equals(
@@ -1077,39 +1074,39 @@ class NewStoreItemsActivity :
 //						} catch (e: java.lang.Exception) {
 //							e.printStackTrace()
 //						}
-//
-//					} catch (e: Exception) {
-//						e.printStackTrace()
-//					}
-//
-//					if (dy > 1) {
-//						if (isScrolling && currentItems + scrollOutItems == totalItems) {
-//							Log.d(
-//								"totalItem___",
-//								table_count.toString() + "---" + productsListing_Count
-//							)
-//							if (table_count!! > productsListing_Count!!) {
-//								if (isScrolling == true) {
-//									totalItem = totalItem?.plus(50)
-//									handleresponce = 1
-//									showIOSProgress()
-//									isScrolling = false
-//								}
-//							}
-//						}
-//					}
-//
-//				} else {
-//					try {
-//						category_header_.visibility = View.VISIBLE
-//					//	category_header_.text = productListFilter!!.get(scrollOutItems)!!.subcategory_name.toString()
-//					} catch (e: Exception) {
-//						e.printStackTrace()
-//					}
-//				}
-//			}
-//
-//		})
+
+					} catch (e: Exception) {
+						e.printStackTrace()
+					}
+
+					if (dy > 1) {
+						if (isScrolling && currentItems + scrollOutItems == totalItems) {
+							Log.d(
+								"totalItem___",
+								table_count.toString() + "---" + productsListing_Count
+							)
+							if (table_count!! > productsListing_Count!!) {
+								if (isScrolling == true) {
+									totalItem = totalItem?.plus(50)
+									handleresponce = 1
+									showIOSProgress()
+									isScrolling = false
+								}
+							}
+						}
+					}
+
+				} else {
+					try {
+						category_header_.visibility = View.VISIBLE
+					//	category_header_.text = productListFilter!!.get(scrollOutItems)!!.subcategory_name.toString()
+					} catch (e: Exception) {
+						e.printStackTrace()
+					}
+				}
+			}
+
+		})
 	}
 
 	private fun getStoreDetailsApiNewApiCall() {

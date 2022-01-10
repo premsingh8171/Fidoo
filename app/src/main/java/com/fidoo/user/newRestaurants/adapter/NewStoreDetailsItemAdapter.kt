@@ -36,9 +36,9 @@ class NewStoreDetailsItemAdapter(
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
 		if (position == 0) {
-			holder.itemView.SubcategoryNameLl.visibility = View.GONE
+			holder.itemView.category_nameheaderTxt.visibility = View.GONE
 		} else {
-			holder.itemView.SubcategoryNameLl.visibility = View.VISIBLE
+			holder.itemView.category_nameheaderTxt.visibility = View.VISIBLE
 		}
 
 		holder.itemView.category_nameheaderTxt.text = subcategory[position].subcategory_name
