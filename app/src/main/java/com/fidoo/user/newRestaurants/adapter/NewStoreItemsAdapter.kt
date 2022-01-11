@@ -375,14 +375,14 @@ class NewStoreItemsAdapter(
 			holder.stock_status.visibility = View.VISIBLE
 		}
 
-		if (total_item_count - 1 == position) {
-			holder.fssaitxt.text = fssai
-			holder.restaurant_nametxt.text = restaurantName
-			holder.restaurant_addtxt.text = restaurantAddress
-			holder.store_bottom_ll.visibility = View.VISIBLE
-		} else {
-			holder.store_bottom_ll.visibility = View.GONE
-		}
+//		if (total_item_count - 1 == position) {
+//			holder.fssaitxt.text = fssai
+//			holder.restaurant_nametxt.text = restaurantName
+//			holder.restaurant_addtxt.text = restaurantAddress
+//			holder.store_bottom_ll.visibility = View.VISIBLE
+//		} else {
+//			holder.store_bottom_ll.visibility = View.GONE
+//		}
 
 	}
 

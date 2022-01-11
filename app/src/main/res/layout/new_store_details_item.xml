@@ -35,6 +35,78 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:spanCount="1" />
 
+        <RelativeLayout
+            android:id="@+id/progressRlPrd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_100dp"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/margin_20dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/categoryTypeConsLl">
+
+            <ProgressBar
+                android:layout_width="@dimen/margin_35dp"
+                android:layout_height="@dimen/margin_35dp"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/primary_color"
+                android:indeterminateTintMode="src_atop" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/store_bottom_ll"
+            android:padding="@dimen/margin_10"
+            android:orientation="vertical"
+            android:background="@color/lightGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:contentDescription="@string/todo"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/margin_30dp"
+                android:src="@drawable/fssai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:fontFamily="@font/proxima"
+                android:id="@+id/fssaitxt"
+                android:layout_marginTop="3dp"
+                android:layout_marginStart="@dimen/margin_10"
+                android:text="@string/license"
+                android:textColor="@color/colorHint"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:fontFamily="@font/proxima"
+                android:id="@+id/restaurant_nametxt"
+                android:layout_marginTop="@dimen/margin_20dp"
+                android:layout_marginStart="@dimen/margin_10"
+                android:text="@string/restaurant_name"
+                android:textColor="@color/colorHint"
+                android:textSize="@dimen/text_size_16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:fontFamily="@font/proxima"
+                android:id="@+id/restaurant_addtxt"
+                android:paddingBottom="130dp"
+                android:layout_marginTop="@dimen/margin_2dp"
+                android:layout_marginStart="@dimen/margin_10"
+                android:text="@string/restaurant_add"
+                android:textColor="@color/colorHint"
+                android:textSize="12sp"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 

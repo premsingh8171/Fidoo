@@ -13,57 +13,78 @@ import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import kotlinx.android.synthetic.main.new_store_details_item.view.*
 
 class NewStoreDetailsItemAdapter(
-	var context: Context,
-	var subcategory: ArrayList<Subcategory>,
-	var adapterClick: AdapterClick,
-	var fssai: String,
-	var restaurantName: String,
-	var service_id: String,
-	var restaurantAddress: String,
-	var adapterAddRemoveClick: AdapterAddRemoveClick,
-	var adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
-	var total_item_count: Int,
-	private val storeID: String
+    var context: Context,
+    var subcategory: ArrayList<Subcategory>,
+    var adapterClick: AdapterClick,
+    var fssai: String,
+    var restaurantName: String,
+    var service_id: String,
+    var restaurantAddress: String,
+    var adapterAddRemoveClick: AdapterAddRemoveClick,
+    var adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
+    var next_page_: Int,
+    private val storeID: String
 ) : RecyclerView.Adapter<NewStoreDetailsItemAdapter.ViewHolder>() {
-	var newStoreItemsAdapter: NewStoreItemsAdapter? = null
+    var newStoreItemsAdapter: NewStoreItemsAdapter? = null
 
-	class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {}
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {}
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
-		LayoutInflater.from(parent.context).inflate(R.layout.new_store_details_item, parent, false)
-	)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.new_store_details_item, parent, false)
+    )
 
-	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-		if (position == 0) {
-			holder.itemView.category_nameheaderTxt.visibility = View.GONE
-		} else {
-			holder.itemView.category_nameheaderTxt.visibility = View.VISIBLE
-		}
+        if (position == 0) {
+            holder.itemView.category_nameheaderTxt.visibility = View.GONE
+        } else {
+            holder.itemView.category_nameheaderTxt.visibility = View.VISIBLE
+        }
 
-		holder.itemView.category_nameheaderTxt.text = subcategory[position].subcategory_name
+        holder.itemView.category_nameheaderTxt.text = subcategory[position].subcategory_name
 
-		newStoreItemsAdapter = NewStoreItemsAdapter(
-			context,
-			adapterClick,
-			subcategory[position].product as ArrayList,
-			fssai,
-			restaurantName,
-			service_id,
-			restaurantAddress,
-			adapterAddRemoveClick, adapterCartAddRemoveClick, total_item_count, storeID
-		)
-		holder.itemView.recyclerviewPrdList.adapter = newStoreItemsAdapter
+        newStoreItemsAdapter = NewStoreItemsAdapter(
+            context,
+            adapterClick,
+            subcategory[position].product as ArrayList,
+            fssai,
+            restaurantName,
+            service_id,
+            restaurantAddress,
+            adapterAddRemoveClick, adapterCartAddRemoveClick, next_page_, storeID
+        )
+        holder.itemView.recyclerviewPrdList.adapter = newStoreItemsAdapter
 
-	}
 
-	override fun getItemCount() = subcategory.size
+        if (next_page_ == 0) {
+            holder.itemView.progressRlPrd.visibility = View.GONE
+            holder.itemView.store_bottom_ll.visibility = View.GONE
 
-	fun updateData(listData_: ArrayList<Subcategory>, total_item: Int) {
-		subcategory = java.util.ArrayList<Subcategory>()
-		subcategory.addAll(listData_)
-		total_item_count = total_item
-		notifyDataSetChanged()
-	}
+            if (subcategory.size - 1 == position) {
+                holder.itemView.progressRlPrd.visibility = View.VISIBLE
+            }else{
+                holder.itemView.progressRlPrd.visibility = View.GONE
+            }
+        } else {
+            holder.itemView.progressRlPrd.visibility = View.GONE
+            if (subcategory.size - 1 == position) {
+                holder.itemView.fssaitxt.text = fssai
+                holder.itemView.restaurant_nametxt.text = restaurantName
+                holder.itemView.restaurant_addtxt.text = restaurantAddress
+                holder.itemView.store_bottom_ll.visibility = View.VISIBLE
+            } else {
+                holder.itemView.store_bottom_ll.visibility = View.GONE
+            }
+        }
+    }
+
+    override fun getItemCount() = subcategory.size
+
+    fun updateData(listData_: ArrayList<Subcategory>, next_page: Int) {
+        subcategory = java.util.ArrayList<Subcategory>()
+        subcategory.addAll(listData_)
+        next_page_ = next_page
+        notifyDataSetChanged()
+    }
 
 }
