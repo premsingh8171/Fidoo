@@ -11,6 +11,7 @@ import androidx.room.Room
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.ActivityNewSearchStorelistingBinding
 import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
+import com.fidoo.user.newRestaurants.activity.NewStoreItemsActivity
 import com.fidoo.user.newsearch.adapter.SearchCategoryStoreAdapter
 import com.fidoo.user.newsearch.model.Store
 import com.fidoo.user.newsearch.viewmodel.SearchNewViewModel
@@ -133,7 +134,8 @@ class NewSearchStoreListingActivity : BaseActivity() {
                 override fun onItemClick(pos: Int, model: Store) {
                     AppUtils.startActivityRightToLeft(
                         this@NewSearchStoreListingActivity,
-                        Intent(this@NewSearchStoreListingActivity, StoreItemsActivity::class.java)
+                       // Intent(this@NewSearchStoreListingActivity, StoreItemsActivity::class.java)
+                        Intent(this@NewSearchStoreListingActivity, NewStoreItemsActivity::class.java)
                             .putExtra("storeId", storeId)
                             .putExtra("search_value", search_value)
                             .putExtra("storeName", storeName)

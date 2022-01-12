@@ -538,6 +538,7 @@ class NewStoreItemsActivity :
 		viewmodel?.newStoreDetailsRes?.observe(this, Observer { storeData ->
 			dismissIOSProgress()
 			linear_progress_indicator.visibility = View.GONE
+			mainPrdListLl.visibility = View.VISIBLE
 			Log.d("getStoreDetailsApiNewApi__", Gson().toJson(storeData))
 			handleresponce = 0
 

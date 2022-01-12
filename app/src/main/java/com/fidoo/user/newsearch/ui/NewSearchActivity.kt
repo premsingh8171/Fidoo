@@ -16,6 +16,7 @@ import com.fidoo.user.dashboard.listener.ClickEventOfDashboard
 import com.fidoo.user.dashboard.model.newmodel.*
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.ActivityNewSearchBinding
+import com.fidoo.user.newRestaurants.activity.NewStoreItemsActivity
 import com.fidoo.user.newsearch.adapter.SearchCategoryAdapter
 import com.fidoo.user.newsearch.model.SuggestionX
 import com.fidoo.user.newsearch.viewmodel.SearchNewViewModel
@@ -129,16 +130,14 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 					if (model.type.equals("Restaurants")) {
 						AppUtils.startActivityRightToLeft(
 							this@NewSearchActivity,
-							Intent(this@NewSearchActivity, StoreItemsActivity::class.java)
+							//Intent(this@NewSearchActivity, StoreItemsActivity::class.java)
+							Intent(this@NewSearchActivity, NewStoreItemsActivity::class.java)
 								.putExtra("storeId", model.store_id)
 								.putExtra("search_value", search_value)
 								.putExtra("storeName", model.name)
 								.putExtra("store_location", model.locality)
 								.putExtra("delivery_time", model.delivery_time)
-								.putExtra(
-									"cuisine_types",
-									model.cuisines.joinToString(separator = ", ")
-								)
+								.putExtra("cuisine_types", model.cuisines.joinToString(separator = ", "))
 								.putExtra("coupon_desc", "")
 								.putExtra("distance", model.distance)
 						)
