@@ -22,7 +22,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.fidoo.user.BuildConfig
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SliderScreenActivity
@@ -54,7 +53,7 @@ class SplashFragment : BaseFragment() {
     var updateApp_dialog: Dialog? = null
     var mmContext: Context? = null
     private var mediaController: MediaController? = null
-    var account_id:String?=""
+    var account_id: String? = ""
 
 
     override fun provideYourFragmentView(
@@ -71,7 +70,7 @@ class SplashFragment : BaseFragment() {
         mSessionTwiclo = SessionTwiclo(requireContext())
 
         if (isNetworkConnected) {
-           // custAppVerCheck(BuildConfig.VERSION_NAME)
+            // custAppVerCheck(BuildConfig.VERSION_NAME)
             SplashActivity.appversion?.let { custAppVerCheck(it) }
         } else {
             showInternetToast()
@@ -80,11 +79,11 @@ class SplashFragment : BaseFragment() {
         try {
             if (SessionTwiclo(mmContext).profileDetail != null) {
                 account_id = SessionTwiclo(mmContext).profileDetail.accountId.toString()
-            }else{
+            } else {
                 account_id = SessionTwiclo(mmContext).loginDetail.accountId.toString()
             }
-        }catch (e:java.lang.Exception){
-            account_id=""
+        } catch (e: java.lang.Exception) {
+            account_id = ""
         }
 
         return mView
@@ -106,7 +105,7 @@ class SplashFragment : BaseFragment() {
         val updateversion_txt = updateApp_dialog?.findViewById<TextView>(R.id.updateversion_txt)
         latest_version_txt!!.text = "What's New in Version " + newVersion_
 
-        updateversion_txt?.setOnClickListener(View.OnClickListener {
+        updateversion_txt?.setOnClickListener{
 
             if (Build.VERSION_CODES.M >= 22) {
                 try {
@@ -116,10 +115,7 @@ class SplashFragment : BaseFragment() {
                             Uri.parse("market://details?id=" + mmContext?.getPackageName())
                         )
                     )
-                } catch (e: java.lang.Exception) {
-
-                }
-
+                } catch (e: java.lang.Exception) { e.printStackTrace()}
             } else {
                 try {
                     startActivity(
@@ -129,9 +125,11 @@ class SplashFragment : BaseFragment() {
                         )
                     )
                 } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
                 }
             }
-        })
+
+        }
 
     }
 
@@ -208,77 +206,79 @@ class SplashFragment : BaseFragment() {
             SessionTwiclo(mmContext).deviceToken
         ).enqueue(object : Callback<UpdateAppModel> {
 
-                override fun onResponse(
-                    call: Call<UpdateAppModel>,
-                    response: Response<UpdateAppModel>
-                ) {
-                   Log.d("splash_screen", Gson().toJson(response.body()))
+            override fun onResponse(
+                call: Call<UpdateAppModel>,
+                response: Response<UpdateAppModel>
+            ) {
 
-                    if (response.body()!!.error_code == 300) {
-                       updateAppDialog(app_version)
-                    } else {
+                Log.d("splash_screen", Gson().toJson(response.body()))
 
-                        Glide.with(mmContext!!).load(R.drawable.splash_screen)
-                           .listener(object : RequestListener<Drawable?> {
-                               override fun onLoadFailed(
-                                   e: GlideException?,
-                                   model: Any,
-                                   target: Target<Drawable?>,
-                                   isFirstResource: Boolean
-                               ): Boolean {
-                                   return false
-                               }
-                               override fun onResourceReady(
-                                   resource: Drawable?,
-                                   model: Any,
-                                   target: Target<Drawable?>,
-                                   dataSource: DataSource,
-                                   isFirstResource: Boolean
-                               ): Boolean {
-                                   return false
-                               }
-                           })
-                           .placeholder(R.drawable.splash_screen)
-                           .error(R.drawable.splash_screen).into(mView.fidooSplashLogo)
+                if (response.body()!!.error_code == 300) {
+                    updateAppDialog(app_version)
+                } else {
 
-                       Handler().postDelayed({
-                           if (mSessionTwiclo.isLoggedIn) {
-                               goForVerificationScreen(
-                                   MainActivity::class.java,
-                                   mmContext!!,
-                                   "",
-                                   "",
-                                   "",
-                                   ""
-                               )
-                               return@postDelayed
-                           } else {
-                               try {
-                                   goForVerificationScreen(
-                                       SliderScreenActivity::class.java,
-                                       mmContext!!,
-                                       "",
-                                       "",
-                                       "",
-                                       ""
-                                   )
-                               } catch (e: Exception) {
-                                   e.printStackTrace()
-                               }
-                           }
-                       }, 1500)
+                    Glide.with(mmContext!!).load(R.drawable.splash_screen)
+                        .listener(object : RequestListener<Drawable?> {
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any,
+                                target: Target<Drawable?>,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                return false
+                            }
 
-                    }
-                }
+                            override fun onResourceReady(
+                                resource: Drawable?,
+                                model: Any,
+                                target: Target<Drawable?>,
+                                dataSource: DataSource,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                return false
+                            }
+                        })
+                        .placeholder(R.drawable.splash_screen)
+                        .error(R.drawable.splash_screen).into(mView.fidooSplashLogo)
 
-                override fun onFailure(call: Call<UpdateAppModel>, t: Throwable) {
+                    Handler().postDelayed({
+                        if (mSessionTwiclo.isLoggedIn) {
+                            goForVerificationScreen(
+                                MainActivity::class.java,
+                                mmContext!!,
+                                "",
+                                "",
+                                "",
+                                ""
+                            )
+                            return@postDelayed
+                        } else {
+                            try {
+                                goForVerificationScreen(
+                                    SliderScreenActivity::class.java,
+                                    mmContext!!,
+                                    "",
+                                    "",
+                                    "",
+                                    ""
+                                )
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+                    }, 3000)
 
                 }
-            })
+            }
+
+            override fun onFailure(call: Call<UpdateAppModel>, t: Throwable) {}
+
+        })
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mmContext = context
     }
+
 }
