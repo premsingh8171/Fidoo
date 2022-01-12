@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +20,8 @@ import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
+import com.fidoo.user.newRestaurants.listener.NewAdapterCartAddRemoveClick
 import com.fidoo.user.newRestaurants.model.Product
-import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.model.StoreDetailsModel
 import kotlinx.android.synthetic.main.store_product.view.*
 
@@ -35,9 +34,10 @@ class NewStoreItemsAdapter(
 	var service_id: String,
 	var restaurantAddress: String,
 	var adapterAddRemoveClick: AdapterAddRemoveClick,
-	private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
+	private val adapterCartAddRemoveClick: NewAdapterCartAddRemoveClick,
 	var total_item_count: Int,
-	private val storeID: String
+	private val storeID: String,
+	private val updatePrd: UpdatePrd,
 ) : RecyclerView.Adapter<NewStoreItemsAdapter.UserViewHolder>() {
 
 	var arraylist: ArrayList<StoreDetailsModel.Product> = ArrayList()
@@ -56,6 +56,7 @@ class NewStoreItemsAdapter(
 		val index = productList[position]
 		customizeItemIdList = ArrayList()
 		customizeItemName = ArrayList()
+
 		try {
 			// Log.d("indexindex", index.price!! + "--" + index.offerPrice)
 
@@ -123,7 +124,7 @@ class NewStoreItemsAdapter(
 			holder.storeImg.visibility = View.GONE
 		}
 
-		Log.d("indeximage", index.image.toString())
+	//	Log.d("indeximage", index.image.toString())
 
 		if (productList[position].is_customize == "1") {
 			holder.customizable.visibility = View.VISIBLE
@@ -178,6 +179,7 @@ class NewStoreItemsAdapter(
 			holder.stock_status.visibility = View.GONE
 
 			holder.add_new_lay.setOnClickListener {
+
 				if (checkForInternet(con)) {
 					count = 0
 					if (SessionTwiclo(con).isLoggedIn) {
@@ -197,6 +199,10 @@ class NewStoreItemsAdapter(
 
 							//SessionTwiclo(con).storeId = storeID
 							SessionTwiclo(con).serviceId = MainActivity.service_idStr
+
+							updatePrd.onClickUpdate(productList[position],position,count,"Customized")
+
+
 						} else {
 							count++
 							//Log.d("countcountcountcot",count.toString())
@@ -213,9 +219,11 @@ class NewStoreItemsAdapter(
 									index.offer_price, "",
 									productList[position].cart_id, 0
 								)
-
 								SessionTwiclo(con).storeId = storeID
 								SessionTwiclo(con).serviceId = MainActivity.service_idStr
+
+								updatePrd.onClickUpdate(productList[position],position,count,"normal")
+
 							} else {
 
 								val builder = AlertDialog.Builder(con)
@@ -236,6 +244,8 @@ class NewStoreItemsAdapter(
 									SessionTwiclo(con).storeId = storeID
 									SessionTwiclo(con).serviceId = MainActivity.service_idStr
 
+									updatePrd.onClickUpdate(productList[position],position,count,"normal")
+
 									//Toast.makeText(applicationContext,"clicked yes",Toast.LENGTH_LONG).show()
 								}
 
@@ -254,25 +264,31 @@ class NewStoreItemsAdapter(
 							}
 
 						}
+
 					} else {
 						showLoginDialog("Please login to proceed")
 					}
+
 				}
+
 			}
 
 			holder.plusLay.setOnClickListener {
-				if (checkForInternet(con)) {
 
+				if (checkForInternet(con)) {
 					var count: Int = holder.countValue.text.toString().toInt()
+
 					if (index.is_customize.equals("1")) {
 						var items: String? = ""
 						count++
+
 //                        if (index.customizeItemName != "") {
 //                            items = index.customizeItemName
 //                        }
 
 						var customizeItemId = ""
 						customizeItemIdList.clear()
+
 						try {
 							for (element in productList[position].customize_item) {
 								customizeItemIdList.add(element.id)
@@ -295,6 +311,7 @@ class NewStoreItemsAdapter(
 							productList[position].cart_id
 						)
 
+						updatePrd.onClickUpdate(productList[position],position,count,"Customized")
 
 					} else {
 						count++
@@ -306,6 +323,8 @@ class NewStoreItemsAdapter(
 							index.offer_price, "",
 							productList[position].cart_id, 0
 						)
+						updatePrd.onClickUpdate(productList[position],position,count,"normal")
+
 					}
 				}
 			}
@@ -314,6 +333,7 @@ class NewStoreItemsAdapter(
 				if (checkForInternet(con)) {
 
 					var count: Int = holder.countValue.text.toString().toInt()
+
 					if (index.is_customize.equals("1")) {
 						if (holder.countValue.text.toString().toInt() > 0) {
 							count--
@@ -342,6 +362,7 @@ class NewStoreItemsAdapter(
 						if (count > 0) {
 							count--
 							holder.countValue.text = count.toString()
+
 							if (count == 0) {
 								holder.add_new_lay.visibility = View.VISIBLE
 								holder.add_remove_lay.visibility = View.GONE
@@ -364,8 +385,12 @@ class NewStoreItemsAdapter(
 									productList[position].cart_id, 0
 								)
 							}
+
 						}
 					}
+
+					updatePrd.onClickUpdate(productList[position],position,count,"normal")
+
 				}
 			}
 
@@ -374,6 +399,7 @@ class NewStoreItemsAdapter(
 			holder.add_remove_lay.visibility = View.GONE
 			holder.stock_status.visibility = View.VISIBLE
 		}
+
 
 //		if (total_item_count - 1 == position) {
 //			holder.fssaitxt.text = fssai
@@ -465,6 +491,9 @@ class NewStoreItemsAdapter(
 		var restaurant_addtxt = view.restaurant_addtxt
 	}
 
+	interface UpdatePrd {
+		fun onClickUpdate(listData_: Product, pos: Int, prdQuantity: Int,type:String)
+	}
 
 	fun updateData(listData_: ArrayList<Product>, total_item: Int) {
 		productList = java.util.ArrayList<Product>()

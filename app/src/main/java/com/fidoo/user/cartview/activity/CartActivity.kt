@@ -52,6 +52,7 @@ import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 import com.fidoo.user.grocerynewui.activity.GroceryNewUiActivity.Companion.product_valueUpdate
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
+import com.fidoo.user.newRestaurants.activity.NewStoreItemsActivity.Companion.handleRes
 import com.fidoo.user.ordermodule.ui.TrackOrderActivity
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
 import com.fidoo.user.profile.ui.EditProfileActivity
@@ -125,11 +126,9 @@ class CartActivity : BaseActivity(),
 	var tempProductId: String? = ""
 	var product_id: String? = ""
 	var storeId: String? = ""
-	var isLessContactClicked: Boolean = true
 	var tempOfferPrice: String? = ""
 	var filePathTemp: String = ""
 	var fileUri: Uri? = null
-
 	var count: Int = 1
 	var isPrescriptionRequire: String = ""
 	var distanceViewModel: TrackViewModel? = null
@@ -160,7 +159,6 @@ class CartActivity : BaseActivity(),
 	var checkStore: Int = 0
 	var prescriptionAdapter: PrescriptionAdapter? = null
 	private var mMixpanel: MixpanelAPI? = null
-
 
 	companion object {
 		var store_imgStr: String = ""
@@ -530,6 +528,7 @@ class CartActivity : BaseActivity(),
 				try {
 					checkItemUpdate = 1
 					handleresponce = 1
+					handleRes=1
 					//  if (user.product_customize_id!="") {
 					Thread {
 						if (user.cart_quantity!!.toInt() == 0) {
@@ -619,8 +618,11 @@ class CartActivity : BaseActivity(),
 			var product_id: String = ""
 			var cart_quantity: Int = 0
 			checkItemUpdate = 1
+
 			if (user.errorCode == 200) {
 				handleresponce = 1
+				handleRes=1
+
 				try {
 					if (user.cart_quantity != null) {
 						cart_quantity = user.cart_quantity!!.toInt()
@@ -637,9 +639,7 @@ class CartActivity : BaseActivity(),
 					if (user.product_customize_id != null) {
 						product_customize_id = user.product_customize_id!!
 					}
-				} catch (e: Exception) {
-
-				}
+				} catch (e: Exception) {e.printStackTrace() }
 
 				viewmodel?.getCartDetails(
 					accountId,
@@ -1741,7 +1741,6 @@ class CartActivity : BaseActivity(),
 		)
 	}
 
-
 	override fun onIdSelected(
 		productId: String?,
 		type: String?,
@@ -2214,12 +2213,8 @@ class CartActivity : BaseActivity(),
 		}, 5000)
 	}
 
-	override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
+	override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {}
 
-	}
-
-	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
-
-	}
+	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {}
 
 }

@@ -1,4 +1,4 @@
-package com.fidoo.user.restaurants.adapter
+package com.fidoo.user.newRestaurants.adapter
 
 import android.content.Context
 import android.graphics.Color
@@ -8,18 +8,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
 import com.fidoo.user.grocery.model.getGroceryProducts.Category
+import com.fidoo.user.newRestaurants.model.Subcategory
 import com.fidoo.user.restaurants.model.StoreDetailsModel
 import kotlinx.android.synthetic.main.grocery_cat_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.*
 import kotlinx.android.synthetic.main.grocery_sub_cat_item_layout.view.grocery_sub_tv
 
-class RestaurantCategoryAdapter(
+class NewRestaurantCategoryAdapter(
 	var context: Context,
-	var list: ArrayList<StoreDetailsModel.Category>,
+	var list: ArrayList<Subcategory>,
 	var active_or_not: Int = -1,
-	var categoryItemClick: CategoryItemClick
-) : RecyclerView.Adapter<RestaurantCategoryAdapter.ViewHolder>() {
+	var subategoryItemClick: SubategoryItemClick
+) : RecyclerView.Adapter<NewRestaurantCategoryAdapter.ViewHolder>() {
 	var index: Int = -1
 
 	inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {}
@@ -31,12 +32,11 @@ class RestaurantCategoryAdapter(
 	}
 
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-		holder.itemView.cat_tv.text = list.get(position).catName
+		holder.itemView.cat_tv.text = list.get(position).subcategory_name
 		holder.itemView.countTxt.text = "( "+list[position].product.size.toString()+" )";
 		holder.itemView.category_constL.setOnClickListener {
-			//   index=position
 			active_or_not = position
-			categoryItemClick.onItemClick(position, list.get(position))
+			subategoryItemClick.onItemClick(position, list.get(position))
 			notifyDataSetChanged()
 		}
 
@@ -53,8 +53,8 @@ class RestaurantCategoryAdapter(
 		return list.size
 	}
 
-	interface CategoryItemClick {
-		fun onItemClick(pos: Int, category: StoreDetailsModel.Category)
+	interface SubategoryItemClick {
+		fun onItemClick(pos: Int, subcategory: Subcategory)
 	}
 
 }

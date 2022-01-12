@@ -179,12 +179,10 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
             .enqueue(object : Callback<AddRemoveCartModel> {
 
                 override fun onResponse(call: Call<AddRemoveCartModel>, response: Response<AddRemoveCartModel>) {
-                    // progressDialog?.value = false
                     addRemoveCartResponse?.value = response.body()
                 }
 
                 override fun onFailure(call: Call<AddRemoveCartModel>, t: Throwable) {
-                    //  progressDialog?.value = false
                     failureResponse?.value="Something went wrong add/remove"
                 }
 

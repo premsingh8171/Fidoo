@@ -2,7 +2,7 @@ package com.fidoo.user.newRestaurants.model
 
 data class Product(
     val cart_id: String,
-    val cart_quantity: Int,
+    var cart_quantity: Int,
     val company_name: String,
     val contains_egg: String,
     val coupon_applied: String,
