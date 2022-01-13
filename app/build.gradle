@@ -303,4 +303,8 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpclient:4.5.6'
 
     implementation 'com.mixpanel.android:mixpanel-android:5.9.5'
+
+    // Lottie dependency
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 }

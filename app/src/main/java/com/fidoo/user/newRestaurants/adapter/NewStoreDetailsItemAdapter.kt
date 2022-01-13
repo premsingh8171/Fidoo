@@ -86,10 +86,7 @@ class NewStoreDetailsItemAdapter(
 							prdQuantity,
 							"normal"
 						)
-
-
 					}
-
 				}
 			}
 		)
@@ -97,16 +94,16 @@ class NewStoreDetailsItemAdapter(
 		holder.itemView.recyclerviewPrdList.adapter = newStoreItemsAdapter
 
 		if (next_page_ == 0) {
-			holder.itemView.progressRlPrd.visibility = View.GONE
-			holder.itemView.store_bottom_ll.visibility = View.GONE
-
-			if (subcategory.size - 1 == position) {
-				holder.itemView.progressRlPrd.visibility = View.VISIBLE
-			} else {
-				holder.itemView.progressRlPrd.visibility = View.GONE
-			}
+//			holder.itemView.progressRlPrd.visibility = View.GONE
+//			holder.itemView.store_bottom_ll.visibility = View.GONE
+//
+//			if (subcategory.size - 1 == position) {
+//			//	holder.itemView.progressRlPrd.visibility = View.VISIBLE
+//			} else {
+//				holder.itemView.progressRlPrd.visibility = View.GONE
+//			}
 		} else {
-			holder.itemView.progressRlPrd.visibility = View.GONE
+		//	holder.itemView.progressRlPrd.visibility = View.GONE
 			if (subcategory.size - 1 == position) {
 				holder.itemView.fssaitxt.text = fssai
 				holder.itemView.restaurant_nametxt.text = restaurantName
@@ -116,6 +113,8 @@ class NewStoreDetailsItemAdapter(
 				holder.itemView.store_bottom_ll.visibility = View.GONE
 			}
 		}
+
+
 	}
 
 	override fun getItemCount() = subcategory.size

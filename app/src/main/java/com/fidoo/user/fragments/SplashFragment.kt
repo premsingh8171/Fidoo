@@ -216,30 +216,31 @@ class SplashFragment : BaseFragment() {
                 if (response.body()!!.error_code == 300) {
                     updateAppDialog(app_version)
                 } else {
+                    fidooSplashLogo.playAnimation()
 
-                    Glide.with(mmContext!!).load(R.drawable.splash_screen)
-                        .listener(object : RequestListener<Drawable?> {
-                            override fun onLoadFailed(
-                                e: GlideException?,
-                                model: Any,
-                                target: Target<Drawable?>,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                return false
-                            }
-
-                            override fun onResourceReady(
-                                resource: Drawable?,
-                                model: Any,
-                                target: Target<Drawable?>,
-                                dataSource: DataSource,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                return false
-                            }
-                        })
-                        .placeholder(R.drawable.splash_screen)
-                        .error(R.drawable.splash_screen).into(mView.fidooSplashLogo)
+//                    Glide.with(mmContext!!).load(R.drawable.splash_screen)
+//                        .listener(object : RequestListener<Drawable?> {
+//                            override fun onLoadFailed(
+//                                e: GlideException?,
+//                                model: Any,
+//                                target: Target<Drawable?>,
+//                                isFirstResource: Boolean
+//                            ): Boolean {
+//                                return false
+//                            }
+//
+//                            override fun onResourceReady(
+//                                resource: Drawable?,
+//                                model: Any,
+//                                target: Target<Drawable?>,
+//                                dataSource: DataSource,
+//                                isFirstResource: Boolean
+//                            ): Boolean {
+//                                return false
+//                            }
+//                        })
+//                        .placeholder(R.drawable.splash_screen)
+//                        .error(R.drawable.splash_screen).into(mView.fidooSplashLogo)
 
                     Handler().postDelayed({
                         if (mSessionTwiclo.isLoggedIn) {
@@ -266,7 +267,7 @@ class SplashFragment : BaseFragment() {
                                 e.printStackTrace()
                             }
                         }
-                    }, 3000)
+                    }, 1500)
 
                 }
             }

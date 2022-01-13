@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activity.SplashActivity"
+    android:background="@color/primary_color"
     android:fitsSystemWindows="true">
 
 

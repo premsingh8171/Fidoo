@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -155,6 +157,7 @@ class NewStoreItemsActivity :
 	var prdCount: Int? = 0
 	var main_Position: Int? = 0
 	var prd_Position: Int? = 0
+	var backgroungHit: Int? = 0
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -213,14 +216,14 @@ class NewStoreItemsActivity :
 				Log.e("fabVisible", "up")
 				store_details_lay.visibility = View.GONE
 				tv_store_name.visibility = View.VISIBLE
-				category_header_TXt.visibility = View.GONE
+			//	category_header_TXt.visibility = View.GONE
 			} else if (dy < 0 && !fabVisible) {
 				// scrolling down
 				fabVisible = true
 				Log.e("fabVisible", "down")
 				store_details_lay.visibility = View.VISIBLE
 				tv_store_name.visibility = View.INVISIBLE
-				category_header_TXt.visibility = View.GONE
+				//category_header_TXt.visibility = View.GONE
 			}
 		})
 
@@ -552,6 +555,7 @@ class NewStoreItemsActivity :
 //                  }
 
 				try {
+
 					if (storeData.service_id.equals("7")) {
 						store_preference_Rlay.visibility = View.GONE
 					} else {
@@ -571,14 +575,12 @@ class NewStoreItemsActivity :
 //				executor().execute {
 //					for (i in storeData.subcategory.indices) {
 //						val categoryData = storeData.subcategory[i]
-//
 //						if (cat_listShow == 0) {
 //							//catList.add(categoryData)
 //						}
 //					}
 
 					if (pagecount > 0) {
-
 						latestList = storeData.subcategory as ArrayList
 						mainlist!!.addAll(latestList!!)
 						val s: Set<Subcategory> = LinkedHashSet<Subcategory>(mainlist)
@@ -594,7 +596,14 @@ class NewStoreItemsActivity :
 						mainlist!!.addAll(s)
 						recyclerviewListData(mainlist!!)
 					}
+
 					pagecount = storeData.start_id
+					if (next_available==0) {
+						Handler(Looper.getMainLooper()).postDelayed({
+							backgroungHit=1
+							getStoreDetailsApiNewApiCall()
+						}, 2000)
+					}
 
 				}
 
@@ -890,6 +899,7 @@ class NewStoreItemsActivity :
 					viewAll_txt.setTextColor(Color.parseColor("#000000"))
 					selectCategoryDiolog?.dismiss()
 
+					category_header_.text = subcategory.subcategory_name
 					storeItemsRecyclerview?.smoothScrollToPosition(pos)
 
 
@@ -977,6 +987,7 @@ class NewStoreItemsActivity :
 				var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
 
 				//Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem")
+				category_header_.text = mainlist!![0].subcategory_name
 
 				if (searchEdt_ResPrd.getText().toString()
 						.equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
@@ -1069,7 +1080,9 @@ class NewStoreItemsActivity :
 	private fun getStoreDetailsApiNewApiCall() {
 
 		if (isNetworkConnected) {
-			showIOSProgress()
+			if (backgroungHit==0){
+				showIOSProgress()
+			}
 			category_header_.visibility = View.GONE
 			category_header_.text = ""
 			if (SessionTwiclo(this).isLoggedIn) {
