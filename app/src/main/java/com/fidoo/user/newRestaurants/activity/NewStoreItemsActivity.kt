@@ -133,7 +133,7 @@ class NewStoreItemsActivity :
 	var egg_filter: Int = 0
 	var cat_visible: Int = 0
 	var cart_count: Int = 0
-	lateinit var restaurantCategoryAdapter: NewRestaurantCategoryAdapter
+	var restaurantCategoryAdapter: NewRestaurantCategoryAdapter?=null
 	var newStoreDetailsItemAdapter: NewStoreDetailsItemAdapter? = null
 	var selectCategoryDiolog: Dialog? = null
 	private var slide_: Animation? = null
@@ -545,7 +545,7 @@ class NewStoreItemsActivity :
 			Log.d("getStoreDetailsApiNewApi__", Gson().toJson(storeData))
 			handleresponce = 0
 
-			if (storeData.error_code == 200) {
+			if(storeData.error_code == 200) {
 				tempProductList!!.clear()
 				addCartTempList!!.clear()
 				next_available = storeData.next_available
@@ -587,7 +587,7 @@ class NewStoreItemsActivity :
 						mainlist!!.clear()
 						mainlist!!.addAll(s)
 						newStoreDetailsItemAdapter!!.updateData(mainlist!!, next_available)
-						newStoreDetailsItemAdapter!!.notifyDataSetChanged()
+						//newStoreDetailsItemAdapter!!.notifyDataSetChanged()
 					} else {
 						mainlist!!.clear()
 						mainlist = storeData.subcategory as ArrayList
@@ -598,12 +598,36 @@ class NewStoreItemsActivity :
 					}
 
 					pagecount = storeData.start_id
-					if (next_available==0) {
-						Handler(Looper.getMainLooper()).postDelayed({
-							backgroungHit=1
-							getStoreDetailsApiNewApiCall()
-						}, 2000)
-					}
+
+//					if (next_available==0) {
+//						Handler(Looper.getMainLooper()).postDelayed({
+//							backgroungHit=1
+//							if (isNetworkConnected) {
+//
+//								if (SessionTwiclo(this@NewStoreItemsActivity).isLoggedIn) {
+//
+//									viewmodel?.getStoreDetailsApiNew(
+//										SessionTwiclo(this@NewStoreItemsActivity).loggedInUserDetail.accountId,
+//										SessionTwiclo(this@NewStoreItemsActivity).loggedInUserDetail.accessToken,
+//										intent.getStringExtra("storeId"),
+//										nonveg_str,
+//										cat_id,
+//										contains_egg, pagecount.toString()
+//									)
+//								} else {
+//									viewmodel?.getStoreDetailsApiNew(
+//										"",
+//										"",
+//										intent.getStringExtra("storeId"),
+//										nonveg_str,
+//										cat_id,
+//										contains_egg, pagecount.toString()
+//									)
+//								}
+//							}
+//
+//						}, 3000)
+//					}
 
 				}
 
@@ -869,7 +893,7 @@ class NewStoreItemsActivity :
 			cat_id = ""
 			active_or_not = 0
 			viewAll_txt.setTextColor(Color.parseColor("#a9a9a9"))
-			restaurantCategoryAdapter.notifyDataSetChanged()
+			restaurantCategoryAdapter!!.notifyDataSetChanged()
 			selectCategoryDiolog?.dismiss()
 
 			//api call here
@@ -900,7 +924,8 @@ class NewStoreItemsActivity :
 					selectCategoryDiolog?.dismiss()
 
 					category_header_.text = subcategory.subcategory_name
-					storeItemsRecyclerview?.smoothScrollToPosition(pos)
+				//	storeItemsRecyclerview?.smoothScrollToPosition(pos)
+					storeItemsRecyclerview?.scrollToPosition(pos)
 
 
 //                    try {
@@ -986,7 +1011,7 @@ class NewStoreItemsActivity :
 				scrollOutItems = manager!!.findFirstVisibleItemPosition()
 				var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
 
-				//Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem")
+				Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem")
 
 				if (searchEdt_ResPrd.getText().toString()
 						.equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
@@ -997,7 +1022,7 @@ class NewStoreItemsActivity :
 							arrayList!!.get(scrollOutItems)!!.subcategory_name.toString()
 
 						active_or_not = scrollOutItems
-						restaurantCategoryAdapter.notifyDataSetChanged()
+						restaurantCategoryAdapter!!.notifyDataSetChanged()
 
 
 //						category_header_TXt.text =
@@ -1024,7 +1049,7 @@ class NewStoreItemsActivity :
 
 					if (dy > 1) {
 
-						if (isScrolling && currentItems + scrollOutItems == totalItems) {
+						if (isScrolling && (currentItems + scrollOutItems)/2 == totalItems/2) {
 
 							if (next_available == 0) {
 								if (handleresponce == 0) {
