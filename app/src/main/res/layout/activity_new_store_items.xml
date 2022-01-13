@@ -246,7 +246,7 @@
         <RelativeLayout
             android:id="@+id/store_details_lay"
             android:layout_width="match_parent"
-            android:layout_height="115dp"
+            android:layout_height="@dimen/margin_120dp"
             android:background="@color/lightGray"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/margin_10"
@@ -281,7 +281,7 @@
                 android:paddingLeft="@dimen/margin_4dp"
                 android:text="#"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="@dimen/dimen_14dp" />
 
             <TextView
                 android:id="@+id/tv_location"
@@ -297,10 +297,11 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:maxLines="3"
                 android:paddingLeft="@dimen/dimen_5dp"
+                android:lineSpacingMultiplier="1"
                 android:selectAllOnFocus="true"
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="@dimen/text_size_14sp" />
 
             <LinearLayout
                 android:id="@+id/distance_viewll_"
@@ -331,7 +332,7 @@
                     android:layout_toEndOf="@id/img_location"
                     android:fontFamily="@font/proxima"
                     android:text="time"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/dimen_14dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -363,7 +364,7 @@
                     android:layout_marginEnd="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/dimen_14dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -397,7 +398,7 @@
                     android:fontFamily="@font/proxima"
                     android:text=""
                     android:textColor="@color/primary_color"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/dimen_14dp" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -477,7 +478,6 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:visibility="visible" />
-
 
         </LinearLayout>
 

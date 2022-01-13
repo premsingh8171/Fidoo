@@ -987,7 +987,6 @@ class NewStoreItemsActivity :
 				var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
 
 				//Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem")
-				category_header_.text = mainlist!![0].subcategory_name
 
 				if (searchEdt_ResPrd.getText().toString()
 						.equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
@@ -1083,8 +1082,8 @@ class NewStoreItemsActivity :
 			if (backgroungHit==0){
 				showIOSProgress()
 			}
-			category_header_.visibility = View.GONE
-			category_header_.text = ""
+//			category_header_.visibility = View.GONE
+//			category_header_.text = ""
 			if (SessionTwiclo(this).isLoggedIn) {
 				viewmodel?.getCartCountApi(
 					SessionTwiclo(this).loggedInUserDetail.accountId,
