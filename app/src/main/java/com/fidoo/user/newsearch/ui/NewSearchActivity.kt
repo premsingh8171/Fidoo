@@ -20,6 +20,7 @@ import com.fidoo.user.newRestaurants.activity.NewStoreItemsActivity
 import com.fidoo.user.newsearch.adapter.SearchCategoryAdapter
 import com.fidoo.user.newsearch.model.SuggestionX
 import com.fidoo.user.newsearch.viewmodel.SearchNewViewModel
+import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.activity.StoreItemsActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.utils.BaseActivity
@@ -131,7 +132,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 						AppUtils.startActivityRightToLeft(
 							this@NewSearchActivity,
 							//Intent(this@NewSearchActivity, StoreItemsActivity::class.java)
-							Intent(this@NewSearchActivity, NewStoreItemsActivity::class.java)
+							//Intent(this@NewSearchActivity, NewStoreItemsActivity::class.java)
+							Intent(this@NewSearchActivity, NewDBStoreItemsActivity::class.java)
 								.putExtra("storeId", model.store_id)
 								.putExtra("search_value", search_value)
 								.putExtra("storeName", model.name)

@@ -361,7 +361,7 @@
                     android:layout_marginEnd="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/dimen_14dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -395,7 +395,7 @@
                     android:fontFamily="@font/proxima"
                     android:text=""
                     android:textColor="@color/primary_color"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/dimen_14dp" />
             </LinearLayout>
 
         </RelativeLayout>

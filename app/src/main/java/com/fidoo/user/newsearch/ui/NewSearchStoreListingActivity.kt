@@ -10,12 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.ActivityNewSearchStorelistingBinding
-import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
-import com.fidoo.user.newRestaurants.activity.NewStoreItemsActivity
 import com.fidoo.user.newsearch.adapter.SearchCategoryStoreAdapter
 import com.fidoo.user.newsearch.model.Store
 import com.fidoo.user.newsearch.viewmodel.SearchNewViewModel
-import com.fidoo.user.restaurants.activity.StoreItemsActivity
+import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.utils.BaseActivity
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
@@ -64,7 +62,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
         try {
             search_value = intent.getStringExtra("search_value").toString()
             key_value = intent.getStringExtra("key_value").toString()
-            Log.d("key_value__",search_value!!)
+            Log.d("key_value__", search_value!!)
             storeId = intent.getStringExtra("storeId").toString()
             storeName = intent.getStringExtra("storeName").toString()
             store_location = intent.getStringExtra("store_location").toString()
@@ -88,7 +86,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
                 sessionTwiclo!!.userLng,
                 pagecount.toString()
             )
-        }else{
+        } else {
             viewModel!!.keywordBasedSearchResultsApi(
                 "",
                 "",
@@ -134,14 +132,21 @@ class NewSearchStoreListingActivity : BaseActivity() {
                 override fun onItemClick(pos: Int, model: Store) {
                     AppUtils.startActivityRightToLeft(
                         this@NewSearchStoreListingActivity,
-                       // Intent(this@NewSearchStoreListingActivity, StoreItemsActivity::class.java)
-                        Intent(this@NewSearchStoreListingActivity, NewStoreItemsActivity::class.java)
+                        // Intent(this@NewSearchStoreListingActivity, StoreItemsActivity::class.java)
+                        //  Intent(this@NewSearchStoreListingActivity, NewStoreItemsActivity::class.java)
+                        Intent(
+                            this@NewSearchStoreListingActivity,
+                            NewDBStoreItemsActivity::class.java
+                        )
                             .putExtra("storeId", storeId)
                             .putExtra("search_value", search_value)
                             .putExtra("storeName", storeName)
                             .putExtra("store_location", model.locality)
                             .putExtra("delivery_time", model.delivery_time)
-                            .putExtra("cuisine_types", model.cuisines.joinToString(separator = ", "))
+                            .putExtra(
+                                "cuisine_types",
+                                model.cuisines.joinToString(separator = ", ")
+                            )
                             .putExtra("coupon_desc", "")
                             .putExtra("distance", model.distance)
                     )
@@ -213,6 +218,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
         super.onResume()
         deleteRoomDataBase()
     }
+
     //delete room data
     private fun deleteRoomDataBase() {
         Thread {

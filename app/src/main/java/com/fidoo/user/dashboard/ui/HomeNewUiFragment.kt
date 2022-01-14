@@ -43,6 +43,7 @@ import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentHomeNewuiBinding
 import com.fidoo.user.newRestaurants.activity.NewStoreItemsActivity
 import com.fidoo.user.profile.ui.ProfileFragment
+import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.activity.StoreItemsActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.sendpackages.activity.SendPackageActivity
@@ -638,7 +639,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		Log.d("onOfferCatClick", model.delivery_distance.toString())
 		AppUtils.startActivityRightToLeft(
 		//	context as Activity?, Intent(context, StoreItemsActivity::class.java)
-			context as Activity?, Intent(context, NewStoreItemsActivity::class.java)
+		//	context as Activity?, Intent(context, NewStoreItemsActivity::class.java)
+			context as Activity?, Intent(context, NewDBStoreItemsActivity::class.java)
 				.putExtra("storeId", model.store_id)
 				.putExtra("storeName", model.store_name)
 				.putExtra("store_location", model.address)

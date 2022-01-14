@@ -438,7 +438,7 @@ class NewDBStoreItemsActivity :
             deleteRoomDataBase()
             showIOSProgress()
             totalItem = 50
-
+            pagecount=0
             if (veg_filter == 0) {
                 veg_switch_img.setImageResource(R.drawable.filter_on)
                 // egg_switch_img.setImageResource(R.drawable.filter_off)
@@ -464,6 +464,7 @@ class NewDBStoreItemsActivity :
             deleteRoomDataBase()
             showIOSProgress()
             totalItem = 50
+            pagecount=0
             if (egg_filter == 0) {
                 egg_switch_img.setImageResource(R.drawable.filter_on)
                 // veg_switch_img.setImageResource(R.drawable.filter_off)
@@ -580,7 +581,7 @@ class NewDBStoreItemsActivity :
 
         //cartcount responce
         viewmodel?.cartCountResponse?.observe(this) { cartcount ->
-            dismissIOSProgress()
+           // dismissIOSProgress()
             addCartTempList!!.clear()
             tempProductList!!.clear()
             //Log.d("cartCountResponse___",cartcount.toString())
@@ -619,7 +620,6 @@ class NewDBStoreItemsActivity :
         }
 
         viewmodel?.newStoreDetailsRes?.observe(this, Observer { storeData ->
-            dismissIOSProgress()
             linear_progress_indicator.visibility = View.GONE
             Log.d("getStoreDetailsApi__", Gson().toJson(storeData))
 
@@ -649,6 +649,8 @@ class NewDBStoreItemsActivity :
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+
+            dismissIOSProgress()
 
             if (storeData.error_code==200) {
                 if (storeData.subcategory.isNotEmpty()) {
@@ -804,156 +806,6 @@ class NewDBStoreItemsActivity :
             }
         })
 
-
-//		viewmodel?.getStoreDetailsApi?.observe(this, Observer { storeData ->
-//			dismissIOSProgress()
-//			linear_progress_indicator.visibility = View.GONE
-//			Log.d("getStoreDetailsApi__", Gson().toJson(storeData))
-//
-//			tempProductList!!.clear()
-//			addCartTempList!!.clear()
-//
-//			if (cat_listShow == 0) {
-//				catList!!.clear()
-//			}
-//
-//			//fidooLoaderCancel()
-//
-//			val productList: ArrayList<StoreDetailsModel.Product> = ArrayList()
-//
-//			try {
-//				if (storeData.service_id.equals("7")) {
-//					store_preference_Rlay.visibility = View.GONE
-//				} else {
-//					store_preference_Rlay.visibility = View.VISIBLE
-//				}
-//
-//				restaurantAddress = storeData.address.toString()
-//				fssai = "License no. " + storeData.fssai.toString()
-//				restaurantName = storeData.storeName.toString()
-//
-//			} catch (e: Exception) {
-//				e.printStackTrace()
-//			}
-//
-//			if (storeData.category.size != 0) {
-//
-//				executor().execute {
-//					for (i in storeData.category.indices) {
-//						val categoryData = storeData.category[i]
-//
-//						for (j in 0 until storeData.category[i].product.size) {
-//							val productData = storeData.category[i].product[j]
-//							productList.add(productData)
-//							lastCustomized_str = ""
-//							product_customize_id = ""
-//							var customNamesList_: ArrayList<String>? = ArrayList()
-//
-//							if (productData.customizeItem.size != 0) {
-//								for (k in 0 until storeData.category[i].product[j].customizeItem.size) {
-//									try {
-//										val productData =
-//											storeData.category[i].product[j].customizeItem[k]
-//										var lastCustomized = productData.subCatName
-//										customNamesList_!!.add(lastCustomized)
-//										val s: Set<String> = LinkedHashSet<String>(customNamesList_)
-//										customNamesList_.clear()
-//										customNamesList_.addAll(s)
-//									} catch (e: Exception) {
-//										e.printStackTrace()
-//									}
-//								}
-//								var lastCustomized: String = ""
-//								lastCustomized = customNamesList_.toString()
-//								val regex = "\\[|\\]"
-//								lastCustomized_str = lastCustomized.replace(regex.toRegex(), "")
-//								product_customize_id = "1"
-//							}
-//							//   Thread{
-//							sub_cat_nameStr = storeData.category[i].catName.toString()
-//
-//							if (j == 0) {
-//								headerActiveorNot = "1"
-//							} else {
-//								headerActiveorNot = "0"
-//							}
-//
-//							//Runnable {
-//
-//							restaurantProductsDatabase!!.resProductsDaoAccess()!!.insertResProducts(
-//								StoreItemProductsEntity(
-//									headerActiveorNot, productData.product_sub_category_id,
-//									sub_cat_nameStr,
-//									productData.cartQuantity,
-//									productData.companyName,
-//									productData.image,
-//									productData.in_out_of_stock_status,
-//									productData.isCustomize,
-//									productData.is_customize_quantity,
-//									productData.isNonveg,
-//									productData.contains_egg,
-//									productData.isPrescription,
-//									productData.offerPrice,
-//									productData.price,
-//									productData.productId,
-//									productData.productName,
-//									productData.weight,
-//									productData.unit,
-//									productData.cartId,
-//									lastCustomized_str,
-//									product_customize_id,
-//									productData.product_desc
-//								)
-//							)
-//
-//							// }
-//							//    }.start()
-//
-//							Log.e("headerActiveorNot__", headerActiveorNot!!)
-//							Log.e("custom_catNamesList_api", lastCustomized_str)
-//						}
-//
-//						if (cat_listShow == 0) {
-//							catList.add(categoryData)
-//						}
-//
-//					}
-//				}
-//				//  rvHeaderCategory(catList)
-//				Log.e("Product_", productList.size.toString())
-//
-//				getRoomData()
-//
-//				//ratingValue.text = user.rating
-//				tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
-//
-//				if (storeData.categoryId != null) {
-//					if (storeData.categoryId.equals("5")) {
-//						//vegOnlySwitch.visibility = View.VISIBLE
-//					} else {
-//						//vegOnlySwitch.visibility = View.GONE
-//					}
-//				}
-//				cat_visible = 1
-//				no_itemsFound_res.visibility = View.GONE
-//				no_item_foundll.visibility = View.GONE
-//
-//			} else if (storeData.errorCode == 101) {
-//				showAlertDialog(this)
-//			} else {
-//				cat_visible = 0
-//				productList.clear()!!
-//				deleteRoomDataBase()
-//				getRoomData()
-//
-////                val toast =
-////                    Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
-////                toast.show()
-//
-//				no_itemsFound_res.visibility = View.VISIBLE
-//				no_item_foundll.visibility = View.VISIBLE
-//			}
-//		})
 
         viewmodel?.addRemoveCartResponse?.observe(this) { user ->
             dismissIOSProgress()

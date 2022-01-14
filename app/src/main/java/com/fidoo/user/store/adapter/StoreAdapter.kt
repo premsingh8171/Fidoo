@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.fidoo.user.R
 import com.fidoo.user.grocerynewui.activity.GroceryNewUiActivity
 import com.fidoo.user.newRestaurants.activity.NewStoreItemsActivity
+import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.activity.StoreItemsActivity
 import com.fidoo.user.store.model.StoreListingModel
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
@@ -268,7 +269,8 @@ class StoreAdapter(
 						)
 					} else {
 						AppUtils.startActivityRightToLeft(
-							context as Activity?, Intent(context, StoreItemsActivity::class.java)
+							context as Activity?, Intent(context, NewDBStoreItemsActivity::class.java)
+						//	context as Activity?, Intent(context, StoreItemsActivity::class.java)
 						//	context as Activity?, Intent(context, NewStoreItemsActivity::class.java)
 								.putExtra("storeId", storeList[position].id)
 								.putExtra("storeName", storeList[position].name)
