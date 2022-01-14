@@ -249,7 +249,7 @@ class StoreAdapter(
 					}
 
 					if (storeList[position].has_product_categories.equals("1")) {
-						// AppUtils.startActivityRightToLeft(context as Activity?, Intent(context, GroceryItemsActivity::class.java)
+						//AppUtils.startActivityRightToLeft(context as Activity?, Intent(context, GroceryItemsActivity::class.java)
 						AppUtils.startActivityRightToLeft(
 							context as Activity?, Intent(context, GroceryNewUiActivity::class.java)
 								.putExtra("storeId", storeList[position].id)
@@ -268,8 +268,8 @@ class StoreAdapter(
 						)
 					} else {
 						AppUtils.startActivityRightToLeft(
-							//context as Activity?, Intent(context, StoreItemsActivity::class.java)
-							context as Activity?, Intent(context, NewStoreItemsActivity::class.java)
+							context as Activity?, Intent(context, StoreItemsActivity::class.java)
+						//	context as Activity?, Intent(context, NewStoreItemsActivity::class.java)
 								.putExtra("storeId", storeList[position].id)
 								.putExtra("storeName", storeList[position].name)
 								.putExtra("store_location", storeList[position].address)

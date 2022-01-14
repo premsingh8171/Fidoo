@@ -427,6 +427,7 @@ class StoreItemsAdapter(
 
 
     fun updateData(listData_: ArrayList<StoreItemProductsEntity>,total_item: Int) {
+        Log.d("updateData__",listData_.size.toString()+"-"+total_item)
         productList = java.util.ArrayList<StoreItemProductsEntity>()
         productList.addAll(listData_)
         total_item_count=total_item
