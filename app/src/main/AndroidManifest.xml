@@ -207,6 +207,12 @@
             android:name=".activity.ServicesActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".restaurants.activity.NewDBStoreItemsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
             android:name=".restaurants.activity.StoreItemsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"

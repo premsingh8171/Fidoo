@@ -42,6 +42,7 @@ import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
+import com.fidoo.user.newRestaurants.model.Product
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
 import com.fidoo.user.restaurants.adapter.CategoryHeaderAdapter
 import com.fidoo.user.restaurants.adapter.RestaurantCategoryAdapter
@@ -68,9 +69,44 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
+import kotlinx.android.synthetic.main.activity_new_store_items.*
 import kotlinx.android.synthetic.main.activity_store_items.*
+import kotlinx.android.synthetic.main.activity_store_items.RestaurantPrdSearch
+import kotlinx.android.synthetic.main.activity_store_items.app_bar
 import kotlinx.android.synthetic.main.activity_store_items.backIcon
+import kotlinx.android.synthetic.main.activity_store_items.bottom_sheet
+import kotlinx.android.synthetic.main.activity_store_items.cartitemView_LLstore
+import kotlinx.android.synthetic.main.activity_store_items.cat_FloatBtn
+import kotlinx.android.synthetic.main.activity_store_items.category_header_
+import kotlinx.android.synthetic.main.activity_store_items.category_header_TXt
+import kotlinx.android.synthetic.main.activity_store_items.countValue
+import kotlinx.android.synthetic.main.activity_store_items.coupan_view_ll
+import kotlinx.android.synthetic.main.activity_store_items.customAddBtn
+import kotlinx.android.synthetic.main.activity_store_items.customItemsRecyclerview
+import kotlinx.android.synthetic.main.activity_store_items.egg_switch_img
+import kotlinx.android.synthetic.main.activity_store_items.itemQuantity_textstore
 import kotlinx.android.synthetic.main.activity_store_items.linear_progress_indicator
+import kotlinx.android.synthetic.main.activity_store_items.main_restatuarant_const
+import kotlinx.android.synthetic.main.activity_store_items.no_internet_store
+import kotlinx.android.synthetic.main.activity_store_items.no_itemsFound_res
+import kotlinx.android.synthetic.main.activity_store_items.res_header_constL
+import kotlinx.android.synthetic.main.activity_store_items.searchEdt_ResPrd
+import kotlinx.android.synthetic.main.activity_store_items.search_ClearTxt
+import kotlinx.android.synthetic.main.activity_store_items.search_backImg
+import kotlinx.android.synthetic.main.activity_store_items.search_visibility_card
+import kotlinx.android.synthetic.main.activity_store_items.storeItemsRecyclerview
+import kotlinx.android.synthetic.main.activity_store_items.store_details_lay
+import kotlinx.android.synthetic.main.activity_store_items.store_nameTxt
+import kotlinx.android.synthetic.main.activity_store_items.store_preference_Rlay
+import kotlinx.android.synthetic.main.activity_store_items.totalprice_txtstore
+import kotlinx.android.synthetic.main.activity_store_items.transLay
+import kotlinx.android.synthetic.main.activity_store_items.tv_coupon
+import kotlinx.android.synthetic.main.activity_store_items.tv_cuisnes
+import kotlinx.android.synthetic.main.activity_store_items.tv_deliveryTime
+import kotlinx.android.synthetic.main.activity_store_items.tv_distance
+import kotlinx.android.synthetic.main.activity_store_items.tv_location
+import kotlinx.android.synthetic.main.activity_store_items.tv_store_name
+import kotlinx.android.synthetic.main.activity_store_items.veg_switch_img
 import kotlinx.android.synthetic.main.no_internet_connection.*
 import kotlinx.android.synthetic.main.no_item_found.*
 import java.util.*
@@ -78,7 +114,7 @@ import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashSet
 
 
-class StoreItemsActivity :
+class NewDBStoreItemsActivity :
     BaseActivity(),
     AdapterClick,
     CustomCartPlusMinusClick,
@@ -136,7 +172,7 @@ class StoreItemsActivity :
     }
 
     //for pagination
-    var totalItem: Int? = 200
+    var totalItem: Int? = 50
     var table_count: Int? = 0
     private var manager: GridLayoutManager? = null
     private var currentItems = 0
@@ -169,6 +205,9 @@ class StoreItemsActivity :
     private lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
     private var barOffset = 0
     private var fabVisible = true
+
+    var pagecount: Int = 0
+    var next_available: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -398,7 +437,7 @@ class StoreItemsActivity :
         veg_switch_img.setOnClickListener {
             deleteRoomDataBase()
             showIOSProgress()
-            totalItem = 40
+            totalItem = 50
 
             if (veg_filter == 0) {
                 veg_switch_img.setImageResource(R.drawable.filter_on)
@@ -424,7 +463,7 @@ class StoreItemsActivity :
         egg_switch_img.setOnClickListener {
             deleteRoomDataBase()
             showIOSProgress()
-            totalItem = 40
+            totalItem = 50
             if (egg_filter == 0) {
                 egg_switch_img.setImageResource(R.drawable.filter_on)
                 // veg_switch_img.setImageResource(R.drawable.filter_off)
@@ -579,13 +618,14 @@ class StoreItemsActivity :
 
         }
 
-        viewmodel?.getStoreDetailsApi?.observe(this, Observer { storeData ->
+        viewmodel?.newStoreDetailsRes?.observe(this, Observer { storeData ->
             dismissIOSProgress()
             linear_progress_indicator.visibility = View.GONE
             Log.d("getStoreDetailsApi__", Gson().toJson(storeData))
 
             tempProductList!!.clear()
             addCartTempList!!.clear()
+            next_available = storeData.next_available
 
             if (cat_listShow == 0) {
                 catList!!.clear()
@@ -593,7 +633,7 @@ class StoreItemsActivity :
 
             //fidooLoaderCancel()
 
-            val productList: ArrayList<StoreDetailsModel.Product> = ArrayList()
+            val productList: ArrayList<Product> = ArrayList()
 
             try {
                 if (storeData.service_id.equals("7")) {
@@ -604,115 +644,150 @@ class StoreItemsActivity :
 
                 restaurantAddress = storeData.address.toString()
                 fssai = "License no. " + storeData.fssai.toString()
-                restaurantName = storeData.storeName.toString()
+                restaurantName = storeData.store_name.toString()
 
             } catch (e: Exception) {
                 e.printStackTrace()
             }
 
-            if (storeData.category.size != 0) {
+            if (storeData.error_code==200) {
+                if (storeData.subcategory.isNotEmpty()) {
 
-                executor().execute {
-                    for (i in storeData.category.indices) {
-                        val categoryData = storeData.category[i]
+                    executor().execute {
+                        for (i in storeData.subcategory.indices) {
+                            val categoryData = storeData.subcategory[i]
 
-                        for (j in 0 until storeData.category[i].product.size) {
-                            val productData = storeData.category[i].product[j]
-                            productList.add(productData)
-                            lastCustomized_str = ""
-                            product_customize_id = ""
-                            var customNamesList_: ArrayList<String>? = ArrayList()
+                            for (j in 0 until storeData.subcategory[i].product.size) {
+                                val productData = storeData.subcategory[i].product[j]
+                                productList.add(productData)
+                                lastCustomized_str = ""
+                                product_customize_id = ""
+                                var customNamesList_: ArrayList<String>? = ArrayList()
 
-                            if (productData.customizeItem.size != 0) {
-                                for (k in 0 until storeData.category[i].product[j].customizeItem.size) {
-                                    try {
-                                        val productData =
-                                            storeData.category[i].product[j].customizeItem[k]
-                                        var lastCustomized = productData.subCatName
-                                        customNamesList_!!.add(lastCustomized)
-                                        val s: Set<String> = LinkedHashSet<String>(customNamesList_)
-                                        customNamesList_.clear()
-                                        customNamesList_.addAll(s)
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
+                                if (productData.customize_item.size != 0) {
+                                    for (k in 0 until storeData.subcategory[i].product[j].customize_item.size) {
+                                        try {
+                                            val productData =
+                                                storeData.subcategory[i].product[j].customize_item[k]
+                                            var lastCustomized = productData.sub_cat_name
+                                            customNamesList_!!.add(lastCustomized)
+                                            val s: Set<String> =
+                                                LinkedHashSet<String>(customNamesList_)
+                                            customNamesList_.clear()
+                                            customNamesList_.addAll(s)
+                                        } catch (e: Exception) {
+                                            e.printStackTrace()
+                                        }
                                     }
+                                    var lastCustomized: String = ""
+                                    lastCustomized = customNamesList_.toString()
+                                    val regex = "\\[|\\]"
+                                    lastCustomized_str = lastCustomized.replace(regex.toRegex(), "")
+                                    product_customize_id = "1"
                                 }
-                                var lastCustomized: String = ""
-                                lastCustomized = customNamesList_.toString()
-                                val regex = "\\[|\\]"
-                                lastCustomized_str = lastCustomized.replace(regex.toRegex(), "")
-                                product_customize_id = "1"
+                                //   Thread{
+                                sub_cat_nameStr =
+                                    storeData.subcategory[i].subcategory_name.toString()
+
+                                if (j == 0) {
+                                    headerActiveorNot = "1"
+                                } else {
+                                    headerActiveorNot = "0"
+                                }
+
+                                //Runnable {
+
+                                restaurantProductsDatabase!!.resProductsDaoAccess()!!
+                                    .insertResProducts(
+                                        StoreItemProductsEntity(
+                                            headerActiveorNot, productData.product_sub_category_id,
+                                            sub_cat_nameStr,
+                                            productData.cart_quantity,
+                                            productData.company_name,
+                                            productData.image,
+                                            productData.in_out_of_stock_status,
+                                            productData.is_customize,
+                                            productData.is_customize_quantity,
+                                            productData.is_nonveg,
+                                            productData.contains_egg,
+                                            productData.is_prescription,
+                                            productData.offer_price,
+                                            productData.price,
+                                            productData.product_id,
+                                            productData.product_name,
+                                            productData.weight,
+                                            productData.unit,
+                                            productData.cart_id,
+                                            lastCustomized_str,
+                                            product_customize_id,
+                                            productData.product_desc
+                                        )
+                                    )
+
+                                // }
+                                //    }.start()
+
+                                Log.e("headerActiveorNot__", headerActiveorNot!!)
+                                Log.e("custom_catNamesList_api", lastCustomized_str)
+
                             }
-                            //   Thread{
-                            sub_cat_nameStr = storeData.category[i].catName.toString()
 
-                            if (j == 0) {
-                                headerActiveorNot = "1"
-                            } else {
-                                headerActiveorNot = "0"
+                            if (cat_listShow == 0) {
+                                //catList.add(categoryData)
                             }
 
-                            //Runnable {
 
-                            restaurantProductsDatabase!!.resProductsDaoAccess()!!.insertResProducts(
-                                StoreItemProductsEntity(
-                                    headerActiveorNot, productData.product_sub_category_id,
-                                    sub_cat_nameStr,
-                                    productData.cartQuantity,
-                                    productData.companyName,
-                                    productData.image,
-                                    productData.in_out_of_stock_status,
-                                    productData.isCustomize,
-                                    productData.is_customize_quantity,
-                                    productData.isNonveg,
-                                    productData.contains_egg,
-                                    productData.isPrescription,
-                                    productData.offerPrice,
-                                    productData.price,
-                                    productData.productId,
-                                    productData.productName,
-                                    productData.weight,
-                                    productData.unit,
-                                    productData.cartId,
-                                    lastCustomized_str,
-                                    product_customize_id,
-                                    productData.product_desc
+                        }
+                    }
+                    pagecount = storeData.start_id
+
+
+                    //  rvHeaderCategory(catList)
+                    Log.e("Product_", productList.size.toString())
+
+                    if (pagecount == 0) {
+                        getRoomData()
+                    }
+
+                    //ratingValue.text = user.rating
+                    tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
+
+                    if (next_available == 0) {
+                        //	Handler(Looper.getMainLooper()).postDelayed({
+                        if (isNetworkConnected) {
+                            if (SessionTwiclo(this@NewDBStoreItemsActivity).isLoggedIn) {
+
+                                viewmodel?.getStoreDetailsApiNew(
+                                    SessionTwiclo(this@NewDBStoreItemsActivity).loggedInUserDetail.accountId,
+                                    SessionTwiclo(this@NewDBStoreItemsActivity).loggedInUserDetail.accessToken,
+                                    intent.getStringExtra("storeId"),
+                                    nonveg_str,
+                                    cat_id,
+                                    contains_egg, pagecount.toString()
                                 )
-                            )
 
-                            // }
-                            //    }.start()
-
-                            Log.e("headerActiveorNot__", headerActiveorNot!!)
-                            Log.e("custom_catNamesList_api", lastCustomized_str)
-                        }
-
-                        if (cat_listShow == 0) {
-                            catList.add(categoryData)
+                            } else {
+                                viewmodel?.getStoreDetailsApiNew(
+                                    "",
+                                    "",
+                                    intent.getStringExtra("storeId"),
+                                    nonveg_str,
+                                    cat_id,
+                                    contains_egg, pagecount.toString()
+                                )
+                            }
                         }
 
                     }
+
+
+                    cat_visible = 1
+                    no_itemsFound_res.visibility = View.GONE
+                    no_item_foundll.visibility = View.GONE
+
                 }
-                //  rvHeaderCategory(catList)
-                Log.e("Product_", productList.size.toString())
 
-                getRoomData()
-
-                //ratingValue.text = user.rating
-                tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
-
-                if (storeData.categoryId != null) {
-                    if (storeData.categoryId.equals("5")) {
-                        //vegOnlySwitch.visibility = View.VISIBLE
-                    } else {
-                        //vegOnlySwitch.visibility = View.GONE
-                    }
-                }
-                cat_visible = 1
-                no_itemsFound_res.visibility = View.GONE
-                no_item_foundll.visibility = View.GONE
-
-            } else if (storeData.errorCode == 101) {
+            } else if (storeData.error_code == 101) {
                 showAlertDialog(this)
             } else {
                 cat_visible = 0
@@ -728,6 +803,157 @@ class StoreItemsActivity :
                 no_item_foundll.visibility = View.VISIBLE
             }
         })
+
+
+//		viewmodel?.getStoreDetailsApi?.observe(this, Observer { storeData ->
+//			dismissIOSProgress()
+//			linear_progress_indicator.visibility = View.GONE
+//			Log.d("getStoreDetailsApi__", Gson().toJson(storeData))
+//
+//			tempProductList!!.clear()
+//			addCartTempList!!.clear()
+//
+//			if (cat_listShow == 0) {
+//				catList!!.clear()
+//			}
+//
+//			//fidooLoaderCancel()
+//
+//			val productList: ArrayList<StoreDetailsModel.Product> = ArrayList()
+//
+//			try {
+//				if (storeData.service_id.equals("7")) {
+//					store_preference_Rlay.visibility = View.GONE
+//				} else {
+//					store_preference_Rlay.visibility = View.VISIBLE
+//				}
+//
+//				restaurantAddress = storeData.address.toString()
+//				fssai = "License no. " + storeData.fssai.toString()
+//				restaurantName = storeData.storeName.toString()
+//
+//			} catch (e: Exception) {
+//				e.printStackTrace()
+//			}
+//
+//			if (storeData.category.size != 0) {
+//
+//				executor().execute {
+//					for (i in storeData.category.indices) {
+//						val categoryData = storeData.category[i]
+//
+//						for (j in 0 until storeData.category[i].product.size) {
+//							val productData = storeData.category[i].product[j]
+//							productList.add(productData)
+//							lastCustomized_str = ""
+//							product_customize_id = ""
+//							var customNamesList_: ArrayList<String>? = ArrayList()
+//
+//							if (productData.customizeItem.size != 0) {
+//								for (k in 0 until storeData.category[i].product[j].customizeItem.size) {
+//									try {
+//										val productData =
+//											storeData.category[i].product[j].customizeItem[k]
+//										var lastCustomized = productData.subCatName
+//										customNamesList_!!.add(lastCustomized)
+//										val s: Set<String> = LinkedHashSet<String>(customNamesList_)
+//										customNamesList_.clear()
+//										customNamesList_.addAll(s)
+//									} catch (e: Exception) {
+//										e.printStackTrace()
+//									}
+//								}
+//								var lastCustomized: String = ""
+//								lastCustomized = customNamesList_.toString()
+//								val regex = "\\[|\\]"
+//								lastCustomized_str = lastCustomized.replace(regex.toRegex(), "")
+//								product_customize_id = "1"
+//							}
+//							//   Thread{
+//							sub_cat_nameStr = storeData.category[i].catName.toString()
+//
+//							if (j == 0) {
+//								headerActiveorNot = "1"
+//							} else {
+//								headerActiveorNot = "0"
+//							}
+//
+//							//Runnable {
+//
+//							restaurantProductsDatabase!!.resProductsDaoAccess()!!.insertResProducts(
+//								StoreItemProductsEntity(
+//									headerActiveorNot, productData.product_sub_category_id,
+//									sub_cat_nameStr,
+//									productData.cartQuantity,
+//									productData.companyName,
+//									productData.image,
+//									productData.in_out_of_stock_status,
+//									productData.isCustomize,
+//									productData.is_customize_quantity,
+//									productData.isNonveg,
+//									productData.contains_egg,
+//									productData.isPrescription,
+//									productData.offerPrice,
+//									productData.price,
+//									productData.productId,
+//									productData.productName,
+//									productData.weight,
+//									productData.unit,
+//									productData.cartId,
+//									lastCustomized_str,
+//									product_customize_id,
+//									productData.product_desc
+//								)
+//							)
+//
+//							// }
+//							//    }.start()
+//
+//							Log.e("headerActiveorNot__", headerActiveorNot!!)
+//							Log.e("custom_catNamesList_api", lastCustomized_str)
+//						}
+//
+//						if (cat_listShow == 0) {
+//							catList.add(categoryData)
+//						}
+//
+//					}
+//				}
+//				//  rvHeaderCategory(catList)
+//				Log.e("Product_", productList.size.toString())
+//
+//				getRoomData()
+//
+//				//ratingValue.text = user.rating
+//				tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
+//
+//				if (storeData.categoryId != null) {
+//					if (storeData.categoryId.equals("5")) {
+//						//vegOnlySwitch.visibility = View.VISIBLE
+//					} else {
+//						//vegOnlySwitch.visibility = View.GONE
+//					}
+//				}
+//				cat_visible = 1
+//				no_itemsFound_res.visibility = View.GONE
+//				no_item_foundll.visibility = View.GONE
+//
+//			} else if (storeData.errorCode == 101) {
+//				showAlertDialog(this)
+//			} else {
+//				cat_visible = 0
+//				productList.clear()!!
+//				deleteRoomDataBase()
+//				getRoomData()
+//
+////                val toast =
+////                    Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
+////                toast.show()
+//
+//				no_itemsFound_res.visibility = View.VISIBLE
+//				no_item_foundll.visibility = View.VISIBLE
+//			}
+//		})
 
         viewmodel?.addRemoveCartResponse?.observe(this) { user ->
             dismissIOSProgress()
@@ -748,8 +974,8 @@ class StoreItemsActivity :
                     }.start()
 
                 } catch (e: Exception) {
-
                 }
+
                 getRoomData()
                 if (SessionTwiclo(this).isLoggedIn) {
                     viewmodel?.getCartCountApi(
@@ -1041,7 +1267,7 @@ class StoreItemsActivity :
                     cat_id = category.catId
                     viewAll_txt.setTextColor(Color.parseColor("#000000"))
                     selectCategoryDiolog?.dismiss()
-                    totalItem = 40
+                    totalItem = 50
 
                     try {
                         for (i in mainlist!!.indices) {
@@ -1102,7 +1328,7 @@ class StoreItemsActivity :
                     super.onScrollStateChanged(recyclerView, newState)
                     if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                         isScrolling = true
-                        handleresponce = 0
+                        //handleresponce = 0
                     }
                 }
 
@@ -1114,6 +1340,7 @@ class StoreItemsActivity :
                     var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
 
                     //	 Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem--$--"+mainlist!!.get(firstvisibleItem)!!.subcategory_name.toString());
+
 
                     if (searchEdt_ResPrd.getText().toString()
                             .equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
@@ -1146,20 +1373,49 @@ class StoreItemsActivity :
                         }
 
                         if (dy > 1) {
-                            if (isScrolling && currentItems + scrollOutItems == totalItems) {
-                                Log.d(
-                                    "totalItem___",
-                                    table_count.toString() + "---" + productsListing_Count
-                                )
-                                if (table_count!! > productsListing_Count!!) {
-                                    if (isScrolling == true) {
-                                        totalItem = totalItem?.plus(50)
-                                        handleresponce = 1
-                                        showIOSProgress()
-                                        getRoomData()
-                                        isScrolling = false
+                            if (isScrolling && (currentItems + scrollOutItems) / 2 == totalItems / 2) {
+                                handleresponce = 1
+                                Log.d("isScrolling__", "$currentItems-$scrollOutItems-$totalItems")
+
+                             //   if (next_available == 0) {
+                                    //	Handler(Looper.getMainLooper()).postDelayed({
+//                                    if (isNetworkConnected) {
+//
+//                                        if (SessionTwiclo(this@StoreItemsActivity).isLoggedIn) {
+//
+//                                            viewmodel?.getStoreDetailsApiNew(
+//                                                SessionTwiclo(this@StoreItemsActivity).loggedInUserDetail.accountId,
+//                                                SessionTwiclo(this@StoreItemsActivity).loggedInUserDetail.accessToken,
+//                                                intent.getStringExtra("storeId"),
+//                                                nonveg_str,
+//                                                cat_id,
+//                                                contains_egg, pagecount.toString()
+//                                            )
+//                                        } else {
+//                                            viewmodel?.getStoreDetailsApiNew(
+//                                                "",
+//                                                "",
+//                                                intent.getStringExtra("storeId"),
+//                                                nonveg_str,
+//                                                cat_id,
+//                                                contains_egg, pagecount.toString()
+//                                            )
+//                                        }
+//                                    }
+
+                                    //	}, 3000)
+
+                                    if (table_count!! > productsListing_Count!!) {
+                                        if (isScrolling == true) {
+                                            totalItem = totalItem?.plus(100)
+                                            handleresponce = 1
+                                            //showIOSProgress()
+                                            getRoomData()
+                                            isScrolling = false
+                                        }
                                     }
-                                }
+
+
                             }
                         }
 
@@ -1240,7 +1496,7 @@ class StoreItemsActivity :
                 restaurantProductsDatabase!!.resProductsDaoAccess()!!
                     .getAllProducts2(totalItem.toString())
                     .observe(this, Observer { t ->
-                        Log.d("restaurantPrdD", t.size.toString())
+                        Log.d("restaurantPrdD", t.size.toString() + "--" + handleresponce)
 
                         if (handleresponce == 0) {
 
@@ -1360,28 +1616,29 @@ class StoreItemsActivity :
             //fidooLoaderShow()
             category_header_.visibility = View.GONE
             category_header_.text = ""
+
             if (SessionTwiclo(this).isLoggedIn) {
                 viewmodel?.getCartCountApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken
                 )
 
-                viewmodel?.getStoreDetails(
+                viewmodel?.getStoreDetailsApiNew(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                     intent.getStringExtra("storeId"),
                     nonveg_str,
                     cat_id,
-                    contains_egg
+                    contains_egg, pagecount.toString()
                 )
             } else {
-                viewmodel?.getStoreDetails(
+                viewmodel?.getStoreDetailsApiNew(
                     "",
                     "",
                     intent.getStringExtra("storeId"),
                     nonveg_str,
                     cat_id,
-                    contains_egg
+                    contains_egg, pagecount.toString()
                 )
             }
         } else {
