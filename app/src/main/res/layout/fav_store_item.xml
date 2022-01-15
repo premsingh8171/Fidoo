@@ -271,8 +271,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:fontFamily="@font/proxima"
-                        android:text="@string/_1_2km"
-                        android:textColor="@color/colorTextGray"
+                        android:text=""
+                        android:textColor="@color/primary_color"
                         android:textSize="12sp" />
 
                 </LinearLayout>

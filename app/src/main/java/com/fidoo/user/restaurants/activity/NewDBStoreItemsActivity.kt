@@ -43,9 +43,10 @@ import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
 import com.fidoo.user.newRestaurants.model.Product
+import com.fidoo.user.newRestaurants.model.Subcategory
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
 import com.fidoo.user.restaurants.adapter.CategoryHeaderAdapter
-import com.fidoo.user.restaurants.adapter.RestaurantCategoryAdapter
+import com.fidoo.user.restaurants.adapter.NewDbRestaurantCategoryAdapter
 import com.fidoo.user.restaurants.adapter.StoreCustomItemsAdapter
 import com.fidoo.user.restaurants.adapter.StoreItemsAdapter
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
@@ -53,7 +54,6 @@ import com.fidoo.user.restaurants.listener.CustomCartPlusMinusClick
 import com.fidoo.user.restaurants.model.CustomCheckBoxModel
 import com.fidoo.user.restaurants.model.CustomListModel
 import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
-import com.fidoo.user.restaurants.model.StoreDetailsModel
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 import com.fidoo.user.restaurants.viewmodel.StoreDetailsViewModel
@@ -186,7 +186,7 @@ class NewDBStoreItemsActivity :
     var isCustomizeOpen: Int = 0
     var cart_count: Int = 0
     lateinit var storeItemsAdapter: StoreItemsAdapter
-    lateinit var restaurantCategoryAdapter: RestaurantCategoryAdapter
+    lateinit var restaurantCategoryAdapter: NewDbRestaurantCategoryAdapter
     lateinit var categoryHeaderAdapter: CategoryHeaderAdapter
 
     var selectCategoryDiolog: Dialog? = null
@@ -197,7 +197,8 @@ class NewDBStoreItemsActivity :
     var headerActiveorNot: String? = ""
     var active_or_not: Int = 0
     var clickevent: Int = 1
-    val catList: ArrayList<StoreDetailsModel.Category> = ArrayList()
+    var catList: ArrayList<Subcategory> = ArrayList()
+    var latestCatList: ArrayList<Subcategory> = ArrayList()
     var sessionTwiclo: SessionTwiclo? = null
     var viewmodelusertrack: UserTrackerViewModel? = null
 
@@ -626,10 +627,11 @@ class NewDBStoreItemsActivity :
             tempProductList!!.clear()
             addCartTempList!!.clear()
             next_available = storeData.next_available
+            latestCatList.clear()
 
-            if (cat_listShow == 0) {
-                catList!!.clear()
-            }
+//            if (cat_listShow == 0) {
+//                catList!!.clear()
+//            }
 
             //fidooLoaderCancel()
 
@@ -653,6 +655,24 @@ class NewDBStoreItemsActivity :
             dismissIOSProgress()
 
             if (storeData.error_code==200) {
+
+                if (pagecount>0){
+                    latestCatList =storeData.subcategory as ArrayList
+                    catList.addAll(latestCatList)
+                    val s: Set<Subcategory> =
+                        LinkedHashSet<Subcategory>(catList)
+                    catList!!.clear()
+                    catList!!.addAll(s)
+
+                }else{
+                    catList=storeData.subcategory as ArrayList
+                    val s: Set<Subcategory> =
+                        LinkedHashSet<Subcategory>(catList)
+                    catList!!.clear()
+                    catList!!.addAll(s)
+                }
+
+
                 if (storeData.subcategory.isNotEmpty()) {
 
                     executor().execute {
@@ -687,6 +707,7 @@ class NewDBStoreItemsActivity :
                                     lastCustomized_str = lastCustomized.replace(regex.toRegex(), "")
                                     product_customize_id = "1"
                                 }
+
                                 //   Thread{
                                 sub_cat_nameStr =
                                     storeData.subcategory[i].subcategory_name.toString()
@@ -1106,34 +1127,36 @@ class NewDBStoreItemsActivity :
 
     }
 
-    private fun rvCategory(catList: ArrayList<StoreDetailsModel.Category>) {
+    private fun rvCategory(catList: ArrayList<Subcategory>) {
         clickevent = 1
-        restaurantCategoryAdapter = RestaurantCategoryAdapter(
+        restaurantCategoryAdapter = NewDbRestaurantCategoryAdapter(
             this,
             catList,
             active_or_not,
-            object : RestaurantCategoryAdapter.CategoryItemClick {
-                override fun onItemClick(pos: Int, category: StoreDetailsModel.Category) {
-                    Log.d("category_id__", category.catId)
+            object : NewDbRestaurantCategoryAdapter.CategoryItemClick {
+                override fun onItemClick(pos: Int, category: Subcategory) {
+                    Log.d("category_id__", category.product_sub_category_id)
                     active_or_not = pos
-                    cat_id = category.catId
+                    cat_id = category.product_sub_category_id
                     viewAll_txt.setTextColor(Color.parseColor("#000000"))
                     selectCategoryDiolog?.dismiss()
                     totalItem = 50
 
                     try {
                         for (i in mainlist!!.indices) {
-                            if (mainlist!![i].subcategory_name.equals(category.catName.toString())) {
+                            if (mainlist!![i].subcategory_name.equals(category.subcategory_name.toString())) {
                                 if (clickevent == 1) {
                                     Log.e("product_sub_category_id_", i.toString())
+                                    clickevent = 0
 
                                     if (i == 0) {
-                                        storeItemsRecyclerview?.smoothScrollToPosition(i)
+                                        //storeItemsRecyclerview?.smoothScrollToPosition(i)
+                                        storeItemsRecyclerview?.scrollToPosition(i+1 )
                                     } else {
-                                        storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
+                                       storeItemsRecyclerview?.scrollToPosition(i!!+4)
+                                     //   storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
                                     }
 
-                                    clickevent = 0
                                 }
                             }
                         }
@@ -1207,7 +1230,7 @@ class NewDBStoreItemsActivity :
 
                             try {
                                 for (i in catList.indices) {
-                                    if (catList[i].catName.equals(
+                                    if (catList[i].product_sub_category_id.equals(
                                             category_header_.getText().toString()
                                         )
                                     ) {
@@ -1228,34 +1251,6 @@ class NewDBStoreItemsActivity :
                             if (isScrolling && (currentItems + scrollOutItems) / 2 == totalItems / 2) {
                                 handleresponce = 1
                                 Log.d("isScrolling__", "$currentItems-$scrollOutItems-$totalItems")
-
-                             //   if (next_available == 0) {
-                                    //	Handler(Looper.getMainLooper()).postDelayed({
-//                                    if (isNetworkConnected) {
-//
-//                                        if (SessionTwiclo(this@StoreItemsActivity).isLoggedIn) {
-//
-//                                            viewmodel?.getStoreDetailsApiNew(
-//                                                SessionTwiclo(this@StoreItemsActivity).loggedInUserDetail.accountId,
-//                                                SessionTwiclo(this@StoreItemsActivity).loggedInUserDetail.accessToken,
-//                                                intent.getStringExtra("storeId"),
-//                                                nonveg_str,
-//                                                cat_id,
-//                                                contains_egg, pagecount.toString()
-//                                            )
-//                                        } else {
-//                                            viewmodel?.getStoreDetailsApiNew(
-//                                                "",
-//                                                "",
-//                                                intent.getStringExtra("storeId"),
-//                                                nonveg_str,
-//                                                cat_id,
-//                                                contains_egg, pagecount.toString()
-//                                            )
-//                                        }
-//                                    }
-
-                                    //	}, 3000)
 
                                     if (table_count!! > productsListing_Count!!) {
                                         if (isScrolling == true) {
