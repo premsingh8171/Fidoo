@@ -62,12 +62,10 @@ class HomeFragmentViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun getHomeServices(accountId: String, accessToken: String) {
-
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).getHomeServicesApi(
             accountId = accountId, accessToken = accessToken
-        )
-            .enqueue(object : Callback<HomeServicesModel> {
+        ).enqueue(object : Callback<HomeServicesModel> {
 
                 override fun onResponse(
                     call: Call<HomeServicesModel>,
@@ -75,7 +73,6 @@ class HomeFragmentViewModel(application: Application) : AndroidViewModel(applica
                 ) {
                     progressDialog?.value = false
                     homeServicesResponse?.value = response.body()
-
                 }
 
                 override fun onFailure(call: Call<HomeServicesModel>, t: Throwable) {
@@ -92,7 +89,7 @@ class HomeFragmentViewModel(application: Application) : AndroidViewModel(applica
         user_long: String
     ) {
 
-        Log.e("getHomeDataApi", "$accountId--$accessToken--$user_lat--$user_long")
+       // Log.e("getHomeDataApi", "$accountId--$accessToken--$user_lat--$user_long")
         WebServiceClient.client.create(BackEndApi::class.java).gethomeDataApi(
             accountId = accountId,
             accessToken = accessToken,
@@ -118,7 +115,7 @@ class HomeFragmentViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun getCartCountApi(accountId: String, accessToken: String) {
-        Log.e("cart_count_params", accountId + ", " + accessToken)
+        Log.e("cart_count_params", "$accountId, $accessToken")
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).cartCountApi(
             accountId = accountId, accessToken = accessToken
@@ -157,7 +154,6 @@ class HomeFragmentViewModel(application: Application) : AndroidViewModel(applica
                 override fun onFailure(call: Call<CheckPaymentStatusModel>, t: Throwable) {
                     failureResponse?.value = "Something went wrong"
                 }
-
             })
     }
 

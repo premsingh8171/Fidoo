@@ -134,6 +134,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		var check_gMap3 = 0
 
 	}
+
 	private var movingCabMarker: Marker? = null
 	private var destinationMarker: Marker? = null
 	private var originMarker: Marker? = null
@@ -700,7 +701,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 					storeDetailsViewContsl.visibility = View.GONE
 				}
 
-			} catch (e: Exception) { }
+			} catch (e: Exception) {e.printStackTrace() }
 
 //			try {
 //				if (it.allow_cancel.equals("0")) {
@@ -947,8 +948,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 					}
 				}
-			} catch (e: Exception) {
-			}
+			} catch (e: Exception) { }
 
 		})
 

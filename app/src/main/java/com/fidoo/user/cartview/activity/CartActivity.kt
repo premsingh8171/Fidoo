@@ -163,7 +163,6 @@ class CartActivity : BaseActivity(),
 	companion object {
 		var store_imgStr: String = ""
 		var store_nameStr: String = ""
-
 		var selectedAddressId: String = ""
 		var selectedAddressName: String = ""
 		var selectedAddressTitle: String = ""
@@ -180,7 +179,6 @@ class CartActivity : BaseActivity(),
 		var tempOrderId: String = ""
 		var proceedClick: Int = 0
 		var finalOrderId: String = ""
-
 		var accessToken: String = ""
 		var accountId: String = ""
 	}
@@ -1526,7 +1524,6 @@ class CartActivity : BaseActivity(),
 			} catch (e: Exception) {
 				e.printStackTrace()
 			}
-
 		}.start()
 	}
 
@@ -1890,6 +1887,7 @@ class CartActivity : BaseActivity(),
 					//  tempProductId = productId
 					showIOSProgress()
 					customIdsList!!.clear()
+
 					if (productId != null) {
 						viewmodel?.customizeProductApi(
 							accountId,
@@ -1898,6 +1896,7 @@ class CartActivity : BaseActivity(),
 						)
 					}
 				}
+
 				builder.setNegativeButton("REPEAT") { dialogInterface, which ->
 					showIOSProgress()
 					updateProductS(cart_quan!!.toInt(), productId!!)
@@ -1914,6 +1913,7 @@ class CartActivity : BaseActivity(),
 						customIdsList!!
 					)
 				}
+
 				val alertDialog: AlertDialog = builder.create()
 				alertDialog.setCancelable(true)
 				alertDialog.show()

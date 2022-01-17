@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -57,10 +58,8 @@ import kotlin.collections.ArrayList
 class HomeFragment : Fragment() {
 
     lateinit var mView: View
-
     var viewmodel: HomeFragmentViewModel? = null
     var viewmodelusertrack: UserTrackerViewModel? = null
-
     private var _progressDlg: ProgressDialog? = null
     var fragmentHomeBinding: FragmentHomeBinding? = null
     private var currentPosition = 0
@@ -75,7 +74,6 @@ class HomeFragment : Fragment() {
     var timer: Timer? = null
     val DELAY_MS: Long = 8000 //delay in milliseconds before task is to be executed
     val PERIOD_MS: Long = 7000 // time in milliseconds between successive task executions.
-
     private var mMixpanel: MixpanelAPI? = null
 
     companion object {
@@ -105,19 +103,17 @@ class HomeFragment : Fragment() {
     )
 
     private val sliderAdapter = SliderAdapter(
-        pics, 10, object : SliderAdapter.ClickCart {
-            override fun cartOnClick(view: View?,position:Int) {
-                //  service_name?.let { Log.d("fdfdfd", it) }
-                if (position == itemPosition) {
-                    AppUtils.startActivityRightToLeft(
-                        requireActivity(),
-                        Intent(requireActivity(), StoreListActivity::class.java).putExtra(
-                            "serviceId", service_id
-                        ).putExtra("serviceName", service_name)
-                    )
-                }
-            }
-        })
+        pics, 10
+    ) { view, position -> //  service_name?.let { Log.d("fdfdfd", it) }
+        if (position == itemPosition) {
+            AppUtils.startActivityRightToLeft(
+                requireActivity(),
+                Intent(requireActivity(), StoreListActivity::class.java).putExtra(
+                    "serviceId", service_id
+                ).putExtra("serviceName", service_name)
+            )
+        }
+    }
 
 
     override fun onCreateView(
@@ -132,8 +128,8 @@ class HomeFragment : Fragment() {
         )
 //        activity?.statusBarTransparent()
         analytics=FirebaseAnalytics.getInstance(requireContext())
-        viewmodel = ViewModelProviders.of(requireActivity()).get(HomeFragmentViewModel::class.java)
-        viewmodelusertrack = ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
+        viewmodel = ViewModelProvider(requireActivity()).get(HomeFragmentViewModel::class.java)
+        viewmodelusertrack = ViewModelProvider(requireActivity()).get(UserTrackerViewModel::class.java)
         pref = SessionTwiclo(requireContext())
         where = pref.guestLogin
         Log.d("where___", where!!)
@@ -155,7 +151,8 @@ class HomeFragment : Fragment() {
             height
         )
 
-        fragmentHomeBinding?.viewPagerBanner!!.setClipToPadding(false);
+        fragmentHomeBinding?.viewPagerBanner!!.setClipToPadding(false)
+
        // fragmentHomeBinding?.viewPagerBanner!!.setPageMargin(12);
 
         val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
@@ -176,12 +173,10 @@ class HomeFragment : Fragment() {
 
         fragmentHomeBinding?.viewPagerBanner!!.addOnPageChangeListener(viewPagerPageChangeListener)
 
-
         val bundle = Bundle()
         bundle.putString("oncreate","oncreate")
         bundle.putString("home","Home Screen")
         analytics.logEvent("Home_Screen",bundle)
-
 
         // to initialize the main card view slider
         initRecyclerView()
@@ -240,9 +235,7 @@ class HomeFragment : Fragment() {
 
         }
 
-
         fragmentHomeBinding?.userAddress?.text = SessionTwiclo(context).userAddress
-
 
         var sliderItem = SliderItem()
 
@@ -301,6 +294,7 @@ class HomeFragment : Fragment() {
 //                    fragmentHomeBinding?.sliderView?.scrollTimeInSec =
 //                        sliderItemList.size - 1 //set scroll delay in seconds :
 //                    fragmentHomeBinding?.sliderView?.startAutoCycle()
+
                     fragmentHomeBinding?.tabDotsHome?.setupWithViewPager(viewPagerBanner, true)
                     adapterr.renewItems(sliderItemList)
                     fragmentHomeBinding?.viewPagerBanner!!.adapter=adapterr
@@ -509,9 +503,11 @@ class HomeFragment : Fragment() {
         }
 
         return fragmentHomeBinding?.root
+
     }
 
     private fun apiCall() {
+
         if ((activity as MainActivity).isNetworkConnected) {
 
             if (SessionTwiclo(context).isLoggedIn) {
@@ -535,6 +531,11 @@ class HomeFragment : Fragment() {
                     SessionTwiclo(context).loggedInUserDetail.accessToken,
                     "1"
                 )
+
+                viewmodel?.getCartCountApi(
+                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                    SessionTwiclo(context).loggedInUserDetail.accessToken
+                )
                 viewmodelusertrack?.customerActivityLog(SessionTwiclo(context).loggedInUserDetail.accountId,
                     SessionTwiclo(requireContext()).mobileno,"Home Screen",
                     SplashActivity.appversion,"",SessionTwiclo(requireContext()).deviceToken
@@ -555,7 +556,6 @@ class HomeFragment : Fragment() {
             fragmentHomeBinding?.mainViewNestedS!!.visibility=View.GONE
             fragmentHomeBinding?.noInternetOnHomeLl!!.visibility=View.VISIBLE
         }
-
     }
 
     private fun initRecyclerView() {
@@ -691,4 +691,5 @@ class HomeFragment : Fragment() {
     private class OnCardClickListener : View.OnClickListener {
         override fun onClick(view: View) {}
     }
+
 }
