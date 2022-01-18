@@ -312,6 +312,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                         }else{
                             cash_lay.visibility= View.GONE
                         }
+
                         if (user.online==1){
                             paymentMode="online"
                             online_lay.visibility= View.VISIBLE
