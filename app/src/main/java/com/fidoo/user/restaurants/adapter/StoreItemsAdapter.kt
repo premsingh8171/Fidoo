@@ -3,10 +3,14 @@ package com.fidoo.user.restaurants.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Paint
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +29,7 @@ import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.model.StoreDetailsModel
 import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 import kotlinx.android.synthetic.main.store_product.view.*
+import java.util.concurrent.Executors
 
 class StoreItemsAdapter(
     val con: Context,
@@ -94,12 +99,12 @@ class StoreItemsAdapter(
                 }
             }else{
                 if (position==0){
-
                 }else {
                     holder.devider_catLL.visibility = View.GONE
                     holder.category_nameheader.visibility = View.GONE
                 }
             }
+
             Log.d("subcategory_name____", index.subcategory_name.toString())
 
         } catch (e: Exception) {
@@ -110,11 +115,23 @@ class StoreItemsAdapter(
         holder.itemView.product_desc_txt.text = index.product_desc
 
         if (index.image!!.isNotEmpty()) {
-            Glide.with(con)
-                .load(index.image).thumbnail(0.05f)
-                .fitCenter()
-                .error(R.drawable.default_item)
-                .into(holder.storeImg)
+//            if (index.image!!.startsWith("http")){
+//               var replace= index.image!!.replace("http","https")
+//                Glide.with(con)
+//                    .load(replace).thumbnail(0.05f)
+//                    .fitCenter()
+//                    .error(R.drawable.default_item)
+//                    .into(holder.storeImg)
+//            }else{
+
+                Glide.with(con)
+                    .load(index.image).thumbnail(0.05f)
+                    .fitCenter()
+                    .error(R.drawable.default_item)
+                    .into(holder.storeImg)
+
+         //   }
+
             holder.storeImg.visibility = View.VISIBLE
         } else {
             holder.storeImg.visibility = View.GONE
@@ -170,6 +187,7 @@ class StoreItemsAdapter(
         }
 
         if (index.in_out_of_stock_status == "1") {
+
             holder.stock_status.visibility = View.GONE
 
             holder.add_new_lay.setOnClickListener {
@@ -424,7 +442,6 @@ class StoreItemsAdapter(
         var restaurant_nametxt = view.restaurant_nametxt
         var restaurant_addtxt = view.restaurant_addtxt
     }
-
 
     fun updateData(listData_: ArrayList<StoreItemProductsEntity>,total_item: Int) {
         Log.d("updateData__",listData_.size.toString()+"-"+total_item)

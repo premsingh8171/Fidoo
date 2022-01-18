@@ -172,7 +172,7 @@ class NewDBStoreItemsActivity :
     }
 
     //for pagination
-    var totalItem: Int? = 50
+    var totalItem: Int? = 100
     var table_count: Int? = 0
     private var manager: GridLayoutManager? = null
     private var currentItems = 0
@@ -206,7 +206,6 @@ class NewDBStoreItemsActivity :
     private lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
     private var barOffset = 0
     private var fabVisible = true
-
     var pagecount: Int = 0
     var next_available: Int = 0
 
@@ -438,7 +437,7 @@ class NewDBStoreItemsActivity :
         veg_switch_img.setOnClickListener {
             deleteRoomDataBase()
             showIOSProgress()
-            totalItem = 50
+            totalItem = 100
             pagecount=0
             if (veg_filter == 0) {
                 veg_switch_img.setImageResource(R.drawable.filter_on)
@@ -464,7 +463,7 @@ class NewDBStoreItemsActivity :
         egg_switch_img.setOnClickListener {
             deleteRoomDataBase()
             showIOSProgress()
-            totalItem = 50
+            totalItem = 100
             pagecount=0
             if (egg_filter == 0) {
                 egg_switch_img.setImageResource(R.drawable.filter_on)
@@ -1140,7 +1139,7 @@ class NewDBStoreItemsActivity :
                     cat_id = category.product_sub_category_id
                     viewAll_txt.setTextColor(Color.parseColor("#000000"))
                     selectCategoryDiolog?.dismiss()
-                    totalItem = 50
+                    totalItem = 100
 
                     try {
                         for (i in mainlist!!.indices) {
@@ -1156,7 +1155,6 @@ class NewDBStoreItemsActivity :
                                        storeItemsRecyclerview?.scrollToPosition(i!!+4)
                                      //   storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
                                     }
-
                                 }
                             }
                         }
@@ -1216,7 +1214,6 @@ class NewDBStoreItemsActivity :
 
                     //	 Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem--$--"+mainlist!!.get(firstvisibleItem)!!.subcategory_name.toString());
 
-
                     if (searchEdt_ResPrd.getText().toString()
                             .equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
                     ) {
@@ -1261,8 +1258,6 @@ class NewDBStoreItemsActivity :
                                             isScrolling = false
                                         }
                                     }
-
-
                             }
                         }
 
@@ -1346,7 +1341,6 @@ class NewDBStoreItemsActivity :
                         Log.d("restaurantPrdD", t.size.toString() + "--" + handleresponce)
 
                         if (handleresponce == 0) {
-
                             mainlist = t as ArrayList<StoreItemProductsEntity>?
                             val s: Set<StoreItemProductsEntity> =
                                 LinkedHashSet<StoreItemProductsEntity>(mainlist)

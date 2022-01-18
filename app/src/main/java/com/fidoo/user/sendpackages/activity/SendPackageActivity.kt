@@ -53,9 +53,7 @@ import org.json.JSONObject
 class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     AdapterClick, PaymentResultListener {
     private val SECOND_ACTIVITY_REQUEST_CODE = 10
-
     var sendPackagesDiolog: Dialog? = null
-
     var viewmodel: SendPackagesViewModel? = null
     var sendPackagesModel: SendPackagesModel? = null
     var viewmodelusertrack: UserTrackerViewModel? = null
@@ -64,11 +62,9 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     var catId: String = ""
     var start_point: String = ""
     var end_point: String = ""
-
     private val co = Checkout()
     private val getAddFromLatLong: GetAddFromLatLong? = null
     private val trackGPSLocation: TrackGPSLocation? = null
-
     private var mMixpanel: MixpanelAPI? = null
 
     companion object {
@@ -251,8 +247,6 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             } catch (e: NullPointerException) {
                 Log.e("Error Base distance", e.toString())
             }
-
-
 
             startActivity(
                 Intent(this, SendPackageOrderDetail::class.java)

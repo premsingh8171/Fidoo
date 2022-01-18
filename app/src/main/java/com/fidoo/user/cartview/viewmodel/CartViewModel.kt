@@ -18,9 +18,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CartViewModel(application: Application) : AndroidViewModel(application), Callback<CartModel> {
+
     var addToCartResponse: MutableLiveData<AddToCartModel>? = null
     var cartCountResponse: MutableLiveData<CartCountModel>? = null
-
     var cancelOrderResponse: MutableLiveData<DeleteModel>? = null
     var getCartDetailsResponse: MutableLiveData<CartModel>? = null
     var failureResponse: MutableLiveData<String>? = null

@@ -574,7 +574,9 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
 				try {
 					if (it.order_status != null) {
+
 						when {
+
 							it.order_status.equals("0") -> {
 								order_status_new.text = "Failed"
 							}
@@ -705,7 +707,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
 							it.order_status.equals("16") -> {
 								order_status_for_track = "order_picked"
-
 							}
 
 						}

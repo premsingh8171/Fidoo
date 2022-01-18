@@ -56,6 +56,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
     var viewmodelusertrack: UserTrackerViewModel? = null
     var paymentMode: String = "online"
     var payment_suc_Diolog: Dialog? = null
+    var payment_failed_Diolog: Dialog? = null
     var totalAmount: Double = 0.0
     var viewmodel: CartViewModel? = null
     private var mMixpanel: MixpanelAPI? = null
@@ -63,7 +64,6 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
     companion object {
         var sendpackagerder_id: String = ""
         var finalOrderId: String = ""
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,7 +121,6 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             charges2Txt2.text = "   ₹ " + charges_TwoStr[1]
         }
 
-
         try {
             tv_base_charges.text =
                 "Delivery charges starting from ₹" + baseCharges + " for first " + baseDistance + " kms"
@@ -133,7 +132,8 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             showIOSProgress()
             sendPackagesViewModel?.sendPackagePaymentModeApi(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken)
+                SessionTwiclo(this).loggedInUserDetail.accessToken
+            )
 
             viewmodelusertrack?.customerActivityLog(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -218,7 +218,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                                                             SendPackageActivity.start_Lng.toString()!!,
                                                             SendPackageActivity.end_Lat.toString()!!,
                                                             SendPackageActivity.end_Lng.toString()!!,
-                                                            cat_Id!!,notes,images!!,tax!!
+                                                            cat_Id!!, notes, images!!, tax!!
                                                         )
                                                     } else {
                                                         showToast("There is some issue in payment, please try after sometime")
@@ -239,21 +239,21 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         }
 
         chargesFmBgbottoms.setOnClickListener {
-            chargesFmBgs.visibility=View.GONE
-            chargesFms.visibility=View.GONE
-            chargesFmBgbottoms.visibility=View.GONE
+            chargesFmBgs.visibility = View.GONE
+            chargesFms.visibility = View.GONE
+            chargesFmBgbottoms.visibility = View.GONE
         }
 
         chargesFmBgs.setOnClickListener {
-            chargesFmBgs.visibility=View.GONE
-            chargesFms.visibility=View.GONE
-            chargesFmBgbottoms.visibility=View.GONE
+            chargesFmBgs.visibility = View.GONE
+            chargesFms.visibility = View.GONE
+            chargesFmBgbottoms.visibility = View.GONE
         }
 
         tv_deliveryCharges_label.setOnClickListener {
-            chargesFmBgs.visibility=View.VISIBLE
-            chargesFms.visibility=View.VISIBLE
-            chargesFmBgbottoms.visibility=View.VISIBLE
+            chargesFmBgs.visibility = View.VISIBLE
+            chargesFms.visibility = View.VISIBLE
+            chargesFmBgbottoms.visibility = View.VISIBLE
         }
 
         sendPackagesViewModel?.sendPackagesResponse?.observe(this) {
@@ -264,19 +264,19 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             sendpackagerder_id = razorpayId
             Log.e("razorpayId__", sendpackagerder_id)
 
-            val razorpayOrderId= it.razorPayOrderId.toString()
+            val razorpayOrderId = it.razorPayOrderId.toString()
 
             if (paymentMode == "online") {
                 if (paymentAmount != null) {
-                    startPayment(paymentAmount,razorpayOrderId)
+                    startPayment(paymentAmount, razorpayOrderId)
                 }
             } else {
-                Log.e("paymentMode___",paymentMode)
+                Log.e("paymentMode___", paymentMode)
                 sendPackagesViewModel?.paymentApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
                     sendpackagerder_id,
-                   "",
+                    "",
                     "",
                     paymentMode
                 )
@@ -288,39 +288,38 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         sendPackagesViewModel?.sendPackagePaymentModeResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
             Log.e("payment_response", Gson().toJson(user))
-                if (user.error_code==200){
-                    if (user.free==1){
-                        payment_method_lay.visibility= View.GONE
-                        //gone in case of free
-                        tv_total_distance_label.visibility= View.GONE
-                        tv_total_distance.visibility= View.GONE
-                        tv_time_label.visibility= View.GONE
-                        tv_time.visibility= View.GONE
-                        paymentMode="free"
+            if (user.error_code == 200) {
+                if (user.free == 1) {
+                    payment_method_lay.visibility = View.GONE
+                    //gone in case of free
+                    tv_total_distance_label.visibility = View.GONE
+                    tv_total_distance.visibility = View.GONE
+                    tv_time_label.visibility = View.GONE
+                    tv_time.visibility = View.GONE
+                    paymentMode = "free"
 
-                    }else{
-                        payment_method_lay.visibility= View.VISIBLE
+                } else {
+                    payment_method_lay.visibility = View.VISIBLE
 
-                        tv_total_distance_label.visibility= View.GONE
-                        tv_total_distance.visibility= View.GONE
-                        tv_time_label.visibility= View.GONE
-                        tv_time.visibility= View.GONE
+                    tv_total_distance_label.visibility = View.GONE
+                    tv_total_distance.visibility = View.GONE
+                    tv_time_label.visibility = View.GONE
+                    tv_time.visibility = View.GONE
 
-                        if (user.cash==1){
-                            paymentMode="cash"
-                            cash_lay.visibility= View.VISIBLE
-                        }else{
-                            cash_lay.visibility= View.GONE
-                        }
-
-                        if (user.online==1){
-                            paymentMode="online"
-                            online_lay.visibility= View.VISIBLE
-                        }else{
-                            online_lay.visibility= View.GONE
-                        }
+                    if (user.cash == 1) {
+                        paymentMode = "cash"
+                        cash_lay.visibility = View.VISIBLE
+                    } else {
+                        cash_lay.visibility = View.GONE
+                    }
+                    if (user.online == 1) {
+                        paymentMode = "online"
+                        online_lay.visibility = View.VISIBLE
+                    } else {
+                        online_lay.visibility = View.GONE
                     }
                 }
+            }
         })
 
         sendPackagesViewModel?.paymentResponse?.observe(this, Observer { user ->
@@ -334,15 +333,13 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             )
         })
 
-        viewmodel?.proceedToOrderResponse?.observe(this,
-            { orderProceed ->
-                Log.e("proceedToOrderResponse", Gson().toJson(orderProceed))
-
-            })
+        viewmodel?.proceedToOrderResponse?.observe(this, { orderProceed ->
+            Log.e("proceedToOrderResponse", Gson().toJson(orderProceed))
+        })
 
     }
 
-    private fun startPayment(paymentAmt: String,razorpayOrderId: String?) {
+    private fun startPayment(paymentAmt: String, razorpayOrderId: String?) {
         val activity: Activity = this
         val co = Checkout()
         //var razorpayId = "qwerty"
@@ -367,7 +364,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            Log.e("totalAmount_",(amount * 100).toString())
+            Log.e("totalAmount_", (amount * 100).toString())
 
             options.put("amount", amount * 100)
 
@@ -396,7 +393,6 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
 
     }
 
-
     override fun onPaymentError(errorCode: Int, response: String?) {
         Log.e("onError__", "$response")
 
@@ -406,6 +402,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                 SessionTwiclo(this).mobileno, "SendPackagerderDetail Screen payment failed ",
                 SplashActivity.appversion, "", SessionTwiclo(this).deviceToken
             )
+            payment_failed_Diolog()
         } catch (e: java.lang.Exception) {
             Log.e("onError", "Exception in onPaymentSuccess", e)
         }
@@ -430,10 +427,10 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                 SplashActivity.appversion, "", SessionTwiclo(this).deviceToken
             )
 
-
         } catch (e: java.lang.Exception) {
             Log.e("onSuccess", "Exception in onPaymentSuccess", e)
         }
+
     }
 
     override fun onResume() {
@@ -443,18 +440,18 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         tv_total_distance.text = intent.getStringExtra("distance") + " km"
         tv_time.text = intent.getStringExtra("time") + "min"
         tv_grand_total.text = "₹ " + intent.getStringExtra("value_after_discount")
-       // tv_grand_total.text = "₹ 0"
+        // tv_grand_total.text = "₹ 0"
         tv_deliveryCharges_.text = "₹ " + intent.getStringExtra("payment_amount")
         tv_delivery_fee.text = "- ₹ " + intent.getStringExtra("discount")
 
-        if (!intent.getStringExtra("coupon_name")!!.equals("")){
-            tv_delivery_fee_label.text = "Discount ("+ intent.getStringExtra("coupon_name")+")"
-            tv_delivery_fee_label.visibility=View.VISIBLE
-            tv_delivery_fee.visibility=View.VISIBLE
+        if (!intent.getStringExtra("coupon_name")!!.equals("")) {
+            tv_delivery_fee_label.text = "Discount (" + intent.getStringExtra("coupon_name") + ")"
+            tv_delivery_fee_label.visibility = View.VISIBLE
+            tv_delivery_fee.visibility = View.VISIBLE
 
-        }else{
-            tv_delivery_fee_label.visibility=View.GONE
-            tv_delivery_fee.visibility=View.GONE
+        } else {
+            tv_delivery_fee_label.visibility = View.GONE
+            tv_delivery_fee.visibility = View.GONE
         }
 
         // tv_place_order.text = "Place Order |  " + intent.getStringExtra("payment_amount")
@@ -467,7 +464,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         AppUtils.finishActivityLeftToRight(this)
     }
 
-    fun paySuccessPopUp() {
+    private fun paySuccessPopUp() {
         payment_suc_Diolog = Dialog(this)
         payment_suc_Diolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         payment_suc_Diolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -517,6 +514,53 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             )
             finishAffinity()
         }, 5500)
+    }
+
+    private fun payment_failed_Diolog() {
+        payment_failed_Diolog = Dialog(this)
+        payment_failed_Diolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        payment_failed_Diolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        payment_failed_Diolog?.setContentView(R.layout.payment_failed_popup)
+        payment_failed_Diolog?.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+
+        payment_failed_Diolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+        payment_failed_Diolog?.setCanceledOnTouchOutside(true)
+        payment_failed_Diolog?.show()
+        val dismiss_paymentFailed =
+            payment_failed_Diolog?.findViewById<ImageView>(R.id.dismiss_paymentFailed)
+        val gif_paymentImg = payment_failed_Diolog?.findViewById<ImageView>(R.id.gif_paymentImg)
+
+        Glide.with(this).load(R.drawable.payment_failed)
+            .listener(object : RequestListener<Drawable?> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any,
+                    target: Target<Drawable?>,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any,
+                    target: Target<Drawable?>,
+                    dataSource: DataSource,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    return false
+                }
+            })
+            .placeholder(R.drawable.payment_failed)
+            .error(R.drawable.payment_failed).into(gif_paymentImg!!)
+
+        dismiss_paymentFailed?.setOnClickListener {
+            payment_failed_Diolog?.dismiss()
+        }
+
     }
 
 }

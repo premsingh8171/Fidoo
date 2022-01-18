@@ -48,6 +48,7 @@ class NewDbRestaurantCategoryAdapter(
 			holder.itemView.cat_tv.setTextColor(Color.parseColor("#000000"))
 			holder.itemView.countTxt.setTextColor(Color.parseColor("#000000"))
 		}
+
 	}
 
 	override fun getItemCount(): Int {

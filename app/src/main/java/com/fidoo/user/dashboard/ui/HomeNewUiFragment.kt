@@ -20,7 +20,6 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
@@ -41,10 +40,8 @@ import com.fidoo.user.data.model.BannerModel
 import com.fidoo.user.data.model.CartCountModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentHomeNewuiBinding
-import com.fidoo.user.newRestaurants.activity.NewStoreItemsActivity
 import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
-import com.fidoo.user.restaurants.activity.StoreItemsActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.sendpackages.activity.SendPackageActivity
 import com.fidoo.user.store.activity.StoreFilterListActivity
@@ -59,9 +56,9 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_home_newui.*
+import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
-import org.json.JSONObject
 
 
 @Suppress("DEPRECATION")
@@ -103,19 +100,18 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_newui, container, false)
+		fragmentHomeBinding =
+			DataBindingUtil.inflate(inflater, R.layout.fragment_home_newui, container, false)
 
 		analytics = FirebaseAnalytics.getInstance(requireContext())
 
 		viewmodel = ViewModelProviders.of(requireActivity()).get(HomeFragmentViewModel::class.java)
-		viewmodelusertrack = ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
+		viewmodelusertrack =
+			ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
 		mMixpanel = MixpanelAPI.getInstance(requireContext(), "defeff96423cfb1e8c66f8ba83ab87fd")
-
-
 
 		props.put("Dashboard initialized", true)
 		mMixpanel?.track("DashBoard", props)
-
 		pref = SessionTwiclo(requireContext())
 		where = pref.guestLogin
 		// Display size
@@ -126,11 +122,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		catIconWidth = (width - 180) / 4
 
 
-
 		fragmentHomeBinding?.viewPagerBannerNewDesh!!.layoutParams =
 			LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
+		fragmentHomeBinding?.viewPagerBannerNewDesh!!.clipToPadding = false
 
-		fragmentHomeBinding?.viewPagerBannerNewDesh!!.setClipToPadding(false)
 		val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
 			object : ViewPager.OnPageChangeListener {
 				override fun onPageSelected(position: Int) {}
@@ -138,14 +133,24 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				override fun onPageScrollStateChanged(arg0: Int) {}
 			}
 
-		fragmentHomeBinding?.viewPagerBannerNewDesh!!.addOnPageChangeListener(
-			viewPagerPageChangeListener
-		)
+		fragmentHomeBinding?.viewPagerBannerNewDesh!!.addOnPageChangeListener(viewPagerPageChangeListener)
 
 		val bundle = Bundle()
 		bundle.putString("oncreate", "oncreate")
 		bundle.putString("home", "Home Screen")
 		analytics.logEvent("Home_Screen", bundle)
+
+		try {
+			if ((activity as MainActivity).isNetworkConnected) {
+				if (SessionTwiclo(context).isLoggedIn) {
+					viewmodel?.checkPaymentStatusApi(
+						SessionTwiclo(context).loggedInUserDetail.accountId,
+						SessionTwiclo(context).loggedInUserDetail.accessToken,
+					)
+				}
+			}
+		}catch (e:Exception){}
+
 
 		apiCall("1")
 		getObserveResponse()
@@ -164,6 +169,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				}
 				//  Log.d("storeVisibilityNested11", "$scrollY--$oldScrollY")
 			} else if (scrollX == scrollY) {
+
 				if (scrollY < 5) {
 					fragmentHomeBinding?.topLayNewDesh!!.setBackgroundResource(R.color.lightGray)
 					fragmentHomeBinding?.topLayNewDesh!!.elevation = 0f
@@ -183,7 +189,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				}
 				//  Log.d("storeVisibilityNested2", "$scrollY--$oldScrollY")
 			}
-
 		})
 
 
@@ -243,6 +248,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						SessionTwiclo(context).loggedInUserDetail.accessToken,
 						"1"
 					)
+
+					viewmodel?.checkPaymentStatusApi(
+						SessionTwiclo(context).loggedInUserDetail.accountId,
+						SessionTwiclo(context).loggedInUserDetail.accessToken,
+					)
+
 					viewmodelusertrack?.customerActivityLog(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
 						SessionTwiclo(requireContext()).mobileno, "Home Screen",
@@ -255,6 +266,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						"",
 						"1"
 					)
+
 					viewmodel?.getHomeDataApi(
 						"",
 						"",
@@ -262,6 +274,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						SessionTwiclo(context).userLng
 					)
 				}
+
 				fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 				fragmentHomeBinding?.deshbordRefreshNewDesh!!.visibility = View.VISIBLE
 
@@ -295,14 +308,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						"where", where
 					), AUTOCOMPLETE_REQUEST_CODE
 			)
-			addEditAdd="Dashboard"
+			addEditAdd = "Dashboard"
 		}
 	}
 
 	private fun getObserveResponse() {
 
 		viewmodel?.cartCountResponse?.observe(requireActivity(), { user ->
-			Log.d("mModelData___",Gson().toJson(user))
+			Log.d("mModelData___", Gson().toJson(user))
 
 			if (_progressDlg != null) {
 				_progressDlg!!.dismiss()
@@ -314,7 +327,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					val mModelData: CartCountModel = user
 
 					if (context != null) {
-						Log.d("mModelData___",mModelData.store_id)
+						Log.d("mModelData___", mModelData.store_id)
 						SessionTwiclo(context).storeId = mModelData.store_id
 					}
 
@@ -398,7 +411,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 							} else {
 								fragmentHomeBinding?.bannerLLNewDesh!!.visibility = View.GONE
 							}
-						} catch (e: Exception) { }
+						} catch (e: Exception) {
+						}
 
 					}
 				}
@@ -588,7 +602,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					.putExtra("cat_id", model.id)
 					.putExtra("cat_name", model.service_name)
 			)
-		}else{
+		} else {
 			AppUtils.startActivityRightToLeft(
 				requireActivity(),
 				Intent(requireActivity(), ServiceDailyNeedActivity::class.java).putExtra(
@@ -638,8 +652,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		props.put("clicked on offers", model.coupon_desc)
 		Log.d("onOfferCatClick", model.delivery_distance.toString())
 		AppUtils.startActivityRightToLeft(
-		//	context as Activity?, Intent(context, StoreItemsActivity::class.java)
-		//	context as Activity?, Intent(context, NewStoreItemsActivity::class.java)
+			//	context as Activity?, Intent(context, StoreItemsActivity::class.java)
+			//	context as Activity?, Intent(context, NewStoreItemsActivity::class.java)
 			context as Activity?, Intent(context, NewDBStoreItemsActivity::class.java)
 				.putExtra("storeId", model.store_id)
 				.putExtra("storeName", model.store_name)
@@ -697,6 +711,5 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		} catch (e: java.lang.Exception) {
 			e.printStackTrace()
 		}
-
 	}
 }
