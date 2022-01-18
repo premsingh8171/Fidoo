@@ -140,6 +140,18 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		bundle.putString("home", "Home Screen")
 		analytics.logEvent("Home_Screen", bundle)
 
+		try {
+			if ((activity as MainActivity).isNetworkConnected) {
+				if (SessionTwiclo(context).isLoggedIn) {
+					viewmodel?.checkPaymentStatusApi(
+						SessionTwiclo(context).loggedInUserDetail.accountId,
+						SessionTwiclo(context).loggedInUserDetail.accessToken,
+					)
+				}
+			}
+		}catch (e:Exception){}
+
+
 		apiCall("1")
 		getObserveResponse()
 		onClickEvent()

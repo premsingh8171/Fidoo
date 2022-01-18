@@ -32,7 +32,7 @@ class SplashActivity : BaseActivity() {
     private var mMixpanel: MixpanelAPI? = null
 
     companion object {
-        var appversion: String? = "1.0.39"
+        var appversion: String? = "1.0.40"
         var mobile_number: String? = ""
         var splashActivity: SplashActivity? = null
     }
@@ -56,7 +56,7 @@ class SplashActivity : BaseActivity() {
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_splash)
-        appversion = "1.0.39"
+        appversion = "1.0.40"
       //  appversion = BuildConfig.VERSION_NAME
 
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -76,7 +76,7 @@ class SplashActivity : BaseActivity() {
                 SessionTwiclo(this).deviceToken = token
                 Log.d("Token_", token.toString())
             })
-        } catch (e: Exception) { }
+        } catch (e: Exception) {e.printStackTrace()}
 
         onTokenRefresh()
 
