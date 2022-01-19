@@ -296,6 +296,14 @@ interface BackEndApi {
         @Field("payment_bank") payment_bank: String?,
         @Field("payment_mode") payment_mode: String?
     ): Call<PaymentModel>
+
+    @FormUrlEncoded
+    @POST("paymentFailure.inc.php")
+    fun paymentFailureApi(
+        @Field("accountId") accountId: String?,
+        @Field("accessToken") accessToken: String?,
+        @Field("order_id") order_id: String?
+    ): Call<PaymentModel>
 /*
     @FormUrlEncoded
     @POST("generateRazorPayOrderId.inc.php")

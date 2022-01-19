@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
 import com.fidoo.user.cartview.model.CartModel
+import com.fidoo.user.dashboard.model.CheckPaymentStatusModel
 import com.fidoo.user.data.model.*
 import com.fidoo.user.ordermodule.model.DeletePrescriptionModel
 import com.fidoo.user.ordermodule.model.UploadPresModel
@@ -28,6 +29,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
     var appplyPromoResponse: MutableLiveData<ApplyPromoModel>? = null
     var orderPlaceResponse: MutableLiveData<OrderPlaceModel>? = null
     var paymentResponse: MutableLiveData<PaymentModel>? = null
+    var paymentFailureResponse: MutableLiveData<PaymentModel>? = null
     var deleteCartResponse: MutableLiveData<DeleteModel>? = null
     var removeCouponResponse: MutableLiveData<DeleteModel>? = null
     var uploadPrescriptionResponse: MutableLiveData<UploadPresModel>? = null
@@ -36,6 +38,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
     var razorpayResponse: MutableLiveData<PaymentModel>? = null
     var getLocationResponse: MutableLiveData<LocationResponseModel>? = null
     var proceedToOrderResponse: MutableLiveData<ProceedToOrder>? = null
+    var checkPaymentStatusRes: MutableLiveData<CheckPaymentStatusModel>? = null
 
     init {
         addToCartResponse = MutableLiveData<AddToCartModel>()
@@ -46,6 +49,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
         appplyPromoResponse = MutableLiveData<ApplyPromoModel>()
         orderPlaceResponse = MutableLiveData<OrderPlaceModel>()
         paymentResponse = MutableLiveData<PaymentModel>()
+        paymentFailureResponse = MutableLiveData<PaymentModel>()
         deleteCartResponse = MutableLiveData<DeleteModel>()
         removeCouponResponse = MutableLiveData<DeleteModel>()
         customizeProductResponse = MutableLiveData<CustomizeProductResponseModel>()
@@ -55,7 +59,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
         getLocationResponse = MutableLiveData<LocationResponseModel>()
         cartCountResponse = MutableLiveData<CartCountModel>()
         proceedToOrderResponse = MutableLiveData<ProceedToOrder>()
-
+        checkPaymentStatusRes = MutableLiveData<CheckPaymentStatusModel>()
 
     }
 
@@ -232,6 +236,23 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
         })
     }
 
+    fun paymentFailureApi(accountId: String, accessToken: String, order_id: String) {
+        Log.d("paymentApi__",accountId+"\n"+accessToken+"\n"+order_id)
+        WebServiceClient.client.create(BackEndApi::class.java).paymentFailureApi(
+            accountId = accountId,
+            accessToken = accessToken,
+            order_id = order_id
+        ).enqueue(object : Callback<PaymentModel> {
+            override fun onResponse(call: Call<PaymentModel>, response: Response<PaymentModel>) {
+                paymentFailureResponse?.value = response.body()
+            }
+
+            override fun onFailure(call: Call<PaymentModel>, t: Throwable) {
+                failureResponse?.value = "Something went wrong with payment"
+            }
+        })
+    }
+
     /*
     fun razorPayPaymentApi(accountId: String, accessToken: String, order_id: String, amount: String) {
 
@@ -397,6 +418,25 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
     override fun onFailure(call: Call<CartModel>?, t: Throwable?) {
         failureResponse?.value="Something went wrong with Cart"
         Log.e("CART ERROR",t.toString())
+    }
+
+
+    fun checkPaymentStatusApi(accountId: String, accessToken: String) {
+        Log.e("checkPaymentStatusApi__", "$accountId, $accessToken")
+        WebServiceClient.client.create(BackEndApi::class.java).checkPaymentStatusApi(
+            accountId = accountId, accessToken = accessToken
+        ).enqueue(object : Callback<CheckPaymentStatusModel> {
+            override fun onResponse(
+                call: Call<CheckPaymentStatusModel>,
+                response: Response<CheckPaymentStatusModel>
+            ) {
+                checkPaymentStatusRes?.value = response.body()
+            }
+
+            override fun onFailure(call: Call<CheckPaymentStatusModel>, t: Throwable) {
+                failureResponse?.value = "Something went wrong"
+            }
+        })
     }
 
 }

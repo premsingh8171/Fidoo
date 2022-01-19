@@ -197,7 +197,7 @@ class SplashFragment : BaseFragment() {
 
     }
 
-    fun custAppVerCheck(app_version: String) {
+    private fun custAppVerCheck(app_version: String) {
         Log.d("app_version", "$app_version")
 
         WebServiceClient.client.create(BackEndApi::class.java).updateApp(

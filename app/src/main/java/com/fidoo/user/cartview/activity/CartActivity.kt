@@ -234,6 +234,17 @@ class CartActivity : BaseActivity(),
 		//For Faster checkout of RazorPay
 		// co.setKeyID("rzp_live_iceNLz5pb15jtP")
 
+		try {
+			if (isNetworkConnected) {
+				if (SessionTwiclo(this).isLoggedIn) {
+					viewmodel?.checkPaymentStatusApi(
+						accountId,
+						accessToken
+					)
+				}
+			}
+		}catch (e:Exception){}
+
 		var paykey = BuildConfig.pay_key.toString()
 		co.setKeyID(paykey)
 
@@ -992,6 +1003,21 @@ class CartActivity : BaseActivity(),
 
 		}
 
+		viewmodel?.paymentFailureResponse?.observe(this) { user ->
+			Log.e("paymentFailureResponse_", Gson().toJson(user))
+			dismissIOSProgress()
+		}
+
+		viewmodel?.checkPaymentStatusRes?.observe(this) { user ->
+			Log.e("paymentFailureResponse_", Gson().toJson(user))
+			dismissIOSProgress()
+			if (user.error_code==200){
+				paySuccessPopUp()
+			}else{
+
+			}
+		}
+
 //		viewmodel?.proceedToOrderResponse?.observe(this, { orderProceed ->
 //			Log.e("proceedToOrderResponse", Gson().toJson(orderProceed))
 //			dismissIOSProgress()
@@ -1196,10 +1222,10 @@ class CartActivity : BaseActivity(),
 			)
 
 		}
+
 		if (SessionTwiclo(this).userAddressId != "") {
 			tv_delivery_address_title.text = selectedAddressTitle
 		}
-
 
 		if (selectedCouponName != "") {
 			tv_coupon.text = selectedCouponName
@@ -1209,6 +1235,18 @@ class CartActivity : BaseActivity(),
 				selectedCouponName
 			)
 		}
+
+
+		try {
+			if (isNetworkConnected) {
+				if (SessionTwiclo(this).isLoggedIn) {
+					viewmodel?.checkPaymentStatusApi(
+						accountId,
+						accessToken
+					)
+				}
+			}
+		}catch (e:Exception){}
 
 	}
 
@@ -1350,9 +1388,19 @@ class CartActivity : BaseActivity(),
 			)
 			//Toast.makeText(this, "Payment failed, Please try again", Toast.LENGTH_LONG).show()
 			payment_failed_Diolog()
+
+
+			viewmodel?.paymentFailureApi(
+				accountId,
+				accessToken,
+				tempOrderId
+			)
+
+
 		} catch (e: java.lang.Exception) {
 			Log.e("onError", "Exception in onPaymentSuccess", e)
 		}
+
 	}
 
 	override fun onPaymentSuccess(razorpayPaymentId: String?) {
@@ -2216,5 +2264,19 @@ class CartActivity : BaseActivity(),
 	override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {}
 
 	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {}
+
+//	override fun onRestart() {
+//		super.onRestart()
+//		try {
+//			if (isNetworkConnected) {
+//				if (SessionTwiclo(this).isLoggedIn) {
+//					viewmodel?.checkPaymentStatusApi(
+//						accountId,
+//						accessToken
+//					)
+//				}
+//			}
+//		}catch (e:Exception){}
+//	}
 
 }

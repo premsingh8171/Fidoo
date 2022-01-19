@@ -25,6 +25,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.activity.SplashActivity
+import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.ordermodule.ui.TrackSendPAckagesOrderActivity
@@ -143,6 +144,17 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         } else {
             showInternetToast()
         }
+
+        try {
+            if (isNetworkConnected) {
+                if (SessionTwiclo(this).isLoggedIn) {
+                    viewmodel?.checkPaymentStatusApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken
+                    )
+                }
+            }
+        }catch (e:Exception){}
 
         cash_lay.setOnClickListener {
             paymentMode = "cash"
@@ -337,6 +349,16 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             Log.e("proceedToOrderResponse", Gson().toJson(orderProceed))
         })
 
+        viewmodel?.checkPaymentStatusRes?.observe(this) { user ->
+            Log.e("paymentFailureResponse_", Gson().toJson(user))
+            dismissIOSProgress()
+            if (user.error_code==200){
+                paySuccessPopUp()
+            }else{
+
+            }
+        }
+
     }
 
     private fun startPayment(paymentAmt: String, razorpayOrderId: String?) {
@@ -457,6 +479,17 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         // tv_place_order.text = "Place Order |  " + intent.getStringExtra("payment_amount")
         tv_place_order.text = "Place Order"
         tv_item_note.text = intent.getStringExtra("notes")
+
+        try {
+            if (isNetworkConnected) {
+                if (SessionTwiclo(this).isLoggedIn) {
+                    viewmodel?.checkPaymentStatusApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken
+                    )
+                }
+            }
+        }catch (e:Exception){}
     }
 
     override fun onBackPressed() {
@@ -513,7 +546,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                     .putExtra("type", "")
             )
             finishAffinity()
-        }, 5500)
+        }, 5000)
     }
 
     private fun payment_failed_Diolog() {
@@ -562,5 +595,6 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         }
 
     }
+
 
 }
