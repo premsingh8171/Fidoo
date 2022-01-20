@@ -143,6 +143,7 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:launchMode="singleTask"
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"

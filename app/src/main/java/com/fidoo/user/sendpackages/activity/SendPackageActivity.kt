@@ -248,8 +248,6 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                 Log.e("Error Base distance", e.toString())
             }
 
-
-
             startActivity(
                 Intent(this, SendPackageOrderDetail::class.java)
                     .putExtra("base_distance", user.base_distance)

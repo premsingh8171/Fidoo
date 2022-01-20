@@ -3,19 +3,20 @@ package com.fidoo.user.dashboard.ui
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.VISIBLE
-import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
@@ -23,6 +24,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addEditAdd
@@ -40,10 +46,12 @@ import com.fidoo.user.data.model.BannerModel
 import com.fidoo.user.data.model.CartCountModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentHomeNewuiBinding
+import com.fidoo.user.ordermodule.ui.TrackSendPAckagesOrderActivity
 import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.sendpackages.activity.SendPackageActivity
+import com.fidoo.user.sendpackages.activity.SendPackageOrderDetail
 import com.fidoo.user.store.activity.StoreFilterListActivity
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
@@ -81,6 +89,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	var timer: Timer? = null
 	val DELAY_MS: Long = 8000 //delay in milliseconds before task is to be executed
 	val PERIOD_MS: Long = 8000 // time in milliseconds between successive task executions.
+	var payment_suc_Diolog: Dialog? = null
 
 
 	private var mMixpanel: MixpanelAPI? = null
@@ -160,6 +169,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 		fragmentHomeBinding?.mainViewNestedSNewDesh!!.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
 			if (scrollY > oldScrollY) {
+
 				if (10 < scrollY) {
 					fragmentHomeBinding?.topLayNewDesh!!.elevation = 20f
 					fragmentHomeBinding?.topLayNewDesh!!.setBackgroundResource(R.color.white)
@@ -177,9 +187,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 					view.visibility = View.GONE
 				}
-
-				//  Log.d("storeVisibilityNested1", "$scrollY--$oldScrollY")
+			//  Log.d("storeVisibilityNested1", "$scrollY--$oldScrollY")
 			} else {
+
 				if (10 < scrollY) {
 					fragmentHomeBinding?.topLayNewDesh!!.elevation = 20f
 					fragmentHomeBinding?.topLayNewDesh!!.setBackgroundResource(R.color.white)
@@ -712,4 +722,49 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			e.printStackTrace()
 		}
 	}
+
+	private fun paySuccessPopUp() {
+		payment_suc_Diolog = Dialog(requireActivity())
+		payment_suc_Diolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		payment_suc_Diolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+		payment_suc_Diolog?.setContentView(R.layout.payment_success_popup)
+		payment_suc_Diolog?.window?.setLayout(
+			WindowManager.LayoutParams.MATCH_PARENT,
+			WindowManager.LayoutParams.MATCH_PARENT
+		)
+		payment_suc_Diolog?.setCanceledOnTouchOutside(true)
+		payment_suc_Diolog?.show()
+		val payment_successImg =
+			payment_suc_Diolog?.findViewById<ImageView>(R.id.payment_successImg)
+
+		Glide.with(this).load(R.drawable.pay_suc)
+			.listener(object : RequestListener<Drawable?> {
+				override fun onLoadFailed(
+					e: GlideException?,
+					model: Any,
+					target: Target<Drawable?>,
+					isFirstResource: Boolean
+				): Boolean {
+					return false
+				}
+
+				override fun onResourceReady(
+					resource: Drawable?,
+					model: Any,
+					target: Target<Drawable?>,
+					dataSource: DataSource,
+					isFirstResource: Boolean
+				): Boolean {
+					return false
+				}
+			})
+			.placeholder(R.drawable.pay_suc)
+			.error(R.drawable.pay_suc).into(payment_successImg!!)
+
+		Handler().postDelayed({
+			payment_suc_Diolog?.dismiss()
+
+		}, 5000)
+	}
+
 }
