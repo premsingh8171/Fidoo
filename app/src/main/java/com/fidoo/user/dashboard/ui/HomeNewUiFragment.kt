@@ -22,6 +22,7 @@ import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
 import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
@@ -91,7 +92,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	val PERIOD_MS: Long = 8000 // time in milliseconds between successive task executions.
 	var payment_suc_Diolog: Dialog? = null
 
-
 	private var mMixpanel: MixpanelAPI? = null
 	private val props = JSONObject()
 
@@ -115,14 +115,16 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		analytics = FirebaseAnalytics.getInstance(requireContext())
 
 		viewmodel = ViewModelProviders.of(requireActivity()).get(HomeFragmentViewModel::class.java)
-		viewmodelusertrack =
-			ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
+		viewmodelusertrack = ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
 		mMixpanel = MixpanelAPI.getInstance(requireContext(), "defeff96423cfb1e8c66f8ba83ab87fd")
 
 		props.put("Dashboard initialized", true)
+
 		mMixpanel?.track("DashBoard", props)
+
 		pref = SessionTwiclo(requireContext())
 		where = pref.guestLogin
+
 		// Display size
 		val displayMetrics = DisplayMetrics()
 		requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -130,9 +132,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		height = Math.round(width * 0.49).toInt()
 		catIconWidth = (width - 180) / 4
 
+		fragmentHomeBinding?.viewPagerBannerNewDesh!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
 
-		fragmentHomeBinding?.viewPagerBannerNewDesh!!.layoutParams =
-			LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
 		fragmentHomeBinding?.viewPagerBannerNewDesh!!.clipToPadding = false
 
 		val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
@@ -160,12 +161,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			}
 		}catch (e:Exception){}
 
-
 		apiCall("1")
 		getObserveResponse()
 		onClickEvent()
-		// homeRecyclerview(arrayList!!)
-
 
 		fragmentHomeBinding?.mainViewNestedSNewDesh!!.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
 			if (scrollY > oldScrollY) {
@@ -201,7 +199,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			}
 		})
 
-
 		fragmentHomeBinding?.userAddressNewDesh?.text = SessionTwiclo(context).userAddress
 
 		return fragmentHomeBinding?.root
@@ -230,6 +227,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	}
 
 	private fun onClickEvent() {
+
 		fragmentHomeBinding?.deshbordRefreshNewDesh!!.setOnRefreshListener { apiCall("0") }
 
 		fragmentHomeBinding?.retryOnHomeNewDesh!!.setOnClickListener {
@@ -320,6 +318,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			)
 			addEditAdd = "Dashboard"
 		}
+
 	}
 
 	private fun getObserveResponse() {
@@ -463,6 +462,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			Log.e("cart_response", Gson().toJson(user))
 		})
 
+		viewmodel?.checkPaymentStatusRes?.observe(requireActivity()) { user ->
+			Log.e("checkPaymentStatusRes_", Gson().toJson(user))
+			dismissIOSProgress()
+			if (user.error_code==200){
+				paySuccessPopUp()
+			}
+		}
+
 	}
 
 	private fun homeRecyclerview(arrayList: ArrayList<HomeData>) {
@@ -473,13 +480,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	private fun apiCall(dialogStartOrNot: String) {
 		if ((activity as MainActivity).isNetworkConnected) {
 			if (SessionTwiclo(context).isLoggedIn) {
-				// Ensure all future events sent from
-				// the device will have the distinct_id 13793
 				mMixpanel?.identify(SessionTwiclo(context).loggedInUserDetail.accountId)
-
-				// Ensure all future user profile properties sent from
-				// the device will have the distinct_id 13793
 				mMixpanel?.people?.identify(SessionTwiclo(context).loggedInUserDetail.accountId)
+
 				try {
 					if (dialogStartOrNot == "1") {
 						_progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
@@ -502,8 +505,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				viewmodel?.getBanners(
 					SessionTwiclo(context).loggedInUserDetail.accountId,
 					SessionTwiclo(context).loggedInUserDetail.accessToken,
-					"1"
-				)
+					"1" )
+
 				viewmodelusertrack?.customerActivityLog(
 					SessionTwiclo(context).loggedInUserDetail.accountId,
 					SessionTwiclo(requireContext()).mobileno, "Home Screen",
@@ -511,11 +514,13 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				)
 
 			} else {
+
 				viewmodel?.getBanners(
 					"",
 					"",
 					"1"
 				)
+
 				viewmodel?.getHomeDataApi(
 					"",
 					"",
@@ -534,7 +539,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		}
 
 	}
-
 
 	override fun onActivityResult(
 		requestCode: Int,
@@ -763,7 +767,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 		Handler().postDelayed({
 			payment_suc_Diolog?.dismiss()
-
 		}, 5000)
 	}
 

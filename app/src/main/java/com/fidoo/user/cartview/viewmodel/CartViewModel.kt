@@ -396,9 +396,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
                 call: Call<ProceedToOrder>,
                 response: Response<ProceedToOrder>
             ) {
-
                 proceedToOrderResponse?.value = response.body()
-
             }
 
             override fun onFailure(call: Call<ProceedToOrder>, t: Throwable) {

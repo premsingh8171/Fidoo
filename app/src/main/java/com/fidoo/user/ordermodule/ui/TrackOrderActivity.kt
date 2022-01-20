@@ -125,6 +125,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 	lateinit var behavior: BottomSheetBehavior<LinearLayout>
 	var hit: Long = 5
 	private var mMixpanel: MixpanelAPI? = null
+
 	companion object {
 		var trackOrderContext: Context? = null
 		val notiInterface = TrackOrderActivity()
@@ -148,6 +149,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 	var latLngList: ArrayList<LatLng> = ArrayList()
 	var check=0
 	var handleClick=0
+	var handleCounter=0
 
 	@SuppressLint("SetTextI18n")
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -376,8 +378,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		})
 
 		//val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as FragmentContainerView
-		val mapFragment = supportFragmentManager
-			.findFragmentById(R.id.map) as SupportMapFragment?
+
+		val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
 		mapFragment!!.getMapAsync(this)
 
 		viewmodel?.getLocationResponse?.observe(this, { user ->
@@ -613,43 +615,55 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 					Log.e("hit___", "hit--"+OrderBackgroundgService.timer_count!!)
 					//startService(Intent(applicationContext, OrderBackgroundgService::class.java))
 
-					timerr = object : CountDownTimer(OrderBackgroundgService.timer_count!!, 1000) {
+					if (handleCounter==0) {
+						timerr =
+							object : CountDownTimer(OrderBackgroundgService.timer_count!!, 1000) {
 
-						override fun onTick(millisUntilFinished: Long) {
-							cancelBtn.visibility = View.VISIBLE
-							cancelBtn.text = "Cancel Order (" + (millisUntilFinished / 1000) + ")"
+								override fun onTick(millisUntilFinished: Long) {
+									cancelBtn.visibility = View.VISIBLE
+									cancelBtn.text =
+										"Cancel Order (" + (millisUntilFinished / 1000) + ")"
 
-							if ((millisUntilFinished / 1000) < 1) {
-								waitingLay.visibility = View.GONE
-								cancelBtn.visibility = View.GONE
-								ordstatus_lay_new.visibility = View.VISIBLE
-								order_status.text = "Please wait while we confirm your order"
-							}
-						}
+									if ((millisUntilFinished / 1000) < 1) {
+										waitingLay.visibility = View.GONE
+										cancelBtn.visibility = View.GONE
+										ordstatus_lay_new.visibility = View.VISIBLE
+										order_status.text =
+											"Please wait while we confirm your order"
+									}
+								}
 
-						override fun onFinish() {
-							if (handleClick==0) {
-								waitingLay.visibility = View.GONE
-								cancelBtn.visibility = View.GONE
-								ordstatus_lay_new.visibility = View.VISIBLE
-								order_status.text = "Please wait while we confirm your order"
+								override fun onFinish() {
+									if (handleClick == 0) {
+										waitingLay.visibility = View.GONE
+										cancelBtn.visibility = View.GONE
+										ordstatus_lay_new.visibility = View.VISIBLE
+										order_status.text =
+											"Please wait while we confirm your order"
 
-								timerStatus = false
-								handleClick=1
-								viewmodel?.proceedToOrder(
-									SessionTwiclo(trackOrderContext).loggedInUserDetail.accountId,
-									SessionTwiclo(trackOrderContext).loggedInUserDetail.accessToken,
-									currentOrderId.toString()
-								)
+										timerStatus = false
+										handleClick = 1
+										viewmodel?.proceedToOrder(
+											SessionTwiclo(trackOrderContext).loggedInUserDetail.accountId,
+											SessionTwiclo(trackOrderContext).loggedInUserDetail.accessToken,
+											currentOrderId.toString()
+										)
 
-								timerr!!.cancel()
-								stopService(Intent(applicationContext, OrderBackgroundgService::class.java))
-						 	//	OrderBackgroundgService.timer_count=30000
+										timerr!!.cancel()
+										stopService(
+											Intent(
+												applicationContext,
+												OrderBackgroundgService::class.java
+											)
+										)
+										//	OrderBackgroundgService.timer_count=30000
 
-							}
-						}
+									}
+								}
 
-					}.start()
+							}.start()
+						handleCounter=1
+					}
 
 //					if (currentOrderId!!.isNotEmpty()) {
 //						if (CartActivity.proceedClick == 0) {
@@ -667,8 +681,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 			try {
 				if (it.request_id.equals("0") || it.request_id.equals("")) {
-
 				} else {
+
 					AppUtils.startActivityRightToLeft(
 						this,
 						Intent(this, ReviewItemsActivity::class.java)
@@ -676,6 +690,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							.putExtra("request_id", it.request_id)
 							.putExtra("payment_mode", it.paymentMode)
 					)
+
 				}
 			} catch (e: Exception) {
 				e.printStackTrace()
@@ -696,7 +711,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 				if (it.categoryId.equals("5") || it.categoryId.equals("7")) {
 					storeDetailsViewContsl.visibility = View.VISIBLE
-					//	storeCardID.visibility = View.VISIBLE
 				} else {
 					storeDetailsViewContsl.visibility = View.GONE
 				}
@@ -753,6 +767,17 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							holder.buttonValue.text = "Review"
 					     	}*/
 
+							img_to_locationFourth.setColorFilter(Color.rgb(51, 147, 71))
+							tv_order_delivery_completed.setTextColor(Color.rgb(51, 147, 71))
+
+							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
+							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
+							tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
+							delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51, 147, 71))
+							tv_order_delivery.setTextColor(Color.rgb(51, 147, 71))
+							img_to_location.setColorFilter(Color.rgb(51, 147, 71))
+
+
 							tv_order_rejection.text = "your order has been delivered. Enjoy!!"
 							order_status.text = "Your order is delivered"
 							address_details_lay.visibility = View.GONE
@@ -761,6 +786,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							tv_order_id.visibility = View.GONE
 							tv_order_id_label.visibility = View.GONE
 							map.alpha = 0.0f
+
 							if (reviewpopup == 0) {
 								buyPopup(it.orderId)
 								reviewpopup = 1

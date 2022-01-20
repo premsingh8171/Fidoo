@@ -52,13 +52,10 @@ class HomeFragmentViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun getBanners(accountId: String, accessToken: String, isNewApp: String) {
-
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).getBannersApi(
             accountId = accountId, accessToken = accessToken, isNewApp = isNewApp
-        )
-            .enqueue(this)
-
+        ).enqueue(this)
     }
 
     fun getHomeServices(accountId: String, accessToken: String) {
@@ -66,8 +63,7 @@ class HomeFragmentViewModel(application: Application) : AndroidViewModel(applica
         WebServiceClient.client.create(BackEndApi::class.java).getHomeServicesApi(
             accountId = accountId, accessToken = accessToken
         ).enqueue(object : Callback<HomeServicesModel> {
-
-                override fun onResponse(
+            override fun onResponse(
                     call: Call<HomeServicesModel>,
                     response: Response<HomeServicesModel>
                 ) {
@@ -160,13 +156,11 @@ class HomeFragmentViewModel(application: Application) : AndroidViewModel(applica
     override fun onResponse(call: Call<BannerModel>?, response: Response<BannerModel>?) {
         progressDialog?.value = false
         bannersResponse?.value = response?.body()
-
     }
 
     override fun onFailure(call: Call<BannerModel>?, t: Throwable?) {
         progressDialog?.value = false
         failureResponse?.value = "Something went wrong"
-
     }
 
 }

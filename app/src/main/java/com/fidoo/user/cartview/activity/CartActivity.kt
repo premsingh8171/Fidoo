@@ -2240,6 +2240,7 @@ class CartActivity : BaseActivity(),
 				onBackpressHandle = "1"
 				stopService(Intent(applicationContext, OrderBackgroundgService::class.java))
 				OrderBackgroundgService.timer_count = 30000
+				OrderBackgroundgService.counter_timer = 30
 
 				startActivity(
 					Intent(this, TrackOrderActivity::class.java).putExtra(

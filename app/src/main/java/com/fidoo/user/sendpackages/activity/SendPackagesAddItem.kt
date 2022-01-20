@@ -394,6 +394,7 @@ class SendPackagesAddItem : BaseActivity() {
                                     position: Int,
                                     model: SendPackagesItemImage
                                 ) {
+
                                     showIOSProgress()
                                     deleteSendPackages(model.package_imgId.toInt())
                                     sendPackagesImgList!!.remove(model.document_id)
@@ -403,18 +404,24 @@ class SendPackagesAddItem : BaseActivity() {
                                         SessionTwiclo(this@SendPackagesAddItem).loggedInUserDetail.accessToken,
                                         model.document_id
                                     )
+
                                 }
 
                                 override fun uploadImage(
                                     position: Int,
                                     model: SendPackagesItemImage
                                 ) {
+
                                     sendPackages_img_id = model.package_imgId.toInt()
                                     ImagePicker.with(this@SendPackagesAddItem)
                                         .crop()
+                                        .compress(1024)
+                                        .cameraOnly()
+                                        .maxResultSize(1080, 1080)
                                         .start()
                                 }
                             })
+
                         addItem_rv?.adapter = sendPackagesImgAdapter
 
                     })

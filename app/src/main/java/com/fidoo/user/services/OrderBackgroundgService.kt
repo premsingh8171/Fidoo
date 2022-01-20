@@ -19,6 +19,7 @@ class OrderBackgroundgService  : Service() {
     companion object{
         var  bgServicOrderId:String?=""
         var timer_count: Long?=30000
+        var counter_timer: Int = 30
     }
 
 //    override fun onCreate() {
@@ -34,7 +35,7 @@ class OrderBackgroundgService  : Service() {
             override fun onTick(millisUntilFinished: Long) {
                 timer_count = millisUntilFinished
                 orderProcess = (millisUntilFinished / 1000).toInt()
-
+                counter_timer--
                 if ((millisUntilFinished / 1000) < 2) {
                     MainActivity.orderProcess = 0
                 }

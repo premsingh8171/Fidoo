@@ -364,7 +364,6 @@
 
                         </androidx.cardview.widget.CardView>
 
-
                         <androidx.cardview.widget.CardView
                             android:id="@+id/driver_cardView"
                             android:layout_width="match_parent"
@@ -527,6 +526,21 @@
                                         android:src="@drawable/location_target_icon"
                                         app:tint="@color/grey" />
 
+                                    <View
+                                        android:id="@+id/vertical_line_between_third_location_second"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:alpha="0.5"
+                                        android:background="@drawable/dotted_vertical_line" />
+
+                                    <ImageView
+                                        android:id="@+id/img_to_locationFourth"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_marginTop="2dp"
+                                        android:src="@drawable/location_target_icon"
+                                        app:tint="@color/grey" />
+
 
                                 </LinearLayout>
 
@@ -573,7 +587,6 @@
                                         android:text=""
                                         android:textColor="@color/grey" />
 
-
                                     <TextView
                                         android:id="@+id/tv_order_delivery"
                                         android:layout_width="wrap_content"
@@ -592,6 +605,15 @@
                                         android:text=""
                                         android:textColor="@color/grey" />
 
+
+                                    <TextView
+                                        android:id="@+id/tv_order_delivery_completed"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/tv_your_order_is_on_the_way"
+                                        android:layout_marginTop="@dimen/margin_35dp"
+                                        android:fontFamily="@font/proxima"
+                                        android:text="Order Delivered" />
 
                                 </RelativeLayout>
 

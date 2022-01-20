@@ -123,8 +123,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         }
 
         try {
-            tv_base_charges.text =
-                "Delivery charges starting from ₹" + baseCharges + " for first " + baseDistance + " kms"
+            tv_base_charges.text = "Delivery charges starting from ₹" + baseCharges + " for first " + baseDistance + " kms"
         } catch (e: NullPointerException) {
             Log.e("Error Base distance", e.toString())
         }
@@ -269,7 +268,6 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         }
 
         sendPackagesViewModel?.sendPackagesResponse?.observe(this) {
-
             Log.e("send_package_response", it.toString())
 
             val razorpayId = it.orderId.toString()
@@ -311,8 +309,8 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                     paymentMode = "free"
 
                 } else {
-                    payment_method_lay.visibility = View.VISIBLE
 
+                    payment_method_lay.visibility = View.VISIBLE
                     tv_total_distance_label.visibility = View.GONE
                     tv_total_distance.visibility = View.GONE
                     tv_time_label.visibility = View.GONE
@@ -324,12 +322,14 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                     } else {
                         cash_lay.visibility = View.GONE
                     }
+
                     if (user.online == 1) {
                         paymentMode = "online"
                         online_lay.visibility = View.VISIBLE
                     } else {
                         online_lay.visibility = View.GONE
                     }
+
                 }
             }
         })
@@ -354,8 +354,6 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             dismissIOSProgress()
             if (user.error_code==200){
                 paySuccessPopUp()
-            }else{
-
             }
         }
 
