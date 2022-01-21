@@ -100,6 +100,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
             }
         }
         showIOSProgress()
+
         if (sessionInstance.isLoggedIn) {
             viewModel!!.keywordBasedSearchResultsApi(
                 sessionTwiclo!!.loggedInUserDetail.accountId,
@@ -119,34 +120,38 @@ class NewSearchStoreListingActivity : BaseActivity() {
                 pagecount.toString()
             )
         }
+
         onResponse()
+
     }
 
     private fun onResponse() {
-
         viewModel!!.keywordBasedSearchResultsRes!!.observe(this, {
             dismissIOSProgress()
             swipeRefreshLaySearch.isRefreshing=false
+
             if (it.error_code == 200) {
                 hit = 0
                 isMore = it.more_value
                 latestList!!.clear()
 
-                //   binding.showingResult.text = "Showing Result (" + it.total_count.toString() + ")"
+                // binding.showingResult.text = "Showing Result (" + it.total_count.toString() + ")"
 
                 if (pagecount > 0) {
+
                     latestList = it.stores as ArrayList
                     mainList!!.addAll(latestList!!)
                     searchCategoryStoreAdapter!!.updateData(mainList!!, isMore)
                     searchCategoryStoreAdapter!!.notifyDataSetChanged()
+
                 } else {
                     mainList = it.stores as ArrayList
                     rvCategoryList(mainList!!)
                 }
 
             }
-        })
 
+        })
     }
 
     private fun rvCategoryList(arrayList: ArrayList<Store>) {
@@ -255,6 +260,6 @@ class NewSearchStoreListingActivity : BaseActivity() {
             restaurantProductsDatabase!!.resProductsDaoAccess()!!.deleteAll()
 
         }.start()
-
     }
+
 }
