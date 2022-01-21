@@ -29,7 +29,6 @@ import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 import com.fidoo.user.grocerynewui.activity.GroceryNewUiActivity
 import com.fidoo.user.newsearch.ui.NewSearchActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
-import com.fidoo.user.search.ui.SearchItemActivity
 import com.fidoo.user.store.adapter.RestaurantCurationsAdapter
 import com.fidoo.user.store.adapter.StoreAdapter
 import com.fidoo.user.store.model.StoreListingModel
@@ -42,6 +41,7 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_store_list.*
+import kotlinx.android.synthetic.main.activity_store_list.view.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
 
 @Suppress("DEPRECATION")
@@ -87,6 +87,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 	private var isMore = false
 	private var hit = 0
 	private var pagecount = 0
+	private var loader = 0
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -101,8 +102,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 		storeListUpdated = ArrayList()
 
 		Log.d("storemain_list", "storemain")
-		val mainText =
-			"<span style=\"color:#339347\">Choose </span> <span>Your <br/>Favorite</span> <span style=\"color:#339347\">Store</span></string>"
+		val mainText = "<span style=\"color:#339347\">Choose </span> <span>Your <br/>Favorite</span> <span style=\"color:#339347\">Store</span></string>"
 
 //		tv_choose_your_fav_store.text =
 //			HtmlCompat.fromHtml(mainText, HtmlCompat.FROM_HTML_MODE_COMPACT)
@@ -115,6 +115,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 		this.windowManager.defaultDisplay.getMetrics(displayMetrics)
 		//  int height = displayMetrics.heightPixels;
 		//  int height = displayMetrics.heightPixels;
+
 		width = (displayMetrics.widthPixels - 100) / 4
 
 		backIcon.setOnClickListener {
@@ -148,6 +149,12 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			relevancePopUp()
 		}
 
+		swipeRefreshLay!!.setOnRefreshListener {
+			loader=1
+			swipeRefreshLay.isRefreshing=false
+			deleteRoomDataBase()
+			apicall(serive_id_)
+		}
 
 //		storeVisibilityNested.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
 //
@@ -335,13 +342,17 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 			}
 		})
+
 	}
 
 
 	private fun apicall(serive_id: String?) {
 
 		if (isNetworkConnected) {
-			fidooLoaderShow()
+			if (loader==0){
+				fidooLoaderShow()
+			}
+
 			if (SessionTwiclo(this).isLoggedIn) {
 
 				if (serive_id != null) {
@@ -446,9 +457,9 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 		storeListingViewModel?.getStoresApi?.observe(this, Observer { user ->
 			linear_progress_indicator.visibility = View.GONE
-			//	storeVisibilityNested.visibility = View.VISIBLE
 			Log.e("stores_response", Gson().toJson(user))
 			fidooLoaderCancel()
+			swipeRefreshLay.isRefreshing=false
 
 			if (user != null) {
 
@@ -458,9 +469,9 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 					storeListUpdated!!.clear()
 
 					hit=0
+
 					if (pagecount==0) {
 						curationList = mModelData.curations as ArrayList
-
 						if (curationList!!.isNotEmpty()) {
 
 							var curationsAdapter = RestaurantCurationsAdapter(
@@ -502,7 +513,6 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 							curation_RecyclerView.visibility = View.GONE
 							sortRl.visibility = View.GONE
 						}
-
 					}
 
 					isMore = user.more_value

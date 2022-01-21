@@ -48,477 +48,486 @@ import java.io.File
 
 @Suppress("DEPRECATION")
 class OrdersFragment : Fragment(),
-    AdapterReviewClick {
+	AdapterReviewClick {
 
-    var viewmodel: MyOrdersFragmentViewModel? = null
-    var viewmodelusertrack: UserTrackerViewModel? = null
-    private var _progressDlg: ProgressDialog? = null
-    var orderIdTemp: String? = ""
-    var mmContext: Context? = null
-    var fragmentOrdersBinding: FragmentOrdersBinding? = null
-    var checkStatusOfReview: Int = 0
+	var viewmodel: MyOrdersFragmentViewModel? = null
+	var viewmodelusertrack: UserTrackerViewModel? = null
+	private var _progressDlg: ProgressDialog? = null
+	var orderIdTemp: String? = ""
+	var mmContext: Context? = null
+	var fragmentOrdersBinding: FragmentOrdersBinding? = null
+	var checkStatusOfReview: Int = 0
+	var ordersList: ArrayList<MyOrdersModel.Order>?=null
 
-    companion object {
-        var handleApiResponse: Int = 0
-        var handleApiResponseForSendPackage: Int = 0
-    }
+	companion object {
+		var handleApiResponse: Int = 0
+		var handleApiResponseForSendPackage: Int = 0
+	}
 
-    lateinit var analytics: FirebaseAnalytics
-    var cancelOrderDialog: Dialog? = null
+	lateinit var analytics: FirebaseAnalytics
+	var cancelOrderDialog: Dialog? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        fragmentOrdersBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_orders, container, false)
+	override fun onCreateView(
+		inflater: LayoutInflater, container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View? {
+		fragmentOrdersBinding =
+			DataBindingUtil.inflate(inflater, R.layout.fragment_orders, container, false)
 
-        viewmodel =
-            ViewModelProviders.of(requireActivity()).get(MyOrdersFragmentViewModel::class.java)
-        viewmodelusertrack =
-            ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
-        analytics = FirebaseAnalytics.getInstance(requireContext())
+		viewmodel =
+			ViewModelProviders.of(requireActivity()).get(MyOrdersFragmentViewModel::class.java)
+		viewmodelusertrack =
+			ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
+		analytics = FirebaseAnalytics.getInstance(requireContext())
+		ordersList=ArrayList()
+
+		val bundle = Bundle()
+		bundle.putString("oncreate", "oncreate")
+		bundle.putString("OrderList_Screen", "OrderList Screen")
+		analytics.logEvent("Orderlist_Screen", bundle)
+
+		try {
+			_progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
+			_progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+			_progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+
+			_progressDlg!!.setCancelable(false)
+			_progressDlg!!.show()
+		} catch (ex: Exception) {
+			Log.wtf("IOS_error_starting", ex.cause!!)
+		}
+		ApiCall()
 
 
-        val bundle = Bundle()
-        bundle.putString("oncreate", "oncreate")
-        bundle.putString("OrderList_Screen", "OrderList Screen")
-        analytics.logEvent("Orderlist_Screen", bundle)
+		fragmentOrdersBinding?.noInternetLlInclude!!.retryOnRefresh.setOnClickListener {
+			if ((activity as MainActivity).isNetworkConnected) {
 
-        try {
-            _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
-            _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+				try {
+					_progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
+					_progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+					_progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
 
-            _progressDlg!!.setCancelable(false)
-            _progressDlg!!.show()
-        } catch (ex: Exception) {
-            Log.wtf("IOS_error_starting", ex.cause!!)
-        }
-
-        if ((activity as MainActivity).isNetworkConnected) {
-
-            if (SessionTwiclo(requireContext()).isLoggedIn) {
-                viewmodel?.getMyOrders(
-                    SessionTwiclo(activity).loggedInUserDetail.accountId,
-                    SessionTwiclo(activity).loggedInUserDetail.accessToken
-                )
-                viewmodelusertrack?.customerActivityLog(
-                    SessionTwiclo(activity).loggedInUserDetail.accountId,
-                    SessionTwiclo(activity).mobileno,
-                    "OrderList Screen",
-                    SplashActivity.appversion,
-                    StoreListActivity.serive_id_,
-                    SessionTwiclo(activity).deviceToken
-                )
-            } else {
-                _progressDlg!!.dismiss()
-                fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
-//                Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG)
-//                    .show()
-            }
-
-        } else {
-            _progressDlg!!.dismiss()
-            fragmentOrdersBinding?.ordersRecyclerView!!.visibility = View.GONE
-            fragmentOrdersBinding?.noInternetLlInclude!!.noInternetLl.visibility = View.VISIBLE
-        }
-
-        fragmentOrdersBinding?.noInternetLlInclude!!.retryOnRefresh.setOnClickListener {
-            if ((activity as MainActivity).isNetworkConnected) {
-
-                try {
-                    _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
-                    _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-
-                    _progressDlg!!.setCancelable(false)
-                    _progressDlg!!.show()
-                } catch (ex: Exception) {
-                    Log.wtf("IOS_error_starting", ex.cause!!)
-                }
-                if (SessionTwiclo(requireContext()).isLoggedIn) {
-                    viewmodel?.getMyOrders(
-                        SessionTwiclo(activity).loggedInUserDetail.accountId,
-                        SessionTwiclo(activity).loggedInUserDetail.accessToken
-                    )
-                } else {
-                    _progressDlg!!.dismiss()
-                    fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+					_progressDlg!!.setCancelable(false)
+					_progressDlg!!.show()
+				} catch (ex: Exception) {
+					Log.wtf("IOS_error_starting", ex.cause!!)
+				}
+				if (SessionTwiclo(requireContext()).isLoggedIn) {
+					viewmodel?.getMyOrders(
+						SessionTwiclo(activity).loggedInUserDetail.accountId,
+						SessionTwiclo(activity).loggedInUserDetail.accessToken
+					)
+				} else {
+					_progressDlg!!.dismiss()
+					fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
 //                    Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG)
 //                        .show()
-                }
+				}
 
 
-            } else {
-                _progressDlg!!.dismiss()
-                fragmentOrdersBinding?.ordersRecyclerView!!.visibility = View.GONE
-                fragmentOrdersBinding?.noInternetLlInclude!!.noInternetLl.visibility = View.VISIBLE
-                (activity as MainActivity).showInternetToast()
-            }
-        }
+			} else {
+				_progressDlg!!.dismiss()
+				fragmentOrdersBinding?.ordersRecyclerView!!.visibility = View.GONE
+				fragmentOrdersBinding?.noInternetLlInclude!!.noInternetLl.visibility = View.VISIBLE
+				(activity as MainActivity).showInternetToast()
+			}
+		}
+
+		fragmentOrdersBinding?.swipeRefreshLayOrd!!.setOnRefreshListener {
+			ApiCall()
+		}
+
+		viewmodel?.failureResponse?.observe(requireActivity(), Observer { user ->
+			//dismissIOSProgress()
+			if (_progressDlg != null) {
+
+				_progressDlg!!.dismiss()
+				_progressDlg = null
+			}
+			Log.e("cart response", Gson().toJson(user))
+			//showToast(user)
+			Toast.makeText(mmContext, user, Toast.LENGTH_SHORT).show()
 
 
-        viewmodel?.failureResponse?.observe(requireActivity(), Observer { user ->
-            //dismissIOSProgress()
-            if (_progressDlg != null) {
+			//   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+		})
 
-                _progressDlg!!.dismiss()
-                _progressDlg = null
-            }
-            Log.e("cart response", Gson().toJson(user))
-            //showToast(user)
-            Toast.makeText(mmContext, user, Toast.LENGTH_SHORT).show()
+		viewmodel?.myOrdersResponse?.observe(requireActivity(), Observer { user ->
+			if (_progressDlg != null) {
+				_progressDlg!!.dismiss()
+				fragmentOrdersBinding?.ordersRecyclerView!!.visibility = View.VISIBLE
+				fragmentOrdersBinding?.noInternetLlInclude!!.noInternetLl.visibility = View.GONE
+				_progressDlg = null
+			}
 
+			fragmentOrdersBinding?.swipeRefreshLayOrd!!.isRefreshing=false
+			ordersList!!.clear()
 
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })
+			if (!user.error) {
+				val mModelData: MyOrdersModel = user
+				Log.e("ordersResponse", Gson().toJson(mModelData))
+				ordersList= mModelData.orders as ArrayList
+				if (mModelData.orders != null) {
+					orderRv(ordersList!!)
+					fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
+				} else {
+					fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+					// Toast.makeText(context,"No Orders", Toast.LENGTH_SHORT).show()
+				}
+				handleApiResponse = 0
+			} else {
+				if (user.errorCode == 101) {
+					showAlertDialog(requireContext())
+				}
+			}
+		})
 
-        viewmodel?.myOrdersResponse?.observe(requireActivity(), Observer { user ->
-            if (_progressDlg != null) {
-                _progressDlg!!.dismiss()
-                fragmentOrdersBinding?.ordersRecyclerView!!.visibility = View.VISIBLE
-                fragmentOrdersBinding?.noInternetLlInclude!!.noInternetLl.visibility = View.GONE
-                _progressDlg = null
-            }
+		viewmodel?.reviewResponse?.observe(requireActivity(), { user ->
+			if (checkStatusOfReview == 1) {
+				dismissIOSProgress()
+				if (_progressDlg != null) {
 
-            if (!user.error) {
-                val mModelData: MyOrdersModel = user
-                Log.e("ordersResponse", Gson().toJson(mModelData))
-                if (mModelData.orders != null) {
-                    orderRv(mModelData!!)
-                    fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
-                } else {
-                    fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
-                    // Toast.makeText(context,"No Orders", Toast.LENGTH_SHORT).show()
-                }
-                handleApiResponse = 0
-            } else {
-                if (user.errorCode == 101) {
-                    showAlertDialog(requireContext())
-                }
-            }
-        })
-
-        viewmodel?.reviewResponse?.observe(requireActivity(), { user ->
-            if (checkStatusOfReview == 1) {
-                dismissIOSProgress()
-                if (_progressDlg != null) {
-
-                    _progressDlg!!.dismiss()
-                    _progressDlg = null
-                }
+					_progressDlg!!.dismiss()
+					_progressDlg = null
+				}
 
 
-                val mModelData: ReviewModel = user
-                Log.e("reviewResponse", Gson().toJson(mModelData))
-                // Toast.makeText(requireContext(), user.message, Toast.LENGTH_SHORT).show()
-                viewmodel?.getMyOrders(
-                    SessionTwiclo(activity).loggedInUserDetail.accountId,
-                    SessionTwiclo(activity).loggedInUserDetail.accessToken
-                )
-            }
+				val mModelData: ReviewModel = user
+				Log.e("reviewResponse", Gson().toJson(mModelData))
+				// Toast.makeText(requireContext(), user.message, Toast.LENGTH_SHORT).show()
+				viewmodel?.getMyOrders(
+					SessionTwiclo(activity).loggedInUserDetail.accountId,
+					SessionTwiclo(activity).loggedInUserDetail.accessToken
+				)
+			}
 
-        })
+		})
 
-        viewmodel?.orderFeedback?.observe(requireActivity(), { feedback ->
-            if (checkStatusOfReview == 1) {
-                dismissIOSProgress()
-                if (_progressDlg != null) {
+		viewmodel?.orderFeedback?.observe(requireActivity(), { feedback ->
+			if (checkStatusOfReview == 1) {
+				dismissIOSProgress()
+				if (_progressDlg != null) {
 
-                    _progressDlg!!.dismiss()
-                    _progressDlg = null
-                }
+					_progressDlg!!.dismiss()
+					_progressDlg = null
+				}
 
 
-                val model: Feedback = feedback
-                Toast.makeText(context, model.message, Toast.LENGTH_SHORT).show()
-                viewmodel?.getMyOrders(
-                    SessionTwiclo(activity).loggedInUserDetail.accountId,
-                    SessionTwiclo(activity).loggedInUserDetail.accessToken
-                )
-            }
-        })
+				val model: Feedback = feedback
+				Toast.makeText(context, model.message, Toast.LENGTH_SHORT).show()
+				viewmodel?.getMyOrders(
+					SessionTwiclo(activity).loggedInUserDetail.accountId,
+					SessionTwiclo(activity).loggedInUserDetail.accessToken
+				)
+			}
+		})
 
-        viewmodel?.uploadPrescriptionResponse?.observe(requireActivity(), { user ->
-            dismissIOSProgress()
-            if (_progressDlg != null) {
+		viewmodel?.uploadPrescriptionResponse?.observe(requireActivity(), { user ->
+			dismissIOSProgress()
+			if (_progressDlg != null) {
 
-                _progressDlg!!.dismiss()
-                _progressDlg = null
-            }
-            val mModelData: UploadPresModel = user
+				_progressDlg!!.dismiss()
+				_progressDlg = null
+			}
+			val mModelData: UploadPresModel = user
 
-            Log.e("uploadResponse", Gson().toJson(mModelData))
+			Log.e("uploadResponse", Gson().toJson(mModelData))
 
-        })
+		})
 
 //        viewmodel?.cancelOrderResponse?.observe(requireActivity(), { user ->
 //
 //        })
 
-        viewmodel?.repeatOrderResponse?.observe(requireActivity(), {  response ->
-            Log.e("repeatOrderResponse",Gson().toJson(response))
-            dismissProgressBar()
-            if (response.error_code == 200) {
-                    AppUtils.startActivityRightToLeft(
-                        requireActivity(), Intent(requireContext(), CartActivity::class.java).putExtra(
-                            "storeId", SessionTwiclo(context).storeId
-                        )
-                    )
-            }
-        })
+		viewmodel?.repeatOrderResponse?.observe(requireActivity(), { response ->
+			Log.e("repeatOrderResponse", Gson().toJson(response))
+			dismissProgressBar()
+			if (response.error_code == 200) {
+				AppUtils.startActivityRightToLeft(
+					requireActivity(), Intent(requireContext(), CartActivity::class.java).putExtra(
+						"storeId", SessionTwiclo(context).storeId
+					)
+				)
+			}
+		})
 
-        return fragmentOrdersBinding?.root
-    }
+		return fragmentOrdersBinding?.root
+	}
 
-    private fun orderRv(model: MyOrdersModel) {
-        val adapter =
-            OrdersAdapter(mmContext, model.orders, this, object : OrdersAdapter.OnOrderItemClick {
-                override fun onCancelOrder(orders: MyOrdersModel.Order, pos: Int) {
+	private fun ApiCall() {
+		if ((activity as MainActivity).isNetworkConnected) {
+			if (SessionTwiclo(requireContext()).isLoggedIn) {
+				viewmodel?.getMyOrders(
+					SessionTwiclo(activity).loggedInUserDetail.accountId,
+					SessionTwiclo(activity).loggedInUserDetail.accessToken
+				)
+				viewmodelusertrack?.customerActivityLog(
+					SessionTwiclo(activity).loggedInUserDetail.accountId,
+					SessionTwiclo(activity).mobileno,
+					"OrderList Screen",
+					SplashActivity.appversion,
+					StoreListActivity.serive_id_,
+					SessionTwiclo(activity).deviceToken
+				)
+			} else {
+				_progressDlg!!.dismiss()
+				fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+			}
+
+		} else {
+			_progressDlg!!.dismiss()
+			fragmentOrdersBinding?.ordersRecyclerView!!.visibility = View.GONE
+			fragmentOrdersBinding?.noInternetLlInclude!!.noInternetLl.visibility = View.VISIBLE
+		}
+	}
+
+	private fun orderRv(orders: MutableList<MyOrdersModel.Order>) {
+		val adapter =
+			OrdersAdapter(mmContext, orders, this, object : OrdersAdapter.OnOrderItemClick {
+				override fun onCancelOrder(orders: MyOrdersModel.Order, pos: Int) {
 //                if (orders.orderId!=null){
 //                    cancelOrderDialog(orders.orderId)
 //                }
 
 
-                }
+				}
 
-                override fun onRepeatOrder(orders: MyOrdersModel.Order, pos: Int) {
-                    //repeat order
-                    showProgressBar()
-                    viewmodel?.repeatOrderApi(
-                        SessionTwiclo(activity).loggedInUserDetail.accountId,
-                        SessionTwiclo(activity).loggedInUserDetail.accessToken,
-                        orders.orderId
-                    )
+				override fun onRepeatOrder(orders: MyOrdersModel.Order, pos: Int) {
+					//repeat order
+					showProgressBar()
+					viewmodel?.repeatOrderApi(
+						SessionTwiclo(activity).loggedInUserDetail.accountId,
+						SessionTwiclo(activity).loggedInUserDetail.accessToken,
+						orders.orderId
+					)
 
-                }
-            })
-        fragmentOrdersBinding?.ordersRecyclerView?.layoutManager = GridLayoutManager(context, 1)
-        fragmentOrdersBinding?.ordersRecyclerView?.setHasFixedSize(true)
-        fragmentOrdersBinding?.ordersRecyclerView?.adapter = adapter
-    }
-
-
-    override fun onReviewDoneClick(
-        orderId: String?,
-        storeRating: String?,
-        reviewStore: String?,
-        ratingDriver: String?,
-        reviewDriver: String?
-    ) {
-        try {
-            _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
-            _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-
-            _progressDlg!!.setCancelable(false)
-            _progressDlg!!.show()
-        } catch (ex: Exception) {
-            Log.wtf("IOS_error_starting", ex.cause!!)
-        }
-        checkStatusOfReview = 1
-        viewmodel?.reviewSubmitApi(
-            SessionTwiclo(activity).loggedInUserDetail.accountId,
-            SessionTwiclo(activity).loggedInUserDetail.accessToken,
-            orderId,
-            storeRating,
-            reviewStore,
-            ratingDriver,
-            reviewDriver
-        )
-
-    }
-
-    override fun onReviewSubmit(
-        orderId: String?,
-        star: String?,
-        improvement: String?,
-        message: String?,
-        type: String?
-    ) {
-        // Log.d("orderId____",orderId+"---"+star+"---"+improvement+"---"+message+"--"+type)
-
-        try {
-            _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
-            _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-
-            _progressDlg!!.setCancelable(false)
-            _progressDlg!!.show()
-        } catch (ex: Exception) {
-            Log.wtf("IOS_error_starting", ex.cause!!)
-        }
-        checkStatusOfReview = 1
-        viewmodel?.addfeedbackApi(
-            SessionTwiclo(activity).loggedInUserDetail.accountId,
-            SessionTwiclo(activity).loggedInUserDetail.accessToken,
-            orderId,
-            star,
-            improvement,
-            message,
-            type
-        )
-
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            //Image Uri will not be null for RESULT_OK
-            val fileUri = data?.data
-            // imgProfile.setImageURI(fileUri)
-
-            val file: File = ImagePicker.getFile(data)!!
-
-            //You can also get File Path from intent
-            val filePath: String = ImagePicker.getFilePath(data)!!
-            uplaodGallaryImage(orderIdTemp, data?.data!!.path!!)
-        } else if (resultCode == ImagePicker.RESULT_ERROR) {
-            Toast.makeText(mmContext, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(mmContext, "Task Cancelled", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    fun uplaodGallaryImage(orderId: String?, mImagePth: String?) {
-        Log.e("orderId", orderId.toString())
-        Log.e("mImagePth", mImagePth.toString())
-        Log.e("accountId", SessionTwiclo(activity).loggedInUserDetail.accountId.toString())
-        Log.e("accessToken", SessionTwiclo(activity).loggedInUserDetail.accessToken.toString())
-        var mImageParts: MultipartBody.Part? = null
-        // creating image format for upload
-        mImageParts = if (!TextUtils.isEmpty(mImagePth)) {
-            val file = File(mImagePth)
-            val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
-            MultipartBody.Part.createFormData("document", file.name, requestFile)
-        } else {
-            val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), "")
-            MultipartBody.Part.createFormData("document", "", requestFile)
-        }
-        // Parameter request body
-        val accountId = RequestBody.create(
-            "text/plain".toMediaTypeOrNull(),
-            SessionTwiclo(activity).loggedInUserDetail.accountId
-        )  // Parameter request body
-        val accessToken = RequestBody.create(
-            "text/plain".toMediaTypeOrNull(),
-            SessionTwiclo(activity).loggedInUserDetail.accessToken
-        )  // Parameter request body
-        val orderId = RequestBody.create("text/plain".toMediaTypeOrNull(), orderId!!)
-        try {
-            _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
-            _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-
-            _progressDlg!!.setCancelable(false)
-            _progressDlg!!.show()
-        } catch (ex: Exception) {
-            Log.wtf("IOS_error_starting", ex.cause!!)
-        }
-        viewmodel?.uploadPrescriptionImage(accountId, accessToken, orderId, mImageParts)
+				}
+			})
+		fragmentOrdersBinding?.ordersRecyclerView?.layoutManager = GridLayoutManager(context, 1)
+		fragmentOrdersBinding?.ordersRecyclerView?.setHasFixedSize(true)
+		fragmentOrdersBinding?.ordersRecyclerView?.adapter = adapter
+	}
 
 
-    }
+	override fun onReviewDoneClick(
+		orderId: String?,
+		storeRating: String?,
+		reviewStore: String?,
+		ratingDriver: String?,
+		reviewDriver: String?
+	) {
+		try {
+			_progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
+			_progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+			_progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
 
-    private fun cancelOrderDialog(order_id: String) {
-        cancelOrderDialog = Dialog(requireContext())
-        cancelOrderDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        cancelOrderDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        cancelOrderDialog?.setContentView(R.layout.logout_popup)
-        cancelOrderDialog?.window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        cancelOrderDialog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
-        cancelOrderDialog?.setCanceledOnTouchOutside(true)
-        cancelOrderDialog?.show()
-        val cencelBtn = cancelOrderDialog?.findViewById<CardView>(R.id.cencelBtn)
-        val logoutBtn = cancelOrderDialog?.findViewById<CardView>(R.id.logoutBtn)
-        val rll_logout = cancelOrderDialog?.findViewById<RelativeLayout>(R.id.rll_logout)
-        val message_txt = cancelOrderDialog?.findViewById<TextView>(R.id.message_txt)
-        val cancel_txt = cancelOrderDialog?.findViewById<TextView>(R.id.cancel_txt)
-        val yes_txt = cancelOrderDialog?.findViewById<TextView>(R.id.yes_txt)
+			_progressDlg!!.setCancelable(false)
+			_progressDlg!!.show()
+		} catch (ex: Exception) {
+			Log.wtf("IOS_error_starting", ex.cause!!)
+		}
+		checkStatusOfReview = 1
+		viewmodel?.reviewSubmitApi(
+			SessionTwiclo(activity).loggedInUserDetail.accountId,
+			SessionTwiclo(activity).loggedInUserDetail.accessToken,
+			orderId,
+			storeRating,
+			reviewStore,
+			ratingDriver,
+			reviewDriver
+		)
 
-        message_txt!!.text = "Are you sure you want to cancel this order?"
-        cancel_txt!!.text = "No"
-        yes_txt!!.text = "Yes"
+	}
 
-        cencelBtn?.setOnClickListener {
-            cancelOrderDialog?.dismiss()
-        }
-        rll_logout?.setOnClickListener {
-            //    cancelOrderDialog?.dismiss()
-        }
+	override fun onReviewSubmit(
+		orderId: String?,
+		star: String?,
+		improvement: String?,
+		message: String?,
+		type: String?
+	) {
+		// Log.d("orderId____",orderId+"---"+star+"---"+improvement+"---"+message+"--"+type)
 
-        logoutBtn?.setOnClickListener {
-            viewmodel!!.cancelOrderApi(
-                SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
-                SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
-                order_id
-            )
-            cancelOrderDialog?.dismiss()
+		try {
+			_progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
+			_progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+			_progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
 
-        }
+			_progressDlg!!.setCancelable(false)
+			_progressDlg!!.show()
+		} catch (ex: Exception) {
+			Log.wtf("IOS_error_starting", ex.cause!!)
+		}
+		checkStatusOfReview = 1
+		viewmodel?.addfeedbackApi(
+			SessionTwiclo(activity).loggedInUserDetail.accountId,
+			SessionTwiclo(activity).loggedInUserDetail.accessToken,
+			orderId,
+			star,
+			improvement,
+			message,
+			type
+		)
 
-    }
+	}
+
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		if (resultCode == Activity.RESULT_OK) {
+			//Image Uri will not be null for RESULT_OK
+			val fileUri = data?.data
+			// imgProfile.setImageURI(fileUri)
+
+			val file: File = ImagePicker.getFile(data)!!
+
+			//You can also get File Path from intent
+			val filePath: String = ImagePicker.getFilePath(data)!!
+			uplaodGallaryImage(orderIdTemp, data?.data!!.path!!)
+		} else if (resultCode == ImagePicker.RESULT_ERROR) {
+			Toast.makeText(mmContext, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+		} else {
+			Toast.makeText(mmContext, "Task Cancelled", Toast.LENGTH_SHORT).show()
+		}
+	}
+
+	fun uplaodGallaryImage(orderId: String?, mImagePth: String?) {
+		Log.e("orderId", orderId.toString())
+		Log.e("mImagePth", mImagePth.toString())
+		Log.e("accountId", SessionTwiclo(activity).loggedInUserDetail.accountId.toString())
+		Log.e("accessToken", SessionTwiclo(activity).loggedInUserDetail.accessToken.toString())
+		var mImageParts: MultipartBody.Part? = null
+		// creating image format for upload
+		mImageParts = if (!TextUtils.isEmpty(mImagePth)) {
+			val file = File(mImagePth)
+			val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+			MultipartBody.Part.createFormData("document", file.name, requestFile)
+		} else {
+			val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), "")
+			MultipartBody.Part.createFormData("document", "", requestFile)
+		}
+		// Parameter request body
+		val accountId = RequestBody.create(
+			"text/plain".toMediaTypeOrNull(),
+			SessionTwiclo(activity).loggedInUserDetail.accountId
+		)  // Parameter request body
+		val accessToken = RequestBody.create(
+			"text/plain".toMediaTypeOrNull(),
+			SessionTwiclo(activity).loggedInUserDetail.accessToken
+		)  // Parameter request body
+		val orderId = RequestBody.create("text/plain".toMediaTypeOrNull(), orderId!!)
+		try {
+			_progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
+			_progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+			_progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+
+			_progressDlg!!.setCancelable(false)
+			_progressDlg!!.show()
+		} catch (ex: Exception) {
+			Log.wtf("IOS_error_starting", ex.cause!!)
+		}
+		viewmodel?.uploadPrescriptionImage(accountId, accessToken, orderId, mImageParts)
 
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mmContext = context
-    }
+	}
 
-    override fun onResume() {
-        super.onResume()
+	private fun cancelOrderDialog(order_id: String) {
+		cancelOrderDialog = Dialog(requireContext())
+		cancelOrderDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		cancelOrderDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+		cancelOrderDialog?.setContentView(R.layout.logout_popup)
+		cancelOrderDialog?.window?.setLayout(
+			WindowManager.LayoutParams.MATCH_PARENT,
+			WindowManager.LayoutParams.MATCH_PARENT
+		)
+		cancelOrderDialog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+		cancelOrderDialog?.setCanceledOnTouchOutside(true)
+		cancelOrderDialog?.show()
+		val cencelBtn = cancelOrderDialog?.findViewById<CardView>(R.id.cencelBtn)
+		val logoutBtn = cancelOrderDialog?.findViewById<CardView>(R.id.logoutBtn)
+		val rll_logout = cancelOrderDialog?.findViewById<RelativeLayout>(R.id.rll_logout)
+		val message_txt = cancelOrderDialog?.findViewById<TextView>(R.id.message_txt)
+		val cancel_txt = cancelOrderDialog?.findViewById<TextView>(R.id.cancel_txt)
+		val yes_txt = cancelOrderDialog?.findViewById<TextView>(R.id.yes_txt)
 
-        if ((activity as MainActivity).isNetworkConnected) {
-            if (SessionTwiclo(requireContext()).isLoggedIn) {
-                if (handleApiResponse == 1||handleApiResponseForSendPackage==1) {
-                    viewmodel?.getMyOrders(
-                        SessionTwiclo(activity).loggedInUserDetail.accountId,
-                        SessionTwiclo(activity).loggedInUserDetail.accessToken
-                    )
-                }
-            } else {
-                fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
-            }
+		message_txt!!.text = "Are you sure you want to cancel this order?"
+		cancel_txt!!.text = "No"
+		yes_txt!!.text = "Yes"
 
-            fragmentOrdersBinding?.ordersRecyclerView!!.visibility = View.VISIBLE
-            fragmentOrdersBinding?.noInternetLlInclude!!.noInternetLl.visibility = View.GONE
-        } else {
-            _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
-            if (_progressDlg != null) {
-                _progressDlg!!.dismiss()
-                (activity as MainActivity).showInternetToast()
-            }
-            fragmentOrdersBinding?.ordersRecyclerView!!.visibility = View.GONE
-            fragmentOrdersBinding?.noInternetLlInclude!!.noInternetLl.visibility = View.VISIBLE
-        }
+		cencelBtn?.setOnClickListener {
+			cancelOrderDialog?.dismiss()
+		}
+		rll_logout?.setOnClickListener {
+			//    cancelOrderDialog?.dismiss()
+		}
 
-    }
+		logoutBtn?.setOnClickListener {
+			viewmodel!!.cancelOrderApi(
+				SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+				SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
+				order_id
+			)
+			cancelOrderDialog?.dismiss()
 
-    fun showProgressBar() {
-        try {
-            _progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
-            _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+		}
 
-            _progressDlg!!.setCancelable(false)
-            _progressDlg!!.show()
-        } catch (ex: Exception) {
-            Log.wtf("IOS_error_starting", ex.cause!!)
-        }
-    }
+	}
 
-    fun dismissProgressBar() {
-        try {
-            if (_progressDlg != null) {
-                _progressDlg!!.dismiss()
-            }
-        }catch (e:Exception){
-            e.printStackTrace()
-        }
 
-    }
+	override fun onAttach(context: Context) {
+		super.onAttach(context)
+		mmContext = context
+	}
+
+	override fun onResume() {
+		super.onResume()
+
+		if ((activity as MainActivity).isNetworkConnected) {
+			if (SessionTwiclo(requireContext()).isLoggedIn) {
+				if (handleApiResponse == 1 || handleApiResponseForSendPackage == 1) {
+					viewmodel?.getMyOrders(
+						SessionTwiclo(activity).loggedInUserDetail.accountId,
+						SessionTwiclo(activity).loggedInUserDetail.accessToken
+					)
+				}
+			} else {
+				fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+			}
+
+			fragmentOrdersBinding?.ordersRecyclerView!!.visibility = View.VISIBLE
+			fragmentOrdersBinding?.noInternetLlInclude!!.noInternetLl.visibility = View.GONE
+		} else {
+			_progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
+			if (_progressDlg != null) {
+				_progressDlg!!.dismiss()
+				(activity as MainActivity).showInternetToast()
+			}
+			fragmentOrdersBinding?.ordersRecyclerView!!.visibility = View.GONE
+			fragmentOrdersBinding?.noInternetLlInclude!!.noInternetLl.visibility = View.VISIBLE
+		}
+
+	}
+
+	fun showProgressBar() {
+		try {
+			_progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
+			_progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+			_progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+
+			_progressDlg!!.setCancelable(false)
+			_progressDlg!!.show()
+		} catch (ex: Exception) {
+			Log.wtf("IOS_error_starting", ex.cause!!)
+		}
+	}
+
+	fun dismissProgressBar() {
+		try {
+			if (_progressDlg != null) {
+				_progressDlg!!.dismiss()
+			}
+		} catch (e: Exception) {
+			e.printStackTrace()
+		}
+
+	}
 }

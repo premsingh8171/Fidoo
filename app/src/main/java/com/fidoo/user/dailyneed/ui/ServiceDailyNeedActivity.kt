@@ -65,7 +65,8 @@ class ServiceDailyNeedActivity : BaseActivity(), ItemOnClickListener {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_service_daily_need)
-		viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(DailyNeedViewModel::class.java)
+		viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+			.create(DailyNeedViewModel::class.java)
 		val metrics: DisplayMetrics = this.getResources().getDisplayMetrics()
 		width = metrics.widthPixels
 		sessionTwiclo = SessionTwiclo(this)
@@ -82,15 +83,19 @@ class ServiceDailyNeedActivity : BaseActivity(), ItemOnClickListener {
 		customIdsList = ArrayList()
 
 		onClick()
+		fidooLoaderShow()
 		apiHit()
 		responseObserve()
+		swipeRefreshLayDaily.setOnRefreshListener {
+			apiHit()
+		}
 
 	}
 
 	private fun apiHit() {
 		if (isNetworkConnected) {
 			//showIOSProgress()
-			fidooLoaderShow()
+
 			if (SessionTwiclo(this).isLoggedIn) {
 				viewmodel?.getCartCountApi(
 					SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -119,27 +124,27 @@ class ServiceDailyNeedActivity : BaseActivity(), ItemOnClickListener {
 
 	private fun responseObserve() {
 
-		//for serviceDetailsPrdDrivenRes
 		viewmodel?.serviceDetailsPrdDrivenRes?.observe(this, {
 			Log.d("serviceDetails__", Gson().toJson(it))
-		//	dismissIOSProgress()
+			//	dismissIOSProgress()
 			dataList = it.data as ArrayList
-			dataList = it.data as ArrayList
-			Log.d("serviceDetails__", dataList!!.size.toString())
-           fidooLoaderCancel()
 
-			if (dataList!!.size!=0) {
-				no_itemsFound_res.visibility=View.GONE
-				no_item_foundll.visibility=View.GONE
+			Log.d("serviceDetails__", dataList!!.size.toString())
+			fidooLoaderCancel()
+			swipeRefreshLayDaily.isRefreshing = false
+
+			if (dataList!!.size != 0) {
+				no_itemsFound_res.visibility = View.GONE
+				no_item_foundll.visibility = View.GONE
 				if (product_Update == 0) {
 					rvList(dataList!!)
 				} else {
 					updateList = it.data
 					dailyNeedMainAdapter!!.updateData(updateList!!)
 				}
-			}else{
-				no_itemsFound_res.visibility=View.VISIBLE
-				no_item_foundll.visibility=View.VISIBLE
+			} else {
+				no_itemsFound_res.visibility = View.VISIBLE
+				no_item_foundll.visibility = View.VISIBLE
 			}
 
 		})
@@ -273,7 +278,10 @@ class ServiceDailyNeedActivity : BaseActivity(), ItemOnClickListener {
 				) {
 					AppUtils.startActivityForResultRightToLeft(
 						this@ServiceDailyNeedActivity,
-						Intent(this@ServiceDailyNeedActivity, CategoryProductListActivity::class.java)
+						Intent(
+							this@ServiceDailyNeedActivity,
+							CategoryProductListActivity::class.java
+						)
 							.putExtra("category_id", category_id)
 							.putExtra("subCategory_id", model.subcategory_id)
 							.putExtra("service_id", serviceId)
@@ -284,7 +292,7 @@ class ServiceDailyNeedActivity : BaseActivity(), ItemOnClickListener {
 			width
 		)
 
-		dialyneedMainRv?.adapter = dailyNeedMainAdapter
+		dailyneedMainRv?.adapter = dailyNeedMainAdapter
 	}
 
 	fun clearCart() {
@@ -317,7 +325,7 @@ class ServiceDailyNeedActivity : BaseActivity(), ItemOnClickListener {
 	) {
 		product_Id = productModel.product_id
 		product_count = item_count!!.toInt()
-       Log.d("typetype", type+"-"+store_id)
+		Log.d("typetype", type + "-" + store_id)
 		if (type.equals("Replace")) {
 			clearCart()
 			SessionTwiclo(this).storeId = store_id

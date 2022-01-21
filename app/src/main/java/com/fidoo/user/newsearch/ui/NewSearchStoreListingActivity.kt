@@ -17,6 +17,7 @@ import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.utils.BaseActivity
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
+import kotlinx.android.synthetic.main.activity_new_search_storelisting.*
 
 class NewSearchStoreListingActivity : BaseActivity() {
     private lateinit var binding: ActivityNewSearchStorelistingBinding
@@ -76,6 +77,28 @@ class NewSearchStoreListingActivity : BaseActivity() {
         }
 
         onClick()
+
+        swipeRefreshLaySearch.setOnRefreshListener {
+            if (sessionInstance.isLoggedIn) {
+                viewModel!!.keywordBasedSearchResultsApi(
+                    sessionTwiclo!!.loggedInUserDetail.accountId,
+                    sessionTwiclo!!.loggedInUserDetail.accessToken,
+                    key_value!!,
+                    sessionTwiclo!!.userLat,
+                    sessionTwiclo!!.userLng,
+                    pagecount.toString()
+                )
+            } else {
+                viewModel!!.keywordBasedSearchResultsApi(
+                    "",
+                    "",
+                    key_value!!,
+                    sessionTwiclo!!.userLat,
+                    sessionTwiclo!!.userLng,
+                    pagecount.toString()
+                )
+            }
+        }
         showIOSProgress()
         if (sessionInstance.isLoggedIn) {
             viewModel!!.keywordBasedSearchResultsApi(
@@ -103,11 +126,14 @@ class NewSearchStoreListingActivity : BaseActivity() {
 
         viewModel!!.keywordBasedSearchResultsRes!!.observe(this, {
             dismissIOSProgress()
+            swipeRefreshLaySearch.isRefreshing=false
             if (it.error_code == 200) {
                 hit = 0
                 isMore = it.more_value
                 latestList!!.clear()
+
                 //   binding.showingResult.text = "Showing Result (" + it.total_count.toString() + ")"
+
                 if (pagecount > 0) {
                     latestList = it.stores as ArrayList
                     mainList!!.addAll(latestList!!)
@@ -143,10 +169,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
                             .putExtra("storeName", storeName)
                             .putExtra("store_location", model.locality)
                             .putExtra("delivery_time", model.delivery_time)
-                            .putExtra(
-                                "cuisine_types",
-                                model.cuisines.joinToString(separator = ", ")
-                            )
+                            .putExtra("cuisine_types", model.cuisines.joinToString(separator = ", "))
                             .putExtra("coupon_desc", "")
                             .putExtra("distance", model.distance)
                     )
@@ -198,6 +221,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
                     }
                 }
             }
+
         })
 
     }

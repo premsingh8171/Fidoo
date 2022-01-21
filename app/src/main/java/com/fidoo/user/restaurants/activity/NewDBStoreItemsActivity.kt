@@ -1149,11 +1149,11 @@ class NewDBStoreItemsActivity :
                                     clickevent = 0
 
                                     if (i == 0) {
-                                        //storeItemsRecyclerview?.smoothScrollToPosition(i)
+                                        storeItemsRecyclerview?.smoothScrollToPosition(i)
                                         storeItemsRecyclerview?.scrollToPosition(i+1 )
                                     } else {
                                        storeItemsRecyclerview?.scrollToPosition(i!!+4)
-                                     //   storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
+                                       storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
                                     }
                                 }
                             }

@@ -383,6 +383,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		mapFragment!!.getMapAsync(this)
 
 		viewmodel?.getLocationResponse?.observe(this, { user ->
+
 			try {
 				Log.e("getLocationResponse___", Gson().toJson(user))
 				Log.e("getLocationResponse___", timerStatus.toString())
