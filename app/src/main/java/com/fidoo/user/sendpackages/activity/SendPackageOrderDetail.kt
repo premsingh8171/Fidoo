@@ -113,13 +113,13 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         if (charges_one!!.isNotEmpty()) {
             var charges_oneStr = charges_one.split(",")
             chargesSendPackageTxt1.text = charges_oneStr[0]
-            chargesSendPackageTxt2.text = "      ₹ " + charges_oneStr[1]
+            chargesSendPackageTxt2.text = "  ₹ " + charges_oneStr[1]
         }
 
         if (charges_two!!.isNotEmpty()) {
             var charges_TwoStr = charges_two.split(",")
             charges2Txt1.text = charges_TwoStr[0]
-            charges2Txt2.text = "   ₹ " + charges_TwoStr[1]
+            charges2Txt2.text = "  ₹ " + charges_TwoStr[1]
         }
 
         try {

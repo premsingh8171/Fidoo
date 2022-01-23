@@ -98,6 +98,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         var mUpdateManager: UpdateManager? = null
         var onBackpressHandle: String? = "0"
         var orderProcess: Int? = 0
+        var orderSuccess: Int? = 0
 
     }
 

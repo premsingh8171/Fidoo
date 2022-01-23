@@ -133,7 +133,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		var check_gMap1 = 0
 		var check_gMap2 = 0
 		var check_gMap3 = 0
-
 	}
 
 	private var movingCabMarker: Marker? = null
@@ -616,7 +615,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 					Log.e("hit___", "hit--"+OrderBackgroundgService.timer_count!!)
 					//startService(Intent(applicationContext, OrderBackgroundgService::class.java))
 
-					if (handleCounter==0) {
+				//	if (handleCounter==0) {
 						timerr =
 							object : CountDownTimer(OrderBackgroundgService.timer_count!!, 1000) {
 
@@ -664,7 +663,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 							}.start()
 						handleCounter=1
-					}
+				//	}
 
 //					if (currentOrderId!!.isNotEmpty()) {
 //						if (CartActivity.proceedClick == 0) {

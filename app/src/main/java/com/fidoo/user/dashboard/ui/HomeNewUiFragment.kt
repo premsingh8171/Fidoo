@@ -33,6 +33,7 @@ import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addEditAdd
+import com.fidoo.user.activity.MainActivity.Companion.orderSuccess
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
 import com.fidoo.user.cartview.activity.CartActivity
@@ -257,10 +258,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						"1"
 					)
 
-					viewmodel?.checkPaymentStatusApi(
-						SessionTwiclo(context).loggedInUserDetail.accountId,
-						SessionTwiclo(context).loggedInUserDetail.accessToken,
-					)
 
 					viewmodelusertrack?.customerActivityLog(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
@@ -466,7 +463,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			Log.e("checkPaymentStatusRes_", Gson().toJson(user))
 			dismissIOSProgress()
 			if (user.error_code==200){
-				paySuccessPopUp()
+				if (orderSuccess==0) {
+					orderSuccess==1
+					paySuccessPopUp()
+				}
 			}
 		}
 
