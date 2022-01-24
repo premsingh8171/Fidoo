@@ -159,23 +159,35 @@ class OrdersFragment : Fragment(),
 				fragmentOrdersBinding?.noInternetLlInclude!!.noInternetLl.visibility = View.GONE
 				_progressDlg = null
 			}
+			Log.e("orderusersResponse", Gson().toJson(user))
 
 			fragmentOrdersBinding?.swipeRefreshLayOrd!!.isRefreshing=false
 			ordersList!!.clear()
 
-			if (!user.error) {
-				val mModelData: MyOrdersModel = user
-				Log.e("ordersResponse", Gson().toJson(mModelData))
-				ordersList= mModelData.orders as ArrayList
-				if (mModelData.orders != null) {
-					orderRv(ordersList!!)
-					fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
-				} else {
-					fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
-					// Toast.makeText(context,"No Orders", Toast.LENGTH_SHORT).show()
+			if(user.errorCode==200) {
+				if (!user.error) {
+					try {
+						val mModelData: MyOrdersModel = user
+						Log.e("ordersResponse", Gson().toJson(mModelData))
+						ordersList = mModelData.orders as ArrayList
+						if (mModelData.orders != null) {
+							orderRv(ordersList!!)
+							fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
+						} else {
+							fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+							// Toast.makeText(context,"No Orders", Toast.LENGTH_SHORT).show()
+						}
+						handleApiResponse = 0
+					}catch (e:Exception){
+						e.printStackTrace()
+						if ((activity as MainActivity).isNetworkConnected) {
+							fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+						}else {
+						}
+					}
+
 				}
-				handleApiResponse = 0
-			} else {
+			}else {
 				if (user.errorCode == 101) {
 					showAlertDialog(requireContext())
 				}
