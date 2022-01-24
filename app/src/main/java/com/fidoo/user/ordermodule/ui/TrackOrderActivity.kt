@@ -1038,7 +1038,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 	}
 
 	@SuppressLint("SimpleDateFormat")
-
 	fun getDifferenceBetweenDates(created_datee: String): Long {
 		//   var created_datee= created_date.toDate().formatTo("yyyy-MM-dd HH:mm:ss")
 
