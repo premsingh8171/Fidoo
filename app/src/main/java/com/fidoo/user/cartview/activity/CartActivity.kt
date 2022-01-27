@@ -720,13 +720,13 @@ class CartActivity : BaseActivity(),
 						if (user.charges_one.isNotEmpty()) {
 							var charges_oneStr = user.charges_one.split(",")
 							charges_oneTxt.text = charges_oneStr[0]
-							charges_onePriceTxt.text = "      ₹ " + charges_oneStr[1]
+							charges_onePriceTxt.text = "₹ " + charges_oneStr[1]
 						}
 
 						if (user.charges_two.isNotEmpty()) {
 							var charges_TwoStr = user.charges_two.split(",")
 							charges_TwoTxt.text = charges_TwoStr[0]
-							charges_TwoPriceTxt.text = "   ₹ " + charges_TwoStr[1]
+							charges_TwoPriceTxt.text = "₹ " + charges_TwoStr[1]
 						}
 
 					} catch (e: Exception) {

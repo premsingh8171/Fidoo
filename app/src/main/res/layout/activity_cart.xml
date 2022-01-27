@@ -692,7 +692,7 @@
                     android:background="@drawable/charges_popup"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_10"
@@ -710,6 +710,8 @@
                             android:textSize="@dimen/text_size_12sp" />
 
                         <TextView
+                            android:layout_marginRight="@dimen/margin_15dp"
+                            android:layout_alignParentEnd="true"
                             android:id="@+id/charges_onePriceTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -720,12 +722,12 @@
                             android:textColor="@color/primary_color"
                             android:textSize="@dimen/text_size_12sp" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="@dimen/margin_2dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -740,6 +742,8 @@
                             android:textSize="@dimen/text_size_12sp" />
 
                         <TextView
+                            android:layout_marginRight="@dimen/margin_15dp"
+                            android:layout_alignParentEnd="true"
                             android:id="@+id/charges_TwoPriceTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -751,7 +755,7 @@
                             android:textColor="@color/primary_color"
                             android:textSize="@dimen/text_size_12sp" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -772,7 +776,7 @@
                     android:background="@drawable/charges_popup"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_10"
@@ -790,6 +794,8 @@
                             android:textSize="@dimen/text_size_12sp" />
 
                         <TextView
+                            android:layout_marginRight="@dimen/margin_15dp"
+                            android:layout_alignParentEnd="true"
                             android:id="@+id/charges_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -799,9 +805,9 @@
                             android:text="₹ 30"
                             android:textColor="@color/primary_color"
                             android:textSize="@dimen/text_size_12sp" />
-                    </LinearLayout>
+                    </RelativeLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -818,6 +824,8 @@
                             android:textSize="@dimen/text_size_12sp" />
 
                         <TextView
+                            android:layout_marginRight="@dimen/margin_15dp"
+                            android:layout_alignParentEnd="true"
                             android:id="@+id/tax_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -828,7 +836,7 @@
                             android:text=" ₹ 35"
                             android:textColor="@color/primary_color"
                             android:textSize="@dimen/text_size_12sp" />
-                    </LinearLayout>
+                    </RelativeLayout>
 
 
                 </LinearLayout>

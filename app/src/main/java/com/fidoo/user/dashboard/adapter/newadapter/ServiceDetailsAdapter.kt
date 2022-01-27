@@ -153,6 +153,7 @@ class ServiceDetailsAdapter(
                 holder.itemView.service_Details_Cat_rv.adapter = serviceCategoryAdapter
                 layoutManger = GridLayoutManager(con, 4)
                 holder.itemView.service_Details_Cat_rv?.layoutManager = layoutManger
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }

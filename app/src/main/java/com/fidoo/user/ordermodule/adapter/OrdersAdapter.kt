@@ -41,17 +41,14 @@ class OrdersAdapter(
 
         // holder.storeName.text=orders.get(position).storeName
         holder.orderIdValue.text = orders[position].orderId
+        holder.orderIdTxt.text = "Order id: #"+orders[position].orderId
         holder.orderOnValue.text = orders[position].orderDate
         holder.locText.text = orders[position].storeAddress
 
-        holder.totalPriceValue.text = con?.resources?.getString(R.string.ruppee) + orders.get(
-            position
-        ).totalPrice
+        holder.totalPriceValue.text = con?.resources?.getString(R.string.ruppee) + orders.get(position).totalPrice
 
 //        holder.totalPriceValue.text=""
-//        dynamicText(holder.totalPriceValue,con?.resources?.getString(R.string.ruppee) + orders.get(
-//            position
-//        ).totalPrice,"paid: ")
+//        dynamicText(holder.totalPriceValue,con?.resources?.getString(R.string.ruppee) + orders.get(position ).totalPrice,"paid: ")
 
 
         if (orders[position].serviceTypeId == "4") {
@@ -66,7 +63,7 @@ class OrdersAdapter(
             //  holder.buttonValue.setTextColor(Color.rgb(51, 147, 71))
             holder.loc_icon.visibility = View.GONE
             // holder.storeImg.layoutParams = ConstraintLayout.LayoutParams(2, 120)
-            holder.itemView.itemListTxt.text=orders[position].package_item_name
+            holder.itemView.itemListTxt.text = orders[position].package_item_name
             Glide.with(con!!)
                 //.load(orders[position].package_item_image)
                 .load(R.drawable.send_pac_)
@@ -93,6 +90,7 @@ class OrdersAdapter(
         try {
             if (orders[position].items.isNotEmpty()) {
                 holder.itemView.itemListTxt.text = ""
+
                 for (i in 0 until orders[position].items.size) {
                     if (orders[position].items.size - 1 == i) {
                         holder.itemView.itemListTxt.append(
@@ -105,14 +103,12 @@ class OrdersAdapter(
                                     + orders[position].items[i].quantity + ","
                         )
                     }
-
                 }
+
 //                orderItemAdapter = OrderItemAdapter(con!!, orders[position].items as ArrayList)
 //                holder.itemRecyclerview_.adapter = orderItemAdapter
             }
-        } catch (e: Exception) {
-
-        }
+        } catch (e: Exception) { }
 
         //  0:failed, 1:success, 2: cancel, 3 Delivered, 4: received, 5: in progress, 6: Out for delivery ,11:preparing
 
@@ -137,7 +133,7 @@ class OrdersAdapter(
 
                 }
                 orders[position].orderStatus.equals("11") -> {
-                   // holder.orderStatusTxt.text = "Your food is being prepared"
+                    // holder.orderStatusTxt.text = "Your food is being prepared"
                     holder.orderStatusTxt?.setTextColor(Color.parseColor("#339347"))
                 }
                 orders[position].orderStatus.equals("3") -> {
@@ -145,7 +141,7 @@ class OrdersAdapter(
                         if (orders[position].serviceTypeId == "4") {
                             holder.buttonValue.visibility = View.VISIBLE
                         } else {
-                           // holder.buttonValue.text = "Repeat Order"
+                            // holder.buttonValue.text = "Repeat Order"
                             holder.buttonValue.isClickable = false
                             holder.buttonValue.visibility = View.VISIBLE
 
@@ -205,7 +201,7 @@ class OrdersAdapter(
             if (orders[position].is_rate_to_driver == "1" || orders[position].is_rate_to_merchant == "1") {
                 holder.buttonValue.isClickable = false
                 //holder.buttonValue.text = "Repeat Order"
-                holder.buttonValue.visibility=View.GONE
+                holder.buttonValue.visibility = View.GONE
                 holder.rating_txt_ll.visibility = View.VISIBLE
                 holder.rating_txt_.visibility = View.VISIBLE
                 holder.rating_txt_.text = orders[position].delivery_rating.toString()
@@ -334,7 +330,7 @@ class OrdersAdapter(
                                 .putExtra("order_status", holder.orderStatusTxt.text)
                         )
                     }
-                }else if (holder.itemLay.buttonValue.text.equals("Review")){
+                } else if (holder.itemLay.buttonValue.text.equals("Review")) {
                     if (orders[position].is_rate_to_driver.equals("0")) {
                         con.startActivity(
                             Intent(con, ReviewOrderSendPackageActivity::class.java)
@@ -352,7 +348,7 @@ class OrdersAdapter(
                     ) {
 
                         if (orders[position].is_rate_to_driver.equals("0")) {
-                           // buyPopup(adapterReviewClick, orders[position].orderId)
+                            // buyPopup(adapterReviewClick, orders[position].orderId)
                             con.startActivity(
                                 Intent(con, ReviewOrderSendPackageActivity::class.java)
                                     .putExtra("orderId", orders[position].orderId)
@@ -447,6 +443,7 @@ class OrdersAdapter(
         var itemRecyclerview_ = view.itemRecyclerview_
         var rating_txt_ll = view.rating_txt_ll
         var rating_txt_ = view.rating_txt_
+        var orderIdTxt = view.orderIdTxt
     }
 
 

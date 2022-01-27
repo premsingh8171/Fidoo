@@ -614,10 +614,11 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 					waitingLay.visibility = View.VISIBLE
 					Log.e("hit___", "hit--"+OrderBackgroundgService.timer_count!!)
 					//startService(Intent(applicationContext, OrderBackgroundgService::class.java))
+					ordstatus_lay_new.visibility = View.VISIBLE
+					order_status.text = "Please wait while we confirm your order"
 
 				//	if (handleCounter==0) {
-						timerr =
-							object : CountDownTimer(OrderBackgroundgService.timer_count!!, 1000) {
+						timerr = object : CountDownTimer(OrderBackgroundgService.timer_count!!, 1000) {
 
 								override fun onTick(millisUntilFinished: Long) {
 									cancelBtn.visibility = View.VISIBLE

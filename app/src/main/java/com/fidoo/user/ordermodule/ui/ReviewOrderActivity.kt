@@ -249,7 +249,6 @@ class ReviewOrderActivity : BaseActivity() {
 
         review_submit.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorHint));
 
-
         review_submit.setOnClickListener {
             if (!driver_rating.equals("") || !store_rating.equals("")) {
                 onReviewDone()
@@ -306,9 +305,9 @@ class ReviewOrderActivity : BaseActivity() {
             .error(R.drawable.icon_store).into(store_img_reviewOrder)
     }
 
-
     override fun onBackPressed() {
         finish()
         //AppUtils.finishActivityLeftToRight(this)
     }
+
 }
