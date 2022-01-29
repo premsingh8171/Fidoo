@@ -772,7 +772,7 @@
 
                 <LinearLayout
                     android:layout_width="270dp"
-                    android:layout_height="@dimen/margin_70dp"
+                    android:layout_height="@dimen/margin_85dp"
                     android:background="@drawable/charges_popup"
                     android:orientation="vertical">
 
@@ -805,6 +805,20 @@
                             android:text="₹ 30"
                             android:textColor="@color/primary_color"
                             android:textSize="@dimen/text_size_12sp" />
+
+                        <TextView
+                            android:layout_below="@+id/tax_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:fontFamily="@font/proxima"
+                            android:maxLines="1"
+                            android:text="*Levied by Merchant"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/margin_10" />
+
+
+
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -819,7 +833,7 @@
                             android:layout_marginLeft="@dimen/margin_20dp"
                             android:fontFamily="@font/proxima"
                             android:maxLines="1"
-                            android:text="Tax                                                    "
+                            android:text="GST"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_size_12sp" />
 

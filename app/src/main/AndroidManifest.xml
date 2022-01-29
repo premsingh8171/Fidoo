@@ -137,6 +137,9 @@
         <activity
             android:name=".store.activity.StoreListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ordermodule.ui.OrderRejectedActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".store.activity.StoreFilterListActivity"

@@ -99,6 +99,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         var onBackpressHandle: String? = "0"
         var orderProcess: Int? = 0
         var orderSuccess: Int? = 0
+        var handleTrackScreenOrderSuccess: Int = 1 //when order status 3
 
     }
 

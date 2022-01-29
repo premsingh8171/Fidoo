@@ -35,6 +35,7 @@ import com.fidoo.user.BuildConfig
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addCartTempList
+import com.fidoo.user.activity.MainActivity.Companion.handleTrackScreenOrderSuccess
 import com.fidoo.user.activity.MainActivity.Companion.onBackpressHandle
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
@@ -941,7 +942,6 @@ class CartActivity : BaseActivity(),
 							totalAmount =
 								(totalAmount - mModelData.discount_amount.toDouble()) + mModelData.totalTaxAndCharges
 						}
-
 
 						//update by prem
 						finalPrice = totalAmount
@@ -2241,7 +2241,7 @@ class CartActivity : BaseActivity(),
 				stopService(Intent(applicationContext, OrderBackgroundgService::class.java))
 				OrderBackgroundgService.timer_count = 30000
 				OrderBackgroundgService.counter_timer = 30
-
+				handleTrackScreenOrderSuccess=0
 				startActivity(
 					Intent(this, TrackOrderActivity::class.java).putExtra(
 						"orderId",

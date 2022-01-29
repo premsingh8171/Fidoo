@@ -4,23 +4,28 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_auth.xml" value="0.22447916666666667" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.25" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.2450255827174531" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_new_search_storelisting.xml" value="0.21" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_order_rejected.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_review_items.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_review_order.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_send_package.xml" value="0.15081521739130435" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_send_package_order_detail.xml" value="0.25" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_sendpackages_additem.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.16" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_track_order.xml" value="0.16168478260869565" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_auth.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_orders.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_splash.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/grocery_cat_item_layout.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/logout_popup.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/orders_adapter.xml" value="0.25" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/review_popup.xml" value="1.1" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/screen1.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.25" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>
