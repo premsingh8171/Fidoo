@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/black_rounded_empty_otp_dark.xml" value="0.15608108108108107" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_auth.xml" value="0.22447916666666667" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.2450255827174531" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.1" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_login.xml" value="0.11730072463768115" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_new_search_storelisting.xml" value="0.21" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_order_rejected.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_order_rejected.xml" value="0.2" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_review_items.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_review_order.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_send_package.xml" value="0.15081521739130435" />
@@ -16,6 +18,8 @@
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_track_order.xml" value="0.16168478260869565" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_auth.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_orders.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_otp.xml" value="0.11730072463768115" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_profile.xml" value="0.11730072463768115" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_splash.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/grocery_cat_item_layout.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/logout_popup.xml" value="0.22447916666666667" />
