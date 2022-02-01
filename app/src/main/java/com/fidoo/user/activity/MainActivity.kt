@@ -99,6 +99,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         var onBackpressHandle: String? = "0"
         var orderProcess: Int? = 0
         var orderSuccess: Int? = 0
+        var handleTrackScreenOrderSuccess: Int = 1 //when order status 3
 
     }
 
@@ -172,6 +173,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     SessionTwiclo(this).loggedInUserDetail.accessToken,orderId!!)
 
                 timer = object : CountDownTimer(20000, 1000) {
+
                     override fun onTick(millisUntilFinished: Long) {}
 
                     override fun onFinish() {
@@ -183,10 +185,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                             )
                             timer?.start()
                         }
-
                     }
-
                 }.start()
+
             }else{
                 orderStatus_fm.visibility=View.GONE
             }

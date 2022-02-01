@@ -419,7 +419,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/margin_15dp"
                 android:layout_marginBottom="-60dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/price_breakout_lay">
 
                 <LinearLayout
@@ -428,7 +428,7 @@
                     android:background="@drawable/charges_popup"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_10"
@@ -441,11 +441,13 @@
                             android:layout_marginLeft="@dimen/margin_20dp"
                             android:fontFamily="@font/proxima"
                             android:maxLines="1"
-                            android:text="dsds"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_size_12sp" />
 
                         <TextView
+                            android:layout_marginRight="@dimen/margin_15dp"
+                            android:layout_alignParentEnd="true"
                             android:id="@+id/chargesSendPackageTxt2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -455,9 +457,9 @@
                             android:text=""
                             android:textColor="@color/primary_color"
                             android:textSize="@dimen/text_size_12sp" />
-                    </LinearLayout>
+                    </RelativeLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -475,6 +477,8 @@
                             android:textSize="@dimen/text_size_12sp" />
 
                         <TextView
+                            android:layout_marginRight="@dimen/margin_15dp"
+                            android:layout_alignParentEnd="true"
                             android:id="@+id/charges2Txt2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -485,8 +489,7 @@
                             android:text=""
                             android:textColor="@color/primary_color"
                             android:textSize="@dimen/text_size_12sp" />
-                    </LinearLayout>
-
+                    </RelativeLayout>
 
                 </LinearLayout>
 

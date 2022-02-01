@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
+import com.fidoo.user.activity.MainActivity.Companion.handleTrackScreenOrderSuccess
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.data.session.SessionTwiclo
@@ -80,7 +81,7 @@ class OrdersFragment : Fragment(),
 			ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
 		analytics = FirebaseAnalytics.getInstance(requireContext())
 		ordersList=ArrayList()
-
+		handleTrackScreenOrderSuccess=1
 		val bundle = Bundle()
 		bundle.putString("oncreate", "oncreate")
 		bundle.putString("OrderList_Screen", "OrderList Screen")

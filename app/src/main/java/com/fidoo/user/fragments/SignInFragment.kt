@@ -193,12 +193,14 @@ class SignInFragment : Fragment() {
             val mModelData: LoginModel = user
             pref.storeLoginDetail(mModelData)
             pref.guestLogin = "userlogin"
+
             val sendData = SendResponse(
                 mModelData.accessToken,
                 mModelData.accountId.toString(),
                 binding.phone.text.toString().trim(),
                 "+91",mModelData.is_new_user
             )
+
             list?.add(sendData)
             sessionTwiclo!!.saveSendResponseList(list,"SendResponce")
 

@@ -452,10 +452,10 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                         start_point = city.toLowerCase()
                         Log.d("end_point__", start_point + "==" + end_point)
 
-//                        if ((end_point.equals("gurugram") && start_point.equals("gurugram"))
-//                            || (end_point.equals("gurgaon ") && start_point.equals("gurgaon"))
-//                            || (end_point.equals("") && start_point.equals(""))
-//                        ) {
+                        if ((end_point.equals("gurugram") && start_point.equals("gurugram"))
+                            || (end_point.equals("gurgaon ") && start_point.equals("gurgaon"))
+                            || (end_point.equals("") && start_point.equals(""))
+                        ) {
                         if (distanceTex != null && distanceTex < 15000) {
                             viewmodel?.getPackageDetails(
                                 SessionTwiclo(
@@ -466,9 +466,9 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                                 ).loggedInUserDetail.accessToken,
                                 distanceTex.toString()
                             )
-//                            } else {
-//                                showToast("There is some issue in Service, please try after sometime")
-//                            }
+                            } else {
+                                showToast("There is some issue in Service, please try after sometime")
+                            }
                         } else {
                             showToastLong("Service is available only Gurugram!")
 

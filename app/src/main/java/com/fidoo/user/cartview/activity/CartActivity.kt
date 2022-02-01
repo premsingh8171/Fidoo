@@ -35,6 +35,7 @@ import com.fidoo.user.BuildConfig
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addCartTempList
+import com.fidoo.user.activity.MainActivity.Companion.handleTrackScreenOrderSuccess
 import com.fidoo.user.activity.MainActivity.Companion.onBackpressHandle
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
@@ -720,13 +721,13 @@ class CartActivity : BaseActivity(),
 						if (user.charges_one.isNotEmpty()) {
 							var charges_oneStr = user.charges_one.split(",")
 							charges_oneTxt.text = charges_oneStr[0]
-							charges_onePriceTxt.text = "      ₹ " + charges_oneStr[1]
+							charges_onePriceTxt.text = "₹ " + charges_oneStr[1]
 						}
 
 						if (user.charges_two.isNotEmpty()) {
 							var charges_TwoStr = user.charges_two.split(",")
 							charges_TwoTxt.text = charges_TwoStr[0]
-							charges_TwoPriceTxt.text = "   ₹ " + charges_TwoStr[1]
+							charges_TwoPriceTxt.text = "₹ " + charges_TwoStr[1]
 						}
 
 					} catch (e: Exception) {
@@ -942,7 +943,6 @@ class CartActivity : BaseActivity(),
 								(totalAmount - mModelData.discount_amount.toDouble()) + mModelData.totalTaxAndCharges
 						}
 
-
 						//update by prem
 						finalPrice = totalAmount
 						tv_place_order.text =
@@ -1100,7 +1100,6 @@ class CartActivity : BaseActivity(),
 			// Log.d("orderPlaceResponse____", user.errorCode.toString())
 			if (user.errorCode == 200) {
 				tempOrderId = user.orderId
-
 				if (isSelected == "online") {
 					if (user.error.equals(true)) {
 						if (user.storeOffline == 1) {
@@ -1134,6 +1133,9 @@ class CartActivity : BaseActivity(),
 
 				}
 			} else if (user.errorCode == 400) {
+				Toast.makeText(this, "" + user.message, Toast.LENGTH_LONG).show()
+
+			}else{
 				Toast.makeText(this, "" + user.message, Toast.LENGTH_LONG).show()
 
 			}
@@ -2241,7 +2243,7 @@ class CartActivity : BaseActivity(),
 				stopService(Intent(applicationContext, OrderBackgroundgService::class.java))
 				OrderBackgroundgService.timer_count = 30000
 				OrderBackgroundgService.counter_timer = 30
-
+				handleTrackScreenOrderSuccess=0
 				startActivity(
 					Intent(this, TrackOrderActivity::class.java).putExtra(
 						"orderId",

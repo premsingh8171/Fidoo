@@ -40,6 +40,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
+import com.fidoo.user.activity.MainActivity.Companion.handleTrackScreenOrderSuccess
 import com.fidoo.user.activity.MainActivity.Companion.onBackpressHandle
 import com.fidoo.user.activity.MainActivity.Companion.timerStatus
 import com.fidoo.user.activity.SplashActivity
@@ -149,7 +150,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 	var check=0
 	var handleClick=0
 	var handleCounter=0
-
 	@SuppressLint("SetTextI18n")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -614,10 +614,11 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 					waitingLay.visibility = View.VISIBLE
 					Log.e("hit___", "hit--"+OrderBackgroundgService.timer_count!!)
 					//startService(Intent(applicationContext, OrderBackgroundgService::class.java))
+					ordstatus_lay_new.visibility = View.VISIBLE
+					order_status.text = "Please wait while we confirm your order"
 
 				//	if (handleCounter==0) {
-						timerr =
-							object : CountDownTimer(OrderBackgroundgService.timer_count!!, 1000) {
+						timerr = object : CountDownTimer(OrderBackgroundgService.timer_count!!, 1000) {
 
 								override fun onTick(millisUntilFinished: Long) {
 									cancelBtn.visibility = View.VISIBLE
@@ -799,8 +800,9 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 						it.orderStatus.equals("11") -> {
 							status_store_txt.text = "is preparing your order"
 							order_status.text = "Your order is being prepared"
-							tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
-							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
+							//tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
+							tv_delivery_boy.text=it.deliveryBoyName +" is reaching at "+it.storeName
+ 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
 							cancelBtn.visibility = View.GONE
 							order_status_for_track = "rider_assign"
@@ -845,7 +847,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
 							tv_delivery_boy_call.visibility = View.VISIBLE
-							driver_cardView.visibility = View.VISIBLE
+							driver_cardView.visibility = View.GONE
 							ordstatus_lay_new.visibility = View.VISIBLE
 
 						}
@@ -858,12 +860,13 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							status_store_txt.text = "has prepared your order"
 							order_status.text = "Your Order is ready and will soon be picked up by " + it.deliveryBoyName
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
+							tv_we_will_assign_delivery_partner_soon.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
 							tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
 							delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51, 147, 71))
 							driver_cardView.visibility = View.VISIBLE
 							tv_delivery_boy_call.visibility = View.VISIBLE
-							driver_cardView.visibility = View.VISIBLE
+							tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
 							cancelBtn.visibility = View.GONE
 							order_status_for_track = "rider_assign"
 							ordstatus_lay_new.visibility = View.VISIBLE
@@ -882,6 +885,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							driver_cardView.visibility = View.VISIBLE
 							tv_delivery_boy_call.visibility = View.VISIBLE
 							driver_cardView.visibility = View.VISIBLE
+							tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
 							tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
@@ -916,7 +920,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							cancelBtn.visibility = View.GONE
 
 							if (onBackpressHandle.equals("1")){
-								startActivity(Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
+								startActivity(Intent(this, OrderRejectedActivity::class.java))
+								finish()
 							}else{
 								finish()
 							}
@@ -931,6 +936,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 							driver_cardView.visibility = View.VISIBLE
 							tv_delivery_boy_call.visibility = View.VISIBLE
+							tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
 
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
@@ -944,6 +950,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
 							driver_cardView.visibility = View.VISIBLE
 							tv_delivery_boy_call.visibility = View.VISIBLE
+							tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
+
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
 							tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
@@ -960,6 +968,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							order_status.text =it.deliveryBoyName +" has reached to your location"
 							driver_cardView.visibility = View.VISIBLE
 							tv_delivery_boy_call.visibility = View.VISIBLE
+							tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
 
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
@@ -985,15 +994,20 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 				val model: Feedback = feedback
 				var reviewpopup: Int = 0
 				OrdersFragment.handleApiResponse = 1
-				startActivity(
-					Intent(this, OrderDetailsActivity::class.java).putExtra(
-						"orderId",
-						intent.getStringExtra("orderId")!!
-					)
-				)
+//				startActivity(
+//					Intent(this, OrderDetailsActivity::class.java).putExtra(
+//						"orderId",
+//						intent.getStringExtra("orderId")!!
+//					)
+//				)
 
-				startActivity(Intent(this, MainActivity::class.java))
-				finish()
+				//if (handleTrackScreenOrderSuccess==0){
+					startActivity(Intent(this, MainActivity::class.java))
+					finish()
+//				}else{
+//					finish()
+//				}
+
 				Toast.makeText(this, model.message, Toast.LENGTH_SHORT).show()
 
 			}
@@ -1488,7 +1502,14 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		mDialogView.cancelTxt.setOnClickListener {
 			//dismiss dialog
 			mAlertDialogg.dismiss()
-			finish()
+
+		//	if (handleTrackScreenOrderSuccess==0){
+				startActivity(Intent(this, MainActivity::class.java))
+				finish()
+//			}else{
+//				finish()
+//			}
+
 		}
 
 	}

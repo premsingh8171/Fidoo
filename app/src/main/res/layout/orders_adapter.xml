@@ -34,13 +34,12 @@
                 tools:srcCompat="@drawable/default_store" />
 
             <TextView
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="@dimen/dimen_25dp"
                 android:id="@+id/storeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="@dimen/dimen_25dp"
                 android:fontFamily="@font/proxima"
                 android:gravity="center"
                 android:maxLines="2"
@@ -48,6 +47,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_size_14sp"
                 app:layout_constraintLeft_toRightOf="@+id/storeImg"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
@@ -94,11 +94,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/storeName" />
 
             <TextView
-                android:layout_marginLeft="15dp"
                 android:id="@+id/orderStatusTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="@dimen/dimen_5dp"
                 android:fontFamily="@font/proxima"
                 android:gravity="center"
@@ -159,46 +159,60 @@
 
 
             <TextView
-                app:layout_constraintTop_toBottomOf="@+id/view"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:id="@+id/Itemlabeltxt"
+                android:id="@+id/orderIdTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_size_14sp"
                 android:fontFamily="@font/metropolis_semi_bold"
-                android:text="Items"
-                android:textColor="@android:color/black"/>
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_14sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
 
             <TextView
-                app:layout_goneMarginRight="@dimen/margin_20dp"
-                android:layout_marginStart="@dimen/margin_20dp"
-                android:fontFamily="@font/proxima"
-                android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@+id/Itemlabeltxt"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:id="@+id/itemListTxt"
+                android:id="@+id/Itemlabeltxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/metropolis_semi_bold"
+                android:text="Items"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_14sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/orderIdTxt" />
+
+            <TextView
+                android:id="@+id/itemListTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_marginRight="@dimen/margin_20dp"
-                android:textSize="@dimen/text_size_12sp"
+                android:fontFamily="@font/proxima"
                 android:text=""
-                android:textColor="@color/txt_color"/>
-
+                android:textColor="@color/txt_color"
+                android:textSize="@dimen/text_size_12sp"
+                android:visibility="visible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Itemlabeltxt"
+                app:layout_goneMarginRight="@dimen/margin_20dp" />
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:visibility="gone"
                 android:id="@+id/itemRecyclerview_"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_10"
                 android:orientation="vertical"
+                android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -206,7 +220,6 @@
                 app:spanCount="1" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/orderIdLabel"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -216,11 +229,11 @@
                 android:fontFamily="@font/metropolis_semi_bold"
                 android:text="ORDER ID"
                 android:textColor="@android:color/darker_gray"
+                android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemListTxt" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/orderIdValue"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -228,13 +241,13 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
                 android:fontFamily="@font/proxima"
-                android:text="4325235"
+                android:text=""
                 android:textColor="@android:color/black"
+                android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/orderIdLabel" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/orderOnLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -243,11 +256,11 @@
                 android:fontFamily="@font/metropolis_semi_bold"
                 android:text="ORDER ON"
                 android:textColor="@android:color/darker_gray"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemListTxt" />
 
             <TextView
-                android:textSize="@dimen/text_size_12sp"
                 android:id="@+id/orderOnValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -256,11 +269,11 @@
                 android:fontFamily="@font/proxima"
                 android:text="26 Oct 2020 at 11:48 AM"
                 android:textColor="@color/txt_color"
+                android:textSize="@dimen/text_size_12sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/orderOnLabel" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/totalPriceLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -270,24 +283,24 @@
                 android:text="Total Price"
                 android:textAllCaps="true"
                 android:textColor="@android:color/darker_gray"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/orderOnValue" />
 
             <TextView
-                android:textStyle="bold"
-                android:textSize="@dimen/text_size_12sp"
-                android:layout_marginEnd="@dimen/margin_20dp"
                 android:id="@+id/totalPriceValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_20dp"
                 android:fontFamily="@font/proxima"
                 android:text="@string/_50_00"
                 android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_12sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/orderOnValue"
-                app:layout_constraintTop_toTopOf="@+id/orderOnValue"
                 app:layout_constraintRight_toRightOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="@+id/orderOnValue" />
 
             <View
                 android:id="@+id/view2"
@@ -302,7 +315,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/totalPriceValue" />
 
             <TextView
-                android:backgroundTint="@color/primary_color"
                 android:id="@+id/buttonValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -310,53 +322,56 @@
                 android:layout_marginTop="@dimen/margin_15dp"
                 android:layout_marginRight="@dimen/margin_20dp"
                 android:background="@drawable/rectangle_border"
+                android:backgroundTint="@color/primary_color"
                 android:fontFamily="@font/proxima"
                 android:gravity="center"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="7dp"
                 android:text="Track Order"
                 android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@+id/view2"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
 
             <LinearLayout
-                android:visibility="visible"
                 android:id="@+id/rating_txt_ll"
-                app:layout_constraintTop_toBottomOf="@+id/view2"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2">
+
                 <TextView
-                    android:paddingLeft="@dimen/margin_10"
-                    android:drawablePadding="@dimen/margin_10"
-                    android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:drawableTint="@color/primary_color"
-                    android:drawableEnd="@drawable/star_rate"
                     android:layout_marginTop="@dimen/margin_15dp"
+                    android:drawableEnd="@drawable/star_rate"
+                    android:drawablePadding="@dimen/margin_10"
+                    android:drawableTint="@color/primary_color"
                     android:fontFamily="@font/proxima"
+                    android:gravity="center_vertical"
                     android:paddingVertical="7dp"
+                    android:paddingLeft="@dimen/margin_10"
                     android:text="You have rated:"
                     android:textColor="@color/txt_color"
-                    app:layout_constraintTop_toBottomOf="@+id/view2"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent" />
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view2" />
+
                 <TextView
                     android:id="@+id/rating_txt_"
-                    android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="17dp"
                     android:fontFamily="@font/proxima"
+                    android:gravity="center_vertical"
                     android:text="0"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@+id/view2"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent" />
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view2" />
 
 
             </LinearLayout>

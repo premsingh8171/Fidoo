@@ -115,9 +115,11 @@ public class CartModel {
         @SerializedName("title")
         @Expose
         public String title;
+
         @SerializedName("value")
         @Expose
         public String value;
+
         @SerializedName("taxes")
         @Expose
         public List<Tax> taxes = null;
