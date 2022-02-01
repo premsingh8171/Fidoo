@@ -68,7 +68,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/cancelBtn"
+        android:id="@+id/cancelBtnL"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_margin="@dimen/margin_10"

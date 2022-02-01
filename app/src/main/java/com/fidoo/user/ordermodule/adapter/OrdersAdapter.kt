@@ -41,7 +41,7 @@ class OrdersAdapter(
 
         // holder.storeName.text=orders.get(position).storeName
         holder.orderIdValue.text = orders[position].orderId
-        holder.orderIdTxt.text = "Order id: #"+orders[position].orderId
+        holder.orderIdTxt.text = "Order Id: #"+orders[position].orderId
         holder.orderOnValue.text = orders[position].orderDate
         holder.locText.text = orders[position].storeAddress
 
@@ -104,9 +104,14 @@ class OrdersAdapter(
                         )
                     }
                 }
+                holder.itemView.Itemlabeltxt.visibility=View.VISIBLE
+                holder.itemView.itemListTxt.visibility=View.VISIBLE
 
 //                orderItemAdapter = OrderItemAdapter(con!!, orders[position].items as ArrayList)
 //                holder.itemRecyclerview_.adapter = orderItemAdapter
+            }else{
+                holder.itemView.Itemlabeltxt.visibility=View.GONE
+                holder.itemView.itemListTxt.visibility=View.GONE
             }
         } catch (e: Exception) { }
 

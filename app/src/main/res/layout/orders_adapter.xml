@@ -166,7 +166,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
                 android:fontFamily="@font/metropolis_semi_bold"
-                android:text="Items"
+                android:text=""
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_size_14sp"
                 android:textStyle="bold"

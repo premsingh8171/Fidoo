@@ -8,14 +8,15 @@
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.1" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_login.xml" value="0.11730072463768115" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_new_search_storelisting.xml" value="0.21" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_order_rejected.xml" value="0.2" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_order_details.xml" value="0.13183060109289618" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_order_rejected.xml" value="0.25" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_review_items.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_review_order.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_send_package.xml" value="0.15081521739130435" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_send_package_order_detail.xml" value="0.25" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_sendpackages_additem.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.16" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_track_order.xml" value="0.16168478260869565" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_track_order.xml" value="0.2" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_auth.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_orders.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_otp.xml" value="0.11730072463768115" />

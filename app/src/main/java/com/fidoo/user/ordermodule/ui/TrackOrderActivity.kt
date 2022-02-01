@@ -150,7 +150,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 	var check=0
 	var handleClick=0
 	var handleCounter=0
-
 	@SuppressLint("SetTextI18n")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -801,8 +800,9 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 						it.orderStatus.equals("11") -> {
 							status_store_txt.text = "is preparing your order"
 							order_status.text = "Your order is being prepared"
-							tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
-							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
+							//tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
+							tv_delivery_boy.text=it.deliveryBoyName +" is reaching at "+it.storeName
+ 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
 							cancelBtn.visibility = View.GONE
 							order_status_for_track = "rider_assign"
@@ -866,7 +866,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51, 147, 71))
 							driver_cardView.visibility = View.VISIBLE
 							tv_delivery_boy_call.visibility = View.VISIBLE
-							tv_we_will_assign_delivery_partner_soon.visibility = View.GONE
+							tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
 							cancelBtn.visibility = View.GONE
 							order_status_for_track = "rider_assign"
 							ordstatus_lay_new.visibility = View.VISIBLE
@@ -885,7 +885,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							driver_cardView.visibility = View.VISIBLE
 							tv_delivery_boy_call.visibility = View.VISIBLE
 							driver_cardView.visibility = View.VISIBLE
-							tv_we_will_assign_delivery_partner_soon.visibility = View.GONE
+							tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
 							tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
@@ -920,7 +920,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							cancelBtn.visibility = View.GONE
 
 							if (onBackpressHandle.equals("1")){
-								startActivity(Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
+								startActivity(Intent(this, OrderRejectedActivity::class.java))
+								finish()
 							}else{
 								finish()
 							}
@@ -935,7 +936,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 							driver_cardView.visibility = View.VISIBLE
 							tv_delivery_boy_call.visibility = View.VISIBLE
-							tv_we_will_assign_delivery_partner_soon.visibility = View.GONE
+							tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
 
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
@@ -949,7 +950,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
 							driver_cardView.visibility = View.VISIBLE
 							tv_delivery_boy_call.visibility = View.VISIBLE
-							tv_we_will_assign_delivery_partner_soon.visibility = View.GONE
+							tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
 
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
@@ -967,7 +968,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							order_status.text =it.deliveryBoyName +" has reached to your location"
 							driver_cardView.visibility = View.VISIBLE
 							tv_delivery_boy_call.visibility = View.VISIBLE
-							tv_we_will_assign_delivery_partner_soon.visibility = View.GONE
+							tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
 
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
@@ -1000,12 +1001,12 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 //					)
 //				)
 
-				if (handleTrackScreenOrderSuccess==0){
+				//if (handleTrackScreenOrderSuccess==0){
 					startActivity(Intent(this, MainActivity::class.java))
 					finish()
-				}else{
-					finish()
-				}
+//				}else{
+//					finish()
+//				}
 
 				Toast.makeText(this, model.message, Toast.LENGTH_SHORT).show()
 
@@ -1502,12 +1503,12 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 			//dismiss dialog
 			mAlertDialogg.dismiss()
 
-			if (handleTrackScreenOrderSuccess==0){
+		//	if (handleTrackScreenOrderSuccess==0){
 				startActivity(Intent(this, MainActivity::class.java))
 				finish()
-			}else{
-				finish()
-			}
+//			}else{
+//				finish()
+//			}
 
 		}
 

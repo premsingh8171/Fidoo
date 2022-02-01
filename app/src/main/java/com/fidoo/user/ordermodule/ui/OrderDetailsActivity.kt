@@ -170,7 +170,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
 
             tv_order_id.text = "Order: #" +mModelData.orderId
             locText.text = mModelData.storeAddress
-            orderOnValue.text = mModelData.dateTime
+            orderOnValue.text = mModelData.delivered_at
             //itemTotal.text = items?.get(0)?.price_with_customization
 
             if (mModelData.discount == "" || mModelData.discount == "0"){

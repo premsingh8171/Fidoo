@@ -102,6 +102,11 @@ public class OrderDetailsModel {
     @SerializedName("date_time")
     @Expose
     public String dateTime;
+
+    @SerializedName("delivered_at")
+    @Expose
+    public String delivered_at;
+
     @SerializedName("category_id")
     @Expose
     public String categoryId;
