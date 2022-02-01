@@ -41,7 +41,7 @@ class OrdersAdapter(
 
         // holder.storeName.text=orders.get(position).storeName
         holder.orderIdValue.text = orders[position].orderId
-        holder.orderIdTxt.text = "Order Id: #"+orders[position].orderId
+        holder.orderIdTxt.text = "Order ID: #"+orders[position].orderId
         holder.orderOnValue.text = orders[position].orderDate
         holder.locText.text = orders[position].storeAddress
 
