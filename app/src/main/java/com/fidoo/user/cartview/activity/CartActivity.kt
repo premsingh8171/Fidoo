@@ -1100,7 +1100,6 @@ class CartActivity : BaseActivity(),
 			// Log.d("orderPlaceResponse____", user.errorCode.toString())
 			if (user.errorCode == 200) {
 				tempOrderId = user.orderId
-
 				if (isSelected == "online") {
 					if (user.error.equals(true)) {
 						if (user.storeOffline == 1) {
@@ -1134,6 +1133,9 @@ class CartActivity : BaseActivity(),
 
 				}
 			} else if (user.errorCode == 400) {
+				Toast.makeText(this, "" + user.message, Toast.LENGTH_LONG).show()
+
+			}else{
 				Toast.makeText(this, "" + user.message, Toast.LENGTH_LONG).show()
 
 			}
