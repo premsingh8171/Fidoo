@@ -32,7 +32,7 @@ class SplashActivity : BaseActivity() {
     private var mMixpanel: MixpanelAPI? = null
 
     companion object {
-        var appversion: String? = "1.0.41"
+        var appversion: String? = "1.0.42"
         var mobile_number: String? = ""
         var splashActivity: SplashActivity? = null
     }
@@ -56,7 +56,7 @@ class SplashActivity : BaseActivity() {
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_splash)
-        appversion = "1.0.41"
+        appversion = "1.0.42"
       //  appversion = BuildConfig.VERSION_NAME
 
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
