@@ -947,6 +947,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 						it.orderStatus.equals("15") -> {
 							order_status_for_track = "rider_assign"
 							order_status.text = "It's ready. Just packing it."
+							status_store_txt.text = "is preparing your order"
 							tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
 							driver_cardView.visibility = View.VISIBLE
 							tv_delivery_boy_call.visibility = View.VISIBLE
