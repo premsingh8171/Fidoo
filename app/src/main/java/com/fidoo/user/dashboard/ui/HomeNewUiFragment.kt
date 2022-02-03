@@ -31,6 +31,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
+import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addEditAdd
 import com.fidoo.user.activity.MainActivity.Companion.orderSuccess
@@ -184,7 +185,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					fragmentHomeBinding?.topLayNewDesh!!.elevation = 0f
 					val view =
 						requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-					view.visibility = View.GONE
+					view.visibility = View.VISIBLE
 				}
 			//  Log.d("storeVisibilityNested1", "$scrollY--$oldScrollY")
 			} else {
@@ -588,7 +589,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		builder.setPositiveButton("Login") { _, _ ->
 			AppUtils.startActivityRightToLeft(
 				requireActivity(),
-				Intent(activity, SplashActivity::class.java)
+				Intent(activity, AuthActivity::class.java)
 			)
 		}
 		builder.setNegativeButton("Cancel") { _, _ ->

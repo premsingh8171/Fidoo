@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
+import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.tempProductList
 import com.fidoo.user.activity.SplashActivity
@@ -402,7 +403,7 @@ class StoreItemsAdapter(
         //performing positive action
         builder.setPositiveButton("Login") { _, which ->
          //   con.startActivity(Intent(con, LoginActivity::class.java))
-            con.startActivity(Intent( con, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
+            con.startActivity(Intent( con, AuthActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
 
 
         }

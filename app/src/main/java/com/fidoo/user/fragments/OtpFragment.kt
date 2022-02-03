@@ -54,6 +54,7 @@ class OtpFragment : BaseFragment() {
     private var mMixpanel: MixpanelAPI? = null
 
     private val props = JSONObject()
+    var otpcheck: String=""
 
     companion object {
         const val TAG = "SMS_USER_CONSENT"
@@ -106,10 +107,10 @@ class OtpFragment : BaseFragment() {
 
         mView.tv_phone.text = mData.mobile
 
-
         mView.btn_continue.setOnClickListener {
             when {
                 mView.otp_view.otp.equals("") -> {
+
                     Toast.makeText(requireContext(), "Please enter OTP", Toast.LENGTH_SHORT).show()
                 }
                 mView.otp_view.otp?.length != 6 -> {
@@ -119,8 +120,8 @@ class OtpFragment : BaseFragment() {
                             Toast.LENGTH_SHORT
                     ).show()
 
-                }
-                else -> {
+                }else -> {
+
                     verificationApi(mView.otp_view.otp)
                 }
             }
@@ -225,10 +226,13 @@ class OtpFragment : BaseFragment() {
     }
 
     private fun verificationApi(otp: String?) {
+        Log.d("otp___", otp.toString())
+
         if (!isNetworkConnected) {
             showToast(resources.getString(R.string.provide_internet))
             return
         }
+
         showIOSProgress()
         restfullInstance.verificationUser(
                 mData.accesstoken,

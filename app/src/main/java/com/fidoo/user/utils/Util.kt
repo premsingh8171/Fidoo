@@ -44,6 +44,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.fidoo.user.R
 import com.fidoo.user.activity.AuthActivity
+import com.fidoo.user.activity.LoginActivity
 import com.fidoo.user.activity.SplashActivity
 import java.io.File
 import java.text.ParseException
@@ -266,7 +267,7 @@ fun Fragment.showAlertDialog(context: Context) {
         "OK"
     ) { dialog, which -> // MyActivity.this.finish();
        com.fidoo.user.data.session.SessionTwiclo(context).clearSession()
-        startActivity(Intent(activity, AuthActivity::class.java))
+        startActivity(Intent(activity, LoginActivity::class.java))
         ActivityCompat.finishAffinity(activity!!)
     }
     // customBuilder.setIcon(R.drawable.logo)
@@ -290,7 +291,7 @@ fun Activity.showAlertDialog(context: Context) {
         "OK"
     ) { _, _ -> // MyActivity.this.finish();
        com.fidoo.user.data.session.SessionTwiclo(context).clearSession()
-        startActivity(Intent(this, SplashActivity::class.java))
+        startActivity(Intent(this, LoginActivity::class.java))
         ActivityCompat.finishAffinity(this)
     }
     //customBuilder.setIcon(R.drawable.logo)
