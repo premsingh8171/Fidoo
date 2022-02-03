@@ -41,6 +41,7 @@ class OrdersAdapter(
 
         // holder.storeName.text=orders.get(position).storeName
         holder.orderIdValue.text = orders[position].orderId
+        //updated by shobha
         holder.orderIdTxt.text = "Order ID: #"+orders[position].orderId
         holder.orderOnValue.text = orders[position].orderDate
         holder.locText.text = orders[position].storeAddress
@@ -109,7 +110,9 @@ class OrdersAdapter(
 
 //                orderItemAdapter = OrderItemAdapter(con!!, orders[position].items as ArrayList)
 //                holder.itemRecyclerview_.adapter = orderItemAdapter
-            }else{
+            }
+            else{
+                //updated by shobha
                 holder.itemView.Itemlabeltxt.visibility=View.GONE
                 holder.itemView.itemListTxt.visibility=View.GONE
             }

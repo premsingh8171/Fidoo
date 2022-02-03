@@ -462,7 +462,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 					mMap?.animateCamera(
 						CameraUpdateFactory.newLatLngZoom(
 							user_LatLng,
-							13f
+							14f
 						), 3000, null
 					)
 				}

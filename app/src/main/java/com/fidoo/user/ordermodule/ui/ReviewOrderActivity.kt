@@ -92,6 +92,7 @@ class ReviewOrderActivity : BaseActivity() {
                 delivered_itemsRecyclerView?.setHasFixedSize(true)
                 delivered_itemsRecyclerView?.adapter = adapter
 
+                //updated by shobha
                 var date_time = mModelData.delivered_at.toString()
                 var time = date_time.split(" ")[1]
                 var time_AmPm = date_time.split(" ")[2]
