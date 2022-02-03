@@ -12,6 +12,7 @@ import com.fidoo.user.data.model.*
 import com.fidoo.user.ordermodule.model.DeletePrescriptionModel
 import com.fidoo.user.ordermodule.model.UploadPresModel
 import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
+import com.google.gson.Gson
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -91,6 +92,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
 
             addCartInputModelFinal.products.add(temp)
         }
+        Log.d("addCartInputModelFinaldd", Gson().toJson(addCartInputModelFinal))
         WebServiceClient.client.create(BackEndApi::class.java).addToCartApi(addCartInputModelFinal)
             .enqueue(object : Callback<AddToCartModel> {
 
