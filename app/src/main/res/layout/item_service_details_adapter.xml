@@ -606,7 +606,7 @@
         <ImageView
             android:id="@+id/bottomImg"
             android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/margin_10dp"
+            android:layout_marginBottom="-10dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/margin_40dp"
             android:src="@drawable/bottom_building" />
