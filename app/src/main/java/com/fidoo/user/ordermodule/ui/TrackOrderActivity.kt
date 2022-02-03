@@ -131,10 +131,10 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		var trackOrderContext: Context? = null
 		val notiInterface = TrackOrderActivity()
 		var order_status_for_track = ""
-		var check_gMap1 = 0
 		var check_gMap2 = 0
 		var check_gMap3 = 0
 	}
+	var check_gMap1 = 0
 
 	private var movingCabMarker: Marker? = null
 	private var destinationMarker: Marker? = null
@@ -431,9 +431,10 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 			if (order_status_for_track.equals("")) {
 
+				Log.d("check_gMap1sfd",check_gMap1.toString())
 				if (check_gMap1 == 0) {
 					mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(merchantLatLng, 13f))
-					check_gMap1 = 1
+					//check_gMap1 = 1
 				}
 
 				if (merchantLatLng != null) {
@@ -459,12 +460,13 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							.draggable(true).flat(false)
 					)
 
-					mMap?.animateCamera(
-						CameraUpdateFactory.newLatLngZoom(
-							user_LatLng,
-							13f
-						), 3000, null
-					)
+
+//					mMap?.animateCamera(
+//						CameraUpdateFactory.newLatLngZoom(
+//							user_LatLng,
+//							13f
+//						), 4500, null
+//					)
 				}
 
 				createDashedLine(
@@ -522,7 +524,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 						CameraUpdateFactory.newLatLngZoom(
 							rider_LatLng,
 							14f
-						), 3000, null
+						), 4500, null
 					)
 				}
 
@@ -583,7 +585,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 						CameraUpdateFactory.newLatLngZoom(
 							rider_LatLng,
 							14f
-						), 3000, null
+						), 4500, null
 					)
 				}
 

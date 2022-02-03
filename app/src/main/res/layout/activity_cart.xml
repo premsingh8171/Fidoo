@@ -148,7 +148,6 @@
 
             </LinearLayout>
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cartItemsRecyclerView"
                 android:layout_width="match_parent"
@@ -559,16 +558,16 @@
              <!--for urban piper-->
 
                 <TextView
-                    android:visibility="visible"
                     android:id="@+id/tv_tax_charges_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_delivery_discount_label"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
-                    android:text="Tax and charges"
+                    android:text="Gst and charges"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_12sp" />
+                    android:textSize="@dimen/text_size_12sp"
+                    android:visibility="visible" />
 
                 <TextView
                     android:visibility="visible"
