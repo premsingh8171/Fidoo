@@ -39,7 +39,6 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
     private var mMixpanel: MixpanelAPI? = null
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -184,20 +183,29 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
 
             val deliveryChargeWithTax = mModelData.deliveryCharge + mModelData.tax
             delivery_charge.text = resources.getString(R.string.ruppee) + "" + deliveryChargeWithTax
-            delivery_coupon_label.text = "Delivery Discount (" +mModelData.delivery_coupon_name +")"
+            label_delivery_charge.visibility=View.VISIBLE
 
-            if ( mModelData.delivery_discount.toFloat().toString().equals("0.0")){
-                label_delivery_charge.visibility=View.GONE
+            if (mModelData.delivery_coupon_name.equals("")){
+                delivery_coupon_label.text = "Delivery Discount"
+            }else{
+                delivery_coupon_label.text = "Delivery Discount (" +mModelData.delivery_coupon_name +")"
+            }
+
+            if (mModelData.delivery_discount.toFloat().toString().equals("0.0")||mModelData.delivery_discount.toString().equals("0")){
                 delivery_coupon.visibility=View.GONE
+                delivery_coupon_label.visibility=View.GONE
             }else {
-                label_delivery_charge.visibility=View.VISIBLE
                 delivery_coupon.visibility=View.VISIBLE
+                delivery_coupon_label.visibility=View.VISIBLE
                 delivery_coupon.text =
                     "-" + resources.getString(R.string.ruppee) + "" + mModelData.delivery_discount.toFloat()
             }
 
             grand_price.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
             sub_total.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
+
+           Log.e("delivery_discount",  mModelData.delivery_discount.toString())
+
         })
 
 

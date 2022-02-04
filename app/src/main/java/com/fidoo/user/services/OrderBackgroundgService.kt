@@ -5,8 +5,11 @@ import android.content.Intent
 import android.os.CountDownTimer
 import android.os.IBinder
 import android.util.Log
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.orderProcess
+import com.fidoo.user.dailyneed.viewmodel.DailyNeedViewModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
 
@@ -30,6 +33,7 @@ class OrderBackgroundgService  : Service() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         onTaskRemoved(intent)
         session=SessionTwiclo(applicationContext)
+      //  viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(TrackViewModel::class.java)
 
         timer = object : CountDownTimer(timer_count!!, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -45,7 +49,7 @@ class OrderBackgroundgService  : Service() {
 
             override fun onFinish() {
                 if (hit==1) {
-//                    proceedToOrder(
+//                    viewmodel?.proceedToOrder(
 //                        session!!.loggedInUserDetail.accountId,
 //                        session!!.loggedInUserDetail.accessToken,
 //                        bgServicOrderId!!

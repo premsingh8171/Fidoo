@@ -48,7 +48,6 @@ import com.fidoo.user.data.model.BannerModel
 import com.fidoo.user.data.model.CartCountModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentHomeNewuiBinding
-import com.fidoo.user.ordermodule.ui.TrackSendPAckagesOrderActivity
 import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
@@ -229,7 +228,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 	private fun onClickEvent() {
 
-		fragmentHomeBinding?.deshbordRefreshNewDesh!!.setOnRefreshListener { apiCall("0") }
+		fragmentHomeBinding?.deshbordRefreshNewDesh!!.setOnRefreshListener {
+			apiCall("0")
+		}
 
 		fragmentHomeBinding?.retryOnHomeNewDesh!!.setOnClickListener {
 			if ((activity as MainActivity).isNetworkConnected) {

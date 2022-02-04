@@ -214,7 +214,7 @@ class SplashFragment : BaseFragment() {
                 Log.d("splash_screen", Gson().toJson(response.body()))
 
                 if (response.body()!!.error_code == 300) {
-                    updateAppDialog(app_version)
+                    updateAppDialog(response.body()!!.latest_version)
                 } else {
                     fidooSplashLogo.playAnimation()
 

@@ -419,7 +419,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/margin_15dp"
                 android:layout_marginBottom="-60dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/price_breakout_lay">
 
                 <LinearLayout
