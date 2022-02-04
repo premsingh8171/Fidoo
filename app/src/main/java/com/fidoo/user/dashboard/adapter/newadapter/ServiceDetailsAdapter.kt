@@ -193,6 +193,7 @@ class ServiceDetailsAdapter(
             holder.itemView.mainlist.visibility = View.VISIBLE
             holder.itemView.headerTxt.text = serviceList[position].curation_heading
             holder.itemView.header_serviceDetails.setImageResource(R.drawable.la_fire)
+            //updated by shobha
             catIconWidth = (width - 200) / 3
 
             try {
