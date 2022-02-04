@@ -193,7 +193,7 @@ class ServiceDetailsAdapter(
             holder.itemView.mainlist.visibility = View.VISIBLE
             holder.itemView.headerTxt.text = serviceList[position].curation_heading
             holder.itemView.header_serviceDetails.setImageResource(R.drawable.la_fire)
-            catIconWidth = (width - 180) / 3
+            catIconWidth = (width - 200) / 3
 
             try {
                 var cu_val = serviceList[position].curations!!.size
