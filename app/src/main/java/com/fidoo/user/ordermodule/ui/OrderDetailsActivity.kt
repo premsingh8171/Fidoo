@@ -202,7 +202,8 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             }
 
             grand_price.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
-            sub_total.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
+
+            sub_total.text = resources.getString(R.string.ruppee) + "" + mModelData.all_items_total
 
            Log.e("delivery_discount",  mModelData.delivery_discount.toString())
 

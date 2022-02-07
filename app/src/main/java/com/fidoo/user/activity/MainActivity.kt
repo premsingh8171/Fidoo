@@ -325,6 +325,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                                 }
                             }
                         }
+
                         if (addressList.size == 0) {
                             Log.d("addressList__size", "message")
                             getCurrentLocation()

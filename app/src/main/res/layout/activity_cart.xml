@@ -564,7 +564,7 @@
                     android:layout_below="@id/tv_delivery_discount_label"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
-                    android:text="Gst and charges"
+                    android:text="GST and charges"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_size_12sp"
                     android:visibility="visible" />
