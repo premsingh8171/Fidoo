@@ -8,10 +8,12 @@
         <entry key="..\:/twickloapp/app/src/main/res/drawable/half_circle_bg.xml" value="0.2203125" />
         <entry key="..\:/twickloapp/app/src/main/res/drawable/rectangle_shap.xml" value="0.2203125" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/activity_cart.xml" value="0.20416666666666666" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_category_product_list.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/activity_order_details.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/activity_review_order.xml" value="0.20416666666666666" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_service_daily_need.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/activity_services.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/activity_store_filter_list.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/activity_store_items.xml" value="0.20416666666666666" />
@@ -29,7 +31,11 @@
         <entry key="..\:/twickloapp/app/src/main/res/layout/grocery_cat_item_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/image_slider_layout_item.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/item_cat_new_ui.xml" value="0.20416666666666666" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/item_circular_tab.xml" value="0.20416666666666666" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/item_dairy_n_bakery.xml" value="0.20416666666666666" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/item_main_daily_need_ui.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/item_popular_curations.xml" value="0.20416666666666666" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/item_rv.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/item_service_details_adapter.xml" value="0.1" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/item_top_offer_cat.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/layout_slider_card.xml" value="0.20416666666666666" />
