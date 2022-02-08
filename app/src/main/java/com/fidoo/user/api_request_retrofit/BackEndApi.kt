@@ -125,7 +125,7 @@ interface BackEndApi {
         @Field("is_nonveg") is_nonveg: String?,
         @Field("cat_id") cat_id: String?,
         @Field("contains_egg") contains_egg: String?,
-        @Field("start_id") start_id: String?,
+        @Field("start_id") start_id: String?
     ): Call<NewStoreDetailsModel>
 
     //for grocery

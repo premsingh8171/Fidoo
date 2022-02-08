@@ -150,6 +150,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 	var check=0
 	var handleClick=0
 	var handleCounter=0
+
 	@SuppressLint("SetTextI18n")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -1198,7 +1199,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		requestQueue.add(directionsRequest)
 	}
 
-	fun createDashedLine(latLngOrig: LatLng, latLngDest: LatLng, color: Int) {
+	private fun createDashedLine(latLngOrig: LatLng, latLngDest: LatLng, color: Int) {
 		if (mMap != null) {
 			val difLat = latLngDest.latitude - latLngOrig.latitude
 			val difLng = latLngDest.longitude - latLngOrig.longitude
@@ -1828,6 +1829,5 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		}
 
 	}
-
 
 }

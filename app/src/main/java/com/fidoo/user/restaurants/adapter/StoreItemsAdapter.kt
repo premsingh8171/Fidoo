@@ -63,16 +63,16 @@ class StoreItemsAdapter(
 
         if (!index.price!!.equals(index.offerPrice!!)) {
 
-            holder.offerPrice.paintFlags =
-                holder.offerPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            holder.priceTxt.paintFlags =
+                holder.priceTxt.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
-            holder.offerPrice.text = con.resources.getString(R.string.ruppee) + "" + index.price
+            holder.priceTxt.text = con.resources.getString(R.string.ruppee) + "" + index.price
 
-            holder.priceAfterDiscount.text =
+            holder.offerPrice.text =
                 con.resources.getString(R.string.ruppee) + "" + index.offerPrice
 
         } else {
-            holder.priceAfterDiscount.text =
+            holder.offerPrice.text =
                 con.resources.getString(R.string.ruppee) + "" + index.offerPrice
         }
         }catch (e:Exception){
@@ -80,9 +80,9 @@ class StoreItemsAdapter(
         }
 
         if (index.offerPrice.equals("0")){
-            holder.priceAfterDiscount.visibility=View.GONE
+            holder.offerPrice.visibility=View.GONE
         }else{
-            holder.priceAfterDiscount.visibility=View.VISIBLE
+            holder.offerPrice.visibility=View.VISIBLE
         }
 
         try {
@@ -419,8 +419,8 @@ class StoreItemsAdapter(
     }
 
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var offerPrice = view.productSellingPrice
-        var priceAfterDiscount = view.productPrice
+        var offerPrice = view.offerPrice
+        var priceTxt = view.priceTxt
         var itemLay = view.store_item_lay
         //var qty = view.tv_quantity
         var itemName = view.productName

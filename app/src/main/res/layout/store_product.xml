@@ -95,11 +95,11 @@
                     android:layout_marginTop="@dimen/dimen_5dp"
                     app:layout_constraintLeft_toRightOf="@+id/productImage"
                     android:fontFamily="@font/proxima"
-                    android:id="@+id/productPrice"
+                    android:id="@+id/offerPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:maxLines="1"
-                    android:text="@string/val_"
+                    android:text=""
                     android:textColor="@color/colorTitle"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -108,9 +108,9 @@
                 <TextView
                     android:layout_marginTop="@dimen/dimen_5dp"
                     android:layout_marginStart="@dimen/margin_10"
-                    app:layout_constraintLeft_toRightOf="@+id/productPrice"
+                    app:layout_constraintLeft_toRightOf="@+id/offerPrice"
                     android:fontFamily="@font/proxima"
-                    android:id="@+id/productSellingPrice"
+                    android:id="@+id/priceTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:maxLines="1"
@@ -133,7 +133,7 @@
                     android:text=""
                     android:textSize="12sp"
                     app:layout_constraintLeft_toRightOf="@+id/productImage"
-                    app:layout_constraintTop_toBottomOf="@+id/productPrice" />
+                    app:layout_constraintTop_toBottomOf="@+id/priceTxt" />
 
 
                 <ImageView
