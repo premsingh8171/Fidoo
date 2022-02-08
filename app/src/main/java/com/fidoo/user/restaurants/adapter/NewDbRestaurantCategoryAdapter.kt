@@ -55,6 +55,11 @@ class NewDbRestaurantCategoryAdapter(
 		return list.size
 	}
 
+	 fun activePos(active:Int){
+		active_or_not=active
+		notifyDataSetChanged()
+	}
+
 	interface CategoryItemClick {
 		fun onItemClick(pos: Int, category: Subcategory)
 	}

@@ -201,6 +201,15 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                     "-" + resources.getString(R.string.ruppee) + "" + mModelData.delivery_discount.toFloat()
             }
 
+            if (mModelData.other_tax_and_charges.toString().equals("")||mModelData.other_tax_and_charges.toString().equals("null")){
+                gstTxt.visibility=View.GONE
+                gstPriceTxt.visibility=View.GONE
+            }else{
+                gstPriceTxt.text=resources.getString(R.string.ruppee) + "" + mModelData.other_tax_and_charges
+                gstTxt.visibility=View.VISIBLE
+                gstPriceTxt.visibility=View.VISIBLE
+            }
+
             grand_price.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
 
             sub_total.text = resources.getString(R.string.ruppee) + "" + mModelData.all_items_total

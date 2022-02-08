@@ -58,6 +58,7 @@ class SendPacketFragment : com.fidoo.user.utils.BaseFragment(),
         var fromNumber: String = ""
         var toName: String = ""
         var toNumber: String = ""
+        var other_taxes_and_charges: String = ""
 
     }
 
@@ -538,7 +539,7 @@ class SendPacketFragment : com.fidoo.user.utils.BaseFragment(),
                 sendPackagesModel!!.orderId,
                 razorpayPaymentId!!,
                 "",
-                "online"
+                "online",other_taxes_and_charges
             )
 
 

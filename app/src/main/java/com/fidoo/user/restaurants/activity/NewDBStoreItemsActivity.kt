@@ -830,7 +830,6 @@ class NewDBStoreItemsActivity :
             }
         })
 
-
         viewmodel?.addRemoveCartResponse?.observe(this) { user ->
             dismissIOSProgress()
             Log.e("addRemoveCartRes____", Gson().toJson(user))
@@ -1231,13 +1230,15 @@ class NewDBStoreItemsActivity :
 
                             try {
                                 for (i in catList.indices) {
-                                    if (catList[i].product_sub_category_id.equals(
+                                    if (catList[i].subcategory_name .equals(
                                             category_header_.getText().toString()
                                         )
                                     ) {
                                         Log.d("totalItem__gg_", "$i--${catList.size}")
                                         active_or_not = i
+                                        restaurantCategoryAdapter.activePos(active_or_not)
                                         restaurantCategoryAdapter.notifyDataSetChanged()
+
                                     }
                                 }
                             } catch (e: java.lang.Exception) {

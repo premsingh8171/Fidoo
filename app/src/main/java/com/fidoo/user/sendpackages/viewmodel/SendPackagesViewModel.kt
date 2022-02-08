@@ -89,11 +89,12 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
         order_id: String,
         transaction_id: String,
         payment_bank: String,
-        payment_mode: String
+        payment_mode: String,
+        other_taxes_and_charges: String
     ) {
         Log.d(
             "paymentApi___",
-            accountId + "\n" + accessToken + "\n" + order_id + "\n" + transaction_id + "\n" + payment_bank + "\n" + payment_mode
+            accountId + "\n" + accessToken + "\n" + order_id + "\n" + transaction_id + "\n" + payment_bank + "\n" + payment_mode+ "\n" + other_taxes_and_charges
         )
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).paymentApi(
@@ -102,7 +103,8 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
             order_id = order_id,
             transaction_id = transaction_id,
             payment_bank = payment_bank,
-            payment_mode = payment_mode
+            payment_mode = payment_mode,
+            other_taxes_and_charges = other_taxes_and_charges
         )
             .enqueue(object : Callback<PaymentModel> {
                 override fun onResponse(

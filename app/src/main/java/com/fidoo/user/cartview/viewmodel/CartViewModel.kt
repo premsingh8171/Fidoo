@@ -215,8 +215,8 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
             })
     }
     
-    fun paymentApi(accountId: String, accessToken: String, order_id: String, transaction_id: String, payment_bank: String, payment_mode: String) {
-        Log.d("paymentApi__",accountId+"\n"+accessToken+"\n"+order_id+"\n"+transaction_id+"\n"+payment_bank+"\n"+payment_mode)
+    fun paymentApi(accountId: String, accessToken: String, order_id: String, transaction_id: String, payment_bank: String, payment_mode: String, other_taxes_and_charges: String) {
+        Log.d("paymentApi__",accountId+"\n"+accessToken+"\n"+order_id+"\n"+transaction_id+"\n"+payment_bank+"\n"+payment_mode+"\n"+other_taxes_and_charges)
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).paymentApi(
             accountId = accountId,
@@ -224,7 +224,8 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
             order_id = order_id,
             transaction_id = transaction_id,
             payment_bank = payment_bank,
-            payment_mode = payment_mode
+            payment_mode = payment_mode,
+            other_taxes_and_charges = other_taxes_and_charges
         ).enqueue(object : Callback<PaymentModel> {
             override fun onResponse(call: Call<PaymentModel>, response: Response<PaymentModel>) {
                 // progressDialog?.value = false

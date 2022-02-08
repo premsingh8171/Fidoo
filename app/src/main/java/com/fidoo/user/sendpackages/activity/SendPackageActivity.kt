@@ -90,6 +90,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         var documentId: String = ""
         var forSendPackageAddCheck: String = "0"
         var standard_charges: String = ""
+        var other_taxes_and_charges: String = ""
     }
 
     var contsCardHeight = 0
@@ -652,7 +653,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                 sendPackagesModel!!.orderId,
                 razorpayPaymentId!!,
                 "",
-                "online"
+                "online",other_taxes_and_charges
             )
 
 

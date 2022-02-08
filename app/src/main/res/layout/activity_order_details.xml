@@ -281,7 +281,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/itemsRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="@dimen/margin_10"
                         android:layout_marginRight="@dimen/margin_10"
                         android:layout_marginBottom="@dimen/margin_20dp" />
@@ -452,10 +452,41 @@
                             android:textSize="@dimen/text_size_12sp" />
 
                         <TextView
-                            android:id="@+id/label_grand_total"
+                            android:id="@+id/gstTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/delivery_coupon_label"
+                            android:layout_alignParentStart="true"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/proxima"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:text="GST and charges"
+                            android:textColor="@color/primary_color"
+                            android:textSize="@dimen/text_size_12sp" />
+
+                        <TextView
+                            android:id="@+id/gstPriceTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/delivery_coupon"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/proxima"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:text="@string/ruppee"
+                            android:textSize="@dimen/text_size_12sp" />
+
+                        <TextView
+                            android:id="@+id/label_grand_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/gstTxt"
                             android:layout_alignParentStart="true"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginLeft="@dimen/margin_20dp"
@@ -472,7 +503,7 @@
                             android:id="@+id/grand_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/delivery_coupon"
+                            android:layout_below="@id/gstPriceTxt"
                             android:layout_alignParentEnd="true"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginHorizontal="15dp"

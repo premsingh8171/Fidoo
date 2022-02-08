@@ -173,6 +173,7 @@ class CartActivity : BaseActivity(),
 		var userLong: String = ""
 		var storeLat: String = ""
 		var storeLong: String = ""
+		var other_taxes_and_charges: String = ""
 
 		//var storeCustomerDistance: String = ""
 		var delivery_Lat: Double? = 0.0
@@ -704,6 +705,7 @@ class CartActivity : BaseActivity(),
 
 			isPrescriptionRequire = "0"
 			linear_progress_indicator.visibility = View.GONE
+
 			if (!user.error) {
 				if (user.cart != null) {
 					val cartIndex = user.cart
@@ -711,8 +713,9 @@ class CartActivity : BaseActivity(),
 					// store lat long
 					storeLat = user.store_lat
 					storeLong = user.store_long
+					other_taxes_and_charges = user.totalTaxAndCharges.toString()
 
-					Log.e("storeDataCartActivity__", "$storeLat---$storeLong")
+					Log.e("storeDataCartActivity__", "$storeLat---$storeLong-$other_taxes_and_charges")
 					calculateStoreCustomerDistance()
 
 					//do work for charges
@@ -986,6 +989,7 @@ class CartActivity : BaseActivity(),
 					showAlertDialog(this)
 				}
 			}
+
 		}
 
 		viewmodel?.paymentResponse?.observe(this) { user ->
@@ -1125,7 +1129,8 @@ class CartActivity : BaseActivity(),
 							user.orderId,
 							"",
 							"",
-							"cash"
+							"cash",
+							other_taxes_and_charges
 						)
 					} else {
 						showInternetToast()
@@ -1415,7 +1420,7 @@ class CartActivity : BaseActivity(),
 				tempOrderId,
 				razorpayPaymentId!!,
 				"",
-				"online"
+				"online",other_taxes_and_charges
 			)
 
 			viewmodelusertrack?.customerActivityLog(

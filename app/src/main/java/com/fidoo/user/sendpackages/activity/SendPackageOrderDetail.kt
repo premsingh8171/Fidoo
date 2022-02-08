@@ -66,6 +66,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
     companion object {
         var sendpackagerder_id: String = ""
         var finalOrderId: String = ""
+        var other_taxes_and_charges: String = ""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -291,7 +292,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                         sendpackagerder_id,
                         "",
                         "",
-                        paymentMode
+                        paymentMode,other_taxes_and_charges
                     )
                     paySuccessPopUp()
                 }
@@ -447,7 +448,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                 sendpackagerder_id,
                 razorpayPaymentId!!,
                 "",
-                "online"
+                "online",other_taxes_and_charges
             )
 
             viewmodelusertrack?.customerActivityLog(
@@ -602,6 +603,5 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         }
 
     }
-
 
 }

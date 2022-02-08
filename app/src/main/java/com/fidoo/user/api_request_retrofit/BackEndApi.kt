@@ -294,7 +294,8 @@ interface BackEndApi {
         @Field("order_id") order_id: String?,
         @Field("transaction_id") transaction_id: String?,
         @Field("payment_bank") payment_bank: String?,
-        @Field("payment_mode") payment_mode: String?
+        @Field("payment_mode") payment_mode: String?,
+        @Field("other_taxes_and_charges") other_taxes_and_charges: String?
     ): Call<PaymentModel>
 
     @FormUrlEncoded

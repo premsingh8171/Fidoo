@@ -128,6 +128,10 @@ public class OrderDetailsModel {
     @Expose
     public String request_id;
 
+    @SerializedName("other_tax_and_charges")
+    @Expose
+    public String other_tax_and_charges;
+
     @SerializedName("items")
     @Expose
     public List<Item> items = null;

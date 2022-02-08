@@ -858,10 +858,10 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 						it.orderStatus.equals("9") -> {
 							//holder.buttonValue.visibility = View.VISIBLE
 							Log.d("deliveryBoyName___", it.deliveryBoyName)
-							dynamicText(tv_delivery_boy, "Your Order is ready and will soon be picked up by ", it.deliveryBoyName)
+							dynamicText(tv_delivery_boy, "Your order is ready and will soon be picked up by ", it.deliveryBoyName)
 //                            tv_delivery_boy.text =  "Your Order is ready and will soon be picked up by " + it.deliveryBoyName
 							status_store_txt.text = "has prepared your order"
-							order_status.text = "Your Order is ready and will soon be picked up by " + it.deliveryBoyName
+							order_status.text = "Your order is ready and will soon be picked up by " + it.deliveryBoyName
 							tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
 							tv_we_will_assign_delivery_partner_soon.setTextColor(Color.rgb(51, 147, 71))
 							order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
@@ -935,7 +935,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 							ordstatus_lay_new.visibility = View.VISIBLE
 
 							tv_delivery_boy.text=it.deliveryBoyName +" is on the way to pick your order"
-							order_status.text = it.deliveryBoyName +" has reached at "+it.storeName+ " location"
+							order_status.text = it.deliveryBoyName +" is on the way to pick your order from "+it.storeName
 
 							driver_cardView.visibility = View.VISIBLE
 							tv_delivery_boy_call.visibility = View.VISIBLE
@@ -949,7 +949,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
 						it.orderStatus.equals("15") -> {
 							order_status_for_track = "rider_assign"
-							order_status.text = "It's ready. Just packing it."
+						//	order_status.text = "It's ready. Just packing it."
+							order_status.text = it.deliveryBoyName +" has reached at "+it.storeName
 							status_store_txt.text = "is preparing your order"
 							tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
 							driver_cardView.visibility = View.VISIBLE
