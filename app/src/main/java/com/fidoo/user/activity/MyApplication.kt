@@ -22,7 +22,7 @@ class MyApplication : Application(), LifecycleObserver, Application.ActivityLife
         super.onCreate()
       //  Log.wtf("run", "onCreate")
 
-        Places.initialize(applicationContext, "AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c")
+        Places.initialize(applicationContext, "AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY")
      /*   FirebaseApp.initializeApp(this)
 
         // initialise mobile ads

@@ -835,7 +835,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
 		val urlDirections =
 			"https://maps.googleapis.com/maps/api/directions/json?origin=" + rider_latLong + "&destination=" +
-					destination + "&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c"
+					destination + "&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
 		Log.e("urlDirections", "routes- $urlDirections---$type")
 
 		val directionsRequest = object :
@@ -1170,10 +1170,10 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 		var urlEstimatedTime = ""
 		if (order_status_for_track.equals("order_picked")) {
 			urlEstimatedTime =
-				"https://maps.googleapis.com/maps/api/directions/json?rider_LatLng=$source&destination=$destination&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c"
+				"https://maps.googleapis.com/maps/api/directions/json?rider_LatLng=$source&destination=$destination&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
 		} else {
 			urlEstimatedTime =
-				"https://maps.googleapis.com/maps/api/directions/json?origin=" + source + "&destination=" + destination + "&waypoints=via:" + merchantLatLngStr + "&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c"
+				"https://maps.googleapis.com/maps/api/directions/json?origin=" + source + "&destination=" + destination + "&waypoints=via:" + merchantLatLngStr + "&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
 		}
 
 		Log.e("urlEstimatedTime", urlEstimatedTime)

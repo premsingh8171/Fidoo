@@ -2027,12 +2027,12 @@ class CartActivity : BaseActivity(),
 			)
 		}
 	}
-
+//	AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY
 	fun calculateStoreCustomerDistance() {
 		val source = userLat + "," + userLong
 		val destination = storeLat + "," + storeLong
 		val urlDirections =
-			"https://maps.googleapis.com/maps/api/directions/json?origin=$source&destination=$destination&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c"
+			"https://maps.googleapis.com/maps/api/directions/json?origin=$source&destination=$destination&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
 		Log.e("urlDirections", urlDirections)
 		var dist_: Float = 0f
 		val directionsRequest = object :

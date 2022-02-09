@@ -416,7 +416,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         val source = selectedfromLat.toString() + "," + selectedfromLng.toString()
         val destination = selectedtoLat.toString() + "," + selectedtoLng.toString()
         val urlDirections =
-            "https://maps.googleapis.com/maps/api/directions/json?origin=$source&destination=$destination&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c"
+            "https://maps.googleapis.com/maps/api/directions/json?origin=$source&destination=$destination&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
         Log.e("urlDirections", urlDirections)
         var dist_: Float = 0f
         val directionsRequest = object :

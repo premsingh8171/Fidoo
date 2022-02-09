@@ -6,7 +6,8 @@
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="otp_verification" translatable="false">Verification</string>
     <string name="please_enter_verificarion_code_sent_to" translatable="false">Please enter verification code sent to</string>
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCbBE8w8jZTrhLeeDMHowmGshS_CqK6ZlQ</string>
+<!--    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCbBE8w8jZTrhLeeDMHowmGshS_CqK6ZlQ</string>-->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY</string>
     <string name="please_enter_your_phone_number" translatable="false">Please enter your phone number</string>
     <string name="sign_up" translatable="false">Sign Up</string>
     <string name="already_have_an_account_sign_in" translatable="false">Already have an account? Sign In</string>

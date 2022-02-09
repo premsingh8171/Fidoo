@@ -348,7 +348,7 @@ class SendPacketFragment : com.fidoo.user.utils.BaseFragment(),
         val destination =
             selectedtoLat.toString() + "," + selectedtoLng.toString()
         val urlDirections =
-            "https://maps.googleapis.com/maps/api/directions/json?origin=$source&destination=$destination&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c"
+            "https://maps.googleapis.com/maps/api/directions/json?origin=$source&destination=$destination&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
         val directionsRequest = object :
             StringRequest(Request.Method.GET, urlDirections, Response.Listener<String> { response ->
                 val jsonResponse = JSONObject(response)

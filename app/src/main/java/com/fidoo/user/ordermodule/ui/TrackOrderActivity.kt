@@ -1142,7 +1142,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		val path: MutableList<List<LatLng>> = ArrayList()
 
 		val urlDirections =
-			"https://maps.googleapis.com/maps/api/directions/json?origin=" + rider_latLong + "&destination=" + destination + "&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c"
+			"https://maps.googleapis.com/maps/api/directions/json?origin=" + rider_latLong + "&destination=" + destination + "&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
 
 		Log.e("urlDirections", "routes- $urlDirections---$type")
 
@@ -1525,9 +1525,9 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 		//destination = SendPackageActivity.selectedtoLat.toString() + "," + SendPackageActivity.selectedtoLng.toString()
 		var urlEstimatedTime = ""
 		if (order_status_for_track.equals("order_picked")) {
-			urlEstimatedTime = "https://maps.googleapis.com/maps/api/directions/json?origin=$source&destination=$destination&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c"
+			urlEstimatedTime = "https://maps.googleapis.com/maps/api/directions/json?origin=$source&destination=$destination&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
 		} else {
-			urlEstimatedTime = "https://maps.googleapis.com/maps/api/directions/json?origin=" + source + "&destination=" + destination + "&waypoints=via:" + merchantLatLngStr + "&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c"
+			urlEstimatedTime = "https://maps.googleapis.com/maps/api/directions/json?origin=" + source + "&destination=" + destination + "&waypoints=via:" + merchantLatLngStr + "&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
 		}
 
 		Log.e("urlEstimatedTime", urlEstimatedTime)
