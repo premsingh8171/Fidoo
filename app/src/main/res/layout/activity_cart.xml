@@ -564,8 +564,8 @@
                     android:layout_below="@id/tv_delivery_discount_label"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
-                    android:text="GST and charges"
-                    android:textColor="@color/colorPrimary"
+                    android:text="Restaurant Taxes"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp"
                     android:visibility="visible" />
 
@@ -584,13 +584,13 @@
 
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_tax_charges_label"
                     android:layout_marginTop="@dimen/margin_10"
-                    android:background="@drawable/dotted_horizontal_line" />
+                    android:background="@drawable/dotted_horizontal_line"
+                    android:orientation="vertical" />
 
                 <TextView
                     android:id="@+id/tv_grand_total_label"
@@ -599,7 +599,7 @@
                     android:layout_below="@id/view"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
-                    android:text="To Pay"
+                    android:text="Grand Total"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp" />
 
@@ -687,7 +687,7 @@
 
                 <LinearLayout
                     android:layout_width="270dp"
-                    android:layout_height="@dimen/margin_70dp"
+                    android:layout_height="@dimen/margin_100dp"
                     android:background="@drawable/charges_popup"
                     android:orientation="vertical">
 
@@ -756,6 +756,38 @@
 
                     </RelativeLayout>
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:fontFamily="@font/proxima"
+                            android:maxLines="1"
+                            android:text="Additional GST charges:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_12sp" />
+
+                        <TextView
+                            android:layout_marginRight="@dimen/margin_15dp"
+                            android:layout_alignParentEnd="true"
+                            android:id="@+id/tax_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:fontFamily="@font/proxima"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:text=""
+                            android:textColor="@color/primary_color"
+                            android:textSize="@dimen/text_size_12sp" />
+                    </RelativeLayout>
+
+
                 </LinearLayout>
 
             </FrameLayout>
@@ -820,36 +852,6 @@
 
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:fontFamily="@font/proxima"
-                            android:maxLines="1"
-                            android:text="GST"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_size_12sp" />
-
-                        <TextView
-                            android:layout_marginRight="@dimen/margin_15dp"
-                            android:layout_alignParentEnd="true"
-                            android:id="@+id/tax_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:fontFamily="@font/proxima"
-                            android:gravity="end"
-                            android:maxLines="1"
-                            android:text=" ₹ 35"
-                            android:textColor="@color/primary_color"
-                            android:textSize="@dimen/text_size_12sp" />
-                    </RelativeLayout>
 
 
                 </LinearLayout>

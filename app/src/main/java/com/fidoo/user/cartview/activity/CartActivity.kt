@@ -340,8 +340,8 @@ class CartActivity : BaseActivity(),
 
 		tv_tax_charges_label.setOnClickListener {
 
-			chargesFmBg.visibility = View.VISIBLE
-			tax_and_charges_lay.visibility = View.VISIBLE
+//			chargesFmBg.visibility = View.VISIBLE
+//			tax_and_charges_lay.visibility = View.VISIBLE
 
 		}
 
@@ -893,8 +893,8 @@ class CartActivity : BaseActivity(),
 						resources.getString(R.string.ruppee) + mModelData.totalTaxAndCharges
 					charges_value.text =
 						resources.getString(R.string.ruppee) + mModelData.allItemChargeTotal
-					tax_value.text =
-						resources.getString(R.string.ruppee) + mModelData.allItemTaxTotal
+					//tax_value.text = resources.getString(R.string.ruppee) + mModelData.allItemTaxTotal
+					tax_value.text = resources.getString(R.string.ruppee) + mModelData.charges_three
 
 					if (mModelData.deliveryDiscount == 0) {
 						//delivery_coupon_name.visibility = View.GONE
