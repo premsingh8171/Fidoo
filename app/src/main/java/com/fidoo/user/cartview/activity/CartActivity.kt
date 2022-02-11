@@ -733,6 +733,12 @@ class CartActivity : BaseActivity(),
 							charges_TwoPriceTxt.text = "₹ " + charges_TwoStr[1]
 						}
 
+						if (user.charges_three.isNotEmpty()) {
+							var charges_ThreeStr = user.charges_three.split(",")
+							charges_ThreeTxt.text = charges_ThreeStr[0]
+							tax_value.text = "₹ " + charges_ThreeStr[1]
+						}
+
 					} catch (e: Exception) {
 						e.printStackTrace()
 					}
@@ -894,13 +900,14 @@ class CartActivity : BaseActivity(),
 					charges_value.text =
 						resources.getString(R.string.ruppee) + mModelData.allItemChargeTotal
 					//tax_value.text = resources.getString(R.string.ruppee) + mModelData.allItemTaxTotal
-					tax_value.text = resources.getString(R.string.ruppee) + mModelData.charges_three
+
 
 					if (mModelData.deliveryDiscount == 0) {
 						//delivery_coupon_name.visibility = View.GONE
 						//delivery_coupon_value.visibility = View.GONE
 					}
 					//	Log.d("ddaifvzd", mModelData.deliveryDiscount.toFloat().toString())
+
 					if (mModelData.deliveryDiscount.toFloat().toString().equals("0.0")) {
 						tv_delivery_discount_label.visibility = View.GONE
 						tv_delivery_discount.visibility = View.GONE

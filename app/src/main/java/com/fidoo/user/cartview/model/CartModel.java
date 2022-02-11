@@ -160,7 +160,7 @@ public class CartModel {
 
     @SerializedName("charges_three")
     @Expose
-    public Double charges_three;
+    public String charges_three;
 
     @SerializedName("cart")
     @Expose

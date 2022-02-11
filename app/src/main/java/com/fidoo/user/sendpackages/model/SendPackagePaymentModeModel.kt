@@ -3,6 +3,7 @@ package com.fidoo.user.sendpackages.model
 data class SendPackagePaymentModeModel(
     val accessToken: String,
     val accountId: String,
+    val charges_three: String,
     val cash: Int,
     val error: Boolean,
     val error_code: Int,
