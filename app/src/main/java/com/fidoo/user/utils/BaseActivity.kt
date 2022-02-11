@@ -146,25 +146,6 @@ abstract class BaseActivity : AppCompatActivity(), Handler.Callback {
         _progressDlg!!.show()
     }
 
-    //    public String getGeoAddressFromLatLong(double latitude, double longitude) {
-    //        Geocoder geocoder;
-    //        List<Address> addresses;
-    //        geocoder = new Geocoder(this, Locale.getDefault());
-    //        try {
-    //            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-    //            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-    //            String city = addresses.get(0).getLocality();
-    //            String state = addresses.get(0).getAdminArea();
-    //            String country = addresses.get(0).getCountryName();
-    //            String postalCode = addresses.get(0).getPostalCode();
-    //            //   String knownName = addresses.get(0).getFeatureName(); // Only if available else return
-    //
-    //            return address;
-    //        } catch (IOException e) {
-    //            e.printStackTrace();
-    //            return "";
-    //        }
-    //    }
     fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String? {
         val geocoder = Geocoder(this, Locale.getDefault())
         try {
@@ -544,11 +525,6 @@ abstract class BaseActivity : AppCompatActivity(), Handler.Callback {
         Toast.makeText(_context, toast_string, Toast.LENGTH_LONG).show()
     }
 
-    /*  public void vibrate() {
-
-        if (_vibrator != null)
-            _vibrator.vibrate(500);
-    }*/
     override fun handleMessage(msg: Message): Boolean {
         when (msg.what) {
             else -> {
@@ -610,41 +586,8 @@ abstract class BaseActivity : AppCompatActivity(), Handler.Callback {
         view.append(start_str)
         view.append(str)
         view.append(end_str)
-    } //    public void geocoderAddress(TextView view,String lat, String lng) {
+    }
 
-    //        String address = "";
-    //        String url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=AIzaSyBvnYPa4tw9s5TSGwzePeWD4Kk7yulyy9c";
-    //        Log.e("geocoderApi___", url);
-    //        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-    //            GsonBuilder gsonBuilder = new GsonBuilder();
-    //            Gson gson = gsonBuilder.create();
-    //            GeocoderModel response2 = gson.fromJson(String.valueOf(response), GeocoderModel.class);
-    //            Log.e("RequestType_", response2.getResults().get(0).getFormattedAddress());
-    //            view.setText(response2.getResults().get(0).getFormattedAddress());
-    //          //  address = response2.getResults().get(0).getFormattedAddress();
-    //        }, error -> {
-    //
-    //        });
-    //
-    //        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-    //        requestQueue.add(request);
-    //
-    //    }
-    //    public void copyText(String selectedText){
-    //        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-    //        ClipData clip = ClipData.newPlainText("label", selectedText);
-    //        if (clipboard == null || clip == null) return;
-    //        clipboard.setPrimaryClip(clip);
-    //    }
-    //
-    //    public void pasteText(){
-    //        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-    //        try {
-    //            CharSequence text = clipboard.getPrimaryClip().getItemAt(0).getText();
-    //        } catch (Exception e) {
-    //            return;
-    //        }
-    //    }
     companion object {
         var address: String? = ""
         var city = ""
