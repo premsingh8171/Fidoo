@@ -210,6 +210,11 @@
         <activity
             android:name=".activity.ServicesActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".dialogflow.dialogflowbot.DialogFlow"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".restaurants.activity.NewDBStoreItemsActivity"
             android:screenOrientation="portrait"

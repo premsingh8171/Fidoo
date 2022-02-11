@@ -646,7 +646,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 											"Please wait while we confirm your order"
 
 										timerStatus = false
-										handleClick = 1
 										viewmodel?.proceedToOrder(
 											SessionTwiclo(trackOrderContext).loggedInUserDetail.accountId,
 											SessionTwiclo(trackOrderContext).loggedInUserDetail.accessToken,
@@ -660,6 +659,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 												OrderBackgroundgService::class.java
 											)
 										)
+										handleClick = 1
+
 										//	OrderBackgroundgService.timer_count=30000
 
 									}

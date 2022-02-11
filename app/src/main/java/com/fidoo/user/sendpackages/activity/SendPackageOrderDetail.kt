@@ -32,6 +32,7 @@ import com.fidoo.user.ordermodule.ui.TrackSendPAckagesOrderActivity
 import com.fidoo.user.sendpackages.model.SendPackagesModel
 import com.fidoo.user.sendpackages.viewmodel.SendPackagesViewModel
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
+import com.fidoo.user.utils.showAlertDialog
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
@@ -271,27 +272,34 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         sendPackagesViewModel?.sendPackagesResponse?.observe(this) {
             Log.e("send_package_response", it.toString())
 
-            val razorpayId = it.orderId.toString()
-            sendpackagerder_id = razorpayId
-            Log.e("razorpayId__", sendpackagerder_id)
+            if (it.errorCode==200) {
+                val razorpayId = it.orderId.toString()
+                sendpackagerder_id = razorpayId
+                Log.e("razorpayId__", sendpackagerder_id)
 
-            val razorpayOrderId = it.razorPayOrderId.toString()
+                val razorpayOrderId = it.razorPayOrderId.toString()
 
-            if (paymentMode == "online") {
-                if (paymentAmount != null) {
-                    startPayment(paymentAmount, razorpayOrderId)
+                if (paymentMode == "online") {
+                    if (paymentAmount != null) {
+                        startPayment(paymentAmount, razorpayOrderId)
+                    }
+                } else {
+                    Log.e("paymentMode___", paymentMode)
+                    sendPackagesViewModel?.paymentApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        sendpackagerder_id,
+                        "",
+                        "",
+                        paymentMode
+                    )
+                    paySuccessPopUp()
                 }
-            } else {
-                Log.e("paymentMode___", paymentMode)
-                sendPackagesViewModel?.paymentApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    sendpackagerder_id,
-                    "",
-                    "",
-                    paymentMode
-                )
-                paySuccessPopUp()
+            }else if (it.errorCode==101){
+                showAlertDialog(this)
+            }else if (it.errorCode==100){
+                Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+
             }
 
         }

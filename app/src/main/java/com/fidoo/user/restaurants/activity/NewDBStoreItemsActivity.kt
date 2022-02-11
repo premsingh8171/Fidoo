@@ -628,6 +628,10 @@ class NewDBStoreItemsActivity :
             next_available = storeData.next_available
             latestCatList.clear()
 
+            if (next_available.toString().equals("1")){
+                dismissIOSProgress()
+            }
+
 //            if (cat_listShow == 0) {
 //                catList!!.clear()
 //            }
@@ -651,7 +655,7 @@ class NewDBStoreItemsActivity :
                 e.printStackTrace()
             }
 
-            dismissIOSProgress()
+         //   dismissIOSProgress()
 
             if (storeData.error_code==200) {
 
@@ -816,7 +820,7 @@ class NewDBStoreItemsActivity :
                 productList.clear()!!
                 deleteRoomDataBase()
                 getRoomData()
-
+                dismissIOSProgress()
 //                val toast =
 //                    Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
 //                toast.show()
@@ -1362,7 +1366,7 @@ class NewDBStoreItemsActivity :
                         }
                     })
 
-                dismissIOSProgress()
+             //   dismissIOSProgress()
             } else {
                 searchQuery(search_value)
             }
@@ -1454,6 +1458,7 @@ class NewDBStoreItemsActivity :
     private fun getStoreDetailsApiCall() {
         if (isNetworkConnected) {
             showIOSProgress()
+
             //fidooLoaderShow()
             category_header_.visibility = View.GONE
             category_header_.text = ""

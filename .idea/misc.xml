@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/twickloapp/app/src/main/res/drawable/btn_bg_green.xml" value="0.2203125" />
         <entry key="..\:/twickloapp/app/src/main/res/drawable/cart_bg.xml" value="0.2203125" />
         <entry key="..\:/twickloapp/app/src/main/res/drawable/half_circle_bg.xml" value="0.2203125" />
@@ -44,6 +45,13 @@
         <entry key="..\:/twickloapp/app/src/main/res/layout/service_adapter.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/store_product.xml" value="0.20416666666666666" />
         <entry key="..\:/twickloapp/app/src/main/res/menu/bottom_navigation.xml" value="0.20416666666666666" />
+=======
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.33" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_order_details.xml" value="0.18" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.14492753623188406" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/order_items_adapter.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.13405797101449277" />
+>>>>>>> dev_2feb
       </map>
     </option>
   </component>

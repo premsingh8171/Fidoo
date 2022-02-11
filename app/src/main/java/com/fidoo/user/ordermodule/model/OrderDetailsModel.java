@@ -73,6 +73,10 @@ public class OrderDetailsModel {
     @Expose
     public String totalPrice;
 
+    @SerializedName("all_items_total")
+    @Expose
+    public String all_items_total;
+
     @SerializedName("tax")
     @Expose
     public Float tax;
