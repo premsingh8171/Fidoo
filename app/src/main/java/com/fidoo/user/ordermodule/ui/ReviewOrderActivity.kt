@@ -74,7 +74,6 @@ class ReviewOrderActivity : BaseActivity() {
 
         backIcon_reviewOrd.setOnClickListener {
             finish()
-            // AppUtils.finishActivityLeftToRight(this)
         }
 
         viewmodel?.OrderDetailsResponse?.observe(this, { user ->
@@ -83,7 +82,6 @@ class ReviewOrderActivity : BaseActivity() {
                 visible_View_ReviewOrdLl.visibility=View.VISIBLE
                 val mModelData: OrderDetailsModel = user
                 tv_address_reviewOrd.text = mModelData.deliveryAddress
-                // tv_payment_mode.text = "Payment Mode: " +mModelData.paymentMode
                 Log.e("orders_details_Response", Gson().toJson(mModelData))
 
 
@@ -96,14 +94,7 @@ class ReviewOrderActivity : BaseActivity() {
                 var time = date_time.split(" ")[1]
                 var time_AmPm = date_time.split(" ")[2]
 
-                //  Log.e("time_______", time+time_AmPm)
                 order_delivered_time.text = time + " " + time_AmPm
-
-//            Glide.with(this)
-//                .load(mModelData.storeImage)
-//                .placeholder(R.drawable.icon_store)
-//                .into(store_img_reviewOrder)
-
                 loadImage(mModelData.storeImage)
 
                 if (mModelData.storeName == "") {
@@ -160,7 +151,7 @@ class ReviewOrderActivity : BaseActivity() {
             driver_star4.setImageResource(R.drawable.start_off)
             driver_star5.setImageResource(R.drawable.start_off)
             driver_rating = "1"
-            review_submit.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submit.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color))
         }
         driver_star2.setOnClickListener {
             driver_star1.setImageResource(R.drawable.start_on)
@@ -169,7 +160,7 @@ class ReviewOrderActivity : BaseActivity() {
             driver_star4.setImageResource(R.drawable.start_off)
             driver_star5.setImageResource(R.drawable.start_off)
             driver_rating = "2"
-            review_submit.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submit.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color))
         }
         driver_star3.setOnClickListener {
             driver_star1.setImageResource(R.drawable.start_on)
@@ -226,7 +217,7 @@ class ReviewOrderActivity : BaseActivity() {
             store_star4.setImageResource(R.drawable.start_off)
             store_star5.setImageResource(R.drawable.start_off)
             store_rating = "3"
-            review_submit.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submit.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color))
         }
         store_star4.setOnClickListener {
             store_star1.setImageResource(R.drawable.start_on)
@@ -307,7 +298,6 @@ class ReviewOrderActivity : BaseActivity() {
 
     override fun onBackPressed() {
         finish()
-        //AppUtils.finishActivityLeftToRight(this)
     }
 
 }

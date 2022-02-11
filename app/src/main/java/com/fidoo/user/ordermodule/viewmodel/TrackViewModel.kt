@@ -39,20 +39,19 @@ class TrackViewModel(application: Application) : AndroidViewModel(application) {
         orderFeedback = MutableLiveData<Feedback>()
     }
 
-
     fun cancelOrderApi(accountId: String, accessToken: String, orderId: String) {
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).cancelOrderApi(
             accountId = accountId, accessToken = accessToken, order_id = orderId
         ).enqueue(object : Callback<DeleteModel> {
             override fun onResponse(call: Call<DeleteModel>, response: Response<DeleteModel>) {
-                    cancelOrderResponse?.value = response.body()
-                }
+                cancelOrderResponse?.value = response.body()
+            }
 
-                override fun onFailure(call: Call<DeleteModel>, t: Throwable) {
-                    failureResponse?.value = "Something went wrong"
-                }
-            })
+            override fun onFailure(call: Call<DeleteModel>, t: Throwable) {
+                failureResponse?.value = "Something went wrong"
+            }
+        })
     }
 
     fun getLocationApi(
@@ -142,7 +141,7 @@ class TrackViewModel(application: Application) : AndroidViewModel(application) {
         customer_phone: String,
         merchant_phone: String
     ) {
-        Log.d("customerCallMerchant__","$accountId-$accessToken-$customer_phone-$merchant_phone")
+        Log.d("customerCallMerchant__", "$accountId-$accessToken-$customer_phone-$merchant_phone")
         WebServiceClient.client.create(BackEndApi::class.java).customerCallMerchantApi(
             accountId = accountId,
             accessToken = accessToken,
@@ -155,7 +154,7 @@ class TrackViewModel(application: Application) : AndroidViewModel(application) {
             ) {
                 customerCallMerchantRes?.value = response?.body()
 
-               //  Log.e("customerCallMerchantRes__", "--")
+                //  Log.e("customerCallMerchantRes__", "--")
 
             }
 
@@ -223,6 +222,4 @@ class TrackViewModel(application: Application) : AndroidViewModel(application) {
                 }
             })
     }
-
-
 }

@@ -20,7 +20,6 @@ class OrderRejectedActivity : BaseActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_order_rejected)
         sessionTwiclo = SessionTwiclo(this)
-        //payment_mode= intent.getStringExtra("payment_mode")!!
 
         cancelBtnL.setOnClickListener {
             if (MainActivity.onBackpressHandle.equals("1")){

@@ -148,9 +148,6 @@ class OrdersFragment : Fragment(),
 			Log.e("cart response", Gson().toJson(user))
 			//showToast(user)
 			Toast.makeText(mmContext, user, Toast.LENGTH_SHORT).show()
-
-
-			//   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
 		})
 
 		viewmodel?.myOrdersResponse?.observe(requireActivity(), Observer { user ->
@@ -225,7 +222,6 @@ class OrdersFragment : Fragment(),
 					_progressDlg = null
 				}
 
-
 				val model: Feedback = feedback
 				Toast.makeText(context, model.message, Toast.LENGTH_SHORT).show()
 				viewmodel?.getMyOrders(
@@ -243,14 +239,8 @@ class OrdersFragment : Fragment(),
 				_progressDlg = null
 			}
 			val mModelData: UploadPresModel = user
-
 			Log.e("uploadResponse", Gson().toJson(mModelData))
-
 		})
-
-//        viewmodel?.cancelOrderResponse?.observe(requireActivity(), { user ->
-//
-//        })
 
 		viewmodel?.repeatOrderResponse?.observe(requireActivity(), { response ->
 			Log.e("repeatOrderResponse", Gson().toJson(response))
@@ -298,11 +288,6 @@ class OrdersFragment : Fragment(),
 		val adapter =
 			OrdersAdapter(mmContext, orders, this, object : OrdersAdapter.OnOrderItemClick {
 				override fun onCancelOrder(orders: MyOrdersModel.Order, pos: Int) {
-//                if (orders.orderId!=null){
-//                    cancelOrderDialog(orders.orderId)
-//                }
-
-
 				}
 
 				override fun onRepeatOrder(orders: MyOrdersModel.Order, pos: Int) {
@@ -439,8 +424,6 @@ class OrdersFragment : Fragment(),
 			Log.wtf("IOS_error_starting", ex.cause!!)
 		}
 		viewmodel?.uploadPrescriptionImage(accountId, accessToken, orderId, mImageParts)
-
-
 	}
 
 	private fun cancelOrderDialog(order_id: String) {
@@ -484,7 +467,6 @@ class OrdersFragment : Fragment(),
 		}
 
 	}
-
 
 	override fun onAttach(context: Context) {
 		super.onAttach(context)

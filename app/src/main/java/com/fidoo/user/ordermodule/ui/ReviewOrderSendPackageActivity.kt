@@ -75,18 +75,7 @@ class ReviewOrderSendPackageActivity : BaseActivity() {
 
             if (user!=null) {
                 visible_View_ReviewOrdLl.visibility=View.VISIBLE
-
-//                val adapter = ItemsAdapter(this, mModelData.items)
-//                delivered_itemsRecyclerView?.layoutManager = GridLayoutManager(this, 1)
-//                delivered_itemsRecyclerView?.setHasFixedSize(true)
-//                delivered_itemsRecyclerView?.adapter = adapter
-
                 try{
-                    // var date_time = user.deleivered_at
-                    //var time = date_time.split(" ")[1]
-                    // var time_AmPm = date_time.split(" ")[2]
-                    //  Log.e("time_______", time+time_AmPm)
-                    // order_delivered_time.text = time + " " + time_AmPm
                     order_delivered_time.text =user.deleivered_at
 
                 }catch (e:Exception){

@@ -47,9 +47,5 @@ class OrderItemAdapter(
         }catch (e:Exception){
             e.printStackTrace()
         }
-
-
     }
-
-
 }
