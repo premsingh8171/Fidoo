@@ -15,6 +15,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.view.isNotEmpty
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -102,7 +103,6 @@ class OrdersFragment : Fragment(),
 
 		fragmentOrdersBinding?.noInternetLlInclude!!.retryOnRefresh.setOnClickListener {
 			if ((activity as MainActivity).isNetworkConnected) {
-
 				try {
 					_progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
 					_progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -121,11 +121,7 @@ class OrdersFragment : Fragment(),
 				} else {
 					_progressDlg!!.dismiss()
 					fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
-//                    Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG)
-//                        .show()
 				}
-
-
 			} else {
 				_progressDlg!!.dismiss()
 				fragmentOrdersBinding?.ordersRecyclerView!!.visibility = View.GONE
@@ -170,7 +166,9 @@ class OrdersFragment : Fragment(),
 					try {
 						val mModelData: MyOrdersModel = user
 						Log.e("ordersResponse", Gson().toJson(mModelData))
-						ordersList = mModelData.orders as ArrayList
+						if(ordersList!!.isNotEmpty()) {
+							ordersList = mModelData.orders as ArrayList
+						}
 						if (mModelData.orders != null) {
 							orderRv(ordersList!!)
 							fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
@@ -182,7 +180,7 @@ class OrdersFragment : Fragment(),
 					}catch (e:Exception){
 						e.printStackTrace()
 						if ((activity as MainActivity).isNetworkConnected) {
-							fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+								fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
 						}else {
 						}
 					}
@@ -203,7 +201,6 @@ class OrdersFragment : Fragment(),
 					_progressDlg!!.dismiss()
 					_progressDlg = null
 				}
-
 
 				val mModelData: ReviewModel = user
 				Log.e("reviewResponse", Gson().toJson(mModelData))
