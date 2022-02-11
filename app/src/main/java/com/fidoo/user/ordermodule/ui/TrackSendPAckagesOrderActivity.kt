@@ -188,29 +188,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 			val dialIntent = Intent(Intent.ACTION_DIAL)
 			dialIntent.data = Uri.parse("tel:" + driverMobileNo)
 			startActivity(dialIntent)
-
-//			if (sessionInstance.profileDetail != null) {
-//				viewmodel?.callCustomerApi(
-//					SessionTwiclo(this).loggedInUserDetail.accountId,
-//					SessionTwiclo(this).loggedInUserDetail.accessToken,
-//					sessionInstance.profileDetail.account.userName,
-//					driverMobileNo!!
-//				)
-//			} else {
-//				viewmodel?.callCustomerApi(
-//					SessionTwiclo(this).loggedInUserDetail.accountId,
-//					SessionTwiclo(this).loggedInUserDetail.accessToken,
-//					sessionInstance.loginDetail.phoneNumber,
-//					driverMobileNo!!
-//				)
-//			}
-
 		}
-
-//		viewmodel?.callCustomerResponse?.observe(this, {
-//			val call_status = it.message
-//			showToast("" + call_status)
-//		})
 
 		viewmodel?.trackSendPackagesOrderApi(
 			SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -247,8 +225,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 				//trackApi call
 
 				timer?.start()
-
-				//mTextField.setText("done!")
 			}
 
 		}.start()
@@ -263,8 +239,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 			}
 		}
 
-
-
 		viewmodel?.getLocationApi(
 			SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accountId,
 			SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accessToken,
@@ -278,14 +252,12 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 			Log.e("cancelOrderResponse", Gson().toJson(user))
 		})
 
-
 		val mapFragment = supportFragmentManager
 			.findFragmentById(R.id.map) as SupportMapFragment?
 		mapFragment!!.getMapAsync(this)
 
 		viewmodel?.getLocationResponse?.observe(this, { user ->
 			try {
-
 				Log.e("getLocationResponse___", Gson().toJson(user))
 				Log.e("getLocationResponse___", timerStatus.toString())
 				Log.e("check_gMap1", "$check_gMap1--$check_gMap2--$check_gMap3")
@@ -479,86 +451,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
 
 		})
-
-//		viewmodel?.getLocationResponse?.observe(this, { user ->
-//			try {
-//				Log.e("getLocationResponse___", Gson().toJson(user))
-//				Log.e("getLocationResponse___", timerStatus.toString())
-//				userName = user.driver_name
-//				// tv_delivery_boy.text = userName
-//				driverMobileNo = user.driver_mobile
-//				currentOrderId = user.orderId
-//				mMap?.clear()
-//			} catch (e: Exception) {
-//				e.printStackTrace()
-//				mMap?.clear()
-//			}
-//			try {
-//				if (user.driverLatitude != null) {
-//					rider_LatLng = LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
-//				}
-//			} catch (e: Exception) {
-//				e.printStackTrace()
-//			}
-//
-//			val route_source = user.driverLatitude + "," + user.driverLongitude
-//			// Log.e("route_source__", route_source.toString())
-//
-//			val waypoint = user.merchantLatitude + "," + user.merchantLongitude
-//
-//			if (user.userLatitude.isNotEmpty() && user.userLatitude.isNotEmpty()) {
-//				destination = LatLng(user.userLatitude.toDouble(), user.userLongitude.toDouble())
-//				mMap?.addMarker(
-//					MarkerOptions()
-//						.position(destination!!)
-//						.icon(bitmapDescriptorFromVector_(this, R.drawable.home_locpin))
-//						.anchor(0.5f, .5f)
-//						.zIndex(20.0f)
-//						.draggable(true)
-//				)
-//				mMap?.moveCamera(
-//					CameraUpdateFactory.newLatLngZoom(destination, 14f)
-//				)
-//			}
-//
-//			val route_desti = user.userLatitude + "," + user.userLongitude
-//
-//			if (rider_LatLng != null || mid != null || destination != null) {
-//
-//				if (rider_LatLng != null) {
-//					mMap?.addMarker(
-//						MarkerOptions()
-//							.position(rider_LatLng!!)
-//							//.icon(bitmapDescriptorFromVector(this, R.drawable.rider))
-//							.icon(bitmapDescriptorFromVector_(this, R.drawable.rider)).rotation(90f)
-//							.anchor(0.5f, .5f)
-//							.zIndex(20.0f)
-//							.draggable(true)
-//					)
-//				}
-//
-//				if (destination != null) {
-//					mMap?.addMarker(
-//						MarkerOptions()
-//							.position(destination!!)
-//							.icon(bitmapDescriptorFromVector_(this, R.drawable.home_locpin))
-//							.anchor(0.5f, .5f)
-//							.zIndex(20.0f)
-//							.draggable(true)
-//					)
-//
-//				}
-//
-//				if (rider_LatLng != null) {
-//					mMap?.moveCamera(
-//						CameraUpdateFactory.newLatLngZoom(rider_LatLng, 13f)
-//					)
-//
-//				}
-//				drawRoute(route_source, route_desti, waypoint)
-//				calculateEstimatedTime(route_source, route_desti)
-//			}
-//		})
 
 		viewmodel?.trackPackageOrderModelRes?.observe(this, {
 			Log.e("trackPackageOrder_", Gson().toJson(it))

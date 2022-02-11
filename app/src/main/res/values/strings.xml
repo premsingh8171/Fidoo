@@ -35,7 +35,6 @@
     <string name="u20b9_100">₹ 100</string>
     <string name="add_item">+ Add Item</string>
     <string name="healthy_food_salads_italian">cuisines</string>
-    <string name="delivered">Delivered</string>
     <string name="product_name">Sushi Party Set</string>
     <string name="suashi">Suashi</string>
     <string name="house_flat_block">House No/Flat/Block/Locality</string>
@@ -154,5 +153,29 @@
     <string name="any_instruction">Any instruction for delivery?</string>
     <string name="leave_parcel_send">Leave your parcel delivery\nhassel to us!</string>
     <string name="description_for_user">We will get in touch with the merchant and make sure this does not happens again.\n\nSorry for the inconvenience.</string>
+
+
+    <string name="send_package">Send Package</string>
+    <string name="track_order">Track Order</string>
+    <string name="failed">Failed</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="your_package_is_in_progress">Your package is in progress</string>
+    <string name="review">Review</string>
+    <string name="delivered">Delivered</string>
+    <string name="your_package_is_being_processed">Your package is being processed</string>
+    <string name="your_package_is_out_for_delivery">Your package is out for delivery</string>
+    <string name="your_package_is_accepted">Your package is accepted</string>
+    <string name="rejected">Rejected</string>
+    <string name="repeat_order">Repeat Order</string>
+    <string name="your_order_is_in_progress">Your order is in progress</string>
+    <string name="your_order_is_being_processed">Your order is being processed</string>
+    <string name="your_order_is_out_for_delivery">Your order is out for delivery</string>
+    <string name="your_order_is_accepted">Your order is accepted</string>
+    <string name="your_food_is_being_prepared">Your food is being prepared</string>
+    <string name="no_details_found_for_failed_order">No details found for failed order</string>
+    <string name="in_progress">In Progress</string>
+    <string name="preparing">Preparing</string>
+    <string name="out_for_delivery">Out for delivery</string>
+    <string name="accepted">Accepted</string>
 
 </resources>

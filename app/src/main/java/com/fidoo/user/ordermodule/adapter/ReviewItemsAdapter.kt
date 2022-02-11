@@ -24,7 +24,6 @@ class ReviewItemsAdapter(
 		LayoutInflater.from(parent.context).inflate(R.layout.review_items_list, parent, false)
 	)
 
-
 	override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
 
 		holder.itemView.itemNameTxt.text =
@@ -48,7 +47,6 @@ class ReviewItemsAdapter(
 			holder.itemView.refundRelativelay.visibility=View.VISIBLE
 		} else {
 			holder.itemView.refundRelativelay.visibility=View.GONE
-
 		}
 
 		if (changeItemList.size - 1 == position) {
@@ -58,13 +56,5 @@ class ReviewItemsAdapter(
 		}
 	}
 
-
 	override fun getItemCount() = changeItemList.size
-
-	fun setFilter(listData_: ArrayList<Change>) {
-		changeItemList = ArrayList<Change>()
-		changeItemList.addAll(listData_)
-		notifyDataSetChanged()
-	}
-
 }
