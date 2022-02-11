@@ -309,6 +309,9 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             dismissIOSProgress()
             Log.e("payment_response", Gson().toJson(user))
             if (user.error_code == 200) {
+
+                additionalChargesValTxt.text=user.charges_three
+
                 if (user.free == 1) {
                     payment_method_lay.visibility = View.GONE
                     //gone in case of free

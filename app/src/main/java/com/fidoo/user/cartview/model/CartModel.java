@@ -158,6 +158,10 @@ public class CartModel {
     @Expose
     public Double totalTaxAndCharges;
 
+    @SerializedName("charges_three")
+    @Expose
+    public String charges_three;
+
     @SerializedName("cart")
     @Expose
     public List<Cart> cart = null;

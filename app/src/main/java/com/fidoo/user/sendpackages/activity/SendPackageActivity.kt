@@ -451,7 +451,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
 
                         end_point = city.toLowerCase()
                         start_point = city.toLowerCase()
-                        Log.d("end_point__", start_point + "==" + end_point)
+                        Log.d("end_point__", "$start_point--$end_point")
 
                         if ((end_point.equals("gurugram") && start_point.equals("gurugram"))
                             || (end_point.equals("gurgaon ") && start_point.equals("gurgaon"))
@@ -468,7 +468,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                                 distanceTex.toString()
                             )
                             } else {
-                                showToast("There is some issue in Service, please try after sometime")
+                                showToast("The distance between pickup and drop location must be less than 15 KM's to proceed")
                             }
                         } else {
                             showToastLong("Service is available only Gurugram!")

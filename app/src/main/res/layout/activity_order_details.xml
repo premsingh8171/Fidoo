@@ -463,7 +463,7 @@
                             android:fontFamily="@font/proxima"
                             android:gravity="center"
                             android:maxLines="2"
-                            android:text="GST and charges"
+                            android:text="Restaurant GST"
                             android:textColor="@color/primary_color"
                             android:textSize="@dimen/text_size_12sp" />
 
