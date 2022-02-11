@@ -1106,7 +1106,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         timer!!.cancel()
     }
 
-    override fun notiStatus(orderStatus: String) {
+  override  fun notiStatus(orderStatus: String) {
         if (orderStatus == "accepted") {
             runOnUiThread {
                 val customBuilder =
