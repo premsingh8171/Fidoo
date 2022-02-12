@@ -449,10 +449,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     }
 
                     if (check == 0) {
-                        Log.d("asdsaDas", check.toString())
                         check = 1
                     } else {
-                        Log.d("asdsaDas", check.toString())
                         check = 0
                     }
 
@@ -554,7 +552,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
             if (timerStatus) {
                 if (it.orderStatus == "13") {
                     waitingLay.visibility = View.VISIBLE
-                    Log.e("hit___", "hit--"+OrderBackgroundgService.timer_count!!)
+                    Log.e("hit___", "hit--" + OrderBackgroundgService.timer_count!!)
                     //startService(Intent(applicationContext, OrderBackgroundgService::class.java))
                     ordstatus_lay_new.visibility = View.VISIBLE
                     order_status.text = "Please wait while we confirm your order"
@@ -606,7 +604,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         }
 
                     }.start()
-                    handleCounter=1
+                    handleCounter = 1
                     //	}
 
 //					if (currentOrderId!!.isNotEmpty()) {
@@ -659,7 +657,9 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     storeDetailsViewContsl.visibility = View.GONE
                 }
 
-            } catch (e: Exception) {e.printStackTrace() }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
 //			try {
 //				if (it.allow_cancel.equals("0")) {
@@ -696,15 +696,15 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             order_status.text = "Your order is cancelled"
                             cancelBtn.visibility = View.GONE
 
-                            if (onBackpressHandle.equals("1")){
+                            if (onBackpressHandle.equals("1")) {
                                 startActivity(Intent(this, MainActivity::class.java))
-                            }else{
+                            } else {
                                 finish()
                             }
 
                         }
 
-                        it.orderStatus.equals("3") -> 	{
+                        it.orderStatus.equals("3") -> {
                             /*if (it.is_rate_to_driver.equals("1")) {
                             //holder.buttonValue.visibility = View.GONE
                              } else {
@@ -717,7 +717,13 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
                             order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
                             tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
-                            delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                            delivery_partner_confirmed_pointer.setColorFilter(
+                                Color.rgb(
+                                    51,
+                                    147,
+                                    71
+                                )
+                            )
                             tv_order_delivery.setTextColor(Color.rgb(51, 147, 71))
                             img_to_location.setColorFilter(Color.rgb(51, 147, 71))
 
@@ -744,7 +750,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             status_store_txt.text = "is preparing your order"
                             order_status.text = "Your order is being prepared"
                             //tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
-                            tv_delivery_boy.text=it.deliveryBoyName +" is reaching at "+it.storeName
+                            tv_delivery_boy.text =
+                                it.deliveryBoyName + " is reaching at " + it.storeName
                             tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
                             order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
                             cancelBtn.visibility = View.GONE
@@ -769,8 +776,10 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         it.orderStatus.equals("6") -> {
                             // holder.buttonValue.visibility = View.VISIBLE
                             //holder.buttonValue.visibility = View.GONE
-                            tv_delivery_boy.text = it.deliveryBoyName + " is on the way to deliver your order."
-                            order_status.text = it.deliveryBoyName + " is on the way to deliver your order."
+                            tv_delivery_boy.text =
+                                it.deliveryBoyName + " is on the way to deliver your order."
+                            order_status.text =
+                                it.deliveryBoyName + " is on the way to deliver your order."
                             tv_order_delivery.setTextColor(Color.rgb(51, 147, 71))
                             img_to_location.setColorFilter(Color.rgb(51, 147, 71))
                             tv_delivery_boy_call.visibility = View.VISIBLE
@@ -798,15 +807,32 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         it.orderStatus.equals("9") -> {
                             //holder.buttonValue.visibility = View.VISIBLE
                             Log.d("deliveryBoyName___", it.deliveryBoyName)
-                            dynamicText(tv_delivery_boy, "Your order is ready and will soon be picked up by ", it.deliveryBoyName)
+                            dynamicText(
+                                tv_delivery_boy,
+                                "Your order is ready and will soon be picked up by ",
+                                it.deliveryBoyName
+                            )
 //                            tv_delivery_boy.text =  "Your Order is ready and will soon be picked up by " + it.deliveryBoyName
                             status_store_txt.text = "has prepared your order"
-                            order_status.text = "Your order is ready and will soon be picked up by " + it.deliveryBoyName
+                            order_status.text =
+                                "Your order is ready and will soon be picked up by " + it.deliveryBoyName
                             tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
-                            tv_we_will_assign_delivery_partner_soon.setTextColor(Color.rgb(51, 147, 71))
+                            tv_we_will_assign_delivery_partner_soon.setTextColor(
+                                Color.rgb(
+                                    51,
+                                    147,
+                                    71
+                                )
+                            )
                             order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
                             tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
-                            delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                            delivery_partner_confirmed_pointer.setColorFilter(
+                                Color.rgb(
+                                    51,
+                                    147,
+                                    71
+                                )
+                            )
                             driver_cardView.visibility = View.VISIBLE
                             tv_delivery_boy_call.visibility = View.VISIBLE
                             tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
@@ -832,7 +858,13 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
                             order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
                             tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
-                            delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                            delivery_partner_confirmed_pointer.setColorFilter(
+                                Color.rgb(
+                                    51,
+                                    147,
+                                    71
+                                )
+                            )
 
                             order_status_for_track = "order_picked"
                             storeCardID.visibility = View.GONE
@@ -843,7 +875,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
                         it.orderStatus.equals("8") -> {
                             //holder.buttonValue.visibility = View.GONE
-                            handleClick=1
+                            handleClick = 1
 
                             if (it.paymentMode == "online") {
                                 order_status.text =
@@ -862,10 +894,10 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             customer_care_fmL.visibility = View.GONE
                             cancelBtn.visibility = View.GONE
 
-                            if (onBackpressHandle.equals("1")){
+                            if (onBackpressHandle.equals("1")) {
                                 startActivity(Intent(this, OrderRejectedActivity::class.java))
                                 finish()
-                            }else{
+                            } else {
                                 finish()
                             }
                         }
@@ -874,9 +906,11 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             order_status_for_track = "rider_assign"
                             ordstatus_lay_new.visibility = View.VISIBLE
 
-                            tv_delivery_boy.text=it.deliveryBoyName +" is on the way to pick your order"
-                            order_status.text = it.deliveryBoyName +" is on the way to pick your order from "+it.storeName
-
+                            tv_delivery_boy.text =
+                                it.deliveryBoyName + " is on the way to pick your order"
+                            order_status.text =
+                                it.deliveryBoyName + " is on the way to pick your order from " + it.storeName
+                            status_store_txt.text = "is preparing your order"
                             driver_cardView.visibility = View.VISIBLE
                             tv_delivery_boy_call.visibility = View.VISIBLE
                             tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
@@ -884,15 +918,23 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
                             order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
                             tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
-                            delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                            delivery_partner_confirmed_pointer.setColorFilter(
+                                Color.rgb(
+                                    51,
+                                    147,
+                                    71
+                                )
+                            )
                         }
 
                         it.orderStatus.equals("15") -> {
                             order_status_for_track = "rider_assign"
                             //	order_status.text = "It's ready. Just packing it."
-                            order_status.text = it.deliveryBoyName +" has reached at "+it.storeName
+                            order_status.text =
+                                it.deliveryBoyName + " has reached at " + it.storeName
                             status_store_txt.text = "is preparing your order"
-                            tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
+                            tv_delivery_boy.text =
+                                it.deliveryBoyName + " has reached at " + it.storeName
                             driver_cardView.visibility = View.VISIBLE
                             tv_delivery_boy_call.visibility = View.VISIBLE
                             tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
@@ -900,7 +942,13 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
                             order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
                             tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
-                            delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                            delivery_partner_confirmed_pointer.setColorFilter(
+                                Color.rgb(
+                                    51,
+                                    147,
+                                    71
+                                )
+                            )
                             cancelBtn.visibility = View.GONE
                             ordstatus_lay_new.visibility = View.VISIBLE
 
@@ -909,8 +957,9 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         it.orderStatus.equals("16") -> {
                             order_status_for_track = "order_picked"
                             storeCardID.visibility = View.GONE
-                            tv_delivery_boy.text=it.deliveryBoyName +" has reached to your location"
-                            order_status.text =it.deliveryBoyName +" has reached to your location"
+                            tv_delivery_boy.text =
+                                it.deliveryBoyName + " has reached to your location"
+                            order_status.text = it.deliveryBoyName + " has reached to your location"
                             driver_cardView.visibility = View.VISIBLE
                             tv_delivery_boy_call.visibility = View.VISIBLE
                             tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
@@ -918,7 +967,13 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
                             order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
                             tv_order_picked.setTextColor(Color.rgb(51, 147, 71))
-                            delivery_partner_confirmed_pointer.setColorFilter(Color.rgb(51, 147, 71))
+                            delivery_partner_confirmed_pointer.setColorFilter(
+                                Color.rgb(
+                                    51,
+                                    147,
+                                    71
+                                )
+                            )
                             tv_order_delivery.setTextColor(Color.rgb(51, 147, 71))
                             img_to_location.setColorFilter(Color.rgb(51, 147, 71))
                             cancelBtn.visibility = View.GONE
@@ -928,7 +983,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
                     }
                 }
-            } catch (e: Exception) { }
+            } catch (e: Exception) {
+            }
 
         })
     }
@@ -981,8 +1037,24 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                 if (!success) {
                     Log.e("TAG_", "Style parsing failed.")
                 }
+
             } catch (e: Resources.NotFoundException) {
                 Log.e("TAG_", "Can't find style. Error: ", e)
+            }
+
+            try {
+                if (order_status_for_track.equals("rider_assign")) {
+                    if (merchantLatLng != null) {
+                        mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(merchantLatLng, 13f))
+                    }
+                } else if (order_status_for_track.equals("order_picked")) {
+                    if (check_gMap3 == 0) {
+                        mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(user_LatLng, 13f))
+                        check_gMap3 = 1
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

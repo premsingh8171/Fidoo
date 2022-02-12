@@ -116,7 +116,7 @@ class StoreSubCustomItemsAdapter(
             if (subCat[position].price.toString().equals("0")){
                 holder.itemLabel.text = subCat[position].subCatName
             }else{
-                holder.itemLabel.text = subCat[position].subCatName + " ( + " + con.resources.getString(R.string.ruppee) + subCat[position].price + ")"
+                holder.itemLabel.text = subCat[position].subCatName + " (" + con.resources.getString(R.string.ruppee) + subCat[position].price + ")"
             }
         }else{
 
@@ -126,7 +126,7 @@ class StoreSubCustomItemsAdapter(
             if (subCat[position].price.toString().equals("0")){
                 holder.radioBtn_.text = subCat[position].subCatName ////setting text of second radio button
             }else{
-                holder.radioBtn_.text = subCat[position].subCatName+" ( + "+con.resources.getString(R.string.ruppee)+ subCat[position].price+")" ////setting text of second radio button
+                holder.radioBtn_.text = subCat[position].subCatName+" ("+con.resources.getString(R.string.ruppee)+ subCat[position].price+")" ////setting text of second radio button
             }
 
             holder.radioBtn_.id = subCat[position].id.toInt()
