@@ -71,10 +71,12 @@ class StoreItemsAdapter(
 
             holder.offerPrice.text =
                 con.resources.getString(R.string.ruppee) + "" + index.offerPrice
-
+            holder.priceTxt.visibility=View.VISIBLE
         } else {
             holder.offerPrice.text =
                 con.resources.getString(R.string.ruppee) + "" + index.offerPrice
+            holder.priceTxt.visibility=View.INVISIBLE
+
         }
         }catch (e:Exception){
             e.printStackTrace()
