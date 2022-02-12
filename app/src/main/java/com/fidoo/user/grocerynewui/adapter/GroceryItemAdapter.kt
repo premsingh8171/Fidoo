@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
+import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
@@ -309,7 +310,7 @@ class GroceryItemAdapter(
         //performing positive action
         builder.setPositiveButton("Login") { _, _ ->
           //  context.startActivity(Intent(context, LoginActivity::class.java))
-            context.startActivity(Intent( context, SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
+            context.startActivity(Intent( context, AuthActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
 
         }
 

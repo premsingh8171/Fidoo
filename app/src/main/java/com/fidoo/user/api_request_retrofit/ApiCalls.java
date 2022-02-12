@@ -186,7 +186,6 @@ public class ApiCalls {
         call.enqueue(new Callback<VerificationModel>() {
             @Override
             public void onResponse(Call<VerificationModel> call, Response<VerificationModel> response) {
-                Log.e("+++++++", "+++ ApiCalls loginUser  +++" + response.body());
 
                 if (response.body() != null) {
                     if (!response.body().error) {

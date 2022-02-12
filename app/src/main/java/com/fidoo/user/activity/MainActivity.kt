@@ -687,7 +687,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         //performing positive action
         builder.setPositiveButton("Login") { _, _ ->
             startActivity(
-                Intent(this, SplashActivity::class.java)
+                Intent(this, AuthActivity::class.java)
             )
 
 

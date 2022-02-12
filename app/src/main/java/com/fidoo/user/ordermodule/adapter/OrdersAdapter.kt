@@ -32,7 +32,8 @@ class OrdersAdapter(
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.orderIdValue.text = orders[position].orderId
-        holder.orderIdTxt.text = "Order ID: #" + orders[position].orderId
+        //updated by shobha
+        holder.orderIdTxt.text = "Order ID: #"+orders[position].orderId
         holder.orderOnValue.text = orders[position].orderDate
         holder.locText.text = orders[position].storeAddress
 
@@ -88,11 +89,24 @@ class OrdersAdapter(
                         )
                     }
                 }
+<<<<<<< HEAD
                 holder.itemView.Itemlabeltxt.visibility = View.VISIBLE
                 holder.itemView.itemListTxt.visibility = View.VISIBLE
             } else {
                 holder.itemView.Itemlabeltxt.visibility = View.GONE
                 holder.itemView.itemListTxt.visibility = View.GONE
+=======
+                holder.itemView.Itemlabeltxt.visibility=View.VISIBLE
+                holder.itemView.itemListTxt.visibility=View.VISIBLE
+
+//                orderItemAdapter = OrderItemAdapter(con!!, orders[position].items as ArrayList)
+//                holder.itemRecyclerview_.adapter = orderItemAdapter
+            }
+            else{
+                //updated by shobha
+                holder.itemView.Itemlabeltxt.visibility=View.GONE
+                holder.itemView.itemListTxt.visibility=View.GONE
+>>>>>>> dev_shobha_2feb
             }
         } catch (e: Exception) {
         }

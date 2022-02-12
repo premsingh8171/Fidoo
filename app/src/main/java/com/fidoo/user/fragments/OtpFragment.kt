@@ -16,13 +16,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity.Companion.appversion
 import com.fidoo.user.activity.SplashActivity.Companion.mobile_number
+import com.fidoo.user.api_request_retrofit.ApiCalls
 import com.fidoo.user.api_request_retrofit.ApiInterface
 import com.fidoo.user.data.SendResponse
 import com.fidoo.user.data.model.ResendModel
@@ -54,6 +54,7 @@ class OtpFragment : BaseFragment() {
     private var mMixpanel: MixpanelAPI? = null
 
     private val props = JSONObject()
+    var otpcheck: String = ""
 
     companion object {
         const val TAG = "SMS_USER_CONSENT"
@@ -63,9 +64,9 @@ class OtpFragment : BaseFragment() {
 
 
     override fun provideYourFragmentView(
-            inflater: LayoutInflater?,
-            parent: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater?,
+        parent: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         mView = inflater!!.inflate(R.layout.fragment_otp, parent, false)
         viewmodel = ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
@@ -106,44 +107,44 @@ class OtpFragment : BaseFragment() {
 
         mView.tv_phone.text = mData.mobile
 
-
         mView.btn_continue.setOnClickListener {
             when {
                 mView.otp_view.otp.equals("") -> {
+
                     Toast.makeText(requireContext(), "Please enter OTP", Toast.LENGTH_SHORT).show()
                 }
                 mView.otp_view.otp?.length != 6 -> {
                     Toast.makeText(
-                            requireContext(),
-                            "Please enter complete OTP",
-                            Toast.LENGTH_SHORT
+                        requireContext(),
+                        "Please enter complete OTP",
+                        Toast.LENGTH_SHORT
                     ).show()
 
                 }
+
                 else -> {
+
                     verificationApi(mView.otp_view.otp)
                 }
             }
         }
 
         requireActivity()
-                .onBackPressedDispatcher
-                .addCallback(this, object : OnBackPressedCallback(true) {
-                    override fun handleOnBackPressed() {
-                        Log.d(TAG, "Fragment back pressed invoked")
+            .onBackPressedDispatcher
+            .addCallback(this, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    Log.d(TAG, "Fragment back pressed invoked")
 
 
-
-
-                        // if you want onBackPressed() to be called as normal afterwards
-                        if (isEnabled) {
-                            isEnabled = false
-                            val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
-                            findNavController().navigate(action)
-                        }
+                    // if you want onBackPressed() to be called as normal afterwards
+                    if (isEnabled) {
+                        isEnabled = false
+                        val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
+                        findNavController().navigate(action)
                     }
                 }
-                )
+            }
+            )
 
 
 
@@ -176,33 +177,34 @@ class OtpFragment : BaseFragment() {
                     }
 
                     viewmodel?.customerActivityLog(
-                            mData.id,
-                            mobile_number,
-                            "Otp Screen",
-                            appversion,
-                            "",
-                            SessionTwiclo(requireContext()).deviceToken
+                        mData.id,
+                        mobile_number,
+                        "Otp Screen",
+                        appversion,
+                        "",
+                        SessionTwiclo(requireContext()).deviceToken
                     )
 
                     if (sessionInstance.getLoginDetail().is_new_user.equals("0")) {
                         sessionInstance.isLoggedIn = true
 
                         goForVerificationScreen(
-                                MainActivity::class.java,
-                                requireContext(),
-                                mData.accesstoken,
-                                mData.id,
-                                mData.mobile,
-                                mData.otp
+                            MainActivity::class.java,
+                            requireContext(),
+                            mData.accesstoken,
+                            mData.id,
+                            mData.mobile,
+                            mData.otp
                         )
                     } else {
                         val sendData = SendResponse(
-                                sessionInstance.getLoginDetail().accessToken.toString(),
-                                sessionInstance.getLoginDetail().accountId.toString(),
-                                sessionInstance.getLoginDetail().phoneNumber.toString(),
-                                "+91", sessionInstance.getLoginDetail().is_new_user
+                            sessionInstance.getLoginDetail().accessToken.toString(),
+                            sessionInstance.getLoginDetail().accountId.toString(),
+                            sessionInstance.getLoginDetail().phoneNumber.toString(),
+                            "+91", sessionInstance.getLoginDetail().is_new_user
                         )
-                        val action = OtpFragmentDirections.actionSignInFragmentToSignUpFragment(sendData)
+                        val action =
+                            OtpFragmentDirections.actionSignInFragmentToSignUpFragment(sendData)
                         closeProgress()
 
                         try {
@@ -217,7 +219,7 @@ class OtpFragment : BaseFragment() {
                 ApiInterface.OTP_FAILURE -> {
                     dismissIOSProgress()
                     val mModelData: VerificationModel = msg.obj as VerificationModel
-                    //showToast(mModelData.errorMessage)
+                    showToast(mModelData.errorMessage)
                 }
 
             }
@@ -225,16 +227,19 @@ class OtpFragment : BaseFragment() {
     }
 
     private fun verificationApi(otp: String?) {
+        Log.d("otp___", otp.toString())
+
         if (!isNetworkConnected) {
             showToast(resources.getString(R.string.provide_internet))
             return
         }
+
         showIOSProgress()
         restfullInstance.verificationUser(
-                mData.accesstoken,
-                mData.id,
-                otp,
-                mApiHandler
+            mData.accesstoken,
+            mData.id,
+            otp,
+            mApiHandler
         )
     }
 
@@ -246,8 +251,8 @@ class OtpFragment : BaseFragment() {
         showIOSProgress()
 
         restfullInstance.resendOtp(
-                mData.id, mData.accesstoken,
-                mApiHandler
+            mData.id, mData.accesstoken,
+            mApiHandler
         )
         startTimer()
     }
@@ -256,35 +261,35 @@ class OtpFragment : BaseFragment() {
         SmsRetriever.getClient(requireActivity()).also {
             //We can add sender phone number or leave it blank
             it.startSmsUserConsent(null)
-                    .addOnSuccessListener {
-                        Log.d(TAG, "LISTENING_SUCCESS")
-                    }
-                    .addOnFailureListener {
-                        Log.d(TAG, "LISTENING_FAILURE")
-                    }
+                .addOnSuccessListener {
+                    Log.d(TAG, "LISTENING_SUCCESS")
+                }
+                .addOnFailureListener {
+                    Log.d(TAG, "LISTENING_FAILURE")
+                }
         }
     }
 
     private fun registerToSmsBroadcastReceiver() {
         smsBroadcastReceiver = SmsBroadcastReceiver().also { broadcast ->
             broadcast.smsBroadcastReceiverListener =
-                    object : SmsBroadcastReceiver.SmsBroadcastReceiverListener {
-                        override fun onSuccess(intent: Intent?) {
-                            try {
-                                intent?.let { context ->
-                                    startActivityForResult(
-                                            context,
-                                            REQ_USER_CONSENT
-                                    )
-                                }
-
-                            } catch (e: Exception) {
+                object : SmsBroadcastReceiver.SmsBroadcastReceiverListener {
+                    override fun onSuccess(intent: Intent?) {
+                        try {
+                            intent?.let { context ->
+                                startActivityForResult(
+                                    context,
+                                    REQ_USER_CONSENT
+                                )
                             }
-                        }
 
-                        override fun onFailure() {
+                        } catch (e: Exception) {
                         }
                     }
+
+                    override fun onFailure() {
+                    }
+                }
         }
 
         val intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
@@ -336,9 +341,9 @@ class OtpFragment : BaseFragment() {
                             mView.otp_view.setOTP(code)
                             if (mView.otp_view.otp?.length != 6) {
                                 Toast.makeText(
-                                        requireContext(),
-                                        "Please enter complete OTP",
-                                        Toast.LENGTH_SHORT
+                                    requireContext(),
+                                    "Please enter complete OTP",
+                                    Toast.LENGTH_SHORT
                                 ).show()
 
                             } else {
@@ -369,7 +374,6 @@ class OtpFragment : BaseFragment() {
         Log.d("referaal_id_", sessionInstance.referralId)
 
     }
-
 
 
 }

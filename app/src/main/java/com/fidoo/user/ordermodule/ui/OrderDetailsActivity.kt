@@ -154,6 +154,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
 
             tv_order_id.text = "Order: #" + mModelData.orderId
             locText.text = mModelData.storeAddress
+            //edit by shobha
             orderOnValue.text = mModelData.delivered_at
 
             if (mModelData.discount == "" || mModelData.discount == "0") {

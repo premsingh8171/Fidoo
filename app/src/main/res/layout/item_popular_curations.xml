@@ -10,7 +10,7 @@
         android:id="@+id/curationItemLl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_20dp"
+        android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_marginBottom="@dimen/margin_20dp"
         android:gravity="center"
         android:orientation="vertical"
@@ -23,9 +23,9 @@
             android:id="@+id/popular_curationImg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="@dimen/margin_5dp"
             android:contentDescription="@string/todo"
             android:elevation="@dimen/margin_10"
-            android:padding="@dimen/dimen_7dp"
             android:src="@drawable/default_item" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -54,7 +54,7 @@
 
     <LinearLayout
         android:id="@+id/itemCurationSpace_ll"
-        android:layout_width="@dimen/dimen_25dp"
+        android:layout_width="@dimen/margin_15dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="gone"
