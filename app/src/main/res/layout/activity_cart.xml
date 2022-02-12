@@ -681,13 +681,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/margin_15dp"
-                android:layout_marginBottom="-60dp"
-                android:visibility="gone"
+                android:layout_marginBottom="-120dp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/price_breakout_lay">
 
                 <LinearLayout
                     android:layout_width="280dp"
-                    android:layout_height="@dimen/margin_100dp"
+                    android:layout_height="@dimen/margin_130dp"
                     android:background="@drawable/charges_popup"
                     android:orientation="vertical">
 
@@ -757,6 +757,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/relativeLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -788,6 +789,38 @@
                             android:textSize="@dimen/text_size_12sp" />
                     </RelativeLayout>
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/charges_AdditionalTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:fontFamily="@font/proxima"
+                            android:maxLines="1"
+                            android:text="Additional GST:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_12sp" />
+
+                        <TextView
+                            android:layout_marginRight="@dimen/margin_15dp"
+                            android:layout_alignParentEnd="true"
+                            android:id="@+id/value_AdditionalTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:fontFamily="@font/proxima"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:text="18%"
+                            android:textColor="@color/primary_color"
+                            android:textSize="@dimen/text_size_12sp" />
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 

@@ -737,6 +737,11 @@ class CartActivity : BaseActivity(),
 							var charges_ThreeStr = user.charges_three.split(",")
 							charges_ThreeTxt.text = charges_ThreeStr[0]
 							tax_value.text = "₹ " + charges_ThreeStr[1]
+
+							relativeLay.visibility=View.VISIBLE
+						}else{
+							relativeLay.visibility=View.GONE
+
 						}
 
 					} catch (e: Exception) {

@@ -8,10 +8,11 @@
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_send_package_order_detail.xml" value="0.25" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_orders.xml" value="0.12409420289855072" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_service_details_adapter.xml" value="0.12409420289855072" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/store_customization_adapter.xml" value="0.13405797101449277" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.1403985507246377" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>
