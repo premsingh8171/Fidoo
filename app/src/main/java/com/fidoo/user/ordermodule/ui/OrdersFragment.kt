@@ -96,6 +96,7 @@ class OrdersFragment : Fragment(),
 		} catch (ex: Exception) {
 			Log.wtf("IOS_error_starting", ex.cause!!)
 		}
+
 		ApiCall()
 
 
@@ -170,7 +171,7 @@ class OrdersFragment : Fragment(),
 						val mModelData: MyOrdersModel = user
 						Log.e("ordersResponse", Gson().toJson(mModelData))
 						ordersList = mModelData.orders as ArrayList
-						if (mModelData.orders != null) {
+						if (mModelData.orders.isNotEmpty()) {
 							orderRv(ordersList!!)
 							fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
 						} else {
@@ -180,10 +181,8 @@ class OrdersFragment : Fragment(),
 						handleApiResponse = 0
 					}catch (e:Exception){
 						e.printStackTrace()
-						if ((activity as MainActivity).isNetworkConnected) {
-							fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
-						}else {
-						}
+						fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+
 					}
 
 				}

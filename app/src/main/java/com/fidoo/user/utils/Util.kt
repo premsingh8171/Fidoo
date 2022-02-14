@@ -267,7 +267,7 @@ fun Fragment.showAlertDialog(context: Context) {
         "OK"
     ) { dialog, which -> // MyActivity.this.finish();
        com.fidoo.user.data.session.SessionTwiclo(context).clearSession()
-        startActivity(Intent(activity, LoginActivity::class.java))
+        startActivity(Intent(activity, AuthActivity::class.java))
         ActivityCompat.finishAffinity(activity!!)
     }
     // customBuilder.setIcon(R.drawable.logo)
@@ -291,7 +291,7 @@ fun Activity.showAlertDialog(context: Context) {
         "OK"
     ) { _, _ -> // MyActivity.this.finish();
        com.fidoo.user.data.session.SessionTwiclo(context).clearSession()
-        startActivity(Intent(this, LoginActivity::class.java))
+        startActivity(Intent(this, AuthActivity::class.java))
         ActivityCompat.finishAffinity(this)
     }
     //customBuilder.setIcon(R.drawable.logo)
@@ -303,7 +303,8 @@ fun Activity.showAlertDialog(context: Context) {
 
         if (b != null) {
             b.setBackgroundColor(getResources().getColor(R.color.color_white));
-        }*/dialog.show()
+        }*/
+    dialog.show()
 }
 
 // dialog messages with the types
@@ -332,7 +333,6 @@ inline fun <reified T : Activity> Activity.navigateWithResultSet() {
     val intent = Intent(this, T::class.java)
     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
     startActivityForResult(intent, 202)
-
 }
 
 /*inline fun <reified T : Activity> Fragment.navigate(params: List<IntentParams> = emptyList()) {
@@ -429,6 +429,7 @@ fun TextView.getHtmlText(mData: String?) {
         this.setText(Html.fromHtml(mData), TextView.BufferType.SPANNABLE)
     }
 }
+
 /*
 
 fun String.showShortMessage() =
@@ -532,7 +533,6 @@ fun Fragment.shareMessage(shareBody: String = "", mPhone: String = "") {
         startActivity(Intent.createChooser(smsIntent, "Share Using"))
     }
 }
-
 
 fun getFormattedDateSameAsWhatsApp(smsTimeInMilis: Long): String {
     val smsTime = Calendar.getInstance()

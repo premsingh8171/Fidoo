@@ -883,10 +883,7 @@
                             android:textSize="@dimen/margin_10" />
 
 
-
                     </RelativeLayout>
-
-
 
                 </LinearLayout>
 
@@ -1217,7 +1214,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"></FrameLayout>
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <LinearLayout
         android:id="@+id/noItemsTxt"

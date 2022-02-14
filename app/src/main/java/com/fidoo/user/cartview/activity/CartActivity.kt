@@ -101,7 +101,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
 import java.io.File
-
+import java.math.RoundingMode
 
 
 @Suppress("DEPRECATION")
@@ -881,8 +881,11 @@ class CartActivity : BaseActivity(),
 					tv_place_order.text =
 						"Pay " + resources.getString(R.string.ruppee) + finalPrice.toFloat()
 							.toString()
+
+					//edit by prem
+					val rounded = finalPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 					tv_grand_total.text =
-						resources.getString(R.string.ruppee) + finalPrice.toFloat().toString()
+						resources.getString(R.string.ruppee) + rounded.toString()
 
 					Log.e("Bottom Price", tv_place_order.text.toString())
 					Log.e("Grand Total", tv_grand_total.text.toString())
@@ -963,8 +966,12 @@ class CartActivity : BaseActivity(),
 						tv_place_order.text =
 							"Pay " + resources.getString(R.string.ruppee) + totalAmount.toFloat()
 								.toString()
+						//edit by prem
+						val rounded = totalAmount.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 						tv_grand_total.text =
-							resources.getString(R.string.ruppee) + totalAmount.toString()
+							resources.getString(R.string.ruppee) + rounded.toString()
+
+
 						Log.e("after_discount_vffalue", mModelData.after_discount_value)
 						tv_cart_afterDiscount.text =
 							resources.getString(R.string.ruppee) + mModelData.after_discount_value.toFloat()
@@ -1085,9 +1092,12 @@ class CartActivity : BaseActivity(),
 				totalAmount = totalAmount - user.discountAmount.toDouble()
 				tv_place_order.text =
 					"Pay " + resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
+
+				//edit by prem
+				val rounded = totalAmount.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 				tv_grand_total.text =
-					resources.getString(R.string.ruppee) + totalAmount.toFloat().toString()
-				Log.e("Grand Total after promo", tv_grand_total.text.toString())
+					resources.getString(R.string.ruppee) + rounded.toString()
+
 			//	Log.e("Final Price after promo", tv_place_order.text.toString())
 
 				//discountLabel.visibility = View.VISIBLE
@@ -1359,8 +1369,10 @@ class CartActivity : BaseActivity(),
 			//Log.e("RAZORPAY", "")
 			var amount = 0.0f
 			try {
-				Log.e("totalAmount", totalAmount.toString())
-				amount = totalAmount.toFloat()
+				val rounded = totalAmount.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+
+				Log.e("totalAmount", rounded.toString())
+				amount = rounded.toFloat()
 				//showToast(""+amount)
 			} catch (e: Exception) {
 				e.printStackTrace()
