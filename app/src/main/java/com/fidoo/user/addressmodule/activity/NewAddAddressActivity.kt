@@ -47,6 +47,7 @@ import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.maps.model.GeocoderModel
+import com.fidoo.user.utils.showAlertDialog
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -485,19 +486,27 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         viewmodel?.editAddressResponse?.observe(this, {
             dismissIOSProgress()
             Log.e("editAddressResponse_", Gson().toJson(it))
-            SavedAddressesActivity.editAdd = 1
-            showToast("Address Edited successfully")
-            // savedAddressesActivity!!.finish()
-            finish()
-            AppUtils.finishActivityLeftToRight(this)
+            if (it.errorCode==200) {
+                SavedAddressesActivity.editAdd = 1
+                showToast("Address Edited successfully")
+                // savedAddressesActivity!!.finish()
+                finish()
+                AppUtils.finishActivityLeftToRight(this)
+            }else if (it.errorCode == 101) {
+                showAlertDialog(this)
+            }
         })
 
         viewmodel?.addAddressResponse?.observe(this, {
             dismissIOSProgress()
-            showToast("Address added successfully")
-            SavedAddressesActivity.editAdd = 1
-            finish()
-            AppUtils.finishActivityLeftToRight(this)
+            if (it.errorCode==200) {
+                showToast("Address added successfully")
+                SavedAddressesActivity.editAdd = 1
+                finish()
+                AppUtils.finishActivityLeftToRight(this)
+            }else if (it.errorCode == 101) {
+                showAlertDialog(this)
+            }
         })
 
         viewmodel?.failureResponse?.observe(this, {
