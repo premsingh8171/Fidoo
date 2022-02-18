@@ -744,6 +744,8 @@ class CartActivity : BaseActivity(),
 
 						}
 
+						value_AdditionalTxt.text=user.delivery_tax_rate
+
 					} catch (e: Exception) {
 						e.printStackTrace()
 					}

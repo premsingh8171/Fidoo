@@ -87,4 +87,12 @@ public class SendPackagesModel {
     @Expose
     public String charges_two;
 
+    @SerializedName("charges_three")
+    @Expose
+    public String charges_three;
+
+    @SerializedName("delivery_tax_rate")
+    @Expose
+    public String delivery_tax_rate;
+
 }

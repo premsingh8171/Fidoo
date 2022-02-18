@@ -279,6 +279,8 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                     .putExtra("standard_charges","")
                     .putExtra("charges_one",user.charges_one)
                     .putExtra("charges_two",user.charges_two)
+                    .putExtra("charges_three",user.charges_three)
+                    .putExtra("delivery_tax_rate",user.delivery_tax_rate)
 
             )
 

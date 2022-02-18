@@ -101,6 +101,8 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         val standard_charges = intent.getStringExtra("standard_charges")
         val charges_one = intent.getStringExtra("charges_one")
         val charges_two = intent.getStringExtra("charges_two")
+        val charges_three = intent.getStringExtra("charges_three")
+        val delivery_tax_rate = intent.getStringExtra("delivery_tax_rate")
 
         sendPackagesViewModel = ViewModelProvider(this).get(SendPackagesViewModel::class.java)
         viewmodelusertrack = ViewModelProvider(this).get(UserTrackerViewModel::class.java)
@@ -124,6 +126,14 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             charges2Txt1.text = charges_TwoStr[0]
             charges2Txt2.text = "  ₹ " + charges_TwoStr[1]
         }
+
+        if (charges_three!!.isNotEmpty()) {
+            var charges_ThreeStr = charges_three.split(",")
+            charges3Txt1.text = charges_ThreeStr[0]
+            charges3Txt2.text = "  ₹ " + charges_ThreeStr[1]
+        }
+
+        additionalChargesValTxt.text=delivery_tax_rate
 
         try {
             tv_base_charges.text = "Delivery charges starting from ₹" + baseCharges + " for first " + baseDistance + " kms"
@@ -310,7 +320,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             Log.e("payment_response", Gson().toJson(user))
             if (user.error_code == 200) {
 
-                additionalChargesValTxt.text=user.charges_three
+              //  additionalChargesValTxt.text=user.charges_three
 
                 if (user.free == 1) {
                     payment_method_lay.visibility = View.GONE

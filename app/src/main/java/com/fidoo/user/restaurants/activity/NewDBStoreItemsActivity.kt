@@ -628,9 +628,9 @@ class NewDBStoreItemsActivity :
             next_available = storeData.next_available
             latestCatList.clear()
 
-            if (next_available.toString().equals("1")){
+           // if (next_available.toString().equals("1")){
                 dismissIOSProgress()
-            }
+           // }
 
 //            if (cat_listShow == 0) {
 //                catList!!.clear()
