@@ -61,6 +61,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     var where: String = ""
     var catId: String = ""
     var start_point: String = ""
+
     var end_point: String = ""
     private val co = Checkout()
     private val getAddFromLatLong: GetAddFromLatLong? = null
@@ -96,7 +97,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     var contsCardHeight = 0
     var height = 0
     var width = 0
-    var isSelected:Int?=0
+    var isSelected: Int? = 0
     private lateinit var sendPackagesDb: SendPackagesDb
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,13 +156,13 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         co.setKeyID(BuildConfig.pay_key)
 
         where = intent.getStringExtra("where")!!
+
         try {
-            tv_address_title.text=intent.getStringExtra("cat_name")!!
-            cat_idStr=intent.getStringExtra("cat_id")!!
-        }catch (e:java.lang.Exception){
+            tv_address_title.text = intent.getStringExtra("cat_name")!!
+            cat_idStr = intent.getStringExtra("cat_id")!!
+        } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
-        where = intent.getStringExtra("where")!!
 
         if (where.equals("guest")) {
 
@@ -214,33 +215,33 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
 
         from_address_lay.setOnClickListener {
             addressType = "from"
-            forSendPackageAddCheck="1"
+            forSendPackageAddCheck = "1"
             startActivity(
                 Intent(this, SavedAddressesActivity::class.java)
                     .putExtra("type", "from")
                     .putExtra("where", where)
             )
-            MainActivity.addEditAdd ="SendPackage"
+            MainActivity.addEditAdd = "SendPackage"
 
         }
 
         to_address_lay.setOnClickListener {
             addressType = "to"
-            forSendPackageAddCheck="1"
+            forSendPackageAddCheck = "1"
 
             startActivity(
                 Intent(this, SavedAddressesActivity::class.java)
                     .putExtra("type", "to")
                     .putExtra("where", where)
             )
-            MainActivity.addEditAdd ="SendPackage"
+            MainActivity.addEditAdd = "SendPackage"
 
         }
 
         viewmodel?.getPackageResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
             Log.e("cat_response", Gson().toJson(user))
-         //   standard_charges = user.standard_charges
+            //   standard_charges = user.standard_charges
 
             try {
                 tv_base_charges.text =
@@ -272,13 +273,13 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                     .putExtra("base_charges", user.base_price)
                     .putExtra("cat_name", cat_nameStr)
                     .putExtra("cat_Id", cat_idStr)
-                    .putExtra("document_Id",documentId)
-                    .putExtra("discount",user.discount)
-                    .putExtra("coupon_name",user.coupon_name)
-                    .putExtra("value_after_discount",user.value_after_discount)
-                    .putExtra("standard_charges","")
-                    .putExtra("charges_one",user.charges_one)
-                    .putExtra("charges_two",user.charges_two)
+                    .putExtra("document_Id", documentId)
+                    .putExtra("discount", user.discount)
+                    .putExtra("coupon_name", user.coupon_name)
+                    .putExtra("value_after_discount", user.value_after_discount)
+                    .putExtra("standard_charges", "")
+                    .putExtra("charges_one", user.charges_one)
+                    .putExtra("charges_two", user.charges_two)
 
             )
 
@@ -394,17 +395,17 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             if (resultCode == RESULT_OK) {
                 var result = data!!.getStringExtra("Item_details")
                 if (result != null) {
-                  ///  item_type_lay.visibility=View.GONE
-                    infoll_bottom.visibility=View.GONE
-                  //  ed_notes.visibility=View.VISIBLE
-                    tv_placeOrder.visibility=View.VISIBLE
-                    ed_notes.text=data!!.getStringExtra("Item_list")
+                    ///  item_type_lay.visibility=View.GONE
+                    infoll_bottom.visibility = View.GONE
+                    //  ed_notes.visibility=View.VISIBLE
+                    tv_placeOrder.visibility = View.VISIBLE
+                    ed_notes.text = data!!.getStringExtra("Item_list")
                     item_icon.setColorFilter(getResources().getColor(R.color.primary_color));
-                    tv_address_title.text=data!!.getStringExtra("cat_name")
-                    cat_nameStr=data!!.getStringExtra("cat_name").toString()
-                    cat_idStr= data!!.getStringExtra("cat_id").toString()
-                    documentId=data!!.getStringExtra("document_id").toString().replace(" ","")
-                    Log.e("result__","$cat_nameStr--$cat_idStr--$documentId")
+                    tv_address_title.text = data!!.getStringExtra("cat_name")
+                    cat_nameStr = data!!.getStringExtra("cat_name").toString()
+                    cat_idStr = data!!.getStringExtra("cat_id").toString()
+                    documentId = data!!.getStringExtra("document_id").toString().replace(" ", "")
+                    Log.e("result__", "$cat_nameStr--$cat_idStr--$documentId")
                 }
             }
         }
@@ -457,16 +458,16 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                             || (end_point.equals("gurgaon ") && start_point.equals("gurgaon"))
                             || (end_point.equals("") && start_point.equals(""))
                         ) {
-                        if (distanceTex != null && distanceTex < 15000) {
-                            viewmodel?.getPackageDetails(
-                                SessionTwiclo(
-                                    this
-                                ).loggedInUserDetail.accountId,
-                                SessionTwiclo(
-                                    this
-                                ).loggedInUserDetail.accessToken,
-                                distanceTex.toString()
-                            )
+                            if (distanceTex != null && distanceTex < 15000) {
+                                viewmodel?.getPackageDetails(
+                                    SessionTwiclo(
+                                        this
+                                    ).loggedInUserDetail.accountId,
+                                    SessionTwiclo(
+                                        this
+                                    ).loggedInUserDetail.accessToken,
+                                    distanceTex.toString()
+                                )
                             } else {
                                 showToast("The distance between pickup and drop location must be less than 15 KM's to proceed")
                             }
@@ -653,7 +654,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                 sendPackagesModel!!.orderId,
                 razorpayPaymentId!!,
                 "",
-                "online",other_taxes_and_charges
+                "online", other_taxes_and_charges
             )
 
 
@@ -665,18 +666,18 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     override fun onResume() {
         super.onResume()
         deleteAllSendPackages()
-        if (selectedFromAddress.isNotEmpty()){
+        if (selectedFromAddress.isNotEmpty()) {
             location_icon_from.setColorFilter(getResources().getColor(R.color.primary_color));
         }
-        if (selectedToAddress.isNotEmpty()){
+        if (selectedToAddress.isNotEmpty()) {
             location_icon_to.setColorFilter(getResources().getColor(R.color.primary_color));
         }
         tv_address_from.text = selectedFromAddress
         tv_address_to.text = selectedToAddress
-        forSendPackageAddCheck="0"
+        forSendPackageAddCheck = "0"
     }
 
-    private fun deliveryPopUp(vis:Int) {
+    private fun deliveryPopUp(vis: Int) {
         sendPackagesDiolog = Dialog(this)
         sendPackagesDiolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         sendPackagesDiolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -688,20 +689,23 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         // sendPackagesDiolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
         sendPackagesDiolog?.setCanceledOnTouchOutside(true)
         sendPackagesDiolog?.show()
-        val disable_gradientRl = sendPackagesDiolog?.findViewById<RelativeLayout>(R.id.disable_gradientRl)
-        val deliveryChargesLl = sendPackagesDiolog?.findViewById<LinearLayout>(R.id.deliveryChargesLl)
-        val deliveryChargesLl2 = sendPackagesDiolog?.findViewById<LinearLayout>(R.id.deliveryChargesLl2)
+        val disable_gradientRl =
+            sendPackagesDiolog?.findViewById<RelativeLayout>(R.id.disable_gradientRl)
+        val deliveryChargesLl =
+            sendPackagesDiolog?.findViewById<LinearLayout>(R.id.deliveryChargesLl)
+        val deliveryChargesLl2 =
+            sendPackagesDiolog?.findViewById<LinearLayout>(R.id.deliveryChargesLl2)
 
-        if (vis==0){
-            deliveryChargesLl2!!.visibility=View.GONE
-            deliveryChargesLl!!.visibility=View.VISIBLE
-        }else{
-            deliveryChargesLl2!!.visibility=View.VISIBLE
-            deliveryChargesLl!!.visibility=View.GONE
+        if (vis == 0) {
+            deliveryChargesLl2!!.visibility = View.GONE
+            deliveryChargesLl!!.visibility = View.VISIBLE
+        } else {
+            deliveryChargesLl2!!.visibility = View.VISIBLE
+            deliveryChargesLl!!.visibility = View.GONE
 
         }
 
-        disable_gradientRl?.setOnClickListener{
+        disable_gradientRl?.setOnClickListener {
             sendPackagesDiolog?.dismiss()
         }
 
