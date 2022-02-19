@@ -254,11 +254,14 @@ class OrdersFragment : Fragment(),
 			Log.e("repeatOrderResponse", Gson().toJson(response))
 			dismissProgressBar()
 			if (response.error_code == 200) {
-				AppUtils.startActivityRightToLeft(
-					requireActivity(), Intent(requireContext(), CartActivity::class.java).putExtra(
-						"storeId", SessionTwiclo(context).storeId
+				try{
+					AppUtils.startActivityRightToLeft(
+						requireActivity(), Intent(mmContext, CartActivity::class.java).putExtra(
+							"storeId", SessionTwiclo(context).storeId
+						)
 					)
-				)
+				}catch (e:Exception){}
+
 			}
 		})
 
