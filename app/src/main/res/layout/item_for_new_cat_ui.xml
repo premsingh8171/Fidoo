@@ -47,16 +47,15 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/item_tv_catPrd"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin_30dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="@dimen/margin_10dp"
                     android:fontFamily="@font/proxima"
                     android:gravity="center_vertical"
                     android:lineSpacingExtra="1dp"
-                    android:maxLines="2"
                     android:paddingLeft="@dimen/dimen_8dp"
                     android:paddingRight="@dimen/dimen_8dp"
-                    android:text="#"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_14sp" />
 

@@ -31,6 +31,8 @@ import com.fidoo.user.R
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.grocerynewui.activity.GroceryNewUiActivity
+import com.fidoo.user.ordermodule.adapter.OrdersAdapter
+import com.fidoo.user.ordermodule.ui.OrderDetailsActivity
 import com.fidoo.user.sendpackages.adapter.SendPackagesCategoryAdapter
 import com.fidoo.user.sendpackages.adapter.SendPackagesImgAdapter
 import com.fidoo.user.sendpackages.model.Categories
@@ -47,6 +49,7 @@ import com.razorpay.Checkout
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.activity_grocery_new_ui.*
 import kotlinx.android.synthetic.main.activity_sendpackages_additem.*
+import kotlinx.android.synthetic.main.service_adapter.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -68,7 +71,7 @@ class SendPackagesAddItem : BaseActivity() {
     var catList: ArrayList<Categories>? = null
     var sendPackagesImgList: ArrayList<String>? = null
     var filePathTemp: String = ""
-    var fileUri: Uri?=null
+    var fileUri: Uri? = null
     var cat_Diolog: Dialog? = null
     lateinit var cat_Recyclerview: RecyclerView
     var viewmodel: SendPackagesViewModel? = null
@@ -83,7 +86,7 @@ class SendPackagesAddItem : BaseActivity() {
         setContentView(R.layout.activity_sendpackages_additem)
         // deleteAllSendPackages()
         viewmodel = ViewModelProvider(this).get(SendPackagesViewModel::class.java)
-        sendPackagesImgList= ArrayList()
+        sendPackagesImgList = ArrayList()
 
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
         // Display size
@@ -112,21 +115,27 @@ class SendPackagesAddItem : BaseActivity() {
 
         viewmodel?.getPackageCatApi2(
             SessionTwiclo(this).loggedInUserDetail.accountId,
-            SessionTwiclo(this).loggedInUserDetail.accessToken)
+            SessionTwiclo(this).loggedInUserDetail.accessToken
+        )
 
-        viewmodel?.catResponse!!.observe(this,{
-            Log.e("catResponse_",Gson().toJson(it))
-            if (it.error_code==200){
-                if (it.categories_list.size!=0){
-                    catList=it.categories_list as ArrayList<Categories>
+        viewmodel?.catResponse!!.observe(this, {
+            Log.e("catResponse_", Gson().toJson(it))
+            if (it.error_code == 200) {
+                if (it.categories_list.size != 0) {
+                    catList = it.categories_list as ArrayList<Categories>
                 }
             }
         })
 
-        viewmodel?.uploadSendPackagesResponse?.observe(this,{
+        viewmodel?.uploadSendPackagesResponse?.observe(this, {
             dismissIOSProgress()
             Log.e("uploadSendPackages__", Gson().toJson(it))
-            sendPackagesUpdate(sendPackages_img_id, fileUri.toString(), filePathTemp, it.document_id)
+            sendPackagesUpdate(
+                sendPackages_img_id,
+                fileUri.toString(),
+                filePathTemp,
+                it.document_id
+            )
             sendPackages_img_id++
             sendPackagesImgInsert(sendPackages_img_id, "null", "null", "null")
             getSendPackagesImg()
@@ -198,7 +207,7 @@ class SendPackagesAddItem : BaseActivity() {
                     var selectValue = sendPackagesImgList.toString()
                     val regex = "["
                     selectValue = selectValue.replace(regex, "")
-                    var  selectValue2 = selectValue.replace("]", "").trim()
+                    var selectValue2 = selectValue.replace("]", "").trim()
                     Log.e("val__", selectValue2)
 
 
@@ -268,8 +277,12 @@ class SendPackagesAddItem : BaseActivity() {
             val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), "")
             MultipartBody.Part.createFormData("document", "", requestFile)
         }
-        val accountId = RequestBody.create("text/plain".toMediaTypeOrNull(),SessionTwiclo(this).loggedInUserDetail.accountId)
-        val accessToken = RequestBody.create("text/plain".toMediaTypeOrNull(),
+        val accountId = RequestBody.create(
+            "text/plain".toMediaTypeOrNull(),
+            SessionTwiclo(this).loggedInUserDetail.accountId
+        )
+        val accessToken = RequestBody.create(
+            "text/plain".toMediaTypeOrNull(),
             SessionTwiclo(this).loggedInUserDetail.accessToken
         )
 
@@ -277,7 +290,7 @@ class SendPackagesAddItem : BaseActivity() {
         viewmodel?.uploadSendPackagesImage(
             accountId,
             accessToken,
-                mImageParts
+            mImageParts
         )
 
     }
@@ -475,22 +488,25 @@ class SendPackagesAddItem : BaseActivity() {
 
         }
 
-        if (catList!!.size!=0) {
+        if (catList!!.size != 0) {
             rvCategory(catList!!)
         }
 
     }
 
-    private fun rvCategory(list:ArrayList<Categories>) {
-        cat_Recyclerview.adapter=SendPackagesCategoryAdapter(this,list,object :SendPackagesCategoryAdapter.CategoryItemClick{
-            override fun onItemClick(pos: Int, sendPackage: Categories) {
-                cat_Diolog?.dismiss()
-                cat_idStr=sendPackage.id
-                cat_nameStr=sendPackage.cat_name
-                selectCat_text.text=sendPackage.cat_name
-               // itemList_eTxt.text=""
-            }
-        })
+    private fun rvCategory(list: ArrayList<Categories>) {
+        cat_Recyclerview.adapter = SendPackagesCategoryAdapter(
+            this,
+            list,
+            object : SendPackagesCategoryAdapter.CategoryItemClick {
+                override fun onItemClick(pos: Int, sendPackage: Categories) {
+                    cat_Diolog?.dismiss()
+                    cat_idStr = sendPackage.id
+                    cat_nameStr = sendPackage.cat_name
+                    selectCat_text.text = sendPackage.cat_name
+                    // itemList_eTxt.text=""
+                }
+            })
     }
 
 
@@ -498,4 +514,5 @@ class SendPackagesAddItem : BaseActivity() {
         finish()
         AppUtils.finishActivityLeftToRight(this)
     }
+
 }

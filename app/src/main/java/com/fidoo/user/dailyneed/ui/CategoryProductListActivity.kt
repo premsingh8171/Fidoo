@@ -119,7 +119,6 @@ class CategoryProductListActivity : BaseActivity(), ItemOnCatClickListener {
 		forApiHit()
 		observer()
 
-
 	}
 
 	private fun sliderviewPager(arrayList_: ArrayList<Data>) {

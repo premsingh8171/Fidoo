@@ -68,6 +68,7 @@ class BreakfastCerealsAdapter(
 
 		//  holder.itemView.qua_txt_breakFast.text = productList[position].category_name
 
+	//	Log.d("product_image___",productList[position].product_image.toString())
 		Glide.with(con)
 			.load(productList[position].product_image)
 			.fitCenter()

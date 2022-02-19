@@ -81,6 +81,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
     companion object {
         val MY_PERMISSIONS_REQUEST_CODE = 123
     }
+
     var onMapNoNetDiolog: Dialog? = null
 
     private var mMap: GoogleMap? = null
@@ -133,9 +134,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
-        viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(AddressViewModel::class.java)
+        viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+            .create(AddressViewModel::class.java)
 
-        viewmodelusertrack = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(UserTrackerViewModel::class.java)
+        viewmodelusertrack = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+            .create(UserTrackerViewModel::class.java)
 
         where = pref!!.guestLogin
 
@@ -183,9 +186,9 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             tempAddressId = model.id
             defaultCheckBox.isChecked = model.is_default.equals("1")
 
-            if (model.phone_no.toString().equals("")){
-                contact_name_txt.text="Add contact no."
-            }else {
+            if (model.phone_no.toString().equals("")) {
+                contact_name_txt.text = "Add contact no."
+            } else {
                 contact_name_txt.text =
                     model.name.toString() + "-" + model.phone_no.toString().replace("+91", "")
                 contact_name_txt.setTextColor(getColor(R.color.primary_color))
@@ -244,6 +247,12 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             showToast("Please enter your house number")
                         } else if (ed_landmark.text.toString().equals("")) {
                             showToast("Please enter your landmark")
+                        } else if (ed_landmark.text.toString().equals("")) {
+                            showToast("Please enter your landmark")
+                        }
+                        //updated by shobha
+                        else if (ed_name.text.toString().equals("")) {
+                            showToast("Please add contact details")
                         } else if (tv_Address.equals("")) {
                             showToast("Location not available")
                         } else {
@@ -370,6 +379,10 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                         } else if (ed_landmark.text.toString().equals("")) {
                             showToast("Please enter your landmark")
 
+                        }
+                        //updated by shobha
+                        else if (ed_name.text.toString().equals("")) {
+                            showToast("Please add contact details")
                         } else if (tv_Address.equals("")) {
                             showToast("Location not available")
 
@@ -443,9 +456,9 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
             if (forSendPackageAddCheck.equals("1")) {
                 contactTypePopUp()
-            }else {
-            add_new_add_ll.visibility = View.GONE
-            contact_add_ll.visibility = View.VISIBLE
+            } else {
+                add_new_add_ll.visibility = View.GONE
+                contact_add_ll.visibility = View.VISIBLE
             }
 
         }
@@ -632,8 +645,8 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             // Toast.makeText(applicationContext,""+center.latitude,Toast.LENGTH_SHORT).show()
             val address = getGeoAddressFromLatLong(center.latitude, center.longitude)
             if (address!!.isNotEmpty()) {
-              //  tv_Address.text = address
-                 geocoderAddress(center.latitude!!.toString(), center.longitude!!.toString())
+                //  tv_Address.text = address
+                geocoderAddress(center.latitude!!.toString(), center.longitude!!.toString())
             } else {
                 geocoderAddress(center.latitude!!.toString(), center.longitude!!.toString())
 
@@ -727,8 +740,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             + mLastKnownLocation!!.longitude.toString()
                 )
                 if (address!!.isNotEmpty()) {
-                   // tv_Address.text = address
-                    geocoderAddress(mLastKnownLocation!!.latitude!!.toString(), mLastKnownLocation!!.longitude!!.toString())
+                    // tv_Address.text = address
+                    geocoderAddress(
+                        mLastKnownLocation!!.latitude!!.toString(),
+                        mLastKnownLocation!!.longitude!!.toString()
+                    )
 
                 } else {
                     geocoderAddress(
@@ -766,8 +782,8 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                 lng!!
                             )
                             if (address!!.isNotEmpty()) {
-                               // tv_Address.text = address
-                                 geocoderAddress(lat!!.toString(), lng!!.toString())
+                                // tv_Address.text = address
+                                geocoderAddress(lat!!.toString(), lng!!.toString())
 
                             } else {
                                 geocoderAddress(lat!!.toString(), lng!!.toString())
@@ -799,8 +815,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                             + mLastKnownLocation!!.longitude.toString()
                                 )
                                 if (address!!.isNotEmpty()) {
-                                   // tv_Address.text = address
-                                     geocoderAddress(mLastKnownLocation!!.latitude!!.toString(), mLastKnownLocation!!.longitude!!.toString())
+                                    // tv_Address.text = address
+                                    geocoderAddress(
+                                        mLastKnownLocation!!.latitude!!.toString(),
+                                        mLastKnownLocation!!.longitude!!.toString()
+                                    )
 
                                 } else {
                                     geocoderAddress(
@@ -1002,7 +1021,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
     }
 
     fun geocoderAddress(lat: String, lng: String) {
-        progressindicatorAdd.visibility=View.VISIBLE
+        progressindicatorAdd.visibility = View.VISIBLE
         if (isNetworkConnected) {
             val geocodeUrl =
                 "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
@@ -1036,8 +1055,8 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             }
             val requestQueue = Volley.newRequestQueue(this)
             requestQueue.add(geocodeRequest)
-        }else{
-            onMapPopUp(lat,lng)
+        } else {
+            onMapPopUp(lat, lng)
             progressindicatorAdd.visibility = View.GONE
         }
 
@@ -1064,13 +1083,13 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         }
 
         retryBtn?.setOnClickListener {
-            geocoderAddress(lat,lng)
+            geocoderAddress(lat, lng)
             onMapNoNetDiolog?.dismiss()
         }
 
 
     }
-    
+
     fun contactTypePopUp() {
         contactTypePopUp = Dialog(this)
         contactTypePopUp?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1085,18 +1104,20 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
         contactTypePopUp?.setCanceledOnTouchOutside(true)
         contactTypePopUp?.show()
-        val addDismisspopUp_ = contactTypePopUp?.findViewById<ConstraintLayout>(R.id.addDismisspopUp_)
+        val addDismisspopUp_ =
+            contactTypePopUp?.findViewById<ConstraintLayout>(R.id.addDismisspopUp_)
         val myContactTxt = contactTypePopUp?.findViewById<TextView>(R.id.myContactTxt)
         val addBookTxt = contactTypePopUp?.findViewById<TextView>(R.id.addBookTxt)
         val AddManuallyTxt = contactTypePopUp?.findViewById<TextView>(R.id.AddManuallyTxt)
-        val remove_conDetailsTxt = contactTypePopUp?.findViewById<TextView>(R.id.remove_conDetailsTxt)
+        val remove_conDetailsTxt =
+            contactTypePopUp?.findViewById<TextView>(R.id.remove_conDetailsTxt)
 
 
-        if (ed_phone.text?.toString().equals("")){
-            contact_name_txt.text="Add contact no."
-            remove_conDetailsTxt!!.visibility=View.GONE
-        }else{
-            remove_conDetailsTxt!!.visibility=View.VISIBLE
+        if (ed_phone.text?.toString().equals("")) {
+            contact_name_txt.text = "Add contact no."
+            remove_conDetailsTxt!!.visibility = View.GONE
+        } else {
+            remove_conDetailsTxt!!.visibility = View.VISIBLE
         }
 
         addDismisspopUp_!!.setOnClickListener {
@@ -1111,7 +1132,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
             add_new_add_ll.visibility = View.GONE
             contact_add_ll.visibility = View.VISIBLE
-            contact_type="My Number"
+            contact_type = "My Number"
         }
 
         addBookTxt!!.setOnClickListener {
@@ -1122,7 +1143,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
             add_new_add_ll.visibility = View.GONE
             contact_add_ll.visibility = View.VISIBLE
-            contact_type="Address book"
+            contact_type = "Address book"
 
         }
 
@@ -1133,7 +1154,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             myContactTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
             add_new_add_ll.visibility = View.GONE
             contact_add_ll.visibility = View.VISIBLE
-            contact_type="Add Manually"
+            contact_type = "Add Manually"
         }
 
         remove_conDetailsTxt!!.setOnClickListener {
@@ -1143,9 +1164,9 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             AddManuallyTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
             ed_phone.text?.clear()
             ed_name.text?.clear()
-            contact_name_txt.text="Add contact no."
+            contact_name_txt.text = "Add contact no."
             contact_name_txt!!.setTextColor(getResources().getColor(R.color.primary_color))
-            contact_type=""
+            contact_type = ""
 //            add_new_add_ll.visibility = View.GONE
 //            contact_add_ll.visibility = View.VISIBLE
         }

@@ -163,7 +163,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 								.putExtra("coupon_desc", "")
 								.putExtra("distance", model.distance)
 						)
-					} else if (model.type.equals("Grocery") || model.type.equals("Medicine")) {
+					} else if (model.type.equals("Grocery") || model.type.equals("Medicine")|| model.type.equals("Pet Essentials")) {
 						AppUtils.startActivityRightToLeft(
 							this@NewSearchActivity,
 							Intent(this@NewSearchActivity, CategoryProductListActivity::class.java)

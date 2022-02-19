@@ -367,7 +367,8 @@
                     android:textSize="@dimen/text_size_12sp" />
 
                 <TextView
-                    android:id="@+id/tv_delivery_address"
+                    android:visibility="gone"
+                    android:id="@+id/tv_landmark"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_delivery_at"
@@ -378,7 +379,23 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/proxima"
                     android:maxLines="1"
-                    android:text="address"
+                    android:text=""
+                    android:textColor="@color/txt_color"
+                    android:textSize="@dimen/text_size_12sp" />
+
+                <TextView
+                    android:id="@+id/tv_delivery_address"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_landmark"
+                    android:layout_marginLeft="@dimen/dimen_5dp"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_toRightOf="@+id/img_location_cart"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima"
+                    android:maxLines="2"
+                    android:text=""
                     android:textColor="@color/txt_color"
                     android:textSize="@dimen/text_size_12sp" />
 

@@ -130,7 +130,9 @@ class AddressesAdapter(
 
                 if (stringExtra.equals("order")) {
                     CartActivity.selectedAddressId = addressList[position].id
-                    CartActivity.selectedAddressName = addressList[position].location + "\nHouse No.: " + addressList.get(position).flatNo + "\nBuilding: " + addressList.get(position).building + "\nLandmark: " + addressList.get(position).landmark
+                    //CartActivity.selectedAddressName = "House No.: " + addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                    CartActivity.selectedAddressName = addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                    CartActivity.selectedPreAddressName = addressList.get(position).flatNo + "\nBuilding: " + addressList.get(position).building + "\nLandmark: " + addressList.get(position).landmark
                     CartActivity.userLat = addressList[position].latitude
                     CartActivity.userLong = addressList[position].longitude
                     //StoreItemsActivity.customerLatitude = addressList[position].latitude

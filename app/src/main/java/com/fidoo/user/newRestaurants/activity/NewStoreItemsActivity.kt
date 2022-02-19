@@ -160,7 +160,6 @@ class NewStoreItemsActivity :
 	var prd_Position: Int? = 0
 	var backgroungHit: Int? = 0
 
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		val window: Window = this.getWindow()

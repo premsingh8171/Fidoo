@@ -37,6 +37,7 @@ import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.hideKeyboard
+import com.fidoo.user.utils.showAlertDialog
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
@@ -171,41 +172,48 @@ class SavedAddressesActivity : BaseActivity() {
             dismissIOSProgress()
             Log.e("addresses_response", Gson().toJson(user))
             //  linear_progress_indicator.visibility = View.GONE
-            if (user.addressList.isNullOrEmpty()) {
-                SessionTwiclo(this).userAddress = ""
+
+            if(user.errorCode==200) {
+                if (user.addressList.isNullOrEmpty()) {
+                    SessionTwiclo(this).userAddress = ""
 //                emptyTxt.visibility = View.VISIBLE
 //                emptyTxt.visibility = View.VISIBLE
-                // emptyScren_ll.visibility = View.VISIBLE
+                    // emptyScren_ll.visibility = View.VISIBLE
 
-            } else {
-                //  emptyTxt.visibility = View.GONE
-                // emptyLastTxt.visibility = View.GONE
+                } else {
+                    //  emptyTxt.visibility = View.GONE
+                    // emptyLastTxt.visibility = View.GONE
 
-                // emptyScren_ll.visibility = View.GONE
-            }
+                    // emptyScren_ll.visibility = View.GONE
+                }
 
 
-            if (!user.addressList.isNullOrEmpty()) {
-                val adapter = AddressesAdapter(
-                    this,
-                    user.addressList,
-                    object : AddressesAdapter.SetOnDeteleAddListener {
-                        override fun onDelete(
-                            add_id: String,
-                            addressList: GetAddressModel.AddressList
-                        ) {
-                            //hit api
-                            // Log.e("adadd_id", add_id)
-                            deleteAddDialog(add_id)
+                if (!user.addressList.isNullOrEmpty()) {
+                    val adapter = AddressesAdapter(
+                        this,
+                        user.addressList,
+                        object : AddressesAdapter.SetOnDeteleAddListener {
+                            override fun onDelete(
+                                add_id: String,
+                                addressList: GetAddressModel.AddressList
+                            ) {
+                                //hit api
+                                // Log.e("adadd_id", add_id)
+                                deleteAddDialog(add_id)
 
-                        }
+                            }
 
-                    },
-                    intent.getStringExtra("type")
-                )
-                addressesRecyclerView?.layoutManager = GridLayoutManager(this, 1)
-                addressesRecyclerView?.setHasFixedSize(true)
-                addressesRecyclerView?.adapter = adapter
+                        },
+                        intent.getStringExtra("type")
+                    )
+                    addressesRecyclerView?.layoutManager = GridLayoutManager(this, 1)
+                    addressesRecyclerView?.setHasFixedSize(true)
+                    addressesRecyclerView?.adapter = adapter
+                }
+            }else if (user.errorCode==101){
+                showAlertDialog(this)
+            }else{
+
             }
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()

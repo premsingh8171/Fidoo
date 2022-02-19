@@ -109,6 +109,7 @@ import kotlinx.android.synthetic.main.activity_store_items.tv_store_name
 import kotlinx.android.synthetic.main.activity_store_items.veg_switch_img
 import kotlinx.android.synthetic.main.no_internet_connection.*
 import kotlinx.android.synthetic.main.no_item_found.*
+import java.math.RoundingMode
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashSet
@@ -594,7 +595,9 @@ class NewDBStoreItemsActivity :
                     //  cartIcon.setImageResource(R.drawable.cart_icon)
                     //  cartIcon.setColorFilter(Color.argb(255, 53, 156, 71))
                     itemQuantity_textstore.text = count
-                    totalprice_txtstore.text = "₹ " + price
+                    val rounded = price.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+
+                    totalprice_txtstore.text = "₹ " + rounded
                     cartitemView_LLstore.visibility = View.VISIBLE
                     if (total_cart_count == 0) {
                         total_cart_count = 1

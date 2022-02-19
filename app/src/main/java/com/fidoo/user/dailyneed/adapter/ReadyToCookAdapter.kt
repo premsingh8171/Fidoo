@@ -109,8 +109,8 @@ class ReadyToCookAdapter(
                 holder.itemView.minusplus_ll_handWash.visibility = View.VISIBLE
                 holder.itemView.qua_txt_handWash.text=count.toString()
                 if (
-                   // SessionTwiclo(con).storeId.equals(productList[position].store_id) || SessionTwiclo(con).storeId.equals("")
-                    SessionTwiclo(con).serviceId.equals(productList[position].service_id) || SessionTwiclo(con).serviceId.equals("")
+                    SessionTwiclo(con).storeId.equals(productList[position].store_id) || SessionTwiclo(con).storeId.equals("")
+                    //SessionTwiclo(con).serviceId.equals(productList[position].service_id) || SessionTwiclo(con).serviceId.equals("")
                 ) {
                     itemClick.addtoCart(
                         4,

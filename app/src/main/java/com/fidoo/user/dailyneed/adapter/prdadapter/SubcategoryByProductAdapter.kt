@@ -105,9 +105,8 @@ class SubcategoryByProductAdapter(
 				holder.itemView.add_itemll_catPrd.visibility = View.GONE
 				holder.itemView.minusplus_ll_catPrd.visibility = View.VISIBLE
 				holder.itemView.qua_txt_catPrd.text = count.toString()
-				if (
-					//SessionTwiclo(con).storeId.equals(productList[position].store_id) || SessionTwiclo(con).storeId.equals("")
-					SessionTwiclo(con).serviceId.equals(productList[position].service_id) || SessionTwiclo(con).serviceId.equals("")
+				if (SessionTwiclo(con).storeId.equals(productList[position].store_id) || SessionTwiclo(con).storeId.equals("")
+				//	SessionTwiclo(con).serviceId.equals(productList[position].service_id) || SessionTwiclo(con).serviceId.equals("")
 
 				) {
 					itemClick.addtoCart(

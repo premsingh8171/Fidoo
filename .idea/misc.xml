@@ -6,7 +6,21 @@
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_auth.xml" value="0.12590579710144928" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.2" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_send_package_order_detail.xml" value="0.2" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.2" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_store_list.xml" value="0.25" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/cart_item.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_home_newui.xml" value="0.1331521739130435" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_brand_ui.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_cat_new_ui.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_dailyneed_cat.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_dairy_n_bakery.xml" value="0.25" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_for_new_cat_ui.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_handwash_n_sanitizers.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_hotspot_zone_ui.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_ice_cream_ui.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_ready_to_cook.xml" value="0.22447916666666667" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_service_details_adapter.xml" value="0.1331521739130435" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/new_search_item_layout.xml" value="0.10916919959473151" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.12952898550724637" />
       </map>
     </option>

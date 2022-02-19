@@ -107,8 +107,8 @@ class IceCreamList2Adapter(
 				holder.itemView.minusplus_ll_breakFast.visibility = View.VISIBLE
 				holder.itemView.qua_txt_breakFast.text = count.toString()
 				if (
-					//SessionTwiclo(con).storeId.equals(productList[position].store_id) || SessionTwiclo(con).storeId.equals("")
-					SessionTwiclo(con).serviceId.equals(productList[position].service_id) || SessionTwiclo(con).serviceId.equals("")
+					SessionTwiclo(con).storeId.equals(productList[position].store_id) || SessionTwiclo(con).storeId.equals("")
+					//SessionTwiclo(con).serviceId.equals(productList[position].service_id) || SessionTwiclo(con).serviceId.equals("")
 				) {
 					itemClick.addtoCart(
 						1,

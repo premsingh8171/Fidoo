@@ -166,6 +166,7 @@ class CartActivity : BaseActivity(),
 		var store_nameStr: String = ""
 		var selectedAddressId: String = ""
 		var selectedAddressName: String = ""
+		var selectedPreAddressName: String = ""
 		var selectedAddressTitle: String = ""
 		var selectedCouponId: String = ""
 		var selectedCouponName: String = ""
@@ -204,6 +205,8 @@ class CartActivity : BaseActivity(),
 		selectedAddressName = SessionTwiclo(this).userAddress
 		tv_delivery_address_title.text = selectedAddressTitle
 		tv_delivery_address.text = selectedAddressName
+		tv_landmark.text = selectedPreAddressName
+
 		address_id = SessionTwiclo(this).userAddressId
 		Log.d("address_idaddress_id", address_id)
 		selectedCouponId = ""
@@ -481,6 +484,8 @@ class CartActivity : BaseActivity(),
 					if (address_id.equals("") && tv_delivery_address.text == "") {
 						tv_delivery_address.text = "Select address"
 						tv_delivery_address_title.text = ""
+						tv_landmark.text = ""
+
 						showToast("Please select your address")
 
 					} else if (isPrescriptionRequire == "1") {
@@ -860,7 +865,8 @@ class CartActivity : BaseActivity(),
 					val deliveryChargeWithTax = mModelData.deliveryCharge + mModelData.tax.toInt()
 
 					// Item Total
-					tv_subtotal.text = resources.getString(R.string.ruppee) + totalAmount
+					val rounded1 = totalAmount.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+					tv_subtotal.text = resources.getString(R.string.ruppee) + rounded1
 
 
 					totalAmount = totalAmount + deliveryChargeWithTax
@@ -879,15 +885,14 @@ class CartActivity : BaseActivity(),
 					finalPrice = totalAmount
 
 					//numberOfItemsValue.text = noOfItems.toString() + " Items"
-
-					tv_place_order.text =
-						"Pay " + resources.getString(R.string.ruppee) + finalPrice.toFloat()
-							.toString()
+					
 
 					//edit by prem
 					val rounded = finalPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 					tv_grand_total.text =
 						resources.getString(R.string.ruppee) + rounded.toString()
+
+					tv_place_order.text = "Pay " + resources.getString(R.string.ruppee) + rounded.toString()
 
 					Log.e("Bottom Price", tv_place_order.text.toString())
 					Log.e("Grand Total", tv_grand_total.text.toString())
@@ -1232,6 +1237,7 @@ class CartActivity : BaseActivity(),
 		Log.d("address_id_____", "" + address_id)
 		tv_delivery_address_title.text = selectedAddressTitle
 		tv_delivery_address.text = selectedAddressName
+		tv_landmark.text = selectedPreAddressName
 
 		if (!isNetworkConnected) {
 			showInternetToast()

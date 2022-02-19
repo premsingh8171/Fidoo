@@ -59,18 +59,18 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:ellipsize="end"
                     android:id="@+id/item_tv_breakFast"
-                    android:layout_width="@dimen/margin_100dp"
-                    android:layout_height="@dimen/margin_30dp"
+                    android:layout_width="@dimen/margin_80dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="@dimen/margin_10"
                     android:fontFamily="@font/proxima"
                     android:gravity="center_vertical"
                     android:lineSpacingExtra="1dp"
                     android:maxLines="2"
-                    android:paddingLeft="@dimen/dimen_8dp"
-                    android:paddingRight="@dimen/dimen_8dp"
-                    android:text="Banana\nprem"
+                    android:padding="@dimen/dimen_5dp"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_14sp" />
 
@@ -93,7 +93,7 @@
                         android:layout_marginLeft="@dimen/margin_4dp"
                         android:layout_weight="8"
                         android:fontFamily="@font/proxima"
-                        android:paddingLeft="@dimen/dimen_5dp"
+                        android:paddingLeft="@dimen/margin_3dp"
                         android:text="0gm"
                         android:textAllCaps="false"
                         android:textColor="@color/colorTextGray"
