@@ -349,7 +349,6 @@ class ServiceDetailsAdapter(
             holder.itemView.viewpager_banner_rv.visibility = View.VISIBLE
             holder.itemView.headerTxt.text = serviceList[position].offer_heading
 
-
             if (serviceList[position].offer_marquee.toString().isNotEmpty()) {
                 holder.itemView.marque_txt.text =
                     serviceList[position].offer_marquee + " |  " + serviceList[position].offer_marquee + " |  " + serviceList[position].offer_marquee

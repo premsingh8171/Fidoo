@@ -43,6 +43,7 @@
     <dimen name="margin_200dp">200dp</dimen>
     <dimen name="margin_58dp">58dp</dimen>
     <dimen name="margin_70dp">70dp</dimen>
+    <dimen name="margin_65dp">65dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="call_avatar_diameter">78dp</dimen>
 
