@@ -101,7 +101,7 @@
     <string name="favorite_stores">Favorite Stores</string>
     <string name="payments">Payments</string>
     <string name="manage_payments_methods">Manage payments methods</string>
-    <string name="when_they_sign_up_on_fidoo_they_get_the_first_ordered_delivered_free">When they sign up on Fidoo, they get the first ordered delivered free</string>
+    <string name="when_your_friend_signed_up_they_get_1_free_delivery">When your friend signed up, they get 1 free delivery.</string>
     <string name="both_get_rewarded">Both get rewarded</string>
     <string name="referral_link">Referral Link</string>
     <string name="you_get_free_deliveries_for_five_orders_when_your_friend_makes_the_first_order">You get free deliveries for five orders when your friend makes the first order</string>
@@ -177,5 +177,6 @@
     <string name="preparing">Preparing</string>
     <string name="out_for_delivery">Out for delivery</string>
     <string name="accepted">Accepted</string>
+    <string name="everything_delivered">Everything\nDelivered<font color='#369c47'>.</font></string>
 
 </resources>

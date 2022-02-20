@@ -1,5 +1,6 @@
 package com.fidoo.user.newsearch.ui
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
@@ -91,9 +92,11 @@ class SearchFragmentNew : Fragment() {
         return mView
     }
 
+
     private fun onclick() {
 
         mView.editTxt.setOnClickListener {}
+        mView.editTxt.setTextColor(resources.getColor(R.color.colorTextGray))
 
         mView.searchKeyETxt.setOnClickListener {
             startActivity(Intent(context, NewSearchActivity::class.java).putExtra("service_id", ""))

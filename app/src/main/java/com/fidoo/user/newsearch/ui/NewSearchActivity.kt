@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
+import com.fidoo.user.R
 import com.fidoo.user.dailyneed.ui.CategoryProductListActivity
 import com.fidoo.user.dashboard.listener.ClickEventOfDashboard
 import com.fidoo.user.dashboard.model.newmodel.*
@@ -26,6 +27,7 @@ import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDataba
 import com.fidoo.user.utils.BaseActivity
 import com.google.gson.Gson
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
+import kotlinx.android.synthetic.main.fragment_search_new.view.*
 
 class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	private lateinit var binding: ActivityNewSearchBinding
@@ -156,10 +158,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 								.putExtra("storeName", model.name)
 								.putExtra("store_location", model.locality)
 								.putExtra("delivery_time", model.delivery_time)
-								.putExtra(
-									"cuisine_types",
-									model.cuisines.joinToString(separator = ", ")
-								)
+								.putExtra("cuisine_types", model.cuisines.joinToString(separator = ", "))
 								.putExtra("coupon_desc", "")
 								.putExtra("distance", model.distance)
 						)
@@ -234,16 +233,24 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 			override fun afterTextChanged(s: Editable) {}
 
-			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+				binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
+			}
 
 			override fun onTextChanged(
 				s: CharSequence, start: Int,
 				before: Int, count: Int
 			) {
 				search_value = s.toString()
+				//binding.editTxtAct.setTextColor(resources.getColor(R.color.black))
 				//  recentSearch!!.add(search_value!!)
 				//   Log.d("dsscountfff", "$start$count")
 
+				if (count==0){
+					binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
+				}else{
+					binding.editTxtAct.setTextColor(resources.getColor(R.color.black))
+				}
 				if (count < 1) {
 					page_count = 0
 					mainList!!.clear()
@@ -324,11 +331,12 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 		binding.editTxtAct.setOnClickListener {
 			try {
 				mainList!!.clear()
-				//hideKeyboard(binding.searchKeyETxtAct)
+							//hideKeyboard(binding.searchKeyETxtAct)
 				binding.showingResult.text = "Showing Result"
 				searchCategoryAdapter!!.updateData(mainList!!, isMore)
 				searchCategoryAdapter!!.notifyDataSetChanged()
 				binding.searchKeyETxtAct.text.clear()
+				binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
 			} catch (e: Exception) {
 				e.printStackTrace()
 			}

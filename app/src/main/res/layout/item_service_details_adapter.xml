@@ -591,21 +591,23 @@
             android:paddingLeft="@dimen/margin_3dp"
             android:src="@drawable/fidoo_ico" />
 
+        <!--update by shobha-->
         <ImageView
             android:id="@+id/bottomImg"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_40dp"
-            android:layout_marginBottom="-10dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_30dp"
+            android:layout_marginBottom="-170dp"
             android:src="@drawable/bottom_building" />
 
         <TextView
+            android:id="@+id/everythingdel_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_20dp"
             android:layout_marginTop="@dimen/margin_10"
             android:fontFamily="@font/proxima"
-            android:text="Everything\nDelivered."
+            android:text="@string/everything_delivered"
             android:textColor="@color/text_color_light_grey"
             android:textSize="@dimen/text_size_48sp"
             android:textStyle="bold" />

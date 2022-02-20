@@ -270,12 +270,13 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <!--update by shobha-->
                 <TextView
                     android:id="@+id/tv_faq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima"
-                    android:text="@string/when_they_sign_up_on_fidoo_they_get_the_first_ordered_delivered_free"
+                    android:text="@string/when_your_friend_signed_up_they_get_1_free_delivery"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_helpSupport" />

@@ -45,7 +45,7 @@
 
             <FrameLayout
                 android:id="@+id/offer_Fm_lable"
-                android:layout_width="@dimen/dimen_70dp"
+                android:layout_width="@dimen/dimen_80dp"
                 android:layout_height="@dimen/margin_40dp"
                 android:layout_gravity="end|bottom"
                 android:background="@drawable/rectangle_shap"

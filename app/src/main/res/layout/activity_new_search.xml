@@ -91,7 +91,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="@dimen/margin_20dp"
                     android:text="Cancel"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/colorTextGray" />
 
             </LinearLayout>
 
