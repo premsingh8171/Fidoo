@@ -32,6 +32,7 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_category_product_list.*
 import kotlinx.android.synthetic.main.no_item_found.*
 import org.json.JSONObject
+import java.math.RoundingMode
 
 @Suppress("DEPRECATION")
 class CategoryProductListActivity : BaseActivity(), ItemOnCatClickListener {
@@ -318,7 +319,9 @@ class CategoryProductListActivity : BaseActivity(), ItemOnCatClickListener {
 			if (!cartcount.error) {
 				if (count != "0") {
 					itemQuan_text_.text = count
-					totalPrice_Text_.text = "₹ " + price
+					val rounded = price.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+
+					totalPrice_Text_.text = "₹ " + rounded.toString()
 					cartCountFm_.visibility = View.VISIBLE
 					if (total_cart_count == 0) {
 						total_cart_count = 1

@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
@@ -99,6 +100,9 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     var width = 0
     var isSelected: Int? = 0
     private lateinit var sendPackagesDb: SendPackagesDb
+
+    var deliveryChargesList:ArrayList<SendPackagesModel.DeliveryCharges>?=null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -194,7 +198,6 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                         ""
                     )
                 }
-
             }
         }
 
@@ -246,9 +249,18 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             try {
                 tv_base_charges.text =
                     "Delivery charges starting from " + user.base_price + " for first" + user.base_distance + " kms"
+
+                deliveryChargesList= ArrayList()
+                deliveryChargesList=user.deliveryChargesList as ArrayList
+
+
             } catch (e: NullPointerException) {
                 Log.e("Error Base distance", e.toString())
             }
+
+            val gson = Gson()
+            var deliveryCharges = gson.toJson(deliveryChargesList)
+
 
             startActivity(
                 Intent(this, SendPackageOrderDetail::class.java)
@@ -282,6 +294,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                     .putExtra("charges_two",user.charges_two)
                     .putExtra("charges_three",user.charges_three)
                     .putExtra("delivery_tax_rate",user.delivery_tax_rate)
+                    .putExtra("delivery_charges",deliveryCharges)
             )
 
             /*buyPopup(

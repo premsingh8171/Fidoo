@@ -90,7 +90,6 @@ public class CartModel {
     @Expose
     public List<Tax> taxes;
 
-
     public class Tax {
 
         @SerializedName("title")
@@ -108,7 +107,6 @@ public class CartModel {
     @SerializedName("charges")
     @Expose
     public List<Charge> charges;
-
 
     public class Charge {
 
@@ -161,6 +159,10 @@ public class CartModel {
     @SerializedName("charges_three")
     @Expose
     public String charges_three;
+
+    @SerializedName("deliveryChargesList")
+    @Expose
+    public List<DeliveryCharges> deliveryChargesList = null;
 
     @SerializedName("delivery_tax_rate")
     @Expose
@@ -274,6 +276,17 @@ public class CartModel {
         @SerializedName("product_customize_id")
         @Expose
         public String productCustomizeId;
+
+    }
+
+    public class DeliveryCharges {
+
+        @SerializedName("distance_range")
+        @Expose
+        public String distanceRange;
+        @SerializedName("delivery_charges")
+        @Expose
+        public String deliveryCharges;
 
     }
 }

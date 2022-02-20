@@ -367,7 +367,6 @@
                     android:textSize="@dimen/text_size_12sp" />
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/tv_landmark"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
@@ -381,7 +380,8 @@
                     android:maxLines="1"
                     android:text=""
                     android:textColor="@color/txt_color"
-                    android:textSize="@dimen/text_size_12sp" />
+                    android:textSize="@dimen/text_size_12sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_delivery_address"
@@ -389,8 +389,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_landmark"
                     android:layout_marginLeft="@dimen/dimen_5dp"
-                    android:layout_marginBottom="@dimen/margin_10"
                     android:layout_marginTop="@dimen/margin_10"
+                    android:layout_marginBottom="@dimen/margin_10"
                     android:layout_toRightOf="@+id/img_location_cart"
                     android:ellipsize="end"
                     android:fontFamily="@font/proxima"
@@ -433,8 +433,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/cancel_icon"
-                    app:tint="@color/primary_color"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    app:tint="@color/primary_color" />
 
             </RelativeLayout>
 
@@ -572,7 +572,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp" />
 
-             <!--for urban piper-->
+                <!--for urban piper-->
 
                 <TextView
                     android:id="@+id/tv_tax_charges_label"
@@ -587,7 +587,6 @@
                     android:visibility="visible" />
 
                 <TextView
-                    android:visibility="visible"
                     android:id="@+id/tv_tax_charges"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -597,7 +596,8 @@
                     android:fontFamily="@font/proxima"
                     android:text=""
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_12sp" />
+                    android:textSize="@dimen/text_size_12sp"
+                    android:visibility="visible" />
 
 
                 <LinearLayout
@@ -704,112 +704,129 @@
 
                 <LinearLayout
                     android:layout_width="280dp"
-                    android:layout_height="@dimen/margin_130dp"
+                    android:layout_height="@dimen/margin_160dp"
                     android:background="@drawable/charges_popup"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/charges_oneTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_20dp"
+                                android:fontFamily="@font/proxima"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_size_12sp" />
+
+                            <TextView
+                                android:id="@+id/charges_onePriceTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginLeft="@dimen/margin_20dp"
+                                android:layout_marginRight="@dimen/margin_15dp"
+                                android:fontFamily="@font/proxima"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textColor="@color/primary_color"
+                                android:textSize="@dimen/text_size_12sp" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_2dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/charges_TwoTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_20dp"
+                                android:fontFamily="@font/proxima"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_size_12sp" />
+
+                            <TextView
+                                android:id="@+id/charges_TwoPriceTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginLeft="@dimen/margin_20dp"
+                                android:layout_marginRight="@dimen/margin_15dp"
+                                android:fontFamily="@font/proxima"
+                                android:gravity="end"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textColor="@color/primary_color"
+                                android:textSize="@dimen/text_size_12sp" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/relativeLay"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/charges_ThreeTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_20dp"
+                                android:fontFamily="@font/proxima"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_size_12sp" />
+
+                            <TextView
+                                android:id="@+id/tax_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginLeft="@dimen/margin_20dp"
+                                android:layout_marginRight="@dimen/margin_15dp"
+                                android:fontFamily="@font/proxima"
+                                android:gravity="end"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textColor="@color/primary_color"
+                                android:textSize="@dimen/text_size_12sp" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginTop="@dimen/dimen_5dp"
+                        android:id="@+id/charges_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:spanCount="1" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_10"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/charges_oneTxt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:fontFamily="@font/proxima"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_size_12sp" />
-
-                        <TextView
-                            android:layout_marginRight="@dimen/margin_15dp"
-                            android:layout_alignParentEnd="true"
-                            android:id="@+id/charges_onePriceTxt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:fontFamily="@font/proxima"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textColor="@color/primary_color"
-                            android:textSize="@dimen/text_size_12sp" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_2dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/charges_TwoTxt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:fontFamily="@font/proxima"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_size_12sp" />
-
-                        <TextView
-                            android:layout_marginRight="@dimen/margin_15dp"
-                            android:layout_alignParentEnd="true"
-                            android:id="@+id/charges_TwoPriceTxt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:fontFamily="@font/proxima"
-                            android:gravity="end"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textColor="@color/primary_color"
-                            android:textSize="@dimen/text_size_12sp" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/relativeLay"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/charges_ThreeTxt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:fontFamily="@font/proxima"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_size_12sp" />
-
-                        <TextView
-                            android:layout_marginRight="@dimen/margin_15dp"
-                            android:layout_alignParentEnd="true"
-                            android:id="@+id/tax_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:fontFamily="@font/proxima"
-                            android:gravity="end"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textColor="@color/primary_color"
-                            android:textSize="@dimen/text_size_12sp" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -824,12 +841,12 @@
                             android:textSize="@dimen/text_size_12sp" />
 
                         <TextView
-                            android:layout_marginRight="@dimen/margin_15dp"
-                            android:layout_alignParentEnd="true"
                             android:id="@+id/value_AdditionalTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
                             android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginRight="@dimen/margin_15dp"
                             android:fontFamily="@font/proxima"
                             android:gravity="end"
                             android:maxLines="1"
@@ -840,6 +857,7 @@
                     </RelativeLayout>
 
                 </LinearLayout>
+
 
             </FrameLayout>
 
@@ -876,12 +894,12 @@
                             android:textSize="@dimen/text_size_12sp" />
 
                         <TextView
-                            android:layout_marginRight="@dimen/margin_15dp"
-                            android:layout_alignParentEnd="true"
                             android:id="@+id/charges_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
                             android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginRight="@dimen/margin_15dp"
                             android:fontFamily="@font/proxima"
                             android:maxLines="1"
                             android:text="₹ 30"
@@ -889,9 +907,9 @@
                             android:textSize="@dimen/text_size_12sp" />
 
                         <TextView
-                            android:layout_below="@+id/tax_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/tax_title"
                             android:layout_marginLeft="@dimen/margin_20dp"
                             android:fontFamily="@font/proxima"
                             android:maxLines="1"
@@ -1062,12 +1080,12 @@
                 android:background="#50000000">
 
                 <LinearLayout
-                    android:layout_alignParentBottom="true"
-                    android:background="@drawable/top_corner_bg"
-                    android:backgroundTint="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginBottom="60dp"
+                    android:background="@drawable/top_corner_bg"
+                    android:backgroundTint="@color/white"
                     android:orientation="vertical">
 
                     <RelativeLayout
@@ -1086,8 +1104,8 @@
                             android:fontFamily="@font/proxima"
                             android:text="Customization"
                             android:textColor="@android:color/black"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:id="@+id/filterIcon"
@@ -1113,12 +1131,12 @@
                         android:background="@android:color/darker_gray" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:layout_marginBottom="@dimen/margin_80dp"
                         android:id="@+id/customItemsRecyclerview"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="5dp"
+                        android:layout_marginBottom="@dimen/margin_80dp"
                         android:gravity="center"
 
                         />
@@ -1187,7 +1205,6 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:visibility="visible"
                         android:id="@+id/customAddBtn"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -1203,6 +1220,7 @@
                         android:text=""
                         android:textColor="@color/white"
                         android:textSize="14sp"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -1231,7 +1249,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <LinearLayout
         android:id="@+id/noItemsTxt"

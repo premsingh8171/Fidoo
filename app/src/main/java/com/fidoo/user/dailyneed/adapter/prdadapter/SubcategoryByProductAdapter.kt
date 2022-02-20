@@ -194,6 +194,12 @@ class SubcategoryByProductAdapter(
 			}
 			holder.itemView.qua_txt_catPrd.text = count.toString()
 		}
+
+		if (productList.size-1==position){
+			holder.itemView.spaceView_catPrd.visibility=View.VISIBLE
+		}else{
+			holder.itemView.spaceView_catPrd.visibility=View.GONE
+		}
 	}
 
 

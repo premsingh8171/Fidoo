@@ -25,14 +25,15 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.ordermodule.ui.TrackSendPAckagesOrderActivity
+import com.fidoo.user.sendpackages.adapter.DeliveryChargesSendAdapter
 import com.fidoo.user.sendpackages.model.SendPackagesModel
 import com.fidoo.user.sendpackages.viewmodel.SendPackagesViewModel
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.showAlertDialog
+import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
@@ -50,6 +51,7 @@ import kotlinx.android.synthetic.main.activity_send_package_order_detail.tv_cash
 import kotlinx.android.synthetic.main.activity_send_package_order_detail.tv_grand_total
 import kotlinx.android.synthetic.main.activity_send_package_order_detail.tv_place_order
 import org.json.JSONObject
+import java.lang.reflect.Type
 
 class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResultListener {
 
@@ -62,6 +64,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
     var totalAmount: Double = 0.0
     var viewmodel: CartViewModel? = null
     private var mMixpanel: MixpanelAPI? = null
+    var deliveryChargesList: ArrayList<SendPackagesModel.DeliveryCharges>? = null
 
     companion object {
         var sendpackagerder_id: String = ""
@@ -76,7 +79,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_send_package_order_detail)
-
+        deliveryChargesList = ArrayList()
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
         val paymentAmount = intent.getStringExtra("payment_amount")
@@ -103,6 +106,25 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         val charges_two = intent.getStringExtra("charges_two")
         val charges_three = intent.getStringExtra("charges_three")
         val delivery_tax_rate = intent.getStringExtra("delivery_tax_rate")
+        var delivery_charges = intent.getStringExtra("delivery_charges")
+
+        try {
+            if (delivery_charges != null) {
+                val gson = Gson()
+                val type: Type =
+                    object : TypeToken<List<SendPackagesModel.DeliveryCharges?>?>() {}.getType()
+                val deliveryChargesList1: List<SendPackagesModel.DeliveryCharges> =
+                    gson.fromJson(delivery_charges, type)
+                deliveryChargesList = deliveryChargesList1 as ArrayList
+
+
+                var adaptersend = DeliveryChargesSendAdapter(this, deliveryChargesList!!)
+                charges_rvSend.adapter = adaptersend
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
 
         sendPackagesViewModel = ViewModelProvider(this).get(SendPackagesViewModel::class.java)
         viewmodelusertrack = ViewModelProvider(this).get(UserTrackerViewModel::class.java)
@@ -133,10 +155,12 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             charges3Txt2.text = "  ₹ " + charges_ThreeStr[1]
         }
 
-        additionalChargesValTxt.text=delivery_tax_rate
+
+        additionalChargesValTxt.text = delivery_tax_rate
 
         try {
-            tv_base_charges.text = "Delivery charges starting from ₹" + baseCharges + " for first " + baseDistance + " kms"
+            tv_base_charges.text =
+                "Delivery charges starting from ₹" + baseCharges + " for first " + baseDistance + " kms"
         } catch (e: NullPointerException) {
             Log.e("Error Base distance", e.toString())
         }
@@ -166,7 +190,8 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                     )
                 }
             }
-        }catch (e:Exception){}
+        } catch (e: Exception) {
+        }
 
         cash_lay.setOnClickListener {
             paymentMode = "cash"
@@ -283,7 +308,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         sendPackagesViewModel?.sendPackagesResponse?.observe(this) {
             Log.e("send_package_response", it.toString())
 
-            if (it.errorCode==200) {
+            if (it.errorCode == 200) {
                 val razorpayId = it.orderId.toString()
                 sendpackagerder_id = razorpayId
                 Log.e("razorpayId__", sendpackagerder_id)
@@ -302,13 +327,13 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                         sendpackagerder_id,
                         "",
                         "",
-                        paymentMode,other_taxes_and_charges
+                        paymentMode, other_taxes_and_charges
                     )
                     paySuccessPopUp()
                 }
-            }else if (it.errorCode==101){
+            } else if (it.errorCode == 101) {
                 showAlertDialog(this)
-            }else if (it.errorCode==100){
+            } else if (it.errorCode == 100) {
                 Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
 
             }
@@ -320,7 +345,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             Log.e("payment_response", Gson().toJson(user))
             if (user.error_code == 200) {
 
-              //  additionalChargesValTxt.text=user.charges_three
+                //  additionalChargesValTxt.text=user.charges_three
 
                 if (user.free == 1) {
                     payment_method_lay.visibility = View.GONE
@@ -375,7 +400,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         viewmodel?.checkPaymentStatusRes?.observe(this) { user ->
             Log.e("paymentFailureResponse_", Gson().toJson(user))
             dismissIOSProgress()
-            if (user.error_code==200){
+            if (user.error_code == 200) {
                 paySuccessPopUp()
             }
         }
@@ -461,7 +486,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                 sendpackagerder_id,
                 razorpayPaymentId!!,
                 "",
-                "online",other_taxes_and_charges
+                "online", other_taxes_and_charges
             )
 
             viewmodelusertrack?.customerActivityLog(
@@ -510,7 +535,8 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                     )
                 }
             }
-        }catch (e:Exception){}
+        } catch (e: Exception) {
+        }
     }
 
     override fun onBackPressed() {

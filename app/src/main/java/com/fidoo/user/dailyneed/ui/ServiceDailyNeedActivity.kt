@@ -30,6 +30,7 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.activity_service_daily_need.*
 import kotlinx.android.synthetic.main.no_item_found.*
+import java.math.RoundingMode
 
 @Suppress("DEPRECATION")
 class ServiceDailyNeedActivity : BaseActivity(), ItemOnClickListener {
@@ -205,7 +206,9 @@ class ServiceDailyNeedActivity : BaseActivity(), ItemOnClickListener {
 			if (!cartcount.error) {
 				if (count != "0") {
 					itemQuan_text.text = count
-					totalPrice_Text.text = "₹ " + price
+					val rounded = price.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+
+					totalPrice_Text.text = "₹ " + rounded.toString()
 					cartCountFm.visibility = View.VISIBLE
 					if (total_cart_count == 0) {
 						total_cart_count = 1

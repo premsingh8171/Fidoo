@@ -41,6 +41,7 @@ import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.adapter.CartItemsAdapter
+import com.fidoo.user.cartview.adapter.DeliveryChargesAdapter
 import com.fidoo.user.cartview.adapter.PrescriptionAdapter
 import com.fidoo.user.cartview.model.CartModel
 import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
@@ -751,6 +752,8 @@ class CartActivity : BaseActivity(),
 
 						value_AdditionalTxt.text=user.delivery_tax_rate
 
+						var adapterCharges=DeliveryChargesAdapter(this,user.deliveryChargesList as ArrayList)
+						charges_rv.adapter=adapterCharges
 					} catch (e: Exception) {
 						e.printStackTrace()
 					}
