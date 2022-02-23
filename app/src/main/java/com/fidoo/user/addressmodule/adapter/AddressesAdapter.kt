@@ -159,6 +159,8 @@ class AddressesAdapter(
                     SessionTwiclo(con).userLng = addressList[position].longitude
                     SessionTwiclo(con).userAddressId = addressList[position].id
                     SessionTwiclo(con).userAddress = addressList.get(position).location
+                    SessionTwiclo(con).addressType= addressList[position].addressType
+
                     // holder.itemView.setassDefaultTxt.visibility=View.VISIBLE
                     //  holder.itemView.selectedadd_img.visibility=View.VISIBLE
                     //   holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
@@ -170,15 +172,18 @@ class AddressesAdapter(
                     when {
                         addressList[position].addressType.equals("1") -> {
                             SessionTwiclo(con).userAddress = "Home"
+                            SessionTwiclo(con).addressType= "Home"
                         }
 
                         addressList[position].addressType.equals("2") -> {
                             SessionTwiclo(con).userAddress = "Office"
+                            SessionTwiclo(con).addressType = "Office"
 
                         }
 
                         else -> {
                             SessionTwiclo(con).userAddress = "Other"
+                            SessionTwiclo(con).addressType = "Other"
 
                         }
                     }
@@ -196,15 +201,19 @@ class AddressesAdapter(
                     when {
                         addressList[position].addressType.equals("1") -> {
                             SessionTwiclo(con).userAddress = "Home"
+                            SessionTwiclo(con).addressType = "Home"
+
                         }
 
                         addressList[position].addressType.equals("2") -> {
                             SessionTwiclo(con).userAddress = "Office"
+                            SessionTwiclo(con).addressType = "Office"
 
                         }
 
                         else -> {
                             SessionTwiclo(con).userAddress = "Other"
+                            SessionTwiclo(con).addressType = "Other"
 
                         }
                     }

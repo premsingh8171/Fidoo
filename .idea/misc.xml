@@ -3,32 +3,24 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_auth.xml" value="0.12590579710144928" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.18" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_new_search.xml" value="0.1" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_referral.xml" value="0.1" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_send_package_order_detail.xml" value="0.2" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.2" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_store_list.xml" value="0.25" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/cart_item.xml" value="0.12" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_home_newui.xml" value="0.1331521739130435" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/grocery_cat_header_layout.xml" value="0.22447916666666667" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_brand_ui.xml" value="0.22447916666666667" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_cat_new_ui.xml" value="0.22447916666666667" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_dailyneed_cat.xml" value="0.22447916666666667" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_dairy_n_bakery.xml" value="0.25" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_delivery_charges.xml" value="0.22447916666666667" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_for_new_cat_ui.xml" value="0.22447916666666667" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_handwash_n_sanitizers.xml" value="0.22447916666666667" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_hotspot_zone_ui.xml" value="0.22447916666666667" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_ice_cream_ui.xml" value="0.22447916666666667" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_ready_to_cook.xml" value="0.22447916666666667" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_service_details_adapter.xml" value="0.1331521739130435" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/new_search_item_layout.xml" value="0.10916919959473151" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.12952898550724637" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_saved_addresses.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/address_search_item.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/category_adapter.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_home.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_home_newui.xml" value="0.264" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_search.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/saved_address_items.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/store_sub_item_adapter.xml" value="0.22826086956521738" />
       </map>
     </option>
   </component>
-  <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.18" />
+      </ProjectState>
+    </option>
+  </component>
 </project>
