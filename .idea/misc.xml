@@ -3,44 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-<<<<<<< HEAD
         <entry key="..\:/twickloapp/app/src/main/res/layout/activity_new_add_address.xml" value="0.1" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_new_search.xml" value="0.18888888888888888" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_new_search_storelisting.xml" value="0.18888888888888888" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_new_store_items.xml" value="0.18888888888888888" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_store_filter_list.xml" value="0.18888888888888888" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_store_items.xml" value="0.18888888888888888" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_store_list.xml" value="0.18888888888888888" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/new_search_item_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/relevance_popup.xml" value="0.22" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
-=======
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_about_us.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_auth.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_edit_profile.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_login.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_saved_addresses.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/address_search_item.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/category_adapter.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_auth.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_home.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_home_newui.xml" value="0.264" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_otp.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_personal_detail.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_profile.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_search.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_sign_in.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_sign_up.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_signup_screen_fm.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/saved_address_items.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/store_sub_item_adapter.xml" value="0.22826086956521738" />
-      </map>
-    </option>
-  </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
-  <component name="VisualizationToolProject">
-    <option name="state">
-      <ProjectState>
-        <option name="scale" value="0.18" />
-      </ProjectState>
-    </option>
-  </component>
->>>>>>> Praveen_23feb22
 </project>
