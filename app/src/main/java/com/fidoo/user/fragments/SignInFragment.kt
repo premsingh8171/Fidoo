@@ -154,12 +154,12 @@ class SignInFragment : Fragment() {
 //        }
 
 
-        binding.tvSkip.setOnClickListener {
+      /*  binding.tvSkip.setOnClickListener {
             val intent = Intent(requireContext(), MainActivity::class.java)
             pref.guestLogin = "guest"
             requireContext().startActivity(intent)
             requireActivity().finish()
-        }
+        }*/
 
         binding.tvPrivacyPolicy.setOnClickListener {
             val intent = Intent(requireContext(), AboutUsActivity::class.java).putExtra(
