@@ -250,6 +250,7 @@ class SendPackagesAddItem : BaseActivity() {
                     filePathTemp = filePath
 
                     Log.e("filePath_", filePath)
+                    //yaha hai
 
                     uplaodGallaryImage(filePath!!)
                 }
@@ -401,7 +402,7 @@ class SendPackagesAddItem : BaseActivity() {
 
                         sendPackagesImgAdapter = SendPackagesImgAdapter(
                             this,
-                            arraylist!!,
+                            arraylist!!,  
                             object : SendPackagesImgAdapter.OnClickSendPackages {
                                 override fun clearImage(
                                     position: Int,

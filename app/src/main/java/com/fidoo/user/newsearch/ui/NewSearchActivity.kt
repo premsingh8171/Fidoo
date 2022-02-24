@@ -86,7 +86,6 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				hit = 0
 				isMore = it.more_value
 				latestList!!.clear()
-				binding.showingResult.text = "Showing Results (" + it.total_count.toString() + ")"
 				Log.d("keyword___", Gson().toJson(it))
 
 				if(search_value!!.isNotEmpty()) {
@@ -109,6 +108,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 						mainList!!.addAll(s)
 						rvCategoryList(mainList!!)
 					}
+					binding.showingResult.text = "Showing Results (" + mainList!!.size.toString() + ")"
+
 				}else{
 					binding.rvSearchResult!!.visibility=View.GONE
 					binding.showingResult!!.visibility=View.GONE

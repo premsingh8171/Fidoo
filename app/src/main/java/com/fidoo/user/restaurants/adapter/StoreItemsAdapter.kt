@@ -59,7 +59,7 @@ class StoreItemsAdapter(
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val index = productList[position]
 
-         try {
+       //  try {
        // Log.d("indexindex", index.price!! + "--" + index.offerPrice)
 
         if (!index.price!!.equals(index.offerPrice!!)) {
@@ -78,9 +78,9 @@ class StoreItemsAdapter(
             holder.priceTxt.visibility=View.INVISIBLE
 
         }
-        }catch (e:Exception){
-            e.printStackTrace()
-        }
+//        }catch (e:Exception){
+//            e.printStackTrace()
+//        }
 
         if (index.offerPrice.equals("0")){
             holder.offerPrice.visibility=View.GONE
