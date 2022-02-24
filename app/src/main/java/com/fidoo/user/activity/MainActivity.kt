@@ -152,7 +152,6 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     )
                 }catch (e:Exception){
                     e.printStackTrace()
-                    getCurrentLocation()
                 }
             }else{
                 getCurrentLocation()
@@ -348,6 +347,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     }
   
     private fun getCurrentLocation() {
+        Log.e("Locationcall", "call")
 
         EasyLocation(this, object : EasyLocation.EasyLocationCallBack {
             override fun permissionDenied() {
