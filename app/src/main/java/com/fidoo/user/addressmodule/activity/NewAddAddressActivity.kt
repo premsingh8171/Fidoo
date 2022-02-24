@@ -247,9 +247,10 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             showToast("Please enter your house number")
                         } else if (ed_landmark.text.toString().equals("")) {
                             showToast("Please enter your landmark")
-                        } else if (ed_landmark.text.toString().equals("")) {
-                            showToast("Please enter your landmark")
                         }
+                        /*else if (ed_landmark.text.toString().equals("")) {
+                            showToast("Please enter your landmark")
+                        }*/
 
                         else if (tv_Address.equals("")) {
                             showToast("Location not available")
