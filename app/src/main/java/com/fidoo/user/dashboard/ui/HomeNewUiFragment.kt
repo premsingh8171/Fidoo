@@ -133,6 +133,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		height = Math.round(width * 0.49).toInt()
 		catIconWidth = (width - 180) / 4
 
+
 		fragmentHomeBinding?.viewPagerBannerNewDesh!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
 
 		fragmentHomeBinding?.viewPagerBannerNewDesh!!.clipToPadding = false
@@ -201,7 +202,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		})
 
 		fragmentHomeBinding?.userAddressNewDesh?.text = SessionTwiclo(context).userAddress
-		//fragmentHomeBinding?.textNewDesh?.text= SessionTwiclo(context).addressType
+		fragmentHomeBinding?.textNewDesh?.text= SessionTwiclo(context).addressType
 
 
 		return fragmentHomeBinding?.root
@@ -569,10 +570,17 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					SessionTwiclo(context).loggedInUserDetail.accessToken
 				)
 				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
-				text_newDesh.text= SessionTwiclo(context).addressType
+
+				if (SessionTwiclo(context).addressType.equals("")) {
+					text_newDesh.text= "Your Location"
+				}else{
+
+					text_newDesh.text = SessionTwiclo(context).addressType
+				}
 
 			} else {
 				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+				text_newDesh.text= SessionTwiclo(context).addressType
 
 			}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
