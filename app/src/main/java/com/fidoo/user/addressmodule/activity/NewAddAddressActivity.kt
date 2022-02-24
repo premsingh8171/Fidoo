@@ -379,10 +379,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             showToast("Please enter your landmark")
 
                         }
-                        //updated by shobha
-                        else if (ed_name.text.toString().equals("")) {
-                            showToast("Please add contact details")
-                        } else if (tv_Address.equals("")) {
+//                        //updated by shobha
+//                        else if (ed_name.text.toString().equals("")) {
+//                            showToast("Please add contact details")
+//                        }
+                        else if (tv_Address.equals("")) {
                             showToast("Location not available")
 
                         } else {
@@ -475,27 +476,32 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         }
 
         add_contactBtn.setOnClickListener {
-            if (ed_phone.text.toString().equals("")) {
-                showToast("Please enter your contact no.")
-
-            } else if (ed_phone.text.toString()
-                    .startsWith("0") || ed_phone.text.toString().length < 10
-            ) {
-                showToast("Please enter valid no.")
-
-            } else if (ed_name.text.toString().equals("") || ed_name.text.toString()
-                    .startsWith(" ")
-            ) {
-                showToast("Please enter contact name")
-
-            } else {
+//            if (ed_phone.text.toString().equals("")) {
+//                showToast("Please enter your contact no.")
+//
+//            } else if (ed_phone.text.toString()
+//                    .startsWith("0") || ed_phone.text.toString().length < 10
+//            ) {
+//                showToast("Please enter valid no.")
+//
+//            } else if (ed_name.text.toString().equals("") || ed_name.text.toString()
+//                    .startsWith(" ")
+//            ) {
+//                showToast("Please enter contact name")
+//
+//            }
+//            else {
                 contact_name_txt.text =
                     ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
                 contact_name_txt.setTextColor(getColor(R.color.black))
                 contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.BLACK));
                 contact_add_ll.visibility = View.GONE
                 add_new_add_ll.visibility = View.VISIBLE
-            }
+            if(ed_name.getText().toString().equals("")){
+                contact_name_txt.text="Add contact no."
+            }else if(ed_phone.getText().toString().equals(""))
+                contact_name_txt.text="Add contact no."
+            //}
         }
 
         viewmodel?.editAddressResponse?.observe(this, {

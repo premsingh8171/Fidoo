@@ -67,7 +67,7 @@ object MapUtils {
             * Math.cos(lat2) * Math.cos(dLon))
     var brng = Math.atan2(y, x)
     brng = Math.toDegrees(brng)
-    brng = (brng + 360) % 360
+   // brng = (brng + 360) % 360
     return brng.toFloat()
   }
 
@@ -94,5 +94,21 @@ object MapUtils {
         }
       })
     }
+  }
+
+
+  public fun angleFromCoordinate(
+    lat1: Double, long1: Double, lat2: Double,
+    long2: Double
+  ): Double {
+    val dLon = long2 - long1
+    val y = Math.sin(dLon) * Math.cos(lat2)
+    val x = Math.cos(lat1) * Math.sin(lat2) - (Math.sin(lat1)
+            * Math.cos(lat2) * Math.cos(dLon))
+    var brng = Math.atan2(y, x)
+    brng = Math.toDegrees(brng)
+    brng = (brng + 360) % 360
+    brng = 360 - brng // count degrees counter-clockwise - remove to make clockwise
+    return brng
   }
 }

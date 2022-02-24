@@ -122,6 +122,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
 
     private var mMixpanel: MixpanelAPI? = null
+    var latLngList: ArrayList<LatLng> = ArrayList()
 
     companion object {
         var trackOrderContext: Context? = null
@@ -357,8 +358,21 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                 }
 
                 if (rider_LatLng != null) {
+                    var rotation=0.0f
 
-                    val rotation = MapUtils.getRotation(rider_LatLng!!, merchantLatLng!!)
+                    try {
+                        if (latLngList.isNullOrEmpty()){
+                            var rider_LatLngNext= LatLng(latLngList[1].latitude, latLngList[1].longitude)
+                            rotation = MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
+                        }else {
+                            rotation = MapUtils.getRotation(rider_LatLng!!, user_LatLng!!).toFloat()
+                        }
+
+
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                    }
+                    //  val rotation = MapUtils.getRotation(rider_LatLng!!, merchantLatLng!!)
                     if (!rotation.isNaN()) {
                         Log.d("rotationf__", rotation.toString())
                         val valueAnimator = AnimationUtils.cabAnimator()
@@ -366,6 +380,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                         mMap?.addMarker(
                             MarkerOptions()
                                 .position(rider_LatLng!!)
+                                .rotation(rotation)
                                 .icon(bitmapDescriptorFromVector_(this, R.drawable.rider))
                                 .rotation(rotation)
                                 .anchor(0.5f, .5f)
@@ -408,20 +423,39 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                 }
 
                 if (rider_LatLng != null) {
-                    val rotation = MapUtils.getRotation(rider_LatLng!!, user_LatLng!!)
+                    var rotation=0.0f
+
+                    try {
+                        if (latLngList.isNullOrEmpty()){
+                            var rider_LatLngNext= LatLng(latLngList[1].latitude, latLngList[1].longitude)
+                            rotation = MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
+                        }else {
+                            rotation = MapUtils.getRotation(rider_LatLng!!, user_LatLng!!).toFloat()
+                        }
+
+
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                    }
+                    //  val rotation = MapUtils.getRotation(rider_LatLng!!, merchantLatLng!!)
                     if (!rotation.isNaN()) {
+                        Log.d("rotationf__", rotation.toString())
+                        val valueAnimator = AnimationUtils.cabAnimator()
+
                         mMap?.addMarker(
                             MarkerOptions()
                                 .position(rider_LatLng!!)
+                                .rotation(rotation)
                                 .icon(bitmapDescriptorFromVector_(this, R.drawable.rider))
                                 .rotation(rotation)
                                 .anchor(0.5f, .5f)
                                 .zIndex(20.0f)
-                                .draggable(true).flat(true)
+                            //	.draggable(true).flat(true)
 
                         )
-                    }
+                        valueAnimator.start()
 
+                    }
 
                     mMap?.animateCamera(
                         CameraUpdateFactory.newLatLngZoom(
@@ -429,6 +463,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                             14f
                         ), 3000, null
                     )
+
                 }
 
                 if (user_LatLng != null) {
@@ -725,7 +760,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
     fun drawRoute(rider_latLong: String, destination: String, type: String) {
         val path: MutableList<List<LatLng>> = ArrayList()
-        val latLngList: ArrayList<LatLng> = ArrayList()
 
         val urlDirections =
             "https://maps.googleapis.com/maps/api/directions/json?origin=" + rider_latLong + "&destination=" +

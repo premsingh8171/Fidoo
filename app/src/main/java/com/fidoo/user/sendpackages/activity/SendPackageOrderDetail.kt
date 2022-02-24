@@ -384,13 +384,16 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
 
         sendPackagesViewModel?.paymentResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
-            Log.e("payment_response", Gson().toJson(user))
-            finalOrderId = user.orderId
-            viewmodel?.proceedToOrder(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                finalOrderId
-            )
+            if (user.errorCode==200) {
+                Log.e("payment_response", Gson().toJson(user))
+                finalOrderId = user.orderId
+
+                viewmodel?.proceedToOrder(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    finalOrderId
+                )
+            }
         })
 
         viewmodel?.proceedToOrderResponse?.observe(this, { orderProceed ->

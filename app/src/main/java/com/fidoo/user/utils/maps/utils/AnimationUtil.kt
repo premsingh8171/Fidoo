@@ -14,7 +14,7 @@ object AnimationUtils {
 
   fun cabAnimator(): ValueAnimator {
     val valueAnimator = ValueAnimator.ofFloat(0f, 1f)
-    valueAnimator.duration = 3000
+  //  valueAnimator.duration = 3000
     valueAnimator.interpolator = LinearInterpolator()
     return valueAnimator
   }

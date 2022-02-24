@@ -59,19 +59,19 @@ class SearchCategoryAdapter(
             holder.itemView?.productPriceTxt.setTextColor(Color.parseColor("#359c47"))
             holder.itemView.productPriceTxt.alpha = 1f
         }
-
-        if (list.size - 1 == position) {
-            holder.itemView.progressRl.visibility = View.VISIBLE
-
-            if (isMore) {
-                holder.itemView.progressRl.visibility = View.VISIBLE
-            } else {
-                holder.itemView.progressRl.visibility = View.GONE
-            }
-
-        } else {
-            holder.itemView.progressRl.visibility = View.GONE
-        }
+//
+//        if (list.size - 1 == position) {
+//            holder.itemView.progressRl.visibility = View.VISIBLE
+//
+//            if (isMore) {
+//                holder.itemView.progressRl.visibility = View.VISIBLE
+//            } else {
+//                holder.itemView.progressRl.visibility = View.GONE
+//            }
+//
+//        } else {
+//            holder.itemView.progressRl.visibility = View.GONE
+//        }
 
     }
 
