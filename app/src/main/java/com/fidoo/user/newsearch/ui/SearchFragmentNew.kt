@@ -125,6 +125,7 @@ class SearchFragmentNew : Fragment() {
             suggestions,
             object : SearchSuggestionsAdapter.SuggestionsSearchItemClick {
                 override fun onItemClick(pos: Int, model: Suggestion) {
+
                     startActivity(
                         Intent(
                             context,

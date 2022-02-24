@@ -250,16 +250,14 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                         } else if (ed_landmark.text.toString().equals("")) {
                             showToast("Please enter your landmark")
                         }
-                        //updated by shobha
-                        else if (ed_name.text.toString().equals("")) {
-                            showToast("Please add contact details")
-                        } else if (tv_Address.equals("")) {
+
+                        else if (tv_Address.equals("")) {
                             showToast("Location not available")
                         } else {
                             if (MainActivity.addEditAdd == "SendPackage") {
-                                if (ed_name.text.toString().equals("")) {
-                                    showToast("Please add contact details")
-                                } else {
+//                                if (ed_name.text.toString().equals("")) {
+//                                    showToast("Please add contact details")
+//                                } else {
                                     showIOSProgress()
                                     if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
                                         addressType = "1"
@@ -313,7 +311,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                         )
 
                                     }
-                                }
+                               // }
                             } else {
                                 showIOSProgress()
                                 if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
@@ -454,12 +452,15 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             contact_name_txt.setTextColor(getColor(R.color.primary_color))
             contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#339347")));
 
-            if (forSendPackageAddCheck.equals("1")) {
+            add_new_add_ll.visibility = View.GONE
+            contact_add_ll.visibility = View.VISIBLE
+
+            /*if (forSendPackageAddCheck.equals("1")) {
                 contactTypePopUp()
             } else {
                 add_new_add_ll.visibility = View.GONE
                 contact_add_ll.visibility = View.VISIBLE
-            }
+            }*/
 
         }
 

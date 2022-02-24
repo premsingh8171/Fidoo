@@ -195,6 +195,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             e.printStackTrace()
         }
 
+        SessionTwiclo(this).setetvalue("")
+        SessionTwiclo(this).setcatname("")
+
         orderStatus_fm.setOnClickListener {
            startActivity(
                 Intent(this, TrackOrderActivity::class.java)

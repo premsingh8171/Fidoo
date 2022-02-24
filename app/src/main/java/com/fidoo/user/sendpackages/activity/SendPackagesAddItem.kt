@@ -30,9 +30,6 @@ import androidx.room.Room
 import com.fidoo.user.R
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.grocerynewui.activity.GroceryNewUiActivity
-import com.fidoo.user.ordermodule.adapter.OrdersAdapter
-import com.fidoo.user.ordermodule.ui.OrderDetailsActivity
 import com.fidoo.user.sendpackages.adapter.SendPackagesCategoryAdapter
 import com.fidoo.user.sendpackages.adapter.SendPackagesImgAdapter
 import com.fidoo.user.sendpackages.model.Categories
@@ -40,7 +37,6 @@ import com.fidoo.user.sendpackages.roomdb.database.SendPackagesDb
 import com.fidoo.user.sendpackages.roomdb.entity.SendPackagesItemImage
 import com.fidoo.user.sendpackages.viewmodel.SendPackagesViewModel
 import com.fidoo.user.utils.BaseActivity
-import com.fidoo.user.utils.FORADDRESS_REQUEST_CODE
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
@@ -76,7 +72,8 @@ class SendPackagesAddItem : BaseActivity() {
     lateinit var cat_Recyclerview: RecyclerView
     var viewmodel: SendPackagesViewModel? = null
     private var mMixpanel: MixpanelAPI? = null
-
+    var selectValue2: String = ""
+    var text_et: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,6 +110,14 @@ class SendPackagesAddItem : BaseActivity() {
         params.setMargins(50, contsCardHeight, 50, 0)
         sendPackagesConstCardAddItem.layoutParams = params
 
+        if (SendPackageActivity.catnameeee.isNotEmpty()) {
+            selectCat_text.text = SendPackageActivity.catnameeee
+        }
+        if (SendPackageActivity.etvalue.isNotEmpty()) {
+            itemList_eTxt.setText(SendPackageActivity.etvalue)
+        }
+
+
         viewmodel?.getPackageCatApi2(
             SessionTwiclo(this).loggedInUserDetail.accountId,
             SessionTwiclo(this).loggedInUserDetail.accessToken
@@ -144,6 +149,8 @@ class SendPackagesAddItem : BaseActivity() {
             val s: Set<String> = LinkedHashSet<String>(sendPackagesImgList)
             sendPackagesImgList!!.clear()
             sendPackagesImgList!!.addAll(s)
+            selectCat_text.text = cat_nameStr
+
         })
 
         back_actionAddItem.setOnClickListener {
@@ -153,6 +160,8 @@ class SendPackagesAddItem : BaseActivity() {
 
         itemNameConLl.setOnClickListener {
             catPopUp()
+
+
         }
 
         info_imTop.setOnClickListener {
@@ -179,6 +188,7 @@ class SendPackagesAddItem : BaseActivity() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
+                SessionTwiclo(this@SendPackagesAddItem).setetvalue(s.toString())
                 if (s.isNotEmpty()) {
                     infoll_top.visibility = View.VISIBLE
                 } else {
@@ -207,7 +217,7 @@ class SendPackagesAddItem : BaseActivity() {
                     var selectValue = sendPackagesImgList.toString()
                     val regex = "["
                     selectValue = selectValue.replace(regex, "")
-                    var selectValue2 = selectValue.replace("]", "").trim()
+                    selectValue2 = selectValue.replace("]", "").trim()
                     Log.e("val__", selectValue2)
 
 
@@ -504,15 +514,20 @@ class SendPackagesAddItem : BaseActivity() {
                     cat_idStr = sendPackage.id
                     cat_nameStr = sendPackage.cat_name
                     selectCat_text.text = sendPackage.cat_name
+                    SessionTwiclo(this@SendPackagesAddItem).setcatname(sendPackage.cat_name)
+
                     // itemList_eTxt.text=""
                 }
             })
+
     }
 
 
     override fun onBackPressed() {
+
         finish()
         AppUtils.finishActivityLeftToRight(this)
     }
+
 
 }

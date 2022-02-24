@@ -26,7 +26,7 @@ public class SessionTwiclo {
 
     public SessionTwiclo(Context context) {
 
-         PRIVATE_MODE = 0;
+        PRIVATE_MODE = 0;
         _context = context;
 
         if (_context != null) {
@@ -311,8 +311,6 @@ public class SessionTwiclo {
     }
 
 
-
-
     //for rider polyline
     public void saveRiderLatLongArrayList(ArrayList<LatLng> list, String key) {
         SharedPreferences.Editor editor = pref.edit();
@@ -330,4 +328,22 @@ public class SessionTwiclo {
         return gson.fromJson(json, type);
     }
 
+    //updated by shobha
+    public String getcatname() {
+        return pref.getString("cat_name", "");
+    }
+
+    public void setcatname(String cat_name) {
+        editor.putString("cat_name", cat_name);
+        editor.commit();
+    }
+
+    public String getetvalue() {
+        return pref.getString("etvalue", "");
+    }
+
+    public void setetvalue(String etvalue) {
+        editor.putString("etvalue", etvalue);
+        editor.commit();
+    }
 }
