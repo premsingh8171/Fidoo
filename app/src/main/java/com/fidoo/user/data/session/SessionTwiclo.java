@@ -66,6 +66,13 @@ public class SessionTwiclo {
         editor.commit();
 
     }
+    public String getAddressType() {
+        return pref.getString("user_address_type", "");
+    }
+    public void setAddressType(String mFlag) {
+        editor.putString("user_address_type", mFlag);
+        editor.commit();
+    }
 
     public String getUserLat() {
         return pref.getString("user_lat", "");

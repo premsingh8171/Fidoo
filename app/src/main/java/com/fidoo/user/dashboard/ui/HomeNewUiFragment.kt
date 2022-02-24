@@ -201,6 +201,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		})
 
 		fragmentHomeBinding?.userAddressNewDesh?.text = SessionTwiclo(context).userAddress
+		//fragmentHomeBinding?.textNewDesh?.text= SessionTwiclo(context).addressType
+
 
 		return fragmentHomeBinding?.root
 	}
@@ -567,8 +569,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					SessionTwiclo(context).loggedInUserDetail.accessToken
 				)
 				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+				text_newDesh.text= SessionTwiclo(context).addressType
+
 			} else {
 				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+
 			}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 

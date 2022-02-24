@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.fidoo.user.R
+import com.fidoo.user.activity.AboutUsActivity
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.data.SendResponse
@@ -28,6 +29,8 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.util.regex.Pattern
+
 @Suppress("DEPRECATION")
 class SignUpScreenFm : Fragment() {
     lateinit var mView: View
@@ -37,6 +40,15 @@ class SignUpScreenFm : Fragment() {
     var viewmodel: LoginViewModel? = null
     var viewmodel_signup: EditProfileViewModel? = null
     var list:ArrayList<SendResponse>?=null
+
+    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
+        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                "\\@" +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                "(" +
+                "\\." +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                ")+")
 
     companion object {}
 
@@ -65,8 +77,8 @@ class SignUpScreenFm : Fragment() {
                     .equals(" ")
             ) {
                 ToastUtils.showToast(requireContext(), "Please enter name number")
-            } else if (mView.enter_email.text.toString().equals("")) {
-                ToastUtils.showToast(requireContext(), "Please enter email")
+            } else if (!(isValidEmail(mView.enter_email.text.toString())) ) {
+                ToastUtils.showToast(requireContext(), "Please enter valid email")
             } else {
                 showIOSProgress()
                 userTrackViewModel?.customerActivityLog(
@@ -117,6 +129,14 @@ class SignUpScreenFm : Fragment() {
             }
         }
 
+        mView.tv_privacy_policy_signup.setOnClickListener {
+            val intent = Intent(requireContext(), AboutUsActivity::class.java).putExtra(
+                "privacy_policy",
+                "privacy_policy"
+            )
+            requireContext().startActivity(intent)
+        }
+
         viewmodel_signup?.addUpdateResponse?.observe(requireActivity(), Observer { user ->
             Log.e("addUpdateResponse__", Gson().toJson(user))
             closeProgress()
@@ -148,6 +168,10 @@ class SignUpScreenFm : Fragment() {
         }
         _progressDlg!!.dismiss()
         _progressDlg = null
+    }
+
+    fun isValidEmail(str: String): Boolean{
+        return EMAIL_ADDRESS_PATTERN.matcher(str).matches()
     }
 
 
