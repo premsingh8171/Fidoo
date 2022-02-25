@@ -130,6 +130,7 @@ class SearchFragmentNew : Fragment() {
             suggestions,
             object : SearchSuggestionsAdapter.SuggestionsSearchItemClick {
                 override fun onItemClick(pos: Int, model: Suggestion) {
+
                     Log.d("dfdmodelfdf",model.id)
                     if (model.id.equals("5")||model.id.equals("7")) {
                         startActivity(
@@ -157,12 +158,7 @@ class SearchFragmentNew : Fragment() {
                             ).putExtra("serviceName", model.service_name)
                         )
                     }
-//                    startActivity(
-//                        Intent(
-//                            context,
-//                            NewSearchActivity::class.java
-//                        ).putExtra("service_id", "")
-//                    )
+
                 }
             })
         mView.recyclerviewList.adapter = searchSuggestionAdapter

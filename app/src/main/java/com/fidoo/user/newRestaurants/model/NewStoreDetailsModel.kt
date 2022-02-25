@@ -11,7 +11,7 @@ data class NewStoreDetailsModel(
     val id: String,
     val image: String,
     val next_available: Int,
-    val offers: List<Any>,
+    val offers: List<Offer>,
     val rating: String,
     val service_id: String,
     val service_name: String,

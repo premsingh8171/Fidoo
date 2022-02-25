@@ -68,7 +68,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 		recentSearch = ArrayList()
 		try {
 			service_id = intent.getStringExtra("service_id")
-			Log.d("service_id___", service_id!!)
+			Log.d("service_id______", service_id!!)
 		} catch (e: Exception) {
 			e.printStackTrace()
 		}

@@ -177,7 +177,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             )
             lat = model.latitude.toDouble()
             lng = model.longitude.toDouble()
-            tv_Address.text = model.location
+            tv_Address.setText(model.location)
             ed_name.setText(model.name)
             ed_phone.setText(model.phone_no)
             ed_address.setText(model.flatNo)
@@ -247,19 +247,18 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             showToast("Please enter your house number")
                         } else if (ed_landmark.text.toString().equals("")) {
                             showToast("Please enter your landmark")
-                        } else if (ed_landmark.text.toString().equals("")) {
-                            showToast("Please enter your landmark")
                         }
-                        //updated by shobha
-                        else if (ed_name.text.toString().equals("")) {
-                            showToast("Please add contact details")
-                        } else if (tv_Address.equals("")) {
+                        /*else if (ed_landmark.text.toString().equals("")) {
+                            showToast("Please enter your landmark")
+                        }*/
+
+                        else if (tv_Address.equals("")) {
                             showToast("Location not available")
                         } else {
                             if (MainActivity.addEditAdd == "SendPackage") {
-                                if (ed_name.text.toString().equals("")) {
-                                    showToast("Please add contact details")
-                                } else {
+//                                if (ed_name.text.toString().equals("")) {
+//                                    showToast("Please add contact details")
+//                                } else {
                                     showIOSProgress()
                                     if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
                                         addressType = "1"
@@ -313,7 +312,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                         )
 
                                     }
-                                }
+                               // }
                             } else {
                                 showIOSProgress()
                                 if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
@@ -380,10 +379,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             showToast("Please enter your landmark")
 
                         }
-                        //updated by shobha
-                        else if (ed_name.text.toString().equals("")) {
-                            showToast("Please add contact details")
-                        } else if (tv_Address.equals("")) {
+//                        //updated by shobha
+//                        else if (ed_name.text.toString().equals("")) {
+//                            showToast("Please add contact details")
+//                        }
+                        else if (tv_Address.equals("")) {
                             showToast("Location not available")
 
                         } else {
@@ -454,12 +454,15 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             contact_name_txt.setTextColor(getColor(R.color.primary_color))
             contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#339347")));
 
-            if (forSendPackageAddCheck.equals("1")) {
+            add_new_add_ll.visibility = View.GONE
+            contact_add_ll.visibility = View.VISIBLE
+
+            /*if (forSendPackageAddCheck.equals("1")) {
                 contactTypePopUp()
             } else {
                 add_new_add_ll.visibility = View.GONE
                 contact_add_ll.visibility = View.VISIBLE
-            }
+            }*/
 
         }
 
@@ -473,27 +476,32 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         }
 
         add_contactBtn.setOnClickListener {
-            if (ed_phone.text.toString().equals("")) {
-                showToast("Please enter your contact no.")
-
-            } else if (ed_phone.text.toString()
-                    .startsWith("0") || ed_phone.text.toString().length < 10
-            ) {
-                showToast("Please enter valid no.")
-
-            } else if (ed_name.text.toString().equals("") || ed_name.text.toString()
-                    .startsWith(" ")
-            ) {
-                showToast("Please enter contact name")
-
-            } else {
+//            if (ed_phone.text.toString().equals("")) {
+//                showToast("Please enter your contact no.")
+//
+//            } else if (ed_phone.text.toString()
+//                    .startsWith("0") || ed_phone.text.toString().length < 10
+//            ) {
+//                showToast("Please enter valid no.")
+//
+//            } else if (ed_name.text.toString().equals("") || ed_name.text.toString()
+//                    .startsWith(" ")
+//            ) {
+//                showToast("Please enter contact name")
+//
+//            }
+//            else {
                 contact_name_txt.text =
                     ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
                 contact_name_txt.setTextColor(getColor(R.color.black))
                 contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.BLACK));
                 contact_add_ll.visibility = View.GONE
                 add_new_add_ll.visibility = View.VISIBLE
-            }
+            if(ed_name.getText().toString().equals("")){
+                contact_name_txt.text="Add contact no."
+            }else if(ed_phone.getText().toString().equals(""))
+                contact_name_txt.text="Add contact no."
+            //}
         }
 
         viewmodel?.editAddressResponse?.observe(this, {
@@ -953,7 +961,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                         lat!!,
                         lng!!
                     )
-                    tv_Address.text = address
+                    tv_Address!!.setText(address)
                 } catch (e: Exception) {
                 }
 
@@ -1038,11 +1046,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                         var model = gson.fromJson(response.toString(), GeocoderModel::class.java)
                         if (model.status.equals("OK")) {
                             if (model.results.size != 0) {
-                                tv_Address.text = model.results[0].formattedAddress
+                                tv_Address.setText(model.results[0].formattedAddress)
                             }
                         } else {
                             var address_ = getGeoAddressFromLatLong(lat.toDouble(), lng.toDouble())
-                            tv_Address.text = address_
+                            tv_Address.setText(address_)
                         }
                         progressindicatorAdd.visibility = View.GONE
 

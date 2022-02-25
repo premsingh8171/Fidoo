@@ -502,6 +502,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                 }
 
                 try {
+
                     if (it.order_status != null) {
 
                         when {

@@ -173,7 +173,7 @@ class NewDBStoreItemsActivity :
     }
 
     //for pagination
-    var totalItem: Int? = 100
+    var totalItem: Int? = 120
     var table_count: Int? = 0
     private var manager: GridLayoutManager? = null
     private var currentItems = 0
@@ -438,7 +438,7 @@ class NewDBStoreItemsActivity :
         veg_switch_img.setOnClickListener {
             deleteRoomDataBase()
             showIOSProgress()
-            totalItem = 100
+            totalItem = 120
             pagecount=0
             if (veg_filter == 0) {
                 veg_switch_img.setImageResource(R.drawable.filter_on)
@@ -464,7 +464,7 @@ class NewDBStoreItemsActivity :
         egg_switch_img.setOnClickListener {
             deleteRoomDataBase()
             showIOSProgress()
-            totalItem = 100
+            totalItem = 120
             pagecount=0
             if (egg_filter == 0) {
                 egg_switch_img.setImageResource(R.drawable.filter_on)
@@ -653,6 +653,14 @@ class NewDBStoreItemsActivity :
                 restaurantAddress = storeData.address.toString()
                 fssai = "License no. " + storeData.fssai.toString()
                 restaurantName = storeData.store_name.toString()
+
+
+                if (!storeData.offers.isNullOrEmpty()) {
+                    tv_coupon.text = storeData.offers[0].coupon_desc
+                    coupan_view_ll.visibility = View.VISIBLE
+                } else {
+                    coupan_view_ll.visibility = View.GONE
+                }
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -1145,7 +1153,7 @@ class NewDBStoreItemsActivity :
                     cat_id = category.product_sub_category_id
                     viewAll_txt.setTextColor(Color.parseColor("#000000"))
                     selectCategoryDiolog?.dismiss()
-                    totalItem = 100
+                    totalItem = 120
 
                     try {
                         for (i in mainlist!!.indices) {
