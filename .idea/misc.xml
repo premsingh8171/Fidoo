@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_new_add_address.xml" value="0.1" />
-        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_new_search.xml" value="0.18888888888888888" />
-        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_new_search_storelisting.xml" value="0.18888888888888888" />
-        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_new_store_items.xml" value="0.18888888888888888" />
-        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_store_filter_list.xml" value="0.18888888888888888" />
-        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_store_items.xml" value="0.18888888888888888" />
-        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_store_list.xml" value="0.18888888888888888" />
-        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_track_order.xml" value="0.18906394810009267" />
-        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_track_sendpackages_order.xml" value="0.18888888888888888" />
-        <entry key="..\:/twickloapp/app/src/main/res/layout/new_search_item_layout.xml" value="0.20416666666666666" />
-        <entry key="..\:/twickloapp/app/src/main/res/layout/relevance_popup.xml" value="0.22" />
-      </map>
-    </option>
-  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

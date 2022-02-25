@@ -159,7 +159,7 @@ class AddressesAdapter(
                     SessionTwiclo(con).userLng = addressList[position].longitude
                     SessionTwiclo(con).userAddressId = addressList[position].id
                     SessionTwiclo(con).userAddress = addressList.get(position).location
-                    SessionTwiclo(con).addressType= addressList[position].addressType
+                   // SessionTwiclo(con).addressType= addressList[position].addressType
 
                     // holder.itemView.setassDefaultTxt.visibility=View.VISIBLE
                     //  holder.itemView.selectedadd_img.visibility=View.VISIBLE

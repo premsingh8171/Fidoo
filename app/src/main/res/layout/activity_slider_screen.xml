@@ -94,9 +94,9 @@
                     android:fontFamily="@font/proxima"
                     android:gravity="center"
                     android:text="Next"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_18sp" />
+                    android:textSize="@dimen/text_size_18sp"
+                    android:textStyle="bold" />
 
 
             </RelativeLayout>
