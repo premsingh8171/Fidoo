@@ -733,10 +733,12 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             // holder.buttonValue.visibility = View.VISIBLE
                             // holder.buttonValue.visibility = View.GONE
                             status_store_txt.text = "has received you order"
-                            order_status.text = "Please wait while we confirm your order"
+                           // order_status.text = "Please wait while we confirm your order"
+                            order_status.text = "Waiting for merchant to accept the order"
                             tv_delivery_boy_call.visibility = View.GONE
                             driver_cardView.visibility = View.GONE
                             cancelBtn.visibility = View.GONE
+                            ordstatus_lay_new.visibility = View.VISIBLE
                         }
 
                         it.orderStatus.equals("2") -> {
