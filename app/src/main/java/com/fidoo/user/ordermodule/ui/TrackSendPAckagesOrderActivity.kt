@@ -91,6 +91,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
     //for map
     var rider_LatLng: LatLng? = null
+    var rider_LatLngOrg: LatLng? = null
     var rider_LatLng2: LatLng? = null
     var merchantLatLng: LatLng? = null
     var user_LatLng: LatLng? = null
@@ -283,8 +284,8 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
             try {
                 if (user.driverLatitude.isNotEmpty()) {
-                    rider_LatLng =
-                        LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
+                    rider_LatLng = LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
+                    rider_LatLngOrg = LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
                     rider_LatLngStr = user.driverLatitude + "," + user.driverLongitude
                     Log.e("rider_LatLngStr", rider_LatLngStr.toString())
                 }
@@ -439,51 +440,51 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                     check_gMap3 = 1
                 }
 
-                if (rider_LatLng != null) {
-                    var rotation = 0.0f
-
-                    try {
-                        if (latLngList.isNullOrEmpty()) {
-                            var rider_LatLngNext =
-                                LatLng(latLngList[1].latitude, latLngList[1].longitude)
-                            rotation =
-                                MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
-                        } else {
-                            rotation = MapUtils.getRotation(rider_LatLng!!, user_LatLng!!).toFloat()
-                        }
-
-
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                    //  val rotation = MapUtils.getRotation(rider_LatLng!!, merchantLatLng!!)
-                    if (!rotation.isNaN()) {
-                        Log.d("rotationf__", rotation.toString())
-                        val valueAnimator = AnimationUtils.cabAnimator()
-
-                        mMap?.addMarker(
-                            MarkerOptions()
-                                .position(rider_LatLng!!)
-                                .rotation(rotation)
-                                .icon(bitmapDescriptorFromVector_(this, R.drawable.rider))
-                                .rotation(rotation)
-                                .anchor(0.5f, .5f)
-                                .zIndex(20.0f)
-                            //	.draggable(true).flat(true)
-
-                        )
-                        valueAnimator.start()
-
-                    }
-
-                    mMap?.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                            rider_LatLng,
-                            14f
-                        ), 3000, null
-                    )
-
-                }
+//                if (rider_LatLng != null) {
+//                    var rotation = 0.0f
+//
+//                    try {
+//                        if (latLngList.isNullOrEmpty()) {
+//                            var rider_LatLngNext =
+//                                LatLng(latLngList[1].latitude, latLngList[1].longitude)
+//                            rotation =
+//                                MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
+//                        } else {
+//                            rotation = MapUtils.getRotation(rider_LatLng!!, user_LatLng!!).toFloat()
+//                        }
+//
+//
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                    }
+//                    //  val rotation = MapUtils.getRotation(rider_LatLng!!, merchantLatLng!!)
+//                    if (!rotation.isNaN()) {
+//                        Log.d("rotationf__", rotation.toString())
+//                        val valueAnimator = AnimationUtils.cabAnimator()
+//
+//                        mMap?.addMarker(
+//                            MarkerOptions()
+//                                .position(rider_LatLng!!)
+//                                .rotation(rotation)
+//                                .icon(bitmapDescriptorFromVector_(this, R.drawable.rider))
+//                                .rotation(rotation)
+//                                .anchor(0.5f, .5f)
+//                                .zIndex(20.0f)
+//                            //	.draggable(true).flat(true)
+//
+//                        )
+//                        valueAnimator.start()
+//
+//                    }
+//
+//                    mMap?.animateCamera(
+//                        CameraUpdateFactory.newLatLngZoom(
+//                            rider_LatLng,
+//                            14f
+//                        ), 3000, null
+//                    )
+//
+//                }
 
                 if (user_LatLng != null) {
 
@@ -520,7 +521,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
                 try {
                     if (it.order_status != null) {
-
                         when {
 
                             it.order_status.equals("0") -> {
@@ -1355,8 +1355,9 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                 rider_LatLng2= LatLng( latLngList[next].latitude.toDouble(), latLngList[next].longitude.toDouble())
             }
 
-            movingBikeMarker = addCarMarkerAndGet(rider_LatLng!!)
+            movingBikeMarker = addCarMarkerAndGet(rider_LatLngOrg!!)
             movingBikeMarker?.setAnchor(0.5f, 0.5f)
+            movingBikeMarker!!.position=rider_LatLngOrg
 
             val valueAnimator = AnimationUtils.cabAnimator()
             valueAnimator.addUpdateListener {
@@ -1364,8 +1365,8 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                 val Lng=v*rider_LatLng!!.longitude+(1-v)*rider_LatLng2!!.longitude
                 var lat=v*rider_LatLng!!.latitude+(1-v)*rider_LatLng2!!.latitude
                 var newPos=LatLng(lat,Lng)
+//                movingBikeMarker!!.position=newPos
 
-                movingBikeMarker!!.position=newPos
                 val rotation = MapUtils.getRotation(rider_LatLng!!, newPos)
                 Log.d("dfddf",rotation.toString())
                 if (!rotation.isNaN()) {
