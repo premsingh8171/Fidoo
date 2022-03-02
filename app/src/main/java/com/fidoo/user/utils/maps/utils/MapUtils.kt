@@ -20,10 +20,11 @@ object MapUtils {
     val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.rider)
     return Bitmap.createScaledBitmap(bitmap, 50, 100, false)
   }
-  fun getDestinationBitmap(): Bitmap {
+
+  fun getOriginDestinationMarkerBitmap(): Bitmap {
     val height = 20
     val width = 20
-    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+    val bitmap = Bitmap.createBitmap(height, width, Bitmap.Config.RGB_565)
     val canvas = Canvas(bitmap)
     val paint = Paint()
     paint.color = Color.BLACK

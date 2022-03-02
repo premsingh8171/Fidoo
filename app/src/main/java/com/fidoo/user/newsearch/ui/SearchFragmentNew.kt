@@ -145,10 +145,12 @@ class SearchFragmentNew : Fragment() {
                         startActivity(
                             Intent(
                                 context,
-                                ServiceDailyNeedActivity::class.java
+                                SendPackageActivity::class.java
                             )
                                 .putExtra("serviceId", model.id)
                                 .putExtra("serviceName", model.service_name)
+                                .putExtra("where", "Search")
+
                         )
                     } else {
                         AppUtils.startActivityRightToLeft(

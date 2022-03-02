@@ -16,6 +16,7 @@ import com.fidoo.user.newsearch.viewmodel.SearchNewViewModel
 import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.utils.BaseActivity
+import com.google.gson.Gson
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_new_search_storelisting.*
 
@@ -63,7 +64,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
         try {
             search_value = intent.getStringExtra("search_value").toString()
             key_value = intent.getStringExtra("key_value").toString()
-            Log.d("key_value__", search_value!!)
+            Log.d("key_value__", intent.getStringExtra("delivery_time").toString())
             storeId = intent.getStringExtra("storeId").toString()
             storeName = intent.getStringExtra("storeName").toString()
             store_location = intent.getStringExtra("store_location").toString()
@@ -129,7 +130,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
         viewModel!!.keywordBasedSearchResultsRes!!.observe(this, {
             dismissIOSProgress()
             swipeRefreshLaySearch.isRefreshing=false
-
+            Log.d("sdfdddfssd", Gson().toJson(it))
             if (it.error_code == 200) {
                 hit = 0
                 isMore = it.more_value
@@ -161,6 +162,8 @@ class NewSearchStoreListingActivity : BaseActivity() {
             key_value!!,
             object : SearchCategoryStoreAdapter.CategoryItemClick {
                 override fun onItemClick(pos: Int, model: Store) {
+                  var delivery_time=model.delivery_time.toString()
+
                     AppUtils.startActivityRightToLeft(
                         this@NewSearchStoreListingActivity,
                         // Intent(this@NewSearchStoreListingActivity, StoreItemsActivity::class.java)
@@ -173,7 +176,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
                             .putExtra("search_value", search_value)
                             .putExtra("storeName", storeName)
                             .putExtra("store_location", model.locality)
-                            .putExtra("delivery_time", model.delivery_time)
+                            .putExtra("delivery_time", delivery_time)
                             .putExtra("cuisine_types", model.cuisines.joinToString(separator = ", "))
                             .putExtra("coupon_desc", "")
                             .putExtra("distance", model.distance)

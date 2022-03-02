@@ -787,7 +787,7 @@ class NewDBStoreItemsActivity :
                     }
 
                     //ratingValue.text = user.rating
-                    tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
+                  //  tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
 
                     if (next_available == 0) {
                         //	Handler(Looper.getMainLooper()).postDelayed({
@@ -2088,16 +2088,17 @@ class NewDBStoreItemsActivity :
             tv_cuisnes.text = str
         }
 
+        tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
 
         tv_distance.text = intent.getStringExtra("distance") + "km"
         if (!intent.getStringExtra("coupon_desc").equals("")) {
-            tv_coupon.text = intent.getStringExtra("coupon_desc")
+           // tv_coupon.text = intent.getStringExtra("coupon_desc")
             coupan_view_ll.visibility = View.VISIBLE
         } else {
             coupan_view_ll.visibility = View.GONE
         }
 
-        Log.d("OnRESUME", "RESUME")
+        Log.d("OnRESUME___", "RESUME"+intent.getStringExtra("delivery_time"))
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
         if (handleresponce == 1) {
             getRoomData()
