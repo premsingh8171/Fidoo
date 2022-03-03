@@ -122,7 +122,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        mView.tv_yourAddresses.setOnClickListener {
+        mView.manage_add_constLL.setOnClickListener {
             if (SessionTwiclo(requireContext()).isLoggedIn) {
                 //  startActivity(Intent(context, SavedAddressesActivity::class.java).putExtra("type","address"))
                 //change prem
@@ -137,6 +137,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
+/*
         mView.tv_manage_your_addresses.setOnClickListener {
             if (SessionTwiclo(requireContext()).isLoggedIn) {
                 addManages = "add_manage"
@@ -150,22 +151,25 @@ class ProfileFragment : Fragment() {
             }
 
         }
+*/
 
-        mView.tv_terms.setOnClickListener {
+        mView.aboutUs_const.setOnClickListener {
             AppUtils.startActivityRightToLeft(
                 requireActivity(),
                 Intent(context, AboutUsActivity::class.java).putExtra("about_us", "about_us")
             )
         }
 
+/*
         mView.tv_aboutUs.setOnClickListener {
             AppUtils.startActivityRightToLeft(
                 requireActivity(),
                 Intent(context, AboutUsActivity::class.java).putExtra("about_us", "about_us")
             )
         }
+*/
 
-        mView.tv_sharefriend.setOnClickListener {
+        mView.share_app_constLL.setOnClickListener {
             //shareApp()
             if (SessionTwiclo(requireContext()).isLoggedIn) {
                 AppUtils.startActivityRightToLeft(
@@ -225,7 +229,7 @@ class ProfileFragment : Fragment() {
             )
         }
 
-        mView.tv_helpSupport.setOnClickListener {
+        mView.help_constLL.setOnClickListener {
             AppUtils.startActivityRightToLeft(
                 requireActivity(),
                 Intent(context, AboutUsActivity::class.java).putExtra("faq", "faq")

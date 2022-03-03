@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/twickloapp/app/src/main/res/drawable/round_box.xml" value="0.2203125" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_new_search_storelisting.xml" value="0.17777777777777778" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_new_store_items.xml" value="0.18333333333333332" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_store_items.xml" value="0.18333333333333332" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_store_list.xml" value="0.18333333333333332" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_track_order.xml" value="0.16" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_track_sendpackages_order.xml" value="0.14" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_otp.xml" value="0.1" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_profile.xml" value="0.20416666666666666" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_search_new.xml" value="0.17777777777777778" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_sign_in.xml" value="0.20416666666666666" />
+      </map>
+    </option>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

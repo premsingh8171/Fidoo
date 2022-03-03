@@ -15,9 +15,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.NavigationUI.navigateUp
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity.Companion.appversion
@@ -135,13 +140,17 @@ class OtpFragment : BaseFragment() {
                 override fun handleOnBackPressed() {
                     Log.d(TAG, "Fragment back pressed invoked")
 
+//                    NavHostFragment.findNavController(this@OtpFragment).navigateUp()
+                    //Navigation.findNavController(mView).popBackStack()
 
+                    findNavController().navigateUp()
+                    //findNavController().navigate(R.id.action_otpFragment_to_signInFragment)
                     // if you want onBackPressed() to be called as normal afterwards
-                    if (isEnabled) {
-                        isEnabled = false
-                        val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
-                        findNavController().navigate(action)
-                    }
+//                    if (isEnabled) {
+//                        isEnabled = false
+//                        val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
+//                        findNavController().navigate(action)
+//                    }
                 }
             }
             )
