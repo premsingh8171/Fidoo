@@ -576,8 +576,8 @@ abstract class BaseActivity : AppCompatActivity(), Handler.Callback {
     ) {
         view.text = ""
         val str = SpannableString(change_color_str)
-        str.setSpan(
-            ForegroundColorSpan(Color.parseColor("#339347")),
+       str.setSpan(
+            ForegroundColorSpan(Color.GREEN),
             0,
             str.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE

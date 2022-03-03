@@ -85,6 +85,7 @@ class OtpFragment : BaseFragment() {
         startSmsUserConsent()
 
 
+
         Log.d("referaal_id_", sessionInstance.referralId)
 
         mView.otp_view?.otpListener = object : OTPListener {
@@ -104,6 +105,7 @@ class OtpFragment : BaseFragment() {
             resendApi()
 
         }
+
 
         mView.tv_phone.text = mData.mobile
 
@@ -130,18 +132,20 @@ class OtpFragment : BaseFragment() {
         }
 
         requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(this, object : OnBackPressedCallback(true) {
+            .onBackPressedDispatcher.
+            addCallback(this, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    Log.d(TAG, "Fragment back pressed invoked")
+                    Log.d("dudi", "Fragment back pressed invoked")
+
+                    val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
+                    findNavController().navigate(action)
 
 
                     // if you want onBackPressed() to be called as normal afterwards
-                    if (isEnabled) {
-                        isEnabled = false
-                        val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
-                        findNavController().navigate(action)
-                    }
+                  /*  if (isEnabled) {
+                        isEnabled = true
+
+                    }*/
                 }
             }
             )
@@ -149,8 +153,10 @@ class OtpFragment : BaseFragment() {
 
 
 
+
         return mView
     }
+
 
 
     @SuppressLint("handlerLeak")
@@ -214,6 +220,7 @@ class OtpFragment : BaseFragment() {
                             e.printStackTrace()
                         }
                     }
+
 
                 }
                 ApiInterface.OTP_FAILURE -> {
@@ -374,6 +381,5 @@ class OtpFragment : BaseFragment() {
         Log.d("referaal_id_", sessionInstance.referralId)
 
     }
-
 
 }

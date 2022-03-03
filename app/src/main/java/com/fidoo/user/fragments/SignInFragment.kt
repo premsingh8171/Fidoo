@@ -14,9 +14,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.fidoo.user.R
 import com.fidoo.user.activity.AboutUsActivity
@@ -39,6 +41,8 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.vanillaplacepicker.utils.ToastUtils.showToast
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")
 class SignInFragment : Fragment() {
@@ -64,6 +68,7 @@ class SignInFragment : Fragment() {
     private var mMixpanel: MixpanelAPI? = null
 
     private val props = JSONObject()
+    lateinit var sendData:SendResponse
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -116,6 +121,8 @@ class SignInFragment : Fragment() {
 
 
         binding.btnSignIn.setOnClickListener {
+
+
             props.put("mobile number", binding.phone.text.toString())
             props.put("referral ID",  sessionTwiclo!!.referralId)
             mMixpanel?.track("Login button clicked", null)
@@ -145,6 +152,8 @@ class SignInFragment : Fragment() {
                         sessionTwiclo!!.referralId
                     )
                 }
+
+
             }
 
         }
@@ -182,6 +191,7 @@ class SignInFragment : Fragment() {
         customeProgressDialog = CustomProgressDialog(requireContext())
 
 
+
         viewmodel?.progressDialog?.observe(this, {
             if (it!!) customeProgressDialog?.show() else customeProgressDialog?.dismiss()
         })
@@ -194,7 +204,7 @@ class SignInFragment : Fragment() {
             pref.storeLoginDetail(mModelData)
             pref.guestLogin = "userlogin"
 
-            val sendData = SendResponse(
+             sendData = SendResponse(
                 mModelData.accessToken,
                 mModelData.accountId.toString(),
                 binding.phone.text.toString().trim(),
@@ -204,15 +214,20 @@ class SignInFragment : Fragment() {
             list?.add(sendData)
             sessionTwiclo!!.saveSendResponseList(list,"SendResponce")
 
-            val action = SignInFragmentDirections.actionSignInFragmentToOtpFragment(sendData)
-            closeProgress()
 
 
-            try {
-                findNavController().navigate(action)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+
+
+                val action = SignInFragmentDirections.actionSignInFragmentToOtpFragment(sendData)
+                closeProgress()
+
+
+
+                try {
+                    findNavController().navigate(action)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
 
         })
 
@@ -223,7 +238,6 @@ class SignInFragment : Fragment() {
 
         return binding.root
     }
-
 
     @SuppressLint("handlerLeak")
     private val mApiHandler: Handler = object : Handler() {
@@ -243,7 +257,9 @@ class SignInFragment : Fragment() {
                     val action =
                         SignInFragmentDirections.actionSignInFragmentToOtpFragment(sendData)
 
+
                     findNavController().navigate(action)
+
 
                     /*goForVerificationScreen(
                         VerificationActivity::class.java,
@@ -308,6 +324,4 @@ class SignInFragment : Fragment() {
         _progressDlg!!.dismiss()
         _progressDlg = null
     }
-
-
 }
