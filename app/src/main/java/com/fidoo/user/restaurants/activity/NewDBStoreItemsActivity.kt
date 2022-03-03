@@ -185,6 +185,7 @@ class NewDBStoreItemsActivity :
     var egg_filter: Int = 0
     var cat_visible: Int = 0
     var isCustomizeOpen: Int = 0
+    var filterActive: Int = 0// for handle filter api call response
     var cart_count: Int = 0
     lateinit var storeItemsAdapter: StoreItemsAdapter
     lateinit var restaurantCategoryAdapter: NewDbRestaurantCategoryAdapter
@@ -436,52 +437,58 @@ class NewDBStoreItemsActivity :
         }
 
         veg_switch_img.setOnClickListener {
-            deleteRoomDataBase()
-            showIOSProgress()
-            totalItem = 120
-            pagecount=0
-            if (veg_filter == 0) {
-                veg_switch_img.setImageResource(R.drawable.filter_on)
-                // egg_switch_img.setImageResource(R.drawable.filter_off)
-                //  egg_filter=0
-                nonveg_str = "0"
-                getStoreDetailsApiCall()
-                veg_filter = 1
+            if(filterActive==1) {
+                filterActive=0
+                deleteRoomDataBase()
+                showIOSProgress()
+                totalItem = 120
+                pagecount = 0
+                if (veg_filter == 0) {
+                    veg_switch_img.setImageResource(R.drawable.filter_on)
+                    // egg_switch_img.setImageResource(R.drawable.filter_off)
+                    //  egg_filter=0
+                    nonveg_str = "0"
+                    getStoreDetailsApiCall()
+                    veg_filter = 1
 
-            } else {
-                veg_switch_img.setImageResource(R.drawable.filter_off)
-                nonveg_str = ""
-                getStoreDetailsApiCall()
-                veg_filter = 0
+                } else {
+                    veg_switch_img.setImageResource(R.drawable.filter_off)
+                    nonveg_str = ""
+                    getStoreDetailsApiCall()
+                    veg_filter = 0
 
+                }
+
+                visibilityView()
+                searchEdt_ResPrd.getText().clear()
+                getRoomData()
             }
-
-            visibilityView()
-            searchEdt_ResPrd.getText().clear()
-            getRoomData()
         }
 
         egg_switch_img.setOnClickListener {
-            deleteRoomDataBase()
-            showIOSProgress()
-            totalItem = 120
-            pagecount=0
-            if (egg_filter == 0) {
-                egg_switch_img.setImageResource(R.drawable.filter_on)
-                // veg_switch_img.setImageResource(R.drawable.filter_off)
-                contains_egg = "1"
-                getStoreDetailsApiCall()
-                egg_filter = 1
+            if(filterActive==1) {
+                filterActive=0
+                deleteRoomDataBase()
+                showIOSProgress()
+                totalItem = 120
+                pagecount = 0
+                if (egg_filter == 0) {
+                    egg_switch_img.setImageResource(R.drawable.filter_on)
+                    // veg_switch_img.setImageResource(R.drawable.filter_off)
+                    contains_egg = "1"
+                    getStoreDetailsApiCall()
+                    egg_filter = 1
 
-            } else {
-                egg_switch_img.setImageResource(R.drawable.filter_off)
-                contains_egg = ""
-                getStoreDetailsApiCall()
-                egg_filter = 0
+                } else {
+                    egg_switch_img.setImageResource(R.drawable.filter_off)
+                    contains_egg = ""
+                    getStoreDetailsApiCall()
+                    egg_filter = 0
+                }
+                visibilityView()
+                searchEdt_ResPrd.getText().clear()
+                getRoomData()
             }
-            visibilityView()
-            searchEdt_ResPrd.getText().clear()
-            getRoomData()
         }
 
         //Default behaviour of Bottom Sheet
@@ -629,6 +636,7 @@ class NewDBStoreItemsActivity :
             tempProductList!!.clear()
             addCartTempList!!.clear()
             next_available = storeData.next_available
+            filterActive = storeData.next_available
             latestCatList.clear()
 
            // if (next_available.toString().equals("1")){

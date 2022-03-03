@@ -214,31 +214,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
         )
 
 
-        timer = object : CountDownTimer(10000, 1000) {
-
-            override fun onTick(millisUntilFinished: Long) {
-                Log.e("_Timer", "seconds remaining: " + millisUntilFinished / 1000)
-            }
-
-            override fun onFinish() {
-                viewmodel?.trackSendPackagesOrderApi(
-                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accountId,
-                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accessToken,
-                    OrderId_str
-                )
-
-                viewmodel?.getLocationApi(
-                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accountId,
-                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accessToken,
-                    OrderId_str,
-                    "user"
-                )
-                //trackApi call
-
-                timer?.start()
-            }
-
-        }.start()
 
         orderTrackBack_fmL.setOnClickListener {
             if (intent.hasExtra("type")) {
@@ -537,7 +512,12 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                             }
 
                             it.order_status.equals("2") -> {
-                                finish()
+
+                                if (MainActivity.onBackpressHandle.equals("1")) {
+                                    startActivity(Intent(this, MainActivity::class.java))
+                                } else {
+                                    finish()
+                                }
                             }
 
                             it.order_status.equals("9") -> {
@@ -881,13 +861,40 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
         super.onResume()
         //mMap = GoogleMap()
         //MainActivity.check = "yes"
-        Log.e("upcoming resume", "yes")
+        Log.e("upcoming_resume", "yes")
         tv_order_id.text = intent.getStringExtra("orderId")!!
         viewmodel?.getLocationApi(
             SessionTwiclo(this).loggedInUserDetail.accountId,
             SessionTwiclo(this).loggedInUserDetail.accessToken,
             intent.getStringExtra("orderId")!!, "user"
         )
+
+        timer = object : CountDownTimer(10000, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                Log.e("_Timer", "seconds remaining: " + millisUntilFinished / 1000)
+            }
+
+            override fun onFinish() {
+                viewmodel?.trackSendPackagesOrderApi(
+                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accountId,
+                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accessToken,
+                    OrderId_str
+                )
+
+                viewmodel?.getLocationApi(
+                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accountId,
+                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accessToken,
+                    OrderId_str,
+                    "user"
+                )
+                //trackApi call
+
+                timer?.start()
+            }
+
+        }.start()
+
 
     }
 

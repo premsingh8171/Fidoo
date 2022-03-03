@@ -158,7 +158,7 @@ class AddressesAdapter(
                     SessionTwiclo(con).userLat = addressList[position].latitude
                     SessionTwiclo(con).userLng = addressList[position].longitude
                     SessionTwiclo(con).userAddressId = addressList[position].id
-                    SessionTwiclo(con).userAddress = addressList.get(position).location
+                    SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
                    // SessionTwiclo(con).addressType= addressList[position].addressType
 
                     // holder.itemView.setassDefaultTxt.visibility=View.VISIBLE
@@ -168,21 +168,20 @@ class AddressesAdapter(
                     (con as Activity).setResult(101, result)
                     (con as Activity).finish()
                 } else if (stringExtra.equals("address")) {
-                    Log.e("clickedaddress", "address")
                     when {
                         addressList[position].addressType.equals("1") -> {
-                            SessionTwiclo(con).userAddress = "Home"
+                            SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
                             SessionTwiclo(con).addressType= "Home"
                         }
 
                         addressList[position].addressType.equals("2") -> {
-                            SessionTwiclo(con).userAddress = "Office"
+                            SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
                             SessionTwiclo(con).addressType = "Office"
 
                         }
 
                         else -> {
-                            SessionTwiclo(con).userAddress = "Other"
+                            SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
                             SessionTwiclo(con).addressType = "Other"
 
                         }
@@ -191,7 +190,7 @@ class AddressesAdapter(
                     //  holder.itemView.selectedadd_img.visibility=View.VISIBLE
                     // holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
 
-                    SessionTwiclo(con).userAddress = addressList[position].location
+                    SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
                     SessionTwiclo(con).userAddressId = addressList[position].id
                     SessionTwiclo(con).userLat = addressList[position].latitude
                     SessionTwiclo(con).userLng = addressList[position].longitude
@@ -200,19 +199,19 @@ class AddressesAdapter(
                     Log.e("clickedaddress", "address")
                     when {
                         addressList[position].addressType.equals("1") -> {
-                            SessionTwiclo(con).userAddress = "Home"
+                            SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
                             SessionTwiclo(con).addressType = "Home"
 
                         }
 
                         addressList[position].addressType.equals("2") -> {
-                            SessionTwiclo(con).userAddress = "Office"
+                            SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
                             SessionTwiclo(con).addressType = "Office"
 
                         }
 
                         else -> {
-                            SessionTwiclo(con).userAddress = "Other"
+                            SessionTwiclo(con).userAddress =addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
                             SessionTwiclo(con).addressType = "Other"
 
                         }
@@ -222,7 +221,7 @@ class AddressesAdapter(
                      holder.itemView.selectedadd_img.visibility=View.VISIBLE
                      holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
 
-                    SessionTwiclo(con).userAddress = addressList[position].location
+                    SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
                     SessionTwiclo(con).userAddressId = addressList[position].id
                     SessionTwiclo(con).userLat = addressList[position].latitude
                     SessionTwiclo(con).userLng = addressList[position].longitude
@@ -230,8 +229,8 @@ class AddressesAdapter(
                 }
 
                 if (stringExtra.equals("from")) {
-
-                    SendPackageActivity.selectedFromAddress = addressList[position].location
+                    SendPackageActivity.selectedFromAddress= addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                  //  SendPackageActivity.selectedFromAddress = addressList[position].location
                     SendPackageActivity.selectedfromLat = addressList[position].latitude.toDouble()
                     SendPackageActivity.selectedfromLng= addressList[position].longitude.toDouble()
                     SendPackageActivity.fromName = addressList[position].name
@@ -240,8 +239,8 @@ class AddressesAdapter(
                 }
 
                 if (stringExtra.equals("to")) {
-
-                    SendPackageActivity.selectedToAddress = addressList[position].location
+                    SendPackageActivity.selectedToAddress= addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                   /// SendPackageActivity.selectedToAddress = addressList[position].location
                     SendPackageActivity.selectedtoLat = addressList[position].latitude.toDouble()
                     SendPackageActivity.selectedtoLng= addressList[position].longitude.toDouble()
                     SendPackageActivity.toName = addressList[position].name

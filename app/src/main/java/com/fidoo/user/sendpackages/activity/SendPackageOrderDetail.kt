@@ -24,6 +24,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
+import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.data.session.SessionTwiclo
@@ -584,7 +585,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             })
             .placeholder(R.drawable.pay_suc)
             .error(R.drawable.pay_suc).into(payment_successImg!!)
-
+        MainActivity.onBackpressHandle = "1"
         Handler().postDelayed({
 //            startActivity(Intent(this, MainActivity::class.java))
             startActivity(
