@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.fidoo.user.R
 import com.fidoo.user.activity.AboutUsActivity
@@ -133,6 +134,7 @@ class SignInFragment : Fragment() {
                     showToast(requireContext(), "Number can't be starts with zero")
                 } else {
                     showIOSProgress()
+
                     userTrackViewModel?.customerActivityLog(
                         "",
                         binding.phone.text.toString().trim(), "SignIn Screen",
