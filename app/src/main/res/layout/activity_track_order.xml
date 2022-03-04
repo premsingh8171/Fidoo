@@ -227,6 +227,7 @@
 
                         <TextView
                             android:id="@+id/customer_care_fmL"
+                            android:visibility="visible"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_order_id_label"
