@@ -203,6 +203,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         checkPermission()
 
         getLocation()
+
+        customer_care_fmL.visibility = View.INVISIBLE /// INVISIBLE k liye
         CoroutineScope(Dispatchers.Main).launch {
             delay(30000)
             customer_care_fmL.visibility = View.VISIBLE

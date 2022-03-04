@@ -74,10 +74,11 @@ class Chatbotui :AppCompatActivity() {
             if (it.orderStatus.equals("1")) {
                 orderstatus.text = "Order not confirm yet" // order status bot button
                 orderconfirmStatus.text = "Order not confirm yet" // user reply
-            }else{
 
+            }else {
                 orderstatus.text = "Where is my order?"
                 orderconfirmStatus.text = "Where is my order?"
+
             }
 
         }
