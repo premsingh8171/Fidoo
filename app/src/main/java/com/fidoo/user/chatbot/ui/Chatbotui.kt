@@ -23,6 +23,10 @@ import com.fidoo.user.ordermodule.ui.TrackSendPAckagesOrderActivity
 import com.google.gson.Gson
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_chatbotui.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,6 +36,7 @@ class Chatbotui :AppCompatActivity() {
     var botmsgViewModel : BotmsgViewModel? =null
     var oderStatusViewModel: OrderStatusViewModel? = null
     lateinit var dateTime: String
+    lateinit var dateTime1: String
     lateinit var calendar: Calendar
     lateinit var simpleDateFormat: SimpleDateFormat
     lateinit var simpleDateFormat1: SimpleDateFormat
@@ -40,21 +45,19 @@ class Chatbotui :AppCompatActivity() {
     var newsdata=ArrayList<String>()
     var botMsgdata = ArrayList<String>()
 
-
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatbotui)
-
         calendar = Calendar.getInstance()
         simpleDateFormat = SimpleDateFormat("EE - dd LLL")
         ////dd.LLL.yyyy HH:mm:ss aaa z
         //EEEE.LLLL.yyyy KK:mm:ss aaa z
         dateTime = simpleDateFormat.format(calendar.time).toString()
         DateandTime.text = dateTime
-        simpleDateFormat1 = SimpleDateFormat("HH:mm aa")
-        dateTime = simpleDateFormat1.format(calendar.time).toString()
-        DateandTime2.text = dateTime
+        simpleDateFormat1 = SimpleDateFormat("hh:mm aa")
+        dateTime1 = simpleDateFormat1.format(calendar.time).toString()
+        DateandTime2.text = dateTime1
         //  time1.text = dateTime
 //        time2.text = dateTime
 //        time3.text = dateTime
@@ -68,53 +71,45 @@ class Chatbotui :AppCompatActivity() {
             Log.d("sddffsddskgjgjds", Gson().toJson(it))
             setadapter()
 
-            if (it.orderStatus != "1") {
+            if (it.orderStatus.equals("1")) {
+                orderstatus.text = "Order not confirm yet" // order status bot button
+                orderconfirmStatus.text = "Order not confirm yet" // user reply
+            }else{
+
                 orderstatus.text = "Where is my order?"
                 orderconfirmStatus.text = "Where is my order?"
-            }else{
-                orderconfirmStatus.text = "Order not confirm yet"
             }
 
         }
+        cancel.text = "CANCEL MY ORDER"
 
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            cancel.visibility = View.VISIBLE
+            orderstatus.visibility = View.VISIBLE
 
-
-
-
-
-
-// main button Logic -----------------------------------------------------------------------------------------
-
-////        buttonLogicViewModel = ViewModelProvider(this).get(ButtonLogicViewModel::class.java)
-////        buttonLogicViewModel?.botmsgapiButtonLogic("10", "1a9eddfe5e5b2c75f6c15e739e05ab46", 100002)
-////        buttonLogicViewModel?.btnLogicViewModel?.observe(this) {
-////            // Log.d("sddffsddsds", Gson().toJson(it))
-////            if(it.orderStatus!="1"){
-////                orderstatus.text = "Where is my order?"
-////                orderstatus.setOnClickListener{
-////                    orderconfirmStatus.text = "Where is my order?"
-////                }
-////
-////
-////            }
-//
-//        }
-        /////////////////////////////////////////////
+        }
 
         orderstatus.setOnClickListener{
-             orderconfirmStatus.text = "Order not confirm yet"
+            //orderconfirmStatus.text = "Order not confirm yet"
             cancel.visibility = View.GONE
             orderstatus.visibility = View.GONE
             l2.visibility = View.VISIBLE
             DateandTime3.visibility = View.VISIBLE
-            DateandTime4.visibility = View.VISIBLE
-            tvlast.visibility = View.VISIBLE
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(3000)
+                DateandTime4.visibility = View.VISIBLE
+                delay(1000)
+                tvlast.visibility = View.VISIBLE
 
-            simpleDateFormat1 = SimpleDateFormat(" HH:mm aa")
-            dateTime = simpleDateFormat1.format(calendar.time).toString()
+
+            }
+
+            simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
+            dateTime1 = simpleDateFormat1.format(calendar.time).toString()
             // DateandTime2.text = dateTime
-            DateandTime3.text = dateTime
-            DateandTime4.text = dateTime
+            DateandTime3.text = dateTime1
+            DateandTime4.text = dateTime1
             //LayoutFeedback.visibility  =View.VISIBLE
             botmsgViewModel = ViewModelProvider(this).get(BotmsgViewModel::class.java)
             botmsgViewModel?.botmsgapi(SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -127,10 +122,12 @@ class Chatbotui :AppCompatActivity() {
 
             }
 
+
+
         }
         backBtn.setOnClickListener{
-            val intent = Intent(this, TrackOrderActivity::class.java)
-            startActivity(intent)
+            finish()
+
         }
 
         cancel.setOnClickListener{
@@ -139,13 +136,21 @@ class Chatbotui :AppCompatActivity() {
             orderstatus.visibility = View.GONE
             l2.visibility = View.VISIBLE
             DateandTime3.visibility = View.VISIBLE
-            DateandTime4.visibility = View.VISIBLE
-            tvlast.visibility = View.VISIBLE
+
+
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(3000)
+                DateandTime4.visibility = View.VISIBLE
+                delay(1000)
+                tvlast.visibility = View.VISIBLE
+
+
+            }
             // LayoutFeedback.visibility  =View.VISIBLE
-            simpleDateFormat1 = SimpleDateFormat(" HH:mm aa")
-            dateTime = simpleDateFormat1.format(calendar.time).toString()
-            DateandTime3.text = dateTime
-            DateandTime4.text = dateTime
+            simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
+            dateTime1 = simpleDateFormat1.format(calendar.time).toString()
+            DateandTime3.text = dateTime1
+            DateandTime4.text = dateTime1
             viewModel = ViewModelProvider(this).get(ChatbotViewModel::class.java)
             intent.getStringExtra("orderId")?.let { it1 ->
                 viewModel?.cancelOrderApiChatBot( SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -156,7 +161,7 @@ class Chatbotui :AppCompatActivity() {
                 // Log.d("sddffsddsds", Gson().toJson(it.orderId))
                 // tv1.text = "Your order has been cancelled"
                 // cancelmsgList= it as ArrayList<ChatCancelModel>
-                Log.d("sddffsddsds", Gson().toJson(it.orderStatus))
+               // Log.d("sddffsddsds", Gson().toJson(it.orderStatus))
             }
 
             // if (it.orderstatus)
@@ -175,13 +180,6 @@ class Chatbotui :AppCompatActivity() {
 
     }
 
-//    private fun setchetCancelRecyclerview() {
-//        Log.d("sddffsddsds", "ef")
-//        cancelOrderAdapter = CancelOrderAdapter(this, cancelmsgList )
-//        val linearLayoutManager= LinearLayoutManager(this)
-//        recyclerView2.adapter= cancelOrderAdapter
-//        recyclerView2.layoutManager=linearLayoutManager
-//    }
 
     private fun setadapter() {
         mainAdapter = MainAdapter(this,newsdata)

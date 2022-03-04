@@ -203,10 +203,10 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         checkPermission()
 
         getLocation()
-//        CoroutineScope(Dispatchers.IO).launch {
-//            delay(30000)
-//            customer_care_fmL.visibility = View.VISIBLE
-//        }
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(30000)
+            customer_care_fmL.visibility = View.VISIBLE
+        }
 
         customer_care_fmL.setOnClickListener {
 //            val dialIntent = Intent(Intent.ACTION_DIAL)

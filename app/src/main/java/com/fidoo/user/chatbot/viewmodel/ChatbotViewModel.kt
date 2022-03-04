@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.myapplication.Models.cancelStatus.ChatCancelModel
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
+import com.fidoo.user.data.model.DeleteModel
 
 
 import retrofit2.Call
@@ -14,11 +15,11 @@ import retrofit2.Response
 
 class ChatbotViewModel (application: Application) : AndroidViewModel(application) {
 
-    var cancelOrderResponse:MutableLiveData<ChatCancelModel>? = null
+    var cancelOrderResponse:MutableLiveData<DeleteModel>? = null
     var failureResponse:MutableLiveData<String>? = null
 
     init {
-        cancelOrderResponse =  MutableLiveData<ChatCancelModel>()
+        cancelOrderResponse =  MutableLiveData<DeleteModel>()
         failureResponse =  MutableLiveData<String>()
 
     }
@@ -26,20 +27,20 @@ class ChatbotViewModel (application: Application) : AndroidViewModel(application
 
     fun cancelOrderApiChatBot(accountId: String, accessToken: String, orderId: String) {
 
-        WebServiceClient.client.create(BackEndApi::class.java).cancelOrderApi1(
+        WebServiceClient.client.create(BackEndApi::class.java).cancelOrderApi(
             accountId = accountId,
             accessToken = accessToken,
-            orderId = orderId
+            order_id = orderId
 
         )
-            .enqueue(object : Callback<ChatCancelModel> {
+            .enqueue(object : Callback<DeleteModel> {
 
-                override fun onResponse(call: Call<ChatCancelModel>, response: Response<ChatCancelModel>) {
+                override fun onResponse(call: Call<DeleteModel>, response: Response<DeleteModel>) {
                     cancelOrderResponse?.value = response.body()
 
                 }
 
-                override fun onFailure(call: Call<ChatCancelModel>, t: Throwable) {
+                override fun onFailure(call: Call<DeleteModel>, t: Throwable) {
 
                     failureResponse?.value="Something went wrong"
                 }
