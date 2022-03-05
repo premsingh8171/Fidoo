@@ -15,19 +15,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.NavigationUI.navigateUp
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity.Companion.appversion
 import com.fidoo.user.activity.SplashActivity.Companion.mobile_number
-import com.fidoo.user.api_request_retrofit.ApiCalls
 import com.fidoo.user.api_request_retrofit.ApiInterface
 import com.fidoo.user.data.SendResponse
 import com.fidoo.user.data.model.ResendModel
@@ -90,6 +84,7 @@ class OtpFragment : BaseFragment() {
         startSmsUserConsent()
 
 
+
         Log.d("referaal_id_", sessionInstance.referralId)
 
         mView.otp_view?.otpListener = object : OTPListener {
@@ -109,6 +104,7 @@ class OtpFragment : BaseFragment() {
             resendApi()
 
         }
+
 
         mView.tv_phone.text = mData.mobile
 
@@ -135,10 +131,13 @@ class OtpFragment : BaseFragment() {
         }
 
         requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(this, object : OnBackPressedCallback(true) {
+            .onBackPressedDispatcher.
+            addCallback(this, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    Log.d(TAG, "Fragment back pressed invoked")
+                    Log.d("dudi", "Fragment back pressed invoked")
+
+                    val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
+                    findNavController().navigate(action)
 
 //                    NavHostFragment.findNavController(this@OtpFragment).navigateUp()
                     //Navigation.findNavController(mView).popBackStack()
@@ -151,6 +150,7 @@ class OtpFragment : BaseFragment() {
 //                        val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
 //                        findNavController().navigate(action)
 //                    }
+
                 }
             }
             )
@@ -158,8 +158,10 @@ class OtpFragment : BaseFragment() {
 
 
 
+
         return mView
     }
+
 
 
     @SuppressLint("handlerLeak")
@@ -223,6 +225,7 @@ class OtpFragment : BaseFragment() {
                             e.printStackTrace()
                         }
                     }
+
 
                 }
                 ApiInterface.OTP_FAILURE -> {
@@ -383,6 +386,5 @@ class OtpFragment : BaseFragment() {
         Log.d("referaal_id_", sessionInstance.referralId)
 
     }
-
 
 }

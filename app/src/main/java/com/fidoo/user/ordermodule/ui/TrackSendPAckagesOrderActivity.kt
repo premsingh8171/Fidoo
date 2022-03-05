@@ -23,7 +23,9 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
@@ -107,6 +109,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
     //var timerStatus =  true
     var userName: String? = ""
     var driverMobileNo: String? = ""
+    var userMobileNo: String? = ""
     var viewmodel: TrackViewModel? = null
     var orderViewModel: OrderDetailsViewModel? = null
     var viewmodelusertrack: UserTrackerViewModel? = null
@@ -126,6 +129,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
     var order_cancel_Diolog: Dialog? = null
     private lateinit var prescriptionDatabase: PrescriptionDatabase
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
+    var call_Diolog: Dialog? = null
 
     private var mMixpanel: MixpanelAPI? = null
     var latLngList: ArrayList<LatLng> = ArrayList()
@@ -133,7 +137,8 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
     var responseHandle = 0
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
-
+    var store_phone: String? = ""
+    var rider_phone: String? = ""
     companion object {
         var trackOrderContext: Context? = null
         val notiInterface = TrackSendPAckagesOrderActivity()
@@ -196,9 +201,29 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
         tv_delivery_boy_callNew.setOnClickListener {
 
-            val dialIntent = Intent(Intent.ACTION_DIAL)
-            dialIntent.data = Uri.parse("tel:" + driverMobileNo)
-            startActivity(dialIntent)
+//            val dialIntent = Intent(Intent.ACTION_DIAL)
+//            dialIntent.data = Uri.parse("tel:" + driverMobileNo)
+//            startActivity(dialIntent)
+
+            if (userMobileNo!!.isNotEmpty()) {
+                onCallPopUp(1)
+
+                if (sessionInstance.profileDetail != null) {
+                    viewmodel?.callCustomerApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        userMobileNo!!,
+                        driverMobileNo!!
+                    )
+                } else {
+                    viewmodel?.callCustomerApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        userMobileNo!!,
+                        driverMobileNo!!
+                    )
+                }
+            }
         }
 
         viewmodel?.trackSendPackagesOrderApi(
@@ -489,6 +514,8 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                         "Total delivery charge :" + "₹" + it.total_delivery_charge
 
                     driverMobileNo = it.delivery_boy_phone
+                    userMobileNo = it.customer_phone
+
 
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -608,6 +635,31 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                             }
 
                             it.order_status.equals("14") -> {
+                                // at pickup location
+                                tv_delivery_boy_new.text = it.rider_status
+                                order_status_new.text = it.order_message
+                                rider_picLocTimeStr = it.updated_at
+                                tv_At_pickup_locTime.text = rider_picLocTimeStr
+                                rider_assignImg.setColorFilter(resources.getColor(R.color.primary_color))
+                                vertical_line_btw_two_loc1.background.setTint(
+                                    getResources().getColor(
+                                        R.color.primary_color
+                                    )
+                                )
+                                tv_delivery_boy_callNew.setImageResource(R.drawable.call_fill)
+
+//                                rider_pickup_locImg.setColorFilter(resources.getColor(R.color.primary_color))
+//
+//                                vertical_line_btw_two_loc2.background.setTint(
+//                                    getResources().getColor(
+//                                        R.color.primary_color
+//                                    )
+//                                )
+                                order_status_for_track = "rider_assign"
+
+                            }
+
+                            it.order_status.equals("15") -> {
                                 // at pickup location
                                 tv_delivery_boy_new.text = it.rider_status
                                 order_status_new.text = it.order_message
@@ -903,6 +955,9 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
         timer!!.cancel()
         MainActivity.check = "no"
         Log.e("upcoming Pause", "yes")
+        if (call_Diolog != null) {
+            call_Diolog!!.dismiss()
+        }
     }
 
     override fun onStop() {
@@ -1365,6 +1420,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
             movingBikeMarker = addCarMarkerAndGet(rider_LatLngOrg!!)
             movingBikeMarker?.setAnchor(0.5f, 0.5f)
             movingBikeMarker!!.position=rider_LatLngOrg
+            animateCamera(rider_LatLngOrg!!)
 
             val valueAnimator = AnimationUtils.cabAnimator()
             valueAnimator.addUpdateListener {
@@ -1416,5 +1472,37 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
     }
 
+    private fun onCallPopUp(type: Int) {
+        call_Diolog = Dialog(this)
+        call_Diolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        call_Diolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        call_Diolog?.setContentView(R.layout.call_popup)
+        call_Diolog?.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        call_Diolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+        call_Diolog?.setCanceledOnTouchOutside(true)
+        call_Diolog?.show()
+
+        val callTypeTxt = call_Diolog?.findViewById<TextView>(R.id.callTypeTxt)
+        val regImg = call_Diolog?.findViewById<ImageView>(R.id.regImg)
+        val cancelDialogConstL =
+            call_Diolog?.findViewById<ConstraintLayout>(R.id.cancelDialogConstL)
+
+        if (regImg != null) {
+            Glide.with(this)
+                .load(R.drawable.call_wait)
+                .fitCenter()
+                .error(R.drawable.default_item)
+                .into(regImg)
+        }
+
+            callTypeTxt!!.setText("Just a minute, connecting with the rider in a bit.")
+
+        cancelDialogConstL?.setOnClickListener {
+            call_Diolog?.dismiss()
+        }
+    }
 
 }

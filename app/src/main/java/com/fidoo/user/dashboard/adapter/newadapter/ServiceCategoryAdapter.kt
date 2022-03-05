@@ -1,6 +1,7 @@
 package com.fidoo.user.dashboard.adapter.newadapter
 
 import android.content.Context
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,9 @@ class ServiceCategoryAdapter(
     RecyclerView.Adapter<ServiceCategoryAdapter.UserViewHolder>() {
      var index = 0
 
-    class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {}
+    class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_cat_new_ui, parent, false)
@@ -58,6 +61,7 @@ class ServiceCategoryAdapter(
         holder.itemView.cat_itemImg.layoutParams=params
 
             holder.itemView.cat_itemTxt.text=serviceList.get(position).service_name
+
             Glide.with(con)
                 .load(serviceList[position].image)
                 .fitCenter()
@@ -74,4 +78,5 @@ class ServiceCategoryAdapter(
     interface ItemClickService {
         fun onItemClick(pos: Int, serviceList: Service)
     }
+
 }

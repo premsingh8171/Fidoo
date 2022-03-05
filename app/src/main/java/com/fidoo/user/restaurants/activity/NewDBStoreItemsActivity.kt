@@ -437,8 +437,8 @@ class NewDBStoreItemsActivity :
         }
 
         veg_switch_img.setOnClickListener {
-            if(filterActive==1) {
-                filterActive=0
+           // if(filterActive==1) {
+              //  filterActive=0
                 deleteRoomDataBase()
                 showIOSProgress()
                 totalItem = 120
@@ -462,7 +462,7 @@ class NewDBStoreItemsActivity :
                 visibilityView()
                 searchEdt_ResPrd.getText().clear()
                 getRoomData()
-            }
+           // }
         }
 
         egg_switch_img.setOnClickListener {

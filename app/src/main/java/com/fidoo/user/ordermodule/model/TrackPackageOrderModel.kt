@@ -6,6 +6,7 @@ data class TrackPackageOrderModel(
     var delivery_boy_id: String,
     var delivery_boy_name: String,
     var delivery_boy_phone: String,
+    var customer_phone: String,
     var error: Boolean,
     var error_code: String,
     var message: String,
