@@ -204,11 +204,11 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
         getLocation()
 
-        customer_care_fmL.visibility = View.INVISIBLE /// INVISIBLE k liye
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(30000)
-            customer_care_fmL.visibility = View.VISIBLE
-        }
+//        customer_care_fmL.visibility = View.INVISIBLE /// INVISIBLE k liye
+//        CoroutineScope(Dispatchers.Main).launch {
+//            delay(30000)
+//            customer_care_fmL.visibility = View.VISIBLE
+//        }
 
         customer_care_fmL.setOnClickListener {
 //            val dialIntent = Intent(Intent.ACTION_DIAL)
@@ -618,7 +618,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
     }
 
     fun observeOrderDetailResponse() {
-        orderViewModel?.OrderDetailsResponse?.observe(this, {
+        orderViewModel?.OrderDetailsResponse?.observe(this) {
             Log.e("OrderDetailsResponse_", Gson().toJson(it))
 
             if (timerStatus) {
@@ -634,12 +634,14 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
                         override fun onTick(millisUntilFinished: Long) {
                             cancelBtn.visibility = View.VISIBLE
+                            customer_care_fmL.visibility = View.INVISIBLE
                             cancelBtn.text =
                                 "Cancel Order (" + (millisUntilFinished / 1000) + ")"
 
                             if ((millisUntilFinished / 1000) < 1) {
                                 waitingLay.visibility = View.GONE
                                 cancelBtn.visibility = View.GONE
+                                customer_care_fmL.visibility = View.VISIBLE
                                 ordstatus_lay_new.visibility = View.VISIBLE
                                 order_status.text =
                                     "Please wait while we confirm your order"
@@ -650,6 +652,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             if (handleClick == 0) {
                                 waitingLay.visibility = View.GONE
                                 cancelBtn.visibility = View.GONE
+                                customer_care_fmL.visibility = View.VISIBLE
                                 ordstatus_lay_new.visibility = View.VISIBLE
                                 order_status.text =
                                     "Please wait while we confirm your order"
@@ -1060,7 +1063,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
             } catch (e: Exception) {
             }
 
-        })
+        }
     }
 
     fun observeOrderFeedback() {

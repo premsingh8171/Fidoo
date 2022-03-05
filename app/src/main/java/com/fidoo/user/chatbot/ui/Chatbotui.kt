@@ -57,7 +57,10 @@ class Chatbotui :AppCompatActivity() {
         DateandTime.text = dateTime
         simpleDateFormat1 = SimpleDateFormat("hh:mm aa")
         dateTime1 = simpleDateFormat1.format(calendar.time).toString()
-        DateandTime2.text = dateTime1
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(1000)
+            DateandTime2.text = dateTime1
+        }
         //  time1.text = dateTime
 //        time2.text = dateTime
 //        time3.text = dateTime
@@ -71,22 +74,41 @@ class Chatbotui :AppCompatActivity() {
             Log.d("sddffsddskgjgjds", Gson().toJson(it))
             setadapter()
 
+//            if(it.orderStatus == "7" || it.orderStatus =="11"){
+//                cancel.visibility =View.GONE
+//            }else{
+//                cancel.visibility =View.VISIBLE
+//            }
+
             if (it.orderStatus.equals("1")) {
                 orderstatus.text = "Order not confirm yet" // order status bot button
                 orderconfirmStatus.text = "Order not confirm yet" // user reply
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(1500)
+                    cancel.visibility = View.VISIBLE
+
+                }
 
             }else {
                 orderstatus.text = "Where is my order?"
                 orderconfirmStatus.text = "Where is my order?"
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(1500)
+                    cancel.visibility = View.GONE
+
+                }
 
             }
 
+
+
         }
+
         cancel.text = "CANCEL MY ORDER"
 
         CoroutineScope(Dispatchers.Main).launch {
-            delay(2000)
-            cancel.visibility = View.VISIBLE
+            delay(1500)
+           // cancel.visibility = View.VISIBLE
             orderstatus.visibility = View.VISIBLE
 
         }
@@ -130,6 +152,7 @@ class Chatbotui :AppCompatActivity() {
             finish()
 
         }
+
 
         cancel.setOnClickListener{
             orderconfirmStatus.text = "Cancel my order"
@@ -213,6 +236,11 @@ class Chatbotui :AppCompatActivity() {
         super.onPause()
         botlogoCountforreply.botcount1 = 0
         botlogocount.botcount = 0
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }
 
