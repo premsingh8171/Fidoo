@@ -44,6 +44,7 @@ import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.timerStatus
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
+import com.fidoo.user.chatbot.ui.Chatbotui
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.NotiCheck
 import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
@@ -76,6 +77,10 @@ import kotlinx.android.synthetic.main.activity_track_sendpackages_order.customer
 import kotlinx.android.synthetic.main.activity_track_sendpackages_order.orderTrackBack_fmL
 import kotlinx.android.synthetic.main.activity_track_sendpackages_order.tv_order_id
 import kotlinx.android.synthetic.main.review_popup.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -192,11 +197,17 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
         checkPermission()
 
         getLocation()
-
+//        CoroutineScope(Dispatchers.IO).launch {
+//            delay(30000)
+//            customer_care_fmL.visibility = View.VISIBLE
+//       }
         customer_care_fmL.setOnClickListener {
-            val dialIntent = Intent(Intent.ACTION_DIAL)
-            dialIntent.data = Uri.parse("tel:" + 9871322057)
-            startActivity(dialIntent)
+
+//            val dialIntent = Intent(Intent.ACTION_DIAL)
+//            dialIntent.data = Uri.parse("tel:" + 9871322057)
+//            startActivity(dialIntent)
+            AppUtils.startActivityRightToLeft(this,Intent(this, Chatbotui::class.java)
+                .putExtra("orderId", intent.getStringExtra("orderId")!!))
         }
 
         tv_delivery_boy_callNew.setOnClickListener {

@@ -46,6 +46,7 @@ import com.fidoo.user.activity.MainActivity.Companion.onBackpressHandle
 import com.fidoo.user.activity.MainActivity.Companion.timerStatus
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
+import com.fidoo.user.chatbot.ui.Chatbotui
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.NotiCheck
 import com.fidoo.user.ordermodule.model.Feedback
@@ -73,7 +74,21 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.prudhvir3ddy.rideshare.utils.MapUtils
 import kotlinx.android.synthetic.main.activity_track_order.*
+import kotlinx.android.synthetic.main.activity_track_order.address_details_lay
+import kotlinx.android.synthetic.main.activity_track_order.customer_care_fmL
+import kotlinx.android.synthetic.main.activity_track_order.driver_cardView
+import kotlinx.android.synthetic.main.activity_track_order.map
+import kotlinx.android.synthetic.main.activity_track_order.orderDetailsTxt
+import kotlinx.android.synthetic.main.activity_track_order.orderTrackBack_fmL
+import kotlinx.android.synthetic.main.activity_track_order.tv_order_id
+import kotlinx.android.synthetic.main.activity_track_order.tv_order_id_label
+import kotlinx.android.synthetic.main.activity_track_order.tv_order_rejection
+import kotlinx.android.synthetic.main.activity_track_sendpackages_order.*
 import kotlinx.android.synthetic.main.review_popup.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 
@@ -189,10 +204,19 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
         getLocation()
 
+        customer_care_fmL.visibility = View.INVISIBLE /// INVISIBLE k liye
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(30000)
+            customer_care_fmL.visibility = View.VISIBLE
+        }
+
         customer_care_fmL.setOnClickListener {
-            val dialIntent = Intent(Intent.ACTION_DIAL)
-            dialIntent.data = Uri.parse("tel:" + 9871322057)
-            startActivity(dialIntent)
+//            val dialIntent = Intent(Intent.ACTION_DIAL)
+//            dialIntent.data = Uri.parse("tel:" + 9871322057)
+//            startActivity(dialIntent)
+         // Log.d("hello", "hello")
+            AppUtils.startActivityRightToLeft(this,Intent(this, Chatbotui::class.java)
+                .putExtra("orderId", intent.getStringExtra("orderId")!!))
         }
 
         callStore.setOnClickListener {

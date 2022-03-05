@@ -33,6 +33,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".chatbot.ui.Chatbotui"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".dailyneed.ui.CategoryProductListActivity"
             android:exported="true"
             android:screenOrientation="portrait"

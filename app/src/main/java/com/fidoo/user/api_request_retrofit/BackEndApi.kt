@@ -1,5 +1,9 @@
 package com.fidoo.user.api_request_retrofit
 
+import com.example.myapplication.Models.cancelStatus.ChatCancelModel
+import com.example.myapplication.Models.cancelStatus.orderStatusMSg.OrderStatusMsg
+import com.example.myapplication.Models.chatbotButtonLogic.ButtonLogicModel
+import com.example.myapplication.Models.orderStatus.OrderStatusResponse
 import com.fidoo.user.addressmodule.model.AddAddressModel
 import com.fidoo.user.addressmodule.model.DeleteAddressModel
 import com.fidoo.user.addressmodule.model.GetAddressModel
@@ -757,6 +761,38 @@ interface BackEndApi {
         @Field("page_count") page_count: String?
     ): Call<KeywordBasedSearchResultsModel>
 
+    //chat bot
+    @FormUrlEncoded
+    @POST("chatbotCancelOrder.inc.php")
+    fun cancelOrderApi1(
+        @Field("accessToken") accessToken: String,
+        @Field("accountId") accountId: String,
+        @Field("orderId") orderId: String
+    ): Call<ChatCancelModel>
+
+    @FormUrlEncoded
+    @POST("chatbotGetOrderDetails.inc.php")
+    fun oredrStatusApi(
+        @Field("accessToken") accessToken: String,
+        @Field("accountId") accountId: String,
+        @Field("orderId") orderId: String
+    ): Call<OrderStatusResponse>
+
+    @FormUrlEncoded
+    @POST("chatbotGetMessages.inc.php")
+    fun botStatusMsgApi(
+        @Field("accessToken") accessToken: String,
+        @Field("accountId") accountId: String,
+        @Field("orderId") orderId: String?
+    ): Call<OrderStatusMsg>
+
+    @FormUrlEncoded
+    @POST("chatbotGetMessages.inc.php")
+    fun ButtonLogicApi(
+        @Field("accessToken") accessToken: String,
+        @Field("accountId") accountId: String,
+        @Field("orderId") orderId: String
+    ): Call<ButtonLogicModel>
 
 }
 
