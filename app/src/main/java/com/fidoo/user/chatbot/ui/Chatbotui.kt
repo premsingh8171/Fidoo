@@ -1,14 +1,13 @@
 package com.fidoo.user.chatbot.ui
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.adapter.MainAdapter
+import com.fidoo.user.chatbot.adapter.MainAdapter
 import com.example.myapplication.adapter.botlogocount
 import com.example.myapplication.adapter.orderStatusMsgAdapter.botlogoCountforreply
 import com.fidoo.user.chatbot.adapter.orderStatusMsgAdapter.orderStatusAdapter
@@ -18,10 +17,7 @@ import com.fidoo.user.chatbot.viewmodel.BotmsgViewModel
 import com.fidoo.user.chatbot.viewmodel.ChatbotViewModel
 import com.fidoo.user.chatbot.viewmodel.OrderStatusViewModel
 import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.ordermodule.ui.TrackOrderActivity
-import com.fidoo.user.ordermodule.ui.TrackSendPAckagesOrderActivity
 import com.google.gson.Gson
-import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_chatbotui.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,8 +38,8 @@ class Chatbotui :AppCompatActivity() {
     lateinit var simpleDateFormat1: SimpleDateFormat
     lateinit var mainAdapter: MainAdapter
     lateinit var orderStatusAdapter: orderStatusAdapter
-    var newsdata=ArrayList<String>()
-    var botMsgdata = ArrayList<String>()
+    var firstMsgListData=ArrayList<String>()
+    var secondMsgListData = ArrayList<String>()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +66,7 @@ class Chatbotui :AppCompatActivity() {
             SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId"))
         oderStatusViewModel?.orderStatusViewModel?.observe(this) {
             // Log.d("sddffsddsds", Gson().toJson(it))
-            newsdata = it.messages as ArrayList<String>
+            firstMsgListData = it.messages as ArrayList<String>
             Log.d("sddffsddskgjgjds", Gson().toJson(it))
             setadapter()
 
@@ -104,7 +100,7 @@ class Chatbotui :AppCompatActivity() {
 
         }
 
-        cancel.text = "CANCEL MY ORDER"
+        cancel.text = "cancel my order"
 
         CoroutineScope(Dispatchers.Main).launch {
             delay(1500)
@@ -139,7 +135,7 @@ class Chatbotui :AppCompatActivity() {
                 SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId"))
             botmsgViewModel?.botMsgViewModel?.observe(this) {
                 // Log.d("sddffsddsds", Gson().toJson(it))
-                botMsgdata =it as ArrayList<String>
+                secondMsgListData =it as ArrayList<String>
                 Log.d("sddffsddsds", Gson().toJson(it))
                 setRecyclerViewBotmsg()
 
@@ -175,6 +171,8 @@ class Chatbotui :AppCompatActivity() {
             dateTime1 = simpleDateFormat1.format(calendar.time).toString()
             DateandTime3.text = dateTime1
             DateandTime4.text = dateTime1
+
+            //
             viewModel = ViewModelProvider(this).get(ChatbotViewModel::class.java)
             intent.getStringExtra("orderId")?.let { it1 ->
                 viewModel?.cancelOrderApiChatBot( SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -194,7 +192,7 @@ class Chatbotui :AppCompatActivity() {
                 SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId"))
             botmsgViewModel?.botMsgViewModel?.observe(this) {
                 // Log.d("sddffsddsds", Gson().toJson(it))
-                botMsgdata =it as ArrayList<String>
+                secondMsgListData =it as ArrayList<String>
                 Log.d("sddffsddsds", Gson().toJson(it))
                 setRecyclerViewBotmsg()
 
@@ -206,14 +204,14 @@ class Chatbotui :AppCompatActivity() {
 
 
     private fun setadapter() {
-        mainAdapter = MainAdapter(this,newsdata)
+        mainAdapter = MainAdapter(this,firstMsgListData)
         val linearLayoutManager= LinearLayoutManager(this)
         recyclerView.adapter= mainAdapter
         recyclerView.layoutManager=linearLayoutManager
     }
 
     private  fun setRecyclerViewBotmsg(){
-        orderStatusAdapter = orderStatusAdapter(this,botMsgdata)
+        orderStatusAdapter = orderStatusAdapter(this,secondMsgListData)
         val linearLayoutManager= LinearLayoutManager(this)
         recyclerView2.adapter= orderStatusAdapter
         recyclerView2.layoutManager=linearLayoutManager
@@ -228,12 +226,14 @@ class Chatbotui :AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
+
         botlogoCountforreply.botcount1 = 0
         botlogocount.botcount  = 0
     }
 
     override fun onPause() {
         super.onPause()
+
         botlogoCountforreply.botcount1 = 0
         botlogocount.botcount = 0
     }

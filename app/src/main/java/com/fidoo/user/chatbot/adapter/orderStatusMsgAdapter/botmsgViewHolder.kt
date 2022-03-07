@@ -1,8 +1,8 @@
-package com.example.myapplication.adapter.orderStatusMsgAdapter
+package com.fidoo.user.chatbot.adapter.orderStatusMsgAdapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.adapter.botlogocount
+import com.example.myapplication.adapter.orderStatusMsgAdapter.botlogoCountforreply
 import kotlinx.android.synthetic.main.botitemlayout.view.*
 
 
@@ -13,6 +13,7 @@ class botmsgViewHolder (val view : View) : RecyclerView.ViewHolder(view) {
             if (botlogoCountforreply.botcount1 >= 1) {
                 tvTitle.text = OrderStatusMsg
                 botlogo.visibility = View.INVISIBLE
+                botlogolayout.visibility = View.INVISIBLE
             } else {
                 tvTitle.text = OrderStatusMsg
             }

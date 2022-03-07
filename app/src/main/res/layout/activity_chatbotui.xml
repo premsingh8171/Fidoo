@@ -32,11 +32,12 @@
                 android:layout_gravity="center" />
 
 
-            <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/logo"
-                android:layout_gravity="center"/>
+
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/logo"
+        android:layout_gravity="center"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -64,15 +65,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-         />
-
+        android:layout_marginTop="24dp" />
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+               android:layout_marginRight="@dimen/margin_28dp" />
+
+
             <TextView
                 android:visibility="visible"
                 android:id="@+id/DateandTime2"
@@ -99,7 +101,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/orderstatus"
                 android:visibility="gone"
-                android:padding="15dp"
+                android:padding="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="64dp"
@@ -107,6 +109,7 @@
                 android:background="@drawable/option1"
                 android:textAlignment="center"
                 android:textColor="#359C47"
+
                 android:textSize="14dp"
                 />
 
@@ -166,8 +169,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:orientation="vertical"
                 android:layout_width="match_parent"
+                android:layout_marginRight="@dimen/margin_28dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/recyclerView2"/>
+
             <TextView
                 android:visibility="gone"
                 android:id="@+id/DateandTime4"
@@ -190,7 +195,7 @@
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="14dp"
                     android:background="@drawable/option1"
-                    android:padding="12dp"
+                    android:padding="16dp"
                     android:text="No 👎" />
 
                 <Button
