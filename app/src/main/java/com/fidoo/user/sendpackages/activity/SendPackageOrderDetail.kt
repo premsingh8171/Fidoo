@@ -246,30 +246,34 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                                             if (notes != null) {
                                                 if (toAddress != null) {
                                                     if (paymentAmount != null) {
-                                                        sendPackagesViewModel?.sendPackageApi(
-                                                            SessionTwiclo(
-                                                                this
-                                                            ).loggedInUserDetail.accountId,
-                                                            SessionTwiclo(
-                                                                this
-                                                            ).loggedInUserDetail.accessToken,
-                                                            fromAddress,
-                                                            notes,
-                                                            toAddress,
-                                                            fromName,
-                                                            fromNumber,
-                                                            toName,
-                                                            toNumber,
-                                                            paymentMode,
-                                                            distance,
-                                                            paymentAmount,
-                                                            deliveryTime,
-                                                            SendPackageActivity.start_Lat.toString()!!,
-                                                            SendPackageActivity.start_Lng.toString()!!,
-                                                            SendPackageActivity.end_Lat.toString()!!,
-                                                            SendPackageActivity.end_Lng.toString()!!,
-                                                            cat_Id!!, notes, images!!, tax!!
-                                                        )
+                                                        if(!SendPackageActivity.start_Lat.toString().isNullOrEmpty()) {
+                                                            sendPackagesViewModel?.sendPackageApi(
+                                                                SessionTwiclo(
+                                                                    this
+                                                                ).loggedInUserDetail.accountId,
+                                                                SessionTwiclo(
+                                                                    this
+                                                                ).loggedInUserDetail.accessToken,
+                                                                fromAddress,
+                                                                notes,
+                                                                toAddress,
+                                                                fromName,
+                                                                fromNumber,
+                                                                toName,
+                                                                toNumber,
+                                                                paymentMode,
+                                                                distance,
+                                                                paymentAmount,
+                                                                deliveryTime,
+                                                                SendPackageActivity.start_Lat.toString()!!,
+                                                                SendPackageActivity.start_Lng.toString()!!,
+                                                                SendPackageActivity.end_Lat.toString()!!,
+                                                                SendPackageActivity.end_Lng.toString()!!,
+                                                                cat_Id!!, notes, images!!, tax!!
+                                                            )
+                                                        }else{
+
+                                                        }
                                                     } else {
                                                         showToast("There is some issue in payment, please try after sometime")
                                                     }

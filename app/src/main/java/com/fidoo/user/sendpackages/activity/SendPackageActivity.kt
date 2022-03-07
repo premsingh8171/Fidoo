@@ -8,7 +8,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
@@ -37,7 +36,6 @@ import com.fidoo.user.sendpackages.roomdb.database.SendPackagesDb
 import com.fidoo.user.sendpackages.viewmodel.SendPackagesViewModel
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
-import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.currentlocation_library.GetAddFromLatLong
@@ -355,6 +353,11 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                         showToast("Please enter to notes")
                     }
                     else -> {
+                        if (selectedfromLat.toString() != "0.0"
+                            && selectedfromLng.toString() != "0.0"
+                            && selectedtoLat.toString() != "0.0"
+                            && selectedtoLng.toString() != "0.0"
+                        ){
 
                         calculateStoreCustomerDistance()
                         if (tv_address_to.text.isNotEmpty() && tv_address_from.text.isNotEmpty()) {
@@ -367,6 +370,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                             //val distance = packageDistance
                             showIOSProgress()
                             sendPackageInfo()
+                        }
                         } else {
                             showToast("please enter from/to address")
                         }
@@ -503,13 +507,11 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                     showToast("No result found")
                 }
             }, Response.ErrorListener { }) {
-
         }
         val requestQueue = Volley.newRequestQueue(this)
         requestQueue.add(directionsRequest)
 
         //return packageDistance!!
-
 
     }
 

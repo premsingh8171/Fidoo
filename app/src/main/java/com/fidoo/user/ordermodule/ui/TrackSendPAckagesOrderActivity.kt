@@ -1426,6 +1426,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
             if (index<path.size-1){
                 rider_LatLng= LatLng( latLngList[index].latitude.toDouble(), latLngList[index].longitude.toDouble())
                 rider_LatLng2= LatLng( latLngList[next].latitude.toDouble(), latLngList[next].longitude.toDouble())
+                Log.d("fdsdds","$rider_LatLng--$rider_LatLng2")
             }
 
             movingBikeMarker = addCarMarkerAndGet(rider_LatLngOrg!!)
@@ -1435,17 +1436,20 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
             val valueAnimator = AnimationUtils.cabAnimator()
             valueAnimator.addUpdateListener {
-                var v =valueAnimator.animatedFraction
-                val Lng=v*rider_LatLng!!.longitude+(1-v)*rider_LatLng2!!.longitude
-                var lat=v*rider_LatLng!!.latitude+(1-v)*rider_LatLng2!!.latitude
-                var newPos=LatLng(lat,Lng)
-//                movingBikeMarker!!.position=newPos
+                try {
+                    var v =valueAnimator.animatedFraction
+                    val Lng=v*rider_LatLng!!.longitude+(1-v)*rider_LatLng2!!.longitude
+                    var lat=v*rider_LatLng!!.latitude+(1-v)*rider_LatLng2!!.latitude
+                    var newPos=LatLng(lat,Lng)
 
-                val rotation = MapUtils.getRotation(rider_LatLng!!, newPos)
-                Log.d("dfddf",rotation.toString())
-                if (!rotation.isNaN()) {
-                    movingBikeMarker?.rotation = rotation
-                }
+                    val rotation = MapUtils.getRotation(rider_LatLng!!, newPos)
+                    Log.d("rotation_",rotation.toString())
+
+                    if (!rotation.isNaN()) {
+                        movingBikeMarker?.rotation = rotation
+                    }
+                }catch (e:Exception){e.printStackTrace()}
+
 
             }
             valueAnimator.start()
