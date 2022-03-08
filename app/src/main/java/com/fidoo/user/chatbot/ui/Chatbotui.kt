@@ -161,7 +161,9 @@ class Chatbotui :AppCompatActivity() {
             finish()
 
         }
-
+//feedback Layout
+        LayoutFeedback.visibility = View.INVISIBLE
+        BtnYesNoReplayout.visibility = View.GONE
 
         cancel.setOnClickListener {
             orderconfirmStatus.text = "Cancel my order"
@@ -214,6 +216,7 @@ class Chatbotui :AppCompatActivity() {
                 }
 ///--------------------------------------------------------------------------------------------------------------
             }else {
+                LayoutFeedback.visibility = View.VISIBLE
 
                 cancelWithoutRefundmsgViewModel =
                     ViewModelProvider(this).get(CancelWithoutRefundmsgViewModel::class.java)
@@ -240,6 +243,9 @@ class Chatbotui :AppCompatActivity() {
 
 
         BtnNo.setOnClickListener {
+            BtnYesNoReplayout.visibility = View.VISIBLE
+            BtnYesReply.text = "No"
+            LayoutFeedback.visibility = View.GONE
            resvalue = 2
             cancelWithoutRefundmsgwithKeyViewModel = ViewModelProvider(this).get(CancelWithoutRefundmsgwithKeyViewModel::class.java)
             intent.getStringExtra("orderId")?.let { it1 ->
@@ -257,6 +263,23 @@ class Chatbotui :AppCompatActivity() {
             }
         }
         BtnYes.setOnClickListener{
+            BtnYesNoReplayout.visibility = View.VISIBLE
+            BtnYesReply.text = "Yes"
+            LayoutFeedback.visibility = View.GONE
+            //for canceling order
+            viewModel = ViewModelProvider(this).get(ChatbotViewModel::class.java)
+            intent.getStringExtra("orderId")?.let { it1 ->
+                viewModel?.cancelOrderApiChatBot(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken, it1
+                )
+            }
+            viewModel?.cancelOrderResponse?.observe(this) {
+
+
+            }
+
+            //for printing order
             resvalue = 1
             cancelWithoutRefundmsgwithKeyViewModel = ViewModelProvider(this).get(CancelWithoutRefundmsgwithKeyViewModel::class.java)
             intent.getStringExtra("orderId")?.let { it1 ->

@@ -54,11 +54,12 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -72,6 +73,7 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -177,6 +179,7 @@
                 android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_marginRight="@dimen/margin_28dp"
@@ -194,6 +197,7 @@
 
 
             <LinearLayout
+                android:descendantFocusability="blocksDescendants"
                 android:id="@+id/LayoutFeedback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -221,10 +225,63 @@
                     android:background="@drawable/option1"
                     android:text="No"
                     />
-
-
             </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/BtnYesNoReplayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="end"
+                android:visibility="visible">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="12dp"
+                    android:elevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#3CC13B"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/BtnYesReply"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="4dp"
+                            android:padding="15dp"
+                            android:text="Yes"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+                <LinearLayout
+                    android:background="@drawable/ellipse_223"
+                    android:layout_width="@dimen/margin_48dp"
+                    android:gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="19dp"
+                    android:layout_height="@dimen/margin_48dp">
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_avatar_01" />
+                </LinearLayout>
+            </LinearLayout>
+
+
             <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_marginRight="@dimen/margin_28dp"
@@ -240,6 +297,6 @@
                 android:text="Conversation has been end."
                 android:visibility="gone" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
