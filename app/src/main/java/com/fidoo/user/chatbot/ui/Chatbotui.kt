@@ -79,20 +79,20 @@ class Chatbotui :AppCompatActivity() {
             if (it.orderStatus.equals("1")) {
                 orderstatus.text = "Order not confirm yet" // order status bot button
                 orderconfirmStatus.text = "Order not confirm yet" // user reply
-                CoroutineScope(Dispatchers.Main).launch {
-                    delay(1500)
-                    cancel.visibility = View.VISIBLE
-
-                }
+//                CoroutineScope(Dispatchers.Main).launch {
+//                    delay(1500)
+//                    cancel.visibility = View.VISIBLE
+//
+//                }
 
             }else {
                 orderstatus.text = "Where is my order?"
                 orderconfirmStatus.text = "Where is my order?"
-                CoroutineScope(Dispatchers.Main).launch {
-                    delay(1500)
-                    cancel.visibility = View.GONE
-
-                }
+//                CoroutineScope(Dispatchers.Main).launch {
+//                    delay(1500)
+//                    //cancel.visibility = View.GONE
+//
+//                }
 
             }
 
