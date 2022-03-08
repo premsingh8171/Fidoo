@@ -9,6 +9,8 @@ import com.fidoo.user.addressmodule.model.DeleteAddressModel
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.model.RemoveAddressModel
 import com.fidoo.user.cartview.model.CartModel
+import com.fidoo.user.chatbot.model.cancelWithoutRefundEmpty
+import com.fidoo.user.chatbot.model.cancelWithoutRefundWithSendkey
 import com.fidoo.user.dailyneed.model.DailyNeedModel
 import com.fidoo.user.dailyneed.model.prdmodel.ViewAllProduct
 import com.fidoo.user.dashboard.model.CheckPaymentStatusModel
@@ -787,12 +789,21 @@ interface BackEndApi {
     ): Call<OrderStatusMsg>
 
     @FormUrlEncoded
-    @POST("chatbotGetMessages.inc.php")
-    fun ButtonLogicApi(
+    @POST("orderCancelWithoutRefund.inc.php")
+    fun cancelWithoutRefundmsgApi(
         @Field("accessToken") accessToken: String,
         @Field("accountId") accountId: String,
         @Field("orderId") orderId: String
-    ): Call<ButtonLogicModel>
+    ): Call<cancelWithoutRefundEmpty>
+
+    @FormUrlEncoded
+    @POST("orderCancelWithoutRefund.inc.php")
+    fun cancelWithoutRefundmsgApiwithKey(
+        @Field("accessToken") accessToken: String,
+        @Field("accountId") accountId: String,
+        @Field("orderId") orderId: String,
+        @Field("res") res: Int
+    ): Call<cancelWithoutRefundWithSendkey>
 
 }
 

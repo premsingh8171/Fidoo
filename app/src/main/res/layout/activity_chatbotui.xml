@@ -191,37 +191,45 @@
                 android:layout_marginStart="65dp"
                 android:layout_marginTop="24dp"
                 android:text="5:38 Pm" />
+
+
             <LinearLayout
                 android:id="@+id/LayoutFeedback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
-                <Button
-                    android:id="@+id/bt1"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/BtnYes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="14dp"
                     android:background="@drawable/option1"
                     android:padding="16dp"
-                    android:text="No 👎" />
+                    android:text="Yes" />
 
-                <Button
-                    android:id="@+id/btnthank"
-                    android:padding="12dp"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/BtnNo"
+                    android:padding="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="35dp"
                     android:background="@drawable/option1"
-                    android:text="Thank you 😀"
-                    android:textSize="14dp" />
+                    android:text="No"
+                    />
 
 
             </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginRight="@dimen/margin_28dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerView3"/>
             <TextView
                 android:id="@+id/tvlast"
                 android:layout_width="wrap_content"
