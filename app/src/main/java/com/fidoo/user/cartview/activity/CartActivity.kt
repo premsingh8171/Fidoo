@@ -2304,9 +2304,13 @@ class CartActivity : BaseActivity(),
 		}, 5000)
 	}
 
-	override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {}
+	override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
 
-	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {}
+	}
+
+	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
+
+	}
 
 //	override fun onRestart() {
 //		super.onRestart()

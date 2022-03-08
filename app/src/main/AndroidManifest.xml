@@ -237,6 +237,7 @@
         <activity
             android:name=".sendpackages.activity.SendPackageActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".viewprescription.ViewPrescriptionActivity"
             android:screenOrientation="portrait" />
@@ -251,7 +252,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_live_iceNLz5pb15jtP" />
+            android:value="rzp_test_17ihcfTIqBGF9R" />
 
         <service
             android:name=".fcm.MyFirebaseMessagingService"
