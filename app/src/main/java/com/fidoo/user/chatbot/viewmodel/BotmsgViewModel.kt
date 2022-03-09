@@ -3,7 +3,7 @@ package com.fidoo.user.chatbot.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.myapplication.Models.cancelStatus.orderStatusMSg.OrderStatusMsg
+import com.fidoo.user.data.model.OrderStatusMsg
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
 import kotlinx.coroutines.CoroutineScope
