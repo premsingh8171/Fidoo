@@ -1,4 +1,4 @@
-package com.example.myapplication.Models.cancelStatus.orderStatusMSg
+package com.fidoo.user.data.model
 
 
 import com.google.gson.annotations.SerializedName

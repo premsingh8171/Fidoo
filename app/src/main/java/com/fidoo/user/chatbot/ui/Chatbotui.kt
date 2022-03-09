@@ -117,6 +117,9 @@ class Chatbotui :AppCompatActivity() {
 
         }
 
+//feedback Layout
+        LayoutFeedback.visibility = View.INVISIBLE
+        BtnYesNoReplayout.visibility = View.GONE
 
         cancel.text = "cancel my order"
 
@@ -129,9 +132,9 @@ class Chatbotui :AppCompatActivity() {
 
         orderstatus.setOnClickListener {
             //orderconfirmStatus.text = "Order not confirm yet"
-            LayoutFeedback.visibility = View.VISIBLE
-            BtnYes.text = "Yes Thanks"
-            BtnNo.text = "No"
+
+            BtnYes.text = "Yes, Thank you \uD83D\uDE00"
+            BtnNo.text = "No \uD83D\uDC4E"
             cancel.visibility = View.GONE
             orderstatus.visibility = View.GONE
             l2.visibility = View.VISIBLE
@@ -140,7 +143,8 @@ class Chatbotui :AppCompatActivity() {
                 delay(3000)
                 DateandTime4.visibility = View.VISIBLE
                 delay(1000)
-                tvlast.visibility = View.VISIBLE
+                LayoutFeedback.visibility = View.VISIBLE
+//                tvlast.visibility = View.VISIBLE
 
 
             }
@@ -165,14 +169,85 @@ class Chatbotui :AppCompatActivity() {
             }
 
 
+            BtnNo.setOnClickListener {
+                BtnYesNoReplayout.visibility = View.VISIBLE
+                BtnYesReply.text = "No"
+                LayoutFeedback.visibility = View.GONE
+                tvlast.visibility = View.VISIBLE
+
+                DateandTime5.visibility = View.VISIBLE
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(1000)
+                    DateandTime6.visibility = View.VISIBLE
+                    tvlast.visibility = View.VISIBLE
+                }
+                simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
+                dateTime1 = simpleDateFormat1.format(calendar.time).toString()
+                // DateandTime2.text = dateTime
+                DateandTime5.text = dateTime1
+                DateandTime6.text = dateTime1
+                resFeedbackvalue = 2
+                feedbackViewModel = ViewModelProvider(this).get(FeedbackViewModel::class.java)
+                intent.getStringExtra("orderId")?.let { it1 ->
+                    feedbackViewModel?.FeedbackViewModelMsg(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken, it1,  resFeedbackvalue
+                    )
+                }
+                feedbackViewModel?.FeedbackViewModelResponse?.observe(this) {
+                    // Log.d("sddffsddsds", Gson().toJson(it))
+                    feedbackdata = it.messages as ArrayList<String>
+                    Log.d("sddffsddsds", Gson().toJson(it))
+                    FeedbackRecylerView()
+
+                }
+            }
+            BtnYes.setOnClickListener{
+
+                BtnYesNoReplayout.visibility = View.VISIBLE
+                BtnYesReply.text = "Yes"
+                LayoutFeedback.visibility = View.GONE
+                DateandTime5.visibility = View.VISIBLE
+                tvlast.visibility = View.VISIBLE
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(1000)
+                    DateandTime6.visibility = View.VISIBLE
+                    tvlast.visibility = View.VISIBLE
+                }
+                simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
+                dateTime1 = simpleDateFormat1.format(calendar.time).toString()
+                // DateandTime2.text = dateTime
+                DateandTime5.text = dateTime1
+                DateandTime6.text = dateTime1
+
+                //for printing order
+                resFeedbackvalue = 1
+                feedbackViewModel = ViewModelProvider(this).get(FeedbackViewModel::class.java)
+                intent.getStringExtra("orderId")?.let { it1 ->
+                    feedbackViewModel?.FeedbackViewModelMsg(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken, it1,  resFeedbackvalue
+                    )
+                }
+                feedbackViewModel?.FeedbackViewModelResponse?.observe(this) {
+                    // Log.d("sddffsddsds", Gson().toJson(it))
+                    feedbackdata = it.messages as ArrayList<String>
+                    Log.d("sddffsddsds", Gson().toJson(it))
+                    FeedbackRecylerView()
+
+                }
+            }
+
+            //////////////////////////////////////////cod order placed
+
+
         }
         backBtn.setOnClickListener {
             finish()
 
         }
-//feedback Layout
-        LayoutFeedback.visibility = View.INVISIBLE
-        BtnYesNoReplayout.visibility = View.GONE
+
 
         cancel.setOnClickListener {
             orderconfirmStatus.text = "Cancel my order"
@@ -196,8 +271,8 @@ class Chatbotui :AppCompatActivity() {
 
             //cancel order
             if (allStatus == "1") {
-                BtnYes.text = "Yes Thanks"
-                BtnNo.text = "No"
+                BtnYes.text = "Yes, Thank you \uD83D\uDE00"
+                BtnNo.text = "No \uD83D\uDC4E"
 
                 LayoutFeedback.visibility = View.VISIBLE
 
