@@ -114,7 +114,6 @@
                 android:background="@drawable/option1"
                 android:textAlignment="center"
                 android:textColor="#359C47"
-
                 android:textSize="14dp"
                 />
 
@@ -201,7 +200,6 @@
                 android:id="@+id/LayoutFeedback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:visibility="visible">
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -211,19 +209,22 @@
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="14dp"
                     android:background="@drawable/option1"
-                    android:padding="16dp"
-                    android:text="Yes" />
+                    android:padding="10dp"
+                    android:textColor="#359C47"
+                    android:text="Yes Cancel it" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/BtnNo"
-                    android:padding="16dp"
+                    android:padding="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:layout_marginTop="12dp"
-                    android:layout_marginEnd="35dp"
+                    android:layout_marginEnd="30dp"
                     android:background="@drawable/option1"
-                    android:text="No"
+                    android:text="No don't cancel"
+                    android:textColor="#359C47"
+                    android:textSize="14dp"
                     />
             </LinearLayout>
 
@@ -264,6 +265,8 @@
 
 
                 </androidx.cardview.widget.CardView>
+
+
                 <LinearLayout
                     android:background="@drawable/ellipse_223"
                     android:layout_width="@dimen/margin_48dp"
@@ -279,6 +282,14 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/DateandTime5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="67dp"
+                android:visibility="visible" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:overScrollMode="never"
@@ -287,6 +298,17 @@
                 android:layout_marginRight="@dimen/margin_28dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/recyclerView3"/>
+
+            <TextView
+                android:visibility="visible"
+                android:id="@+id/DateandTime6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="65dp"
+                android:layout_marginTop="24dp"
+                />
+
+
             <TextView
                 android:id="@+id/tvlast"
                 android:layout_width="wrap_content"

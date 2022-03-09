@@ -2,13 +2,13 @@ package com.fidoo.user.api_request_retrofit
 
 import com.example.myapplication.Models.cancelStatus.ChatCancelModel
 import com.example.myapplication.Models.cancelStatus.orderStatusMSg.OrderStatusMsg
-import com.example.myapplication.Models.chatbotButtonLogic.ButtonLogicModel
 import com.example.myapplication.Models.orderStatus.OrderStatusResponse
 import com.fidoo.user.addressmodule.model.AddAddressModel
 import com.fidoo.user.addressmodule.model.DeleteAddressModel
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.model.RemoveAddressModel
 import com.fidoo.user.cartview.model.CartModel
+import com.fidoo.user.chatbot.model.feedBackModel.FeedbackModel
 import com.fidoo.user.chatbot.model.cancelWithoutRefundEmpty
 import com.fidoo.user.chatbot.model.cancelWithoutRefundWithSendkey
 import com.fidoo.user.dailyneed.model.DailyNeedModel
@@ -804,6 +804,15 @@ interface BackEndApi {
         @Field("orderId") orderId: String,
         @Field("res") res: Int
     ): Call<cancelWithoutRefundWithSendkey>
+
+    @FormUrlEncoded
+    @POST("chatbotFeedback.inc.php")
+    fun FeedbackApi(
+        @Field("accessToken") accessToken: String,
+        @Field("accountId") accountId: String,
+        @Field("orderId") orderId: String,
+        @Field("res") res: Int
+    ): Call<FeedbackModel>
 
 }
 

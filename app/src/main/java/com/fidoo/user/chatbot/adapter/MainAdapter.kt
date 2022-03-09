@@ -21,6 +21,7 @@ class MainAdapter(val context: Context, var datalist:List<String>) : RecyclerVie
         val model = datalist[position]
             holder.setdata(model)
 
+
     }
 
 

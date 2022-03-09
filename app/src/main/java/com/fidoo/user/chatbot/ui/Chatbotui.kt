@@ -14,6 +14,7 @@ import com.fidoo.user.chatbot.adapter.orderStatusMsgAdapter.orderStatusAdapter
 
 import com.fidoo.user.R
 import com.fidoo.user.chatbot.adapter.BtnYesNoAdapter.BtnYesNoAdapter
+import com.fidoo.user.chatbot.adapter.FeedbackAdapter.BotFeedbackAdapter
 import com.fidoo.user.chatbot.adapter.cancelOrderWithoutRefundAdapter.CancelWithoutRefundAdapter
 import com.fidoo.user.chatbot.viewmodel.*
 import com.fidoo.user.data.session.SessionTwiclo
@@ -34,6 +35,7 @@ class Chatbotui :AppCompatActivity() {
     var oderStatusViewModel: OrderStatusViewModel? = null
     var cancelWithoutRefundmsgViewModel : CancelWithoutRefundmsgViewModel? = null
     var cancelWithoutRefundmsgwithKeyViewModel : CancelWithoutRefundmsgwithKeyViewModel?= null
+    var feedbackViewModel : FeedbackViewModel?= null
     lateinit var dateTime: String
     lateinit var dateTime1: String
     lateinit var calendar: Calendar
@@ -43,12 +45,15 @@ class Chatbotui :AppCompatActivity() {
     lateinit var orderStatusAdapter: orderStatusAdapter
     lateinit var cancelWithoutRefundAdapter : CancelWithoutRefundAdapter
     lateinit var btnYesNoAdapter: BtnYesNoAdapter
+    lateinit var botFeedbackAdapter: BotFeedbackAdapter
     var firstMsgListData=ArrayList<String>()
     var secondMsgListData = ArrayList<String>()
     var allStatus : String =""
     var cancelWithoutRefundData = ArrayList<String>()
     var cancelWithoutRefundDatawithkeyData = ArrayList<String>()
+    var feedbackdata = ArrayList<String>()
     var resvalue:Int? = null
+    var resFeedbackvalue:Int? = null
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,6 +117,7 @@ class Chatbotui :AppCompatActivity() {
 
         }
 
+
         cancel.text = "cancel my order"
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -123,6 +129,9 @@ class Chatbotui :AppCompatActivity() {
 
         orderstatus.setOnClickListener {
             //orderconfirmStatus.text = "Order not confirm yet"
+            LayoutFeedback.visibility = View.VISIBLE
+            BtnYes.text = "Yes Thanks"
+            BtnNo.text = "No"
             cancel.visibility = View.GONE
             orderstatus.visibility = View.GONE
             l2.visibility = View.VISIBLE
@@ -187,6 +196,10 @@ class Chatbotui :AppCompatActivity() {
 
             //cancel order
             if (allStatus == "1") {
+                BtnYes.text = "Yes Thanks"
+                BtnNo.text = "No"
+
+                LayoutFeedback.visibility = View.VISIBLE
 
                 viewModel = ViewModelProvider(this).get(ChatbotViewModel::class.java)
                 intent.getStringExtra("orderId")?.let { it1 ->
@@ -214,6 +227,76 @@ class Chatbotui :AppCompatActivity() {
                     setRecyclerViewBotmsg()
 
                 }
+            /////////// //Feedback model for cod and order placed situation//////////////////////////////////////////////////////////////////////////////////////
+
+                BtnNo.setOnClickListener {
+                    BtnYesNoReplayout.visibility = View.VISIBLE
+                    BtnYesReply.text = "No"
+                    LayoutFeedback.visibility = View.GONE
+
+                    DateandTime5.visibility = View.VISIBLE
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(1000)
+                        DateandTime6.visibility = View.VISIBLE
+                        tvlast.visibility = View.VISIBLE
+                    }
+                    simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
+                    dateTime1 = simpleDateFormat1.format(calendar.time).toString()
+                    // DateandTime2.text = dateTime
+                    DateandTime5.text = dateTime1
+                    DateandTime6.text = dateTime1
+                    resFeedbackvalue = 2
+                    feedbackViewModel = ViewModelProvider(this).get(FeedbackViewModel::class.java)
+                    intent.getStringExtra("orderId")?.let { it1 ->
+                        feedbackViewModel?.FeedbackViewModelMsg(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken, it1,  resFeedbackvalue
+                        )
+                    }
+                    feedbackViewModel?.FeedbackViewModelResponse?.observe(this) {
+                        // Log.d("sddffsddsds", Gson().toJson(it))
+                        feedbackdata = it.messages as ArrayList<String>
+                        Log.d("sddffsddsds", Gson().toJson(it))
+                        FeedbackRecylerView()
+
+                    }
+                }
+                BtnYes.setOnClickListener{
+                    BtnYesNoReplayout.visibility = View.VISIBLE
+                    BtnYesReply.text = "Yes"
+                    LayoutFeedback.visibility = View.GONE
+                    DateandTime5.visibility = View.VISIBLE
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(1000)
+                        DateandTime6.visibility = View.VISIBLE
+                        tvlast.visibility = View.VISIBLE
+                    }
+                    simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
+                    dateTime1 = simpleDateFormat1.format(calendar.time).toString()
+                    // DateandTime2.text = dateTime
+                    DateandTime5.text = dateTime1
+                    DateandTime6.text = dateTime1
+
+                    //for printing order
+                    resFeedbackvalue = 1
+                    feedbackViewModel = ViewModelProvider(this).get(FeedbackViewModel::class.java)
+                    intent.getStringExtra("orderId")?.let { it1 ->
+                        feedbackViewModel?.FeedbackViewModelMsg(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken, it1,  resFeedbackvalue
+                        )
+                    }
+                    feedbackViewModel?.FeedbackViewModelResponse?.observe(this) {
+                        // Log.d("sddffsddsds", Gson().toJson(it))
+                        feedbackdata = it.messages as ArrayList<String>
+                        Log.d("sddffsddsds", Gson().toJson(it))
+                        FeedbackRecylerView()
+
+                    }
+                }
+
+                //////////////////////////////////////////cod order placed
 ///--------------------------------------------------------------------------------------------------------------
             }else {
                 LayoutFeedback.visibility = View.VISIBLE
@@ -236,66 +319,103 @@ class Chatbotui :AppCompatActivity() {
                     setRecyclerViewCancelWithoutRefund()
 
                 }
+                BtnNo.setOnClickListener {
+                    BtnYesNoReplayout.visibility = View.VISIBLE
+                    BtnYesReply.text = "No"
+                    LayoutFeedback.visibility = View.GONE
+
+                    DateandTime5.visibility = View.VISIBLE
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(1000)
+                        DateandTime6.visibility = View.VISIBLE
+                        tvlast.visibility = View.VISIBLE
+                    }
+                    simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
+                    dateTime1 = simpleDateFormat1.format(calendar.time).toString()
+                    // DateandTime2.text = dateTime
+                    DateandTime5.text = dateTime1
+                    DateandTime6.text = dateTime1
+                    resvalue = 2
+                    cancelWithoutRefundmsgwithKeyViewModel = ViewModelProvider(this).get(CancelWithoutRefundmsgwithKeyViewModel::class.java)
+                    intent.getStringExtra("orderId")?.let { it1 ->
+                        cancelWithoutRefundmsgwithKeyViewModel?.cancelWithoutRefundmsgWithKey(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken, it1,  resvalue
+                        )
+                    }
+                    cancelWithoutRefundmsgwithKeyViewModel?.CancelWithoutRefundmsgResponseWithKey?.observe(this) {
+                        // Log.d("sddffsddsds", Gson().toJson(it))
+                        cancelWithoutRefundDatawithkeyData = it.messages as ArrayList<String>
+                        Log.d("sddffsddsds", Gson().toJson(it))
+                        setRecyclercancelWithoutRefundmsgwithKey()
+
+                    }
+                }
+                BtnYes.setOnClickListener{
+                    BtnYesNoReplayout.visibility = View.VISIBLE
+                    BtnYesReply.text = "Yes"
+                    LayoutFeedback.visibility = View.GONE
+                    DateandTime5.visibility = View.VISIBLE
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(1000)
+                        DateandTime6.visibility = View.VISIBLE
+                        tvlast.visibility = View.VISIBLE
+                    }
+                    simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
+                    dateTime1 = simpleDateFormat1.format(calendar.time).toString()
+                    // DateandTime2.text = dateTime
+                    DateandTime5.text = dateTime1
+                    DateandTime6.text = dateTime1
+                    //for canceling order
+                    viewModel = ViewModelProvider(this).get(ChatbotViewModel::class.java)
+                    intent.getStringExtra("orderId")?.let { it1 ->
+                        viewModel?.cancelOrderApiChatBot(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken, it1
+                        )
+                    }
+                    viewModel?.cancelOrderResponse?.observe(this) {
+
+
+                    }
+
+                    //for printing order
+                    resvalue = 1
+                    cancelWithoutRefundmsgwithKeyViewModel = ViewModelProvider(this).get(CancelWithoutRefundmsgwithKeyViewModel::class.java)
+                    intent.getStringExtra("orderId")?.let { it1 ->
+                        cancelWithoutRefundmsgwithKeyViewModel?.cancelWithoutRefundmsgWithKey(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken, it1,  resvalue
+                        )
+                    }
+                    cancelWithoutRefundmsgwithKeyViewModel?.CancelWithoutRefundmsgResponseWithKey?.observe(this) {
+                        // Log.d("sddffsddsds", Gson().toJson(it))
+                        cancelWithoutRefundDatawithkeyData = it.messages as ArrayList<String>
+                        Log.d("sddffsddsds", Gson().toJson(it))
+                        setRecyclercancelWithoutRefundmsgwithKey()
+
+                    }
+                }
 
             }
 
         }
+        //----------------------------------
+        DateandTime5.visibility = View.GONE
+        DateandTime6.visibility = View.GONE
 
 
-        BtnNo.setOnClickListener {
-            BtnYesNoReplayout.visibility = View.VISIBLE
-            BtnYesReply.text = "No"
-            LayoutFeedback.visibility = View.GONE
-           resvalue = 2
-            cancelWithoutRefundmsgwithKeyViewModel = ViewModelProvider(this).get(CancelWithoutRefundmsgwithKeyViewModel::class.java)
-            intent.getStringExtra("orderId")?.let { it1 ->
-                cancelWithoutRefundmsgwithKeyViewModel?.cancelWithoutRefundmsgWithKey(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken, it1,  resvalue
-                )
-            }
-            cancelWithoutRefundmsgwithKeyViewModel?.CancelWithoutRefundmsgResponseWithKey?.observe(this) {
-                // Log.d("sddffsddsds", Gson().toJson(it))
-                cancelWithoutRefundDatawithkeyData = it.messages as ArrayList<String>
-                Log.d("sddffsddsds", Gson().toJson(it))
-                setRecyclercancelWithoutRefundmsgwithKey()
+    }
 
-            }
-        }
-        BtnYes.setOnClickListener{
-            BtnYesNoReplayout.visibility = View.VISIBLE
-            BtnYesReply.text = "Yes"
-            LayoutFeedback.visibility = View.GONE
-            //for canceling order
-            viewModel = ViewModelProvider(this).get(ChatbotViewModel::class.java)
-            intent.getStringExtra("orderId")?.let { it1 ->
-                viewModel?.cancelOrderApiChatBot(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken, it1
-                )
-            }
-            viewModel?.cancelOrderResponse?.observe(this) {
+    private fun FeedbackRecylerView() {
 
+        //feedbackdata
+        botFeedbackAdapter = BotFeedbackAdapter(this,feedbackdata)
+        val linearLayoutManager= LinearLayoutManager(this)
+        recyclerView3.adapter= botFeedbackAdapter
+        recyclerView3.layoutManager=linearLayoutManager
 
-            }
-
-            //for printing order
-            resvalue = 1
-            cancelWithoutRefundmsgwithKeyViewModel = ViewModelProvider(this).get(CancelWithoutRefundmsgwithKeyViewModel::class.java)
-            intent.getStringExtra("orderId")?.let { it1 ->
-                cancelWithoutRefundmsgwithKeyViewModel?.cancelWithoutRefundmsgWithKey(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken, it1,  resvalue
-                )
-            }
-            cancelWithoutRefundmsgwithKeyViewModel?.CancelWithoutRefundmsgResponseWithKey?.observe(this) {
-                // Log.d("sddffsddsds", Gson().toJson(it))
-                cancelWithoutRefundDatawithkeyData = it.messages as ArrayList<String>
-                Log.d("sddffsddsds", Gson().toJson(it))
-                setRecyclercancelWithoutRefundmsgwithKey()
-
-            }
-        }
     }
 
     private fun setRecyclercancelWithoutRefundmsgwithKey() {

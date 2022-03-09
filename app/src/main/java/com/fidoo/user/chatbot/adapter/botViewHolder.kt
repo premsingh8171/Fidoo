@@ -1,6 +1,8 @@
 package com.fidoo.user.chatbot.adapter
 
 import android.content.Context
+import android.os.Build
+import android.text.Html
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -22,8 +24,19 @@ class botViewHolder (var context:Context ,val view : View) : RecyclerView.ViewHo
                     botlogo.visibility = View.GONE
                     botlogolayout.visibility = View.INVISIBLE
 
+                tvTitle.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Html.fromHtml(orderStatusResponse, Html.FROM_HTML_MODE_COMPACT)
+                } else {
+                    Html.fromHtml(orderStatusResponse)
+                }
+
                 } else {
                     tvTitle.text = orderStatusResponse
+                tvTitle.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Html.fromHtml(orderStatusResponse, Html.FROM_HTML_MODE_COMPACT)
+                } else {
+                    Html.fromHtml(orderStatusResponse)
+                }
                 }
                 botlogocount.botcount++
               // count++
