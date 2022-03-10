@@ -126,7 +126,7 @@ class Chatbotui :AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             delay(1500)
-            // cancel.visibility = View.VISIBLE
+             cancel.visibility = View.VISIBLE
             orderstatus.visibility = View.VISIBLE
 
         }
@@ -172,7 +172,7 @@ class Chatbotui :AppCompatActivity() {
 
             BtnNo.setOnClickListener {
                 BtnYesNoReplayout.visibility = View.VISIBLE
-                BtnYesReply.text = "No"
+                BtnYesReply.text = "No \uD83D\uDC4E"
                 LayoutFeedback.visibility = View.GONE
                 tvlast.visibility = View.VISIBLE
 
@@ -206,7 +206,7 @@ class Chatbotui :AppCompatActivity() {
             BtnYes.setOnClickListener{
 
                 BtnYesNoReplayout.visibility = View.VISIBLE
-                BtnYesReply.text = "Yes"
+                BtnYesReply.text = "Yes, Thank you \uD83D\uDE00"
                 LayoutFeedback.visibility = View.GONE
                 DateandTime5.visibility = View.VISIBLE
                 tvlast.visibility = View.VISIBLE
@@ -275,9 +275,11 @@ class Chatbotui :AppCompatActivity() {
             if (allStatus == "1") {
                 BtnYes.text = "Yes, Thank you \uD83D\uDE00"
                 BtnNo.text = "No \uD83D\uDC4E"
-CoroutineScope(Dispatchers.Main).launch {
-    delay(2500)
-    LayoutFeedback.visibility = View.VISIBLE
+
+
+                CoroutineScope(Dispatchers.Main).launch {
+                 delay(2500)
+                 LayoutFeedback.visibility = View.VISIBLE
 }
 
                 viewModel = ViewModelProvider(this).get(ChatbotViewModel::class.java)
@@ -379,7 +381,11 @@ CoroutineScope(Dispatchers.Main).launch {
                 //////////////////////////////////////////cod order placed
 ///--------------------------------------------------------------------------------------------------------------
             }else {
-                LayoutFeedback.visibility = View.VISIBLE
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(2000)
+                    LayoutFeedback.visibility = View.VISIBLE
+                }
                 BtnYes.text = "Yes, Cancel it"
                 BtnNo.text = "No, i want my order"
 
@@ -403,7 +409,7 @@ CoroutineScope(Dispatchers.Main).launch {
                 }
                 BtnNo.setOnClickListener {
                     BtnYesNoReplayout.visibility = View.VISIBLE
-                    BtnYesReply.text = "No"
+                    BtnYesReply.text = "No, i want my order"
                     LayoutFeedback.visibility = View.GONE
 
                     DateandTime5.visibility = View.VISIBLE
@@ -435,7 +441,7 @@ CoroutineScope(Dispatchers.Main).launch {
                 }
                 BtnYes.setOnClickListener{
                     BtnYesNoReplayout.visibility = View.VISIBLE
-                    BtnYesReply.text = "Yes"
+                    BtnYesReply.text = "Yes, Cancel it"
                     LayoutFeedback.visibility = View.GONE
                     DateandTime5.visibility = View.VISIBLE
 
