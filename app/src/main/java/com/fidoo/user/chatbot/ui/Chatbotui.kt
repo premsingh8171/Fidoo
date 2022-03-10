@@ -263,8 +263,7 @@ class Chatbotui :AppCompatActivity() {
                 DateandTime4.visibility = View.VISIBLE
                 delay(100)
 
-                delay(1000)
-                tvlast.visibility = View.VISIBLE
+
             }
             // LayoutFeedback.visibility  =View.VISIBLE
             simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
@@ -350,6 +349,7 @@ CoroutineScope(Dispatchers.Main).launch {
                     CoroutineScope(Dispatchers.Main).launch {
                         delay(1000)
                         DateandTime6.visibility = View.VISIBLE
+                        delay(1000)
                         tvlast.visibility = View.VISIBLE
                     }
                     simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
