@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.fidoo.user.R
+import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity.Companion.appversion
 import com.fidoo.user.activity.SplashActivity.Companion.mobile_number
@@ -32,6 +33,7 @@ import com.fidoo.user.utils.BaseFragment
 import com.fidoo.user.utils.SmsBroadcastReceiver
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.mixpanel.android.mpmetrics.MixpanelAPI
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_otp.view.*
 import org.json.JSONObject
 
@@ -59,6 +61,7 @@ class OtpFragment : BaseFragment() {
         const val TAG = "SMS_USER_CONSENT"
 
         const val REQ_USER_CONSENT = 100
+        var backhanlde: Int = 0
     }
 
 
@@ -131,18 +134,26 @@ class OtpFragment : BaseFragment() {
         }
 
         requireActivity()
-            .onBackPressedDispatcher.
-            addCallback(this, object : OnBackPressedCallback(true) {
+            .onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    Log.d("dudi", "Fragment back pressed invoked")
 
-                    val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
-                    findNavController().navigate(action)
+                    AppUtils.startActivityRightToLeft(
+                        requireActivity(),
+                        Intent(requireContext(), AuthActivity::class.java)
+                    )
+
+//                    val intent = Intent(requireContext(), AuthActivity::class.java)
+//                    requireContext().startActivity(intent)
+                    AppUtils.finishActivityLeftToRight(requireActivity())
+                    backhanlde = 1
+
+//                    val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
+//                    findNavController().navigate(action)
 
 //                    NavHostFragment.findNavController(this@OtpFragment).navigateUp()
                     //Navigation.findNavController(mView).popBackStack()
 
-                    findNavController().navigateUp()
+//                    findNavController().navigateUp()
                     //findNavController().navigate(R.id.action_otpFragment_to_signInFragment)
                     // if you want onBackPressed() to be called as normal afterwards
 //                    if (isEnabled) {
@@ -161,7 +172,6 @@ class OtpFragment : BaseFragment() {
 
         return mView
     }
-
 
 
     @SuppressLint("handlerLeak")

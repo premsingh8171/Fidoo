@@ -68,7 +68,8 @@ class SplashFragment : BaseFragment() {
 
         mView = inflater!!.inflate(R.layout.fragment_splash, parent, false)
         mSessionTwiclo = SessionTwiclo(requireContext())
-
+        mSessionTwiclo!!.setbackMobileno("")
+        OtpFragment.backhanlde = 0
         if (isNetworkConnected) {
             // custAppVerCheck(BuildConfig.VERSION_NAME)
             SplashActivity.appversion?.let { custAppVerCheck(it) }
@@ -105,7 +106,7 @@ class SplashFragment : BaseFragment() {
         val updateversion_txt = updateApp_dialog?.findViewById<TextView>(R.id.updateversion_txt)
         latest_version_txt!!.text = "What's New in Version " + newVersion_
 
-        updateversion_txt?.setOnClickListener{
+        updateversion_txt?.setOnClickListener {
 
             if (Build.VERSION_CODES.M >= 22) {
                 try {
@@ -115,7 +116,9 @@ class SplashFragment : BaseFragment() {
                             Uri.parse("market://details?id=" + mmContext?.getPackageName())
                         )
                     )
-                } catch (e: java.lang.Exception) { e.printStackTrace()}
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
             } else {
                 try {
                     startActivity(

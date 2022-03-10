@@ -10,10 +10,12 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -29,6 +31,7 @@ import com.fidoo.user.data.SendResponse
 import com.fidoo.user.data.model.LoginModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentSignInBinding
+import com.fidoo.user.fragments.OtpFragment.Companion.backhanlde
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.CommonUtils.Companion.dismissIOSProgress
 import com.fidoo.user.utils.CommonUtils.Companion.hideKeyboard
@@ -63,12 +66,12 @@ class SignInFragment : Fragment() {
     var customeProgressDialog: CustomProgressDialog? = null
     var where: String? = ""
     var sessionTwiclo: SessionTwiclo? = null
-    var list:ArrayList<SendResponse>?=null
+    var list: ArrayList<SendResponse>? = null
 
     private var mMixpanel: MixpanelAPI? = null
 
     private val props = JSONObject()
-    lateinit var sendData:SendResponse
+    lateinit var sendData: SendResponse
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,7 +83,7 @@ class SignInFragment : Fragment() {
 
         pref = getSessionInstance()
         sessionTwiclo = SessionTwiclo(requireContext())
-        list= ArrayList()
+        list = ArrayList()
 
         mMixpanel = MixpanelAPI.getInstance(requireContext(), "defeff96423cfb1e8c66f8ba83ab87fd")
 
@@ -124,7 +127,7 @@ class SignInFragment : Fragment() {
 
 
             props.put("mobile number", binding.phone.text.toString())
-            props.put("referral ID",  sessionTwiclo!!.referralId)
+            props.put("referral ID", sessionTwiclo!!.referralId)
             mMixpanel?.track("Login button clicked", null)
 
             if (!isNetworkConnected()) {
@@ -150,8 +153,9 @@ class SignInFragment : Fragment() {
                     viewmodel!!.login(
                         "+91",
                         sessionTwiclo!!.deviceToken,
-                        sessionTwiclo!!.referralId
+                        sessionTwiclo!!.referralId,binding.phone.text.toString().trim()
                     )
+
                 }
 
 
@@ -164,12 +168,12 @@ class SignInFragment : Fragment() {
 //        }
 
 
-      /*  binding.tvSkip.setOnClickListener {
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            pref.guestLogin = "guest"
-            requireContext().startActivity(intent)
-            requireActivity().finish()
-        }*/
+        /*  binding.tvSkip.setOnClickListener {
+              val intent = Intent(requireContext(), MainActivity::class.java)
+              pref.guestLogin = "guest"
+              requireContext().startActivity(intent)
+              requireActivity().finish()
+          }*/
 
         binding.tvPrivacyPolicy.setOnClickListener {
             val intent = Intent(requireContext(), AboutUsActivity::class.java).putExtra(
@@ -200,35 +204,33 @@ class SignInFragment : Fragment() {
 
         viewmodel?.userLogin?.observe(requireActivity(), { user ->
             dismissIOSProgress()
-            Log.e("loginres_",Gson().toJson(user))
+            Log.e("loginres_", Gson().toJson(user))
             val mModelData: LoginModel = user
             pref.storeLoginDetail(mModelData)
             pref.guestLogin = "userlogin"
 
-             sendData = SendResponse(
+            sendData = SendResponse(
                 mModelData.accessToken,
                 mModelData.accountId.toString(),
                 binding.phone.text.toString().trim(),
-                "+91",mModelData.is_new_user
+                "+91", mModelData.is_new_user
             )
 
             list?.add(sendData)
-            sessionTwiclo!!.saveSendResponseList(list,"SendResponce")
+            sessionTwiclo!!.saveSendResponseList(list, "SendResponce")
+            sessionTwiclo!!.setbackMobileno(binding.phone.text.toString().trim())
+
+
+            val action = SignInFragmentDirections.actionSignInFragmentToOtpFragment(sendData)
+            closeProgress()
 
 
 
-
-
-                val action = SignInFragmentDirections.actionSignInFragmentToOtpFragment(sendData)
-                closeProgress()
-
-
-
-                try {
-                    findNavController().navigate(action)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+            try {
+                findNavController().navigate(action)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
         })
 
@@ -252,7 +254,7 @@ class SignInFragment : Fragment() {
                         mModelData.accessToken,
                         mModelData.account.id,
                         binding.phone.text.toString().trim(),
-                        "+91",mModelData.is_new_user
+                        "+91", mModelData.is_new_user
                     )
 
                     val action =
@@ -324,5 +326,19 @@ class SignInFragment : Fragment() {
         }
         _progressDlg!!.dismiss()
         _progressDlg = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        try {
+            if (backhanlde == 1) {
+                var mobileno = SessionTwiclo(context).getbackMobileno()
+
+                binding.phone.setText(mobileno)
+                Log.d("mobileno____", mobileno)
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 }

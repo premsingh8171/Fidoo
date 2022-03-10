@@ -3,9 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_auth.xml" value="0.1425925925925926" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_chatbotui.xml" value="0.14074074074074075" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_track_order.xml" value="0.16111111111111112" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/dialog_progress.xml" value="0.1425925925925926" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_auth.xml" value="0.1425925925925926" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_otp.xml" value="0.1425925925925926" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_sign_in.xml" value="0.15185185185185185" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_splash.xml" value="0.1425925925925926" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/payment_failed_popup.xml" value="0.15185185185185185" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/pieprogress_layout.xml" value="0.67" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/store_product.xml" value="0.1" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_saved_addresses.xml" value="0.22447916666666667" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_send_package.xml" value="0.15896739130434784" />
-        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_send_package_order_detail.xml" value="0.14628623188405798" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.2" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_track_order.xml" value="0.13541666666666666" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_track_sendpackages_order.xml" value="0.22" />
@@ -21,5 +31,5 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>
