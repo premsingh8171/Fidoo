@@ -27,6 +27,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.fidoo.user.R
@@ -1173,10 +1174,12 @@ class NewDBStoreItemsActivity :
 
                                     if (i == 0) {
                                         storeItemsRecyclerview?.smoothScrollToPosition(i)
-                                        storeItemsRecyclerview?.scrollToPosition(i+1 )
+                                       // storeItemsRecyclerview?.scrollToPosition(i+1 )
                                     } else {
-                                       storeItemsRecyclerview?.scrollToPosition(i!!+4)
-                                       storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
+                                       //storeItemsRecyclerview?.scrollToPosition(i!!+4)
+                                      // storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
+                                        storeItemsRecyclerview.smoothSnapToPosition(i)
+
                                     }
                                 }
                             }
@@ -1194,6 +1197,14 @@ class NewDBStoreItemsActivity :
 
         catrecyclerView?.adapter = restaurantCategoryAdapter
 
+    }
+    fun RecyclerView.smoothSnapToPosition(position: Int, snapMode: Int =LinearSmoothScroller.SNAP_TO_START) {
+        val smoothScroller = object : LinearSmoothScroller(this@NewDBStoreItemsActivity) {
+            override fun getVerticalSnapPreference(): Int = snapMode
+            override fun getHorizontalSnapPreference(): Int = snapMode
+        }
+        smoothScroller.targetPosition = position
+        layoutManager?.startSmoothScroll(smoothScroller)
     }
 
     private fun rvStoreItemlisting(productList_: ArrayList<StoreItemProductsEntity>) {

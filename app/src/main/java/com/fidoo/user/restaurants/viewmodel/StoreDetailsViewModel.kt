@@ -50,6 +50,7 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
 				call: Call<CartCountModel>,
 				response: Response<CartCountModel>
 			) {
+
 				cartCountResponse?.value = response.body()
 			}
 
@@ -292,6 +293,8 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
 				call: Call<NewStoreDetailsModel>,
 				response: Response<NewStoreDetailsModel>
 			) {
+
+
 				newStoreDetailsRes!!.value=response.body()
 			}
 
