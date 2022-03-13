@@ -200,6 +200,7 @@
                 android:id="@+id/LayoutFeedback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_4dp"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
@@ -222,6 +223,7 @@
                     android:background="@drawable/option1"
                     android:padding="10dp"
                     android:textColor="#359C47"
+
                     />
             </LinearLayout>
 
