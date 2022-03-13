@@ -19,6 +19,7 @@ class botViewHolder (var context:Context ,val view : View) : RecyclerView.ViewHo
     //var count = 1
      fun setdata(orderStatusResponse: String) {
         view.apply {
+            
             if (botlogocount.botcount >= 1) {
                     tvTitle.text = orderStatusResponse
                     botlogo.visibility = View.GONE
@@ -47,3 +48,17 @@ class botViewHolder (var context:Context ,val view : View) : RecyclerView.ViewHo
         }
 
     }
+// val model = datalist[position]
+//        var count = datalist.size
+//        holder.itemLayoutBinding.apply {
+//            cardbotlayout.visibility = View.GONE
+//            CoroutineScope(Dispatchers.Main).launch {
+//                delay(position * 1000L)
+//                Glide.with(context).asGif().load(R.drawable.typing).into(loadingGifChat)
+//                delay(position*600L)
+//                tvTitle.text = model
+//                loadingGifChat.visibility = View.GONE
+//                cardbotlayout.visibility = View.VISIBLE
+//            }
+//        }
+//    }

@@ -200,7 +200,7 @@
                 android:id="@+id/LayoutFeedback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:visibility="visible">
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -217,7 +217,7 @@
                     android:id="@+id/BtnYes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="64dp"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="14dp"
                     android:background="@drawable/option1"
                     android:padding="10dp"
@@ -297,6 +297,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/recyclerView3"/>
 
+
             <TextView
                 android:visibility="visible"
                 android:id="@+id/DateandTime6"
@@ -304,6 +305,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="65dp"
                 android:layout_marginTop="24dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/BtnYes1"
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="65dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/option1"
+                android:drawableEnd="@drawable/ic_baseline_call_24"
+                android:padding="10dp"
+                android:text="Call Delivery partner  "
+                android:textColor="#359C47"
                 />
 
 
@@ -317,18 +331,7 @@
                 android:text="Thanks for connecting, please don't forget to rate."
                 android:visibility="gone" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/BtnYes1"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/option1"
-                android:padding="10dp"
-                android:text="Call Delivery partner"
-                android:textColor="#359C47"
-                />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

@@ -30,3 +30,17 @@ class MainAdapter(val context: Context, var datalist:List<String>) : RecyclerVie
     }
 
 }
+// val model = datalist[position]
+//        var count = datalist.size
+//        holder.itemLayoutBinding.apply {
+//            cardbotlayout.visibility = View.GONE
+//            CoroutineScope(Dispatchers.Main).launch {
+//                delay(position * 1000L)
+//                Glide.with(context).asGif().load(R.drawable.typing).into(loadingGifChat)
+//                delay(position*600L)
+//                tvTitle.text = model
+//                loadingGifChat.visibility = View.GONE
+//                cardbotlayout.visibility = View.VISIBLE
+//            }
+//        }
+//    }

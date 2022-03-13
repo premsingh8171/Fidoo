@@ -38,9 +38,13 @@ class Chatbotui :AppCompatActivity() {
     var feedbackViewModel : FeedbackViewModel?= null
     lateinit var dateTime: String
     lateinit var dateTime1: String
+    lateinit var dateTime2: String
+    lateinit var dateTime3: String
     lateinit var calendar: Calendar
+    lateinit var calendar2: Calendar
     lateinit var simpleDateFormat: SimpleDateFormat
     lateinit var simpleDateFormat1: SimpleDateFormat
+    lateinit var simpleDateFormat2: SimpleDateFormat
     lateinit var mainAdapter: MainAdapter
     lateinit var orderStatusAdapter: orderStatusAdapter
     lateinit var cancelWithoutRefundAdapter : CancelWithoutRefundAdapter
@@ -55,22 +59,28 @@ class Chatbotui :AppCompatActivity() {
     var resvalue:Int? = null
     var resFeedbackvalue:Int? = null
 
-    @SuppressLint("SetTextI18n")
+    //last timing//
+    lateinit var calendar3: Calendar
+    lateinit var simpleDateFormat3: SimpleDateFormat
+
+    ////---------//
+
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatbotui)
         calendar = Calendar.getInstance()
+
         simpleDateFormat = SimpleDateFormat("EE - dd LLL")
         ////dd.LLL.yyyy HH:mm:ss aaa z
         //EEEE.LLLL.yyyy KK:mm:ss aaa z
         dateTime = simpleDateFormat.format(calendar.time).toString()
         DateandTime.text = dateTime
+
         simpleDateFormat1 = SimpleDateFormat("hh:mm aa")
         dateTime1 = simpleDateFormat1.format(calendar.time).toString()
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(1000)
-            DateandTime2.text = dateTime1
-        }
+
+
         //  time1.text = dateTime
 //        time2.text = dateTime
 //        time3.text = dateTime
@@ -86,7 +96,7 @@ class Chatbotui :AppCompatActivity() {
             allStatus = it.orderStatus
             Log.d("sddffsddskgjgjds", Gson().toJson(it))
             setadapter()
-
+            DateandTime2.text = dateTime1
 //            if(it.orderStatus == "7" || it.orderStatus =="11"){
 //                cancel.visibility =View.GONE
 //            }else{
@@ -101,8 +111,10 @@ class Chatbotui :AppCompatActivity() {
 //                    cancel.visibility = View.VISIBLE
 //
 //                }
+            }
 
-            } else {
+
+                else {
                 orderstatus.text = "Where is my order?"
                 orderconfirmStatus.text = "Where is my order?"
 //                CoroutineScope(Dispatchers.Main).launch {
@@ -117,6 +129,7 @@ class Chatbotui :AppCompatActivity() {
 
         }
 
+
 //feedback Layout
         LayoutFeedback.visibility = View.INVISIBLE
         BtnYesNoReplayout.visibility = View.GONE
@@ -124,9 +137,18 @@ class Chatbotui :AppCompatActivity() {
 
         cancel.text = "cancel my order"
 
-        CoroutineScope(Dispatchers.Main).launch {
+
+            CoroutineScope(Dispatchers.Main).launch {
+
             delay(1500)
-             cancel.visibility = View.VISIBLE
+                if(allStatus.equals("10") || allStatus.equals("3")) {
+                    cancel.visibility = View.GONE
+                    //
+                    BtnYes1.text = "call delery boy"
+                }else{
+                    cancel.visibility = View.VISIBLE
+                    BtnYes1.text = "call merchant"
+                }
             orderstatus.visibility = View.VISIBLE
 
         }
@@ -150,11 +172,12 @@ class Chatbotui :AppCompatActivity() {
 
             }
 
-            simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
-            dateTime1 = simpleDateFormat1.format(calendar.time).toString()
+            calendar2 = Calendar.getInstance()
+            simpleDateFormat2 = SimpleDateFormat("hh:mm aa")
+            dateTime2 = simpleDateFormat2.format(calendar2.time).toString()
             // DateandTime2.text = dateTime
-            DateandTime3.text = dateTime1
-            DateandTime4.text = dateTime1
+            DateandTime3.text = dateTime2
+            DateandTime4.text = dateTime2
             //LayoutFeedback.visibility  =View.VISIBLE
             botmsgViewModel = ViewModelProvider(this).get(BotmsgViewModel::class.java)
             botmsgViewModel?.botmsgapi(
@@ -175,24 +198,28 @@ class Chatbotui :AppCompatActivity() {
                 BtnYesReply.text = "No \uD83D\uDC4E"
                 LayoutFeedback.visibility = View.GONE
                 tvlast.visibility = View.VISIBLE
+                //calling button
 
+                BtnYes1.visibility = View.VISIBLE
+                // --------------------
                 DateandTime5.visibility = View.VISIBLE
                 CoroutineScope(Dispatchers.Main).launch {
                     delay(1000)
-                    DateandTime6.visibility = View.VISIBLE
+
                     tvlast.visibility = View.VISIBLE
                 }
-                simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
-                dateTime1 = simpleDateFormat1.format(calendar.time).toString()
+                calendar3 = Calendar.getInstance()
+                simpleDateFormat3 = SimpleDateFormat(" hh:mm aa")
+                dateTime3 = simpleDateFormat3.format(calendar3.time).toString()
                 // DateandTime2.text = dateTime
-                DateandTime5.text = dateTime1
-                DateandTime6.text = dateTime1
+                DateandTime5.text = dateTime3
+                DateandTime6.text = dateTime3
                 resFeedbackvalue = 2
                 feedbackViewModel = ViewModelProvider(this).get(FeedbackViewModel::class.java)
                 intent.getStringExtra("orderId")?.let { it1 ->
                     feedbackViewModel?.FeedbackViewModelMsg(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken, it1,  resFeedbackvalue
+                        SessionTwiclo(this).loggedInUserDetail.accessToken, it1, resFeedbackvalue!!
                     )
                 }
                 feedbackViewModel?.FeedbackViewModelResponse?.observe(this) {
@@ -200,9 +227,11 @@ class Chatbotui :AppCompatActivity() {
                     feedbackdata = it.messages as ArrayList<String>
                     Log.d("sddffsddsds", Gson().toJson(it))
                     FeedbackRecylerView()
+                    DateandTime6.visibility = View.VISIBLE
+                    }
 
                 }
-            }
+
             BtnYes.setOnClickListener{
 
                 BtnYesNoReplayout.visibility = View.VISIBLE
@@ -216,19 +245,19 @@ class Chatbotui :AppCompatActivity() {
                     DateandTime6.visibility = View.VISIBLE
                     tvlast.visibility = View.VISIBLE
                 }
-                simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
-                dateTime1 = simpleDateFormat1.format(calendar.time).toString()
+                calendar3 = Calendar.getInstance()
+                simpleDateFormat3 = SimpleDateFormat(" hh:mm aa")
+                dateTime3 = simpleDateFormat3.format(calendar3.time).toString()
                 // DateandTime2.text = dateTime
-                DateandTime5.text = dateTime1
-                DateandTime6.text = dateTime1
-
+                DateandTime5.text = dateTime3
+                DateandTime6.text = dateTime3
                 //for printing order
                 resFeedbackvalue = 1
                 feedbackViewModel = ViewModelProvider(this).get(FeedbackViewModel::class.java)
                 intent.getStringExtra("orderId")?.let { it1 ->
                     feedbackViewModel?.FeedbackViewModelMsg(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken, it1,  resFeedbackvalue
+                        SessionTwiclo(this).loggedInUserDetail.accessToken, it1, resFeedbackvalue!!
                     )
                 }
                 feedbackViewModel?.FeedbackViewModelResponse?.observe(this) {
@@ -236,6 +265,7 @@ class Chatbotui :AppCompatActivity() {
                     feedbackdata = it.messages as ArrayList<String>
                     Log.d("sddffsddsds", Gson().toJson(it))
                     FeedbackRecylerView()
+
 
                 }
             }
@@ -266,10 +296,12 @@ class Chatbotui :AppCompatActivity() {
 
             }
             // LayoutFeedback.visibility  =View.VISIBLE
-            simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
-            dateTime1 = simpleDateFormat1.format(calendar.time).toString()
-            DateandTime3.text = dateTime1
-            DateandTime4.text = dateTime1
+            calendar2 = Calendar.getInstance()
+            simpleDateFormat2 = SimpleDateFormat("hh:mm aa")
+            dateTime2 = simpleDateFormat2.format(calendar2.time).toString()
+            // DateandTime2.text = dateTime
+            DateandTime3.text = dateTime2
+            DateandTime4.text = dateTime2
 
             //cancel order
             if (allStatus == "1") {
@@ -331,7 +363,8 @@ class Chatbotui :AppCompatActivity() {
                     intent.getStringExtra("orderId")?.let { it1 ->
                         feedbackViewModel?.FeedbackViewModelMsg(
                             SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken, it1,  resFeedbackvalue
+                            SessionTwiclo(this).loggedInUserDetail.accessToken, it1,
+                            resFeedbackvalue!!
                         )
                     }
                     feedbackViewModel?.FeedbackViewModelResponse?.observe(this) {
@@ -366,7 +399,8 @@ class Chatbotui :AppCompatActivity() {
                     intent.getStringExtra("orderId")?.let { it1 ->
                         feedbackViewModel?.FeedbackViewModelMsg(
                             SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken, it1,  resFeedbackvalue
+                            SessionTwiclo(this).loggedInUserDetail.accessToken, it1,
+                            resFeedbackvalue!!
                         )
                     }
                     feedbackViewModel?.FeedbackViewModelResponse?.observe(this) {
@@ -567,3 +601,17 @@ class Chatbotui :AppCompatActivity() {
     }
 }
 
+// val model = datalist[position]
+//        var count = datalist.size
+//        holder.itemLayoutBinding.apply {
+//            cardbotlayout.visibility = View.GONE
+//            CoroutineScope(Dispatchers.Main).launch {
+//                delay(position * 1000L)
+//                Glide.with(context).asGif().load(R.drawable.typing).into(loadingGifChat)
+//                delay(position*600L)
+//                tvTitle.text = model
+//                loadingGifChat.visibility = View.GONE
+//                cardbotlayout.visibility = View.VISIBLE
+//            }
+//        }
+//    }

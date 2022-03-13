@@ -24,11 +24,9 @@ class FeedbackViewModel (application: Application) : AndroidViewModel(applicatio
     }
 
 
-    fun FeedbackViewModelMsg(accountId: String, accessToken: String, orderId: String, res : Int?) {
+    fun FeedbackViewModelMsg(accountId: String, accessToken: String, orderId: String, res : Int) {
 
-
-        if (res != null) {
-            WebServiceClient.client.create(BackEndApi::class.java).FeedbackApi(
+        WebServiceClient.client.create(BackEndApi::class.java).FeedbackApi(
                 accountId = accountId,
                 accessToken = accessToken,
                 orderId = orderId,
@@ -53,5 +51,4 @@ class FeedbackViewModel (application: Application) : AndroidViewModel(applicatio
                 })
         }
     }
-}
 
