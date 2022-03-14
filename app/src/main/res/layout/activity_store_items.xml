@@ -393,7 +393,7 @@
 
                 <TextView
                     android:id="@+id/tv_coupon"
-                    android:layout_width="@dimen/margin_170dp"
+                    android:layout_width="@dimen/margin_160dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_15dp"
                     android:layout_marginEnd="@dimen/margin_20dp"

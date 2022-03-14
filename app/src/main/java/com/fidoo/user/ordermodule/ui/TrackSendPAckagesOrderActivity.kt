@@ -203,11 +203,12 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 //       }
         customer_care_fmL.setOnClickListener {
 
-//            val dialIntent = Intent(Intent.ACTION_DIAL)
-//            dialIntent.data = Uri.parse("tel:" + 9871322057)
-//            startActivity(dialIntent)
-            AppUtils.startActivityRightToLeft(this,Intent(this, Chatbotui::class.java)
-                .putExtra("orderId", intent.getStringExtra("orderId")!!))
+            val dialIntent = Intent(Intent.ACTION_DIAL)
+            dialIntent.data = Uri.parse("tel:" + 9871322057)
+            startActivity(dialIntent)
+
+//            AppUtils.startActivityRightToLeft(this,Intent(this, Chatbotui::class.java)
+//                .putExtra("orderId", intent.getStringExtra("orderId")!!))
         }
 
         tv_delivery_boy_callNew.setOnClickListener {
