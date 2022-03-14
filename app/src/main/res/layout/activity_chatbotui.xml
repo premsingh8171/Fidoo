@@ -204,7 +204,7 @@
                 android:id="@+id/LayoutFeedback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginStart="64dp"
                 android:layout_marginEnd="@dimen/margin_4dp"
                 android:orientation="horizontal"
                 android:visibility="visible">
