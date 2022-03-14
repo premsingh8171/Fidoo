@@ -8,6 +8,10 @@ data class OrderStatusMsg(
     val accessToken: String,
     @SerializedName("accountId")
     val accountId: String,
+    @SerializedName("chatLogEntry")
+    val chatLogEntry: Boolean,
+    @SerializedName("dBoyName")
+    val dBoyName: String,
     @SerializedName("error")
     val error: Boolean,
     @SerializedName("error_code")
@@ -18,6 +22,8 @@ data class OrderStatusMsg(
     val isRefundAble: Boolean,
     @SerializedName("isShowCancel")
     val isShowCancel: Any,
+    @SerializedName("merchantName")
+    val merchantName: String,
     @SerializedName("messages")
     val messages: List<String>,
     @SerializedName("orderCancel")

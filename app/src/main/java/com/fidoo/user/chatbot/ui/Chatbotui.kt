@@ -1,23 +1,36 @@
 package com.fidoo.user.chatbot.ui
 
 import android.annotation.SuppressLint
+import android.app.Dialog
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.fidoo.user.chatbot.adapter.MainAdapter
+import com.bumptech.glide.Glide
 import com.example.myapplication.adapter.botlogocount
 import com.example.myapplication.adapter.orderStatusMsgAdapter.botlogoCountforreply
-import com.fidoo.user.chatbot.adapter.orderStatusMsgAdapter.orderStatusAdapter
-
 import com.fidoo.user.R
 import com.fidoo.user.chatbot.adapter.BtnYesNoAdapter.BtnYesNoAdapter
 import com.fidoo.user.chatbot.adapter.FeedbackAdapter.BotFeedbackAdapter
+import com.fidoo.user.chatbot.adapter.MainAdapter
 import com.fidoo.user.chatbot.adapter.cancelOrderWithoutRefundAdapter.CancelWithoutRefundAdapter
+import com.fidoo.user.chatbot.adapter.orderStatusMsgAdapter.orderStatusAdapter
 import com.fidoo.user.chatbot.viewmodel.*
+import com.fidoo.user.data.session.SessionNotNull
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_chatbotui.*
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +39,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class Chatbotui :AppCompatActivity() {
@@ -36,6 +48,8 @@ class Chatbotui :AppCompatActivity() {
     var cancelWithoutRefundmsgViewModel : CancelWithoutRefundmsgViewModel? = null
     var cancelWithoutRefundmsgwithKeyViewModel : CancelWithoutRefundmsgwithKeyViewModel?= null
     var feedbackViewModel : FeedbackViewModel?= null
+    var viewmodel: TrackViewModel? = null
+    var call_Diolog: Dialog? = null
     lateinit var dateTime: String
     lateinit var dateTime1: String
     lateinit var dateTime2: String
@@ -53,12 +67,19 @@ class Chatbotui :AppCompatActivity() {
     var firstMsgListData=ArrayList<String>()
     var secondMsgListData = ArrayList<String>()
     var allStatus : String =""
+    var dBoyName : String = ""
+    var merchantName : String = ""
     var cancelWithoutRefundData = ArrayList<String>()
     var cancelWithoutRefundDatawithkeyData = ArrayList<String>()
     var feedbackdata = ArrayList<String>()
     var resvalue:Int? = null
     var resFeedbackvalue:Int? = null
-
+    var driverMobileNo: String? = ""
+    val sessionInstance: SessionTwiclo
+        get() = SessionTwiclo(this)
+    val sessionInstanceNotNull: SessionNotNull
+        get() = SessionNotNull(this)
+    var store_phone: String? = ""
     //last timing//
     lateinit var calendar3: Calendar
     lateinit var simpleDateFormat3: SimpleDateFormat
@@ -135,7 +156,7 @@ class Chatbotui :AppCompatActivity() {
         BtnYesNoReplayout.visibility = View.GONE
         tvlast.visibility = View.GONE
 
-        cancel.text = "cancel my order"
+        cancel.text = "Cancel my order"
 
 
             CoroutineScope(Dispatchers.Main).launch {
@@ -144,10 +165,10 @@ class Chatbotui :AppCompatActivity() {
                 if(allStatus.equals("10") || allStatus.equals("3")) {
                     cancel.visibility = View.GONE
                     //
-                    BtnYes1.text = "call delery boy"
+                    BtnYes1.text = dBoyName
                 }else{
                     cancel.visibility = View.VISIBLE
-                    BtnYes1.text = "call merchant"
+                    BtnYes1.text = merchantName
                 }
             orderstatus.visibility = View.VISIBLE
 
@@ -186,11 +207,21 @@ class Chatbotui :AppCompatActivity() {
             )
             botmsgViewModel?.botMsgViewModel?.observe(this) {
                 // Log.d("sddffsddsds", Gson().toJson(it))
-                secondMsgListData = it as ArrayList<String>
-                Log.d("sddffsddsds", Gson().toJson(it))
+                secondMsgListData = it.messages as ArrayList<String>
+//                dBoyName = it.dBoyName
+//                merchantName = it.merchantName
+              if(allStatus.equals("10")){
+                  BtnYes1.text =  "Call " + it.dBoyName + " "
+              }else{
+                  BtnYes1.text = "Call " + it.merchantName + " "
+
+              }
+                Log.d("skhdfsff" , it.merchantName + " " )
+
                 setRecyclerViewBotmsg()
 
             }
+
 
 
             BtnNo.setOnClickListener {
@@ -200,7 +231,7 @@ class Chatbotui :AppCompatActivity() {
                 tvlast.visibility = View.VISIBLE
                 //calling button
 
-                BtnYes1.visibility = View.VISIBLE
+                BtnYes1.visibility = View.INVISIBLE
                 // --------------------
                 DateandTime5.visibility = View.VISIBLE
                 CoroutineScope(Dispatchers.Main).launch {
@@ -225,12 +256,68 @@ class Chatbotui :AppCompatActivity() {
                 feedbackViewModel?.FeedbackViewModelResponse?.observe(this) {
                     // Log.d("sddffsddsds", Gson().toJson(it))
                     feedbackdata = it.messages as ArrayList<String>
-                    Log.d("sddffsddsds", Gson().toJson(it))
                     FeedbackRecylerView()
                     DateandTime6.visibility = View.VISIBLE
+
+
                     }
 
                 }
+
+            BtnYes1.setOnClickListener {
+                if(allStatus == "10") {
+                    onCallPopUp(1)
+                    if (sessionInstance.profileDetail != null) {
+                        viewmodel?.callCustomerApi(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            sessionInstance.profileDetail.account.userName,
+                            driverMobileNo!!
+                        )
+                    } else {
+                        viewmodel?.callCustomerApi(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            sessionInstance.loginDetail.phoneNumber,
+                            driverMobileNo!!
+                        )
+                    }
+
+
+                }else{
+                    if (!store_phone.equals("")) {
+                        onCallPopUp(0)
+                        if (sessionInstance.profileDetail != null) {
+                            viewmodel?.customerCallMerchantApi(
+                                SessionTwiclo(this).loggedInUserDetail.accountId,
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                sessionInstance.profileDetail.account.userName,
+                                store_phone!!
+                            )
+                        } else {
+                            viewmodel?.customerCallMerchantApi(
+                                SessionTwiclo(this).loggedInUserDetail.accountId,
+                                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                sessionInstance.loginDetail.phoneNumber,
+                                store_phone!!
+                            )
+                        }
+                    }
+
+                }
+
+            }
+//if(allStatus.equals("10")) {
+//    BtnYes1.setOnClickListener {
+//
+//    }
+//}else{
+//    BtnYes1.setOnClickListener {
+//
+//    }
+//}
+            ////////////////////////////////////calling //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
             BtnYes.setOnClickListener{
 
@@ -265,6 +352,7 @@ class Chatbotui :AppCompatActivity() {
                     feedbackdata = it.messages as ArrayList<String>
                     Log.d("sddffsddsds", Gson().toJson(it))
                     FeedbackRecylerView()
+
 
 
                 }
@@ -335,7 +423,7 @@ class Chatbotui :AppCompatActivity() {
                 )
                 botmsgViewModel?.botMsgViewModel?.observe(this) {
                     // Log.d("sddffsddsds", Gson().toJson(it))
-                    secondMsgListData = it as ArrayList<String>
+                    secondMsgListData = it.messages as ArrayList<String>
                     Log.d("sddffsddsds", Gson().toJson(it))
                     setRecyclerViewBotmsg()
 
@@ -344,7 +432,7 @@ class Chatbotui :AppCompatActivity() {
 
                 BtnNo.setOnClickListener {
                     BtnYesNoReplayout.visibility = View.VISIBLE
-                    BtnYesReply.text = "No"
+                    BtnYesReply.text = "No \uD83D\uDC4E"
                     LayoutFeedback.visibility = View.GONE
 
                     DateandTime5.visibility = View.VISIBLE
@@ -370,6 +458,7 @@ class Chatbotui :AppCompatActivity() {
                     feedbackViewModel?.FeedbackViewModelResponse?.observe(this) {
                         // Log.d("sddffsddsds", Gson().toJson(it))
                         feedbackdata = it.messages as ArrayList<String>
+
                         Log.d("sddffsddsds", Gson().toJson(it))
                         FeedbackRecylerView()
 
@@ -377,10 +466,11 @@ class Chatbotui :AppCompatActivity() {
                 }
                 BtnYes.setOnClickListener{
                     BtnYesNoReplayout.visibility = View.VISIBLE
-                    BtnYesReply.text = "Yes"
+                    BtnYesReply.text = "Yes, Thank you \uD83D\uDE00"
                     LayoutFeedback.visibility = View.GONE
                     DateandTime5.visibility = View.VISIBLE
-
+// BtnYes.text = "Yes, Thank you \uD83D\uDE00"
+//                BtnNo.text = "No \uD83D\uDC4E"
                     CoroutineScope(Dispatchers.Main).launch {
                         delay(1000)
                         DateandTime6.visibility = View.VISIBLE
@@ -593,6 +683,42 @@ class Chatbotui :AppCompatActivity() {
         botlogocount.botcount = 0
         botlogocount.botrefundCount = 0
         botlogocount.botYesNoCount = 0
+    }
+    private fun onCallPopUp(type: Int) {
+        call_Diolog = Dialog(this)
+        call_Diolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        call_Diolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        call_Diolog?.setContentView(R.layout.call_popup)
+        call_Diolog?.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        call_Diolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+        call_Diolog?.setCanceledOnTouchOutside(true)
+        call_Diolog?.show()
+
+        val callTypeTxt = call_Diolog?.findViewById<TextView>(R.id.callTypeTxt)
+        val regImg = call_Diolog?.findViewById<ImageView>(R.id.regImg)
+        val cancelDialogConstL =
+            call_Diolog?.findViewById<ConstraintLayout>(R.id.cancelDialogConstL)
+
+        if (regImg != null) {
+            Glide.with(this)
+                .load(R.drawable.call_wait)
+                .fitCenter()
+                .error(R.drawable.default_item)
+                .into(regImg)
+        }
+
+        if (type == 0) {
+            callTypeTxt!!.setText("Just a minute, connecting with the merchant in a bit.")
+        } else {
+            callTypeTxt!!.setText("Just a minute, connecting with the rider in a bit.")
+        }
+
+        cancelDialogConstL?.setOnClickListener {
+            call_Diolog?.dismiss()
+        }
     }
 
     override fun onBackPressed() {

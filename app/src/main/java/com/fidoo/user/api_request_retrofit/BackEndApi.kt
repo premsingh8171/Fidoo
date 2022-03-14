@@ -1,7 +1,6 @@
 package com.fidoo.user.api_request_retrofit
 
 import com.example.myapplication.Models.cancelStatus.ChatCancelModel
-import com.fidoo.user.data.model.OrderStatusMsg
 import com.example.myapplication.Models.orderStatus.OrderStatusResponse
 import com.fidoo.user.addressmodule.model.AddAddressModel
 import com.fidoo.user.addressmodule.model.DeleteAddressModel
