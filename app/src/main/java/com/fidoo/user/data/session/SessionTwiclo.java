@@ -242,6 +242,15 @@ public class SessionTwiclo {
         editor.commit();
 
     }
+    public String getbackMobileno() {
+        return pref.getString("backmobile", "");
+    }
+
+    public void setbackMobileno(String backmobile) {
+        editor.putString("backmobile", backmobile);
+        editor.commit();
+
+    }
 
 
     public String getReferralId() {

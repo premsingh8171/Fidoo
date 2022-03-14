@@ -101,7 +101,7 @@
                         android:inputType="number|textNoSuggestions"
                         android:maxLength="10"
                         android:onTextChanged="@{viewmodel::onPasswordChanged}"
-                        android:text="@={viewmodel.mobileNo}"
+                        android:text=""
                         android:textColor="@color/black" />
 
                 </com.google.android.material.textfield.TextInputLayout>

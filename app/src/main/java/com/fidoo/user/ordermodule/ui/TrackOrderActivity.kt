@@ -144,6 +144,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
     companion object {
         var trackOrderContext: Context? = null
         val notiInterface = TrackOrderActivity()
+        var trackOrderActivity: TrackOrderActivity? = null
         var order_status_for_track = ""
         var check_gMap2 = 0
         var check_gMap3 = 0
@@ -185,6 +186,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
         trackOrderContext = this
+        trackOrderActivity=this
         Log.e("Timer Status", timerStatus.toString())
         deleteAllPrecription()
 

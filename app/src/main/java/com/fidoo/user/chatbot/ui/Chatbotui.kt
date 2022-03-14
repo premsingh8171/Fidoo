@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import com.example.myapplication.adapter.orderStatusMsgAdapter.botlogoCountforre
 import com.fidoo.user.chatbot.adapter.orderStatusMsgAdapter.orderStatusAdapter
 
 import com.fidoo.user.R
+import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.chatbot.viewmodel.BotmsgViewModel
 import com.fidoo.user.chatbot.viewmodel.ChatbotViewModel
 import com.fidoo.user.chatbot.viewmodel.OrderStatusViewModel
@@ -31,9 +33,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class Chatbotui :AppCompatActivity() {
+class Chatbotui : AppCompatActivity() {
     var viewModel: ChatbotViewModel? = null
-    var botmsgViewModel : BotmsgViewModel? =null
+    var botmsgViewModel: BotmsgViewModel? = null
     var oderStatusViewModel: OrderStatusViewModel? = null
     lateinit var dateTime: String
     lateinit var dateTime1: String
@@ -42,13 +44,21 @@ class Chatbotui :AppCompatActivity() {
     lateinit var simpleDateFormat1: SimpleDateFormat
     lateinit var mainAdapter: MainAdapter
     lateinit var orderStatusAdapter: orderStatusAdapter
-    var newsdata=ArrayList<String>()
+    var newsdata = ArrayList<String>()
     var botMsgdata = ArrayList<String>()
+
+    companion object {
+        //var trackOrderActivity: TrackOrderActivity? = null
+        var cancleOrdCheck: Int = 0
+        //  var trackOrderActivity: TrackOrderActivity
+    }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatbotui)
+
+
         calendar = Calendar.getInstance()
         simpleDateFormat = SimpleDateFormat("EE - dd LLL")
         ////dd.LLL.yyyy HH:mm:ss aaa z
@@ -66,10 +76,13 @@ class Chatbotui :AppCompatActivity() {
 //        time3.text = dateTime
 //        time4.text = dateTime
         oderStatusViewModel = ViewModelProvider(this).get(OrderStatusViewModel::class.java)
-        oderStatusViewModel?.cancelOrderApi(SessionTwiclo(this).loggedInUserDetail.accountId,
-            SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId"))
+        oderStatusViewModel?.cancelOrderApi(
+            SessionTwiclo(this).loggedInUserDetail.accountId,
+            SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId")
+        )
         oderStatusViewModel?.orderStatusViewModel?.observe(this) {
             // Log.d("sddffsddsds", Gson().toJson(it))
+            cancleOrdCheck=0
             newsdata = it.messages as ArrayList<String>
             Log.d("sddffsddskgjgjds", Gson().toJson(it))
             setadapter()
@@ -89,7 +102,7 @@ class Chatbotui :AppCompatActivity() {
 
                 }
 
-            }else {
+            } else {
                 orderstatus.text = "Where is my order?"
                 orderconfirmStatus.text = "Where is my order?"
                 CoroutineScope(Dispatchers.Main).launch {
@@ -101,19 +114,18 @@ class Chatbotui :AppCompatActivity() {
             }
 
 
-
         }
 
         cancel.text = "CANCEL MY ORDER"
 
         CoroutineScope(Dispatchers.Main).launch {
             delay(1500)
-           // cancel.visibility = View.VISIBLE
+            // cancel.visibility = View.VISIBLE
             orderstatus.visibility = View.VISIBLE
 
         }
 
-        orderstatus.setOnClickListener{
+        orderstatus.setOnClickListener {
             //orderconfirmStatus.text = "Order not confirm yet"
             cancel.visibility = View.GONE
             orderstatus.visibility = View.GONE
@@ -135,26 +147,37 @@ class Chatbotui :AppCompatActivity() {
             DateandTime4.text = dateTime1
             //LayoutFeedback.visibility  =View.VISIBLE
             botmsgViewModel = ViewModelProvider(this).get(BotmsgViewModel::class.java)
-            botmsgViewModel?.botmsgapi(SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId"))
+            botmsgViewModel?.botmsgapi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId")
+            )
             botmsgViewModel?.botMsgViewModel?.observe(this) {
                 // Log.d("sddffsddsds", Gson().toJson(it))
-                botMsgdata =it as ArrayList<String>
-           //     Log.d("sddffsddsds", Gson().toJson(it))
+                botMsgdata = it as ArrayList<String>
+                //     Log.d("sddffsddsds", Gson().toJson(it))
                 setRecyclerViewBotmsg()
 
             }
 
 
-
         }
-        backBtn.setOnClickListener{
-            finish()
-
+        backBtn.setOnClickListener {
+            if (cancleOrdCheck == 1) {
+                val intent: Intent = Intent(
+                    this@Chatbotui,
+                    MainActivity::class.java
+                )
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+                // TrackOrderActivity.trackOrderActivity!!.finish()
+            } else {
+                AppUtils.finishActivityLeftToRight(this)
+            }
         }
 
 
-        cancel.setOnClickListener{
+        cancel.setOnClickListener {
             orderconfirmStatus.text = "Cancel my order"
             cancel.visibility = View.GONE
             orderstatus.visibility = View.GONE
@@ -177,24 +200,28 @@ class Chatbotui :AppCompatActivity() {
             DateandTime4.text = dateTime1
             viewModel = ViewModelProvider(this).get(ChatbotViewModel::class.java)
             intent.getStringExtra("orderId")?.let { it1 ->
-                viewModel?.cancelOrderApiChatBot( SessionTwiclo(this).loggedInUserDetail.accountId,
+                viewModel?.cancelOrderApiChatBot(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken, it1
                 )
             }
             viewModel?.cancelOrderResponse?.observe(this) {
+                cancleOrdCheck = 1
                 // Log.d("sddffsddsds", Gson().toJson(it.orderId))
                 // tv1.text = "Your order has been cancelled"
                 // cancelmsgList= it as ArrayList<ChatCancelModel>
-               // Log.d("sddffsddsds", Gson().toJson(it.orderStatus))
+                // Log.d("sddffsddsds", Gson().toJson(it.orderStatus))
             }
 
             // if (it.orderstatus)
             botmsgViewModel = ViewModelProvider(this).get(BotmsgViewModel::class.java)
-            botmsgViewModel?.botmsgapi(SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId"))
+            botmsgViewModel?.botmsgapi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId")
+            )
             botmsgViewModel?.botMsgViewModel?.observe(this) {
                 // Log.d("sddffsddsds", Gson().toJson(it))
-                botMsgdata =it as ArrayList<String>
+                botMsgdata = it as ArrayList<String>
                 Log.d("sddffsddsds", Gson().toJson(it))
                 setRecyclerViewBotmsg()
 
@@ -206,22 +233,23 @@ class Chatbotui :AppCompatActivity() {
 
 
     private fun setadapter() {
-        mainAdapter = MainAdapter(this,newsdata)
-        val linearLayoutManager= LinearLayoutManager(this)
-        recyclerView.adapter= mainAdapter
-        recyclerView.layoutManager=linearLayoutManager
+        mainAdapter = MainAdapter(this, newsdata)
+        val linearLayoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = mainAdapter
+        recyclerView.layoutManager = linearLayoutManager
     }
 
-    private  fun setRecyclerViewBotmsg(){
-        orderStatusAdapter = orderStatusAdapter(this,botMsgdata)
-        val linearLayoutManager= LinearLayoutManager(this)
-        recyclerView2.adapter= orderStatusAdapter
-        recyclerView2.layoutManager=linearLayoutManager
+    private fun setRecyclerViewBotmsg() {
+        orderStatusAdapter = orderStatusAdapter(this, botMsgdata)
+        val linearLayoutManager = LinearLayoutManager(this)
+        recyclerView2.adapter = orderStatusAdapter
+        recyclerView2.layoutManager = linearLayoutManager
 
     }
 
     override fun onResume() {
         super.onResume()
+
         // botlogoCountforreply.botcount1 = 0
 
     }
@@ -229,7 +257,7 @@ class Chatbotui :AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         botlogoCountforreply.botcount1 = 0
-        botlogocount.botcount  = 0
+        botlogocount.botcount = 0
     }
 
     override fun onPause() {
@@ -240,7 +268,19 @@ class Chatbotui :AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        finish()
+        if (cancleOrdCheck == 1) {
+            val intent: Intent = Intent(
+                this@Chatbotui,
+                MainActivity::class.java
+            )
+            intent.flags =
+                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+            // TrackOrderActivity.trackOrderActivity!!.finish()
+        } else {
+            AppUtils.finishActivityLeftToRight(this)
+        }
     }
+
 }
 
