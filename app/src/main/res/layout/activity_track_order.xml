@@ -593,7 +593,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_below="@+id/tv_order_picked_details"
-                                        android:layout_marginTop="@dimen/margin_35dp"
+                                        android:layout_marginTop="@dimen/margin_40dp"
                                         android:fontFamily="@font/proxima"
                                         android:text="Delivery partner en route to deliver" />
 

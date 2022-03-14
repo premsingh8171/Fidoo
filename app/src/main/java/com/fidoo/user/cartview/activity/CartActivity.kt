@@ -322,7 +322,10 @@ class CartActivity : BaseActivity(),
 			prescriptionLay2.visibility = View.VISIBLE
 		}
 
-		tv_delivery_charges_label.setOnClickListener {
+
+
+
+		new_delivery_popup.setOnClickListener {
 			chargesFm.visibility = View.VISIBLE
 			chargesFmBg.visibility = View.VISIBLE
 			chargesFmBgbottom.visibility = View.VISIBLE
@@ -334,6 +337,7 @@ class CartActivity : BaseActivity(),
 			chargesFmBg.visibility = View.GONE
 			chargesFmBg.visibility = View.GONE
 			tax_and_charges_lay.visibility = View.GONE
+
 		}
 
 		chargesFmBgbottom.setOnClickListener {
@@ -2311,6 +2315,8 @@ class CartActivity : BaseActivity(),
 	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
 
 	}
+
+
 
 //	override fun onRestart() {
 //		super.onRestart()

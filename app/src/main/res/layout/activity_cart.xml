@@ -537,8 +537,19 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
                     android:text="Delivery Charges"
-                    android:textColor="@color/primary_color"
                     android:textSize="@dimen/text_size_12sp" />
+
+
+                <ImageView
+                    android:id="@+id/new_delivery_popup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_cart_afterdiscount_lable"
+                    android:layout_marginLeft="@dimen/dimen_8dp"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:layout_toRightOf="@+id/tv_delivery_charges_label"
+                    android:background="@drawable/bi_info_circle" />
+
 
                 <TextView
                     android:id="@+id/tv_delivery_charges"
@@ -689,7 +700,7 @@
                 android:id="@+id/chargesFmBg"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@drawable/gradient_trans"
+                android:background="@color/black_transparant_"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -716,7 +727,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -1242,6 +1253,7 @@
             </RelativeLayout>
         </LinearLayout>
 
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <FrameLayout
@@ -1307,6 +1319,7 @@
 
 
     </LinearLayout>
+
 
     <include
         android:id="@+id/no_internet_cart"

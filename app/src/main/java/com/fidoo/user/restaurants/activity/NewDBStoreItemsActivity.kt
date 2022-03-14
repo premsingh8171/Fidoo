@@ -438,32 +438,32 @@ class NewDBStoreItemsActivity :
         }
 
         veg_switch_img.setOnClickListener {
-           // if(filterActive==1) {
-              //  filterActive=0
-                deleteRoomDataBase()
-                showIOSProgress()
-                totalItem = 120
-                pagecount = 0
-                if (veg_filter == 0) {
-                    veg_switch_img.setImageResource(R.drawable.filter_on)
-                    // egg_switch_img.setImageResource(R.drawable.filter_off)
-                    //  egg_filter=0
-                    nonveg_str = "0"
-                    getStoreDetailsApiCall()
-                    veg_filter = 1
+            // if(filterActive==1) {
+            //  filterActive=0
+            deleteRoomDataBase()
+            showIOSProgress()
+            totalItem = 120
+            pagecount = 0
+            if (veg_filter == 0) {
+                veg_switch_img.setImageResource(R.drawable.filter_on)
+                // egg_switch_img.setImageResource(R.drawable.filter_off)
+                //  egg_filter=0
+                nonveg_str = "0"
+                getStoreDetailsApiCall()
+                veg_filter = 1
 
-                } else {
-                    veg_switch_img.setImageResource(R.drawable.filter_off)
-                    nonveg_str = ""
-                    getStoreDetailsApiCall()
-                    veg_filter = 0
+            } else {
+                veg_switch_img.setImageResource(R.drawable.filter_off)
+                nonveg_str = ""
+                getStoreDetailsApiCall()
+                veg_filter = 0
 
-                }
+            }
 
-                visibilityView()
-                searchEdt_ResPrd.getText().clear()
-                getRoomData()
-           // }
+            visibilityView()
+            searchEdt_ResPrd.getText().clear()
+            getRoomData()
+            // }
         }
 
         egg_switch_img.setOnClickListener {
@@ -590,7 +590,7 @@ class NewDBStoreItemsActivity :
 
         //cartcount responce
         viewmodel?.cartCountResponse?.observe(this) { cartcount ->
-           // dismissIOSProgress()
+            // dismissIOSProgress()
             addCartTempList!!.clear()
             tempProductList!!.clear()
             //Log.d("cartCountResponse___",cartcount.toString())
@@ -640,9 +640,9 @@ class NewDBStoreItemsActivity :
             filterActive = storeData.next_available
             latestCatList.clear()
 
-           // if (next_available.toString().equals("1")){
-                dismissIOSProgress()
-           // }
+            // if (next_available.toString().equals("1")){
+            dismissIOSProgress()
+            // }
 
 //            if (cat_listShow == 0) {
 //                catList!!.clear()
@@ -675,7 +675,7 @@ class NewDBStoreItemsActivity :
                 e.printStackTrace()
             }
 
-         //   dismissIOSProgress()
+            //   dismissIOSProgress()
 
             if (storeData.error_code==200) {
 
@@ -796,7 +796,7 @@ class NewDBStoreItemsActivity :
                     }
 
                     //ratingValue.text = user.rating
-                  //  tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
+                    //  tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
 
                     if (next_available == 0) {
                         //	Handler(Looper.getMainLooper()).postDelayed({
@@ -1276,15 +1276,15 @@ class NewDBStoreItemsActivity :
                                 handleresponce = 1
                                 Log.d("isScrolling__", "$currentItems-$scrollOutItems-$totalItems")
 
-                                    if (table_count!! > productsListing_Count!!) {
-                                        if (isScrolling == true) {
-                                            totalItem = totalItem?.plus(100)
-                                            handleresponce = 1
-                                            //showIOSProgress()
-                                            getRoomData()
-                                            isScrolling = false
-                                        }
+                                if (table_count!! > productsListing_Count!!) {
+                                    if (isScrolling == true) {
+                                        totalItem = totalItem?.plus(100)
+                                        handleresponce = 1
+                                        //showIOSProgress()
+                                        getRoomData()
+                                        isScrolling = false
                                     }
+                                }
                             }
                         }
 
@@ -1389,7 +1389,7 @@ class NewDBStoreItemsActivity :
                         }
                     })
 
-             //   dismissIOSProgress()
+                //   dismissIOSProgress()
             } else {
                 searchQuery(search_value)
             }
@@ -2103,7 +2103,7 @@ class NewDBStoreItemsActivity :
 
         tv_distance.text = intent.getStringExtra("distance") + "km"
         if (!intent.getStringExtra("coupon_desc").equals("")) {
-           // tv_coupon.text = intent.getStringExtra("coupon_desc")
+            // tv_coupon.text = intent.getStringExtra("coupon_desc")
             coupan_view_ll.visibility = View.VISIBLE
         } else {
             coupan_view_ll.visibility = View.GONE
@@ -2146,6 +2146,6 @@ class NewDBStoreItemsActivity :
         }
         smoothScroller.targetPosition = position
         storeItemsRecyclerview.layoutManager?.startSmoothScroll(smoothScroller)
-       //storeItemsRecyclerview.layoutManager?.scrollToPosition(position)
+        //storeItemsRecyclerview.layoutManager?.scrollToPosition(position)
     }
 }

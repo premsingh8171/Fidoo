@@ -406,7 +406,7 @@
                 android:id="@+id/chargesFmBgs"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@drawable/gradient_trans"
+                android:background="@color/black_transparant"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
