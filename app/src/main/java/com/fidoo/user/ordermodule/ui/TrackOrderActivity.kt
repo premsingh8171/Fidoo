@@ -1700,7 +1700,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
             movingBikeMarker = addCarMarkerAndGet(rider_LatLngOrg!!)
             movingBikeMarker?.setAnchor(0.5f, 0.5f)
-            movingBikeMarker!!.position=rider_LatLngOrg
             animateCamera(rider_LatLngOrg!!)
 
             val valueAnimator = AnimationUtils.cabAnimator()
@@ -1711,14 +1710,14 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     var lat=v*rider_LatLng!!.latitude+(1-v)*rider_LatLng2!!.latitude
                     var newPos=LatLng(lat,Lng)
 
+                    movingBikeMarker!!.position=rider_LatLngOrg
+
                     val rotation = MapUtils.getRotation(rider_LatLng!!, newPos)
                     Log.d("rotation_",rotation.toString())
-
                     if (!rotation.isNaN()) {
                         movingBikeMarker?.rotation = rotation
                     }
                 }catch (e:Exception){e.printStackTrace()}
-
 
             }
             valueAnimator.start()
