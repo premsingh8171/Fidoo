@@ -1431,20 +1431,19 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
             movingBikeMarker = addCarMarkerAndGet(rider_LatLngOrg!!)
             movingBikeMarker?.setAnchor(0.5f, 0.5f)
-            movingBikeMarker!!.position=rider_LatLngOrg
             animateCamera(rider_LatLngOrg!!)
 
             val valueAnimator = AnimationUtils.cabAnimator()
             valueAnimator.addUpdateListener {
                 try {
                     var v =valueAnimator.animatedFraction
-                    val Lng=v*rider_LatLng!!.longitude+(1-v)*rider_LatLng2!!.longitude
-                    var lat=v*rider_LatLng!!.latitude+(1-v)*rider_LatLng2!!.latitude
+                    val Lng=v*rider_LatLng2!!.longitude+(1-v)*rider_LatLng!!.longitude
+                    var lat=v*rider_LatLng2!!.latitude+(1-v)*rider_LatLng!!.latitude
                     var newPos=LatLng(lat,Lng)
 
+                    movingBikeMarker!!.position=rider_LatLngOrg
                     val rotation = MapUtils.getRotation(rider_LatLng!!, newPos)
-                    Log.d("rotation_",rotation.toString())
-
+                    Log.d("rotation_",rotation.toString()+"--"+newPos)
                     if (!rotation.isNaN()) {
                         movingBikeMarker?.rotation = rotation
                     }

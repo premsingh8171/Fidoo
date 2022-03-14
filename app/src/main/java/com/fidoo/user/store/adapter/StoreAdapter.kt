@@ -112,9 +112,9 @@ class StoreAdapter(
 			holder.closingTimeText.text = " "
 		}
 
-		var retStr = storeList[position].name.toLowerCase().substring(0, 1)
-			.toUpperCase() + storeList[position].name.toLowerCase().substring(1)
-		holder.storeName?.text = retStr
+//		var retStr = storeList[position].name.toLowerCase().substring(0, 1)
+//			.toUpperCase() + storeList[position].name.toLowerCase().substring(1)
+		holder.storeName?.text = storeList[position].name.toString()
 
 		if (storeList[position].rating.toString() == "") {
 			//holder.ratingTxt.text = "--"
@@ -224,7 +224,6 @@ class StoreAdapter(
 		} catch (e: Exception) {
 			e.printStackTrace()
 		}
-
 
 
 		Glide.with(context)

@@ -27,6 +27,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.fidoo.user.R
@@ -1175,8 +1176,9 @@ class NewDBStoreItemsActivity :
                                         storeItemsRecyclerview?.smoothScrollToPosition(i)
                                         storeItemsRecyclerview?.scrollToPosition(i+1 )
                                     } else {
-                                       storeItemsRecyclerview?.scrollToPosition(i!!+4)
-                                       storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
+//                                       storeItemsRecyclerview?.scrollToPosition(i!!+4)
+//                                       storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
+                                        storeItemsRecyclerview?.smoothSnapToPosition(i)
                                     }
                                 }
                             }
@@ -2137,5 +2139,13 @@ class NewDBStoreItemsActivity :
         }
 
     }
-
+    fun RecyclerView.smoothSnapToPosition(position: Int, snapMode: Int = LinearSmoothScroller.SNAP_TO_START) {
+        val smoothScroller = object : LinearSmoothScroller(this@NewDBStoreItemsActivity) {
+            override fun getVerticalSnapPreference(): Int = snapMode
+            override fun getHorizontalSnapPreference(): Int = snapMode
+        }
+        smoothScroller.targetPosition = position
+        storeItemsRecyclerview.layoutManager?.startSmoothScroll(smoothScroller)
+       //storeItemsRecyclerview.layoutManager?.scrollToPosition(position)
+    }
 }

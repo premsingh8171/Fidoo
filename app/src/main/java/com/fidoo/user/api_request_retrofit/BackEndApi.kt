@@ -33,6 +33,7 @@ import com.fidoo.user.viewmodels.UpdateAppModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 
@@ -60,12 +61,12 @@ interface BackEndApi {
 
     @FormUrlEncoded
     @POST("homeData.inc.php")
-    fun gethomeDataApi(
+  suspend  fun gethomeDataApi(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
         @Field("user_lat") user_lat: String?,
         @Field("user_long") user_long: String?
-    ): Call<ServiceDetailsModel>
+    ): Response<ServiceDetailsModel>
 
     @FormUrlEncoded
     @POST("serviceList.inc.php")
@@ -122,7 +123,7 @@ interface BackEndApi {
     //new storeDetailsApi
     @FormUrlEncoded
     @POST("storeDetails_v2.inc.php")
-    fun getStoreDetailsApiNew(
+    suspend  fun getStoreDetailsApiNew(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
         @Field("store_id") store_id: String?,
@@ -130,7 +131,7 @@ interface BackEndApi {
         @Field("cat_id") cat_id: String?,
         @Field("contains_egg") contains_egg: String?,
         @Field("start_id") start_id: String?
-    ): Call<NewStoreDetailsModel>
+    ): Response<NewStoreDetailsModel>
 
     //for grocery
     @FormUrlEncoded
@@ -685,13 +686,13 @@ interface BackEndApi {
 
     @Multipart
     @POST("addUpdateProfile.inc.php")
-    fun addUpdateProfileApi(
+    suspend fun addUpdateProfileApi(
         @Part("accountId") accountId: RequestBody?,
         @Part("accessToken") accessToken: RequestBody?,
         @Part("name") name: RequestBody?,
         @Part("emailid") emailid: RequestBody?,
         @Part photo: MultipartBody.Part?
-    ): Call<EditProfileModel>
+    ): Response<EditProfileModel>
 
     @FormUrlEncoded
     @POST("orderProceed_ver_29.inc.php")

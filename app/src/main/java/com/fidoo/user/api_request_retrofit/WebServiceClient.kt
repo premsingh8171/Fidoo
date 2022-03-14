@@ -41,9 +41,6 @@ object WebServiceClient {
 
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
-                    // .baseUrl("https://infosoftservices.com/deliver/api/method/")
-
-                   // .baseUrl("https://fidoo.in/api/method/")
                     .baseUrl(BuildConfig.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)

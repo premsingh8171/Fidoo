@@ -13,8 +13,8 @@ object AnimationUtils {
   }
 
   fun cabAnimator(): ValueAnimator {
-    val valueAnimator = ValueAnimator.ofFloat(0f, 1f)
-    valueAnimator.duration = 3000
+    val valueAnimator = ValueAnimator.ofFloat(5f, 5f)
+    valueAnimator.duration = 1000
     valueAnimator.interpolator = LinearInterpolator()
     return valueAnimator
   }

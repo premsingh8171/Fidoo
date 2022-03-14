@@ -72,6 +72,7 @@ import com.makesense.labs.curvefit.interfaces.OnCurveClickListener
 import com.makesense.labs.curvefit.interfaces.OnCurveDrawnCallback
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
+import com.prudhvir3ddy.rideshare.utils.AnimationUtils
 import com.prudhvir3ddy.rideshare.utils.MapUtils
 import kotlinx.android.synthetic.main.activity_track_order.*
 import kotlinx.android.synthetic.main.activity_track_order.address_details_lay
@@ -103,11 +104,14 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
     //for map
     var rider_LatLng: LatLng? = null
+    var rider_LatLngOrg: LatLng? = null
+    var rider_LatLng2: LatLng? = null
     var merchantLatLng: LatLng? = null
     var user_LatLng: LatLng? = null
     var rider_LatLngStr: String? = ""
     var merchantLatLngStr: String? = ""
     var user_LatLngStr: String? = ""
+    private var movingBikeMarker: Marker? = null
 
     //var timerStatus =  true
     var userName: String? = ""
@@ -394,6 +398,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     rider_LatLng =
                         LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
                     rider_LatLngStr = user.driverLatitude + "," + user.driverLongitude
+                    rider_LatLngOrg = LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
+
                     Log.e("rider_LatLngStr", rider_LatLngStr.toString())
                 }
             } catch (e: Exception) {
@@ -463,68 +469,69 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     check_gMap2 = 1
                 }
 
-                if (rider_LatLng != null) {
-                    var rotation=0.0f
-
-                    if (previousLatLng == null) {
-                        currentLatLng = rider_LatLng
-                        previousLatLng = currentLatLng
-                    } else {
-                        previousLatLng = currentLatLng
-                        currentLatLng = rider_LatLng
-                    }
-
-                    if (check == 0) {
-                        check = 1
-                    } else {
-                        check = 0
-                    }
-
-                    val nextLocation = LatLng(
-                        currentLatLng!!.latitude * previousLatLng!!.latitude,
-                        currentLatLng!!.longitude * previousLatLng!!.longitude
-                    )
-
-                    try {
-                        if (latLngList.isNullOrEmpty()){
-                            var rider_LatLngNext=
-                                LatLng(latLngList[1].latitude, latLngList[1].longitude)
-                            rotation = MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
-
-                        }else {
-                            rotation = MapUtils.getRotation(rider_LatLng!!, nextLocation!!).toFloat()
-                        }
-
-
-                    }catch (e:Exception){
-                        e.printStackTrace()
-                    }
-
-                    var marker: Marker? = mMap?.addMarker(
-                        MarkerOptions()
-                            .position(rider_LatLng!!)
-                            .icon(bitmapDescriptorFromVector_(this, R.drawable.rider))
-                            .rotation(rotation)
-                            .anchor(0.5f, .5f)
-                            .zIndex(20.0f)
-                            .draggable(true).flat(
-                                false
-                            )
-
-                    )
-
-                    mMap?.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                            rider_LatLng,
-                            14f
-                        ), 3000, null
-                    )
-
-//                    val angle = MapUtils.bearingBetweenLocations(previousLatLng!!, nextLocation!!)
-//                    if (marker != null) {
-//                        MapUtils.rotateMarker(marker, angle)
+//                if (rider_LatLng != null) {
+//                    var rotation=0.0f
+//
+//                    if (previousLatLng == null) {
+//                        currentLatLng = rider_LatLng
+//                        previousLatLng = currentLatLng
+//                    } else {
+//                        previousLatLng = currentLatLng
+//                        currentLatLng = rider_LatLng
 //                    }
-                }
+//
+//                    if (check == 0) {
+//                        check = 1
+//                    } else {
+//                        check = 0
+//                    }
+//
+//                    val nextLocation = LatLng(
+//                        currentLatLng!!.latitude * previousLatLng!!.latitude,
+//                        currentLatLng!!.longitude * previousLatLng!!.longitude
+//                    )
+//
+//                    try {
+//                        if (latLngList.isNullOrEmpty()){
+//                            var rider_LatLngNext=
+//                                LatLng(latLngList[1].latitude, latLngList[1].longitude)
+//                            rotation = MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
+//
+//                        }else {
+//                            rotation = MapUtils.getRotation(rider_LatLng!!, nextLocation!!).toFloat()
+//                        }
+//
+//
+//                    }catch (e:Exception){
+//                        e.printStackTrace()
+//                    }
+//
+//                    var marker: Marker? = mMap?.addMarker(
+//                        MarkerOptions()
+//                            .position(rider_LatLng!!)
+//                            .icon(bitmapDescriptorFromVector_(this, R.drawable.rider))
+//                            .rotation(rotation)
+//                            .anchor(0.5f, .5f)
+//                            .zIndex(20.0f)
+//                            .draggable(true).flat(
+//                                false
+//                            )
+//
+//                    )
+//
+//                    mMap?.animateCamera(
+//                        CameraUpdateFactory.newLatLngZoom(
+//                            rider_LatLng,
+//                            14f
+//                        ), 3000, null
+//                    )
+//
+////                    val angle = MapUtils.bearingBetweenLocations(previousLatLng!!, nextLocation!!)
+////                    if (marker != null) {
+////                        MapUtils.rotateMarker(marker, angle)
+////                    }
+//                }
+                drawRoute(rider_LatLngStr!!, merchantLatLngStr!!, "")
 
                 if (merchantLatLng != null) {
                     mMap?.addMarker(
@@ -537,7 +544,6 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     )
                 }
 
-                drawRoute(rider_LatLngStr!!, merchantLatLngStr!!, "")
 
             } else if (order_status_for_track.equals("order_picked")) {
                 if (check_gMap3 == 0) {
@@ -545,62 +551,62 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     check_gMap3 = 1
                 }
 
-                if (rider_LatLng != null) {
-                    var rotation=0.0f
-
-                    if (previousLatLng == null) {
-                        currentLatLng = rider_LatLng
-                        previousLatLng = currentLatLng
-                    } else {
-                        previousLatLng = currentLatLng
-                        currentLatLng = rider_LatLng
-                    }
-
-                    val nextLocation = LatLng(
-                        currentLatLng!!.latitude * previousLatLng!!.latitude,
-                        currentLatLng!!.longitude * previousLatLng!!.longitude
-                    )
-
-                    try {
-                        if (latLngList.isNullOrEmpty()){
-                            var rider_LatLngNext=
-                                LatLng(latLngList[1].latitude, latLngList[1].longitude)
-                            rotation = MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
-
-                        }else {
-                            rotation = MapUtils.getRotation(rider_LatLng!!, nextLocation!!).toFloat()
-                        }
-
-
-                    }catch (e:Exception){
-                        e.printStackTrace()
-                    }
-
-                    var marker: Marker? = mMap?.addMarker(
-                        MarkerOptions()
-                            .position(rider_LatLng!!)
-                            .rotation(rotation)
-                            .icon(bitmapDescriptorFromVector_(this, R.drawable.rider))
-                            .anchor(0.5f, .5f)
-                            .zIndex(20.0f)
-                            .draggable(true).flat(
-                                false
-                            )
-
-                    )
-
-                    mMap?.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                            rider_LatLng,
-                            14f
-                        ), 3000, null
-                    )
-
-//                    val angle = MapUtils.bearingBetweenLocations(previousLatLng!!, nextLocation!!)
-//                    if (marker != null) {
-//                        MapUtils.rotateMarker(marker, angle)
+//                if (rider_LatLng != null) {
+//                    var rotation=0.0f
+//
+//                    if (previousLatLng == null) {
+//                        currentLatLng = rider_LatLng
+//                        previousLatLng = currentLatLng
+//                    } else {
+//                        previousLatLng = currentLatLng
+//                        currentLatLng = rider_LatLng
 //                    }
-                }
+//
+//                    val nextLocation = LatLng(
+//                        currentLatLng!!.latitude * previousLatLng!!.latitude,
+//                        currentLatLng!!.longitude * previousLatLng!!.longitude
+//                    )
+//
+//                    try {
+//                        if (latLngList.isNullOrEmpty()){
+//                            var rider_LatLngNext=
+//                                LatLng(latLngList[1].latitude, latLngList[1].longitude)
+//                            rotation = MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
+//
+//                        }else {
+//                            rotation = MapUtils.getRotation(rider_LatLng!!, nextLocation!!).toFloat()
+//                        }
+//
+//
+//                    }catch (e:Exception){
+//                        e.printStackTrace()
+//                    }
+//
+//                    var marker: Marker? = mMap?.addMarker(
+//                        MarkerOptions()
+//                            .position(rider_LatLng!!)
+//                            .rotation(rotation)
+//                            .icon(bitmapDescriptorFromVector_(this, R.drawable.rider))
+//                            .anchor(0.5f, .5f)
+//                            .zIndex(20.0f)
+//                            .draggable(true).flat(
+//                                false
+//                            )
+//
+//                    )
+//
+//                    mMap?.animateCamera(
+//                        CameraUpdateFactory.newLatLngZoom(
+//                            rider_LatLng,
+//                            14f
+//                        ), 3000, null
+//                    )
+//
+////                    val angle = MapUtils.bearingBetweenLocations(previousLatLng!!, nextLocation!!)
+////                    if (marker != null) {
+////                        MapUtils.rotateMarker(marker, angle)
+////                    }
+//                }
 
                 if (user_LatLng != null) {
                     mMap?.addMarker(
@@ -759,7 +765,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         it.orderStatus.equals("1") -> {
                             // holder.buttonValue.visibility = View.VISIBLE
                             // holder.buttonValue.visibility = View.GONE
-                            status_store_txt.text = "has received you order"
+                            status_store_txt.text = "has received your order"
                            // order_status.text = "Please wait while we confirm your order"
                             order_status.text = "Waiting for merchant to accept the order"
                             tv_delivery_boy_call.visibility = View.GONE
@@ -1186,8 +1192,10 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             steps.getJSONObject(i).getJSONObject("start_location").getString("lng")
                         options.addAll(path[i]).color(Color.BLACK).zIndex(5.0f)
                         latLngList.add(LatLng(markerRiderLat.toDouble(), markerRiderIng.toDouble()))
-                        this?.mMap!!.addPolyline(options)
                     }
+                    this?.mMap!!.addPolyline(options)
+
+                    updateCarLocationNew(path)
 
                     //	showPath(latLngList)
 
@@ -1668,5 +1676,63 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         cancelDialogConstL?.setOnClickListener {
             call_Diolog?.dismiss()
         }
+    }
+
+    private fun updateCarLocationNew(path: MutableList<List<LatLng>>) {
+
+        var index = -1
+        var next = 0
+
+        val handler = Handler()
+        handler.postDelayed(Runnable {
+            if (index<path.size-1){
+                index++
+                next=index+1
+
+            }else{
+                next=1
+            }
+            if (index<path.size-1){
+                rider_LatLng= LatLng( latLngList[index].latitude.toDouble(), latLngList[index].longitude.toDouble())
+                rider_LatLng2= LatLng( latLngList[next].latitude.toDouble(), latLngList[next].longitude.toDouble())
+                Log.d("fdsdds","$rider_LatLng--$rider_LatLng2")
+            }
+
+            movingBikeMarker = addCarMarkerAndGet(rider_LatLngOrg!!)
+            movingBikeMarker?.setAnchor(0.5f, 0.5f)
+            movingBikeMarker!!.position=rider_LatLngOrg
+            animateCamera(rider_LatLngOrg!!)
+
+            val valueAnimator = AnimationUtils.cabAnimator()
+            valueAnimator.addUpdateListener {
+                try {
+                    var v =valueAnimator.animatedFraction
+                    val Lng=v*rider_LatLng!!.longitude+(1-v)*rider_LatLng2!!.longitude
+                    var lat=v*rider_LatLng!!.latitude+(1-v)*rider_LatLng2!!.latitude
+                    var newPos=LatLng(lat,Lng)
+
+                    val rotation = MapUtils.getRotation(rider_LatLng!!, newPos)
+                    Log.d("rotation_",rotation.toString())
+
+                    if (!rotation.isNaN()) {
+                        movingBikeMarker?.rotation = rotation
+                    }
+                }catch (e:Exception){e.printStackTrace()}
+
+
+            }
+            valueAnimator.start()
+
+        }, 600)
+    }
+
+    private fun addCarMarkerAndGet(latLng: LatLng): Marker {
+        val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(MapUtils.getCarBitmap(this))
+        return mMap!!.addMarker(MarkerOptions().position(latLng).flat(true).icon(bitmapDescriptor))
+    }
+
+    private fun animateCamera(latLng: LatLng) {
+        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(14.5f).build()
+        mMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 }
