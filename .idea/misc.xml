@@ -7,11 +7,14 @@
         <entry key="..\:/twickloapp/app/src/main/res/layout/activity_chatbotui.xml" value="0.14074074074074075" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/activity_splash.xml" value="0.18611111111111112" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/activity_track_order.xml" value="0.16111111111111112" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/category_adapter.xml" value="0.1787037037037037" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/dialog_progress.xml" value="0.1425925925925926" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_auth.xml" value="0.1425925925925926" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_home.xml" value="0.1787037037037037" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_otp.xml" value="0.1425925925925926" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_sign_in.xml" value="0.15185185185185185" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/fragment_splash.xml" value="0.1425925925925926" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/new_store_details_item.xml" value="0.175" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/payment_failed_popup.xml" value="0.15185185185185185" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/pieprogress_layout.xml" value="0.67" />
         <entry key="..\:/twickloapp/app/src/main/res/layout/store_product.xml" value="0.1" />
