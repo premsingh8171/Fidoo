@@ -3,9 +3,9 @@ package com.fidoo.user.chatbot.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.myapplication.Models.cancelStatus.orderStatusMSg.OrderStatusMsg
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
+import com.fidoo.user.data.model.OrderStatusMsg
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -17,11 +17,11 @@ import retrofit2.Response
 
 class BotmsgViewModel (application: Application) : AndroidViewModel(application) {
 
-    var botMsgViewModel: MutableLiveData<List<String>>? = null
+    var botMsgViewModel: MutableLiveData<OrderStatusMsg>? = null
     var failureResponse: MutableLiveData<String>? = null
 
     init {
-        botMsgViewModel =  MutableLiveData<List<String>>()
+        botMsgViewModel =  MutableLiveData<OrderStatusMsg>()
         failureResponse =  MutableLiveData<String>()
 
     }
@@ -29,7 +29,7 @@ class BotmsgViewModel (application: Application) : AndroidViewModel(application)
 
     fun botmsgapi(accountId: String, accessToken: String, orderId: String?) {
         CoroutineScope(Dispatchers.IO).launch {
-            delay(2000)
+            delay(1500)
             WebServiceClient.client.create(BackEndApi::class.java).botStatusMsgApi(
                 accountId = accountId,
                 accessToken = accessToken,
@@ -42,7 +42,7 @@ class BotmsgViewModel (application: Application) : AndroidViewModel(application)
                         call: Call<OrderStatusMsg>,
                         response: Response<OrderStatusMsg>
                     ) {
-                        botMsgViewModel?.value = response.body()?.messages
+                        botMsgViewModel?.value = response.body()
 
 
                     }

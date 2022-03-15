@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-import com.example.myapplication.adapter.orderStatusMsgAdapter.botmsgViewHolder
 import com.fidoo.user.R
 
 class orderStatusAdapter(val context: Context, var msgdatalist:List<String>) : RecyclerView.Adapter<botmsgViewHolder>() {

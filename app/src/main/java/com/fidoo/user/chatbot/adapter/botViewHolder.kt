@@ -1,27 +1,64 @@
-package com.example.myapplication.adapter
+package com.fidoo.user.chatbot.adapter
 
+import android.content.Context
+import android.os.Build
+import android.text.Html
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.gif.GifDrawable
-import com.bumptech.glide.request.target.Target
-import com.example.myapplication.Models.orderStatus.OrderStatusResponse
+import com.example.myapplication.adapter.botlogocount
+import com.fidoo.user.R
 
-import kotlinx.android.synthetic.main.botitemlayout.*
 import kotlinx.android.synthetic.main.botitemlayout.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class botViewHolder (val view : View) : RecyclerView.ViewHolder(view) {
-
-    fun setdata(orderStatusResponse: String) {
-
+class botViewHolder (var context:Context ,val view : View) : RecyclerView.ViewHolder(view) {
+    //var count = 1
+     fun setdata(orderStatusResponse: String) {
         view.apply {
+            
             if (botlogocount.botcount >= 1) {
-                tvTitle.text = orderStatusResponse
-                botlogo.visibility = View.INVISIBLE
-            } else {
-                tvTitle.text = orderStatusResponse
+                    tvTitle.text = orderStatusResponse
+                    botlogo.visibility = View.GONE
+                    botlogolayout.visibility = View.INVISIBLE
+
+                tvTitle.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Html.fromHtml(orderStatusResponse, Html.FROM_HTML_MODE_COMPACT)
+                } else {
+                    Html.fromHtml(orderStatusResponse)
+                }
+
+                } else {
+                    tvTitle.text = orderStatusResponse
+                tvTitle.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Html.fromHtml(orderStatusResponse, Html.FROM_HTML_MODE_COMPACT)
+                } else {
+                    Html.fromHtml(orderStatusResponse)
+                }
+                }
+                botlogocount.botcount++
+              // count++
             }
+
+
+
         }
-        botlogocount.botcount++
+
     }
-}
+// val model = datalist[position]
+//        var count = datalist.size
+//        holder.itemLayoutBinding.apply {
+//            cardbotlayout.visibility = View.GONE
+//            CoroutineScope(Dispatchers.Main).launch {
+//                delay(position * 1000L)
+//                Glide.with(context).asGif().load(R.drawable.typing).into(loadingGifChat)
+//                delay(position*600L)
+//                tvTitle.text = model
+//                loadingGifChat.visibility = View.GONE
+//                cardbotlayout.visibility = View.VISIBLE
+//            }
+//        }
+//    }

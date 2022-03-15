@@ -1,14 +1,15 @@
 package com.fidoo.user.api_request_retrofit
 
 import com.example.myapplication.Models.cancelStatus.ChatCancelModel
-import com.example.myapplication.Models.cancelStatus.orderStatusMSg.OrderStatusMsg
-import com.example.myapplication.Models.chatbotButtonLogic.ButtonLogicModel
 import com.example.myapplication.Models.orderStatus.OrderStatusResponse
 import com.fidoo.user.addressmodule.model.AddAddressModel
 import com.fidoo.user.addressmodule.model.DeleteAddressModel
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.model.RemoveAddressModel
 import com.fidoo.user.cartview.model.CartModel
+import com.fidoo.user.chatbot.model.feedBackModel.FeedbackModel
+import com.fidoo.user.chatbot.model.cancelWithoutRefundEmpty
+import com.fidoo.user.chatbot.model.cancelWithoutRefundWithSendkey
 import com.fidoo.user.dailyneed.model.DailyNeedModel
 import com.fidoo.user.dailyneed.model.prdmodel.ViewAllProduct
 import com.fidoo.user.dashboard.model.CheckPaymentStatusModel
@@ -788,12 +789,30 @@ interface BackEndApi {
     ): Call<OrderStatusMsg>
 
     @FormUrlEncoded
-    @POST("chatbotGetMessages.inc.php")
-    fun ButtonLogicApi(
+    @POST("orderCancelWithoutRefund.inc.php")
+    fun cancelWithoutRefundmsgApi(
         @Field("accessToken") accessToken: String,
         @Field("accountId") accountId: String,
         @Field("orderId") orderId: String
-    ): Call<ButtonLogicModel>
+    ): Call<cancelWithoutRefundEmpty>
+
+    @FormUrlEncoded
+    @POST("orderCancelWithoutRefund.inc.php")
+    fun cancelWithoutRefundmsgApiwithKey(
+        @Field("accessToken") accessToken: String,
+        @Field("accountId") accountId: String,
+        @Field("orderId") orderId: String,
+        @Field("res") res: Int
+    ): Call<cancelWithoutRefundWithSendkey>
+
+    @FormUrlEncoded
+    @POST("chatbotFeedback.inc.php")
+    fun FeedbackApi(
+        @Field("accessToken") accessToken: String,
+        @Field("accountId") accountId: String,
+        @Field("orderId") orderId: String,
+        @Field("res") res: Int
+    ): Call<FeedbackModel>
 
 }
 

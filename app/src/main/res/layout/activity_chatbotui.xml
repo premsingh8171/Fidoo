@@ -32,11 +32,14 @@
                 android:layout_gravity="center" />
 
 
-            <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/logo"
-                android:layout_gravity="center"/>
+
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@color/transparent"
+        android:src="@drawable/ic_chatbotavatar_03"
+        android:layout_gravity="center"/>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,14 +50,16 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 />
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -64,15 +69,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:text="Today - 13 Jan" />
-
+        android:layout_marginTop="24dp" />
 
 
             <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+               android:layout_marginRight="@dimen/margin_28dp" />
+
+
             <TextView
                 android:visibility="visible"
                 android:id="@+id/DateandTime2"
@@ -80,10 +87,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="65dp"
                 android:layout_marginTop="24dp"
-                android:text="5:38 Pm" />
+                 />
 
 
             <androidx.appcompat.widget.AppCompatButton
+                android:textAllCaps="false"
+                android:textSize="16sp"
                 android:id="@+id/cancel"
                 android:visibility="gone"
                 android:layout_width="wrap_content"
@@ -97,9 +106,11 @@
                 />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:textAllCaps="false"
+                android:textSize="16sp"
                 android:id="@+id/orderstatus"
                 android:visibility="gone"
-                android:padding="15dp"
+                android:padding="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="64dp"
@@ -107,7 +118,7 @@
                 android:background="@drawable/option1"
                 android:textAlignment="center"
                 android:textColor="#359C47"
-                android:textSize="14dp"
+
                 />
 
             <LinearLayout
@@ -145,13 +156,20 @@
 
 
                 </androidx.cardview.widget.CardView>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                <LinearLayout
+                    android:background="@drawable/ellipse_223"
+                    android:layout_width="@dimen/margin_48dp"
+                    android:gravity="center"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="19dp"
-                    android:src="@drawable/icon" />
+                    android:layout_height="@dimen/margin_48dp">
+                <ImageView
+
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_avatar_01" />
+                </LinearLayout>
             </LinearLayout>
             <TextView
                 android:id="@+id/DateandTime3"
@@ -164,10 +182,13 @@
                 android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
+                android:layout_marginRight="@dimen/margin_28dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/recyclerView2"/>
+
             <TextView
                 android:visibility="gone"
                 android:id="@+id/DateandTime4"
@@ -176,37 +197,142 @@
                 android:layout_marginStart="65dp"
                 android:layout_marginTop="24dp"
                 android:text="5:38 Pm" />
+
+
             <LinearLayout
+                android:descendantFocusability="blocksDescendants"
                 android:id="@+id/LayoutFeedback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="64dp"
+                android:layout_marginEnd="@dimen/margin_4dp"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
-                <Button
-                    android:id="@+id/bt1"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:textAllCaps="false"
+                    android:id="@+id/BtnNo"
+                    android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="14dp"
+                    android:textAlignment="center"
+                    android:padding="10dp"
+                    android:background="@drawable/option1"
+                    android:textColor="#359C47" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:textAllCaps="false"
+                    android:id="@+id/BtnYes"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="14dp"
                     android:background="@drawable/option1"
-                    android:padding="12dp"
-                    android:text="No 👎" />
+                    android:padding="10dp"
+                    android:textColor="#359C47"
 
-                <Button
-                    android:id="@+id/btnthank"
-                    android:padding="12dp"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:descendantFocusability="blocksDescendants"
+                android:id="@+id/BtnYesNoReplayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="end"
+                android:visibility="visible">
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="35dp"
-                    android:background="@drawable/option1"
-                    android:text="Thank you 😀"
-                    android:textSize="14dp" />
+                    android:layout_gravity="center"
+                    android:layout_marginStart="12dp"
+                    android:elevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#3CC13B"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/BtnYesReply"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="4dp"
+                            android:padding="15dp"
+                            android:text="Yes"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
 
+                </androidx.cardview.widget.CardView>
+
+
+                <LinearLayout
+                    android:background="@drawable/ellipse_223"
+                    android:layout_width="@dimen/margin_48dp"
+                    android:gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="19dp"
+                    android:layout_height="@dimen/margin_48dp">
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_avatar_01" />
+                </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/DateandTime5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="67dp"
+                android:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginRight="@dimen/margin_28dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerView3"/>
+
+
+            <TextView
+                android:visibility="visible"
+                android:id="@+id/DateandTime6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="65dp"
+                android:layout_marginTop="24dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:textAllCaps="false"
+                android:id="@+id/BtnYes1"
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="65dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/option1"
+                android:drawableEnd="@drawable/ic_baseline_call_24"
+                android:padding="10dp"
+                android:textColor="#359C47"
+                android:textSize="16sp"
+                />
+
+
             <TextView
                 android:id="@+id/tvlast"
                 android:layout_width="wrap_content"
@@ -214,9 +340,12 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="36dp"
                 android:layout_marginBottom="40dp"
-                android:text="Conversation has been end."
+                android:text="Thanks for connecting, please don't forget to rate."
                 android:visibility="gone" />
+
+
         </LinearLayout>
-    </ScrollView>
+
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
