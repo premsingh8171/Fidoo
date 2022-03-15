@@ -222,7 +222,8 @@
 //                }
 //
 //
-//        btn_continue.setOnClickListener {
+//
+//        .setOnClickListener {
 //            if (!isNetworkConnected) {
 //                showToast(resources.getString(R.string.provide_internet))
 //            } else {
