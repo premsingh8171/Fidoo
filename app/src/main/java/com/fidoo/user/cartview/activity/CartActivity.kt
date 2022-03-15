@@ -11,10 +11,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -47,7 +51,8 @@ import com.fidoo.user.cartview.model.CartModel
 import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
 import com.fidoo.user.cartview.roomdb.entity.PrescriptionViewEntity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
-import com.fidoo.user.data.model.*
+import com.fidoo.user.data.model.AddCartInputModel
+import com.fidoo.user.data.model.AddToCartModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.grocery.activity.GroceryItemsActivity.Companion.onresumeHandle
 import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
@@ -83,20 +88,8 @@ import com.razorpay.PaymentData
 import com.razorpay.PaymentResultListener
 import com.razorpay.PaymentResultWithDataListener
 import kotlinx.android.synthetic.main.activity_cart.*
-import kotlinx.android.synthetic.main.activity_cart.backIcon
-import kotlinx.android.synthetic.main.activity_cart.bottom_sheet
-import kotlinx.android.synthetic.main.activity_cart.customAddBtn
-import kotlinx.android.synthetic.main.activity_cart.customItemsRecyclerview
-import kotlinx.android.synthetic.main.activity_cart.linear_progress_indicator
-import kotlinx.android.synthetic.main.activity_cart.tv_coupon
-import kotlinx.android.synthetic.main.activity_grocery_items.*
-import kotlinx.android.synthetic.main.activity_review_order.*
-import kotlinx.android.synthetic.main.activity_store_items.*
-import kotlinx.android.synthetic.main.activity_track_order.*
-import kotlinx.android.synthetic.main.fragment_profile.view.*
-import kotlinx.android.synthetic.main.grocery_item_layout.view.*
+import kotlinx.android.synthetic.main.new_deliverycharges_layout.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
-import kotlinx.android.synthetic.main.select_cat_popup.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -132,6 +125,7 @@ class CartActivity : BaseActivity(),
 	var filePathTemp: String = ""
 	var fileUri: Uri? = null
 	var count: Int = 1
+	var delivery_chargesList= ArrayList<CartModel.DeliveryCharges>()
 	var isPrescriptionRequire: String = ""
 	var distanceViewModel: TrackViewModel? = null
 	private val co = Checkout()
@@ -159,8 +153,11 @@ class CartActivity : BaseActivity(),
 	var check: Int = 0
 	var prescription_id: Int = 0
 	var checkStore: Int = 0
+	private lateinit var  sendPackagesDiolog: Dialog
 	var prescriptionAdapter: PrescriptionAdapter? = null
 	private var mMixpanel: MixpanelAPI? = null
+	private var posA:Float = 0.0F
+	private var posB:Float = 0.0F
 
 	companion object {
 		var store_imgStr: String = ""
@@ -326,24 +323,42 @@ class CartActivity : BaseActivity(),
 
 
 		new_delivery_popup.setOnClickListener {
-			chargesFm.visibility = View.VISIBLE
+		/*	chargesFm.visibility = View.VISIBLE
 			chargesFmBg.visibility = View.VISIBLE
-			chargesFmBgbottom.visibility = View.VISIBLE
-		}
+			chargesFmBgbottom.visibility = View.VISIBLE*/
+			cvdeliverydetail.visibility= View.VISIBLE
+			xyz.visibility= View.VISIBLE
 
+
+			morecharges_.setOnClickListener {
+				upto_3kms_.visibility= View.GONE
+				rate_id1.visibility= View.GONE
+				morecharges_.visibility=View.GONE
+				rv_newchargesa.visibility= View.VISIBLE
+				tv_gstax.visibility= View.VISIBLE
+
+			}
+		}
+		nested_top_lay.setOnClickListener {
+			xyz.visibility = View.GONE
+
+		}
 		chargesFmBg.setOnClickListener {
-			chargesFmBgbottom.visibility = View.GONE
+			/*chargesFmBgbottom.visibility = View.GONE
 			chargesFm.visibility = View.GONE
 			chargesFmBg.visibility = View.GONE
 			chargesFmBg.visibility = View.GONE
-			tax_and_charges_lay.visibility = View.GONE
+			tax_and_charges_lay.visibility = View.GONE*/
+			cvdeliverydetail.visibility= View.GONE
+			//polygon_tv.visibility= View.GONE
+
 
 		}
 
 		chargesFmBgbottom.setOnClickListener {
-			chargesFmBgbottom.visibility = View.GONE
+			/*chargesFmBgbottom.visibility = View.GONE
 			chargesFm.visibility = View.GONE
-			chargesFmBg.visibility = View.GONE
+			chargesFmBg.visibility = View.GONE*/
 		}
 
 		tv_tax_charges_label.setOnClickListener {
@@ -630,6 +645,7 @@ class CartActivity : BaseActivity(),
 			//   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
 		}
 
+
 		viewmodel?.addRemoveCartResponse?.observe(this) { user ->
 			dismissIOSProgress()
 			Log.e("addRemove_cart_response", Gson().toJson(user))
@@ -707,6 +723,8 @@ class CartActivity : BaseActivity(),
 			}
 		}
 
+
+
 		viewmodel?.getCartDetailsResponse?.observe(this) { user ->
 			dismissIOSProgress()
 			main_lay.visibility = View.VISIBLE
@@ -714,7 +732,10 @@ class CartActivity : BaseActivity(),
 			Log.e("getCartDetailsResponse_", Gson().toJson(user))
 
 			isPrescriptionRequire = "0"
+
+
 			linear_progress_indicator.visibility = View.GONE
+
 
 			if (!user.error) {
 				if (user.cart != null) {
@@ -727,6 +748,7 @@ class CartActivity : BaseActivity(),
 
 					Log.e("storeDataCartActivity__", "$storeLat---$storeLong-$other_taxes_and_charges")
 					calculateStoreCustomerDistance()
+
 
 					//do work for charges
 					try {
@@ -754,10 +776,14 @@ class CartActivity : BaseActivity(),
 
 						}
 
+
 						value_AdditionalTxt.text=user.delivery_tax_rate
 
+						val layoutmanager= LinearLayoutManager(this)
+						rv_newchargesa.layoutManager= layoutmanager
+
 						var adapterCharges=DeliveryChargesAdapter(this,user.deliveryChargesList as ArrayList)
-						charges_rv.adapter=adapterCharges
+						rv_newchargesa.adapter=adapterCharges
 					} catch (e: Exception) {
 						e.printStackTrace()
 					}
@@ -905,6 +931,29 @@ class CartActivity : BaseActivity(),
 					Log.e("Grand Total", tv_grand_total.text.toString())
 					//showToast(mModelData.deliveryDiscount)
 					//showToast(finalPrice.toString())
+
+					tv_delivery_charges_label.text= "Delivery charges | ${mModelData.distance} kms"
+					if (mModelData.distance<=3){
+						upto_3kms_.text= "upto 3kms"
+						rate_id1.text= "21"
+					}
+					if (mModelData.distance>3 && mModelData.distance<=6){
+						upto_3kms_.text= "above 3kms-6kms"
+						rate_id1.text= "42"
+					}
+					if (mModelData.distance>6 && mModelData.distance<=9){
+						upto_3kms_.text= "above 6kms-9kms"
+						rate_id1.text= "64"
+					}
+					if (mModelData.distance>9 && mModelData.distance<=12){
+						upto_3kms_.text= "above 9kms-12kms"
+						rate_id1.text= "85"
+					}
+					if (mModelData.distance>12){
+						upto_3kms_.text= "above 12kms"
+						rate_id1.text= "106"
+					}
+
 					tv_delivery_charges.text =
 						resources.getString(R.string.ruppee) + deliveryChargeWithTax
 
@@ -2313,6 +2362,38 @@ class CartActivity : BaseActivity(),
 	}
 
 	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
+
+	}
+	private fun newpopup_delivery(){
+
+
+
+
+
+
+
+		/*for (i in 0..delivery_chargesList.size){
+			if (i==0) {
+				txt1.text = delivery_chargesList.get(i).distanceRange
+				rate1.text = delivery_chargesList.get(i).deliveryCharges
+			}
+			if (i==1) {
+				txt2.text = delivery_chargesList[i].distanceRange
+				rate2.text = delivery_chargesList[i].deliveryCharges
+			}
+			if (i==2) {
+				txt3.text = delivery_chargesList[i].distanceRange
+				rate3.text = delivery_chargesList[i].deliveryCharges
+			}
+			if (i==3) {
+				txt4.text = delivery_chargesList[i].distanceRange
+				rate4.text = delivery_chargesList[i].deliveryCharges
+			}
+			if (i==4) {
+				txt5.text = delivery_chargesList[i].distanceRange
+				rate5.text = delivery_chargesList[i].deliveryCharges
+			}
+		}*/
 
 	}
 
