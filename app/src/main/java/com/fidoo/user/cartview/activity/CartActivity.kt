@@ -322,10 +322,7 @@ class CartActivity : BaseActivity(),
 			prescriptionLay2.visibility = View.VISIBLE
 		}
 
-
-
-
-		new_delivery_popup.setOnClickListener {
+		tv_delivery_charges_label.setOnClickListener {
 			chargesFm.visibility = View.VISIBLE
 			chargesFmBg.visibility = View.VISIBLE
 			chargesFmBgbottom.visibility = View.VISIBLE
@@ -337,7 +334,6 @@ class CartActivity : BaseActivity(),
 			chargesFmBg.visibility = View.GONE
 			chargesFmBg.visibility = View.GONE
 			tax_and_charges_lay.visibility = View.GONE
-
 		}
 
 		chargesFmBgbottom.setOnClickListener {
@@ -528,7 +524,7 @@ class CartActivity : BaseActivity(),
 					}
 				}else{
 					Toast.makeText(this,"One order is already in queue.",Toast.LENGTH_SHORT).show()
-				//	showToast("One order is already in queue.")
+					//	showToast("One order is already in queue.")
 				}
 			}
 		}
@@ -892,7 +888,7 @@ class CartActivity : BaseActivity(),
 					finalPrice = totalAmount
 
 					//numberOfItemsValue.text = noOfItems.toString() + " Items"
-					
+
 
 					//edit by prem
 					val rounded = finalPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
@@ -1112,7 +1108,7 @@ class CartActivity : BaseActivity(),
 				tv_grand_total.text =
 					resources.getString(R.string.ruppee) + rounded.toString()
 
-			//	Log.e("Final Price after promo", tv_place_order.text.toString())
+				//	Log.e("Final Price after promo", tv_place_order.text.toString())
 
 				//discountLabel.visibility = View.VISIBLE
 				//discountValue.visibility = View.VISIBLE
@@ -2066,7 +2062,7 @@ class CartActivity : BaseActivity(),
 			)
 		}
 	}
-//	AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY
+	//	AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY
 	fun calculateStoreCustomerDistance() {
 		val source = userLat + "," + userLong
 		val destination = storeLat + "," + storeLong
@@ -2308,15 +2304,9 @@ class CartActivity : BaseActivity(),
 		}, 5000)
 	}
 
-	override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
+	override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {}
 
-	}
-
-	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
-
-	}
-
-
+	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {}
 
 //	override fun onRestart() {
 //		super.onRestart()

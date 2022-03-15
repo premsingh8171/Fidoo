@@ -187,7 +187,13 @@ class Chatbotui :AppCompatActivity() {
                 delay(3000)
                 DateandTime4.visibility = View.VISIBLE
                 delay(1000)
-                LayoutFeedback.visibility = View.VISIBLE
+                if(allStatus == "1") {
+                    LayoutFeedback.visibility = View.VISIBLE
+
+                }else{
+                    LayoutFeedback.visibility = View.GONE
+                    tvlast.visibility = View.VISIBLE
+                }
 //                tvlast.visibility = View.VISIBLE
 
 
