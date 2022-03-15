@@ -563,7 +563,6 @@
                     android:layout_marginLeft="@dimen/margin_25dp" />
 
 
-
                 <ImageView
                     android:id="@+id/new_delivery_popup"
                     android:layout_width="wrap_content"

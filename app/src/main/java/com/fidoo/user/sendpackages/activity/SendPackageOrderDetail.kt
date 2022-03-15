@@ -242,10 +242,22 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         }
 
         address_details_lay.setOnClickListener {
+
+            upto_3kms_.visibility= View.VISIBLE
+            rate_id1.visibility= View.VISIBLE
+            morecharges_.visibility=View.VISIBLE
+            rv_newchargesa.visibility= View.GONE
+            tv_gstax.visibility= View.GONE
             xyz2.visibility = View.GONE
+
         }
 
         items_details_lay.setOnClickListener {
+            upto_3kms_.visibility= View.VISIBLE
+            rate_id1.visibility= View.VISIBLE
+            morecharges_.visibility=View.VISIBLE
+            rv_newchargesa.visibility= View.GONE
+            tv_gstax.visibility= View.GONE
             xyz2.visibility = View.GONE
         }
 

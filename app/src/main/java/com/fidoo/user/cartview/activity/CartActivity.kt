@@ -96,6 +96,7 @@ import okhttp3.RequestBody
 import org.json.JSONObject
 import java.io.File
 import java.math.RoundingMode
+import kotlin.math.roundToInt
 
 
 @Suppress("DEPRECATION")
@@ -340,6 +341,11 @@ class CartActivity : BaseActivity(),
 			}
 		}
 		nested_top_lay.setOnClickListener {
+			upto_3kms_.visibility= View.VISIBLE
+			rate_id1.visibility= View.VISIBLE
+			morecharges_.visibility=View.VISIBLE
+			rv_newchargesa.visibility= View.GONE
+			tv_gstax.visibility= View.GONE
 			xyz.visibility = View.GONE
 
 		}
@@ -932,7 +938,10 @@ class CartActivity : BaseActivity(),
 					//showToast(mModelData.deliveryDiscount)
 					//showToast(finalPrice.toString())
 
-					tv_delivery_charges_label.text= "Delivery charges | ${mModelData.distance} kms"
+					var dist= (mModelData.distance/1000)
+					val rounded2 = String.format("%.3f", dist)
+
+				//	tv_delivery_charges_label.text= "Delivery charges | ${dist} kms"
 					if (mModelData.distance<=3){
 						upto_3kms_.text= "upto 3kms"
 						rate_id1.text= "21"
