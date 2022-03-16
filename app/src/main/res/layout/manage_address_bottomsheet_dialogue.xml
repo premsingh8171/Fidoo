@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="15dp"
-    android:layout_margin="3dp">
+    android:background="@drawable/manage_location_bottomsheet_bg">
     <LinearLayout
         android:id="@+id/manage_location_Off_or_On"
         android:orientation="vertical"
