@@ -206,8 +206,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		return fragmentHomeBinding?.root
 	}
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Showing BottomSheetDialog to see saved address or to add new one
+	 */
 	private fun showDialog() {
 		val dialog = Dialog(requireContext())
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -217,12 +218,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			dialog.dismiss()
 			Toast.makeText(requireContext(), "Edit is Clicked", Toast.LENGTH_SHORT).show()
 		}
-//		lvAddNewAdd.setOnClickListener(object : DialogInterface.OnClickListener() {
-//			fun onClick(v: View?) {
-//				dialog.dismiss()
-//				Toast.makeText(requireContext(), "Edit is Clicked", Toast.LENGTH_SHORT).show()
-//			}
-//		})
 		dialog.show()
 		dialog.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
@@ -336,8 +331,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			}
 
 		}
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////////////////////////////////
+		/**
+		 * Button to go to Manage Address BottomSheetDialogue
+		 */
 		fragmentHomeBinding?.addressLayNewDesh?.setOnClickListener {
 
 //			startActivityForResult(
@@ -349,9 +345,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //			)
 //					addEditAdd = "Dashboard"
 
-			///////////////////////////////////////////////////////////////////////////////////////////////////////
-			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			// First Method
+			/**
+			 * First Method to pop up BottomSheetDialogue
+			 */
 //			val view:View = layoutInflater.inflate(R.layout.manage_address_bottomsheet_dialogue,null)
 //			val dialog = BottomSheetDialog(requireContext())
 //			dialog.setContentView(view)

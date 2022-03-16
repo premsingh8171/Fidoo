@@ -37,9 +37,8 @@
                     android:textColor="@color/black"/>
             </LinearLayout>
         </LinearLayout>
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="220dp"
@@ -53,9 +52,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
+                android:layout_alignParentEnd="true"
                 android:textSize="14sp"
                 android:text="Turn On"/>
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
