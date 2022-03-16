@@ -6,7 +6,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -64,7 +63,6 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_home_newui.*
-import kotlinx.android.synthetic.main.manage_address_bottomsheet_dialogue.*
 import org.json.JSONObject
 import java.util.*
 
