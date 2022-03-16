@@ -6,6 +6,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -33,10 +34,8 @@ import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
-import com.fidoo.user.activity.MainActivity.Companion.addEditAdd
 import com.fidoo.user.activity.MainActivity.Companion.orderSuccess
 import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.dailyneed.ui.ServiceDailyNeedActivity
 import com.fidoo.user.dashboard.adapter.SliderAdapterExample
@@ -53,7 +52,6 @@ import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.sendpackages.activity.SendPackageActivity
-import com.fidoo.user.sendpackages.activity.SendPackageOrderDetail
 import com.fidoo.user.store.activity.StoreFilterListActivity
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
@@ -61,15 +59,14 @@ import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.BaseFragment
 import com.fidoo.user.utils.CardSliderLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_home_newui.*
+import kotlinx.android.synthetic.main.manage_address_bottomsheet_dialogue.*
 import org.json.JSONObject
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 @Suppress("DEPRECATION")
@@ -209,6 +206,35 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		return fragmentHomeBinding?.root
 	}
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private fun showDialog() {
+		val dialog = Dialog(requireContext())
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		dialog.setContentView(R.layout.manage_address_bottomsheet_dialogue)
+		val lvAddNewAdd = dialog.findViewById<LinearLayout>(R.id.lv_add_new_address)
+		lvAddNewAdd.setOnClickListener {
+			dialog.dismiss()
+			Toast.makeText(requireContext(), "Edit is Clicked", Toast.LENGTH_SHORT).show()
+		}
+//		lvAddNewAdd.setOnClickListener(object : DialogInterface.OnClickListener() {
+//			fun onClick(v: View?) {
+//				dialog.dismiss()
+//				Toast.makeText(requireContext(), "Edit is Clicked", Toast.LENGTH_SHORT).show()
+//			}
+//		})
+		dialog.show()
+		dialog.window!!.setLayout(
+			ViewGroup.LayoutParams.MATCH_PARENT,
+			ViewGroup.LayoutParams.WRAP_CONTENT
+		)
+		dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+	//	dialog.window!!.attributes.windowAnimations = android.R.style.DialogAnimation
+		dialog.window!!.setGravity(Gravity.BOTTOM)
+	}
+
+
+
 	private fun slideDown(view: View) {
 		view.animate()
 			.alpha(0.5f)
@@ -313,6 +339,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////////////////////////////////
 		fragmentHomeBinding?.addressLayNewDesh?.setOnClickListener {
+
 //			startActivityForResult(
 //				Intent(context, SavedAddressesActivity::class.java)
 //					.putExtra("type", "address")
@@ -320,14 +347,22 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //						"where", where
 //					), AUTOCOMPLETE_REQUEST_CODE
 //			)
-			val view:View = layoutInflater.inflate(R.layout.manage_address_bottomsheet_dialogue,null)
-			val dialog = BottomSheetDialog(requireContext())
-			dialog.setContentView(view)
-			dialog.show()
-	//		addEditAdd = "Dashboard"
-		}
+//					addEditAdd = "Dashboard"
 
+			///////////////////////////////////////////////////////////////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
+			// First Method
+//			val view:View = layoutInflater.inflate(R.layout.manage_address_bottomsheet_dialogue,null)
+//			val dialog = BottomSheetDialog(requireContext())
+//			dialog.setContentView(view)
+//			dialog.show()
+
+			// Second Method
+             showDialog()
+
+		}
 	}
+
 
 	private fun getObserveResponse() {
 
