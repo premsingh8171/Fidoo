@@ -295,6 +295,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                     .putExtra("charges_three",user.charges_three)
                     .putExtra("delivery_tax_rate",user.delivery_tax_rate)
                     .putExtra("delivery_charges",deliveryCharges)
+
             )
 
             /*buyPopup(
@@ -329,6 +330,10 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
 
 
         tv_placeOrder.setOnClickListener {
+
+            Intent(this, SendPackageOrderDetail::class.java)
+                .putExtra("test", " hii")
+
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
 

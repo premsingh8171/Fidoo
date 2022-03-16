@@ -67,6 +67,7 @@ class Chatbotui :AppCompatActivity() {
     var firstMsgListData=ArrayList<String>()
     var secondMsgListData = ArrayList<String>()
     var allStatus : String =""
+    var userPaymentMode : Int? = null
     var dBoyName : String = ""
     var merchantName : String = ""
     var cancelWithoutRefundData = ArrayList<String>()
@@ -115,6 +116,8 @@ class Chatbotui :AppCompatActivity() {
             // Log.d("sddffsddsds", Gson().toJson(it))
             firstMsgListData = it.messages as ArrayList<String>
             allStatus = it.orderStatus
+            //for payment mode
+            userPaymentMode = it.userPaymentMode
             Log.d("sddffsddskgjgjds", Gson().toJson(it))
             setadapter()
             DateandTime2.text = dateTime1
@@ -146,7 +149,9 @@ class Chatbotui :AppCompatActivity() {
 
 
             }
+                       if(it.userPaymentMode.equals("1")){
 
+                       }
 
         }
 
@@ -159,10 +164,11 @@ class Chatbotui :AppCompatActivity() {
         cancel.text = "Cancel my order"
 
 
+
             CoroutineScope(Dispatchers.Main).launch {
 
             delay(1500)
-                if(allStatus.equals("10") || allStatus.equals("3")) {
+                if(allStatus.equals("10") || allStatus.equals("3") || (userPaymentMode==1 && !allStatus.equals("1")) ) {
                     cancel.visibility = View.GONE
                     //
                     BtnYes1.text = dBoyName

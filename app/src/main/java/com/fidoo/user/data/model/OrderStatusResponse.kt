@@ -1,4 +1,4 @@
-package com.example.myapplication.Models.orderStatus
+package com.fidoo.user.data.model
 
 
 import com.google.gson.annotations.SerializedName
@@ -8,6 +8,8 @@ data class OrderStatusResponse(
     val accessToken: String,
     @SerializedName("accountId")
     val accountId: String,
+    @SerializedName("chatLogEntry")
+    val chatLogEntry: Boolean,
     @SerializedName("error")
     val error: Boolean,
     @SerializedName("error_code")
@@ -21,5 +23,7 @@ data class OrderStatusResponse(
     @SerializedName("orderId")
     val orderId: String,
     @SerializedName("order_status")
-    val orderStatus: String
+    val orderStatus: String,
+    @SerializedName("userPaymentMode")
+    val userPaymentMode: Int
 )
