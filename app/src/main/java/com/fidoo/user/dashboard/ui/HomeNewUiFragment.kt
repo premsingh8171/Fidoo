@@ -35,6 +35,7 @@ import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.orderSuccess
 import com.fidoo.user.activity.SplashActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.dailyneed.ui.ServiceDailyNeedActivity
 import com.fidoo.user.dashboard.adapter.SliderAdapterExample
@@ -213,8 +214,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		dialog.setContentView(R.layout.manage_address_bottomsheet_dialogue)
 		val lvAddNewAdd = dialog.findViewById<LinearLayout>(R.id.lv_add_new_address)
 		lvAddNewAdd.setOnClickListener {
+			val intent = Intent(this@HomeNewUiFragment.requireContext(), SavedAddressesActivity::class.java)
+			startActivity(intent)
 			dialog.dismiss()
-			Toast.makeText(requireContext(), "Edit is Clicked", Toast.LENGTH_SHORT).show()
+			Toast.makeText(requireContext(), "Moving to saved address activity", Toast.LENGTH_SHORT).show()
 		}
 		dialog.show()
 		dialog.window!!.setLayout(
