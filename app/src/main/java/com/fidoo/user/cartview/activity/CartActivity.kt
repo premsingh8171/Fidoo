@@ -938,27 +938,28 @@ class CartActivity : BaseActivity(),
 					//showToast(mModelData.deliveryDiscount)
 					//showToast(finalPrice.toString())
 
-					var dist= (mModelData.distance/1000)
-					val rounded2 = String.format("%.3f", dist)
+					/*var dist= ((mModelData.distance)/1000).toString()
+					var rounded2 = String.format("%.2f", dist)
+					Log.d("dudi", "${rounded2}")*/
 
-				//	tv_delivery_charges_label.text= "Delivery charges | ${dist} kms"
-					if (mModelData.distance<=3){
+					tv_delivery_charges_label.text= "Delivery charges |${mModelData.distance}meters"
+					if (mModelData.distance<=3000){
 						upto_3kms_.text= "upto 3kms"
 						rate_id1.text= "21"
 					}
-					if (mModelData.distance>3 && mModelData.distance<=6){
+					if (mModelData.distance>3000 && mModelData.distance<=6000){
 						upto_3kms_.text= "above 3kms-6kms"
 						rate_id1.text= "42"
 					}
-					if (mModelData.distance>6 && mModelData.distance<=9){
+					if (mModelData.distance>6000 && mModelData.distance<=9000){
 						upto_3kms_.text= "above 6kms-9kms"
 						rate_id1.text= "64"
 					}
-					if (mModelData.distance>9 && mModelData.distance<=12){
+					if (mModelData.distance>9000 && mModelData.distance<=12000){
 						upto_3kms_.text= "above 9kms-12kms"
 						rate_id1.text= "85"
 					}
-					if (mModelData.distance>12){
+					if (mModelData.distance>12000){
 						upto_3kms_.text= "above 12kms"
 						rate_id1.text= "106"
 					}

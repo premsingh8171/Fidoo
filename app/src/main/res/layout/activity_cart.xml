@@ -473,9 +473,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/billheadingtxt"
+                    android:layout_marginLeft="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
                     android:text="Item total"
-                    android:layout_marginLeft="@dimen/margin_20dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp" />
 
@@ -549,6 +549,7 @@
                     android:layout_marginLeft="@dimen/margin_20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
+                    android:textColor="@color/black"
                     android:text="Delivery Charges"
                     android:textSize="@dimen/text_size_12sp" />
 
@@ -656,6 +657,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/view"
                     android:layout_marginTop="10dp"
+                    android:layout_marginLeft="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
                     android:text="Grand Total"
                     android:textColor="@color/black"
@@ -668,6 +670,7 @@
                     android:layout_below="@id/view"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
                     android:textColor="@color/black"
