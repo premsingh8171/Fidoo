@@ -307,7 +307,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         })
 
         viewmodel?.getAddressesResponse?.observe(this,{user ->
-            Log.e("homeaddRes", Gson().toJson(user))
+            Log.e("homeaddRes_", Gson().toJson(user))
 
             if (user.addressList != null) {
                 val addressList: MutableList<GetAddressModel.AddressList> = user.addressList

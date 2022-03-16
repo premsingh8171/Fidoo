@@ -116,23 +116,23 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
 
         if (dist<=3){
             upto_3kms_.text= "upto 3kms"
-            rate_id1.text= "21"
+            rate_id1.text= resources.getString(R.string.ruppee)+"21"
         }
         if (dist>3 && dist<=6){
             upto_3kms_.text= "above 3kms-6kms"
-            rate_id1.text= "42"
+            rate_id1.text= resources.getString(R.string.ruppee)+"42"
         }
         if (dist>6 && dist<=9){
             upto_3kms_.text= "above 6kms-9kms"
-            rate_id1.text= "64"
+            rate_id1.text= resources.getString(R.string.ruppee)+"64"
         }
         if (dist>9 && dist<=12){
             upto_3kms_.text= "above 9kms-12kms"
-            rate_id1.text= "85"
+            rate_id1.text= resources.getString(R.string.ruppee)+"85"
         }
         if (dist>12){
             upto_3kms_.text= "above 12kms"
-            rate_id1.text= "106"
+            rate_id1.text= resources.getString(R.string.ruppee)+"106"
         }
 
         try {
@@ -322,7 +322,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                                                                 cat_Id!!, notes, images!!, tax!!
                                                             )
                                                         }else{
-
+                                                            showToast("Please select valid address")
                                                         }
                                                     } else {
                                                         showToast("There is some issue in payment, please try after sometime")

@@ -34,7 +34,7 @@
             android:fontFamily="@font/proxima"
             android:maxLines="1"
             android:text=""
-            android:textColor="@color/primary_color"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_size_12sp" />
 
     </RelativeLayout>

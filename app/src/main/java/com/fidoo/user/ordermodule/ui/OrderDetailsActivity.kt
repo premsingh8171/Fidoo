@@ -83,7 +83,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             items = mModelData.items
             tv_address.text = mModelData.deliveryAddress
             label_payMode.text = "Payment Mode: "+ mModelData.paymentMode
-            tv_deliveryboy_name.text="Order delivered by "+mModelData.deliveryBoyName+" at "+mModelData.dateTime
+            tv_deliveryboy_name.text="Order delivered by "+mModelData.deliveryBoyName+" at "+mModelData.delivered_at
 
             Log.e("orders details Response", Gson().toJson(mModelData))
 

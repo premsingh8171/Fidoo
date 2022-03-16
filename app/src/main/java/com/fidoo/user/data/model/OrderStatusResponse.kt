@@ -20,6 +20,8 @@ data class OrderStatusResponse(
     val messages: List<String>,
     @SerializedName("orderId")
     val orderId: String,
+    @SerializedName("userPaymentMode")
+    val userPaymentMode: Int,
     @SerializedName("order_status")
     val orderStatus: String
 )
