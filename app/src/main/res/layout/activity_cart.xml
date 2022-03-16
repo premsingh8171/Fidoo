@@ -314,10 +314,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@color/lightGray"
-                android:padding="@dimen/margin_10"
+
                 app:layout_constraintTop_toBottomOf="@+id/store_instructionRl">
 
-                <TextView
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="0dp"
+                    android:id="@+id/delivery_addressCard"
+
+                    >
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/margin_10"
+                        android:id="@+id/rv_delivery_addressCard"
+                        android:background="@color/lightGray"
+                        >
+
+                    <TextView
                     android:id="@+id/tv_delivery_at"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -352,22 +367,22 @@
                     android:textColor="@color/colorPrimary"
                     android:visibility="invisible" />
 
-                <TextView
-                    android:id="@+id/changeaddtxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_delivery_at"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_toRightOf="@+id/tv_delivery_address"
-                    android:fontFamily="@font/proxima"
-                    android:gravity="end"
-                    android:text="Change"
-                    android:textColor="@color/primary_color"
-                    android:textSize="@dimen/text_size_12sp"
-                    android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/changeaddtxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_delivery_at"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:layout_marginEnd="@dimen/margin_10dp"
+                            android:layout_toRightOf="@+id/tv_delivery_address"
+                            android:fontFamily="@font/proxima"
+                            android:gravity="end"
+                            android:text="Change"
+                            android:textColor="@color/primary_color"
+                            android:textSize="@dimen/text_size_12sp"
+                            android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_landmark"
@@ -401,19 +416,35 @@
                     android:text=""
                     android:textColor="@color/txt_color"
                     android:textSize="@dimen/text_size_12sp" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
 
-            </RelativeLayout>
+                <View
+                    android:id="@+id/smpviewnew"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_below="@+id/delivery_addressCard"
 
-            <RelativeLayout
-                android:id="@+id/coupon_lay"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:background="@color/input_fieldcolor" />
+
+
+
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
+                android:id="@+id/cv_couponCard"
+                app:cardElevation="0dp"
+                android:layout_below="@+id/smpviewnew"
+                >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:id="@+id/rv_couponsCard"
                 android:background="@color/lightGray"
-
-                android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@id/delivery_address_lay">
-
+                >
                 <ImageView
                     android:id="@+id/coupanimg"
                     android:layout_width="@dimen/margin_24dp"
@@ -442,13 +473,15 @@
                     android:src="@drawable/cancel_icon"
                     android:visibility="gone"
                     app:tint="@color/primary_color" />
+            </RelativeLayout>
+            </androidx.cardview.widget.CardView>
 
 
                 <View
                     android:id="@+id/smpview"
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_below="@+id/tv_coupon"
+                    android:layout_height="15dp"
+                    android:layout_below="@+id/cv_couponCard"
 
                     android:layout_marginTop="@dimen/margin_10dp"
                     android:background="@color/input_fieldcolor" />
@@ -460,7 +493,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/smpview"
                     android:layout_marginLeft="@dimen/margin_20dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="@dimen/margin_10"
                     android:fontFamily="@font/proxima"
                     android:text="Bill Details"
@@ -534,11 +567,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_cart_discount"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginRight="@dimen/margin_20dp"
+                    android:layout_marginEnd="@dimen/margin_20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
-                    android:textSize="@dimen/text_size_12sp" />
+                    android:textSize="12sp" />
 
 
                 <TextView
@@ -546,12 +579,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_cart_afterdiscount_lable"
-                    android:layout_marginLeft="@dimen/margin_20dp"
+                    android:layout_marginStart="@dimen/margin_20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
                     android:textColor="@color/black"
                     android:text="Delivery Charges"
-                    android:textSize="@dimen/text_size_12sp" />
+                    android:textSize="12sp" />
 
 
                 <include
@@ -686,7 +719,7 @@
                 android:layout_marginTop="@dimen/margin_10"
                 android:background="@color/lightGray"
                 android:padding="15dp"
-                app:layout_constraintTop_toBottomOf="@id/coupon_lay">
+                app:layout_constraintTop_toBottomOf="@id/delivery_address_lay">
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_no_contact_delivery"

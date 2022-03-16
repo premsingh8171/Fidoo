@@ -441,7 +441,7 @@ class CartActivity : BaseActivity(),
 			}
 		}
 
-		delivery_address_lay.setOnClickListener {
+		delivery_addressCard.setOnClickListener {
 			if (!isNetworkConnected) {
 				showToast(resources.getString(R.string.provide_internet))
 
@@ -490,7 +490,7 @@ class CartActivity : BaseActivity(),
 
 		}
 
-		delivery_address_lay.setOnClickListener {
+		delivery_addressCard.setOnClickListener {
 			if (!isNetworkConnected) {
 				showToast(resources.getString(R.string.provide_internet))
 			} else {
@@ -854,6 +854,7 @@ class CartActivity : BaseActivity(),
 						//onlineRadioBtn.isChecked = true
 					}
 
+
 					val mModelData: CartModel = user
 
 					Log.e("mModelData_", mModelData.cart.size.toString())
@@ -937,10 +938,6 @@ class CartActivity : BaseActivity(),
 					Log.e("Grand Total", tv_grand_total.text.toString())
 					//showToast(mModelData.deliveryDiscount)
 					//showToast(finalPrice.toString())
-
-					/*var dist= ((mModelData.distance)/1000).toString()
-					var rounded2 = String.format("%.2f", dist)
-					Log.d("dudi", "${rounded2}")*/
 
 					tv_delivery_charges_label.text= "Delivery charges |${mModelData.distance}meters"
 					if (mModelData.distance<=3000){
@@ -1058,8 +1055,13 @@ class CartActivity : BaseActivity(),
 						tv_cart_discount_label.visibility = View.GONE
 						tv_cart_afterDiscount.visibility = View.GONE
 						tv_cart_afterdiscount_lable.visibility = View.GONE
-						tv_coupon.visibility = View.GONE
-						coupon_lay.visibility = View.GONE
+					//	tv_coupon.text = "NO Coupan Applied"
+						cv_couponCard.visibility= View.GONE
+						smpview.visibility= View.GONE
+
+
+
+						//coupon_lay.visibility = View.GONE
 						//discountValue.visibility = View.GONE
 					}
 
