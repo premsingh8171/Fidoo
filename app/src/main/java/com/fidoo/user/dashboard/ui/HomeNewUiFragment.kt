@@ -18,6 +18,7 @@ import android.view.*
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
@@ -68,11 +69,8 @@ import kotlinx.android.synthetic.main.fragment_home_newui.*
 import org.json.JSONObject
 import java.util.*
 
-
 @Suppress("DEPRECATION")
 class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
-	private var countDialogueItem = 0
-	private var countReflectAddress = 1
 	lateinit var analytics: FirebaseAnalytics
 	var serviceDetailsAdapter: ServiceDetailsAdapter? = null
 	lateinit var mView: View
@@ -95,6 +93,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 	private var mMixpanel: MixpanelAPI? = null
 	private val props = JSONObject()
+
+	private lateinit var dialog: Dialog
 
 	companion object {
 		var service_id: String? = ""
@@ -212,15 +212,21 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	 * Showing BottomSheetDialog to see saved address or to add new one
 	 */
 	private fun showDialog() {
-		val dialog = Dialog(requireContext())
+		dialog = context?.let { Dialog(it) }!!
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 		dialog.setContentView(R.layout.manage_address_bottomsheet_dialogue)
 		val lvAddNewAdd = dialog.findViewById<LinearLayout>(R.id.lv_add_new_address)
+		val home_address = dialog.findViewById<TextView>(R.id.home_address_tv)
+		home_address.text = SessionTwiclo(context).userAddress
+
 		lvAddNewAdd.setOnClickListener {
-			val intent = Intent(this@HomeNewUiFragment.requireContext(), SavedAddressesActivity::class.java)
-			startActivity(intent)
-			dialog.dismiss()
-			Toast.makeText(requireContext(), "Moving to saved address activity", Toast.LENGTH_SHORT).show()
+			startActivityForResult(
+				Intent(context, SavedAddressesActivity::class.java)
+					.putExtra("type", "address")
+					.putExtra(
+						"where", where
+					), AUTOCOMPLETE_REQUEST_CODE
+			)
 		}
 		dialog.show()
 		dialog.window!!.setLayout(
@@ -230,7 +236,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog.window!!.setGravity(Gravity.BOTTOM)
 	}
-
 
 
 	private fun slideDown(view: View) {
@@ -338,17 +343,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		 * Button to go to Manage Address BottomSheetDialogue
 		 */
 		fragmentHomeBinding?.addressLayNewDesh?.setOnClickListener {
-			if (countDialogueItem == 0) {
 				showDialog()
-			}
-
-				startActivityForResult(
-					Intent(context, SavedAddressesActivity::class.java)
-						.putExtra("type", "address")
-						.putExtra(
-							"where", where
-						), AUTOCOMPLETE_REQUEST_CODE
-				)
 				addEditAdd = "Dashboard"
 
 
@@ -359,16 +354,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //			val dialog = BottomSheetDialog(requireContext())
 //			dialog.setContentView(view)
 //			dialog.show()
-
-			// Second Method
-
-
 		}
 	}
 
-
 	private fun getObserveResponse() {
-
 		viewmodel?.cartCountResponse?.observe(requireActivity(), { user ->
 			Log.d("mModelData___", Gson().toJson(user))
 
@@ -685,6 +674,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		}
 	}
 
+	override fun onStop() {
+		super.onStop()
+		dialog.dismiss()
+	}
+
 	override fun onCurationCatClick(outerPosition: Int?, innerPosition: Int?, model: Curation) {
 		Log.e("onCurationCatClick", model.toString())
 		props.put("clicked on curations", model.name)
@@ -828,5 +822,4 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			payment_suc_Diolog?.dismiss()
 		}, 5000)
 	}
-
 }
