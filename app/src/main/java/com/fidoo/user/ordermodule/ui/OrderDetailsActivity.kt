@@ -82,7 +82,9 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             val mModelData: OrderDetailsModel = user
             items = mModelData.items
             tv_address.text = mModelData.deliveryAddress
-            tv_payment_mode.text = "Payment Mode: " + mModelData.paymentMode
+            label_payMode.text = "Payment Mode: "+ mModelData.paymentMode
+            tv_deliveryboy_name.text="Order delivered by "+mModelData.deliveryBoyName+" at "+mModelData.dateTime
+
             Log.e("orders details Response", Gson().toJson(mModelData))
 
             when {
@@ -203,6 +205,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
 
             grand_price.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
             sub_total.text = resources.getString(R.string.ruppee) + "" + mModelData.all_items_total
+            grand_price2.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
             Log.e("delivery_discount", mModelData.delivery_discount.toString())
         })
 
