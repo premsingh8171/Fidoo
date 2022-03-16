@@ -33,6 +33,7 @@ import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
+import com.fidoo.user.activity.MainActivity.Companion.addEditAdd
 import com.fidoo.user.activity.MainActivity.Companion.orderSuccess
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
@@ -70,6 +71,8 @@ import java.util.*
 
 @Suppress("DEPRECATION")
 class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
+	private var countDialogueItem = 0
+	private var countReflectAddress = 1
 	lateinit var analytics: FirebaseAnalytics
 	var serviceDetailsAdapter: ServiceDetailsAdapter? = null
 	lateinit var mView: View
@@ -225,7 +228,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			ViewGroup.LayoutParams.WRAP_CONTENT
 		)
 		dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-	//	dialog.window!!.attributes.windowAnimations = android.R.style.DialogAnimation
 		dialog.window!!.setGravity(Gravity.BOTTOM)
 	}
 
@@ -336,15 +338,19 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		 * Button to go to Manage Address BottomSheetDialogue
 		 */
 		fragmentHomeBinding?.addressLayNewDesh?.setOnClickListener {
+			if (countDialogueItem == 0) {
+				showDialog()
+			}
 
-//			startActivityForResult(
-//				Intent(context, SavedAddressesActivity::class.java)
-//					.putExtra("type", "address")
-//					.putExtra(
-//						"where", where
-//					), AUTOCOMPLETE_REQUEST_CODE
-//			)
-//					addEditAdd = "Dashboard"
+				startActivityForResult(
+					Intent(context, SavedAddressesActivity::class.java)
+						.putExtra("type", "address")
+						.putExtra(
+							"where", where
+						), AUTOCOMPLETE_REQUEST_CODE
+				)
+				addEditAdd = "Dashboard"
+
 
 			/**
 			 * First Method to pop up BottomSheetDialogue
@@ -355,7 +361,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //			dialog.show()
 
 			// Second Method
-             showDialog()
+
 
 		}
 	}
