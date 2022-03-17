@@ -3,10 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/nc110/Desktop/Fidoo/app/src/main/res/layout/activity_new_add_address.xml" value="0.192481884057971" />
-        <entry key="..\:/Users/nc110/Desktop/Fidoo/app/src/main/res/layout/activity_saved_addresses.xml" value="0.192481884057971" />
-        <entry key="..\:/Users/nc110/Desktop/Fidoo/app/src/main/res/layout/fragment_home_newui.xml" value="0.192481884057971" />
-        <entry key="..\:/Users/nc110/Desktop/Fidoo/app/src/main/res/layout/manage_address_bottomsheet_dialogue.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/nc110/Desktop/Fidoo User App/app/src/main/res/drawable/manage_location_bottomsheet_bg.xml" value="0.162" />
+        <entry key="..\:/Users/nc110/Desktop/Fidoo User App/app/src/main/res/layout/activity_change_address.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/nc110/Desktop/Fidoo User App/app/src/main/res/layout/fragment_home_newui.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/nc110/Desktop/Fidoo User App/app/src/main/res/layout/manage_address_bottomsheet_dialogue.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/nc110/Desktop/Fidoo User App/app/src/main/res/layout/saved_address_items.xml" value="0.22826086956521738" />
       </map>
     </option>
   </component>

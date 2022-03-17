@@ -1,12 +1,14 @@
 package com.fidoo.user.addressmodule.adapter
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
@@ -27,7 +29,6 @@ class AddressesAdapter(
     val setOnDeteleAddListener: SetOnDeteleAddListener,
     val stringExtra: String?
 ) : RecyclerView.Adapter<AddressesAdapter.UserViewHolder>() {
-
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.saved_address_items, parent, false)
     )
@@ -123,10 +124,18 @@ class AddressesAdapter(
 
 
         holder.mainLay.setOnClickListener {
+
+//            val dialog = Dialog(con)
+//            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//            if (dialog.isShowing){
+//                dialog.dismiss()
+//            }
             Log.e("clicked", "clicked")
+            Toast.makeText(con, "Item is clicked", Toast.LENGTH_SHORT).show()
             if (addressList[position].inDeliveryRange == "0"){
                 Toast.makeText(con, "Store doesn't deliver to this location", Toast.LENGTH_LONG).show()
-            }else{
+            }
+            else{
 
                 if (stringExtra.equals("order")) {
                     CartActivity.selectedAddressId = addressList[position].id
@@ -201,7 +210,6 @@ class AddressesAdapter(
                         addressList[position].addressType.equals("1") -> {
                             SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
                             SessionTwiclo(con).addressType = "Home"
-
                         }
 
                         addressList[position].addressType.equals("2") -> {

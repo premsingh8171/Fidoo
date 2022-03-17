@@ -22,7 +22,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
@@ -74,6 +73,7 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_home_newui.*
 import org.json.JSONObject
 import java.util.*
+
 
 @Suppress("DEPRECATION")
 class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
@@ -239,6 +239,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						"where", where
 					), AUTOCOMPLETE_REQUEST_CODE
 			)
+			addEditAdd = "Dashboard"
 		}
 		addressViewModel?.getAddressesResponse?.observe(requireActivity(), androidx.lifecycle.Observer { user ->
 			Log.e("addresses_response", Gson().toJson(user))
@@ -372,9 +373,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		 */
 		fragmentHomeBinding?.addressLayNewDesh?.setOnClickListener {
 				showDialog()
-				addEditAdd = "Dashboard"
-
-
 			/**
 			 * First Method to pop up BottomSheetDialogue
 			 */
@@ -535,13 +533,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				}
 			}
 		}
-
-		/**
-		 *  Address view model
-		 */
-
-
-
 	}
 
 	private fun homeRecyclerview(arrayList: ArrayList<HomeData>) {
@@ -806,7 +797,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				)
 					.fallbackToDestructiveMigration()
 					.build()
-				restaurantProductsDatabase!!.resProductsDaoAccess()!!.deleteAll()
+				restaurantProductsDatabase.resProductsDaoAccess()!!.deleteAll()
 
 			}.start()
 		} catch (e: java.lang.Exception) {
