@@ -80,17 +80,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
-            android:visibility="gone"
-            android:id="@+id/rvManageSavedAddress"
+            android:id="@+id/rlManageSavedAddressLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lightGray"
             android:background="@color/lightGray">
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvManageSavedAddress"
                 android:layout_marginBottom="@dimen/margin_20dp"
                 android:layout_marginTop="@dimen/margin_20dp"
                 android:background="@color/lightGray"
-                android:id="@+id/search_add_rv_change"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:spanCount="1"
@@ -103,6 +102,7 @@
                                       -->
     <LinearLayout
         android:padding="13dp"
+        android:visibility="gone"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"

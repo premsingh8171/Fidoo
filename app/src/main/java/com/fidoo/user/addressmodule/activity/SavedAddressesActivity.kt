@@ -189,10 +189,7 @@ class SavedAddressesActivity : BaseActivity() {
 
 
                 if (!user.addressList.isNullOrEmpty()) {
-                    val adapter = AddressesAdapter(
-                        this,
-                        user.addressList,
-                        object : AddressesAdapter.SetOnDeteleAddListener {
+                    val adapter = AddressesAdapter(this, user.addressList, object : AddressesAdapter.SetOnDeteleAddListener {
                             override fun onDelete(
                                 add_id: String,
                                 addressList: GetAddressModel.AddressList

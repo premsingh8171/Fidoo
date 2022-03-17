@@ -22,8 +22,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
@@ -38,6 +41,9 @@ import com.fidoo.user.activity.MainActivity.Companion.addEditAdd
 import com.fidoo.user.activity.MainActivity.Companion.orderSuccess
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.adapter.AddressesAdapter
+import com.fidoo.user.addressmodule.model.GetAddressModel
+import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.dailyneed.ui.ServiceDailyNeedActivity
 import com.fidoo.user.dashboard.adapter.SliderAdapterExample
@@ -71,6 +77,7 @@ import java.util.*
 
 @Suppress("DEPRECATION")
 class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
+
 	lateinit var analytics: FirebaseAnalytics
 	var serviceDetailsAdapter: ServiceDetailsAdapter? = null
 	lateinit var mView: View
@@ -90,6 +97,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	val DELAY_MS: Long = 8000 //delay in milliseconds before task is to be executed
 	val PERIOD_MS: Long = 8000 // time in milliseconds between successive task executions.
 	var payment_suc_Diolog: Dialog? = null
+
+	var addressViewModel: AddressViewModel? = null
+	var address = ArrayList<String>()
+	lateinit var addressAdapter: AddressesAdapter
 
 	private var mMixpanel: MixpanelAPI? = null
 	private val props = JSONObject()
@@ -114,7 +125,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			DataBindingUtil.inflate(inflater, R.layout.fragment_home_newui, container, false)
 
 		analytics = FirebaseAnalytics.getInstance(requireContext())
-
+		addressViewModel = ViewModelProviders.of(requireActivity()).get(AddressViewModel::class.java)
 		viewmodel = ViewModelProviders.of(requireActivity()).get(HomeFragmentViewModel::class.java)
 		viewmodelusertrack = ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
 		mMixpanel = MixpanelAPI.getInstance(requireContext(), "defeff96423cfb1e8c66f8ba83ab87fd")
@@ -216,6 +227,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 		dialog.setContentView(R.layout.manage_address_bottomsheet_dialogue)
 		val lvAddNewAdd = dialog.findViewById<LinearLayout>(R.id.lv_add_new_address)
+		val rvManageAddress = dialog.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
 		val home_address = dialog.findViewById<TextView>(R.id.home_address_tv)
 		home_address.text = SessionTwiclo(context).userAddress
 
@@ -228,6 +240,24 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					), AUTOCOMPLETE_REQUEST_CODE
 			)
 		}
+		addressViewModel?.getAddressesResponse?.observe(requireActivity(), androidx.lifecycle.Observer { user ->
+			Log.e("addresses_response", Gson().toJson(user))
+			if (!user.addressList.isNullOrEmpty()) {
+				val adapter = AddressesAdapter(
+					requireContext(), user.addressList,
+					object : AddressesAdapter.SetOnDeteleAddListener {
+						override fun onDelete(
+							add_id: String,
+							addressList: GetAddressModel.AddressList
+						) {}
+					},
+					"type"
+				)
+				rvManageAddress?.layoutManager = GridLayoutManager(requireContext(), 1)
+				rvManageAddress?.setHasFixedSize(true)
+				rvManageAddress?.adapter = adapter
+			}
+		})
 		dialog.show()
 		dialog.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
@@ -236,8 +266,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog.window!!.setGravity(Gravity.BOTTOM)
 	}
-
-
 	private fun slideDown(view: View) {
 		view.animate()
 			.alpha(0.5f)
@@ -507,6 +535,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				}
 			}
 		}
+
+		/**
+		 *  Address view model
+		 */
+
+
 
 	}
 
@@ -822,4 +856,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			payment_suc_Diolog?.dismiss()
 		}, 5000)
 	}
+
+//	private fun setAddressAdapter() {
+//		addressAdapter = AddressesAdapter(requireContext(), address)
+//		val linearLayoutManager = LinearLayoutManager(requireContext())
+//		recyclerView.adapter = addressAdapter
+//		recyclerView.layoutManager = linearLayoutManager
+//	}
 }

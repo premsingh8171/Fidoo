@@ -56,10 +56,7 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.robin.locationgetter.EasyLocation
 import com.sanojpunchihewa.updatemanager.UpdateManager
 import com.sanojpunchihewa.updatemanager.UpdateManagerConstant
-import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_new_add_address.*
-import kotlinx.android.synthetic.main.activity_track_order.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_newui.*
 import java.util.*
