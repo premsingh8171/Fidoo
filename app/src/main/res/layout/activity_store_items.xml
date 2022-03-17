@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightGray"
@@ -387,7 +388,8 @@
                     android:layout_below="@id/tv_location"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/offer_icon" />
+                    android:src="@drawable/offer_icon"
+                    tools:ignore="UseAppTint" />
 
                 <TextView
                     android:id="@+id/tv_coupon"
@@ -397,6 +399,7 @@
                     android:layout_marginEnd="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
+                    android:textStyle="bold"
                     android:textColor="@color/primary_color"
                     android:textSize="@dimen/dimen_14dp" />
             </LinearLayout>

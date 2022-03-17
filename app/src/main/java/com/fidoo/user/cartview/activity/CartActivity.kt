@@ -939,7 +939,9 @@ class CartActivity : BaseActivity(),
 					//showToast(mModelData.deliveryDiscount)
 					//showToast(finalPrice.toString())
 
-					tv_delivery_charges_label.text= "Delivery charges |${mModelData.distance}meters"
+					val roundedDis = ((mModelData.distance)/1000).toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+
+					tv_delivery_charges_label.text= "Delivery charges | ${roundedDis} Km"
 					if (mModelData.distance<=3000){
 						upto_3kms_.text= "upto 3kms"
 						rate_id1.text= resources.getString(R.string.ruppee)+"21"

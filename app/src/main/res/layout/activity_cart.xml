@@ -314,7 +314,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@color/lightGray"
-
                 app:layout_constraintTop_toBottomOf="@+id/store_instructionRl">
 
                 <androidx.cardview.widget.CardView
@@ -428,9 +427,6 @@
                     android:layout_marginTop="@dimen/margin_10dp"
                     android:background="@color/input_fieldcolor" />
 
-
-
-
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -476,13 +472,11 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
-
                 <View
                     android:id="@+id/smpview"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:layout_below="@+id/cv_couponCard"
-
                     android:layout_marginTop="@dimen/margin_10dp"
                     android:background="@color/input_fieldcolor" />
 
@@ -573,7 +567,6 @@
                     android:text=""
                     android:textSize="12sp" />
 
-
                 <TextView
                     android:id="@+id/tv_delivery_charges_label"
                     android:layout_width="wrap_content"
@@ -582,8 +575,8 @@
                     android:layout_marginStart="@dimen/margin_20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
-                    android:textColor="@color/black"
                     android:text="Delivery Charges"
+                    android:textColor="@color/black"
                     android:textSize="12sp" />
 
 
@@ -593,9 +586,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_above="@+id/new_delivery_popup"
-                    android:visibility="gone"
-                    android:layout_marginLeft="@dimen/margin_25dp" />
-
+                    android:layout_marginLeft="@dimen/dimen_25dp"
+                    android:layout_marginBottom="9dp"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/new_delivery_popup"

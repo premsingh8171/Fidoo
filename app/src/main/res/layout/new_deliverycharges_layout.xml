@@ -37,6 +37,8 @@
                 android:gravity="top"
                 android:lineSpacingExtra="3sp"
                 android:padding="@dimen/margin_10"
+                android:textStyle="bold"
+                android:textColor="@color/black"
                 android:text="Delivery charges applied as mentioned below :"
                 android:textAppearance="@style/delivery_ch"
                 android:translationY="-1.5sp" />
