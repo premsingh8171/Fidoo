@@ -39,6 +39,9 @@ import kotlinx.android.synthetic.main.fragment_splash.*
 import kotlinx.android.synthetic.main.fragment_splash.view.*
 import kotlinx.android.synthetic.main.item_cat_new_ui.view.*
 import kotlinx.android.synthetic.main.select_cat_popup.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import retrofit2.Call
 import retrofit2.Callback
@@ -69,22 +72,26 @@ class SplashFragment : BaseFragment() {
         mView = inflater!!.inflate(R.layout.fragment_splash, parent, false)
         mSessionTwiclo = SessionTwiclo(requireContext())
 
-        if (isNetworkConnected) {
-            // custAppVerCheck(BuildConfig.VERSION_NAME)
-            SplashActivity.appversion?.let { custAppVerCheck(it) }
-        } else {
-            showInternetToast()
-        }
 
-        try {
-            if (SessionTwiclo(mmContext).profileDetail != null) {
-                account_id = SessionTwiclo(mmContext).profileDetail.accountId.toString()
+            if (isNetworkConnected) {
+                // custAppVerCheck(BuildConfig.VERSION_NAME)
+                SplashActivity.appversion?.let {
+                    custAppVerCheck(it)
+                }
             } else {
-                account_id = SessionTwiclo(mmContext).loginDetail.accountId.toString()
+                showInternetToast()
             }
-        } catch (e: java.lang.Exception) {
-            account_id = ""
-        }
+
+            try {
+                if (SessionTwiclo(mmContext).profileDetail != null) {
+                    account_id = SessionTwiclo(mmContext).profileDetail.accountId.toString()
+                } else {
+                    account_id = SessionTwiclo(mmContext).loginDetail.accountId.toString()
+                }
+            } catch (e: java.lang.Exception) {
+                account_id = ""
+            }
+
 
         return mView
     }

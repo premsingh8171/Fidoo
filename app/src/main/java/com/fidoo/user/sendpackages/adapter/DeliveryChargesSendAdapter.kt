@@ -1,12 +1,14 @@
 package com.fidoo.user.sendpackages.adapter
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
 import com.fidoo.user.cartview.model.CartModel
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
@@ -33,8 +35,22 @@ class DeliveryChargesSendAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.charges_Txt.text = list.get(position).distanceRange
-        holder.itemView.charges_PriceTxt.text = context.resources.getString(R.string.ruppee)+list.get(position).deliveryCharges
+
+        if ((useconstants.user_dist<=3 && position==0) || (useconstants.user_dist>3 && useconstants.user_dist<=6 && position==1) ||
+            (useconstants.user_dist>6 && useconstants.user_dist<=9 && position==2) ||
+            (useconstants.user_dist>9 && useconstants.user_dist<=12 && position==3)|| (useconstants.user_dist>12 && position==4)){
+            holder.itemView.charges_Txt.text = list.get(position).distanceRange
+            holder.itemView.charges_PriceTxt.text = context.resources.getString(R.string.ruppee)+list.get(position).deliveryCharges
+            holder.itemView.charges_Txt.setTypeface(null, Typeface.BOLD)
+            holder.itemView.charges_PriceTxt.setTypeface(null, Typeface.BOLD)
+        }else {
+
+            holder.itemView.charges_Txt.text = list.get(position).distanceRange
+            holder.itemView.charges_PriceTxt.text =
+                context.resources.getString(R.string.ruppee) + list.get(position).deliveryCharges
+        }
+       // holder.itemView.charges_Txt.text = list.get(position).distanceRange
+       // holder.itemView.charges_PriceTxt.text = context.resources.getString(R.string.ruppee)+list.get(position).deliveryCharges
     }
 
     override fun getItemCount(): Int {
