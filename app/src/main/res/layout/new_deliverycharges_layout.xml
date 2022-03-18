@@ -38,7 +38,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_margin="8dp"
+                android:textColor="#212121"
                 android:gravity="top"
+                android:textStyle="bold"
                 android:lineSpacingExtra="3sp"
                 android:text="Delivery charges applied as mentioned below :"
                 android:textAppearance="@style/delivery_ch"
@@ -52,6 +54,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="8dp"
                 android:gravity="top"
+                android:textColor="#212121"
                 android:lineSpacingExtra="3sp"
                 android:text="upto 3kms:"
                 android:textAppearance="@style/upto_3kms_"
@@ -67,6 +70,7 @@
                 android:gravity="top"
                 android:lineSpacingExtra="3sp"
                 android:text="rs"
+                android:textColor="#212121"
                 android:textAppearance="@style/somerate_id"
                 android:translationY="-1.5sp" />
 

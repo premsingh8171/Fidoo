@@ -554,9 +554,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_cart_discount_label"
+                    android:layout_marginLeft="@dimen/margin_20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
-                    android:layout_marginLeft="@dimen/margin_20dp"
                     android:text="After Discount"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp" />
