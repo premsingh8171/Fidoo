@@ -1,14 +1,12 @@
 package com.fidoo.user.addressmodule.adapter
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
@@ -72,11 +70,11 @@ class AddressesAdapter(
             holder.itemView.setassDefaultTxt.visibility = View.GONE
             holder.itemView.selectedadd_img.visibility = View.GONE
 
-            if (position == 0) {
-                holder.itemView.tv_yourAddresses.visibility = View.VISIBLE
-            } else {
-                holder.itemView.tv_yourAddresses.visibility = View.GONE
-            }
+//            if (position == 0) {
+//                holder.itemView.tv_yourAddresses.visibility = View.VISIBLE
+//            } else {
+//                holder.itemView.tv_yourAddresses.visibility = View.GONE
+//            }
         }
 
 //        if (position==0){

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    app:cardCornerRadius="10dp"
     android:background="@drawable/manage_location_bottomsheet_bg">
     <LinearLayout
         android:id="@+id/manage_location_Off_or_On"
         android:orientation="vertical"
-
+        android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:padding="13dp"
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
@@ -33,22 +33,23 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:lineHeight="28dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="8dp"
                     android:textSize="20sp"
                     android:textColor="@color/black"/>
             </LinearLayout>
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
+            android:padding="6dp"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:layout_marginStart="@dimen/margin_15dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_10"
+                android:text="Please turn on device location to get accurate and fast delivery"
                 android:textColor="@color/black"
-                android:text="Please turn on device location to get accurate and fast delivery"/>
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btnToTurnLocationOn"
@@ -60,14 +61,19 @@
                 android:textSize="14sp" />
         </RelativeLayout>
     </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select Delivery Address"
-        android:lineHeight="28dp"
-        android:padding="@dimen/margin_15dp"
-        android:textSize="20sp"
-        android:textColor="@color/black"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:padding="@dimen/dimen_5dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Delivery Address"
+            android:padding="@dimen/dimen_5dp"
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
     <View
         android:alpha=".4"
         android:background="@android:color/darker_gray"
@@ -78,7 +84,6 @@
 
                                           -->
     <androidx.core.widget.NestedScrollView
-        android:layout_marginTop="@dimen/margin_10"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_200dp">
         <RelativeLayout
@@ -89,14 +94,15 @@
             android:background="@color/lightGray">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvManageSavedAddress"
-                android:layout_marginBottom="@dimen/margin_20dp"
-                android:layout_marginTop="@dimen/margin_20dp"
-                android:background="@color/lightGray"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:spanCount="1"
+                android:layout_marginTop="@dimen/margin_20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:background="@color/lightGray"
                 android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:spanCount="1" />
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
     <!--
@@ -151,6 +157,7 @@
     <LinearLayout
         android:id="@+id/lv_add_new_address"
         android:padding="13dp"
+        android:background="@color/white"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
@@ -169,7 +176,6 @@
                 android:text="Add New Address"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:lineHeight="20dp"
                 android:layout_marginStart="15dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -181,5 +187,5 @@
         android:background="@android:color/darker_gray"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
 
