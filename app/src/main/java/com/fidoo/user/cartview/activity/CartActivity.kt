@@ -51,6 +51,7 @@ import com.fidoo.user.cartview.model.CartModel
 import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
 import com.fidoo.user.cartview.roomdb.entity.PrescriptionViewEntity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.AddToCartModel
 import com.fidoo.user.data.session.SessionTwiclo
@@ -939,28 +940,30 @@ class CartActivity : BaseActivity(),
 					//showToast(mModelData.deliveryDiscount)
 					//showToast(finalPrice.toString())
 
-				//	val roundedDis = ((mModelData.distance)/1000).toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 
-					tv_delivery_charges_label.text= "Delivery charges | ${(mModelData.distance)/1000} Km"
+					val dist:Double = (mModelData.distance/1000).toDouble()
+
+					tv_delivery_charges_label.text= "Delivery charges |${dist}kms"
+					useconstants.user_dist = mModelData.distance
 					if (mModelData.distance<=3000){
 						upto_3kms_.text= "upto 3kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"21"
+						rate_id1.text= resources.getString(R.string.ruppee)+"18"
 					}
 					if (mModelData.distance>3000 && mModelData.distance<=6000){
 						upto_3kms_.text= "above 3kms-6kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"42"
+						rate_id1.text= resources.getString(R.string.ruppee)+"36"
 					}
 					if (mModelData.distance>6000 && mModelData.distance<=9000){
 						upto_3kms_.text= "above 6kms-9kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"64"
+						rate_id1.text= resources.getString(R.string.ruppee)+"54"
 					}
 					if (mModelData.distance>9000 && mModelData.distance<=12000){
 						upto_3kms_.text= "above 9kms-12kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"85"
+						rate_id1.text= resources.getString(R.string.ruppee)+"72"
 					}
 					if (mModelData.distance>12000){
 						upto_3kms_.text= "above 12kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"106"
+						rate_id1.text= resources.getString(R.string.ruppee)+"90"
 					}
 
 					tv_delivery_charges.text =
@@ -2378,37 +2381,8 @@ class CartActivity : BaseActivity(),
 	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
 
 	}
-	private fun newpopup_delivery(){
-
-
-
-
-
-
-
-		/*for (i in 0..delivery_chargesList.size){
-			if (i==0) {
-				txt1.text = delivery_chargesList.get(i).distanceRange
-				rate1.text = delivery_chargesList.get(i).deliveryCharges
-			}
-			if (i==1) {
-				txt2.text = delivery_chargesList[i].distanceRange
-				rate2.text = delivery_chargesList[i].deliveryCharges
-			}
-			if (i==2) {
-				txt3.text = delivery_chargesList[i].distanceRange
-				rate3.text = delivery_chargesList[i].deliveryCharges
-			}
-			if (i==3) {
-				txt4.text = delivery_chargesList[i].distanceRange
-				rate4.text = delivery_chargesList[i].deliveryCharges
-			}
-			if (i==4) {
-				txt5.text = delivery_chargesList[i].distanceRange
-				rate5.text = delivery_chargesList[i].deliveryCharges
-			}
-		}*/
-
+	private fun mtrtoKM(meters:Double):Double{
+		return (meters/1000)
 	}
 
 

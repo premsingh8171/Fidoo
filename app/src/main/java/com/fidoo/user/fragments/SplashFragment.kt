@@ -39,6 +39,9 @@ import kotlinx.android.synthetic.main.fragment_splash.*
 import kotlinx.android.synthetic.main.fragment_splash.view.*
 import kotlinx.android.synthetic.main.item_cat_new_ui.view.*
 import kotlinx.android.synthetic.main.select_cat_popup.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import retrofit2.Call
 import retrofit2.Callback
@@ -68,11 +71,13 @@ class SplashFragment : BaseFragment() {
 
         mView = inflater!!.inflate(R.layout.fragment_splash, parent, false)
         mSessionTwiclo = SessionTwiclo(requireContext())
-        mSessionTwiclo!!.setbackMobileno("")
-        OtpFragment.backhanlde = 0
+
+
         if (isNetworkConnected) {
             // custAppVerCheck(BuildConfig.VERSION_NAME)
-            SplashActivity.appversion?.let { custAppVerCheck(it) }
+            SplashActivity.appversion?.let {
+                custAppVerCheck(it)
+            }
         } else {
             showInternetToast()
         }
@@ -86,6 +91,7 @@ class SplashFragment : BaseFragment() {
         } catch (e: java.lang.Exception) {
             account_id = ""
         }
+
 
         return mView
     }
@@ -106,20 +112,17 @@ class SplashFragment : BaseFragment() {
         val updateversion_txt = updateApp_dialog?.findViewById<TextView>(R.id.updateversion_txt)
         latest_version_txt!!.text = "What's New in Version " + newVersion_
 
-        updateversion_txt?.setOnClickListener {
+        updateversion_txt?.setOnClickListener{
 
             if (Build.VERSION_CODES.M >= 22) {
                 try {
                     startActivity(
                         Intent(
                             Intent.ACTION_VIEW,
-                          //  Uri.parse("market://details?id=" + mmContext?.getPackageName())
-                            Uri.parse("https://play.google.com/store/apps/details?id=" + mmContext?.getPackageName())
+                            Uri.parse("market://details?id=" + mmContext?.getPackageName())
                         )
                     )
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                }
+                } catch (e: java.lang.Exception) { e.printStackTrace()}
             } else {
                 try {
                     startActivity(

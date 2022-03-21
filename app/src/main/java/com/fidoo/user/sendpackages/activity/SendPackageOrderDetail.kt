@@ -28,6 +28,7 @@ import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.ordermodule.ui.TrackSendPAckagesOrderActivity
 import com.fidoo.user.sendpackages.adapter.DeliveryChargesSendAdapter
@@ -113,26 +114,26 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
 
         tv_deliveryCharges_label.text= "Delivery charges | ${distance} kms"
         val dist:Int= distance!!.toInt()
-
+        useconstants.user_dist= dist
         if (dist<=3){
             upto_3kms_.text= "upto 3kms"
-            rate_id1.text= resources.getString(R.string.ruppee)+"21"
+            rate_id1.text= resources.getString(R.string.ruppee)+"18"
         }
         if (dist>3 && dist<=6){
             upto_3kms_.text= "above 3kms-6kms"
-            rate_id1.text= resources.getString(R.string.ruppee)+"42"
+            rate_id1.text= resources.getString(R.string.ruppee)+"36"
         }
         if (dist>6 && dist<=9){
             upto_3kms_.text= "above 6kms-9kms"
-            rate_id1.text= resources.getString(R.string.ruppee)+"64"
+            rate_id1.text= resources.getString(R.string.ruppee)+"54"
         }
         if (dist>9 && dist<=12){
             upto_3kms_.text= "above 9kms-12kms"
-            rate_id1.text= resources.getString(R.string.ruppee)+"85"
+            rate_id1.text= resources.getString(R.string.ruppee)+"72"
         }
         if (dist>12){
             upto_3kms_.text= "above 12kms"
-            rate_id1.text= resources.getString(R.string.ruppee)+"106"
+            rate_id1.text= resources.getString(R.string.ruppee)+"90"
         }
 
         try {
@@ -322,7 +323,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                                                                 cat_Id!!, notes, images!!, tax!!
                                                             )
                                                         }else{
-                                                            showToast("Please select valid address")
+
                                                         }
                                                     } else {
                                                         showToast("There is some issue in payment, please try after sometime")
@@ -360,9 +361,9 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         }
 
         new_delivery_popupsp.setOnClickListener {
-           /* chargesFmBgs.visibility = View.VISIBLE
-            chargesFms.visibility = View.VISIBLE
-            chargesFmBgbottoms.visibility = View.VISIBLE*/
+            /* chargesFmBgs.visibility = View.VISIBLE
+             chargesFms.visibility = View.VISIBLE
+             chargesFmBgbottoms.visibility = View.VISIBLE*/
             cvdeliverydetail.visibility= View.VISIBLE
             xyz2.visibility= View.VISIBLE
 
