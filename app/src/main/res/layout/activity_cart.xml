@@ -401,21 +401,21 @@
                     android:textSize="@dimen/text_size_12sp"
                     android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/tv_delivery_address"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_landmark"
-                    android:layout_marginLeft="@dimen/dimen_5dp"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:layout_marginBottom="@dimen/margin_10"
-                    android:layout_toRightOf="@+id/img_location_cart"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/proxima"
-                    android:maxLines="2"
-                    android:text=""
-                    android:textColor="@color/txt_color"
-                    android:textSize="@dimen/text_size_12sp" />
+                        <TextView
+                            android:id="@+id/tv_delivery_address"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_landmark"
+                            android:layout_marginLeft="@dimen/dimen_5dp"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:layout_marginBottom="@dimen/margin_10"
+                            android:layout_toRightOf="@+id/img_location_cart"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/proxima"
+                            android:maxLines="2"
+                            android:text=""
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/text_size_12sp" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -556,6 +556,7 @@
                     android:layout_below="@id/tv_cart_discount_label"
                     android:layout_marginLeft="@dimen/margin_20dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="@dimen/margin_10dp"
                     android:fontFamily="@font/proxima"
                     android:text="After Discount"
                     android:textColor="@color/black"
@@ -569,6 +570,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/margin_20dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="@dimen/margin_10dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
                     android:textSize="12sp" />
@@ -580,10 +582,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_cart_afterdiscount_lable"
                     android:layout_marginStart="@dimen/margin_20dp"
-                    android:layout_marginTop="10dp"
+
                     android:fontFamily="@font/proxima"
-                    android:textColor="@color/black"
                     android:text="Delivery Charges"
+                    android:textColor="@color/black"
                     android:textSize="12sp" />
 
 
@@ -592,9 +594,20 @@
                     layout="@layout/new_deliverycharges_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_above="@+id/new_delivery_popup"
+                    android:layout_above="@+id/new_polygon_2"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/margin_25dp"
+                    android:visibility="gone" />
+
+                <TextView
                     android:visibility="gone"
-                    android:layout_marginLeft="@dimen/margin_25dp" />
+                    android:id="@+id/new_polygon_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_delivery_charges_label"
+                    android:layout_above="@id/new_delivery_popup"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/polygon9new" />
 
 
                 <ImageView
@@ -603,7 +616,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_cart_afterdiscount_lable"
                     android:layout_marginLeft="@dimen/dimen_8dp"
-                    android:layout_marginTop="@dimen/margin_10dp"
+
                     android:layout_toRightOf="@+id/tv_delivery_charges_label"
                     android:background="@drawable/bi_info_circle" />
 
@@ -614,7 +627,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_cart_afterDiscount"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
                     android:layout_marginRight="@dimen/margin_20dp"

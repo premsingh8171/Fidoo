@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.provider.CalendarContract
 import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
@@ -97,6 +98,7 @@ import okhttp3.RequestBody
 import org.json.JSONObject
 import java.io.File
 import java.math.RoundingMode
+import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
 
@@ -330,6 +332,7 @@ class CartActivity : BaseActivity(),
 			chargesFmBgbottom.visibility = View.VISIBLE*/
 			cvdeliverydetail.visibility= View.VISIBLE
 			xyz.visibility= View.VISIBLE
+			new_polygon_2.visibility= View.VISIBLE
 
 
 			morecharges_.setOnClickListener {
@@ -342,6 +345,7 @@ class CartActivity : BaseActivity(),
 			}
 		}
 		nested_top_lay.setOnClickListener {
+			new_polygon_2.visibility= View.GONE
 			upto_3kms_.visibility= View.VISIBLE
 			rate_id1.visibility= View.VISIBLE
 			morecharges_.visibility=View.VISIBLE
@@ -940,10 +944,10 @@ class CartActivity : BaseActivity(),
 					//showToast(mModelData.deliveryDiscount)
 					//showToast(finalPrice.toString())
 
-
-					val dist:Double = (mModelData.distance/1000).toDouble()
-
-					tv_delivery_charges_label.text= "Delivery charges |${dist}kms"
+					val dist:Double = (mModelData.distance.toDouble()/1000)
+                    val df= DecimalFormat("#.##")
+					val net_dist= df.format(dist)
+					tv_delivery_charges_label.text= "Delivery charges |${net_dist}kms"
 					useconstants.user_dist = mModelData.distance
 					if (mModelData.distance<=3000){
 						upto_3kms_.text= "upto 3kms"
