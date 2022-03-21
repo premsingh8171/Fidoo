@@ -173,6 +173,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             lat = model.latitude.toDouble()
             lng = model.longitude.toDouble()
             tv_Address.setText(model.location)
+            tv_Address_1.setText(model.location)
             ed_name.setText(model.name)
             ed_phone.setText(model.phone_no)
             ed_address.setText(model.flatNo)
@@ -225,6 +226,12 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             contact_name_txt.visibility = View.VISIBLE
             change_txt.visibility = View.VISIBLE
         }
+        btn_proceed.setOnClickListener {
+            live_add_1.visibility = View.GONE
+            add_new_add_ll.visibility = View.VISIBLE
+            btn_continue.visibility = View.VISIBLE
+            btn_proceed.visibility = View.GONE
+        }
 
         btn_continue.setOnClickListener {
             if (!isNetworkConnected) {
@@ -234,6 +241,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                     SessionTwiclo(this).userLat = lat.toString()
                     SessionTwiclo(this).userLng = lng.toString()
                     SessionTwiclo(this).userAddress = tv_Address.text.toString()
+                    SessionTwiclo(this).userAddress = tv_Address_1.text.toString()
                     savedAddressesActivity!!.finish().toString()
                     finish()
                 } else {
@@ -247,7 +255,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             showToast("Please enter your landmark")
                         }*/
 
-                        else if (tv_Address.equals("")) {
+                        else if (tv_Address.equals("") || tv_Address_1.equals("")) {
                             showToast("Location not available")
                         } else {
                             if (MainActivity.addEditAdd == "SendPackage") {
@@ -378,7 +386,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 //                        else if (ed_name.text.toString().equals("")) {
 //                            showToast("Please add contact details")
 //                        }
-                        else if (tv_Address.equals("")) {
+                        else if (tv_Address.equals("") || tv_Address_1.equals("")) {
                             showToast("Location not available")
 
                         } else {
@@ -957,6 +965,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                         lng!!
                     )
                     tv_Address!!.setText(address)
+                    tv_Address_1!!.setText(address)
                 } catch (e: Exception) {
                 }
 
@@ -1042,10 +1051,12 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                         if (model.status.equals("OK")) {
                             if (model.results.size != 0) {
                                 tv_Address.setText(model.results[0].formattedAddress)
+                                tv_Address_1.setText(model.results[0].formattedAddress)
                             }
                         } else {
                             var address_ = getGeoAddressFromLatLong(lat.toDouble(), lng.toDouble())
                             tv_Address.setText(address_)
+                            tv_Address_1.setText(address_)
                         }
                         progressindicatorAdd.visibility = View.GONE
 
