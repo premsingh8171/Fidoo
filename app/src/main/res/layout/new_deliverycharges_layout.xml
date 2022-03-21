@@ -111,13 +111,7 @@
 
 
     </com.google.android.material.card.MaterialCardView>
-    <TextView
-        android:id="@+id/new_polygon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cvdeliverydetail"
-        android:layout_centerInParent="true"
-        android:background="@drawable/polygon9new" />
+
 
 
 
