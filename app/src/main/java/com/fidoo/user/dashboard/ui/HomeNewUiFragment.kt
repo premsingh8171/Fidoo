@@ -245,8 +245,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			startActivityForResult(
 				Intent(context, SavedAddressesActivity::class.java)
 					.putExtra("type", "address")
-					.putExtra(
-						"where", where
+					.putExtra("where", where
 					), AUTOCOMPLETE_REQUEST_CODE
 			)
 			addEditAdd = "Dashboard"
@@ -273,14 +272,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //			lvCheckLocation.visibility = VISIBLE
 //		}
 		val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
 			//Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()
-				lvCheckLocation.visibility = VISIBLE
-		else
-			//Toast.makeText(context, "GPS is Enable!", Toast.LENGTH_LONG).show()
 				lvCheckLocation.visibility = View.GONE
-
-
 		dialog.show()
 		dialog.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
