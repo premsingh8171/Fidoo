@@ -10,16 +10,19 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
 import android.view.View.VISIBLE
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
+import androidx.core.location.LocationManagerCompat
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -137,6 +140,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		pref = SessionTwiclo(requireContext())
 		where = pref.guestLogin
 
+
 		// Display size
 		val displayMetrics = DisplayMetrics()
 		requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -198,7 +202,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 					view.visibility = View.VISIBLE
 				}
-			//  Log.d("storeVisibilityNested1", "$scrollY--$oldScrollY")
+				//  Log.d("storeVisibilityNested1", "$scrollY--$oldScrollY")
 			} else {
 
 				if (10 < scrollY) {
@@ -219,6 +223,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		return fragmentHomeBinding?.root
 	}
 
+
 	/**
 	 * Showing BottomSheetDialog to see saved address or to add new one
 	 */
@@ -227,10 +232,15 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 		dialog.setContentView(R.layout.manage_address_bottomsheet_dialogue)
 		val lvAddNewAdd = dialog.findViewById<LinearLayout>(R.id.lv_add_new_address)
+		val lvCheckLocation = dialog.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
 		val rvManageAddress = dialog.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
-		val home_address = dialog.findViewById<TextView>(R.id.home_address_tv)
-		home_address.text = SessionTwiclo(context).userAddress
-
+		val mBtnToTurnOnLocation = dialog.findViewById<Button>(R.id.btnToTurnLocationOn)
+//		val address = dialog.findViewById<TextView>(R.id.home_address_tv)
+//		address.text = SessionTwiclo(context).userAddress
+		mBtnToTurnOnLocation.setOnClickListener {
+			val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+			startActivity(intent)
+		}
 		lvAddNewAdd.setOnClickListener {
 			startActivityForResult(
 				Intent(context, SavedAddressesActivity::class.java)
@@ -259,6 +269,18 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				rvManageAddress?.adapter = adapter
 			}
 		})
+//		if(isLocationEnabled(requireContext())){
+//			lvCheckLocation.visibility = VISIBLE
+//		}
+		val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+			//Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()
+				lvCheckLocation.visibility = VISIBLE
+		else
+			//Toast.makeText(context, "GPS is Enable!", Toast.LENGTH_LONG).show()
+				lvCheckLocation.visibility = View.GONE
+
+
 		dialog.show()
 		dialog.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
@@ -266,6 +288,28 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		)
 		dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog.window!!.setGravity(Gravity.BOTTOM)
+	}
+//	@SuppressWarnings("deprecation")
+//	fun isLocationEnabled(context: Context): Boolean? {
+//		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//			// This is a new method provided in API 28
+//			val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//			lm.isLocationEnabled
+//		} else {
+//			// This was deprecated in API 28
+//			val mode: Int = Settings.Secure.getInt(
+//				context.contentResolver, Settings.Secure.LOCATION_MODE,
+//				Settings.Secure.LOCATION_MODE_OFF
+//			)
+//			mode != Settings.Secure.LOCATION_MODE_OFF
+//		}
+//	}
+	/**
+	 * To check Location is enabled or not
+	 */
+	private fun isLocationEnabled(context: Context): Boolean {
+		val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+		return LocationManagerCompat.isLocationEnabled(locationManager)
 	}
 	private fun slideDown(view: View) {
 		view.animate()
@@ -372,7 +416,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		 * Button to go to Manage Address BottomSheetDialogue
 		 */
 		fragmentHomeBinding?.addressLayNewDesh?.setOnClickListener {
-				showDialog()
+			showDialog()
 			/**
 			 * First Method to pop up BottomSheetDialogue
 			 */

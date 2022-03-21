@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/manage_location_Off_or_On"
         android:orientation="vertical"
-        android:visibility="gone"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -49,13 +49,15 @@
                 android:layout_gravity="center"
                 android:textColor="@color/black"
                 android:text="Please turn on device location to get accurate and fast delivery"/>
+
             <Button
+                android:id="@+id/btnToTurnLocationOn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAllCaps="false"
                 android:layout_alignParentEnd="true"
-                android:textSize="14sp"
-                android:text="Turn On"/>
+                android:text="Turn On"
+                android:textAllCaps="false"
+                android:textSize="14sp" />
         </RelativeLayout>
     </LinearLayout>
     <TextView
