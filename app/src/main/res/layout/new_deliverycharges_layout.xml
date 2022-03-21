@@ -82,6 +82,7 @@
                 android:text="More"
                 android:textAppearance="@style/morechargesnew"
                 android:visibility="visible" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

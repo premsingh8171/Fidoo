@@ -204,7 +204,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:background="@color/lightGray"
-
                 app:layout_constraintTop_toBottomOf="@id/address_details_lay">
 
                 <TextView
@@ -254,7 +253,6 @@
                     android:visibility="gone" />
 
 
-
                 <View
                     android:id="@+id/smpview"
                     android:layout_width="match_parent"
@@ -272,7 +270,6 @@
                     android:layout_marginTop="@dimen/margin_15dp"
                     android:layout_marginBottom="@dimen/margin_25dp"
                     android:fontFamily="@font/proxima"
-
                     android:text="Bill Details"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_14sp" />
@@ -337,7 +334,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_time_label"
                     android:layout_marginLeft="@dimen/margin_20dp"
-
                     android:fontFamily="@font/proxima"
                     android:text="Delivery charges"
                     android:textColor="@color/black"
@@ -352,14 +348,12 @@
                     android:visibility="gone"
                     android:layout_marginLeft="@dimen/margin_35dp" />
 
-
                 <ImageView
                     android:id="@+id/new_delivery_popupsp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/billDetailsTxt"
                     android:layout_marginLeft="@dimen/dimen_8dp"
-
                     android:layout_toRightOf="@+id/tv_deliveryCharges_label"
                     android:background="@drawable/bi_info_circle" />
 
@@ -370,12 +364,10 @@
                     android:layout_below="@id/tv_time"
                     android:layout_marginRight="@dimen/margin_20dp"
                     android:layout_alignParentEnd="true"
-
                     android:fontFamily="@font/proxima"
                     android:text=""
                     android:textColor="@color/primary_color"
                     android:textSize="@dimen/text_size_14sp" />
-
 
                 <TextView
                     android:id="@+id/tv_delivery_fee_label"
