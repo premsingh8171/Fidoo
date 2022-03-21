@@ -2,25 +2,28 @@ package com.fidoo.user.cartview.activity
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.android.volley.Request
 import com.android.volley.Response
@@ -39,6 +42,8 @@ import com.fidoo.user.activity.MainActivity.Companion.handleTrackScreenOrderSucc
 import com.fidoo.user.activity.MainActivity.Companion.onBackpressHandle
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.adapter.AddressesAdapter
+import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.adapter.CartItemsAdapter
 import com.fidoo.user.cartview.adapter.DeliveryChargesAdapter
@@ -70,6 +75,7 @@ import com.fidoo.user.restaurants.viewmodel.StoreDetailsViewModel
 import com.fidoo.user.services.OrderBackgroundgService
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
+import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.FORADDRESS_REQUEST_CODE
 import com.fidoo.user.utils.showAlertDialog
@@ -161,6 +167,8 @@ class CartActivity : BaseActivity(),
 	var checkStore: Int = 0
 	var prescriptionAdapter: PrescriptionAdapter? = null
 	private var mMixpanel: MixpanelAPI? = null
+
+	private  var dialog : Dialog? = null
 
 	companion object {
 		var store_imgStr: String = ""
@@ -322,9 +330,6 @@ class CartActivity : BaseActivity(),
 			prescriptionLay2.visibility = View.VISIBLE
 		}
 
-
-
-
 		new_delivery_popup.setOnClickListener {
 			chargesFm.visibility = View.VISIBLE
 			chargesFmBg.visibility = View.VISIBLE
@@ -419,17 +424,21 @@ class CartActivity : BaseActivity(),
 				showInternetToast()
 			}
 		}
+		/**
+		 * **********************************************************************************************
+		 */
 
 		delivery_address_lay.setOnClickListener {
-			if (!isNetworkConnected) {
-				showToast(resources.getString(R.string.provide_internet))
-
-			} else {
-				startActivityForResult(
-					Intent(this, SavedAddressesActivity::class.java)
-						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
-				)
-			}
+//			if (!isNetworkConnected) {
+//				showToast(resources.getString(R.string.provide_internet))
+//
+//			} else {
+//				startActivityForResult(
+//					Intent(this, SavedAddressesActivity::class.java)
+//						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
+//				)
+//			}
+			showDialog()
 		}
 
 		cash_lay.setOnClickListener {
@@ -1223,6 +1232,63 @@ class CartActivity : BaseActivity(),
 
 		getPresciption()
 
+	}
+
+	/**
+	 * ****************************************************************************************************
+	 */
+	private fun showDialog() {
+		dialog = Dialog(this)
+		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
+		val lvAddNewAdd = dialog?.findViewById<LinearLayout>(R.id.lv_add_new_address)
+		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
+		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
+		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
+//		val address = dialog.findViewById<TextView>(R.id.home_address_tv)
+//		address.text = SessionTwiclo(context).userAddress
+		mBtnToTurnOnLocation?.setOnClickListener {
+			val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+			startActivity(intent)
+		}
+		lvAddNewAdd?.setOnClickListener {
+			startActivityForResult(
+				Intent(this, SavedAddressesActivity::class.java)
+					.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
+			)
+		}
+		addressViewModel?.getAddressesResponse?.observe(this, androidx.lifecycle.Observer { user ->
+			Log.e("addresses_response", Gson().toJson(user))
+			if (!user.addressList.isNullOrEmpty()) {
+				val adapter = AddressesAdapter(
+					this, user.addressList,
+					object : AddressesAdapter.SetOnDeteleAddListener {
+						override fun onDelete(
+							add_id: String,
+							addressList: GetAddressModel.AddressList
+						) {}
+					},
+					"type"
+				)
+				rvManageAddress?.layoutManager = GridLayoutManager(this, 1)
+				rvManageAddress?.setHasFixedSize(true)
+				rvManageAddress?.adapter = adapter
+			}
+		})
+//		if(isLocationEnabled(requireContext())){
+//			lvCheckLocation.visibility = VISIBLE
+//		}
+		val manager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+		//Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()
+			lvCheckLocation?.visibility = View.GONE
+		dialog?.show()
+		dialog?.window!!.setLayout(
+			ViewGroup.LayoutParams.MATCH_PARENT,
+			ViewGroup.LayoutParams.WRAP_CONTENT
+		)
+		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+		dialog?.window!!.setGravity(Gravity.BOTTOM)
 	}
 
 	private fun getStoreDetails() {
