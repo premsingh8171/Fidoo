@@ -120,7 +120,11 @@ class Chatbotui :AppCompatActivity() {
             userPaymentMode = it.userPaymentMode
             Log.d("sddffsddskgjgjds", Gson().toJson(it))
             setadapter()
-            DateandTime2.text = dateTime1
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(2000)
+                DateandTime2.text = dateTime1
+            }
+
 //            if(it.orderStatus == "7" || it.orderStatus =="11"){
 //                cancel.visibility =View.GONE
 //            }else{
@@ -167,7 +171,7 @@ class Chatbotui :AppCompatActivity() {
 
             CoroutineScope(Dispatchers.Main).launch {
 
-            delay(1500)
+            delay(2500)
                 if(allStatus.equals("10") || allStatus.equals("3") || (userPaymentMode==1 && !allStatus.equals("1")) ) {
                     cancel.visibility = View.GONE
                     //
@@ -182,7 +186,8 @@ class Chatbotui :AppCompatActivity() {
 
         orderstatus.setOnClickListener {
             //orderconfirmStatus.text = "Order not confirm yet"
-
+            botlogolaysout.visibility = View.VISIBLE
+            botlogo2.visibility = View.VISIBLE
             BtnYes.text = "Yes, Thank you \uD83D\uDE00"
             BtnNo.text = "No \uD83D\uDC4E"
             cancel.visibility = View.GONE
@@ -190,9 +195,9 @@ class Chatbotui :AppCompatActivity() {
             l2.visibility = View.VISIBLE
             DateandTime3.visibility = View.VISIBLE
             CoroutineScope(Dispatchers.Main).launch {
-                delay(3000)
+                delay(4000)
                 DateandTime4.visibility = View.VISIBLE
-                delay(1000)
+                delay(2000)
                 if(allStatus == "1") {
                     LayoutFeedback.visibility = View.VISIBLE
 
@@ -237,6 +242,8 @@ class Chatbotui :AppCompatActivity() {
 
 
             BtnNo.setOnClickListener {
+                botlogo3 .visibility = View.VISIBLE
+                botlogolaysout3.visibility = View.VISIBLE
                 BtnYesNoReplayout.visibility = View.VISIBLE
                 BtnYesReply.text = "No \uD83D\uDC4E"
                 LayoutFeedback.visibility = View.GONE
@@ -277,6 +284,7 @@ class Chatbotui :AppCompatActivity() {
                 }
 
             BtnYes1.setOnClickListener {
+
                 if(allStatus == "10") {
                     onCallPopUp(1)
                     if (sessionInstance.profileDetail != null) {
@@ -332,7 +340,8 @@ class Chatbotui :AppCompatActivity() {
 
 
             BtnYes.setOnClickListener{
-
+                botlogo3 .visibility = View.VISIBLE
+                botlogolaysout3.visibility = View.VISIBLE
                 BtnYesNoReplayout.visibility = View.VISIBLE
                 BtnYesReply.text = "Yes, Thank you \uD83D\uDE00"
                 LayoutFeedback.visibility = View.GONE
@@ -381,6 +390,8 @@ class Chatbotui :AppCompatActivity() {
 
 
         cancel.setOnClickListener {
+            botlogo2.visibility = View.VISIBLE
+            botlogolaysout.visibility = View.VISIBLE
             orderconfirmStatus.text = "Cancel my order"
             cancel.visibility = View.GONE
             orderstatus.visibility = View.GONE
@@ -443,6 +454,8 @@ class Chatbotui :AppCompatActivity() {
             /////////// //Feedback model for cod and order placed situation//////////////////////////////////////////////////////////////////////////////////////
 
                 BtnNo.setOnClickListener {
+                    botlogo3 .visibility = View.VISIBLE
+                    botlogolaysout3.visibility = View.VISIBLE
                     BtnYesNoReplayout.visibility = View.VISIBLE
                     BtnYesReply.text = "No \uD83D\uDC4E"
                     LayoutFeedback.visibility = View.GONE
@@ -477,6 +490,8 @@ class Chatbotui :AppCompatActivity() {
                     }
                 }
                 BtnYes.setOnClickListener{
+                    botlogo3 .visibility = View.VISIBLE
+                    botlogolaysout3.visibility = View.VISIBLE
                     BtnYesNoReplayout.visibility = View.VISIBLE
                     BtnYesReply.text = "Yes, Thank you \uD83D\uDE00"
                     LayoutFeedback.visibility = View.GONE
@@ -544,6 +559,8 @@ class Chatbotui :AppCompatActivity() {
 
                 }
                 BtnNo.setOnClickListener {
+                    botlogo3 .visibility = View.VISIBLE
+                    botlogolaysout3.visibility = View.VISIBLE
                     BtnYesNoReplayout.visibility = View.VISIBLE
                     BtnYesReply.text = "No, i want my order"
                     LayoutFeedback.visibility = View.GONE
@@ -576,6 +593,8 @@ class Chatbotui :AppCompatActivity() {
                     }
                 }
                 BtnYes.setOnClickListener{
+                    botlogo3 .visibility = View.VISIBLE
+                    botlogolaysout3.visibility = View.VISIBLE
                     BtnYesNoReplayout.visibility = View.VISIBLE
                     BtnYesReply.text = "Yes, Cancel it"
                     LayoutFeedback.visibility = View.GONE
@@ -738,6 +757,7 @@ class Chatbotui :AppCompatActivity() {
         finish()
     }
 }
+
 
 // val model = datalist[position]
 //        var count = datalist.size
