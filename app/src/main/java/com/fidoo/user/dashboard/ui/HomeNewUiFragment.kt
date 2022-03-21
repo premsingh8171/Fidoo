@@ -108,7 +108,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	private var mMixpanel: MixpanelAPI? = null
 	private val props = JSONObject()
 
-	private lateinit var dialog: Dialog
+	private  var dialog : Dialog? = null
 
 	companion object {
 		var service_id: String? = ""
@@ -229,19 +229,19 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	 */
 	private fun showDialog() {
 		dialog = context?.let { Dialog(it) }!!
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-		dialog.setContentView(R.layout.manage_address_bottomsheet_dialogue)
-		val lvAddNewAdd = dialog.findViewById<LinearLayout>(R.id.lv_add_new_address)
-		val lvCheckLocation = dialog.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
-		val rvManageAddress = dialog.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
-		val mBtnToTurnOnLocation = dialog.findViewById<Button>(R.id.btnToTurnLocationOn)
+		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
+		val lvAddNewAdd = dialog?.findViewById<LinearLayout>(R.id.lv_add_new_address)
+		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
+		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
+		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
 //		val address = dialog.findViewById<TextView>(R.id.home_address_tv)
 //		address.text = SessionTwiclo(context).userAddress
-		mBtnToTurnOnLocation.setOnClickListener {
+		mBtnToTurnOnLocation?.setOnClickListener {
 			val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
 			startActivity(intent)
 		}
-		lvAddNewAdd.setOnClickListener {
+		lvAddNewAdd?.setOnClickListener {
 			startActivityForResult(
 				Intent(context, SavedAddressesActivity::class.java)
 					.putExtra("type", "address")
@@ -274,14 +274,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
 			//Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()
-				lvCheckLocation.visibility = View.GONE
-		dialog.show()
-		dialog.window!!.setLayout(
+				lvCheckLocation?.visibility = View.GONE
+		dialog?.show()
+		dialog?.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
 			ViewGroup.LayoutParams.WRAP_CONTENT
 		)
-		dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-		dialog.window!!.setGravity(Gravity.BOTTOM)
+		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+		dialog?.window!!.setGravity(Gravity.BOTTOM)
 	}
 //	@SuppressWarnings("deprecation")
 //	fun isLocationEnabled(context: Context): Boolean? {
@@ -739,7 +739,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 	override fun onStop() {
 		super.onStop()
-		dialog.dismiss()
+		dialog?.dismiss()
 	}
 
 	override fun onCurationCatClick(outerPosition: Int?, innerPosition: Int?, model: Curation) {
