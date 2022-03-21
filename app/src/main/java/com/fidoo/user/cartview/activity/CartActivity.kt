@@ -947,7 +947,7 @@ class CartActivity : BaseActivity(),
 					val dist:Double = (mModelData.distance.toDouble()/1000)
                     val df= DecimalFormat("#.##")
 					val net_dist= df.format(dist)
-					tv_delivery_charges_label.text= "Delivery charges |${net_dist}kms"
+					tv_delivery_charges_label.text= "Delivery charges | ${net_dist}kms"
 					useconstants.user_dist = mModelData.distance
 					if (mModelData.distance<=3000){
 						upto_3kms_.text= "upto 3kms"
