@@ -14,8 +14,8 @@ class CancelWithoutRefundViewHolder (var context: Context, val view : View) : Re
         view.apply {
             if (botlogocount.botrefundCount >= 1) {
                 tvTitle.text = cancelWithoutRefundEmpty
-                botlogo.visibility = View.GONE
-                botlogolayout.visibility = View.INVISIBLE
+                //botlogo.visibility = View.GONE
+                //botlogolayout.visibility = View.INVISIBLE
                 tvTitle.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     Html.fromHtml(cancelWithoutRefundEmpty, Html.FROM_HTML_MODE_COMPACT)
                 } else {

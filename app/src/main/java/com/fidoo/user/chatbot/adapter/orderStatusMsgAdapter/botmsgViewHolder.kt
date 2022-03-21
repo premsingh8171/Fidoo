@@ -14,8 +14,8 @@ class botmsgViewHolder (val view : View) : RecyclerView.ViewHolder(view) {
         view.apply {
             if (botlogoCountforreply.botcount1 >= 1) {
                 tvTitle.text = OrderStatusMsg
-                botlogo.visibility = View.INVISIBLE
-                botlogolayout.visibility = View.INVISIBLE
+                //botlogo.visibility = View.INVISIBLE
+                //botlogolayout.visibility = View.INVISIBLE
                 tvTitle.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     Html.fromHtml(OrderStatusMsg, Html.FROM_HTML_MODE_COMPACT)
                 } else {

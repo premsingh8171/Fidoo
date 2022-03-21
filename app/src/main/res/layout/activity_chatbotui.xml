@@ -72,12 +72,32 @@
         android:layout_marginTop="24dp" />
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:overScrollMode="never"
-                android:id="@+id/recyclerView"
+            <LinearLayout
+                android:id="@+id/l3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-               android:layout_marginRight="@dimen/margin_28dp" />
+                android:layout_marginTop="16dp">
+                <LinearLayout
+                    android:layout_marginTop="6dp"
+                    android:id="@+id/botlogolayout"
+                    android:layout_width="@dimen/margin_48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/ellipse_223">
+                    <ImageView
+                        android:id="@+id/botlogo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_chatbotavatar_02" />
+                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:overScrollMode="never"
+
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_28dp" />
+            </LinearLayout>
 
 
             <TextView
@@ -88,6 +108,7 @@
                 android:layout_marginStart="65dp"
                 android:layout_marginTop="24dp"
                  />
+
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -181,13 +202,34 @@
                 android:text="5:18 pm"
                 android:visibility="gone" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:overScrollMode="never"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_marginRight="@dimen/margin_28dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/recyclerView2"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginTop="6dp"
+                    android:visibility="invisible"
+                    android:id="@+id/botlogolaysout"
+                    android:layout_width="@dimen/margin_48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/ellipse_223">
+                <ImageView
+                    android:id="@+id/botlogo2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:src="@drawable/ic_chatbotavatar_02" />
+                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:overScrollMode="never"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_marginRight="@dimen/margin_28dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recyclerView2"/>
+            </LinearLayout>
+
 
             <TextView
                 android:visibility="gone"
@@ -299,15 +341,36 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="67dp"
                 android:visibility="visible" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginTop="6dp"
+                android:visibility="invisible"
+                android:id="@+id/botlogolaysout3"
+                android:layout_width="@dimen/margin_48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/ellipse_223">
+                <ImageView
+
+                    android:id="@+id/botlogo3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:src="@drawable/ic_chatbotavatar_02" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+
                 android:overScrollMode="never"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_marginRight="@dimen/margin_28dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/recyclerView3"/>
-
+        </LinearLayout>
 
             <TextView
                 android:visibility="visible"

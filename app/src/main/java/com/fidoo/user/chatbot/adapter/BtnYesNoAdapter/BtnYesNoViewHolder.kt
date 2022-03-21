@@ -13,8 +13,8 @@ class BtnYesNoViewHolder (var context: Context, val view : View) : RecyclerView.
         view.apply {
             if (botlogocount.botYesNoCount >= 1) {
                 tvTitle.text = cancelWithoutRefundWithSendkey
-                botlogo.visibility = View.GONE
-                botlogolayout.visibility = View.INVISIBLE
+               // botlogo.visibility = View.GONE
+               // botlogolayout.visibility = View.INVISIBLE
                 tvTitle.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     Html.fromHtml(cancelWithoutRefundWithSendkey, Html.FROM_HTML_MODE_COMPACT)
                 } else {

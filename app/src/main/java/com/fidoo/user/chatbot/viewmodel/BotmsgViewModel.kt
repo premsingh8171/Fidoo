@@ -29,7 +29,7 @@ class BotmsgViewModel (application: Application) : AndroidViewModel(application)
 
     fun botmsgapi(accountId: String, accessToken: String, orderId: String?) {
         CoroutineScope(Dispatchers.IO).launch {
-            delay(1500)
+            delay(1200)
             WebServiceClient.client.create(BackEndApi::class.java).botStatusMsgApi(
                 accountId = accountId,
                 accessToken = accessToken,

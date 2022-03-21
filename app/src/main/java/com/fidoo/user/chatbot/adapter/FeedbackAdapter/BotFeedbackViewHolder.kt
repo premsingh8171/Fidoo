@@ -14,8 +14,8 @@ class BotFeedbackViewHolder (var context: Context, val view : View) : RecyclerVi
         view.apply {
             if (botlogocount.botrefundCount >= 1) {
                 tvTitle.text = feedbackModel
-                botlogo.visibility = View.GONE
-                botlogolayout.visibility = View.INVISIBLE
+                //botlogo.visibility = View.GONE
+                //botlogolayout.visibility = View.INVISIBLE
                 tvTitle.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     Html.fromHtml(feedbackModel, Html.FROM_HTML_MODE_COMPACT)
                 } else {

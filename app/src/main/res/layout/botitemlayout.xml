@@ -1,43 +1,28 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
-
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
-        android:id="@+id/l3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
-        <LinearLayout
-            android:id="@+id/botlogolayout"
-            android:layout_width="@dimen/margin_48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/ellipse_223">
-
-        <ImageView
-            android:id="@+id/botlogo"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/r1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_chatbotavatar_02" />
-        </LinearLayout>
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardbotlayout"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardbotlayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-               app:cardCornerRadius="10dp"
+                app:cardCornerRadius="10dp"
                 android:layout_marginStart="12dp"
-            android:paddingBottom="@dimen/margin_12dp"
-            android:paddingTop="@dimen/margin_12dp"
-            android:paddingRight="16dp"
-            android:paddingLeft="@dimen/margin_16dp"
+                android:paddingBottom="@dimen/margin_12dp"
+                android:paddingTop="@dimen/margin_12dp"
+                android:paddingRight="16dp"
+                android:paddingLeft="@dimen/margin_16dp"
                 android:elevation="4dp">
 
                 <LinearLayout
@@ -60,17 +45,11 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-    <ImageView
-        android:id="@+id/imgv1"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:layout_alignParentTop="true" />
-
-
-</RelativeLayout>
-
+            <ImageView
+                android:id="@+id/loadingGifChat"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true" />
+        </RelativeLayout>
     </LinearLayout>
-
-
-
-</LinearLayout>
+</layout>
