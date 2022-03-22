@@ -585,10 +585,19 @@
                     layout="@layout/new_deliverycharges_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_above="@+id/new_delivery_popup"
-                    android:layout_marginLeft="@dimen/margin_30dp"
-                    android:layout_marginBottom="9dp"
+                    android:layout_above="@+id/new_polygon_2"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/margin_25dp"
                     android:visibility="gone" />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/new_polygon_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_delivery_charges_label"
+                    android:layout_above="@id/new_delivery_popup"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/polygon9new" />
 
                 <ImageView
                     android:id="@+id/new_delivery_popup"

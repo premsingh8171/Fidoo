@@ -97,6 +97,7 @@ import okhttp3.RequestBody
 import org.json.JSONObject
 import java.io.File
 import java.math.RoundingMode
+import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
 
@@ -330,7 +331,7 @@ class CartActivity : BaseActivity(),
                 chargesFmBgbottom.visibility = View.VISIBLE*/
 			cvdeliverydetail.visibility= View.VISIBLE
 			xyz.visibility= View.VISIBLE
-
+			new_polygon_2.visibility= View.VISIBLE
 
 			morecharges_.setOnClickListener {
 				upto_3kms_.visibility= View.GONE
@@ -338,10 +339,13 @@ class CartActivity : BaseActivity(),
 				morecharges_.visibility=View.GONE
 				rv_newchargesa.visibility= View.VISIBLE
 				tv_gstax.visibility= View.VISIBLE
-
 			}
+
 		}
+
+
 		nested_top_lay.setOnClickListener {
+			new_polygon_2.visibility= View.GONE
 			upto_3kms_.visibility= View.VISIBLE
 			rate_id1.visibility= View.VISIBLE
 			morecharges_.visibility=View.VISIBLE
@@ -941,26 +945,32 @@ class CartActivity : BaseActivity(),
 					//showToast(finalPrice.toString())
 
 
-					val dist:Double = (mModelData.distance/1000).toDouble()
-
-					tv_delivery_charges_label.text= "Delivery charges |${dist}kms"
+					val dist:Double = (mModelData.distance.toDouble()/1000)
+					val df= DecimalFormat("#.##")
+					val net_dist= df.format(dist)
+					tv_delivery_charges_label.text= "Delivery charges | ${net_dist}kms"
 					useconstants.user_dist = mModelData.distance
+
 					if (mModelData.distance<=3000){
 						upto_3kms_.text= "upto 3kms"
 						rate_id1.text= resources.getString(R.string.ruppee)+"18"
 					}
+
 					if (mModelData.distance>3000 && mModelData.distance<=6000){
 						upto_3kms_.text= "above 3kms-6kms"
 						rate_id1.text= resources.getString(R.string.ruppee)+"36"
 					}
+
 					if (mModelData.distance>6000 && mModelData.distance<=9000){
 						upto_3kms_.text= "above 6kms-9kms"
 						rate_id1.text= resources.getString(R.string.ruppee)+"54"
 					}
-					if (mModelData.distance>9000 && mModelData.distance<=12000){
+
+					if (mModelData.distance > 9000 && mModelData.distance<=12000){
 						upto_3kms_.text= "above 9kms-12kms"
 						rate_id1.text= resources.getString(R.string.ruppee)+"72"
 					}
+
 					if (mModelData.distance>12000){
 						upto_3kms_.text= "above 12kms"
 						rate_id1.text= resources.getString(R.string.ruppee)+"90"
