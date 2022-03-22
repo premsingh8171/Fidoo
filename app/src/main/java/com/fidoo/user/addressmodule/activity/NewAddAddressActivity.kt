@@ -72,11 +72,9 @@ import java.util.*
 @Suppress("DEPRECATION")
 open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener {
 
-
     companion object {
         val MY_PERMISSIONS_REQUEST_CODE = 123
     }
-
     var onMapNoNetDiolog: Dialog? = null
 
     private var mMap: GoogleMap? = null
@@ -226,16 +224,27 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             contact_name_txt.visibility = View.VISIBLE
             change_txt.visibility = View.VISIBLE
         }
+        add_address_frmLL.setOnClickListener {
+            finish()
+        }
+//        add_address_frmLL_One.setOnClickListener {
+//            add_address_frmLL.visibility = View.VISIBLE
+//            live_add_1.visibility = View.VISIBLE
+//            btn_proceed.visibility = View.VISIBLE
+//            tv_SelectDeliveryAddress.visibility = View.VISIBLE
+//        }
         /**
          * Button proceed On Click
          */
         btn_proceed.setOnClickListener {
             tv_SelectDeliveryAddress.visibility = View.GONE
-            tv_AddAddress.visibility = View.VISIBLE
+        //    add_address_frmLL.visibility = View.GONE
             live_add_1.visibility = View.GONE
+            btn_proceed.visibility = View.GONE
+            tv_AddAddress.visibility = View.VISIBLE
             add_new_add_ll.visibility = View.VISIBLE
             btn_continue.visibility = View.VISIBLE
-            btn_proceed.visibility = View.GONE
+            //add_address_frmLL_One.visibility = View.VISIBLE
         }
 
         btn_continue.setOnClickListener {
@@ -478,9 +487,6 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
         }
 
-        add_address_frmLL.setOnClickListener {
-            finish()
-        }
         /**
          *  ADD CONTACT BUTTON
          */
