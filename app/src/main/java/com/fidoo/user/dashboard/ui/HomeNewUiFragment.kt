@@ -44,6 +44,7 @@ import com.fidoo.user.activity.MainActivity.Companion.orderSuccess
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
 import com.fidoo.user.addressmodule.adapter.AddressesAdapter
+import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
@@ -79,7 +80,7 @@ import java.util.*
 
 
 @Suppress("DEPRECATION")
-class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
+class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 
 	lateinit var analytics: FirebaseAnalytics
 	var serviceDetailsAdapter: ServiceDetailsAdapter? = null
@@ -253,16 +254,50 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		addressViewModel?.getAddressesResponse?.observe(requireActivity(), androidx.lifecycle.Observer { user ->
 			Log.e("addresses_response", Gson().toJson(user))
 			if (!user.addressList.isNullOrEmpty()) {
-				val adapter = AddressesAdapter(
+				val adapter = AddressesAdapterBottom(
 					requireContext(), user.addressList,
-					object : AddressesAdapter.SetOnDeteleAddListener {
+					object : AddressesAdapterBottom.SetOnDeteleAddListener {
 						override fun onDelete(
 							add_id: String,
 							addressList: GetAddressModel.AddressList
 						) {}
+
+						override fun onClick(addressList: GetAddressModel.AddressList) {
+							when {
+								addressList.addressType.equals("1") -> {
+									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(requireContext()).addressType= "Home"
+								}
+
+								addressList.addressType.equals("2") -> {
+									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(requireContext()).addressType = "Office"
+
+								}
+
+								else -> {
+									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(requireContext()).addressType = "Other"
+
+								}
+							}
+							// holder.itemView.setassDefaultTxt.visibility=View.VISIBLE
+							//  holder.itemView.selectedadd_img.visibility=View.VISIBLE
+							// holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
+
+							SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+							SessionTwiclo(requireContext()).userAddressId = addressList.id
+							SessionTwiclo(requireContext()).userLat = addressList.latitude
+							SessionTwiclo(requireContext()).userLng = addressList.longitude
+							dialog?.dismiss()
+							restHomePage()
+						}
 					},
-					"type"
+					"bottomSheetAddress"
+
+
 				)
+
 				rvManageAddress?.layoutManager = GridLayoutManager(requireContext(), 1)
 				rvManageAddress?.setHasFixedSize(true)
 				rvManageAddress?.adapter = adapter
@@ -282,6 +317,32 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)
+	}
+
+	private fun restHomePage() {
+		deleteRoomDataBase()
+		if ((activity as MainActivity).isNetworkConnected) {
+			if (SessionTwiclo(context).isLoggedIn) {
+				viewmodel?.getCartCountApi(
+					SessionTwiclo(context).loggedInUserDetail.accountId,
+					SessionTwiclo(context).loggedInUserDetail.accessToken
+				)
+				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+
+				if (SessionTwiclo(context).addressType.equals("")) {
+					text_newDesh.text= "Your Location"
+				}else{
+
+					text_newDesh.text = SessionTwiclo(context).addressType
+				}
+
+			} else {
+				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+				text_newDesh.text= SessionTwiclo(context).addressType
+
+			}
+			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
+		}
 	}
 //	@SuppressWarnings("deprecation")
 //	fun isLocationEnabled(context: Context): Boolean? {
@@ -680,7 +741,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 			}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
-
 		}
 	}
 
@@ -885,6 +945,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			payment_suc_Diolog?.dismiss()
 		}, 5000)
 	}
+
 
 //	private fun setAddressAdapter() {
 //		addressAdapter = AddressesAdapter(requireContext(), address)
