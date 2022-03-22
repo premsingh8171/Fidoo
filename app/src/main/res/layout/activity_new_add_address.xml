@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
-        android:layout_margin="@dimen/margin_20dp"
+        android:layout_margin="@dimen/margin_12dp"
         android:elevation="@dimen/dimen_5dp"
-        android:layout_marginRight="@dimen/margin_20dp"
         android:background="@drawable/circular_border"
         android:backgroundTint="@color/white"
         android:id="@+id/add_address_frmLL"
@@ -28,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="@dimen/margin_30dp"
+        android:layout_marginTop="@dimen/margin_24dp"
         android:layout_toEndOf="@id/add_address_frmLL"
         android:text="Select Delivery Address"
         android:textColor="@color/black"
@@ -39,7 +38,7 @@
         android:id="@+id/tv_AddAddress"
         android:layout_width="wrap_content"
         android:layout_toEndOf="@id/add_address_frmLL"
-        android:layout_marginTop="@dimen/margin_30dp"
+        android:layout_marginTop="@dimen/margin_24dp"
         android:text="Add Address"
         android:layout_marginStart="@dimen/dimen_5dp"
         android:visibility="gone"
@@ -104,7 +103,6 @@
         android:id="@+id/add_new_add_ll"
         android:layout_width="match_parent"
         android:layout_height="430dp">
-
         <TextView
             android:fontFamily="@font/proxima"
             android:paddingLeft="@dimen/margin_10"
@@ -119,7 +117,6 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -143,7 +140,6 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
-
                     <ImageView
                         android:id="@+id/locationImage"
                         android:layout_width="@dimen/margin_24dp"
@@ -179,7 +175,6 @@
                         android:layout_marginStart="@dimen/margin_40dp"
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/proxima"
-                        android:text=""
                         android:textSize="12sp"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/locationImage"
@@ -219,7 +214,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:fontFamily="@font/proxima"
-
                         android:layout_weight="1"
                         android:background="@drawable/radio_selector"
                         android:button="@android:color/transparent"
@@ -236,12 +230,10 @@
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima"
-
                         android:background="@drawable/radio_selector"
                         android:button="@android:color/transparent"
                         android:gravity="center"
                         android:text="Office" />
-
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:paddingLeft="@dimen/margin_20dp"
                         android:paddingRight="@dimen/margin_20dp"
@@ -255,10 +247,7 @@
                         android:button="@android:color/transparent"
                         android:gravity="center"
                         android:text="Other" />
-
                 </RadioGroup>
-
-
                 <CheckBox
                     android:visibility="visible"
                     android:layout_width="wrap_content"
@@ -283,8 +272,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/live_add" />
-
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_marginTop="@dimen/dimen_5dp"
                     android:id="@+id/tl_address"
@@ -316,9 +303,7 @@
                         android:layout_height="50dp"
                         android:hint="@string/house_flat_block"
                         android:inputType="text|textNoSuggestions" />
-
                 </com.google.android.material.textfield.TextInputLayout>
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tl_landmark"
@@ -350,9 +335,7 @@
                         android:hint="@string/landmark"
                         android:importantForAutofill="no"
                         android:inputType="text|textNoSuggestions" />
-
                 </com.google.android.material.textfield.TextInputLayout>
-
 
                 <TextView
                     android:fontFamily="@font/proxima"
@@ -368,7 +351,6 @@
                     android:textColor="@color/primary_color"
                     android:layout_height="25dp"
                     android:text="Add contact no." />
-
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_marginBottom="@dimen/margin_20dp"
