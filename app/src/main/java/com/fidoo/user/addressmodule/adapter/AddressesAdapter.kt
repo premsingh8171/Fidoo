@@ -25,7 +25,7 @@ class AddressesAdapter(
     val con: Context,
     val addressList: MutableList<GetAddressModel.AddressList>,
     val setOnDeteleAddListener: SetOnDeteleAddListener,
-    val stringExtra: String?
+    val stringExtra: String?,
 ) : RecyclerView.Adapter<AddressesAdapter.UserViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.saved_address_items, parent, false)
@@ -201,7 +201,7 @@ class AddressesAdapter(
                     SessionTwiclo(con).userAddressId = addressList[position].id
                     SessionTwiclo(con).userLat = addressList[position].latitude
                     SessionTwiclo(con).userLng = addressList[position].longitude
-                    (con as Activity).finish()
+                   (con as Activity).finish()
                 } else if (ProfileFragment.addManages.equals("add_manage")) {
                     Log.e("clickedaddress", "address")
                     when {

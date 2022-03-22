@@ -383,12 +383,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				}
 
 				fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
-				fragmentHomeBinding?.deshbordRefreshNewDesh!!.visibility = View.VISIBLE
+				fragmentHomeBinding?.deshbordRefreshNewDesh!!.visibility = VISIBLE
 
 			} else {
 				fragmentHomeBinding?.deshbordRefreshNewDesh!!.visibility = View.GONE
 				fragmentHomeBinding?.mainViewNestedSNewDesh!!.visibility = View.GONE
-				fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.VISIBLE
+				fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = VISIBLE
 				(activity as MainActivity).showInternetToast()
 			}
 

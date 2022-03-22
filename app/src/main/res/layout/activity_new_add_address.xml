@@ -98,9 +98,9 @@
 
     <LinearLayout
         android:layout_alignParentBottom="true"
-       android:visibility="gone"
         android:background="@drawable/feedback_bg"
         android:orientation="vertical"
+        android:visibility="gone"
         android:id="@+id/add_new_add_ll"
         android:layout_width="match_parent"
         android:layout_height="430dp">
@@ -371,35 +371,36 @@
                     android:text="Add contact no." />
 
 
-<!--                <com.google.android.material.button.MaterialButton-->
-<!--                    android:layout_marginBottom="@dimen/margin_20dp"-->
-<!--                    android:id="@+id/btn_continue"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="30dp"-->
-<!--                    android:layout_marginTop="17dp"-->
-<!--                    android:layout_marginEnd="30dp"-->
-<!--                    android:padding="15dp"-->
-<!--                    android:fontFamily="@font/proxima"-->
-<!--                    android:text="@string/confirm_proceed"-->
-<!--                    android:textAllCaps="false"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    app:backgroundTint="@color/colorPrimary"-->
-<!--                    app:cornerRadius="25dp"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/defaultCheckBox" />-->
+                <com.google.android.material.button.MaterialButton
+                    android:layout_marginBottom="@dimen/margin_20dp"
+                    android:id="@+id/btn_continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_marginEnd="30dp"
+                    android:padding="15dp"
+                    android:fontFamily="@font/proxima"
+                    android:text="@string/confirm_proceed"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:cornerRadius="25dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/defaultCheckBox" />
 
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/contact_add_ll"
-        android:visibility="gone"
         android:background="@drawable/feedback_bg"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:orientation="vertical"
+        android:layout_above="@id/btn_continue"
         android:layout_width="match_parent"
         android:layout_height="280dp">
         <TextView
@@ -481,7 +482,6 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
-            android:padding="15dp"
             android:text="Add Contact"
             android:textAllCaps="false"
             android:textColor="@color/white"
@@ -514,7 +514,6 @@
             android:layout_marginStart="@dimen/margin_20dp"
             android:fontFamily="@font/proxima"
             android:textSize="15sp"/>
-
     </LinearLayout>
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_proceed"
@@ -533,21 +532,21 @@
         app:backgroundTint="@color/colorPrimary"
         app:cornerRadius="25dp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_continue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="@dimen/margin_10"
-        android:fontFamily="@font/proxima"
-        android:padding="@dimen/margin_10"
-        android:text="Save Address"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:visibility="gone"
-        app:backgroundTint="@color/colorPrimary"
-        app:cornerRadius="25dp" />
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/btn_continue"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginStart="30dp"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:layout_marginEnd="30dp"-->
+<!--        android:layout_marginBottom="@dimen/margin_10"-->
+<!--        android:fontFamily="@font/proxima"-->
+<!--        android:padding="@dimen/margin_10"-->
+<!--        android:text="Save Address"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:visibility="gone"-->
+<!--        app:backgroundTint="@color/colorPrimary"-->
+<!--        app:cornerRadius="25dp" />-->
 </RelativeLayout>
