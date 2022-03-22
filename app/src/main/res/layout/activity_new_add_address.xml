@@ -393,10 +393,7 @@
 
             </LinearLayout>
         </ScrollView>
-
     </LinearLayout>
-
-
     <LinearLayout
         android:id="@+id/contact_add_ll"
         android:visibility="gone"
@@ -405,7 +402,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="280dp">
-
         <TextView
             android:layout_margin="@dimen/dimen_5dp"
             android:padding="@dimen/margin_10"
@@ -414,8 +410,6 @@
             android:textSize="@dimen/dimen_16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tl_phone"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -447,10 +441,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:inputType="phone" />
-
         </com.google.android.material.textfield.TextInputLayout>
-
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tl_name"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -482,8 +473,6 @@
                 android:inputType="text|textNoSuggestions" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-
         <com.google.android.material.button.MaterialButton
             android:layout_marginBottom="@dimen/margin_20dp"
             android:id="@+id/add_contactBtn"
@@ -503,45 +492,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/defaultCheckBox" />
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white">
-
-
-
-    </RelativeLayout>
-
     <LinearLayout
         android:id="@+id/live_add_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_proceed">
-
-<!--        <ImageView-->
-<!--            android:id="@+id/locationImage_1"-->
-<!--            android:layout_width="@dimen/margin_24dp"-->
-<!--            android:layout_height="@dimen/margin_24dp"-->
-<!--            android:layout_marginStart="15dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:src="@drawable/location"/>-->
-
-<!--        <TextView-->
-<!--            android:visibility="gone"-->
-<!--            android:id="@+id/tv_address_title_1"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="10dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:fontFamily="@font/proxima"-->
-<!--            android:text="fff"-->
-<!--            android:textSize="16sp"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/locationImage_1"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
         <androidx.appcompat.widget.AppCompatEditText
             android:layout_marginTop="@dimen/margin_10"
             android:padding="@dimen/margin_15dp"
@@ -560,18 +515,6 @@
             android:fontFamily="@font/proxima"
             android:textSize="15sp"/>
 
-<!--        <TextView-->
-<!--            android:layout_marginTop="@dimen/margin_15dp"-->
-<!--            android:id="@+id/change_txt_1"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginEnd="10dp"-->
-<!--            android:fontFamily="@font/proxima"-->
-<!--            android:text="Change"-->
-<!--            android:textColor="@color/colorPrimary"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/tv_address_title_1"-->
-<!--            android:visibility="visible" />-->
     </LinearLayout>
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_proceed"

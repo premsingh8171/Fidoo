@@ -227,7 +227,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             change_txt.visibility = View.VISIBLE
         }
         /**
-         * Button proceed On click
+         * Button proceed On Click
          */
         btn_proceed.setOnClickListener {
             tv_SelectDeliveryAddress.visibility = View.GONE
