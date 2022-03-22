@@ -43,11 +43,11 @@ import java.util.*
 
 class Chatbotui :AppCompatActivity() {
     var viewModel: ChatbotViewModel? = null
-    var botmsgViewModel : BotmsgViewModel? =null
+    var botmsgViewModel: BotmsgViewModel? = null
     var oderStatusViewModel: OrderStatusViewModel? = null
-    var cancelWithoutRefundmsgViewModel : CancelWithoutRefundmsgViewModel? = null
-    var cancelWithoutRefundmsgwithKeyViewModel : CancelWithoutRefundmsgwithKeyViewModel?= null
-    var feedbackViewModel : FeedbackViewModel?= null
+    var cancelWithoutRefundmsgViewModel: CancelWithoutRefundmsgViewModel? = null
+    var cancelWithoutRefundmsgwithKeyViewModel: CancelWithoutRefundmsgwithKeyViewModel? = null
+    var feedbackViewModel: FeedbackViewModel? = null
     var viewmodel: TrackViewModel? = null
     var call_Diolog: Dialog? = null
     lateinit var dateTime: String
@@ -61,26 +61,27 @@ class Chatbotui :AppCompatActivity() {
     lateinit var simpleDateFormat2: SimpleDateFormat
     lateinit var mainAdapter: MainAdapter
     lateinit var orderStatusAdapter: orderStatusAdapter
-    lateinit var cancelWithoutRefundAdapter : CancelWithoutRefundAdapter
+    lateinit var cancelWithoutRefundAdapter: CancelWithoutRefundAdapter
     lateinit var btnYesNoAdapter: BtnYesNoAdapter
     lateinit var botFeedbackAdapter: BotFeedbackAdapter
-    var firstMsgListData=ArrayList<String>()
+    var firstMsgListData = ArrayList<String>()
     var secondMsgListData = ArrayList<String>()
-    var allStatus : String =""
-    var userPaymentMode : Int? = null
-    var dBoyName : String = ""
-    var merchantName : String = ""
+    var allStatus: String = ""
+    var userPaymentMode: Int? = null
+    var dBoyName: String = ""
+    var merchantName: String = ""
     var cancelWithoutRefundData = ArrayList<String>()
     var cancelWithoutRefundDatawithkeyData = ArrayList<String>()
     var feedbackdata = ArrayList<String>()
-    var resvalue:Int? = null
-    var resFeedbackvalue:Int? = null
+    var resvalue: Int? = null
+    var resFeedbackvalue: Int? = null
     var driverMobileNo: String? = ""
     val sessionInstance: SessionTwiclo
         get() = SessionTwiclo(this)
     val sessionInstanceNotNull: SessionNotNull
         get() = SessionNotNull(this)
     var store_phone: String? = ""
+
     //last timing//
     lateinit var calendar3: Calendar
     lateinit var simpleDateFormat3: SimpleDateFormat
@@ -139,10 +140,7 @@ class Chatbotui :AppCompatActivity() {
 //                    cancel.visibility = View.VISIBLE
 //
 //                }
-            }
-
-
-                else {
+            } else {
                 orderstatus.text = "Where is my order?"
                 orderconfirmStatus.text = "Where is my order?"
 //                CoroutineScope(Dispatchers.Main).launch {
@@ -153,9 +151,9 @@ class Chatbotui :AppCompatActivity() {
 
 
             }
-                       if(it.userPaymentMode.equals("1")){
+            if (it.userPaymentMode.equals("1")) {
 
-                       }
+            }
 
         }
 
@@ -169,17 +167,20 @@ class Chatbotui :AppCompatActivity() {
 
 
 
-            CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.Main).launch {
 
             delay(2500)
-                if(allStatus.equals("10") || allStatus.equals("3") || (userPaymentMode==1 && !allStatus.equals("1")) ) {
-                    cancel.visibility = View.GONE
-                    //
-                    BtnYes1.text = dBoyName
-                }else{
-                    cancel.visibility = View.VISIBLE
-                    BtnYes1.text = merchantName
-                }
+            if (allStatus.equals("10") || allStatus.equals("3") || (userPaymentMode == 1 && !allStatus.equals(
+                    "1"
+                ))
+            ) {
+                cancel.visibility = View.GONE
+                //
+                BtnYes1.text = dBoyName
+            } else {
+                cancel.visibility = View.VISIBLE
+                BtnYes1.text = merchantName
+            }
             orderstatus.visibility = View.VISIBLE
 
         }
@@ -198,17 +199,16 @@ class Chatbotui :AppCompatActivity() {
                 delay(4000)
                 DateandTime4.visibility = View.VISIBLE
                 delay(2000)
-                if(allStatus == "1") {
+                if (allStatus == "1") {
                     LayoutFeedback.visibility = View.VISIBLE
 
-                }else{
-                    LayoutFeedback.visibility = View.GONE
+                } else {
+                  LayoutFeedback.visibility = View.GONE
                     tvlast.visibility = View.VISIBLE
                 }
+            }
 //                tvlast.visibility = View.VISIBLE
 
-
-            }
 
             calendar2 = Calendar.getInstance()
             simpleDateFormat2 = SimpleDateFormat("hh:mm aa")
@@ -227,13 +227,13 @@ class Chatbotui :AppCompatActivity() {
                 secondMsgListData = it.messages as ArrayList<String>
 //                dBoyName = it.dBoyName
 //                merchantName = it.merchantName
-              if(allStatus.equals("10")){
-                  BtnYes1.text =  "Call " + it.dBoyName + " "
-              }else{
-                  BtnYes1.text = "Call " + it.merchantName + " "
+                if (allStatus.equals("10")) {
+                    BtnYes1.text = "Call " + it.dBoyName + " "
+                } else {
+                    BtnYes1.text = "Call " + it.merchantName + " "
 
-              }
-                Log.d("skhdfsff" , it.merchantName + " " )
+                }
+                Log.d("skhdfsff", it.merchantName + " ")
 
                 setRecyclerViewBotmsg()
 
@@ -242,21 +242,26 @@ class Chatbotui :AppCompatActivity() {
 
 
             BtnNo.setOnClickListener {
-                botlogo3 .visibility = View.VISIBLE
+                botlogo3.visibility = View.VISIBLE
                 botlogolaysout3.visibility = View.VISIBLE
                 BtnYesNoReplayout.visibility = View.VISIBLE
                 BtnYesReply.text = "No \uD83D\uDC4E"
                 LayoutFeedback.visibility = View.GONE
                 tvlast.visibility = View.VISIBLE
-                //calling button
 
-                BtnYes1.visibility = View.INVISIBLE
+
                 // --------------------
                 DateandTime5.visibility = View.VISIBLE
                 CoroutineScope(Dispatchers.Main).launch {
                     delay(1000)
 
                     tvlast.visibility = View.VISIBLE
+                    /**
+                     * calling button
+                     */
+//
+                    delay(300)
+                    BtnYes1.visibility = View.VISIBLE
                 }
                 calendar3 = Calendar.getInstance()
                 simpleDateFormat3 = SimpleDateFormat(" hh:mm aa")
@@ -279,14 +284,15 @@ class Chatbotui :AppCompatActivity() {
                     DateandTime6.visibility = View.VISIBLE
 
 
-                    }
-
                 }
 
-            BtnYes1.setOnClickListener {
+            }
 
-                if(allStatus == "10") {
+
+            BtnYes1.setOnClickListener {
+                if (allStatus == "10") {
                     onCallPopUp(1)
+                    Log.d("sumit1" , Gson().toJson(it))
                     if (sessionInstance.profileDetail != null) {
                         viewmodel?.callCustomerApi(
                             SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -302,18 +308,19 @@ class Chatbotui :AppCompatActivity() {
                             driverMobileNo!!
                         )
                     }
-
-
-                }else{
-                    if (!store_phone.equals("")) {
+                } else {
                         onCallPopUp(0)
                         if (sessionInstance.profileDetail != null) {
+
                             viewmodel?.customerCallMerchantApi(
                                 SessionTwiclo(this).loggedInUserDetail.accountId,
                                 SessionTwiclo(this).loggedInUserDetail.accessToken,
                                 sessionInstance.profileDetail.account.userName,
                                 store_phone!!
+
                             )
+                            //Toast.makeText(this,"$store_phone",Toast.LENGTH_SHORT).show();
+                            Log.d("sumit" , store_phone!!)
                         } else {
                             viewmodel?.customerCallMerchantApi(
                                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -324,9 +331,10 @@ class Chatbotui :AppCompatActivity() {
                         }
                     }
 
+
                 }
 
-            }
+
 //if(allStatus.equals("10")) {
 //    BtnYes1.setOnClickListener {
 //
