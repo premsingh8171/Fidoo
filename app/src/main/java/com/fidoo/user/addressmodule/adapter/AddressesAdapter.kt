@@ -103,7 +103,7 @@ class AddressesAdapter(
                     holder.storeName.text = "Office"
                 }
                 holder.storeName.text = "Office"
-               // holder.addressTypeIcon.setImageResource(R.drawable.ic_office)
+                holder.addressTypeIcon.setImageResource(R.drawable.ic_office)
             }
 
             else -> {
@@ -113,7 +113,7 @@ class AddressesAdapter(
                     holder.storeName.text = "Other"
                 }
                 holder.storeName.text = "Other"
-               // holder.addressTypeIcon.setImageResource(R.drawable.ic_other)
+                holder.addressTypeIcon.setImageResource(R.drawable.ic_location)
             }
         }
 

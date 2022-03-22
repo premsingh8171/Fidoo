@@ -15,38 +15,35 @@
         android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="@dimen/dimen_5dp"
             android:layout_height="wrap_content">
             <ImageView
                 android:src="@drawable/ic_location_off"
-                android:layout_width="25dp"
-                android:layout_height="25dp"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Your device location is off"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:lineHeight="28dp"
-                    android:layout_marginStart="8dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"/>
-            </LinearLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:layout_gravity="center"
+                android:fontFamily="@font/worksans_semibold"
+                android:text="Your device location is off"
+                android:layout_marginStart="4dp"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:padding="6dp"
+            android:layout_marginTop="@dimen/margin_4dp"
             android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/margin_10"
                 android:text="Please turn on device location to get accurate and fast delivery"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -70,8 +67,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Select Delivery Address"
-            android:padding="@dimen/dimen_5dp"
-            android:textSize="20sp"
+            android:padding="@dimen/margin_10"
+            android:fontFamily="@font/worksans_semibold"
+            android:textSize="18sp"
             android:textColor="@color/black"/>
     </LinearLayout>
     <View
@@ -92,12 +90,13 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lightGray"
             android:background="@color/lightGray">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvManageSavedAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_20dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/margin_20dp"
                 android:layout_marginBottom="@dimen/margin_20dp"
                 android:background="@color/lightGray"
                 android:orientation="vertical"
@@ -156,7 +155,7 @@
         android:layout_height="1dp"/>
     <LinearLayout
         android:id="@+id/lv_add_new_address"
-        android:padding="13dp"
+        android:padding="15dp"
         android:background="@color/white"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
@@ -166,26 +165,15 @@
             android:src="@drawable/home_locpin"
             android:layout_width="25dp"
             android:layout_height="25dp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add New Address"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_marginStart="15dp"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="#359C47"/>
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add New Address"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:textSize="16sp"
+            android:fontFamily="@font/worksans_semibold"
+            android:textColor="#359C47"/>
     </LinearLayout>
-    <View
-        android:alpha=".4"
-        android:background="@android:color/darker_gray"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
 </androidx.appcompat.widget.LinearLayoutCompat>
 

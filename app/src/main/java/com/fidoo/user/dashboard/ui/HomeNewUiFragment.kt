@@ -78,10 +78,8 @@ import kotlinx.android.synthetic.main.fragment_home_newui.*
 import org.json.JSONObject
 import java.util.*
 
-
 @Suppress("DEPRECATION")
 class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
-
 	lateinit var analytics: FirebaseAnalytics
 	var serviceDetailsAdapter: ServiceDetailsAdapter? = null
 	lateinit var mView: View
