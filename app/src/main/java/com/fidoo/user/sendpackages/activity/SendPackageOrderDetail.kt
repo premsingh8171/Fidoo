@@ -250,6 +250,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             rv_newchargesa.visibility= View.GONE
             tv_gstax.visibility= View.GONE
             xyz2.visibility = View.GONE
+            new_polygon_2i.visibility= View.GONE
 
         }
 
@@ -260,6 +261,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             rv_newchargesa.visibility= View.GONE
             tv_gstax.visibility= View.GONE
             xyz2.visibility = View.GONE
+            new_polygon_2i.visibility= View.GONE
         }
 
         online_lay.setOnClickListener {
@@ -366,6 +368,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
              chargesFmBgbottoms.visibility = View.VISIBLE*/
             cvdeliverydetail.visibility= View.VISIBLE
             xyz2.visibility= View.VISIBLE
+            new_polygon_2i.visibility= View.VISIBLE
 
 
             morecharges_.setOnClickListener {

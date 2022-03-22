@@ -769,4 +769,6 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         SessionTwiclo(this).setcatname("")
         AppUtils.finishActivityLeftToRight(this)
     }
+
 }
+
