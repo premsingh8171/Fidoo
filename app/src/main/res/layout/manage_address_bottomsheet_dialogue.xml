@@ -83,7 +83,7 @@
                                           -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_200dp">
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:id="@+id/rlManageSavedAddressLayout"
             android:layout_width="match_parent"
@@ -95,9 +95,7 @@
                 android:id="@+id/rvManageSavedAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="@dimen/margin_20dp"
-                android:layout_marginBottom="@dimen/margin_20dp"
+                android:layout_margin="@dimen/dimen_5dp"
                 android:background="@color/lightGray"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -109,7 +107,7 @@
                                       -->
     <LinearLayout
         android:padding="13dp"
-        android:visibility="gone"
+
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
@@ -148,11 +146,11 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <View
-        android:alpha=".4"
-        android:background="@android:color/darker_gray"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+<!--    <View-->
+<!--        android:alpha=".4"-->
+<!--        android:background="@android:color/darker_gray"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"/>-->
     <LinearLayout
         android:id="@+id/lv_add_new_address"
         android:padding="15dp"
@@ -170,7 +168,7 @@
             android:layout_height="wrap_content"
             android:text="Add New Address"
             android:layout_gravity="center"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
             android:textSize="16sp"
             android:fontFamily="@font/worksans_semibold"
             android:textColor="#359C47"/>
