@@ -1337,12 +1337,8 @@ class CartActivity : BaseActivity(),
 					SessionTwiclo(this@CartActivity).loggedInUserDetail.accessToken
 				)
 				tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
-
-				if (SessionTwiclo(this@CartActivity).addressType.equals("")) {
-
-				}
-
-			} else {
+			}
+			else {
 				tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
 			}
 		}
