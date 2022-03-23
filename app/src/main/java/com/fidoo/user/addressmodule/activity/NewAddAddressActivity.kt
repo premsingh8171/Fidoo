@@ -42,7 +42,6 @@ import com.fidoo.user.addressmodule.activity.SavedAddressesActivity.Companion.sa
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.sendpackages.activity.SendPackageActivity.Companion.forSendPackageAddCheck
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.BaseActivity
@@ -66,22 +65,16 @@ import com.google.gson.GsonBuilder
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.skyfishjy.library.RippleBackground
-import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.android.synthetic.main.activity_new_add_address.*
-import kotlinx.android.synthetic.main.activity_store_list.*
-import kotlinx.android.synthetic.main.content_map.*
-import kotlinx.android.synthetic.main.no_net_popup.*
 import java.util.*
 
 
 @Suppress("DEPRECATION")
 open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener {
 
-
     companion object {
         val MY_PERMISSIONS_REQUEST_CODE = 123
     }
-
     var onMapNoNetDiolog: Dialog? = null
 
     private var mMap: GoogleMap? = null
@@ -178,6 +171,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             lat = model.latitude.toDouble()
             lng = model.longitude.toDouble()
             tv_Address.setText(model.location)
+            tv_Address_1.setText(model.location)
             ed_name.setText(model.name)
             ed_phone.setText(model.phone_no)
             ed_address.setText(model.flatNo)
@@ -230,6 +224,28 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             contact_name_txt.visibility = View.VISIBLE
             change_txt.visibility = View.VISIBLE
         }
+        add_address_frmLL.setOnClickListener {
+            finish()
+        }
+//        add_address_frmLL_One.setOnClickListener {
+//            add_address_frmLL.visibility = View.VISIBLE
+//            live_add_1.visibility = View.VISIBLE
+//            btn_proceed.visibility = View.VISIBLE
+//            tv_SelectDeliveryAddress.visibility = View.VISIBLE
+//        }
+        /**
+         * Button proceed On Click
+         */
+        btn_proceed.setOnClickListener {
+            tv_SelectDeliveryAddress.visibility = View.GONE
+            //    add_address_frmLL.visibility = View.GONE
+            live_add_1.visibility = View.GONE
+            btn_proceed.visibility = View.GONE
+            tv_AddAddress.visibility = View.VISIBLE
+            add_new_add_ll.visibility = View.VISIBLE
+            btn_continue.visibility = View.VISIBLE
+            //add_address_frmLL_One.visibility = View.VISIBLE
+        }
 
         btn_continue.setOnClickListener {
             if (!isNetworkConnected) {
@@ -239,6 +255,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                     SessionTwiclo(this).userLat = lat.toString()
                     SessionTwiclo(this).userLng = lng.toString()
                     SessionTwiclo(this).userAddress = tv_Address.text.toString()
+                    SessionTwiclo(this).userAddress = tv_Address_1.text.toString()
                     savedAddressesActivity!!.finish().toString()
                     finish()
                 } else {
@@ -252,7 +269,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             showToast("Please enter your landmark")
                         }*/
 
-                        else if (tv_Address.equals("")) {
+                        else if (tv_Address.equals("") || tv_Address_1.equals("")) {
                             showToast("Location not available")
                         } else {
                             if (MainActivity.addEditAdd == "SendPackage") {
@@ -380,10 +397,10 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
                         }
 //                        //updated by shobha
-//                        else if (ed_name.text.toString().equals("")) {
-//                            showToast("Please add contact details")
-//                        }
-                        else if (tv_Address.equals("")) {
+                        else if (ed_name.text.toString().equals("")) {
+                            showToast("Please add contact details")
+                        }
+                        else if (tv_Address.equals("") || tv_Address_1.equals("")) {
                             showToast("Location not available")
 
                         } else {
@@ -465,75 +482,73 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             }*/
 
         }
-
         change_txt.setOnClickListener {
-            val intent = Intent(this, ChangeAddressActivity::class.java)
+            val intent = Intent(this,SavedAddressesActivity::class.java)
             startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
         }
 
-        add_address_frmLL.setOnClickListener {
-            finish()
-        }
-
+        /**
+         *  ADD CONTACT BUTTON
+         */
         add_contactBtn.setOnClickListener {
-//            if (ed_phone.text.toString().equals("")) {
-//                showToast("Please enter your contact no.")
-//
-//            } else if (ed_phone.text.toString()
-//                    .startsWith("0") || ed_phone.text.toString().length < 10
-//            ) {
-//                showToast("Please enter valid no.")
-//
-//            } else if (ed_name.text.toString().equals("") || ed_name.text.toString()
-//                    .startsWith(" ")
-//            ) {
-//                showToast("Please enter contact name")
-//
-//            }
-//            else {
-            contact_name_txt.text =
-                ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
-            contact_name_txt.setTextColor(getColor(R.color.black))
-            contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.BLACK));
-            contact_add_ll.visibility = View.GONE
-            add_new_add_ll.visibility = View.VISIBLE
-            if(ed_name.getText().toString().equals("")){
-                contact_name_txt.text="Add contact no."
-            }else if(ed_phone.getText().toString().equals(""))
-                contact_name_txt.text="Add contact no."
-            //}
+            if (ed_phone.text.toString().equals("")) {
+                showToast("Please enter your contact no.")
+
+            } else if (ed_phone.text.toString()
+                    .startsWith("0") || ed_phone.text.toString().length < 10
+            ) {
+                showToast("Please enter valid no.")
+
+            } else if (ed_name.text.toString().equals("") || ed_name.text.toString()
+                    .startsWith(" ")
+            ) {
+                showToast("Please enter contact name")
+
+            }
+            /**
+             *  ADD CONTACT NUMBER BUTTON
+             */
+            else {
+                contact_name_txt.text =
+                    ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
+                contact_name_txt.setTextColor(getColor(R.color.black))
+                contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.BLACK))
+                contact_add_ll.visibility = View.GONE
+                add_new_add_ll.visibility = View.VISIBLE
+                if(ed_name.getText().toString().equals("")){
+                    contact_name_txt.text="Add contact no."
+                }else if(ed_phone.getText().toString().equals(""))
+                    contact_name_txt.text="Add contact no."
+            }
         }
 
-        viewmodel?.editAddressResponse?.observe(this) {
+        viewmodel?.editAddressResponse?.observe(this, {
             dismissIOSProgress()
             Log.e("editAddressResponse_", Gson().toJson(it))
-            if (it.errorCode == 200) {
+            if (it.errorCode==200) {
                 SavedAddressesActivity.editAdd = 1
                 showToast("Address Edited successfully")
                 // savedAddressesActivity!!.finish()
                 finish()
                 AppUtils.finishActivityLeftToRight(this)
-            } else if (it.errorCode == 101) {
+            }else if (it.errorCode == 101) {
                 showAlertDialog(this)
             }
-        }
-
-        viewmodel?.addAddressResponse?.observe(this) {
+        })
+        viewmodel?.addAddressResponse?.observe(this, {
             dismissIOSProgress()
-            if (it.errorCode == 200) {
+            if (it.errorCode==200) {
                 showToast("Address added successfully")
                 SavedAddressesActivity.editAdd = 1
                 finish()
                 AppUtils.finishActivityLeftToRight(this)
-            } else if (it.errorCode == 101) {
+            }else if (it.errorCode == 101) {
                 showAlertDialog(this)
             }
-        }
-
+        })
         viewmodel?.failureResponse?.observe(this, {
             showToast("Something is wrong, please try again")
         })
-
     }
 
     private fun getLocation() {
@@ -962,6 +977,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                         lng!!
                     )
                     tv_Address!!.setText(address)
+                    tv_Address_1!!.setText(address)
                 } catch (e: Exception) {
                 }
 
@@ -1047,10 +1063,12 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                         if (model.status.equals("OK")) {
                             if (model.results.size != 0) {
                                 tv_Address.setText(model.results[0].formattedAddress)
+                                tv_Address_1.setText(model.results[0].formattedAddress)
                             }
                         } else {
                             var address_ = getGeoAddressFromLatLong(lat.toDouble(), lng.toDouble())
                             tv_Address.setText(address_)
+                            tv_Address_1.setText(address_)
                         }
                         progressindicatorAdd.visibility = View.GONE
 
@@ -1178,8 +1196,6 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 //            add_new_add_ll.visibility = View.GONE
 //            contact_add_ll.visibility = View.VISIBLE
         }
-
-
     }
 }
 

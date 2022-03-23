@@ -21,24 +21,24 @@
             android:layout_height="24dp"
             app:tint="@color/black" />
     </FrameLayout>
-<!--    <FrameLayout-->
-<!--        android:id="@+id/add_address_frmLL_One"-->
-<!--        android:layout_margin="@dimen/margin_12dp"-->
-<!--        android:elevation="@dimen/dimen_5dp"-->
-<!--        android:visibility="gone"-->
-<!--        android:background="@drawable/circular_border"-->
-<!--        android:backgroundTint="@color/white"-->
-<!--        android:layout_width="@dimen/margin_40dp"-->
-<!--        android:layout_height="@dimen/margin_40dp">-->
-<!--        <ImageView-->
-<!--            android:rotation="180"-->
-<!--            android:background="@color/white"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:src="@drawable/ic_back_vector"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            app:tint="@color/black" />-->
-<!--    </FrameLayout>-->
+    <!--    <FrameLayout-->
+    <!--        android:id="@+id/add_address_frmLL_One"-->
+    <!--        android:layout_margin="@dimen/margin_12dp"-->
+    <!--        android:elevation="@dimen/dimen_5dp"-->
+    <!--        android:visibility="gone"-->
+    <!--        android:background="@drawable/circular_border"-->
+    <!--        android:backgroundTint="@color/white"-->
+    <!--        android:layout_width="@dimen/margin_40dp"-->
+    <!--        android:layout_height="@dimen/margin_40dp">-->
+    <!--        <ImageView-->
+    <!--            android:rotation="180"-->
+    <!--            android:background="@color/white"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:src="@drawable/ic_back_vector"-->
+    <!--            android:layout_width="24dp"-->
+    <!--            android:layout_height="24dp"-->
+    <!--            app:tint="@color/black" />-->
+    <!--    </FrameLayout>-->
 
     <TextView
         android:id="@+id/tv_SelectDeliveryAddress"
@@ -72,7 +72,7 @@
         android:layout_above="@id/btn_proceed"
         android:layout_height="wrap_content">
         <com.google.android.material.progressindicator.LinearProgressIndicator
-           android:visibility="gone"
+            android:visibility="gone"
             android:id="@+id/linear_progress_indicator_map"
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -105,13 +105,13 @@
         android:layout_height="1dp"
         android:layout_above="@+id/add_new_add_ll"
         android:indeterminate="true" />
-<!--
+    <!--
 
 
-     // ADD ADDRESS
+         // ADD ADDRESS
 
 
-                                                                        -->
+                                                                            -->
 
     <LinearLayout
         android:layout_alignParentBottom="true"
@@ -142,7 +142,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-<!--
+                <!--
 
 
 
@@ -150,7 +150,7 @@
 
 
 
-                                                                                      -->
+                                                                                                      -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/live_add"
                     app:layout_constraintTop_toTopOf="parent"
@@ -181,7 +181,7 @@
                         app:layout_constraintStart_toEndOf="@+id/locationImage"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <EditText
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:layout_marginTop="@dimen/dimen_5dp"
                         android:padding="@dimen/dimen_5dp"
                         android:textColor="@color/black"
@@ -497,7 +497,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_16dp"
         android:layout_above="@id/btn_proceed">
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:padding="@dimen/margin_12dp"
             android:textColor="@color/black"
             android:drawableStart="@drawable/location"
@@ -505,6 +505,7 @@
             android:textStyle="italic"
             android:id="@+id/tv_Address_1"
             android:background="@color/white"
+            android:text="Address"
             android:layout_width="match_parent"
             android:layout_marginEnd="@dimen/margin_15dp"
             android:layout_height="wrap_content"
