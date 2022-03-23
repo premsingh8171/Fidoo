@@ -308,31 +308,33 @@ class Chatbotui :AppCompatActivity() {
                             driverMobileNo!!
                         )
                     }
-                } else {
-                        onCallPopUp(0)
-                        if (sessionInstance.profileDetail != null) {
+                }else if(allStatus=="1") {
+                    Toast.makeText(applicationContext,"Waiting for merchant to accept your order",Toast.LENGTH_SHORT).show()
 
-                            viewmodel?.customerCallMerchantApi(
-                                SessionTwiclo(this).loggedInUserDetail.accountId,
-                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                sessionInstance.profileDetail.account.userName,
-                                store_phone!!
+                }else{
+                    onCallPopUp(0)
+                    if (sessionInstance.profileDetail != null) {
 
-                            )
-                            //Toast.makeText(this,"$store_phone",Toast.LENGTH_SHORT).show();
-                            Log.d("sumit" , store_phone!!)
-                        } else {
-                            viewmodel?.customerCallMerchantApi(
-                                SessionTwiclo(this).loggedInUserDetail.accountId,
-                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                sessionInstance.loginDetail.phoneNumber,
-                                store_phone!!
-                            )
-                        }
+                        viewmodel?.customerCallMerchantApi(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            sessionInstance.profileDetail.account.userName,
+                            store_phone!!
+
+                        )
+                        //Toast.makeText(this,"$store_phone",Toast.LENGTH_SHORT).show();
+                        Log.d("sumit" , store_phone!!)
+                    } else {
+                        viewmodel?.customerCallMerchantApi(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            sessionInstance.loginDetail.phoneNumber,
+                            store_phone!!
+                        )
                     }
-
-
                 }
+            }
+
 
 
 //if(allStatus.equals("10")) {
