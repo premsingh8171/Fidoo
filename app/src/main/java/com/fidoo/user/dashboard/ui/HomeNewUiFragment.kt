@@ -231,6 +231,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
 		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
 		val lvAddNewAdd = dialog?.findViewById<LinearLayout>(R.id.lv_add_new_address)
+		val bottomSheetAddress = dialog?.findViewById<LinearLayout>(R.id.ll_bottomSheetAddress)
 		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
 		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
 		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
@@ -299,6 +300,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 				rvManageAddress?.layoutManager = GridLayoutManager(requireContext(), 1)
 				rvManageAddress?.setHasFixedSize(true)
 				rvManageAddress?.adapter = adapter
+				bottomSheetAddress?.visibility = VISIBLE
 			}
 		})
 //		if(isLocationEnabled(requireContext())){
