@@ -58,9 +58,14 @@
                 android:textSize="14sp" />
         </RelativeLayout>
     </LinearLayout>
+    <View
+        android:alpha=".4"
+        android:background="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
     <LinearLayout
         android:id="@+id/ll_bottomSheetAddress"
-        android:visibility="gone"
+
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content">
@@ -115,11 +120,11 @@
 
                                       -->
 
-<!--    <View-->
-<!--        android:alpha=".4"-->
-<!--        android:background="@android:color/darker_gray"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1dp"/>-->
+    <View
+        android:alpha=".4"
+        android:background="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
     <LinearLayout
         android:id="@+id/lv_add_new_address"
         android:padding="15dp"
@@ -142,5 +147,10 @@
             android:fontFamily="@font/worksans_semibold"
             android:textColor="#359C47"/>
     </LinearLayout>
+    <View
+        android:alpha=".4"
+        android:background="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
 </androidx.appcompat.widget.LinearLayoutCompat>
 
