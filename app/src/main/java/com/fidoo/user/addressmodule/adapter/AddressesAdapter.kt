@@ -169,6 +169,7 @@ class AddressesAdapter(
                     (con as Activity).finish()
                 } else if (stringExtra.equals("address")) {
                     when {
+
                         addressList[position].addressType.equals("1") -> {
                             SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
                             SessionTwiclo(con).addressType= "Home"
@@ -196,7 +197,9 @@ class AddressesAdapter(
                     SessionTwiclo(con).userLng = addressList[position].longitude
                     (con as Activity).finish()
                 } else if (ProfileFragment.addManages.equals("add_manage")) {
+
                     Log.e("clickedaddress", "address")
+
                     when {
                         addressList[position].addressType.equals("1") -> {
                             SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
@@ -229,7 +232,8 @@ class AddressesAdapter(
                 }
 
                 if (stringExtra.equals("from")) {
-                    SendPackageActivity.selectedFromAddress= addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                    SendPackageActivity.selectedFromAddress= "Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                   // SendPackageActivity.selectedFromAddress= addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
                   //  SendPackageActivity.selectedFromAddress = addressList[position].location
                     SendPackageActivity.selectedfromLat = addressList[position].latitude.toDouble()
                     SendPackageActivity.selectedfromLng= addressList[position].longitude.toDouble()
@@ -239,7 +243,8 @@ class AddressesAdapter(
                 }
 
                 if (stringExtra.equals("to")) {
-                    SendPackageActivity.selectedToAddress= addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                    "Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                   // SendPackageActivity.selectedToAddress= addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
                    /// SendPackageActivity.selectedToAddress = addressList[position].location
                     SendPackageActivity.selectedtoLat = addressList[position].latitude.toDouble()
                     SendPackageActivity.selectedtoLng= addressList[position].longitude.toDouble()

@@ -166,12 +166,13 @@ class NewDBStoreItemsActivity :
         var handleresponce: Int = 0
         var productsListing_Count: Int? = 0
         var storeIDCheckOnCart: String = ""
-
         //for bottom view of restaurant license
         var fssai: String? = ""
         var restaurantName: String? = ""
         var restaurantAddress: String? = ""
     }
+
+
 
     //for pagination
     var totalItem: Int? = 120
@@ -502,6 +503,9 @@ class NewDBStoreItemsActivity :
         store_nameTxt.text =
             storeName.split(' ').joinToString(" ") { it.capitalize(Locale.getDefault()) }
 
+         restaurantName=  storeName.split(' ').joinToString(" ") { it.capitalize(Locale.getDefault()) }
+         restaurantAddress= intent.getStringExtra("store_location").toString().replace(" ,", ", ")
+
         //storeID = intent.getStringExtra("storeId")!!
 
         transLay.setOnClickListener {
@@ -652,17 +656,20 @@ class NewDBStoreItemsActivity :
 
             val productList: ArrayList<Product> = ArrayList()
 
-            try {
+          //  try {
                 if (storeData.service_id.equals("7")) {
                     store_preference_Rlay.visibility = View.GONE
                 } else {
                     store_preference_Rlay.visibility = View.VISIBLE
                 }
 
+            if(storeData.address.isNotEmpty()) {
                 restaurantAddress = storeData.address.toString()
                 fssai = "License no. " + storeData.fssai.toString()
                 restaurantName = storeData.store_name.toString()
+            }
 
+                Log.d("updateData__",restaurantAddress+"-"+fssai+"-"+restaurantName)
 
                 if (!storeData.offers.isNullOrEmpty()) {
                     tv_coupon.text = storeData.offers[0].coupon_desc
@@ -671,9 +678,9 @@ class NewDBStoreItemsActivity :
                     coupan_view_ll.visibility = View.GONE
                 }
 
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
 
             //   dismissIOSProgress()
 
@@ -1209,9 +1216,11 @@ class NewDBStoreItemsActivity :
                 this,
                 productList_,
                 fssai!!,
-                restaurantName!!,
+                intent.getStringExtra("storeName").toString(),
+               // restaurantName!!,
                 "3.5",
-                restaurantAddress!!,
+               // restaurantAddress!!,
+                intent.getStringExtra("store_location").toString().replace(" ,", ", "),
                 this,
                 this,
                 table_count!!.toInt(),

@@ -284,7 +284,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/store_bottom_ll"
             android:padding="@dimen/margin_10"
             android:orientation="vertical"

@@ -59,6 +59,12 @@ class StoreItemsAdapter(
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val index = productList[position]
 
+         Log.d("indexindex", restaurantName + "--" + restaurantAddress)
+
+        holder.fssaitxt.text = fssai
+        holder.restaurant_nametxt.text = restaurantName
+        holder.restaurant_addtxt.text = restaurantAddress
+
        //  try {
        // Log.d("indexindex", index.price!! + "--" + index.offerPrice)
 
@@ -365,9 +371,6 @@ class StoreItemsAdapter(
         }
 
         if (total_item_count - 1 == position) {
-            holder.fssaitxt.text = fssai
-            holder.restaurant_nametxt.text = restaurantName
-            holder.restaurant_addtxt.text = restaurantAddress
             holder.store_bottom_ll.visibility = View.VISIBLE
         } else {
             holder.store_bottom_ll.visibility = View.GONE

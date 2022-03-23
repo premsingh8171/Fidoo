@@ -65,10 +65,14 @@
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_send_package_order_detail.xml" value="0.10484972677595629" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_sendpackages_additem.xml" value="0.1" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.33" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/custom_sub_items_adapter.xml" value="0.25" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_profile.xml" value="0.15" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/fragment_splash.xml" value="0.14492753623188406" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_dairy_n_bakery.xml" value="0.1" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/item_delivery_charges.xml" value="0.10382513661202186" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/new_deliverycharges_layout.xml" value="0.22" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/store_customization_adapter.xml" value="0.1322463768115942" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.25" />
       </map>
     </option>
   </component>
