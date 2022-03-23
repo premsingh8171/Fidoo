@@ -130,6 +130,7 @@
                     android:id="@+id/product_desc_txt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:maxLines="4"
                     android:text=""
                     android:textSize="12sp"
                     app:layout_constraintLeft_toRightOf="@+id/productImage"
@@ -284,7 +285,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/store_bottom_ll"
             android:padding="@dimen/margin_10"
             android:orientation="vertical"
