@@ -121,7 +121,6 @@ class AddressesAdapter(
 
         holder.mainLay.setOnClickListener {
             Log.e("clicked", "clicked")
-            Toast.makeText(con, "Item is clicked", Toast.LENGTH_SHORT).show()
             if (addressList[position].inDeliveryRange == "0"){
                 Toast.makeText(con, "Store doesn't deliver to this location", Toast.LENGTH_LONG).show()
             }

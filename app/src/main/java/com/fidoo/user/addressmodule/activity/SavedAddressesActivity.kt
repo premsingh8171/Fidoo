@@ -245,13 +245,13 @@ class SavedAddressesActivity : BaseActivity() {
 //            finish()
 //        }
 
-        tv_add_address.setOnClickListener {
-            addAddressOrNot = "new_add"
-            startActivityForResult(
-                Intent(this, NewAddAddressActivity::class.java)
-                    .putExtra("where", where), 1
-            )
-        }
+//        tv_add_address.setOnClickListener {
+//            addAddressOrNot = "new_add"
+//            startActivityForResult(
+//                Intent(this, NewAddAddressActivity::class.java)
+//                    .putExtra("where", where), 1
+//            )
+//        }
 
         current_locLL.setOnClickListener {
             addAddressOrNot = "current_location"
@@ -459,7 +459,6 @@ class SavedAddressesActivity : BaseActivity() {
             var place: com.google.android.libraries.places.api.model.Place =
                 Autocomplete.getPlaceFromIntent(data!!)
             ed_search.setText(place.address)
-
 
             var locationName = String.format("Locality Name : %s", place.name)
             var latLng = place.latLng
