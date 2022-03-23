@@ -317,6 +317,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 		dialog?.window!!.setGravity(Gravity.BOTTOM)
 	}
 
+	/**
+	 *
+	 */
+
 	private fun restHomePage() {
 		deleteRoomDataBase()
 		if ((activity as MainActivity).isNetworkConnected) {
