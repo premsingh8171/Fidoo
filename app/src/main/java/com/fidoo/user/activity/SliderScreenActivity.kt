@@ -2,18 +2,18 @@ package com.fidoo.user.activity
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.fidoo.user.R
-import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.utils.BaseActivity
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_slider_screen.*
+import kotlinx.android.synthetic.main.screen1.*
+import kotlinx.android.synthetic.main.screen2.*
 
 
 @Suppress("DEPRECATION")
@@ -73,9 +73,21 @@ class SliderScreenActivity : BaseActivity() {
             sliderScreen.setCurrentItem(currentPage, true)
 
             if (currentPage == 1) {
-                letsBegin_txt.text = "Next"
+                letsBegin_fml1.setOnClickListener{
+                    currentPage--
+                    activeDot(currentPage)
+                    sliderScreen.setCurrentItem(currentPage, true)
+                }
+                //letsBegin_txt.text = "Next"
+
             } else if (currentPage == 2) {
-                letsBegin_txt.text = "Let's Begin"
+               // letsBegin_txt.text = "Let's Begin"
+                letsBegin_fml1.setOnClickListener{
+                    currentPage--
+                    activeDot(currentPage)
+                    sliderScreen.setCurrentItem(currentPage, true)
+                }
+
             } else {
                 finish()
                 AppUtils.startActivityRightToLeft(this, Intent(this,AuthActivity::class.java))
@@ -83,6 +95,11 @@ class SliderScreenActivity : BaseActivity() {
 
             }
         }
+        skip1.setOnClickListener{
+            finish()
+            AppUtils.startActivityRightToLeft(this, Intent(this,AuthActivity::class.java))
+        }
+
     }
 
     fun activeDot(position: Int) {
@@ -103,15 +120,31 @@ class SliderScreenActivity : BaseActivity() {
         }
     }
 
+
     private fun checkVisible(position: Int) {
         if (position == 0) {
-            letsBegin_txt.text = "Next"
+            letsBegin_fml1.visibility = View.GONE
+
+          //  letsBegin_txt.text = "Next"
         }
         if (position == 1) {
-            letsBegin_txt.text = "Next"
+          //  letsBegin_txt.text = "Next"
+            letsBegin_fml1.setOnClickListener{
+                currentPage--
+                activeDot(currentPage)
+                sliderScreen.setCurrentItem(currentPage, true)
+            }
+
+            letsBegin_fml1.visibility = View.VISIBLE
         }
         if (position == 2) {
-            letsBegin_txt.text = "Let's Begin"
+          //  letsBegin_txt.text = "Let's Begin"\
+            letsBegin_fml1.setOnClickListener{
+                currentPage--
+                activeDot(currentPage)
+                sliderScreen.setCurrentItem(currentPage, true)
+            }
+            letsBegin_fml1.visibility = View.VISIBLE
         }
     }
 
@@ -136,6 +169,7 @@ class SliderScreenActivity : BaseActivity() {
             val view = `object` as View
             container.removeView(view)
         }
+
 
     }
 
