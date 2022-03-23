@@ -116,15 +116,9 @@
                                 android:padding="@dimen/margin_10"
                                 android:src="@drawable/search_on"
                                 app:tint="@color/colorHint" />
-
                         </LinearLayout>
-
-
                     </androidx.cardview.widget.CardView>
-
-
                 </LinearLayout>
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -141,7 +135,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/margin_10"
-                    android:visibility="gone"
+
                     android:weightSum="10">
 
                     <LinearLayout
@@ -200,6 +194,21 @@
                 android:background="@color/colorGray"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_10"/>
+            <LinearLayout
+                android:id="@+id/tv_SelectAddress"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:padding="@dimen/dimen_5dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Delivery Address"
+                    android:padding="@dimen/margin_10"
+                    android:fontFamily="@font/worksans_semibold"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/main_lay_saved_address"

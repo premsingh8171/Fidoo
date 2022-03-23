@@ -178,12 +178,12 @@ class SavedAddressesActivity : BaseActivity() {
                     SessionTwiclo(this).userAddress = ""
 //                emptyTxt.visibility = View.VISIBLE
 //                emptyTxt.visibility = View.VISIBLE
-                    // emptyScren_ll.visibility = View.VISIBLE
+                    tv_SelectAddress.visibility = View.GONE
+                    emptyScren_ll.visibility = View.VISIBLE
 
                 } else {
                     //  emptyTxt.visibility = View.GONE
                     // emptyLastTxt.visibility = View.GONE
-
                     // emptyScren_ll.visibility = View.GONE
                 }
 
