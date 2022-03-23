@@ -11,6 +11,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.SystemClock.sleep
 import android.provider.Settings
 import android.util.Log
 import android.view.View
@@ -19,6 +20,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -37,18 +39,24 @@ import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
+import com.fidoo.user.dashboard.ui.HomeNewUiFragment
 import com.fidoo.user.dashboard.viewmodel.HomeFragmentViewModel
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.fragments.SendPacketFragment
+import com.fidoo.user.newsearch.ui.SearchFragmentNew
+import com.fidoo.user.ordermodule.ui.OrdersFragment
 import com.fidoo.user.ordermodule.ui.TrackOrderActivity
+import com.fidoo.user.profile.ui.ProfileFragment
+import com.fidoo.user.sendpackages.activity.SendPackageActivity
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.maps.model.GeocoderModel
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -62,6 +70,7 @@ import kotlinx.android.synthetic.main.activity_new_add_address.*
 import kotlinx.android.synthetic.main.activity_track_order.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_newui.*
+import kotlinx.coroutines.delay
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -71,6 +80,8 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     var homeFragmentViewModel: HomeFragmentViewModel? = null
     private var timer: CountDownTimer? = null
     var orderId: String? = ""
+    var item_idno=0
+    private var where: String? = ""
     private var mMixpanel: MixpanelAPI? = null
 
 
@@ -119,6 +130,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         mUpdateManager?.start()
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
+       val pref = SessionTwiclo(this)
+        where = pref.guestLogin
+
         // window.statusBarColor = ContextCompat.getColor(this, R.color.colorTransparent)
 
         val mBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -132,8 +146,60 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
 
         this.registerReceiver(mBroadcastReceiver, IntentFilter("start_send_package_fragment"))
-        val navController = findNavController(R.id.fragment4)
-        bottomNavigationView.setupWithNavController(navController)
+       // val navController = findNavController(R.id.fragment4)
+        //bottomNavigationView.setupWithNavController(navController)
+
+       // setCurrentFragment(HomeNewUiFragment())
+
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+
+         val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeFragment->{
+                   setCurrentFragment(HomeNewUiFragment())
+                    item_idno=0
+                    settexttitle()
+                    item.title=""
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.SendPackageAct -> {
+                   startActivity(Intent(this@MainActivity, SendPackageActivity::class.java)
+                    .putExtra("where", where)
+                    .putExtra("cat_id", "")
+                    .putExtra("cat_name", "")
+                    )
+                    item_idno=1
+                    settexttitle()
+                    item.title=""
+                    return@OnNavigationItemSelectedListener true
+
+                }
+                R.id.searchFragment ->{
+                    setCurrentFragment(SearchFragmentNew())
+                    item_idno=2
+                    settexttitle()
+                    item.title=""
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.ordersFragment ->{
+                    setCurrentFragment(OrdersFragment())
+                    item_idno=3
+                    settexttitle()
+                    item.title=""
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.profileFragment ->{
+                    setCurrentFragment(ProfileFragment())
+                    item_idno=4
+                    settexttitle()
+                    item.title=""
+                    return@OnNavigationItemSelectedListener true
+                }
+            }
+             false
+        }
+
+        bottomNavigation.setOnNavigationItemSelectedListener(navigasjonen)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         tempProductList = ArrayList()
@@ -574,6 +640,13 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
 
         super.onStart()
+
+        setCurrentFragment(HomeNewUiFragment())
+        val home_item= bottomNavigationView.menu.findItem(R.id.homeFragment)
+        home_item.setChecked(true)
+        settexttitle()
+
+
     }
 
     override fun onStop() {
@@ -792,5 +865,26 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             .placeholder(R.drawable.default_store)
             .error(R.drawable.default_store).into(store_statusImg)
     }
+
+
+    private fun setCurrentFragment(fragment: Fragment) =
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fragment4, fragment)
+                commit()
+            }
+
+    private fun settexttitle(){
+
+           val id= bottomNavigationView.menu
+
+            id.findItem(R.id.homeFragment).title="Home"
+            id.findItem(R.id.SendPackageAct).title="Express"
+            id.findItem(R.id.searchFragment).title="Search"
+            id.findItem(R.id.ordersFragment).title="Order"
+            id.findItem(R.id.profileFragment).title="Profile"
+    }
+
+
+
 
 }

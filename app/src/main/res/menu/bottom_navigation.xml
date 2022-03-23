@@ -3,21 +3,27 @@
     <item
         android:id="@+id/homeFragment"
         android:title="Home"
-        android:icon="@drawable/ic_baseline_home_24"/>
+        android:icon="@drawable/home_fidoo"/>
+
+    <item
+        android:id="@+id/SendPackageAct"
+        android:title="Express"
+        android:icon="@drawable/home_express"/>
 
     <item
         android:id="@+id/searchFragment"
         android:title="Search"
-        android:icon="@drawable/un_search_product"/>
+        android:icon="@drawable/home_search"
+        />
 
     <item
         android:id="@+id/ordersFragment"
         android:title="Order"
-        android:icon="@drawable/order_icon_grey"/>
+        android:icon="@drawable/home_order"/>
 
     <item
         android:id="@+id/profileFragment"
         android:title="Profile"
-        android:icon="@drawable/un_user_profile"/>
+        android:icon="@drawable/home_profile"/>
 
 </menu>

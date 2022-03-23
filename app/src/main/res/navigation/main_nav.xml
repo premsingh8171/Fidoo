@@ -16,6 +16,11 @@
 
     </fragment>
 
+    <activity android:id="@+id/SendPackageAct"
+          android:name="com.fidoo.user.sendpackages.activity.SendPackageActivity"
+         android:label="SendPackageAct"
+         tools:layout="@layout/activity_send_package"/>
+
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.fidoo.user.newsearch.ui.SearchFragmentNew"
