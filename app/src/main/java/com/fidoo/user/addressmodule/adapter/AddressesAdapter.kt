@@ -120,12 +120,6 @@ class AddressesAdapter(
 
 
         holder.mainLay.setOnClickListener {
-
-//            val dialog = Dialog(con)
-//            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//            if (dialog.isShowing){
-//                dialog.dismiss()
-//            }
             Log.e("clicked", "clicked")
             Toast.makeText(con, "Item is clicked", Toast.LENGTH_SHORT).show()
             if (addressList[position].inDeliveryRange == "0"){

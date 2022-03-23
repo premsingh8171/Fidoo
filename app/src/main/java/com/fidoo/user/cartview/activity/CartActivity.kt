@@ -42,7 +42,6 @@ import com.fidoo.user.activity.MainActivity.Companion.handleTrackScreenOrderSucc
 import com.fidoo.user.activity.MainActivity.Companion.onBackpressHandle
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
-import com.fidoo.user.addressmodule.adapter.AddressesAdapter
 import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
@@ -96,15 +95,7 @@ import kotlinx.android.synthetic.main.activity_cart.customAddBtn
 import kotlinx.android.synthetic.main.activity_cart.customItemsRecyclerview
 import kotlinx.android.synthetic.main.activity_cart.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_cart.tv_coupon
-import kotlinx.android.synthetic.main.activity_grocery_items.*
-import kotlinx.android.synthetic.main.activity_review_order.*
-import kotlinx.android.synthetic.main.activity_store_items.*
-import kotlinx.android.synthetic.main.activity_track_order.*
-import kotlinx.android.synthetic.main.fragment_home_newui.*
-import kotlinx.android.synthetic.main.fragment_profile.view.*
-import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
-import kotlinx.android.synthetic.main.select_cat_popup.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -171,6 +162,7 @@ class CartActivity : BaseActivity(),
 	private var mMixpanel: MixpanelAPI? = null
 
 	private  var dialog : Dialog? = null
+	private var where: String? = ""
 
 	companion object {
 		var store_imgStr: String = ""
@@ -482,13 +474,15 @@ class CartActivity : BaseActivity(),
 		}
 
 		delivery_address_lay.setOnClickListener {
-			if (!isNetworkConnected) {
-				showToast(resources.getString(R.string.provide_internet))
-			} else {
-				startActivity(
-					Intent(this, SavedAddressesActivity::class.java).putExtra("type", "order")
-				)
-			}
+//			if (!isNetworkConnected) {
+//				showToast(resources.getString(R.string.provide_internet))
+//			} else {
+//				startActivity(
+//					//Intent(this, SavedAddressesActivity::class.java).putExtra("type", "order")
+//
+//				)
+//			}
+			showDialogBottom()
 		}
 
 		cart_payment_lay.setOnClickListener {
@@ -1237,137 +1231,138 @@ class CartActivity : BaseActivity(),
 
 	}
 
+//	private fun showDialogBottom() {
+//		dialog = this@CartActivity.let { Dialog(it) }!!
+//		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
+//
+//		dialog?.show()
+//	}
+
+
 	/**
 	 * ****************************************************************************************************
 	 */
-//	private fun showDialogAct() {
-//		dialog = this@CartActivity.let { Dialog(it) }
-//		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
-//		val lvAddNewAdd = dialog?.findViewById<LinearLayout>(R.id.lv_add_new_address)
-//		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
-//		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
-//		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
-//		mBtnToTurnOnLocation?.setOnClickListener {
-//			val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-//			startActivity(intent)
-//		}
-//		lvAddNewAdd?.setOnClickListener {
-//			startActivityForResult(
-//				Intent(this, SavedAddressesActivity::class.java)
-//					.putExtra("type", "address")
-//					.putExtra("where", where
-//					), AUTOCOMPLETE_REQUEST_CODE
-//			)
-//			MainActivity.addEditAdd = "Dashboard"
-//		}
-//		addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
-//			Log.e("addresses_response", Gson().toJson(user))
-//			if (!user.addressList.isNullOrEmpty()) {
-//				val adapter = AddressesAdapterBottom(
-//					this@CartActivity, user.addressList,
-//					object : AddressesAdapterBottom.SetOnDeteleAddListener {
-//						override fun onDelete(
-//							add_id: String,
-//							addressList: GetAddressModel.AddressList
-//						) {}
-//
-//						override fun onClick(addressList: GetAddressModel.AddressList) {
-//							when {
-//								addressList.addressType.equals("1") -> {
-//									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-//									SessionTwiclo(this@CartActivity).addressType= "Home"
-//								}
-//
-//								addressList.addressType.equals("2") -> {
-//									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-//									SessionTwiclo(this@CartActivity).addressType = "Office"
-//
-//								}
-//
-//								else -> {
-//									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-//									SessionTwiclo(this@CartActivity).addressType = "Other"
-//
-//								}
-//							}
-//							// holder.itemView.setassDefaultTxt.visibility=View.VISIBLE
-//							//  holder.itemView.selectedadd_img.visibility=View.VISIBLE
-//							// holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
-//
-//							SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-//							SessionTwiclo(this@CartActivity).userAddressId = addressList.id
-//							SessionTwiclo(this@CartActivity).userLat = addressList.latitude
-//							SessionTwiclo(this@CartActivity).userLng = addressList.longitude
-//							dialog?.dismiss()
-//							restHomePage()
-//						}
-//					},
-//					"bottomSheetAddress"
-//
-//
-//				)
-//
-//				rvManageAddress?.layoutManager = GridLayoutManager(this@CartActivity, 1)
-//				rvManageAddress?.setHasFixedSize(true)
-//				rvManageAddress?.adapter = adapter
-//			}
-//		})
-//		val manager = this@CartActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-//		//Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()
-//			lvCheckLocation?.visibility = View.GONE
-//		dialog?.show()
-//		dialog?.window!!.setLayout(
-//			ViewGroup.LayoutParams.MATCH_PARENT,
-//			ViewGroup.LayoutParams.WRAP_CONTENT
-//		)
-//		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//		dialog?.window!!.setGravity(Gravity.BOTTOM)
-//	}
+	private fun showDialogBottom() {
+		dialog = this@CartActivity.let { Dialog(it) }
+		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
+		val bottomSheetAddress = dialog?.findViewById<LinearLayout>(R.id.ll_bottomSheetAddress)
+		val lvAddNewAdd = dialog?.findViewById<LinearLayout>(R.id.lv_add_new_address)
+		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
+		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
+		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
+		mBtnToTurnOnLocation?.setOnClickListener {
+			val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+			startActivity(intent)
+		}
+		lvAddNewAdd?.setOnClickListener {
+			startActivityForResult(
+				Intent(this, SavedAddressesActivity::class.java)
+					.putExtra("type", "address")
+					.putExtra("where", where
+					), AUTOCOMPLETE_REQUEST_CODE
+			)
+			MainActivity.addEditAdd = "Dashboard"
+		}
+		addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
+			Log.e("addresses_response", Gson().toJson(user))
+			if (!user.addressList.isNullOrEmpty()) {
+				bottomSheetAddress?.visibility = View.VISIBLE
+				val adapter = AddressesAdapterBottom(
+					this@CartActivity, user.addressList,
+					object : AddressesAdapterBottom.SetOnDeteleAddListener {
+						override fun onDelete(
+							add_id: String,
+							addressList: GetAddressModel.AddressList
+						) {}
 
-//	private fun restHomePage() {
-//		deleteRoomDataBase()
-//		if ((activity as MainActivity).isNetworkConnected) {
-//			if (SessionTwiclo(context).isLoggedIn) {
-//				viewmodel?.getCartCountApi(
-//					SessionTwiclo(context).loggedInUserDetail.accountId,
-//					SessionTwiclo(context).loggedInUserDetail.accessToken
-//				)
-//				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
-//
-//				if (SessionTwiclo(context).addressType.equals("")) {
-//					text_newDesh.text= "Your Location"
-//				}else{
-//
-//					text_newDesh.text = SessionTwiclo(context).addressType
-//				}
-//
-//			} else {
-//				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
-//				text_newDesh.text= SessionTwiclo(context).addressType
-//
-//			}
-//			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
-//		}
-//	}
-//
-//	private fun deleteRoomDataBase() {
-//		try {
-//			Thread {
-//				restaurantProductsDatabase = Room.databaseBuilder(
-//					requireContext().applicationContext,
-//					RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
-//				)
-//					.fallbackToDestructiveMigration()
-//					.build()
-//				restaurantProductsDatabase.resProductsDaoAccess()!!.deleteAll()
-//
-//			}.start()
-//		} catch (e: java.lang.Exception) {
-//			e.printStackTrace()
-//		}
-//	}
+						override fun onClick(addressList: GetAddressModel.AddressList) {
+							when {
+								addressList.addressType.equals("1") -> {
+									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(this@CartActivity).addressType= "Home"
+								}
+
+								addressList.addressType.equals("2") -> {
+									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(this@CartActivity).addressType = "Office"
+
+								}
+
+								else -> {
+									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(this@CartActivity).addressType = "Other"
+
+								}
+							}
+							// holder.itemView.setassDefaultTxt.visibility=View.VISIBLE
+							//  holder.itemView.selectedadd_img.visibility=View.VISIBLE
+							// holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
+
+							SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+							SessionTwiclo(this@CartActivity).userAddressId = addressList.id
+							SessionTwiclo(this@CartActivity).userLat = addressList.latitude
+							SessionTwiclo(this@CartActivity).userLng = addressList.longitude
+							dialog?.dismiss()
+							restHomePage()
+						}
+					},
+					"bottomSheetAddress"
+				)
+
+				rvManageAddress?.layoutManager = GridLayoutManager(this@CartActivity, 1)
+				rvManageAddress?.setHasFixedSize(true)
+				rvManageAddress?.adapter = adapter
+			}
+		})
+		val manager = this@CartActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+		//Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()
+			lvCheckLocation?.visibility = View.GONE
+		dialog?.show()
+		dialog?.window!!.setLayout(
+			ViewGroup.LayoutParams.MATCH_PARENT,
+			ViewGroup.LayoutParams.WRAP_CONTENT
+		)
+		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+		dialog?.window!!.setGravity(Gravity.BOTTOM)
+	}
+
+	private fun restHomePage() {
+		deleteRoomDataBase()
+			if (SessionTwiclo(this@CartActivity).isLoggedIn) {
+				viewmodel?.getCartCountApi(
+					SessionTwiclo(this@CartActivity).loggedInUserDetail.accountId,
+					SessionTwiclo(this@CartActivity).loggedInUserDetail.accessToken
+				)
+				tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
+
+				if (SessionTwiclo(this@CartActivity).addressType.equals("")) {
+
+				}
+
+			} else {
+				tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
+			}
+		}
+
+	private fun deleteRoomDataBase() {
+		try {
+			Thread {
+				restaurantProductsDatabase = Room.databaseBuilder(
+					this@CartActivity.applicationContext,
+					RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
+				)
+					.fallbackToDestructiveMigration()
+					.build()
+				restaurantProductsDatabase.resProductsDaoAccess()!!.deleteAll()
+
+			}.start()
+		} catch (e: java.lang.Exception) {
+			e.printStackTrace()
+		}
+	}
 
 	/**
 	 *
