@@ -88,14 +88,11 @@ class AddressesAdapterBottom(
                         addressList[position].addressType.equals("1") -> {
                             CartActivity.selectedAddressTitle= "Home"
                         }
-
                         addressList[position].addressType.equals("2") -> {
                             CartActivity.selectedAddressTitle= "Office"
                         }
-
                         else -> {
                             CartActivity.selectedAddressTitle = "Other"
-
                         }
                     }
                     SessionTwiclo(con).userLat = addressList[position].latitude

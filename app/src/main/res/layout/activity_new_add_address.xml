@@ -72,7 +72,7 @@
         android:layout_above="@id/btn_proceed"
         android:layout_height="wrap_content">
         <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:visibility="gone"
+           android:visibility="gone"
             android:id="@+id/linear_progress_indicator_map"
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -117,7 +117,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/feedback_bg"
         android:orientation="vertical"
-        android:visibility="gone"
+
         android:id="@+id/add_new_add_ll"
         android:layout_width="match_parent"
         android:layout_height="430dp">
@@ -181,7 +181,7 @@
                         app:layout_constraintStart_toEndOf="@+id/locationImage"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <EditText
                         android:layout_marginTop="@dimen/dimen_5dp"
                         android:padding="@dimen/dimen_5dp"
                         android:textColor="@color/black"
@@ -497,7 +497,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_16dp"
         android:layout_above="@id/btn_proceed">
-        <androidx.appcompat.widget.AppCompatEditText
+        <EditText
             android:padding="@dimen/margin_12dp"
             android:textColor="@color/black"
             android:drawableStart="@drawable/location"
@@ -505,7 +505,6 @@
             android:textStyle="italic"
             android:id="@+id/tv_Address_1"
             android:background="@color/white"
-            android:text="Address"
             android:layout_width="match_parent"
             android:layout_marginEnd="@dimen/margin_15dp"
             android:layout_height="wrap_content"

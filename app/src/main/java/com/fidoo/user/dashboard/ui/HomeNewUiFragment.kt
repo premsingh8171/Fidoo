@@ -253,6 +253,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 		addressViewModel?.getAddressesResponse?.observe(requireActivity(), androidx.lifecycle.Observer { user ->
 			Log.e("addresses_response", Gson().toJson(user))
 			if (!user.addressList.isNullOrEmpty()) {
+				bottomSheetAddress?.visibility = VISIBLE
 				val adapter = AddressesAdapterBottom(
 					requireContext(), user.addressList,
 					object : AddressesAdapterBottom.SetOnDeteleAddListener {
@@ -280,9 +281,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 
 								}
 							}
-							// holder.itemView.setassDefaultTxt.visibility=View.VISIBLE
-							//  holder.itemView.selectedadd_img.visibility=View.VISIBLE
-							// holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
+//							 holder.itemView.setassDefaultTxt.visibility=View.VISIBLE
+//							  holder.itemView.selectedadd_img.visibility=View.VISIBLE
+//							 holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
 
 							SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 							SessionTwiclo(requireContext()).userAddressId = addressList.id
@@ -293,14 +294,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 						}
 					},
 					"bottomSheetAddress"
-
-
 				)
-
 				rvManageAddress?.layoutManager = GridLayoutManager(requireContext(), 1)
 				rvManageAddress?.setHasFixedSize(true)
 				rvManageAddress?.adapter = adapter
-				bottomSheetAddress?.visibility = VISIBLE
 			}
 		})
 //		if(isLocationEnabled(requireContext())){
@@ -348,21 +345,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}
 	}
-//	@SuppressWarnings("deprecation")
-//	fun isLocationEnabled(context: Context): Boolean? {
-//		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-//			// This is a new method provided in API 28
-//			val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//			lm.isLocationEnabled
-//		} else {
-//			// This was deprecated in API 28
-//			val mode: Int = Settings.Secure.getInt(
-//				context.contentResolver, Settings.Secure.LOCATION_MODE,
-//				Settings.Secure.LOCATION_MODE_OFF
-//			)
-//			mode != Settings.Secure.LOCATION_MODE_OFF
-//		}
-//	}
+
 	/**
 	 * To check Location is enabled or not
 	 */
@@ -438,7 +421,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 						"",
 						"1"
 					)
-
 					viewmodel?.getHomeDataApi(
 						"",
 						"",
@@ -446,11 +428,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 						SessionTwiclo(context).userLng
 					)
 				}
-
 				fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 				fragmentHomeBinding?.deshbordRefreshNewDesh!!.visibility = VISIBLE
-
-			} else {
+			}
+			else {
 				fragmentHomeBinding?.deshbordRefreshNewDesh!!.visibility = View.GONE
 				fragmentHomeBinding?.mainViewNestedSNewDesh!!.visibility = View.GONE
 				fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = VISIBLE

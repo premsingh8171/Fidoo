@@ -439,6 +439,7 @@ class CartActivity : BaseActivity(),
 					Intent(this, SavedAddressesActivity::class.java)
 						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
 				)
+
 			}
 
 		}
