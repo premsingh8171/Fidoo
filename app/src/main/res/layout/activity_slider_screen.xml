@@ -31,7 +31,6 @@
                     android:id="@+id/skip1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:layout_marginStart="64dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
@@ -51,6 +50,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="36dp"
+                android:padding="16dp"
                 android:layout_marginRight="@dimen/margin_30dp"
                 android:layout_marginBottom="60dp"
                 android:background="@drawable/ic_vector"
@@ -101,22 +101,20 @@
                 android:layout_alignParentBottom="true" />
 
         </RelativeLayout>
+        <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/letsBegin_fml"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/margin_30dp"
+        android:layout_marginRight="@dimen/margin_30dp"
+        android:layout_marginBottom="@dimen/margin_40dp"
+        android:layout_width="wrap_content"
+        android:background="@drawable/forwordbutton"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:visibility="visible" />
 
-
-        <FrameLayout
-            android:id="@+id/letsBegin_fml"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_30dp"
-            android:layout_marginRight="@dimen/margin_30dp"
-            android:layout_marginBottom="@dimen/margin_40dp"
-            android:background="@drawable/ic_frame_12454"
-            android:visibility="visible">
-
-        </FrameLayout>
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,80 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="#359C47"
     android:layout_height="wrap_content">
-
-    <RelativeLayout
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#359C47"
-        android:gravity="center"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_ellipse_229" />
+
+    <LinearLayout
+        android:id="@+id/linearlayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="16dp"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/ic_ellipse_229" />
-
-        </RelativeLayout>
-
         <TextView
+            android:fontFamily="@font/proximanovaextrabold"
             android:id="@+id/wlcometext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_16dp"
-            android:layout_marginTop="96dp"
-            android:layout_marginEnd="@dimen/margin_16dp"
             android:text="Transparent"
             android:textColor="#FFFFFF"
             android:textSize="36dp"
-            android:textStyle="bold" />
+            />
 
         <TextView
+            android:fontFamily="@font/proximanovaextrabold"
             android:id="@+id/wlcometext3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/wlcometext"
-            android:layout_marginStart="@dimen/margin_16dp"
-            android:layout_marginEnd="@dimen/margin_16dp"
+            android:alpha="0.5"
             android:text="as Water!"
             android:textColor="#FFFFFF"
-            android:alpha="0.5"
             android:textSize="36dp"
-            android:textStyle="bold" />
+            />
 
         <TextView
+            android:fontFamily="@font/proximanovasemibold"
             android:id="@+id/welcometext2"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/wlcometext3"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="18dp"
             android:alpha="0.5"
             android:lineHeight="20dp"
             android:text="Store price = Fidoo price = Transparent bills"
             android:textColor="#FFFFFF" />
 
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_below="@id/linearlayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <ImageView
-            android:layout_width="360dp"
-            android:layout_height="480dp"
-            android:layout_below="@id/welcometext2"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/welcomescreen1"
-            android:contentDescription="@string/todo"
-            android:scaleType="fitXY" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="178dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@drawable/backgroundcloud" />
-    </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="100dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/firstwelcomescreen" />
+
+
+</RelativeLayout>
 </RelativeLayout>
 
 

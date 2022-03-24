@@ -77,6 +77,7 @@ class SliderScreenActivity : BaseActivity() {
                     currentPage--
                     activeDot(currentPage)
                     sliderScreen.setCurrentItem(currentPage, true)
+
                 }
                 //letsBegin_txt.text = "Next"
 
