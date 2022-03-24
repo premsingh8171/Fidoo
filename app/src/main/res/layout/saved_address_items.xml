@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/mainLay"
@@ -21,27 +22,24 @@
         android:textSize="16sp" />
 
     <ImageView
-        android:contentDescription="@string/todo"
-        app:layout_constraintTop_toBottomOf="@+id/tv_yourAddresses"
         android:id="@+id/locationImage"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/address_new"
+        android:layout_width="@dimen/margin_30dp"
+        android:layout_gravity="center"
+        android:layout_height="@dimen/margin_30dp"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/ic_home"
         app:layout_constraintStart_toStartOf="parent"
-        app:tint="@color/colorPrimary"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_yourAddresses"/>
 
     <TextView
-        android:textColor="@color/black"
-        android:fontFamily="@font/proxima"
         android:id="@+id/tv_address_title"
+        android:textColor="@color/black"
+        android:fontFamily="@font/worksans_semibold"
+        android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
         android:text="Home"
-        android:textSize="@dimen/text_size_14sp"
         app:layout_constraintTop_toBottomOf="@+id/tv_yourAddresses"
         app:layout_constraintStart_toEndOf="@+id/locationImage" />
 
@@ -72,18 +70,17 @@
         android:textSize="@dimen/text_size_12sp" />
 
     <TextView
-        android:paddingEnd="@dimen/margin_20dp"
         android:id="@+id/tv_location"
-        android:layout_width="0dp"
+
+        android:paddingEnd="@dimen/margin_20dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="@dimen/margin_10"
         android:ellipsize="end"
-        android:fontFamily="@font/proxima"
-        android:layout_marginEnd="@dimen/margin_30dp"
-        android:textSize="12sp"
-        android:text=""
-        app:layout_constraintRight_toRightOf="parent"
+        android:fontFamily="@font/metropolis_medium"
+        android:textSize="14sp"
+        android:text="Teekli Rd, Sector 68, Gurugram"
+
         app:layout_constraintLeft_toRightOf="@+id/locationImage"
         app:layout_constraintTop_toBottomOf="@+id/tv_address_title" />
 

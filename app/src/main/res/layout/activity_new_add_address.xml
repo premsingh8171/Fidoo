@@ -44,7 +44,6 @@
         android:id="@+id/tv_SelectDeliveryAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
         android:layout_marginTop="@dimen/margin_24dp"
         android:layout_toEndOf="@id/add_address_frmLL"
         android:text="Select Delivery Address"
@@ -58,7 +57,6 @@
         android:layout_toEndOf="@id/add_address_frmLL"
         android:layout_marginTop="@dimen/margin_24dp"
         android:text="Add Address"
-        android:layout_marginStart="@dimen/dimen_5dp"
         android:visibility="gone"
         android:textStyle="bold"
         android:textSize="16sp"
@@ -375,7 +373,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/defaultCheckBox"/>
-
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
@@ -447,7 +444,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_phone">
-
             <com.google.android.material.textfield.TextInputEditText
                 android:textColor="@color/black"
                 android:hint="Contact Name"
@@ -457,26 +453,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:inputType="text|textNoSuggestions" />
-
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.button.MaterialButton
-            android:layout_marginBottom="@dimen/margin_20dp"
             android:id="@+id/add_contactBtn"
+            android:text="Add Contact"
+            app:layout_constraintTop_toBottomOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
-            android:text="Add Contact"
+            android:layout_marginBottom="@dimen/margin_15dp"
+            android:letterSpacing="0"
+            android:padding="15dp"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:backgroundTint="@color/colorPrimary"
             app:cornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/defaultCheckBox" />
+            app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
     <androidx.cardview.widget.CardView
         android:id="@+id/live_add_1"
@@ -504,23 +501,23 @@
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
-        android:layout_marginBottom="@dimen/margin_15dp"
         android:id="@+id/btn_proceed"
+        android:text="Confirm Location"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
-        android:padding="15dp"
+        android:layout_marginBottom="@dimen/margin_15dp"
         android:letterSpacing="0"
-        android:textSize="16sp"
-        android:text="Confirm Location"
+        android:padding="15dp"
         android:textAllCaps="false"
         android:textColor="@color/white"
+        android:textSize="16sp"
         app:backgroundTint="@color/colorPrimary"
         app:cornerRadius="10dp"
-        android:layout_alignParentBottom="true"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 </RelativeLayout>
