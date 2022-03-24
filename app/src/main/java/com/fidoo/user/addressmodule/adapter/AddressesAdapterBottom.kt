@@ -64,7 +64,7 @@ class AddressesAdapterBottom(
                     holder.storeName.text = "Other"
                 }
                 holder.storeName.text = "Other"
-                holder.addressTypeIcon.setImageResource(R.drawable.ic_location)
+                holder.addressTypeIcon.setImageResource(R.drawable.ic_others)
             }
         }
 
@@ -126,7 +126,7 @@ class AddressesAdapterBottom(
                     (con as Activity).finish()
                 }
                 /**
-                 * BottomSheet Dialogue
+                 * BottomSheet Dialogue Data
                  */
                 else if (stringExtra.equals("bottomSheetAddress")) {
                     setOnDeteleAddListener.onClick(addressList[position])

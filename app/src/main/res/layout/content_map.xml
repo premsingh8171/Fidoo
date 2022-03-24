@@ -34,6 +34,7 @@
             <LinearLayout
                 android:backgroundTint="@color/white"
                 android:gravity="center"
+                android:visibility="visible"
                 android:layout_gravity="center"
                 android:background="@drawable/label_bg"
                 android:layout_width="240dp"

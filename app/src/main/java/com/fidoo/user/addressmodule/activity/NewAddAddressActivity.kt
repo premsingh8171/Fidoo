@@ -8,7 +8,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Address
@@ -67,7 +66,6 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.skyfishjy.library.RippleBackground
 import kotlinx.android.synthetic.main.activity_new_add_address.*
 import java.util.*
-
 
 @Suppress("DEPRECATION")
 open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener {
@@ -171,6 +169,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             lat = model.latitude.toDouble()
             lng = model.longitude.toDouble()
             tv_Address.setText(model.location)
+            tv_Address.setHorizontallyScrolling(true)
             tv_Address_1.setText(model.location)
             /**
              * ----------------------------------------------------------------------
@@ -211,7 +210,9 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         }
 
         getDeviceLocation()
-
+        /**
+         * Test ---------------------------------------------------------------------------------------------------------------------------------------------------------
+         */
         if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
             tv_address_title.text = "Home"
         } else if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
@@ -219,7 +220,9 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         } else if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
             tv_address_title.text = "Other"
         }
-
+        /**
+         * ----------------------------------------------------------------------------------------------------------------------------------------
+         */
 //        if (SavedAddressesActivity.addAddressOrNot.equals("new_add")) {
 //            change_txt.visibility = View.VISIBLE
 //            contact_name_txt.visibility = View.VISIBLE
@@ -980,6 +983,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                         lng!!
                     )
                     tv_Address!!.setText(address)
+                    tv_Address.setHorizontallyScrolling(true)
                     tv_Address_1!!.setText(address)
                     tv_Address_1.visibility = View.VISIBLE
                 } catch (e: Exception) {
@@ -1067,12 +1071,14 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                         if (model.status.equals("OK")) {
                             if (model.results.size != 0) {
                                 tv_Address.setText(model.results[0].formattedAddress)
+                                tv_Address.setHorizontallyScrolling(true)
                                 tv_Address_1.setText(model.results[0].formattedAddress)
                                 live_add_1.visibility = View.VISIBLE
                             }
                         } else {
                             var address_ = getGeoAddressFromLatLong(lat.toDouble(), lng.toDouble())
                             tv_Address.setText(address_)
+                            tv_Address.setHorizontallyScrolling(true)
                             tv_Address_1.setText(address_)
                             live_add_1.visibility = View.VISIBLE
                         }
