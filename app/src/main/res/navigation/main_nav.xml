@@ -16,7 +16,7 @@
 
     </fragment>
 
-   
+
 
     <fragment
         android:id="@+id/searchFragment"
