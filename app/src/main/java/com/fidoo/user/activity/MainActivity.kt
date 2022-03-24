@@ -60,27 +60,35 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.rpc.context.AttributeContext
 import com.mixpanel.android.mpmetrics.MixpanelAPI
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.robin.locationgetter.EasyLocation
 import com.sanojpunchihewa.updatemanager.UpdateManager
 import com.sanojpunchihewa.updatemanager.UpdateManagerConstant
+import io.opencensus.resource.Resource
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_new_add_address.*
 import kotlinx.android.synthetic.main.activity_track_order.*
+import kotlinx.android.synthetic.main.activity_track_order.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_newui.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class MainActivity : BaseActivity(), android.location.LocationListener, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+class MainActivity : BaseActivity(), android.location.LocationListener, LocationListener,
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     var viewmodel: AddressViewModel? = null
     var homeFragmentViewModel: HomeFragmentViewModel? = null
     private var timer: CountDownTimer? = null
     var orderId: String? = ""
-    var item_idno=0
+    var item_idno = 0
     private var where: String? = ""
     private var mMixpanel: MixpanelAPI? = null
 
@@ -130,7 +138,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         mUpdateManager?.start()
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
-       val pref = SessionTwiclo(this)
+        val pref = SessionTwiclo(this)
         where = pref.guestLogin
 
         // window.statusBarColor = ContextCompat.getColor(this, R.color.colorTransparent)
@@ -140,66 +148,90 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                 //This piece of code will be executed when you click on your item
                 // Call your fragment...
                 val sendPacketFragment: FragmentManager = supportFragmentManager
-                sendPacketFragment.beginTransaction().add(R.id.sendPacketFragment, SendPacketFragment())
+                sendPacketFragment.beginTransaction()
+                    .add(R.id.sendPacketFragment, SendPacketFragment())
 
             }
         }
 
         this.registerReceiver(mBroadcastReceiver, IntentFilter("start_send_package_fragment"))
-       // val navController = findNavController(R.id.fragment4)
+        // val navController = findNavController(R.id.fragment4)
         //bottomNavigationView.setupWithNavController(navController)
 
-       // setCurrentFragment(HomeNewUiFragment())
+        // setCurrentFragment(HomeNewUiFragment())
 
-        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
-         val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.homeFragment->{
-                   setCurrentFragment(HomeNewUiFragment())
-                    item_idno=0
+                R.id.homeFragment -> {
+                    item_idno = 0
+                    item.setChecked(true)
+                    val itemid= bottomNavigationView.menu.findItem(R.id.homeFragment)
+
+                    CoroutineScope(Dispatchers.IO).launch {
+                        delay(75)
+                        setCurrentFragment(HomeNewUiFragment())
+                    }
+
                     settexttitle()
-                    item.title=""
+                    item.title = ""
+
+
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.SendPackageAct -> {
-                   startActivity(Intent(this@MainActivity, SendPackageActivity::class.java)
-                    .putExtra("where", where)
-                    .putExtra("cat_id", "")
-                    .putExtra("cat_name", "")
+                    startActivity(
+                        Intent(this@MainActivity, SendPackageActivity::class.java)
+                            .putExtra("where", where)
+                            .putExtra("cat_id", "")
+                            .putExtra("cat_name", "")
                     )
-                    item_idno=1
+                    item_idno = 0
                     settexttitle()
-                    item.title=""
+                    item.title = ""
                     return@OnNavigationItemSelectedListener true
 
                 }
-                R.id.searchFragment ->{
+                R.id.searchFragment -> {
                     setCurrentFragment(SearchFragmentNew())
-                    item_idno=2
+                    item_idno = 2
                     settexttitle()
-                    item.title=""
+                    item.title = ""
+
+
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.ordersFragment ->{
+                R.id.ordersFragment -> {
                     setCurrentFragment(OrdersFragment())
-                    item_idno=3
+                    item_idno = 3
                     settexttitle()
-                    item.title=""
+                    item.title = ""
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.profileFragment ->{
+                R.id.profileFragment -> {
                     setCurrentFragment(ProfileFragment())
-                    item_idno=4
+                    item_idno = 4
                     settexttitle()
-                    item.title=""
+                    item.title = ""
                     return@OnNavigationItemSelectedListener true
                 }
             }
-             false
+            false
         }
 
-        bottomNavigation.setOnNavigationItemSelectedListener(navigasjonen)
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigasjonen)
+
+        /* bottomNavigationView.menu.findItem(R.id.SendPackageAct).setOnMenuItemClickListener {
+             startActivity(Intent(this@MainActivity, SendPackageActivity::class.java)
+                 .putExtra("where", where)
+                 .putExtra("cat_id", "")
+                 .putExtra("cat_name", "")
+             )
+             item_idno=0
+             settexttitle()
+             bottomNavigationView.menu.findItem(R.id.SendPackageAct).title=""
+             return@setOnMenuItemClickListener true
+         }*/
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         tempProductList = ArrayList()
@@ -208,7 +240,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
 
         if (isNetworkConnected) {
-            if (SessionTwiclo(this).isLoggedIn){
+            if (SessionTwiclo(this).isLoggedIn) {
                 try {
                     viewmodel?.getAddressesApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -216,10 +248,10 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                         "",
                         ""
                     )
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
-            }else{
+            } else {
                 getCurrentLocation()
             }
 
@@ -228,14 +260,16 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
 
         try {
-            if (SessionTwiclo(this).orderId.isNotEmpty()){
-                var img=SessionTwiclo(this).storeImg
-                Log.e("imgimg_",img)
-                 orderId=SessionTwiclo(this).orderId
-                 loadImage(img)
-                 orderStatus_fm.visibility=View.VISIBLE
-                 viewmodel?.getOrderStatusApi( SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,orderId!!)
+            if (SessionTwiclo(this).orderId.isNotEmpty()) {
+                var img = SessionTwiclo(this).storeImg
+                Log.e("imgimg_", img)
+                orderId = SessionTwiclo(this).orderId
+                loadImage(img)
+                orderStatus_fm.visibility = View.VISIBLE
+                viewmodel?.getOrderStatusApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken, orderId!!
+                )
 
                 timer = object : CountDownTimer(20000, 1000) {
 
@@ -253,10 +287,10 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     }
                 }.start()
 
-            }else{
-                orderStatus_fm.visibility=View.GONE
+            } else {
+                orderStatus_fm.visibility = View.GONE
             }
-        }catch (e:java.lang.Exception){
+        } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
 
@@ -264,7 +298,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         SessionTwiclo(this).setcatname("")
 
         orderStatus_fm.setOnClickListener {
-           startActivity(
+            startActivity(
                 Intent(this, TrackOrderActivity::class.java)
                     .putExtra("orderId", orderId)
                     .putExtra("delivery_boy_name", "")
@@ -273,7 +307,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                         ""
                     )
                     .putExtra("order_status", "")
-           )
+            )
         }
 
 //        try {
@@ -310,9 +344,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
                         it.order_status.equals("2") -> {
                             showOrderStatusTxt.text = "Your order is cancelled"
-                            SessionTwiclo(this).orderId=""
-                            SessionTwiclo(this).storeImg=""
-                            orderStatus_fm.visibility=View.GONE
+                            SessionTwiclo(this).orderId = ""
+                            SessionTwiclo(this).storeImg = ""
+                            orderStatus_fm.visibility = View.GONE
                         }
 
                         it.order_status.equals("11") -> {
@@ -321,9 +355,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
                         it.order_status.equals("3") -> {
                             showOrderStatusTxt.text = "Your order is delivered"
-                            SessionTwiclo(this).orderId=""
-                            SessionTwiclo(this).storeImg=""
-                            orderStatus_fm.visibility=View.GONE
+                            SessionTwiclo(this).orderId = ""
+                            SessionTwiclo(this).storeImg = ""
+                            orderStatus_fm.visibility = View.GONE
                         }
 
                         it.order_status.equals("5") -> {
@@ -335,13 +369,14 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                         }
 
                         it.order_status.equals("7") -> {
-                            showOrderStatusTxt.text = SessionTwiclo(this).storeName + " has accepted your order"
+                            showOrderStatusTxt.text =
+                                SessionTwiclo(this).storeName + " has accepted your order"
                         }
 
                         it.order_status.equals("9") -> {
                             showOrderStatusTxt.text =
                                 "Your Order is ready and will soon be picked up by driver"
-                        //+ it.deliveryBoyName
+                            //+ it.deliveryBoyName
                         }
 
                         it.order_status.equals("10") -> {
@@ -369,10 +404,11 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
                     }
                 }
-            } catch (e: Exception) { }
+            } catch (e: Exception) {
+            }
         })
 
-        viewmodel?.getAddressesResponse?.observe(this,{user ->
+        viewmodel?.getAddressesResponse?.observe(this, { user ->
             Log.e("homeaddRes", Gson().toJson(user))
 
             if (user.addressList != null) {
@@ -381,9 +417,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     try {
                         for (i in addressList.indices) {
                             if (i == 0) {
-                                if (SessionTwiclo(this).userAddress!=""){
-                                    Log.d("default_add___","="+SessionTwiclo(this).userAddress)
-                                }else {
+                                if (SessionTwiclo(this).userAddress != "") {
+                                    Log.d("default_add___", "=" + SessionTwiclo(this).userAddress)
+                                } else {
                                     SessionTwiclo(this).userAddress = addressList.get(0).location
                                     SessionTwiclo(this).userLat = addressList.get(0).latitude
                                     SessionTwiclo(this).userLng = addressList.get(0).longitude
@@ -403,7 +439,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     }
 
                 }
-            }else{
+            } else {
                 getCurrentLocation()
             }
 
@@ -414,7 +450,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     override fun onPause() {
         super.onPause()
     }
-  
+
     private fun getCurrentLocation() {
         Log.e("Locationcall", "call")
 
@@ -433,21 +469,22 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     " latitude ${location.latitude} longitude ${location.longitude}"
                 )
 
-                var address=getGeoAddressFromLatLong(location.latitude, location.longitude)
+                var address = getGeoAddressFromLatLong(location.latitude, location.longitude)
 
                 if (address!!.isNotEmpty()) {
-                    SessionTwiclo(this@MainActivity).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
+                    SessionTwiclo(this@MainActivity).userAddress =
+                        getGeoAddressFromLatLong(location.latitude, location.longitude)
                     SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
                     SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
                     userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
-                }else{
-                    geocoderAddress(location.latitude.toString(),location.longitude.toString())
+                } else {
+                    geocoderAddress(location.latitude.toString(), location.longitude.toString())
                 }
             }
         })
     }
 
-    private fun checkLocation(){
+    private fun checkLocation() {
         val manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             showAlertLocation()
@@ -506,7 +543,13 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     // Start location updates
     private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
 
             // here to request the missing permissions, and then overriding
@@ -531,7 +574,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         super.onResume()
         checkPermission()
         if (SessionTwiclo(this).orderId.isNotEmpty()) {
-            orderId=SessionTwiclo(this).orderId
+            orderId = SessionTwiclo(this).orderId
             viewmodel?.getOrderStatusApi(
                 SessionTwiclo(this@MainActivity).loggedInUserDetail.accountId,
                 SessionTwiclo(this@MainActivity).loggedInUserDetail.accessToken, orderId!!
@@ -548,7 +591,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(SessionTwiclo(this).userAddress!=null || !SessionTwiclo(this).userAddress.isEmpty()) {
+                    if (SessionTwiclo(this).userAddress != null || !SessionTwiclo(this).userAddress.isEmpty()) {
                         try {
                             fusedLocationClient.lastLocation
                                 .addOnSuccessListener {
@@ -634,17 +677,38 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
     }
 
+    override fun onBackPressed() {
+
+
+        if (item_idno == 0) {
+            SessionTwiclo(this).setetvalue("")
+            SessionTwiclo(this).setcatname("")
+            AppUtils.finishActivityLeftToRight(this)
+        } else {
+            setCurrentFragment(HomeNewUiFragment())
+            settexttitle()
+            item_idno = 0
+            val home_item = bottomNavigationView.menu.findItem(R.id.homeFragment)
+            home_item.setChecked(true)
+        }
+    }
+
+
     override fun onStart() {
         if (gac != null) {
             gac!!.connect()
         }
+        if (item_idno==0){
+            setCurrentFragment(HomeNewUiFragment())
+            settexttitle()
+            val home_item = bottomNavigationView.menu.findItem(R.id.homeFragment)
+            home_item.setChecked(true)
+        }
 
         super.onStart()
 
-        setCurrentFragment(HomeNewUiFragment())
-        val home_item= bottomNavigationView.menu.findItem(R.id.homeFragment)
-        home_item.setChecked(true)
-        settexttitle()
+
+
 
 
     }
@@ -698,18 +762,27 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             .setMessage("""Your Locations Settings is set to 'Off'.Please Enable Location to use this app""".trimIndent())
             .setPositiveButton("Location Settings") { _, _ ->
                 val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                this.startActivityForResult(myIntent, 100) }
+                this.startActivityForResult(myIntent, 100)
+            }
             .setNegativeButton("Cancel") { _, _ -> }
         dialog.show()
     }
 
     @SuppressLint("MissingPermission")
     override fun onConnected(p0: Bundle?) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) { ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-            MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
-        )
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
+            )
             return
         } else {
             Log.d(TAG, "onConnected")
@@ -752,7 +825,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     override fun onConnectionFailed(p0: ConnectionResult) {}
 
-    fun showLoginDialog(message: String){
+    fun showLoginDialog(message: String) {
         val builder = androidx.appcompat.app.AlertDialog.Builder(this)
         //set title for alert dialog
         builder.setTitle("Alert")
@@ -808,7 +881,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
     }
 
-    fun geocoderAddress(lat:String,lng:String) {
+    fun geocoderAddress(lat: String, lng: String) {
         val geocodeUrl =
             "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
         Log.e("geocodeUrl", geocodeUrl)
@@ -818,21 +891,22 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                 Log.e("geocoderes_", "gson- $response")
                 val gsonBuilder = GsonBuilder();
                 val gson = gsonBuilder.create()
-                var model =gson.fromJson(response.toString(), GeocoderModel::class.java)
-                if(model.status.equals("OK")) {
-                    if (model.results.size!=0) {
-                        SessionTwiclo(this@MainActivity).userAddress = model.results[0].formattedAddress
-                        SessionTwiclo(this@MainActivity).userLat =lat
+                var model = gson.fromJson(response.toString(), GeocoderModel::class.java)
+                if (model.status.equals("OK")) {
+                    if (model.results.size != 0) {
+                        SessionTwiclo(this@MainActivity).userAddress =
+                            model.results[0].formattedAddress
+                        SessionTwiclo(this@MainActivity).userLat = lat
                         SessionTwiclo(this@MainActivity).userLng = lng
-                        if(SessionTwiclo(this@MainActivity).userAddress.isNotEmpty()) {
+                        if (SessionTwiclo(this@MainActivity).userAddress.isNotEmpty()) {
                             userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
-                        }else{
-                            userAddress?.text= model.results[0].formattedAddress
+                        } else {
+                            userAddress?.text = model.results[0].formattedAddress
                         }
                     }
                 }
 
-            }, Response.ErrorListener { dismissIOSProgress()}) {
+            }, Response.ErrorListener { dismissIOSProgress() }) {
 
         }
         val requestQueue = Volley.newRequestQueue(this)
@@ -868,23 +942,21 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
     private fun setCurrentFragment(fragment: Fragment) =
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment4, fragment)
-                commit()
-            }
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragment4, fragment)
+            commit()
+        }
 
-    private fun settexttitle(){
+    private fun settexttitle() {
 
-           val id= bottomNavigationView.menu
+        val id = bottomNavigationView.menu
 
-            id.findItem(R.id.homeFragment).title="Home"
-            id.findItem(R.id.SendPackageAct).title="Express"
-            id.findItem(R.id.searchFragment).title="Search"
-            id.findItem(R.id.ordersFragment).title="Order"
-            id.findItem(R.id.profileFragment).title="Profile"
+        id.findItem(R.id.homeFragment).title = "Home"
+        id.findItem(R.id.SendPackageAct).title = "Express"
+        id.findItem(R.id.searchFragment).title = "Search"
+        id.findItem(R.id.ordersFragment).title = "Order"
+        id.findItem(R.id.profileFragment).title = "Profile"
     }
-
-
 
 
 }

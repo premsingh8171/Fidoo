@@ -324,6 +324,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             AppUtils.finishActivityLeftToRight(this)*/
 
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("itemid","0")
             startActivity(intent)
         }
 
