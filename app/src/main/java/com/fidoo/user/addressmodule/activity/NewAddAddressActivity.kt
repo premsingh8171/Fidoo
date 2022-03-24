@@ -181,7 +181,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             //buildingValue.setText(model.building)
             ed_landmark.setText(model.landmark)
             tempAddressId = model.id
-            defaultCheckBox.isChecked = model.is_default.equals("1")
+//            defaultCheckBox.isChecked = model.is_default.equals("1")
 
 //            if (model.phone_no.toString().equals("")) {
 //                contact_name_txt.text = "Add contact no."
@@ -290,11 +290,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                             addressType = "3"
                                         }
 
-                                defaultValue = if (defaultCheckBox.isChecked) {
-                                    "1"
-                                } else {
-                                    "0"
-                                }
+//                                defaultValue = if (defaultCheckBox.isChecked) {
+//                                    "1"
+//                                } else {
+//                                    "0"
+//                                }
 
                                 if (intent.hasExtra("data")) {
                                     viewmodel?.editAddressDetails(
@@ -345,11 +345,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                             addressType = "3"
                                         }
 
-                                defaultValue = if (defaultCheckBox.isChecked) {
-                                    "1"
-                                } else {
-                                    "0"
-                                }
+//                                defaultValue = if (defaultCheckBox.isChecked) {
+//                                    "1"
+//                                } else {
+//                                    "0"
+//                                }
 
                                 if (intent.hasExtra("data")) {
                                     viewmodel?.editAddressDetails(
@@ -418,11 +418,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                         addressType = "3"
                                     }
 
-                            defaultValue = if (defaultCheckBox.isChecked) {
-                                "1"
-                            } else {
-                                "0"
-                            }
+//                            defaultValue = if (defaultCheckBox.isChecked) {
+//                                "1"
+//                            } else {
+//                                "0"
+//                            }
 
 
                             if (intent.hasExtra("data")) {

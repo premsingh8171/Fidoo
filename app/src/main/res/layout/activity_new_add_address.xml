@@ -114,7 +114,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/feedback_bg"
         android:orientation="vertical"
-
+        android:visibility="gone"
         android:id="@+id/add_new_add_ll"
         android:layout_width="match_parent"
         android:layout_height="430dp">
@@ -139,12 +139,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/live_add"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
                     <ImageView
@@ -158,9 +158,9 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/tv_address_title"
                         android:layout_width="wrap_content"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="16dp"
@@ -181,20 +181,23 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_40dp"
                         android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/proxima"
-                        android:textSize="12sp"
+                        android:fontFamily="@font/worksans_semibold"
+                        android:textSize="14sp"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/locationImage"
                         app:layout_constraintTop_toBottomOf="@+id/tv_address_title" />
 
                     <TextView
-                        android:layout_marginTop="@dimen/margin_15dp"
+                       android:layout_marginTop="5dp"
                         android:id="@+id/change_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
-                        android:fontFamily="@font/proxima"
+                        android:background="@drawable/_textview_bg_rounded"
+                        android:textStyle="normal"
+                        android:padding="7dp"
                         android:text="Change"
+                        android:textSize="12sp"
                         android:textColor="@color/colorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_address_title"
@@ -240,6 +243,7 @@
                     app:boxCornerRadiusTopEnd="15dp"
                     app:boxCornerRadiusTopStart="15dp"
                     app:endIconMode="clear_text"
+
                     app:errorEnabled="true"
                     android:importantForAutofill="no"
                     app:hintTextColor="@color/colorHint"
@@ -252,8 +256,8 @@
                         android:importantForAutofill="no"
                         android:textColor="@color/black"
                         android:id="@+id/ed_address"
-                        android:textSize="12sp"
-                        android:fontFamily="@font/proxima"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/worksans_semibold"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:hint="@string/house_flat_block"
@@ -284,78 +288,83 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:textColor="@color/black"
                         android:id="@+id/ed_landmark"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:fontFamily="@font/proxima"
-                        android:hint="@string/landmark"
+                        android:fontFamily="@font/worksans_semibold"
+                        android:hint="Landmark(Optional)"
                         android:importantForAutofill="no"
                         android:inputType="text|textNoSuggestions" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <RadioGroup
                     android:layout_marginTop="@dimen/margin_10"
                     android:id="@+id/radioGroup"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15dp"
                     android:orientation="horizontal"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view">
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:paddingLeft="@dimen/margin_20dp"
+                            android:paddingRight="@dimen/margin_20dp"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:id="@+id/homeRadioBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/worksans_semibold"
+                            android:layout_weight="1"
+                            android:padding="6dp"
+                            android:background="@drawable/radio_selector"
+                            android:button="@android:color/transparent"
+                            android:checked="true"
+                            android:gravity="center"
+                            android:text="Home" />
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:paddingLeft="@dimen/margin_20dp"
-                        android:paddingRight="@dimen/margin_20dp"
-                        android:layout_marginRight="@dimen/margin_10"
-                        android:id="@+id/homeRadioBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:fontFamily="@font/proxima"
-                        android:layout_weight="1"
-                        android:background="@drawable/radio_selector"
-                        android:button="@android:color/transparent"
-                        android:checked="true"
-                        android:gravity="center"
-                        android:text="Home" />
-
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:paddingLeft="@dimen/margin_20dp"
-                        android:paddingRight="@dimen/margin_20dp"
-                        android:id="@+id/officeRadioBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/proxima"
-                        android:background="@drawable/radio_selector"
-                        android:button="@android:color/transparent"
-                        android:gravity="center"
-                        android:text="Office" />
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:paddingLeft="@dimen/margin_20dp"
-                        android:paddingRight="@dimen/margin_20dp"
-                        android:id="@+id/otherRadioBtn"
-                        android:layout_marginRight="@dimen/margin_10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/radio_selector"
-                        android:fontFamily="@font/proxima"
-                        android:button="@android:color/transparent"
-                        android:gravity="center"
-                        android:text="Other" />
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:paddingLeft="@dimen/margin_20dp"
+                            android:paddingRight="@dimen/margin_20dp"
+                            android:id="@+id/officeRadioBtn"
+                            android:layout_width="wrap_content"
+                            android:padding="6dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14sp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/worksans_semibold"
+                            android:background="@drawable/radio_selector"
+                            android:button="@android:color/transparent"
+                            android:gravity="center"
+                            android:text="Office" />
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:paddingLeft="@dimen/margin_20dp"
+                            android:paddingRight="@dimen/margin_20dp"
+                            android:id="@+id/otherRadioBtn"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:padding="6dp"
+                            android:layout_weight="1"
+                            android:textSize="14sp"
+                            android:background="@drawable/radio_selector"
+                            android:fontFamily="@font/worksans_semibold"
+                            android:button="@android:color/transparent"
+                            android:gravity="center"
+                            android:text="Other" />
                 </RadioGroup>
-                <CheckBox
-                    android:visibility="visible"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="10dp"
-                    android:id="@+id/defaultCheckBox"
-                    android:paddingHorizontal="5dp"
-                    android:layout_marginHorizontal="10dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_landmark"
-                    android:text="Set as default address" />
+<!--                <CheckBox-->
+<!--                    android:visibility="visible"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:paddingVertical="10dp"-->
+<!--                    android:id="@+id/defaultCheckBox"-->
+<!--                    android:paddingHorizontal="5dp"-->
+<!--                    android:layout_marginHorizontal="10dp"-->
+<!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/tl_landmark"-->
+<!--                    android:text="Set as default address" />-->
 
 <!--                <TextView-->
 <!--                    android:fontFamily="@font/proxima"-->
@@ -390,8 +399,7 @@
                     app:cornerRadius="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/defaultCheckBox"/>
+                    app:layout_constraintStart_toStartOf="parent"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
