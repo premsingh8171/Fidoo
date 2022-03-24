@@ -21,6 +21,8 @@ class SliderScreenActivity : BaseActivity() {
     var sliderViewPagerAdapter: SliderViewPagerAdapter? = null
 
     var currentPage: Int = 0
+    var currentPage1: Int = 0
+
 
     private var mMixpanel: MixpanelAPI? = null
 

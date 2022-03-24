@@ -41,22 +41,26 @@
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/margin_16dp" />
             </FrameLayout>
-
+<LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:padding="5dp"
+    android:layout_alignParentStart="true"
+    android:id="@+id/letsBegin_fml1"
+    android:background="@color/transparent"
+    android:layout_alignParentBottom="true"
+    android:layout_centerVertical="true"
+    android:layout_marginBottom="60dp"
+    android:layout_marginLeft="36dp"
+    >
             <FrameLayout
-                android:id="@+id/letsBegin_fml1"
                 android:layout_width="8dp"
                 android:layout_height="16dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="36dp"
-                android:padding="16dp"
                 android:layout_marginRight="@dimen/margin_30dp"
-                android:layout_marginBottom="60dp"
                 android:background="@drawable/ic_vector"
-                android:visibility="gone">
-
+                android:visibility="visible">
             </FrameLayout>
+</LinearLayout>
 
             <LinearLayout
                 android:id="@+id/dotthree"
