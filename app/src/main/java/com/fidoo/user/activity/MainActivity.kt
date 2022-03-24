@@ -220,7 +220,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(navigasjonen)
-
+           // bott
 
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
