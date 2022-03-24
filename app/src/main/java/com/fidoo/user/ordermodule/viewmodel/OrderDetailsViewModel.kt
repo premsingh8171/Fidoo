@@ -19,6 +19,7 @@ class OrderDetailsViewModel(application: Application) : AndroidViewModel(applica
     var sendPackageOrderDetailsRes: MutableLiveData<SendPackageOrderDetailsModel>? = null
     var productChangeRequestDetailsRes: MutableLiveData<ProductChangeRequestDetailsModel>? = null
     var approveProductChangeRequestRes: MutableLiveData<ApproveProductChangeRequestModel>? = null
+    var sendPackageOrderDetailsMainModelRes: MutableLiveData<SendPackageOrderDetailsMainModel>? = null
 
     init {
         failureResponse = MutableLiveData<String>()
@@ -27,6 +28,7 @@ class OrderDetailsViewModel(application: Application) : AndroidViewModel(applica
         sendPackageOrderDetailsRes= MutableLiveData<SendPackageOrderDetailsModel>()
         productChangeRequestDetailsRes = MutableLiveData<ProductChangeRequestDetailsModel>()
         approveProductChangeRequestRes = MutableLiveData<ApproveProductChangeRequestModel>()
+        sendPackageOrderDetailsMainModelRes = MutableLiveData<SendPackageOrderDetailsMainModel>()
 
     }
 

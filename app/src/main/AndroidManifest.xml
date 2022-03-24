@@ -247,6 +247,10 @@
             android:name=".profile.ui.EditProfileActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ordermodule.ui.OrderDetailsSendPackageActivity"
+            android:screenOrientation="portrait" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" /> <!-- rzp_test_17ihcfTIqBGF9R       rzp_live_iceNLz5pb15jtP -->

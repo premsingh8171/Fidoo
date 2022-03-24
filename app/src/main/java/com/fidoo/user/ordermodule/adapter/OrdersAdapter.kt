@@ -378,6 +378,11 @@ class OrdersAdapter(
         holder.itemLay.setOnClickListener {
             if (orders[position].serviceTypeId == "4") {
 
+                val intent = Intent(context, OrderDetailsSendPackageActivity::class.java)
+                intent.putExtra(ORDER_ID, orders[position].orderId)
+                intent.putExtra(TO_ADDRESS, orders[position].toAddress)
+                context.startActivity(intent)
+
             } else if (orders[position].serviceTypeId == "0" || orders[position].serviceTypeId == "") {
                 val intent = Intent(context, OrderDetailsActivity::class.java)
                 intent.putExtra(ORDER_ID, orders[position].orderId)

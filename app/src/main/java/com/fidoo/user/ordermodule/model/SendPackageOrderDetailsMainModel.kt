@@ -1,0 +1,32 @@
+package com.fidoo.user.ordermodule.model
+
+data class SendPackageOrderDetailsMainModel(
+    val accessToken: String,
+    val accountId: String,
+    val appx_delivery_time: String,
+    val appx_distance: String,
+    val coupon_name: String,
+    val deleivered_at: String,
+    val delivery_boy_id: String,
+    val delivery_boy_name: String,
+    val delivery_boy_phone: String,
+    val delivery_charges: Int,
+    val discount: Int,
+    val error: Boolean,
+    val error_code: Int,
+    val final_delivery_charge: Int,
+    val from_address: String,
+    val from_latitude: String,
+    val from_longitude: String,
+    val images: List<Any>,
+    val item_category: String,
+    val item_name: String,
+    val message: String,
+    val order_date: String,
+    val order_id: String,
+    val order_status: String,
+    val payment_mode: String,
+    val to_address: String,
+    val to_latitude: String,
+    val to_longitude: String
+)

@@ -243,7 +243,7 @@ class AddressesAdapter(
                 }
 
                 if (stringExtra.equals("to")) {
-                    "Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                    SendPackageActivity.selectedToAddress= "Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
                    // SendPackageActivity.selectedToAddress= addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
                    /// SendPackageActivity.selectedToAddress = addressList[position].location
                     SendPackageActivity.selectedtoLat = addressList[position].latitude.toDouble()
