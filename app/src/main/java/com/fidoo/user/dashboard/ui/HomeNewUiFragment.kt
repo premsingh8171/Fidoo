@@ -70,7 +70,6 @@ import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.BaseFragment
 import com.fidoo.user.utils.CardSliderLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
@@ -148,10 +147,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 		height = Math.round(width * 0.49).toInt()
 		catIconWidth = (width - 180) / 4
 
-
 		fragmentHomeBinding?.viewPagerBannerNewDesh!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
-
 		fragmentHomeBinding?.viewPagerBannerNewDesh!!.clipToPadding = false
+
+		val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+			showDialog()
 
 		val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
 			object : ViewPager.OnPageChangeListener {
@@ -705,6 +706,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 
 	override fun onResume() {
 		super.onResume()
+
 		ProfileFragment.addManages = ""
 		deleteRoomDataBase()
 		if ((activity as MainActivity).isNetworkConnected) {
