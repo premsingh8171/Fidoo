@@ -146,22 +146,22 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
 
         this.registerReceiver(mBroadcastReceiver, IntentFilter("start_send_package_fragment"))
-       // val navController = findNavController(R.id.fragment4)
-        //bottomNavigationView.setupWithNavController(navController)
+        val navController = findNavController(R.id.fragment4)
+        bottomNavigationView.setupWithNavController(navController)
 
        // setCurrentFragment(HomeNewUiFragment())
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
-         val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+         /*val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.homeFragment->{
+                /*R.id.homeFragment->{
                    setCurrentFragment(HomeNewUiFragment())
                     item_idno=0
                     settexttitle()
                     item.title=""
                     return@OnNavigationItemSelectedListener true
-                }
+                }*/
                 R.id.SendPackageAct -> {
                    startActivity(Intent(this@MainActivity, SendPackageActivity::class.java)
                     .putExtra("where", where)
@@ -171,10 +171,10 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     item_idno=1
                     settexttitle()
                     item.title=""
-                    return@OnNavigationItemSelectedListener true
+                    return@OnNavigationItemSelectedListener false
 
                 }
-                R.id.searchFragment ->{
+               /* R.id.searchFragment ->{
                     setCurrentFragment(SearchFragmentNew())
                     item_idno=2
                     settexttitle()
@@ -194,12 +194,24 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     settexttitle()
                     item.title=""
                     return@OnNavigationItemSelectedListener true
-                }
+                }*/
             }
-             false
+             true
+        }*/
+
+        bottomNavigationView.menu.findItem(R.id.SendPackageAct).setOnMenuItemClickListener {
+            startActivity(Intent(this@MainActivity, SendPackageActivity::class.java)
+                .putExtra("where", where)
+                .putExtra("cat_id", "")
+                .putExtra("cat_name", "")
+            )
+            item_idno=1
+            settexttitle()
+            it.title=""
+            return@setOnMenuItemClickListener false
         }
 
-        bottomNavigation.setOnNavigationItemSelectedListener(navigasjonen)
+     //   bottomNavigation.setOnNavigationItemSelectedListener(navigasjonen)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         tempProductList = ArrayList()
