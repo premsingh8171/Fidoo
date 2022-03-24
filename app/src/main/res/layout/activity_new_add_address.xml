@@ -118,16 +118,16 @@
         android:id="@+id/add_new_add_ll"
         android:layout_width="match_parent"
         android:layout_height="430dp">
-        <TextView
-            android:fontFamily="@font/proxima"
-            android:paddingLeft="@dimen/margin_10"
-            android:paddingTop="@dimen/margin_10"
-            android:layout_margin="@dimen/dimen_5dp"
-            android:textColor="@color/black"
-            android:text="Select location"
-            android:textSize="@dimen/dimen_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+<!--        <TextView-->
+<!--            android:fontFamily="@font/proxima"-->
+<!--            android:paddingLeft="@dimen/margin_10"-->
+<!--            android:paddingTop="@dimen/margin_10"-->
+<!--            android:layout_margin="@dimen/dimen_5dp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:text="Select location"-->
+<!--            android:textSize="@dimen/dimen_16sp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content" />-->
 
         <ScrollView
             android:layout_width="match_parent"
@@ -201,7 +201,97 @@
                         android:visibility="visible" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+<!--
 
+
+
+
+-->
+
+                <!--
+
+
+
+
+              -->
+
+                <View
+                    android:visibility="gone"
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@color/colorGray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/live_add" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/tl_address"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusBottomStart="15dp"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:boxCornerRadiusTopStart="15dp"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    android:importantForAutofill="no"
+                    app:hintTextColor="@color/colorHint"
+                    app:boxStrokeColor="@color/backGround_et"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tl_phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="no"
+                        android:textColor="@color/black"
+                        android:id="@+id/ed_address"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/proxima"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="@string/house_flat_block"
+                        android:inputType="text|textNoSuggestions" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_landmark"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusBottomStart="15dp"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:boxCornerRadiusTopStart="15dp"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
+                    app:boxStrokeColor="@color/backGround_et"
+                    app:hintTextColor="@color/colorHint"
+                    android:importantForAutofill="no"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tl_phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:textColor="@color/black"
+                        android:id="@+id/ed_landmark"
+                        android:textSize="12sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:fontFamily="@font/proxima"
+                        android:hint="@string/landmark"
+                        android:importantForAutofill="no"
+                        android:inputType="text|textNoSuggestions" />
+                </com.google.android.material.textfield.TextInputLayout>
                 <RadioGroup
                     android:layout_marginTop="@dimen/margin_10"
                     android:id="@+id/radioGroup"
@@ -266,83 +356,6 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tl_landmark"
                     android:text="Set as default address" />
-
-                <View
-                    android:visibility="gone"
-                    android:id="@+id/view"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
-                    android:background="@color/colorGray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/live_add" />
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:id="@+id/tl_address"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="65dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    app:boxCornerRadiusBottomEnd="15dp"
-                    app:boxCornerRadiusBottomStart="15dp"
-                    app:boxCornerRadiusTopEnd="15dp"
-                    app:boxCornerRadiusTopStart="15dp"
-                    app:endIconMode="clear_text"
-                    app:errorEnabled="true"
-                    android:importantForAutofill="no"
-                    app:hintTextColor="@color/colorHint"
-                    app:boxStrokeColor="@color/backGround_et"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_phone">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:importantForAutofill="no"
-                        android:textColor="@color/black"
-                        android:id="@+id/ed_address"
-                        android:textSize="12sp"
-                        android:fontFamily="@font/proxima"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:hint="@string/house_flat_block"
-                        android:inputType="text|textNoSuggestions" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_landmark"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    app:boxCornerRadiusBottomEnd="15dp"
-                    app:boxCornerRadiusBottomStart="15dp"
-                    app:boxCornerRadiusTopEnd="15dp"
-                    app:boxCornerRadiusTopStart="15dp"
-                    app:endIconMode="clear_text"
-                    app:errorEnabled="true"
-                    app:boxStrokeColor="@color/backGround_et"
-                    app:hintTextColor="@color/colorHint"
-                    android:importantForAutofill="no"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_phone">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:textColor="@color/black"
-                        android:id="@+id/ed_landmark"
-                        android:textSize="12sp"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:fontFamily="@font/proxima"
-                        android:hint="@string/landmark"
-                        android:importantForAutofill="no"
-                        android:inputType="text|textNoSuggestions" />
-                </com.google.android.material.textfield.TextInputLayout>
 
 <!--                <TextView-->
 <!--                    android:fontFamily="@font/proxima"-->
