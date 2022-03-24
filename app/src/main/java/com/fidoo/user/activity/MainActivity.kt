@@ -169,7 +169,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     val itemid= bottomNavigationView.menu.findItem(R.id.homeFragment)
 
                     CoroutineScope(Dispatchers.IO).launch {
-                        delay(75)
+                        delay(70)
                         setCurrentFragment(HomeNewUiFragment())
                     }
 
