@@ -115,13 +115,6 @@
         android:layout_height="1dp"
         android:layout_above="@+id/add_new_add_ll"
         android:indeterminate="true" />
-<!--
-
-
-
-
-
--->
     <LinearLayout
         android:layout_alignParentBottom="true"
         android:background="@drawable/feedback_bg"
@@ -190,6 +183,7 @@
                         android:id="@+id/tv_Address"
                         android:background="@color/white"
                         android:singleLine="true"
+                        android:scrollHorizontally="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_40dp"
@@ -216,20 +210,6 @@
                         app:layout_constraintTop_toTopOf="@+id/tv_address_title"
                         android:visibility="visible" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--
-
-
-
-
--->
-
-                <!--
-
-
-
-
-              -->
 
                 <View
                     android:visibility="gone"
@@ -515,13 +495,6 @@
 <!--            app:layout_constraintStart_toStartOf="parent" />-->
 <!--    </LinearLayout>-->
 
-
-    <!--
-
-
-
-
-    -->
     <androidx.cardview.widget.CardView
         android:id="@+id/live_add_1"
         android:layout_width="wrap_content"
