@@ -344,20 +344,20 @@
                         android:inputType="text|textNoSuggestions" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:fontFamily="@font/proxima"
-                    android:textSize="12sp"
-                    android:id="@+id/contact_name_txt"
-                    android:layout_gravity="center"
-                    android:textColorHint="@color/primary_color"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:drawablePadding="@dimen/dimen_5dp"
-                    android:drawableLeft="@drawable/ic_call"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/primary_color"
-                    android:layout_height="25dp"
-                    android:text="Add contact no." />
+<!--                <TextView-->
+<!--                    android:fontFamily="@font/proxima"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:id="@+id/contact_name_txt"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:textColorHint="@color/primary_color"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:gravity="center"-->
+<!--                    android:drawablePadding="@dimen/dimen_5dp"-->
+<!--                    android:drawableLeft="@drawable/ic_call"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:textColor="@color/primary_color"-->
+<!--                    android:layout_height="25dp"-->
+<!--                    android:text="Add contact no." />-->
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_marginBottom="@dimen/margin_20dp"
@@ -382,105 +382,113 @@
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/contact_add_ll"
-        android:background="@drawable/feedback_bg"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        android:orientation="vertical"
-        android:layout_above="@id/btn_proceed"
-        android:layout_width="match_parent"
-        android:layout_height="280dp">
-        <TextView
-            android:layout_margin="@dimen/dimen_5dp"
-            android:padding="@dimen/margin_10"
-            android:textColor="@color/black"
-            android:text="Add contact details"
-            android:textSize="@dimen/dimen_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tl_phone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            app:boxCornerRadiusBottomEnd="15dp"
-            app:boxCornerRadiusBottomStart="15dp"
-            app:boxCornerRadiusTopEnd="15dp"
-            app:boxCornerRadiusTopStart="15dp"
-            app:endIconMode="clear_text"
-            app:errorEnabled="true"
-            android:importantForAutofill="no"
-            app:hintTextColor="@color/colorHint"
-            app:boxStrokeColor="@color/backGround_et"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tl_phone">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/contact_add_ll"-->
+<!--        android:background="@drawable/feedback_bg"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:visibility="gone"-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_above="@id/btn_proceed"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="280dp">-->
+<!--        <TextView-->
+<!--            android:layout_margin="@dimen/dimen_5dp"-->
+<!--            android:padding="@dimen/margin_10"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:text="Add contact details"-->
+<!--            android:textSize="@dimen/dimen_16sp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content" />-->
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/tl_phone"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="65dp"-->
+<!--            android:layout_marginStart="15dp"-->
+<!--            android:layout_marginEnd="15dp"-->
+<!--            app:boxCornerRadiusBottomEnd="15dp"-->
+<!--            app:boxCornerRadiusBottomStart="15dp"-->
+<!--            app:boxCornerRadiusTopEnd="15dp"-->
+<!--            app:boxCornerRadiusTopStart="15dp"-->
+<!--            app:endIconMode="clear_text"-->
+<!--            app:errorEnabled="true"-->
+<!--            android:importantForAutofill="no"-->
+<!--            app:hintTextColor="@color/colorHint"-->
+<!--            app:boxStrokeColor="@color/backGround_et"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/tl_phone">-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:textColor="@color/black"
-                android:hint="Contact number"
-                android:textSize="12sp"
-                android:id="@+id/ed_phone"
-                android:digits="0123456789"
-                android:maxLength="10"
-                android:importantForAutofill="no"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tl_name"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            app:boxCornerRadiusBottomEnd="15dp"
-            app:boxCornerRadiusBottomStart="15dp"
-            app:boxCornerRadiusTopEnd="15dp"
-            app:boxCornerRadiusTopStart="15dp"
-            app:endIconMode="clear_text"
-            app:errorEnabled="true"
-            android:importantForAutofill="no"
-            app:hintTextColor="@color/colorHint"
-            app:boxStrokeColor="@color/backGround_et"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tl_phone">
-            <com.google.android.material.textfield.TextInputEditText
-                android:textColor="@color/black"
-                android:hint="Contact Name"
-                android:textSize="12sp"
-                android:id="@+id/ed_name"
-                android:importantForAutofill="no"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:inputType="text|textNoSuggestions" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_contactBtn"
-            android:text="Add Contact"
-            app:layout_constraintTop_toBottomOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="@dimen/margin_15dp"
-            android:letterSpacing="0"
-            android:padding="15dp"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:backgroundTint="@color/colorPrimary"
-            app:cornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </LinearLayout>
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:textColor="@color/black"-->
+<!--                android:hint="Contact number"-->
+<!--                android:textSize="12sp"-->
+<!--                android:id="@+id/ed_phone"-->
+<!--                android:digits="0123456789"-->
+<!--                android:maxLength="10"-->
+<!--                android:importantForAutofill="no"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:inputType="phone" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/tl_name"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="65dp"-->
+<!--            android:layout_marginStart="15dp"-->
+<!--            android:layout_marginEnd="15dp"-->
+<!--            app:boxCornerRadiusBottomEnd="15dp"-->
+<!--            app:boxCornerRadiusBottomStart="15dp"-->
+<!--            app:boxCornerRadiusTopEnd="15dp"-->
+<!--            app:boxCornerRadiusTopStart="15dp"-->
+<!--            app:endIconMode="clear_text"-->
+<!--            app:errorEnabled="true"-->
+<!--            android:importantForAutofill="no"-->
+<!--            app:hintTextColor="@color/colorHint"-->
+<!--            app:boxStrokeColor="@color/backGround_et"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/tl_phone">-->
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:textColor="@color/black"-->
+<!--                android:hint="Contact Name"-->
+<!--                android:textSize="12sp"-->
+<!--                android:id="@+id/ed_name"-->
+<!--                android:importantForAutofill="no"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:inputType="text|textNoSuggestions" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/add_contactBtn"-->
+<!--            android:text="Add Contact"-->
+<!--            app:layout_constraintTop_toBottomOf="parent"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_marginStart="30dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginEnd="30dp"-->
+<!--            android:layout_marginBottom="@dimen/margin_15dp"-->
+<!--            android:letterSpacing="0"-->
+<!--            android:padding="15dp"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="16sp"-->
+<!--            app:backgroundTint="@color/colorPrimary"-->
+<!--            app:cornerRadius="10dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+<!--    </LinearLayout>-->
+
+
+    <!--
+
+
+
+
+    -->
     <androidx.cardview.widget.CardView
         android:id="@+id/live_add_1"
         android:layout_width="wrap_content"

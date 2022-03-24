@@ -172,28 +172,31 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             lng = model.longitude.toDouble()
             tv_Address.setText(model.location)
             tv_Address_1.setText(model.location)
-            ed_name.setText(model.name)
-            ed_phone.setText(model.phone_no)
+            /**
+             * ----------------------------------------------------------------------
+             */
+//            ed_name.setText(model.name)
+//            ed_phone.setText(model.phone_no)
             ed_address.setText(model.flatNo)
             //buildingValue.setText(model.building)
             ed_landmark.setText(model.landmark)
             tempAddressId = model.id
             defaultCheckBox.isChecked = model.is_default.equals("1")
 
-            if (model.phone_no.toString().equals("")) {
-                contact_name_txt.text = "Add contact no."
-            } else {
-                contact_name_txt.text =
-                    model.name.toString() + "-" + model.phone_no.toString().replace("+91", "")
-                contact_name_txt.setTextColor(getColor(R.color.primary_color))
-                contact_name_txt.setCompoundDrawableTintList(
-                    ColorStateList.valueOf(
-                        Color.parseColor(
-                            "#339347"
-                        )
-                    )
-                )
-            }
+//            if (model.phone_no.toString().equals("")) {
+//                contact_name_txt.text = "Add contact no."
+//            } else {
+//                contact_name_txt.text =
+//                    model.name.toString() + "-" + model.phone_no.toString().replace("+91", "")
+//                contact_name_txt.setTextColor(getColor(R.color.primary_color))
+//                contact_name_txt.setCompoundDrawableTintList(
+//                    ColorStateList.valueOf(
+//                        Color.parseColor(
+//                            "#339347"
+//                        )
+//                    )
+//                )
+//            }
             when {
                 model.addressType.equals("1") -> {
                     homeRadioBtn.isChecked = true
@@ -217,13 +220,13 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             tv_address_title.text = "Other"
         }
 
-        if (SavedAddressesActivity.addAddressOrNot.equals("new_add")) {
-            change_txt.visibility = View.VISIBLE
-            contact_name_txt.visibility = View.VISIBLE
-        } else {
-            contact_name_txt.visibility = View.VISIBLE
-            change_txt.visibility = View.VISIBLE
-        }
+//        if (SavedAddressesActivity.addAddressOrNot.equals("new_add")) {
+//            change_txt.visibility = View.VISIBLE
+//            contact_name_txt.visibility = View.VISIBLE
+//        } else {
+//            contact_name_txt.visibility = View.VISIBLE
+//            change_txt.visibility = View.VISIBLE
+//        }
         add_address_frmLL.setOnClickListener {
             finish()
         }
@@ -304,9 +307,9 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                         addressType,
                                         lat.toString(),
                                         lng.toString(),
-                                        ed_name.text.toString(),
+                                        "Name",
                                         "", defaultValue,
-                                        ed_phone.text.toString(),
+                                        "0000000000",
                                         tempAddressId, contact_type!!
                                     )
 
@@ -322,10 +325,10 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                         addressType,
                                         lat.toString(),
                                         lng.toString(),
-                                        ed_name.text.toString(),
+                                        "Name",
                                         "",
                                         defaultValue,
-                                        ed_phone.text.toString(), contact_type!!
+                                        "0000000000", contact_type!!
                                     )
 
                                 }
@@ -359,9 +362,9 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                         addressType,
                                         lat.toString(),
                                         lng.toString(),
-                                        ed_name.text.toString(),
+                                        "Name",
                                         "", defaultValue,
-                                        ed_phone.text.toString(),
+                                        "0000000000",
                                         tempAddressId, contact_type!!
                                     )
 
@@ -377,10 +380,10 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                         addressType,
                                         lat.toString(),
                                         lng.toString(),
-                                        ed_name.text.toString(),
+                                        "Name",
                                         "",
                                         defaultValue,
-                                        ed_phone.text.toString(), contact_type!!
+                                        "0000000000", contact_type!!
                                     )
 
                                 }
@@ -397,9 +400,9 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
                         }
 //                        //updated by shobha
-                        else if (ed_name.text.toString().equals("")) {
-                            showToast("Please add contact details")
-                        }
+//                        else if (ed_name.text.toString().equals("")) {
+//                            showToast("Please add contact details")
+//                        }
                         else if (tv_Address.equals("") || tv_Address_1.equals("")) {
                             showToast("Location not available")
 
@@ -433,9 +436,9 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                     addressType,
                                     lat.toString(),
                                     lng.toString(),
-                                    ed_name.text.toString(),
+                                    "Name",
                                     "", defaultValue,
-                                    ed_phone.text.toString(),
+                                    "0000000000",
                                     tempAddressId,
                                     contact_type!!
                                 )
@@ -452,10 +455,10 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                     addressType,
                                     lat.toString(),
                                     lng.toString(),
-                                    ed_name.text.toString(),
+                                    "Name",
                                     "",
                                     defaultValue,
-                                    ed_phone.text.toString(),
+                                    "0000000000",
                                     contact_type!!
                                 )
                             }
@@ -465,23 +468,23 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             }
         }
 
-        contact_name_txt.setOnClickListener {
-            contact_name_txt.text =
-                ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
-            contact_name_txt.setTextColor(getColor(R.color.primary_color))
-            contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#339347")));
-
-            add_new_add_ll.visibility = View.GONE
-            contact_add_ll.visibility = View.VISIBLE
-
-            /*if (forSendPackageAddCheck.equals("1")) {
-                contactTypePopUp()
-            } else {
-                add_new_add_ll.visibility = View.GONE
-                contact_add_ll.visibility = View.VISIBLE
-            }*/
-
-        }
+//        contact_name_txt.setOnClickListener {
+//            contact_name_txt.text =
+//                ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
+//            contact_name_txt.setTextColor(getColor(R.color.primary_color))
+//            contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#339347")));
+//
+//            add_new_add_ll.visibility = View.GONE
+//            contact_add_ll.visibility = View.VISIBLE
+//
+//            /*if (forSendPackageAddCheck.equals("1")) {
+//                contactTypePopUp()
+//            } else {
+//                add_new_add_ll.visibility = View.GONE
+//                contact_add_ll.visibility = View.VISIBLE
+//            }*/
+//
+//        }
         change_txt.setOnClickListener {
             val intent = Intent(this,SavedAddressesActivity::class.java)
             startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
@@ -490,37 +493,37 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         /**
          *  ADD CONTACT BUTTON
          */
-        add_contactBtn.setOnClickListener {
-            if (ed_phone.text.toString().equals("")) {
-                showToast("Please enter your contact no.")
-
-            } else if (ed_phone.text.toString()
-                    .startsWith("0") || ed_phone.text.toString().length < 10
-            ) {
-                showToast("Please enter valid no.")
-
-            } else if (ed_name.text.toString().equals("") || ed_name.text.toString()
-                    .startsWith(" ")
-            ) {
-                showToast("Please enter contact name")
-
-            }
+//        add_contactBtn.setOnClickListener {
+//            if (ed_phone.text.toString().equals("")) {
+//                showToast("Please enter your contact no.")
+//
+//            } else if (ed_phone.text.toString()
+//                    .startsWith("0") || ed_phone.text.toString().length < 10
+//            ) {
+//                showToast("Please enter valid no.")
+//
+//            } else if (ed_name.text.toString().equals("") || ed_name.text.toString()
+//                    .startsWith(" ")
+//            ) {
+//                showToast("Please enter contact name")
+//
+//            }
             /**
              *  ADD CONTACT NUMBER BUTTON
              */
-            else {
-                contact_name_txt.text =
-                    ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
-                contact_name_txt.setTextColor(getColor(R.color.black))
-                contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.BLACK))
-                contact_add_ll.visibility = View.GONE
-                add_new_add_ll.visibility = View.VISIBLE
-                if(ed_name.getText().toString().equals("")){
-                    contact_name_txt.text="Add contact no."
-                }else if(ed_phone.getText().toString().equals(""))
-                    contact_name_txt.text="Add contact no."
-            }
-        }
+//            else {
+//                contact_name_txt.text =
+//                    ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
+//                contact_name_txt.setTextColor(getColor(R.color.black))
+//                contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.BLACK))
+//                contact_add_ll.visibility = View.GONE
+//                add_new_add_ll.visibility = View.VISIBLE
+//                if(ed_name.getText().toString().equals("")){
+//                    contact_name_txt.text="Add contact no."
+//                }else if(ed_phone.getText().toString().equals(""))
+//                    contact_name_txt.text="Add contact no."
+//            }
+//        }
 
         viewmodel?.editAddressResponse?.observe(this, {
             dismissIOSProgress()
@@ -1142,12 +1145,12 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             contactTypePopUp?.findViewById<TextView>(R.id.remove_conDetailsTxt)
 
 
-        if (ed_phone.text?.toString().equals("")) {
-            contact_name_txt.text = "Add contact no."
-            remove_conDetailsTxt!!.visibility = View.GONE
-        } else {
-            remove_conDetailsTxt!!.visibility = View.VISIBLE
-        }
+//        if (ed_phone.text?.toString().equals("")) {
+//            contact_name_txt.text = "Add contact no."
+//            remove_conDetailsTxt!!.visibility = View.GONE
+//        } else {
+//            remove_conDetailsTxt!!.visibility = View.VISIBLE
+//        }
 
         addDismisspopUp_!!.setOnClickListener {
             contactTypePopUp!!.dismiss()
@@ -1160,7 +1163,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             AddManuallyTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
 
             add_new_add_ll.visibility = View.GONE
-            contact_add_ll.visibility = View.VISIBLE
+        //    contact_add_ll.visibility = View.VISIBLE
             contact_type = "My Number"
         }
 
@@ -1171,7 +1174,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             AddManuallyTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
 
             add_new_add_ll.visibility = View.GONE
-            contact_add_ll.visibility = View.VISIBLE
+        //    contact_add_ll.visibility = View.VISIBLE
             contact_type = "Address book"
 
         }
@@ -1182,7 +1185,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             addBookTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
             myContactTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
             add_new_add_ll.visibility = View.GONE
-            contact_add_ll.visibility = View.VISIBLE
+        //    contact_add_ll.visibility = View.VISIBLE
             contact_type = "Add Manually"
         }
 
@@ -1191,10 +1194,10 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             myContactTxt.setTextColor(getResources().getColor(R.color.hint_color_tin))
             addBookTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
             AddManuallyTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
-            ed_phone.text?.clear()
-            ed_name.text?.clear()
-            contact_name_txt.text = "Add contact no."
-            contact_name_txt!!.setTextColor(getResources().getColor(R.color.primary_color))
+         //   ed_phone.text?.clear()
+         //   ed_name.text?.clear()
+//            contact_name_txt.text = "Add contact no."
+//            contact_name_txt!!.setTextColor(getResources().getColor(R.color.primary_color))
             contact_type = ""
 //            add_new_add_ll.visibility = View.GONE
 //            contact_add_ll.visibility = View.VISIBLE
