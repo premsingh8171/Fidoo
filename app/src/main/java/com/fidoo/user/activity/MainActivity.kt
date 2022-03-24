@@ -169,7 +169,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     val itemid= bottomNavigationView.menu.findItem(R.id.homeFragment)
 
                     CoroutineScope(Dispatchers.IO).launch {
-                        delay(75)
+                        delay(70)
                         setCurrentFragment(HomeNewUiFragment())
                     }
 
@@ -221,17 +221,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         bottomNavigationView.setOnNavigationItemSelectedListener(navigasjonen)
 
-        /* bottomNavigationView.menu.findItem(R.id.SendPackageAct).setOnMenuItemClickListener {
-             startActivity(Intent(this@MainActivity, SendPackageActivity::class.java)
-                 .putExtra("where", where)
-                 .putExtra("cat_id", "")
-                 .putExtra("cat_name", "")
-             )
-             item_idno=0
-             settexttitle()
-             bottomNavigationView.menu.findItem(R.id.SendPackageAct).title=""
-             return@setOnMenuItemClickListener true
-         }*/
+
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         tempProductList = ArrayList()
@@ -681,8 +671,6 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
         if (item_idno == 0) {
-            SessionTwiclo(this).setetvalue("")
-            SessionTwiclo(this).setcatname("")
             AppUtils.finishActivityLeftToRight(this)
         } else {
             setCurrentFragment(HomeNewUiFragment())
