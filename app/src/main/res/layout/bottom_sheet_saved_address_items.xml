@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/mainLay"
-    android:background="@color/lightGray"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/lightGray">
     <LinearLayout
         android:layout_width="match_parent"
         android:padding="@dimen/margin_10"
@@ -18,8 +17,7 @@
             android:layout_gravity="center"
             android:layout_height="@dimen/margin_30dp"
             android:layout_marginStart="5dp"
-            android:src="@drawable/ic_home"
-            app:tint="@color/colorPrimary"/>
+            android:src="@drawable/ic_home"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"

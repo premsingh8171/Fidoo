@@ -105,13 +105,6 @@
         android:layout_height="1dp"
         android:layout_above="@+id/add_new_add_ll"
         android:indeterminate="true" />
-    <!--
-
-
-         // ADD ADDRESS
-
-
-                                                                            -->
 
     <LinearLayout
         android:layout_alignParentBottom="true"
@@ -142,15 +135,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <!--
 
-
-
-
-
-
-
-                                                                                                      -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/live_add"
                     app:layout_constraintTop_toTopOf="parent"
@@ -378,13 +363,14 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="17dp"
                     android:layout_marginEnd="30dp"
+                    android:letterSpacing="0"
                     android:padding="15dp"
-                    android:fontFamily="@font/proxima"
+                    android:textSize="16sp"
                     android:text="Save"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:backgroundTint="@color/colorPrimary"
-                    app:cornerRadius="25dp"
+                    app:cornerRadius="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -484,35 +470,39 @@
             android:text="Add Contact"
             android:textAllCaps="false"
             android:textColor="@color/white"
+            android:textSize="16sp"
             app:backgroundTint="@color/colorPrimary"
-            app:cornerRadius="25dp"
+            app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/defaultCheckBox" />
     </LinearLayout>
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/live_add_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_16dp"
-        android:layout_above="@id/btn_proceed">
+        android:layout_width="wrap_content"
+        android:layout_above="@id/btn_proceed"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:elevation="@dimen/dimen_50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="@dimen/margin_15dp"
+        android:layout_marginBottom="24dp"
+        android:layout_height="wrap_content">
         <androidx.appcompat.widget.AppCompatEditText
             android:padding="@dimen/margin_12dp"
             android:textColor="@color/black"
             android:drawableStart="@drawable/location"
             android:drawablePadding="@dimen/margin_10"
-            android:textStyle="italic"
             android:id="@+id/tv_Address_1"
             android:background="@color/white"
-            android:text="Address"
             android:layout_width="match_parent"
-            android:layout_marginEnd="@dimen/margin_15dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_15dp"
             android:fontFamily="@font/proxima"
             android:textSize="15sp"/>
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
     <com.google.android.material.button.MaterialButton
         android:layout_marginBottom="@dimen/margin_15dp"
         android:id="@+id/btn_proceed"
@@ -522,12 +512,13 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:padding="15dp"
-        android:fontFamily="@font/proxima"
+        android:letterSpacing="0"
+        android:textSize="16sp"
         android:text="Confirm Location"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:backgroundTint="@color/colorPrimary"
-        app:cornerRadius="25dp"
+        app:cornerRadius="10dp"
         android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

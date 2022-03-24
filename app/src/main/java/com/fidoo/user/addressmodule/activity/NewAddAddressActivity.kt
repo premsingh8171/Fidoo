@@ -978,6 +978,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                     )
                     tv_Address!!.setText(address)
                     tv_Address_1!!.setText(address)
+                    tv_Address_1.visibility = View.VISIBLE
                 } catch (e: Exception) {
                 }
 
@@ -1064,11 +1065,13 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             if (model.results.size != 0) {
                                 tv_Address.setText(model.results[0].formattedAddress)
                                 tv_Address_1.setText(model.results[0].formattedAddress)
+                                live_add_1.visibility = View.VISIBLE
                             }
                         } else {
                             var address_ = getGeoAddressFromLatLong(lat.toDouble(), lng.toDouble())
                             tv_Address.setText(address_)
                             tv_Address_1.setText(address_)
+                            live_add_1.visibility = View.VISIBLE
                         }
                         progressindicatorAdd.visibility = View.GONE
 

@@ -73,7 +73,7 @@
             android:layout_centerInParent="true"
             android:translationY="-18dp"
             android:id="@+id/markerLocation"
-            android:src="@drawable/home_locpin"/>
+            android:src="@drawable/ic_location_pin"/>
     </com.skyfishjy.library.RippleBackground>
 
     <com.mancj.materialsearchbar.MaterialSearchBar
