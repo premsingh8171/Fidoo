@@ -244,13 +244,13 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
          */
         btn_proceed.setOnClickListener {
             tv_SelectDeliveryAddress.visibility = View.GONE
-            //    add_address_frmLL.visibility = View.GONE
             live_add_1.visibility = View.GONE
             btn_proceed.visibility = View.GONE
             tv_AddAddress.visibility = View.VISIBLE
             add_new_add_ll.visibility = View.VISIBLE
             btn_continue.visibility = View.VISIBLE
-            //add_address_frmLL_One.visibility = View.VISIBLE
+            iv_mapSlider.visibility  = View.GONE
+            iv_emptyMap.visibility = View.VISIBLE
         }
 
         btn_continue.setOnClickListener {

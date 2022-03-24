@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <FrameLayout
         android:layout_margin="@dimen/margin_12dp"
         android:elevation="@dimen/dimen_5dp"
@@ -62,13 +63,24 @@
         android:textSize="16sp"
         android:textColor="@color/black"
         android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/iv_emptyMap"
+        android:src="@drawable/empty_map"
+        android:visibility="gone"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_below="@id/add_address_frmLL"
+        android:layout_above="@id/btn_proceed"
+        android:layout_height="match_parent"/>
     <LinearLayout
+        android:id="@+id/iv_mapSlider"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:weightSum="10"
+        android:visibility="visible"
         android:layout_below="@id/add_address_frmLL"
         android:layout_above="@id/btn_proceed"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:visibility="gone"
             android:id="@+id/linear_progress_indicator_map"
@@ -117,7 +129,7 @@
         android:visibility="gone"
         android:id="@+id/add_new_add_ll"
         android:layout_width="match_parent"
-        android:layout_height="430dp">
+        android:layout_height="wrap_content">
 <!--        <TextView-->
 <!--            android:fontFamily="@font/proxima"-->
 <!--            android:paddingLeft="@dimen/margin_10"-->
@@ -244,7 +256,6 @@
                     app:boxCornerRadiusTopEnd="15dp"
                     app:boxCornerRadiusTopStart="15dp"
                     app:endIconMode="clear_text"
-
                     app:errorEnabled="true"
                     android:importantForAutofill="no"
                     app:hintTextColor="@color/colorHint"
