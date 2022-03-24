@@ -137,16 +137,16 @@ class SavedAddressesActivity : BaseActivity() {
         }
 
         if (ProfileFragment.addManages.equals("add_manage")) {
+            tv_yourAddresses_New.visibility = View.GONE
             locationViewll.visibility = View.GONE
             searchAdd_cardView.visibility = View.GONE
-            addDividerLl.visibility = View.GONE
+       //     addDividerLl.visibility = View.GONE
             headingaddItxt.visibility = View.VISIBLE
             add_addressfm.visibility = View.VISIBLE
 
         } else {
             locationViewll.visibility = View.VISIBLE
             searchAdd_cardView.visibility = View.VISIBLE
-            addDividerLl.visibility = View.VISIBLE
             headingaddItxt.visibility = View.GONE
             add_addressfm.visibility = View.GONE
         }
@@ -178,7 +178,6 @@ class SavedAddressesActivity : BaseActivity() {
                     SessionTwiclo(this).userAddress = ""
 //                emptyTxt.visibility = View.VISIBLE
 //                emptyTxt.visibility = View.VISIBLE
-                    tv_SelectAddress.visibility = View.GONE
                     emptyScren_ll.visibility = View.VISIBLE
 
                 } else {
