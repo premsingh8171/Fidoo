@@ -152,6 +152,10 @@
     <string name="order_cancelled">Order Cancelled</string>
     <string name="order_cancelledtry">Hey, try to order again sometimes later!</string>
     <string name="leave_parcel_send">Leave your parcel delivery\nhassel to us!</string>
+
+
     <string name="description_for_user">We will get in touch with the merchant and make sure this does not happens again.\n\nSorry for the inconvenience.</string>
+
+
 
 </resources>

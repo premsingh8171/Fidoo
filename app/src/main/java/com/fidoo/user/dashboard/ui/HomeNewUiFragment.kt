@@ -53,7 +53,6 @@ import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.sendpackages.activity.SendPackageActivity
-import com.fidoo.user.sendpackages.activity.SendPackageOrderDetail
 import com.fidoo.user.store.activity.StoreFilterListActivity
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
@@ -63,12 +62,15 @@ import com.fidoo.user.utils.CardSliderLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
+import com.makesense.labs.curvefit.interfaces.UiThreadCallback
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_home_newui.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 @Suppress("DEPRECATION")
@@ -112,6 +114,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	): View? {
 		fragmentHomeBinding =
 			DataBindingUtil.inflate(inflater, R.layout.fragment_home_newui, container, false)
+
 
 		analytics = FirebaseAnalytics.getInstance(requireContext())
 
@@ -784,5 +787,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			payment_suc_Diolog?.dismiss()
 		}, 5000)
 	}
+
+
 
 }

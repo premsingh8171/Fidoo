@@ -318,10 +318,14 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         })
 
         back_action.setOnClickListener {
-            SessionTwiclo(this).setetvalue("")
+           /* SessionTwiclo(this).setetvalue("")
             SessionTwiclo(this).setcatname("")
             finish()
-            AppUtils.finishActivityLeftToRight(this)
+            AppUtils.finishActivityLeftToRight(this)*/
+
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("itemid","0")
+            startActivity(intent)
         }
 
         info_im.setOnClickListener {
@@ -768,6 +772,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         SessionTwiclo(this).setetvalue("")
         SessionTwiclo(this).setcatname("")
         AppUtils.finishActivityLeftToRight(this)
+
     }
 
 }

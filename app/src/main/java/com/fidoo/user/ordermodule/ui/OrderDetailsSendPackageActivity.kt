@@ -23,7 +23,19 @@ import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.CommonUtils
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
+import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.activity_order_details_sendpackages.*
+import kotlinx.android.synthetic.main.activity_order_details_sendpackages.cart_discount
+import kotlinx.android.synthetic.main.activity_order_details_sendpackages.delivery_charge
+import kotlinx.android.synthetic.main.activity_order_details_sendpackages.delivery_coupon
+import kotlinx.android.synthetic.main.activity_order_details_sendpackages.delivery_coupon_label
+import kotlinx.android.synthetic.main.activity_order_details_sendpackages.grand_price
+import kotlinx.android.synthetic.main.activity_order_details_sendpackages.grand_price2
+import kotlinx.android.synthetic.main.activity_order_details_sendpackages.gstPriceTxt
+import kotlinx.android.synthetic.main.activity_order_details_sendpackages.gstTxt
+import kotlinx.android.synthetic.main.activity_order_details_sendpackages.label_cart_discount
+import kotlinx.android.synthetic.main.activity_order_details_sendpackages.label_delivery_charge
+import kotlinx.android.synthetic.main.activity_order_details_sendpackages.sub_total
 
 @Suppress("DEPRECATION")
 class OrderDetailsSendPackageActivity : BaseActivity() {
@@ -77,6 +89,7 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
                 visible_View_ReviewOrdLl.visibility=View.VISIBLE
                 try{
                   //  order_delivered_time.text =user.deleivered_at
+                    delivery_atTxt.text ="Order Delivered by "+user.delivery_boy_name+" at "+user.deleivered_at
 
                 }catch (e:Exception){
                     e.printStackTrace()
@@ -100,12 +113,62 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
                     tv_toAddress_reviewOrd.text = user.to_address
                 }
 
+//                if (user.discount.toString() == "" || user.discount.toString() == "0") {
+//                    label_cart_discount.visibility = View.GONE
+//                    cart_discount.visibility = View.GONE
+//                } else {
+//                    cart_discount.text =
+//                        "-" + resources.getString(R.string.ruppee) + "" + user.discount
+//                    label_cart_discount.text = "Cart Discount (" + user.coupon_name + " )"
+//                }
+
+                val deliveryChargeWithTax = user.delivery_charge+ user.tax
+
+                delivery_charge.text = resources.getString(R.string.ruppee) + "" + deliveryChargeWithTax
+
+                label_delivery_charge.visibility = View.VISIBLE
+
+                if (user.coupon_name.equals("")) {
+                    delivery_coupon_label.text = "Delivery Discount"
+                } else {
+                    delivery_coupon_label.text =
+                        "Delivery Discount (" + user.coupon_name + ")"
+                }
+
+                if (user.discount.toFloat().toString() == "0.0" || user.discount.toString() == "0"
+                ) {
+                    delivery_coupon.visibility = View.GONE
+                    delivery_coupon_label.visibility = View.GONE
+                } else {
+                    delivery_coupon.visibility = View.VISIBLE
+                    delivery_coupon_label.visibility = View.VISIBLE
+                    delivery_coupon.text =
+                        "-" + resources.getString(R.string.ruppee) + "" + user.discount.toFloat()
+                }
+
+//                if (user.tax.toString()
+//                        .equals("") || user.tax.toString().equals("null")
+//                ) {
+//                    gstTxt.visibility = View.GONE
+//                    gstPriceTxt.visibility = View.GONE
+//                } else {
+//                    gstPriceTxt.text =
+//                        resources.getString(R.string.ruppee) + "" + user.tax
+//                    gstTxt.visibility = View.VISIBLE
+//                    gstPriceTxt.visibility = View.VISIBLE
+//                }
+
+                grand_price.text = resources.getString(R.string.ruppee) + "" + user.final_delivery_charge
+                sub_total.text = resources.getString(R.string.ruppee) + "" + user.final_delivery_charge
+                grand_price2.text = resources.getString(R.string.ruppee) + "" + user.final_delivery_charge
+                label_payMode1.text = "Payment Mode: "+ user.payment_mode
 
             }else{
                 visible_View_ReviewOrdLl.visibility=View.GONE
             }
+            
+            
         })
-
 
         viewmodel?.reviewResponse?.observe(this, { user ->
             CommonUtils.dismissIOSProgress()
@@ -116,13 +179,12 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
                 }
                 handleApiResponse=1
 
-                val mModelData: ReviewModel = user
-                Log.e("reviewResponse_", Gson().toJson(mModelData))
+                val user: ReviewModel = user
+                Log.e("reviewResponse_", Gson().toJson(user))
                 Toast.makeText(this, user.message, Toast.LENGTH_SHORT).show()
                 finish()
 
         })
-
 
         viewmodel?.failureResponse?.observe(this, Observer { user ->
             if (_progressDlg != null) {
@@ -216,8 +278,7 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             ""
         )
     }
-
-
+    
     override fun onBackPressed() {
         finish()
     }
