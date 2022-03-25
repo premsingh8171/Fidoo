@@ -16,6 +16,8 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -28,6 +30,7 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.android.volley.Request
 import com.android.volley.Response
@@ -59,6 +62,7 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mixpanel.android.mpmetrics.MixpanelAPI
@@ -74,7 +78,8 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         val MY_PERMISSIONS_REQUEST_CODE = 123
     }
     var onMapNoNetDiolog: Dialog? = null
-
+    private lateinit var saveBtn : Button
+    private lateinit var userAddress : TextInputEditText
     private var mMap: GoogleMap? = null
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     private var placesClient: PlacesClient? = null
@@ -122,7 +127,12 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_new_add_address)
         pref = SessionTwiclo(this)
-
+        /**
+         * ------------------------------------------------------------------------------------------------------
+         */
+        saveBtn = findViewById(R.id.btn_continue)
+        userAddress = findViewById(R.id.ed_address)
+        userAddress.addTextChangedListener(saveAddressWatcher)
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
         viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
@@ -252,7 +262,23 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             iv_mapSlider.visibility  = View.GONE
             iv_emptyMap.visibility = View.VISIBLE
         }
+        ed_address.doAfterTextChanged {
+            btn_continue.isEnabled = true
+        }
+        ed_address.addTextChangedListener(object : TextWatcher {
 
+            override fun afterTextChanged(s: Editable) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+            }
+        })
         btn_continue.setOnClickListener {
 //            if(ed_address.text.toString().length > 0){
 //                btn_continue.setBackgroundColor(Color.GREEN)
@@ -558,6 +584,22 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         viewmodel?.failureResponse?.observe(this, {
             showToast("Something is wrong, please try again")
         })
+    }
+
+    /**
+     * -------------------------------------------------------------------------------------------------------------
+     */
+
+    private val saveAddressWatcher = object : TextWatcher{
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+          val user_address = userAddress.text.toString().trim()
+            saveBtn.isEnabled = user_address.isNotEmpty()
+        }
+
+        override fun afterTextChanged(p0: Editable?) {}
+
     }
 
     private fun getLocation() {

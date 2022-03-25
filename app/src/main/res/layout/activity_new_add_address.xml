@@ -198,7 +198,7 @@
                         android:id="@+id/change_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
+                        android:layout_marginEnd="16dp"
                         android:background="@drawable/_textview_bg_rounded"
                         android:fontFamily="@font/worksans_semibold"
                         android:padding="7dp"
@@ -228,12 +228,12 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    app:boxCornerRadiusBottomEnd="15dp"
-                    app:boxCornerRadiusBottomStart="15dp"
-                    app:boxCornerRadiusTopEnd="15dp"
-                    app:boxCornerRadiusTopStart="15dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusTopStart="16dp"
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     android:importantForAutofill="no"
@@ -260,13 +260,13 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
-                    app:boxCornerRadiusBottomEnd="15dp"
-                    app:boxCornerRadiusBottomStart="15dp"
-                    app:boxCornerRadiusTopEnd="15dp"
-                    app:boxCornerRadiusTopStart="15dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusTopStart="16dp"
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     app:boxStrokeColor="@color/backGround_et"
@@ -298,8 +298,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view">
                         <androidx.appcompat.widget.AppCompatRadioButton
-                            android:paddingLeft="@dimen/margin_20dp"
-                            android:paddingRight="@dimen/margin_20dp"
+
                             android:layout_marginRight="@dimen/margin_10"
                             android:id="@+id/homeRadioBtn"
                             android:layout_width="wrap_content"
@@ -315,8 +314,7 @@
                             android:text="Home" />
 
                         <androidx.appcompat.widget.AppCompatRadioButton
-                            android:paddingLeft="@dimen/margin_20dp"
-                            android:paddingRight="@dimen/margin_20dp"
+
                             android:id="@+id/officeRadioBtn"
                             android:layout_width="wrap_content"
                             android:padding="6dp"
@@ -330,8 +328,6 @@
                             android:gravity="center"
                             android:text="Office" />
                         <androidx.appcompat.widget.AppCompatRadioButton
-                            android:paddingLeft="@dimen/margin_20dp"
-                            android:paddingRight="@dimen/margin_20dp"
                             android:id="@+id/otherRadioBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="34dp"
@@ -370,26 +366,51 @@
 <!--                    android:textColor="@color/primary_color"-->
 <!--                    android:layout_height="25dp"-->
 <!--                    android:text="Add contact no." />-->
-
-                <com.google.android.material.button.MaterialButton
-                    android:layout_marginBottom="@dimen/margin_20dp"
-                    android:id="@+id/btn_continue"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="17dp"
-                    android:layout_marginEnd="10dp"
-                    android:letterSpacing="0"
-                    android:padding="15dp"
-                    android:textSize="16sp"
-                    android:text="Save"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    app:backgroundTint="@color/primary_color"
-                    app:cornerRadius="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    android:layout_height="wrap_content">
+<!--                    <com.google.android.material.button.MaterialButton-->
+<!--                        android:layout_marginBottom="@dimen/margin_20dp"-->
+<!--                        android:id="@+id/btn_grey"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginTop="17dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:letterSpacing="0"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:padding="15dp"-->
+<!--                        android:textSize="16sp"-->
+<!--                        android:text="Save"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        app:backgroundTint="@color/primary_color"-->
+<!--                        app:cornerRadius="10dp"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"/>-->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_continue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="17dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="@dimen/margin_20dp"
+                        android:enabled="false"
+                        android:letterSpacing="0"
+                        android:padding="15dp"
+                        android:text="Save"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+
+                        app:cornerRadius="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </RelativeLayout>
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
@@ -519,23 +540,24 @@
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
+
         android:id="@+id/btn_proceed"
-        android:text="Confirm Location"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="@dimen/margin_15dp"
         android:letterSpacing="0"
         android:padding="15dp"
+        android:text="Confirm Location"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:backgroundTint="@color/colorPrimary"
         app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </RelativeLayout>
