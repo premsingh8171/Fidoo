@@ -111,6 +111,7 @@ class CartActivity : BaseActivity(),
 	CustomCartPlusMinusClick,
 	AdapterCustomRadioClick, PaymentResultListener, PaymentResultWithDataListener {
 
+	var userAddressList : Int = 0
 	var viewmodel: CartViewModel? = null
 	var totalAmount: Double = 0.0
 	var storeViewModel: StoreDetailsViewModel? = null
@@ -483,6 +484,22 @@ class CartActivity : BaseActivity(),
 //				)
 //			}
 			showDialogBottom()
+		}
+		/**
+		 * ------------------------------------------------------------------------------------------
+		 */
+		if (userAddressList > 0){
+			cart_payment_lay.visibility = View.GONE
+			cart_payment_lay_One.visibility = View.VISIBLE
+			showDialogBottom()
+		}
+		if (userAddressList == 0){
+			cart_payment_lay.visibility = View.GONE
+			cart_payment_lay_One.visibility = View.VISIBLE
+			cart_payment_lay_One.setOnClickListener {
+				val intent = Intent(this@CartActivity, SavedAddressesActivity::class.java)
+				startActivity(intent)
+			}
 		}
 
 		cart_payment_lay.setOnClickListener {
@@ -904,7 +921,9 @@ class CartActivity : BaseActivity(),
 					val rounded = finalPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 					tv_grand_total.text =
 						resources.getString(R.string.ruppee) + rounded.toString()
-
+					/**
+					 *  ---------------------------------------------------------------------------------------------
+					 */
 					tv_place_order.text = "Pay " + resources.getString(R.string.ruppee) + rounded.toString()
 
 					Log.e("Bottom Price", tv_place_order.text.toString())
@@ -1268,7 +1287,10 @@ class CartActivity : BaseActivity(),
 		addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
 			Log.e("addresses_response", Gson().toJson(user))
 			if (!user.addressList.isNullOrEmpty()) {
-				bottomSheetAddress?.visibility = View.VISIBLE
+//				cart_payment_lay_One.setOnClickListener {
+//					showDialogBottom()
+//					cart_payment_lay_One.visibility = View.GONE
+//				}
 				val adapter = AddressesAdapterBottom(
 					this@CartActivity, user.addressList,
 					object : AddressesAdapterBottom.SetOnDeteleAddListener {
@@ -1314,12 +1336,16 @@ class CartActivity : BaseActivity(),
 				rvManageAddress?.layoutManager = GridLayoutManager(this@CartActivity, 1)
 				rvManageAddress?.setHasFixedSize(true)
 				rvManageAddress?.adapter = adapter
+				userAddressList = user.addressList.size
 			}
 		})
 		val manager = this@CartActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
 		//Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()
 			lvCheckLocation?.visibility = View.GONE
+//		cart_payment_lay.visibility = View.GONE
+//		cart_payment_lay_One.visibility = View.VISIBLE
+		bottomSheetAddress?.visibility = View.VISIBLE
 		dialog?.show()
 		dialog?.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,

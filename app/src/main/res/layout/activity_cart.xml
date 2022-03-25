@@ -154,8 +154,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/lightGray"
                 android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@+id/store_header_ll"
-                tools:layout_editor_absoluteX="4dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/store_header_ll" />
 
             <RelativeLayout
                 android:id="@+id/store_instructionRl"
@@ -683,8 +683,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dimen_5dp"
                     android:layout_marginTop="@dimen/margin_10"
-                    android:layout_marginBottom="@dimen/dimen_50dp"
                     android:layout_marginRight="@dimen/margin_5dp"
+                    android:layout_marginBottom="@dimen/dimen_50dp"
                     android:background="@drawable/rectangle_border"
                     android:backgroundTint="@color/input_fieldcolor"
                     android:fontFamily="@font/proxima"
@@ -695,7 +695,11 @@
                     android:textSize="@dimen/margin_12dp" />
 
             </RelativeLayout>
+<!--
 
+            MARK VISIBILITY
+
+-->
             <FrameLayout
                 android:id="@+id/chargesFmBg"
                 android:layout_width="match_parent"
@@ -1047,31 +1051,57 @@
             </LinearLayout>
 
         </LinearLayout>
+<!--
 
-        <LinearLayout
-            android:id="@+id/cart_payment_lay"
+
+         PAYMENT
+
+
+
+-->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent">
-
-            <TextView
-                android:id="@+id/tv_place_order"
+            <LinearLayout
+                android:id="@+id/cart_payment_lay"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50dp"
-                android:layout_gravity="center"
-                android:background="@drawable/corner_radius_green"
-                android:fontFamily="@font/proxima"
-                android:paddingVertical="15dp"
-                android:text="Place Order | 00"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                app:layout_constraintLeft_toLeftOf="parent" />
-        </LinearLayout>
-
-
+                android:visibility="gone"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_place_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/corner_radius_green"
+                    android:fontFamily="@font/proxima"
+                    android:paddingVertical="15dp"
+                    android:visibility="visible"
+                    android:text="Place Order | 00"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cart_payment_lay_One"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/corner_radius_green"
+                    android:fontFamily="@font/proxima"
+                    android:paddingVertical="15dp"
+                    android:text="Select Address"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+            </LinearLayout>
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
