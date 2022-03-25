@@ -334,23 +334,23 @@ class CartActivity : BaseActivity(),
 		/**
 		 * ****************************************************************************************************************************************
 		 */
-		if (userAddressList == 0){
-			cart_payment_lay.visibility = View.GONE
-			cart_payment_lay_One.visibility = View.VISIBLE
-			cart_payment_lay_One.setOnClickListener {
-				startActivityForResult(
-					Intent(this, SavedAddressesActivity::class.java)
-						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
-				)
-				val toast = Toast.makeText(this, "$userAddressList", Toast.LENGTH_LONG)
-				toast.show()
-			}
-		}
-		else if (userAddressList > 0){
-			cart_payment_lay.visibility = View.GONE
-			cart_payment_lay_One.visibility = View.VISIBLE
-			showDialogBottom()
-		}
+//		if (userAddressList == 0){
+//			cart_payment_lay.visibility = View.GONE
+//			cart_payment_lay_One.visibility = View.VISIBLE
+//			cart_payment_lay_One.setOnClickListener {
+//				startActivityForResult(
+//					Intent(this, SavedAddressesActivity::class.java)
+//						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
+//				)
+//				val toast = Toast.makeText(this, "$userAddressList", Toast.LENGTH_LONG)
+//				toast.show()
+//			}
+//		}
+//		else if (userAddressList > 0){
+//			cart_payment_lay.visibility = View.GONE
+//			cart_payment_lay_One.visibility = View.VISIBLE
+//			showDialogBottom()
+//		}
 
 		chargesFmBg.setOnClickListener {
 			chargesFmBgbottom.visibility = View.GONE

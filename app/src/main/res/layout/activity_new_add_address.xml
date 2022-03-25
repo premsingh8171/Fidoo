@@ -118,7 +118,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/feedback_bg"
         android:orientation="vertical"
-
+        android:visibility="gone"
         android:id="@+id/add_new_add_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
