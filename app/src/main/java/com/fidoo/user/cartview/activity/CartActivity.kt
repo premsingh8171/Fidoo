@@ -331,6 +331,27 @@ class CartActivity : BaseActivity(),
 			chargesFmBgbottom.visibility = View.VISIBLE
 		}
 
+		/**
+		 * ****************************************************************************************************************************************
+		 */
+		if (userAddressList == 0){
+			cart_payment_lay.visibility = View.GONE
+			cart_payment_lay_One.visibility = View.VISIBLE
+			cart_payment_lay_One.setOnClickListener {
+				startActivityForResult(
+					Intent(this, SavedAddressesActivity::class.java)
+						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
+				)
+				val toast = Toast.makeText(this, "$userAddressList", Toast.LENGTH_LONG)
+				toast.show()
+			}
+		}
+		else if (userAddressList > 0){
+			cart_payment_lay.visibility = View.GONE
+			cart_payment_lay_One.visibility = View.VISIBLE
+			showDialogBottom()
+		}
+
 		chargesFmBg.setOnClickListener {
 			chargesFmBgbottom.visibility = View.GONE
 			chargesFm.visibility = View.GONE
@@ -485,24 +506,8 @@ class CartActivity : BaseActivity(),
 //			}
 			showDialogBottom()
 		}
-		/**
-		 * ****************************************************************************************************************************************************************
-		 */
-		if (userAddressList > 0){
-			cart_payment_lay.visibility = View.GONE
-			cart_payment_lay_One.visibility = View.VISIBLE
-			showDialogBottom()
-		}
-		if (userAddressList == 0){
-			cart_payment_lay.visibility = View.GONE
-			cart_payment_lay_One.visibility = View.VISIBLE
-			cart_payment_lay_One.setOnClickListener {
-				startActivityForResult(
-					Intent(this, SavedAddressesActivity::class.java)
-						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
-				)
-			}
-		}
+
+
 
 		cart_payment_lay.setOnClickListener {
 			if (!isNetworkConnected) {
@@ -1355,7 +1360,13 @@ class CartActivity : BaseActivity(),
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)
+
 	}
+
+	/**
+	 * ****************************************************************************************************************************************************************
+	 */
+
 
 	private fun restHomePage() {
 		deleteRoomDataBase()
