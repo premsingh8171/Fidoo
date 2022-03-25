@@ -60,6 +60,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/proxima"
                     android:gravity="end"
+                    android:textStyle="bold"
                     android:text="View all"
                     android:textColor="@color/primary_color"
                     android:textSize="@dimen/text_size_14sp" />

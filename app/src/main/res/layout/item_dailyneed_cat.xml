@@ -40,15 +40,16 @@
                 <!-- android:background="@drawable/bottom_gradient_cat"-->
 
                 <RelativeLayout
+                    android:background="@drawable/shopby_cat"
                     android:id="@+id/dailyNeedBgImg"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:scaleType="fitXY"
                         android:id="@+id/bg_img"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY" />
 
                     <TextView
                         android:id="@+id/dailyNeedItem_Txt"
@@ -56,6 +57,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:padding="@dimen/dimen_8dp"
+                        android:textStyle="bold"
                         android:text="@string/todo"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen_13dp" />

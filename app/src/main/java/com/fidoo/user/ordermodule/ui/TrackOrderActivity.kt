@@ -725,7 +725,9 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
                 tv_order_id.text = it.orderId
                 total_item_text.text = it.item_count + " Items, ₹ " + it.totalPrice.toString()
-                store_name_txt_info.text = it.storeName
+               // store_name_txt_info.text = it.storeName
+
+                //status_store_txt
                 store_phone = it.store_phone
                 rider_phone = it.delivery_boy_phone
 
@@ -767,7 +769,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         it.orderStatus.equals("1") -> {
                             // holder.buttonValue.visibility = View.VISIBLE
                             // holder.buttonValue.visibility = View.GONE
-                            status_store_txt.text = "has received your order"
+                            status_store_txt.text = it.storeName+" has received your order"
                            // order_status.text = "Please wait while we confirm your order"
                             order_status.text = "Waiting for merchant to accept the order"
                             tv_delivery_boy_call.visibility = View.GONE
@@ -832,7 +834,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         }
 
                         it.orderStatus.equals("11") -> {
-                            status_store_txt.text = "is preparing your order"
+                            status_store_txt.text =it.storeName+ " is preparing your order"
                             order_status.text = "Your order is being prepared"
                             //tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
                             tv_delivery_boy.text =
@@ -850,7 +852,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         it.orderStatus.equals("5") -> {
                             //  holder.buttonValue.visibility = View.VISIBLE
                             //holder.buttonValue.visibility = View.GONE
-                            status_store_txt.text = "is preparing your order"
+                            status_store_txt.text =it.storeName +" is preparing your order"
                             order_status.text = "Order is in progress"
                             cancelBtn.visibility = View.GONE
                             tv_delivery_boy_call.visibility = View.VISIBLE
@@ -879,7 +881,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 
                         it.orderStatus.equals("7") -> {
                             //holder.buttonValue.visibility = View.VISIBLE
-                            status_store_txt.text = "is preparing your order"
+                            status_store_txt.text =it.storeName+ " is preparing your order"
                             order_status.text = it.storeName + " has accepted your order"
                             tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
                             order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
@@ -898,7 +900,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                                 it.deliveryBoyName
                             )
 //                            tv_delivery_boy.text =  "Your Order is ready and will soon be picked up by " + it.deliveryBoyName
-                            status_store_txt.text = "has prepared your order"
+                            status_store_txt.text =it.storeName+ " has prepared your order"
                             order_status.text =
                                 "Your order is ready and will soon be picked up by " + it.deliveryBoyName
                             tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
@@ -995,7 +997,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                                 it.deliveryBoyName + " is on the way to pick your order"
                             order_status.text =
                                 it.deliveryBoyName + " is on the way to pick your order from " + it.storeName
-                            status_store_txt.text = "is preparing your order"
+                            status_store_txt.text =it.storeName+ " is preparing your order"
                             driver_cardView.visibility = View.VISIBLE
                             tv_delivery_boy_call.visibility = View.VISIBLE
                             tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
@@ -1017,7 +1019,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             //	order_status.text = "It's ready. Just packing it."
                             order_status.text =
                                 it.deliveryBoyName + " has reached at " + it.storeName
-                            status_store_txt.text = "is preparing your order"
+                            status_store_txt.text =it.storeName+ " is preparing your order"
                             tv_delivery_boy.text =
                                 it.deliveryBoyName + " has reached at " + it.storeName
                             driver_cardView.visibility = View.VISIBLE

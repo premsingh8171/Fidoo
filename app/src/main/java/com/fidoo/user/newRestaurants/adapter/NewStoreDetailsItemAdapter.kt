@@ -2,6 +2,7 @@ package com.fidoo.user.newRestaurants.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -105,6 +106,7 @@ class NewStoreDetailsItemAdapter(
 		} else {
 		//	holder.itemView.progressRlPrd.visibility = View.GONE
 			if (subcategory.size - 1 == position) {
+
 				holder.itemView.fssaitxt.text = fssai
 				holder.itemView.restaurant_nametxt.text = restaurantName
 				holder.itemView.restaurant_addtxt.text = restaurantAddress
