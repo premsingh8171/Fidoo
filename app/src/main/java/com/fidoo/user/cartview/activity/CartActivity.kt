@@ -479,14 +479,14 @@ class CartActivity : BaseActivity(),
 //				showToast(resources.getString(R.string.provide_internet))
 //			} else {
 //				startActivity(
-//					//Intent(this, SavedAddressesActivity::class.java).putExtra("type", "order")
+//					Intent(this, SavedAddressesActivity::class.java).putExtra("type", "order")
 //
 //				)
 //			}
 			showDialogBottom()
 		}
 		/**
-		 * ------------------------------------------------------------------------------------------
+		 * ****************************************************************************************************************************************************************
 		 */
 		if (userAddressList > 0){
 			cart_payment_lay.visibility = View.GONE
@@ -497,8 +497,10 @@ class CartActivity : BaseActivity(),
 			cart_payment_lay.visibility = View.GONE
 			cart_payment_lay_One.visibility = View.VISIBLE
 			cart_payment_lay_One.setOnClickListener {
-				val intent = Intent(this@CartActivity, SavedAddressesActivity::class.java)
-				startActivity(intent)
+				startActivityForResult(
+					Intent(this, SavedAddressesActivity::class.java)
+						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
+				)
 			}
 		}
 
@@ -1260,7 +1262,7 @@ class CartActivity : BaseActivity(),
 
 
 	/**
-	 * ****************************************************************************************************
+	 * ******************************************************************************************************************************************************************
 	 */
 	private fun showDialogBottom() {
 		dialog = this@CartActivity.let { Dialog(it) }
