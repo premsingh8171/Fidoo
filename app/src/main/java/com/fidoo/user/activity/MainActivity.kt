@@ -169,7 +169,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     val itemid= bottomNavigationView.menu.findItem(R.id.homeFragment)
 
                     CoroutineScope(Dispatchers.IO).launch {
-                        delay(70)
+                        delay(90)
                         setCurrentFragment(HomeNewUiFragment())
                     }
 
@@ -686,14 +686,15 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         if (gac != null) {
             gac!!.connect()
         }
+
+
+        super.onStart()
         if (item_idno==0){
             setCurrentFragment(HomeNewUiFragment())
             settexttitle()
             val home_item = bottomNavigationView.menu.findItem(R.id.homeFragment)
             home_item.setChecked(true)
         }
-
-        super.onStart()
 
 
 
