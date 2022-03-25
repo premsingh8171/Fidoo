@@ -48,6 +48,7 @@
     android:layout_alignParentStart="true"
     android:id="@+id/letsBegin_fml1"
     android:background="@color/transparent"
+    android:visibility="invisible"
     android:layout_alignParentBottom="true"
     android:layout_centerVertical="true"
     android:layout_marginBottom="60dp"
@@ -58,7 +59,7 @@
                 android:layout_height="16dp"
                 android:layout_marginRight="@dimen/margin_30dp"
                 android:background="@drawable/ic_vector"
-                android:visibility="visible">
+              >
             </FrameLayout>
 </LinearLayout>
 
