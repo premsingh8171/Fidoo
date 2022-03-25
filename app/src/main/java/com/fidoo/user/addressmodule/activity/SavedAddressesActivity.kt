@@ -140,13 +140,16 @@ class SavedAddressesActivity : BaseActivity() {
             tv_yourAddresses_New.visibility = View.GONE
             locationViewll.visibility = View.GONE
             searchAdd_cardView.visibility = View.GONE
-       //     addDividerLl.visibility = View.GONE
+            addDividerLl.visibility = View.GONE
             headingaddItxt.visibility = View.VISIBLE
             add_addressfm.visibility = View.VISIBLE
 
         } else {
             locationViewll.visibility = View.VISIBLE
             searchAdd_cardView.visibility = View.VISIBLE
+            searchAdd_cardView.setOnClickListener {
+                tv_yourAddresses_New.visibility = View.GONE
+            }
             headingaddItxt.visibility = View.GONE
             add_addressfm.visibility = View.GONE
         }
@@ -276,8 +279,10 @@ class SavedAddressesActivity : BaseActivity() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
+                tv_yourAddresses_New.visibility = View.GONE
                 search_value = s.toString()
                 if (search_value!!.length > 0) {
+                    tv_yourAddresses_New.visibility = View.GONE
                     emptyScren_ll.visibility = View.GONE
                     addressesRecyclerView.visibility = View.GONE
                     search_iconImg.visibility = View.GONE
@@ -286,6 +291,7 @@ class SavedAddressesActivity : BaseActivity() {
                     searchAdd(search_value!!, token)
                 } else {
                     search_add_rv.visibility = View.GONE
+                    tv_yourAddresses_New.visibility = View.VISIBLE
                     clear_searchImg.visibility = View.GONE
                     search_iconImg.visibility = View.VISIBLE
                     addressesRecyclerView.visibility = View.VISIBLE
