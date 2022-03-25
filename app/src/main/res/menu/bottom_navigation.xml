@@ -8,13 +8,13 @@
     <item
         android:id="@+id/SendPackageAct"
         android:title="Express"
-        
         android:icon="@drawable/ic_searchnew_"/>
 
     <item
         android:id="@+id/searchFragment"
         android:title="Search"
         android:icon="@drawable/ic_spnew_"
+
         />
 
     <item
