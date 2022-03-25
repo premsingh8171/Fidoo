@@ -90,7 +90,8 @@ class AddressesAdapter(
         when {
             addressList[position].addressType == "1" -> {
                 if (addressList[position].is_default == "1") {
-                    holder.storeName.text = "Home (Default)"
+                //    holder.storeName.text = "Home (Default)"
+                    holder.storeName.text = "Home"
                 } else {
                     holder.storeName.text = "Home"
                 }
@@ -98,7 +99,8 @@ class AddressesAdapter(
             }
             addressList[position].addressType.equals("2") -> {
                 if (addressList[position].is_default.equals("1")) {
-                    holder.storeName.text = "Office (Default)"
+                 //   holder.storeName.text = "Office (Default)"
+                    holder.storeName.text = "Office"
                 } else {
                     holder.storeName.text = "Office"
                 }
@@ -108,7 +110,8 @@ class AddressesAdapter(
 
             else -> {
                 if (addressList[position].is_default.equals("1")) {
-                    holder.storeName.text = "Other (Default)"
+               //     holder.storeName.text = "Other (Default)"
+                    holder.storeName.text = "Other"
                 } else {
                     holder.storeName.text = "Other"
                 }

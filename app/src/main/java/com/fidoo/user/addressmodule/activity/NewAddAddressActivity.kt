@@ -254,6 +254,9 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         }
 
         btn_continue.setOnClickListener {
+//            if(ed_address.text.toString().length > 0){
+//                btn_continue.setBackgroundColor(Color.GREEN)
+//            }
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
             } else {
@@ -268,9 +271,8 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                     if (SavedAddressesActivity.addAddressOrNot.equals("new_add")) {
                         if (ed_address.text.toString().equals("")) {
                             showToast("Please enter your house number")
-                        } else if (ed_landmark.text.toString().equals("")) {
-                            showToast("Please enter your landmark")
                         }
+
                         /*else if (ed_landmark.text.toString().equals("")) {
                             showToast("Please enter your landmark")
                         }*/
