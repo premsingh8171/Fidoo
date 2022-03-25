@@ -93,6 +93,7 @@ class SliderScreenActivity : BaseActivity() {
 
             } else {
                 finish()
+                overridePendingTransition(0, 0)
                 AppUtils.startActivityRightToLeft(this, Intent(this,AuthActivity::class.java))
               //  goForVerificationScreen(AuthActivity::class.java,"","","","")
 
@@ -100,6 +101,7 @@ class SliderScreenActivity : BaseActivity() {
         }
         skip1.setOnClickListener{
             finish()
+            overridePendingTransition(0, 0)
             AppUtils.startActivityRightToLeft(this, Intent(this,AuthActivity::class.java))
         }
 
