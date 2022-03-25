@@ -1,53 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:background="#359C47"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_ellipse_229" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="10">
+        android:id="@+id/linearlayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:background="@color/welcome_screen_bg">
+        <TextView
+            android:fontFamily="@font/proximanovaextrabold"
+            android:id="@+id/wlcometext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Flat Discounts"
+            android:textColor="#FFFFFF"
+            android:textSize="36dp"
+            />
 
-            <ImageView
-                android:layout_width="400dp"
-                android:layout_height="300dp"
-                android:layout_weight="4"
-                android:background="@drawable/screen_2"
-                android:contentDescription="@string/todo"
-                android:scaleType="center" />
-        </LinearLayout>
+        <TextView
+            android:fontFamily="@font/proximanovaextrabold"
+            android:id="@+id/wlcometext3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/wlcometext"
+            android:alpha="0.5"
+            android:text="AF! (As Floor)"
+            android:textColor="#FFFFFF"
+            android:textSize="36dp"
+            />
 
+        <TextView
+            android:fontFamily="@font/proximanovasemibold"
+            android:id="@+id/welcometext2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/wlcometext3"
+            android:alpha="0.5"
+            android:lineHeight="20dp"
+            android:text="No upto word in our dictionary"
+            android:textColor="#FFFFFF" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:background="@color/white">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:fontFamily="@font/proxima"
-                android:gravity="center_horizontal"
-                android:lineSpacingExtra="@dimen/dimen_7dp"
-                android:padding="@dimen/margin_27dp"
-                android:text="@string/for_screen_2"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_16sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
     </LinearLayout>
+    <RelativeLayout
+        android:layout_below="@id/linearlayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/backgroundcloud" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="100dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/welcomescreen2" />
 
 
+    </RelativeLayout>
 </RelativeLayout>
+
+

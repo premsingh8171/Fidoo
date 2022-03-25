@@ -235,6 +235,10 @@ class SendPackagesAddItem : BaseActivity() {
                         Toast.makeText(this, "Please select restriction", Toast.LENGTH_SHORT)
                     toast.show()
                 }
+            }else{
+                val toast =
+                    Toast.makeText(this, "Please enter all details", Toast.LENGTH_SHORT)
+                toast.show()
             }
         }
 

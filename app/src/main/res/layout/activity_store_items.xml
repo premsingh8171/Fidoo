@@ -248,11 +248,10 @@
             android:layout_height="@dimen/margin_150dp"
             android:background="@color/lightGray"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/margin_10"
-            android:paddingRight="@dimen/margin_10"
             android:visibility="visible">
 
             <TextView
+                android:paddingLeft="@dimen/margin_10"
                 android:id="@+id/store_nameTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -267,6 +266,8 @@
                 android:textStyle="bold" />
 
             <RelativeLayout
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
                 android:id="@+id/addLabelRl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -307,6 +308,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:paddingRight="@dimen/margin_10"
                 android:id="@+id/distance_viewll_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -339,6 +341,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:paddingLeft="@dimen/margin_10"
                 android:id="@+id/timelL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -371,27 +374,29 @@
             </LinearLayout>
 
             <LinearLayout
-                android:background="@color/colorGray"
-                android:layout_marginTop="@dimen/margin_10"
                 android:id="@+id/coupan_view_ll"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_30dp"
                 android:layout_below="@+id/timelL"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@color/colorGray"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
                 <ImageView
-                    android:paddingBottom="@dimen/margin_2dp"
-                    android:paddingTop="@dimen/margin_2dp"
+                    android:layout_marginStart="@dimen/margin_10"
                     android:layout_width="@dimen/margin_24dp"
                     android:layout_height="@dimen/margin_24dp"
                     android:layout_below="@id/tv_location"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="8dp"
+                    android:paddingTop="@dimen/margin_2dp"
+                    android:paddingBottom="@dimen/margin_2dp"
                     android:src="@drawable/offer_icon"
                     tools:ignore="UseAppTint" />
 
                 <TextView
+                    android:paddingRight="@dimen/margin_10"
                     android:id="@+id/tv_coupon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -399,9 +404,9 @@
                     android:layout_marginEnd="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
-                    android:textStyle="bold"
                     android:textColor="@color/primary_color"
-                    android:textSize="@dimen/dimen_14dp" />
+                    android:textSize="@dimen/dimen_14dp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </RelativeLayout>
