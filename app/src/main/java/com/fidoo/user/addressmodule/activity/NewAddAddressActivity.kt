@@ -400,10 +400,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                         if (ed_address.text.toString().equals("")) {
                             showToast("Please enter your house number")
 
-                        } else if (ed_landmark.text.toString().equals("")) {
-                            showToast("Please enter your landmark")
-
                         }
+//                        else if (ed_landmark.text.toString().equals("")) {
+//                            showToast("Please enter your landmark")
+//
+//                        }
 //                        //updated by shobha
 //                        else if (ed_name.text.toString().equals("")) {
 //                            showToast("Please add contact details")
