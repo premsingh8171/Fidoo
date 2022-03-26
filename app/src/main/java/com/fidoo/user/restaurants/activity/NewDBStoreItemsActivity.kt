@@ -223,7 +223,6 @@ class NewDBStoreItemsActivity :
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
         distanceViewModel = ViewModelProvider(this).get(TrackViewModel::class.java)
         behavior = BottomSheetBehavior.from(bottom_sheet)
-
         tempProductList = ArrayList()
         addCartTempList = ArrayList()
         customIdsList = ArrayList()

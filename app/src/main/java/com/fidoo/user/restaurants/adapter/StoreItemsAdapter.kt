@@ -79,11 +79,21 @@ class StoreItemsAdapter(
                 con.resources.getString(R.string.ruppee) + "" + index.offerPrice
             holder.priceTxt.visibility=View.VISIBLE
         } else {
-            holder.offerPrice.text =
-                con.resources.getString(R.string.ruppee) + "" + index.offerPrice
-            holder.priceTxt.visibility=View.INVISIBLE
+            if(index.offerPrice!!< 0.toString()){
+                holder.offerPrice.text =
+                    con.resources.getString(R.string.ruppee) + 0
+            }else{
+                holder.offerPrice.text =
+                    con.resources.getString(R.string.ruppee) + index.offerPrice!!
+            }
+
+//            holder.offerPrice.text =
+//                con.resources.getString(R.string.ruppee) + "" + index.offerPrice
+//            holder.priceTxt.visibility=View.INVISIBLE
 
         }
+
+
 //        }catch (e:Exception){
 //            e.printStackTrace()
 //        }

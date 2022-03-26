@@ -40,16 +40,22 @@ class OrdersAdapter(
             context?.resources?.getString(R.string.ruppee) + orders.get(position).totalPrice
 
         if (orders[position].serviceTypeId == "4") {
-            holder.storeName.text = context?.getString(R.string.send_package)
-            holder.locText.text = orders[position].fromAddress
+          //  holder.storeName.text = context?.getString(R.string.send_package)
+            holder.storeName.text = orders[position].deliverCatName
+           // holder.locText.text = orders[position].fromAddress
+            holder.locText.text = orders[position].toAddress
             holder.locToText.text = orders[position].toAddress
-            holder.locToText.visibility = View.VISIBLE
             holder.too.visibility = View.VISIBLE
             holder.storeImg.visibility = View.VISIBLE
             holder.buttonValue.visibility = View.VISIBLE
             holder.buttonValue.text = context?.getString(R.string.track_order)
             holder.loc_icon.visibility = View.GONE
+            holder.too.visibility = View.GONE
+            holder.locToText.visibility = View.GONE
             holder.itemView.itemListTxt.text = orders[position].package_item_name
+            holder.itemView.itemListTxt.visibility = View.VISIBLE
+            holder.itemView.Itemlabeltxt.visibility = View.VISIBLE
+
             Glide.with(context!!)
                 .load(R.drawable.send_pac_)
                 .fitCenter()
@@ -63,12 +69,14 @@ class OrdersAdapter(
             holder.buttonValue.visibility = View.VISIBLE
             holder.loc_icon.visibility = View.GONE
             holder.storeName.text = orders[position].storeName
+
             Glide.with(context!!)
                 .load(orders[position].storeImage)
                 .fitCenter()
                 .placeholder(R.drawable.default_store)
                 .error(R.drawable.default_store)
                 .into(holder.storeImg)
+
         }
 
         try {

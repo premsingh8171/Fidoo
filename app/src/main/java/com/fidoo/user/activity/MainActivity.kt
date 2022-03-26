@@ -161,6 +161,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         // setCurrentFragment(HomeNewUiFragment())
 
 
+
         val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.homeFragment -> {

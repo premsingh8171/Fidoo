@@ -61,6 +61,7 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
 
         if (intent.getStringExtra("orderId")!=null){
             orderId=intent.getStringExtra("orderId")
+            sendPackageOrdTxt.text="Order: #"+orderId
         }
 
         onClick()
@@ -89,7 +90,12 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
                 visible_View_ReviewOrdLl.visibility=View.VISIBLE
                 try{
                   //  order_delivered_time.text =user.deleivered_at
-                    delivery_atTxt.text ="Order Delivered by "+user.delivery_boy_name+" at "+user.deleivered_at
+                      if (user.delivery_boy_name.isNotEmpty()) {
+                          delivery_atTxt.text =
+                              "Order Delivered by " + user.delivery_boy_name + " at " + user.deleivered_at
+                      }else{
+                          delivery_atTxt.text=""
+                      }
 
                 }catch (e:Exception){
                     e.printStackTrace()
