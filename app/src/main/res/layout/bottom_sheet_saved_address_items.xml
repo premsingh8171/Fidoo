@@ -42,7 +42,6 @@
                     android:layout_marginTop="1dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:maxLines="2"
                     android:fontFamily="@font/metropolis_medium"
                     android:textSize="14sp"
                     android:text="Teekli Rd, Sector 68, Gurugram"/>
