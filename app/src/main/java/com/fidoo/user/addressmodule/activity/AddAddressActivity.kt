@@ -1,5 +1,4 @@
 //package com.fidoo.user.addressmodule.activity
-//
 //import android.Manifest
 //import android.app.AlertDialog
 //import android.content.DialogInterface
