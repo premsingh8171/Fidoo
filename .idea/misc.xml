@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/bottom_background.xml" value="0.240625" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/dotted_vertical_line.xml" value="0.240625" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/menu_bar_bg.xml" value="0.240625" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_login.xml" value="0.16259057971014493" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_main.xml" value="0.255786350148368" />
@@ -12,6 +13,7 @@
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_review_order.xml" value="0.1598731884057971" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.25" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_store_list.xml" value="0.33" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_track_order.xml" value="0.22" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/grocery_cat_item_layout.xml" value="0.1526268115942029" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/orders_adapter.xml" value="0.33" />
       </map>

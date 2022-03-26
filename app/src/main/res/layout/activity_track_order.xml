@@ -181,7 +181,7 @@
                 android:background="@drawable/feedback_bg"
                 android:orientation="vertical"
                 app:behavior_hideable="false"
-                app:behavior_peekHeight="1250dp"
+                app:behavior_peekHeight="250dp"
                 app:layout_behavior="@string/bottom_sheet_behavior">
 
                 <LinearLayout
@@ -575,7 +575,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_below="@id/tv_we_will_assign_delivery_partner_soon"
-                                        android:layout_marginTop="35dp"
+                                        android:layout_marginTop="40dp"
                                         android:fontFamily="@font/proxima"
                                         android:text="Delivery partner en route to pickup" />
 
@@ -593,7 +593,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_below="@+id/tv_order_picked_details"
-                                        android:layout_marginTop="38dp"
+                                        android:layout_marginTop="@dimen/margin_40dp"
                                         android:fontFamily="@font/proxima"
                                         android:text="Delivery partner en route to deliver" />
 

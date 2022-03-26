@@ -2099,6 +2099,7 @@ class NewDBStoreItemsActivity :
         storeIDCheckOnCart = storeID
 
         var str = intent.getStringExtra("cuisine_types")
+
         if (str!!.endsWith(",")) {
             var sb = StringBuffer(str)
             sb.deleteCharAt(sb.length - 1)
@@ -2110,6 +2111,7 @@ class NewDBStoreItemsActivity :
         tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
 
         tv_distance.text = intent.getStringExtra("distance") + "km"
+
         if (!intent.getStringExtra("coupon_desc").equals("")) {
             // tv_coupon.text = intent.getStringExtra("coupon_desc")
             coupan_view_ll.visibility = View.VISIBLE
@@ -2119,6 +2121,7 @@ class NewDBStoreItemsActivity :
 
         Log.d("OnRESUME___", "RESUME"+intent.getStringExtra("delivery_time"))
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
         if (handleresponce == 1) {
             getRoomData()
             if (SessionTwiclo(this).isLoggedIn) {
@@ -2145,8 +2148,8 @@ class NewDBStoreItemsActivity :
             }
             cat_FloatBtn.visibility = View.VISIBLE
         }
-
     }
+
     fun RecyclerView.smoothSnapToPosition(position: Int, snapMode: Int = LinearSmoothScroller.SNAP_TO_START) {
         val smoothScroller = object : LinearSmoothScroller(this@NewDBStoreItemsActivity) {
             override fun getVerticalSnapPreference(): Int = snapMode
@@ -2154,6 +2157,6 @@ class NewDBStoreItemsActivity :
         }
         smoothScroller.targetPosition = position
         storeItemsRecyclerview.layoutManager?.startSmoothScroll(smoothScroller)
-        //storeItemsRecyclerview.layoutManager?.scrollToPosition(position)
+        storeItemsRecyclerview.layoutManager?.scrollToPosition(position)
     }
 }
