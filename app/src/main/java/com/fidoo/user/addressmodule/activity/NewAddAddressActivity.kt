@@ -180,7 +180,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             tv_Address.setText(model.location)
             tv_Address.setHorizontallyScrolling(true)
             tv_Address_1.setText(model.location)
-            tv_Address_2.setText(model.location)
+//            tv_Address_2.setText(model.location)
             /**
              * ----------------------------------------------------------------------
              */
@@ -432,7 +432,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 //                        else if (ed_name.text.toString().equals("")) {
 //                            showToast("Please add contact details")
 //                        }
-                        else if (tv_Address.equals("") || tv_Address_1.equals("") ||  tv_Address_2.equals("")) {
+                        else if (tv_Address.equals("") || tv_Address_1.equals("")) {
                             showToast("Location not available")
 
                         } else {
@@ -1033,7 +1033,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                     tv_Address!!.setText(address)
                     tv_Address.setHorizontallyScrolling(true)
                     tv_Address_1!!.setText(address)
-                    tv_Address_2.setText(address)
+//                    tv_Address_2.setText(address)
                     tv_Address_1.visibility = View.VISIBLE
                 } catch (e: Exception) {
                 }
@@ -1092,6 +1092,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             Log.d("current_location", mApAddress)
             if (addresses[0].subLocality != null) {
                 Log.d("subLocality__", addresses[0].subLocality)
+
             } else {
                 Log.d("subLocality__", addresses[0].locality)
             }
@@ -1123,7 +1124,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                 tv_Address.setText(model.results[0].formattedAddress)
                                 tv_Address.setHorizontallyScrolling(true)
                                 tv_Address_1.setText(model.results[0].formattedAddress)
-                                tv_Address_2.setText(model.results[0].formattedAddress)
+//                                tv_Address_2.setText(model.results[0].formattedAddress)
                                 live_add_1.visibility = View.VISIBLE
                             }
                         } else {
@@ -1131,7 +1132,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             tv_Address.setText(address_)
                             tv_Address.setHorizontallyScrolling(true)
                             tv_Address_1.setText(address_)
-                            tv_Address_2.setText(address_)
+ //                           tv_Address_2.setText(address_)
 
                             live_add_1.visibility = View.VISIBLE
                         }

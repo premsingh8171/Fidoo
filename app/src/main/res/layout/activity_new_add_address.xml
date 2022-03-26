@@ -514,17 +514,16 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/live_add_1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_above="@id/btn_proceed"
-        android:layout_centerInParent="true"
         android:elevation="@dimen/dimen_50dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:cardCornerRadius="@dimen/margin_15dp"
         android:layout_marginBottom="24dp"
         android:layout_height="wrap_content">
         <androidx.appcompat.widget.AppCompatEditText
-            android:padding="@dimen/margin_12dp"
+            android:padding="@dimen/margin_15dp"
             android:textColor="@color/black"
             android:drawableStart="@drawable/ic_new_location"
             android:drawablePadding="@dimen/margin_10"
@@ -533,7 +532,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima"
-            android:textSize="15sp"/>
+            android:textSize="14sp"/>
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
