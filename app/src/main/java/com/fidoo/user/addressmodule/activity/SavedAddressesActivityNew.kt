@@ -48,12 +48,12 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
-import kotlinx.android.synthetic.main.activity_saved_addresses.*
+import kotlinx.android.synthetic.main.activity_saved_addresses_new.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
 import java.util.*
 import kotlin.collections.LinkedHashSet
 
-class SavedAddressesActivity : BaseActivity() {
+class SavedAddressesActivityNew : BaseActivity() {
 
     var viewmodel: AddressViewModel? = null
     var viewmodelusertrack: UserTrackerViewModel? = null
@@ -64,7 +64,7 @@ class SavedAddressesActivity : BaseActivity() {
 
 
     companion object {
-        var savedAddressesActivity: SavedAddressesActivity? = null
+        var savedAddressesActivity: SavedAddressesActivityNew? = null
         var editAdd: Int? = 0
         var addAddressOrNot: String? = ""
         var lat_long: Int = 0
@@ -82,7 +82,7 @@ class SavedAddressesActivity : BaseActivity() {
         val window: Window = this.getWindow()
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
-        setContentView(R.layout.activity_saved_addresses)
+        setContentView(R.layout.activity_saved_addresses_new)
         savedAddressesActivity = this
         placesClient = Places.createClient(this)
         val token = AutocompleteSessionToken.newInstance()
@@ -157,7 +157,7 @@ class SavedAddressesActivity : BaseActivity() {
         add_addressfm.setOnClickListener {
             addAddressOrNot = "new_add"
             startActivityForResult(
-                Intent(this, NewAddAddressActivity::class.java)
+                Intent(this, NewAddAddressActivityNew::class.java)
                     .putExtra("where", where), 1
             )
         }
@@ -259,7 +259,7 @@ class SavedAddressesActivity : BaseActivity() {
             addAddressOrNot = "current_location"
 
             startActivityForResult(
-                Intent(this, NewAddAddressActivity::class.java)
+                Intent(this, NewAddAddressActivityNew::class.java)
                     .putExtra("where", where), 1
             )
         }
@@ -375,7 +375,7 @@ class SavedAddressesActivity : BaseActivity() {
     }
 
     fun openSomeActivityForResult() {
-        val intent = Intent(this, NewAddAddressActivity::class.java)
+        val intent = Intent(this, NewAddAddressActivityNew::class.java)
         intent.putExtra("where", where)
         // resultLauncher.launch(intent)
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
@@ -506,8 +506,8 @@ class SavedAddressesActivity : BaseActivity() {
         logoutBtn?.setOnClickListener {
             showIOSProgress()
             viewmodel?.removeAddressApi(
-                SessionTwiclo(this@SavedAddressesActivity).loggedInUserDetail.accountId,
-                SessionTwiclo(this@SavedAddressesActivity).loggedInUserDetail.accessToken, add_id
+                SessionTwiclo(this@SavedAddressesActivityNew).loggedInUserDetail.accountId,
+                SessionTwiclo(this@SavedAddressesActivityNew).loggedInUserDetail.accessToken, add_id
             )
             logoutDiolog?.dismiss()
 

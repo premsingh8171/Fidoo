@@ -42,7 +42,7 @@ import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addEditAdd
 import com.fidoo.user.activity.MainActivity.Companion.orderSuccess
 import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.addressmodule.adapter.AddressesAdapter
 import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
 import com.fidoo.user.addressmodule.model.GetAddressModel
@@ -245,7 +245,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 		}
 		lvAddNewAdd?.setOnClickListener {
 			startActivityForResult(
-				Intent(context, SavedAddressesActivity::class.java)
+				Intent(context, SavedAddressesActivityNew::class.java)
 					.putExtra("type", "address")
 					.putExtra("where", where
 					), AUTOCOMPLETE_REQUEST_CODE

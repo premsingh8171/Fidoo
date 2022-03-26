@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
-import com.fidoo.user.addressmodule.activity.NewAddAddressActivity
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.activity.NewAddAddressActivityNew
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.data.session.SessionTwiclo
@@ -291,14 +291,14 @@ class AddressesAdapter(
 
         holder.itemView.editAdd.setOnClickListener {
             if (addressList[position].phone_no.toString().equals("")||addressList[position].name.toString().equals("")){
-                SavedAddressesActivity.addAddressOrNot ="current_location"
+                SavedAddressesActivityNew.addAddressOrNot ="current_location"
             }else{
-                SavedAddressesActivity.addAddressOrNot ="new_add"
+                SavedAddressesActivityNew.addAddressOrNot ="new_add"
             }
 
            // Log.d("ewwewew",addressList[position].phone_no.toString())
            // if (stringExtra.equals("address")||stringExtra.equals("from")||stringExtra.equals("to")) {
-              con.startActivity(Intent(con, NewAddAddressActivity::class.java).putExtra("data", Gson().toJson(addressList[position])))
+              con.startActivity(Intent(con, NewAddAddressActivityNew::class.java).putExtra("data", Gson().toJson(addressList[position])))
         //    }
 
          //   true

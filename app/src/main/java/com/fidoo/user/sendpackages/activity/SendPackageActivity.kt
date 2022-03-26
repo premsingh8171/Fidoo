@@ -28,7 +28,7 @@ import com.fidoo.user.BuildConfig
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.sendpackages.model.SendPackagesModel
@@ -44,9 +44,7 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import kotlinx.android.synthetic.main.activity_send_package.*
-import kotlinx.android.synthetic.main.activity_sendpackages_additem.*
 import kotlinx.android.synthetic.main.buy_popup.view.*
-import kotlinx.android.synthetic.main.logout_popup.*
 import org.json.JSONObject
 
 
@@ -223,7 +221,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             addressType = "from"
             forSendPackageAddCheck = "1"
             startActivity(
-                Intent(this, SavedAddressesActivity::class.java)
+                Intent(this, SavedAddressesActivityNew::class.java)
                     .putExtra("type", "from")
                     .putExtra("where", where)
             )
@@ -236,7 +234,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             forSendPackageAddCheck = "1"
 
             startActivity(
-                Intent(this, SavedAddressesActivity::class.java)
+                Intent(this, SavedAddressesActivityNew::class.java)
                     .putExtra("type", "to")
                     .putExtra("where", where)
             )

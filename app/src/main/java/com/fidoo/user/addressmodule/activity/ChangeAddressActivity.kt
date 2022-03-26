@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.fidoo.user.R
 import com.fidoo.user.addressmodule.adapter.AddressSearchAdapter
@@ -24,7 +23,7 @@ import com.premsinghdaksha.currentlocation_library.GetAddFromLatLong
 import com.premsinghdaksha.currentlocation_library.TrackGPSLocation
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_change_address.*
-import kotlinx.android.synthetic.main.activity_saved_addresses.*
+import kotlinx.android.synthetic.main.activity_saved_addresses_new.*
 import java.util.*
 import kotlin.collections.LinkedHashSet
 

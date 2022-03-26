@@ -41,7 +41,7 @@ import com.fidoo.user.activity.MainActivity.Companion.addCartTempList
 import com.fidoo.user.activity.MainActivity.Companion.handleTrackScreenOrderSuccess
 import com.fidoo.user.activity.MainActivity.Companion.onBackpressHandle
 import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
@@ -450,7 +450,7 @@ class CartActivity : BaseActivity(),
 
 			} else {
 				startActivityForResult(
-					Intent(this, SavedAddressesActivity::class.java)
+					Intent(this, SavedAddressesActivityNew::class.java)
 						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
 				)
 
@@ -1284,7 +1284,7 @@ class CartActivity : BaseActivity(),
 		}
 		lvAddNewAdd?.setOnClickListener {
 			startActivityForResult(
-				Intent(this, SavedAddressesActivity::class.java)
+				Intent(this, SavedAddressesActivityNew::class.java)
 					.putExtra("type", "address")
 					.putExtra("where", where
 					), AUTOCOMPLETE_REQUEST_CODE

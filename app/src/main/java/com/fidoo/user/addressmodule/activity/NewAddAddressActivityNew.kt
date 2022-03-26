@@ -38,7 +38,7 @@ import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.ChangeAddressActivity.Companion.value_current_loc
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity.Companion.savedAddressesActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew.Companion.savedAddressesActivity
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.data.session.SessionTwiclo
@@ -66,12 +66,12 @@ import com.google.gson.GsonBuilder
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.skyfishjy.library.RippleBackground
-import kotlinx.android.synthetic.main.activity_new_add_address.*
+import kotlinx.android.synthetic.main.activity_new_add_address_new.*
 import kotlinx.android.synthetic.main.content_map.*
 import java.util.*
 
 @Suppress("DEPRECATION")
-open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationListener {
+open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, LocationListener {
 
     companion object {
         val MY_PERMISSIONS_REQUEST_CODE = 123
@@ -124,7 +124,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
-        setContentView(R.layout.activity_new_add_address)
+        setContentView(R.layout.activity_new_add_address_new)
         pref = SessionTwiclo(this)
         /**
          * ------------------------------------------------------------------------------------------------------
@@ -291,7 +291,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                     savedAddressesActivity!!.finish().toString()
                     finish()
                 } else {
-                    if (SavedAddressesActivity.addAddressOrNot.equals("new_add")) {
+                    if (SavedAddressesActivityNew.addAddressOrNot.equals("new_add")) {
                         if (ed_address.text.toString().equals("")) {
                             showToast("Please enter your house number")
                         }
@@ -515,7 +515,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 //
 //        }
         change_txt.setOnClickListener {
-            val intent = Intent(this,SavedAddressesActivity::class.java)
+            val intent = Intent(this,SavedAddressesActivityNew::class.java)
             startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
         }
 
@@ -558,7 +558,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             dismissIOSProgress()
             Log.e("editAddressResponse_", Gson().toJson(it))
             if (it.errorCode==200) {
-                SavedAddressesActivity.editAdd = 1
+                SavedAddressesActivityNew.editAdd = 1
                 showToast("Address Edited successfully")
                 // savedAddressesActivity!!.finish()
                 finish()
@@ -571,7 +571,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             dismissIOSProgress()
             if (it.errorCode==200) {
                 showToast("Address added successfully")
-                SavedAddressesActivity.editAdd = 1
+                SavedAddressesActivityNew.editAdd = 1
                 finish()
                 AppUtils.finishActivityLeftToRight(this)
             }else if (it.errorCode == 101) {
@@ -640,24 +640,24 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
     private fun checkPermission() {
         if (ContextCompat.checkSelfPermission(
-                this@NewAddAddressActivity,
+                this@NewAddAddressActivityNew,
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
             != PackageManager.PERMISSION_GRANTED
         ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this@NewAddAddressActivity, Manifest.permission.ACCESS_FINE_LOCATION
+                    this@NewAddAddressActivityNew, Manifest.permission.ACCESS_FINE_LOCATION
                 )
             ) {
                 ActivityCompat.requestPermissions(
-                    this@NewAddAddressActivity, arrayOf(
+                    this@NewAddAddressActivityNew, arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION //Manifest.permission.READ_PHONE_STATE
                     ),
                     MY_PERMISSIONS_REQUEST_CODE
                 )
             } else {
                 ActivityCompat.requestPermissions(
-                    this@NewAddAddressActivity, arrayOf(
+                    this@NewAddAddressActivityNew, arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION
                     ),
                     MY_PERMISSIONS_REQUEST_CODE
@@ -733,11 +733,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         val locationRequest = LocationRequest.create()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
-        val settingsClient = LocationServices.getSettingsClient(this@NewAddAddressActivity)
+        val settingsClient = LocationServices.getSettingsClient(this@NewAddAddressActivityNew)
         val task: Task<LocationSettingsResponse> =
             settingsClient.checkLocationSettings(builder.build())
         task.addOnSuccessListener(
-            this@NewAddAddressActivity
+            this@NewAddAddressActivityNew
         ) {
 
             if (intent.hasExtra("data")) {
@@ -747,11 +747,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             }
         }
 
-        task.addOnFailureListener(this@NewAddAddressActivity) { e ->
+        task.addOnFailureListener(this@NewAddAddressActivityNew) { e ->
 
             if (e is ResolvableApiException) {
                 try {
-                    e.startResolutionForResult(this@NewAddAddressActivity, 51)
+                    e.startResolutionForResult(this@NewAddAddressActivityNew, 51)
                 } catch (e1: SendIntentException) {
                     e1.printStackTrace()
                 }
@@ -863,8 +863,8 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
                         } else {
 
-                            if (SavedAddressesActivity.lat_long == 1) {
-                                getGeoLocation(SavedAddressesActivity.Search_key)
+                            if (SavedAddressesActivityNew.lat_long == 1) {
+                                getGeoLocation(SavedAddressesActivityNew.Search_key)
                             } else {
 
                                 mMap!!.moveCamera(
@@ -956,7 +956,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
                     } else {
                         Toast.makeText(
-                            this@NewAddAddressActivity,
+                            this@NewAddAddressActivityNew,
                             "unable to get last location",
                             Toast.LENGTH_SHORT
                         )
@@ -1155,7 +1155,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
     }
 
     private fun onMapPopUp(lat: String, lng: String) {
-        onMapNoNetDiolog = Dialog(this@NewAddAddressActivity)
+        onMapNoNetDiolog = Dialog(this@NewAddAddressActivityNew)
         onMapNoNetDiolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         onMapNoNetDiolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         onMapNoNetDiolog?.setContentView(R.layout.no_net_popup)
