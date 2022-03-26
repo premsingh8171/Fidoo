@@ -68,7 +68,7 @@
                         android:layout_marginStart="@dimen/margin_10"
                         android:layout_marginTop="2dp"
                         android:visibility="gone"
-                        android:layout_marginEnd="@dimen/dimen_25dp"
+                        android:layout_marginEnd="16dp"
                         android:layout_marginBottom="@dimen/margin_2dp"
                         android:layout_weight="9"
                         app:cardCornerRadius="@dimen/margin_12dp">
@@ -208,7 +208,7 @@
                     android:layout_height="wrap_content"
                     android:text="Select Delivery Address"
                     android:padding="@dimen/margin_10"
-
+                    android:visibility="gone"
                     android:fontFamily="@font/worksans_semibold"
                     android:textSize="18sp"
                     android:textColor="@color/black"/>
@@ -234,7 +234,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/main_lay_saved_address">
 
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/addressesRecyclerView"
                         android:layout_width="match_parent"
@@ -259,21 +258,15 @@
                         android:visibility="gone"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:spanCount="1" />
-
-
                 </RelativeLayout>
-
             </androidx.core.widget.NestedScrollView>
-
             <LinearLayout
                 android:id="@+id/emptyScren_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone">
-
+                android:orientation="vertical">
                 <TextView
                     android:id="@+id/emptyTxt"
                     android:layout_width="match_parent"
@@ -290,7 +283,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp"
                     android:visibility="visible" />
-
                 <TextView
                     android:id="@+id/emptyLastTxt"
                     android:layout_width="match_parent"
@@ -309,12 +301,8 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/emptyTxt" />
-
             </LinearLayout>
-
-
         </LinearLayout>
-
         <FrameLayout
             android:elevation="@dimen/dimen_5dp"
             android:layout_marginRight="@dimen/margin_20dp"
@@ -328,8 +316,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
-
-
             <ImageView
                 app:tint="@color/primary_color"
                 android:layout_gravity="center"
@@ -338,7 +324,5 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </FrameLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

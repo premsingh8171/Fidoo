@@ -4,9 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Fidoo/app/src/main/res/layout/activity_new_add_address.xml" value="0.22826086956521738" />
+        <entry key="..\:/Fidoo/app/src/main/res/layout/activity_new_add_address_new.xml" value="0.21784420289855072" />
         <entry key="..\:/Fidoo/app/src/main/res/layout/activity_saved_addresses.xml" value="0.21784420289855072" />
+        <entry key="..\:/Fidoo/app/src/main/res/layout/activity_saved_addresses_new.xml" value="0.25416666666666665" />
+        <entry key="..\:/Fidoo/app/src/main/res/layout/bottom_sheet_saved_address_items.xml" value="0.21784420289855072" />
+        <entry key="..\:/Fidoo/app/src/main/res/layout/content_map.xml" value="0.21784420289855072" />
         <entry key="..\:/Fidoo/app/src/main/res/layout/fragment_home_newui.xml" value="0.25416666666666665" />
+        <entry key="..\:/Fidoo/app/src/main/res/layout/manage_address_bottomsheet_dialogue.xml" value="0.21784420289855072" />
         <entry key="..\:/Fidoo/app/src/main/res/layout/new_deliverycharges_layout.xml" value="0.21784420289855072" />
+        <entry key="..\:/Fidoo/app/src/main/res/layout/saved_address_items.xml" value="0.21784420289855072" />
+        <entry key="..\:/Fidoo/app/src/main/res/layout/test.xml" value="0.21784420289855072" />
         <entry key="..\:/Users/nc110/.gradle/caches/transforms-3/e5529585c8f26e55e18313c3f3994196/transformed/jetified-VanillaPlacePicker-0.1.2/res/drawable-anydpi-v4/ic_current_location.xml" value="0.2355" />
         <entry key="..\:/Users/nc110/Desktop/Fiddo User App/app/src/main/res/drawable/ic_clear.xml" value="0.2355" />
         <entry key="..\:/Users/nc110/Desktop/Fiddo User App/app/src/main/res/drawable/ic_current_location.xml" value="0.162" />

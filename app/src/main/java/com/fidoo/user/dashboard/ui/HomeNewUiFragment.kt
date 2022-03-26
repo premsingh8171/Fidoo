@@ -262,30 +262,21 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 							add_id: String,
 							addressList: GetAddressModel.AddressList
 						) {}
-
 						override fun onClick(addressList: GetAddressModel.AddressList) {
 							when {
 								addressList.addressType.equals("1") -> {
 									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 									SessionTwiclo(requireContext()).addressType= "Home"
 								}
-
 								addressList.addressType.equals("2") -> {
 									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 									SessionTwiclo(requireContext()).addressType = "Office"
-
 								}
-
 								else -> {
 									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 									SessionTwiclo(requireContext()).addressType = "Other"
-
 								}
 							}
-//							 holder.itemView.setassDefaultTxt.visibility=View.VISIBLE
-//							  holder.itemView.selectedadd_img.visibility=View.VISIBLE
-//							 holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
-
 							SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 							SessionTwiclo(requireContext()).userAddressId = addressList.id
 							SessionTwiclo(requireContext()).userLat = addressList.latitude
@@ -301,9 +292,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 				rvManageAddress?.adapter = adapter
 			}
 		})
-//		if(isLocationEnabled(requireContext())){
-//			lvCheckLocation.visibility = VISIBLE
-//		}
+
 		val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
 			//Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()

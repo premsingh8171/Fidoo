@@ -73,15 +73,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:background="@color/white"
-            android:padding="@dimen/dimen_5dp"
+            android:padding="16dp"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Select Delivery Address"
-                android:padding="@dimen/margin_10"
                 android:fontFamily="@font/worksans_semibold"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textColor="@color/black"/>
         </LinearLayout>
         <View
@@ -107,7 +106,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvManageSavedAddress"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin_90dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_5dp"
                     android:layout_marginTop="@dimen/dimen_5dp"
                     android:layout_marginEnd="@dimen/dimen_5dp"
@@ -138,9 +137,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:src="@drawable/home_locpin"
-            android:layout_width="25dp"
-            android:layout_height="25dp"/>
+            android:src="@drawable/ic_add_address_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

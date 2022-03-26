@@ -180,7 +180,6 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             tv_Address.setText(model.location)
             tv_Address.setHorizontallyScrolling(true)
             tv_Address_1.setText(model.location)
-//            tv_Address_2.setText(model.location)
             /**
              * ----------------------------------------------------------------------
              */
@@ -1033,7 +1032,6 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                     tv_Address!!.setText(address)
                     tv_Address.setHorizontallyScrolling(true)
                     tv_Address_1!!.setText(address)
-//                    tv_Address_2.setText(address)
                     tv_Address_1.visibility = View.VISIBLE
                 } catch (e: Exception) {
                 }
@@ -1124,7 +1122,6 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                 tv_Address.setText(model.results[0].formattedAddress)
                                 tv_Address.setHorizontallyScrolling(true)
                                 tv_Address_1.setText(model.results[0].formattedAddress)
-//                                tv_Address_2.setText(model.results[0].formattedAddress)
                                 live_add_1.visibility = View.VISIBLE
                             }
                         } else {
@@ -1132,8 +1129,6 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                             tv_Address.setText(address_)
                             tv_Address.setHorizontallyScrolling(true)
                             tv_Address_1.setText(address_)
- //                           tv_Address_2.setText(address_)
-
                             live_add_1.visibility = View.VISIBLE
                         }
                         progressindicatorAdd.visibility = View.GONE
