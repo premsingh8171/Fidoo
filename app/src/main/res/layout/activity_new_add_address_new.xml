@@ -118,7 +118,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/feedback_bg"
         android:orientation="vertical"
-       android:visibility="gone"
+
         android:id="@+id/add_new_add_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -200,7 +200,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/_textview_bg_rounded"
-                        android:fontFamily="@font/worksans_semibold"
+                        android:fontFamily="@font/proxima"
+                        android:textStyle="bold"
                         android:padding="7dp"
                         android:text="Change"
                         android:textSize="12sp"
