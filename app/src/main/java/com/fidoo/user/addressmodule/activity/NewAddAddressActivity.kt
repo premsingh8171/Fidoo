@@ -24,10 +24,8 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.RelativeLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
@@ -69,6 +67,7 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.skyfishjy.library.RippleBackground
 import kotlinx.android.synthetic.main.activity_new_add_address.*
+import kotlinx.android.synthetic.main.content_map.*
 import java.util.*
 
 @Suppress("DEPRECATION")
@@ -181,6 +180,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             tv_Address.setText(model.location)
             tv_Address.setHorizontallyScrolling(true)
             tv_Address_1.setText(model.location)
+            tv_Address_2.setText(model.location)
             /**
              * ----------------------------------------------------------------------
              */
@@ -265,24 +265,21 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         ed_address.doAfterTextChanged {
             btn_continue.isEnabled = true
         }
-        ed_address.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
-            }
-        })
-        btn_continue.setOnClickListener {
-//            if(ed_address.text.toString().length > 0){
-//                btn_continue.setBackgroundColor(Color.GREEN)
+//        ed_address.addTextChangedListener(object : TextWatcher {
+//
+//            override fun afterTextChanged(s: Editable) {
+//
 //            }
+//
+//            override fun beforeTextChanged(s: CharSequence, start: Int,
+//                                           count: Int, after: Int) {
+//            }
+//
+//            override fun onTextChanged(s: CharSequence, start: Int,
+//                                       before: Int, count: Int) {
+//            }
+//        })
+        btn_continue.setOnClickListener {
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
             } else {
@@ -435,7 +432,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 //                        else if (ed_name.text.toString().equals("")) {
 //                            showToast("Please add contact details")
 //                        }
-                        else if (tv_Address.equals("") || tv_Address_1.equals("")) {
+                        else if (tv_Address.equals("") || tv_Address_1.equals("") ||  tv_Address_2.equals("")) {
                             showToast("Location not available")
 
                         } else {
@@ -905,9 +902,11 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             }
 
                         }
+                        /**
+                         * ************************************************************************************************************* COMMENT THIS BELOW
+                         */
 
-
-                        /*val locationRequest = LocationRequest.create()
+                        val locationRequest = LocationRequest.create()
                         locationRequest.interval = 10000
                         locationRequest.fastestInterval = 5000
                         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -931,7 +930,8 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                     locationCallback!!
                                 )
                             }
-                        }*/
+                        }
+
                         if (ActivityCompat.checkSelfPermission(
                                 this,
                                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -966,6 +966,9 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             }
     }
 
+    /**
+     *  ****************************************************************************************************************** I HAVE TO CHECK THIS BELOW CODE
+     */
 //    override fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String? {
 //        val geocoder: Geocoder
 //        val addresses: List<Address>
@@ -1030,10 +1033,13 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                     tv_Address!!.setText(address)
                     tv_Address.setHorizontallyScrolling(true)
                     tv_Address_1!!.setText(address)
+                    tv_Address_2.setText(address)
                     tv_Address_1.visibility = View.VISIBLE
                 } catch (e: Exception) {
                 }
-
+                /**
+                 * ******************************************************************************************************** ALSO CHECKING THIS
+                 */
 //                try {
 //                    var  pincodeStr = address_list[0].postalCode
 //                    var  mApAddress = address_list[0].getAddressLine(0)
@@ -1076,8 +1082,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
     override fun onLocationChanged(location: Location) {
         try {
             val geocoder = Geocoder(this, Locale.getDefault())
-            val addresses =
-                geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1)
+            val addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(),1)
             val sydney = LatLng(location.getLatitude(), location.getLongitude())
             mMap!!.addMarker(MarkerOptions().position(sydney).title("India"))
             mMap!!.moveCamera(CameraUpdateFactory.newLatLng(sydney))
@@ -1118,6 +1123,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                 tv_Address.setText(model.results[0].formattedAddress)
                                 tv_Address.setHorizontallyScrolling(true)
                                 tv_Address_1.setText(model.results[0].formattedAddress)
+                                tv_Address_2.setText(model.results[0].formattedAddress)
                                 live_add_1.visibility = View.VISIBLE
                             }
                         } else {
@@ -1125,6 +1131,8 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             tv_Address.setText(address_)
                             tv_Address.setHorizontallyScrolling(true)
                             tv_Address_1.setText(address_)
+                            tv_Address_2.setText(address_)
+
                             live_add_1.visibility = View.VISIBLE
                         }
                         progressindicatorAdd.visibility = View.GONE
@@ -1173,87 +1181,87 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
     }
 
-    fun contactTypePopUp() {
-        contactTypePopUp = Dialog(this)
-        contactTypePopUp?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        contactTypePopUp?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        contactTypePopUp?.setContentView(R.layout.contact_type_popup)
-
-        contactTypePopUp?.window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        // contactTypePopUp?.window?.attributes?.windowAnimations = R.style.diologIntertnet
-
-        contactTypePopUp?.setCanceledOnTouchOutside(true)
-        contactTypePopUp?.show()
-        val addDismisspopUp_ =
-            contactTypePopUp?.findViewById<ConstraintLayout>(R.id.addDismisspopUp_)
-        val myContactTxt = contactTypePopUp?.findViewById<TextView>(R.id.myContactTxt)
-        val addBookTxt = contactTypePopUp?.findViewById<TextView>(R.id.addBookTxt)
-        val AddManuallyTxt = contactTypePopUp?.findViewById<TextView>(R.id.AddManuallyTxt)
-        val remove_conDetailsTxt =
-            contactTypePopUp?.findViewById<TextView>(R.id.remove_conDetailsTxt)
-
-
-//        if (ed_phone.text?.toString().equals("")) {
-//            contact_name_txt.text = "Add contact no."
-//            remove_conDetailsTxt!!.visibility = View.GONE
-//        } else {
-//            remove_conDetailsTxt!!.visibility = View.VISIBLE
+//    fun contactTypePopUp() {
+//        contactTypePopUp = Dialog(this)
+//        contactTypePopUp?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        contactTypePopUp?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        contactTypePopUp?.setContentView(R.layout.contact_type_popup)
+//
+//        contactTypePopUp?.window?.setLayout(
+//            WindowManager.LayoutParams.MATCH_PARENT,
+//            WindowManager.LayoutParams.MATCH_PARENT
+//        )
+//        // contactTypePopUp?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+//
+//        contactTypePopUp?.setCanceledOnTouchOutside(true)
+//        contactTypePopUp?.show()
+//        val addDismisspopUp_ =
+//            contactTypePopUp?.findViewById<ConstraintLayout>(R.id.addDismisspopUp_)
+//        val myContactTxt = contactTypePopUp?.findViewById<TextView>(R.id.myContactTxt)
+//        val addBookTxt = contactTypePopUp?.findViewById<TextView>(R.id.addBookTxt)
+//        val AddManuallyTxt = contactTypePopUp?.findViewById<TextView>(R.id.AddManuallyTxt)
+//        val remove_conDetailsTxt =
+//            contactTypePopUp?.findViewById<TextView>(R.id.remove_conDetailsTxt)
+//
+//
+////        if (ed_phone.text?.toString().equals("")) {
+////            contact_name_txt.text = "Add contact no."
+////            remove_conDetailsTxt!!.visibility = View.GONE
+////        } else {
+////            remove_conDetailsTxt!!.visibility = View.VISIBLE
+////        }
+//
+//        addDismisspopUp_!!.setOnClickListener {
+//            contactTypePopUp!!.dismiss()
 //        }
-
-        addDismisspopUp_!!.setOnClickListener {
-            contactTypePopUp!!.dismiss()
-        }
-
-        myContactTxt!!.setOnClickListener {
-            contactTypePopUp!!.dismiss()
-            myContactTxt.setTextColor(getResources().getColor(R.color.primary_color))
-            addBookTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
-            AddManuallyTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
-
-            add_new_add_ll.visibility = View.GONE
-        //    contact_add_ll.visibility = View.VISIBLE
-            contact_type = "My Number"
-        }
-
-        addBookTxt!!.setOnClickListener {
-            contactTypePopUp!!.dismiss()
-            addBookTxt.setTextColor(getResources().getColor(R.color.primary_color))
-            myContactTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
-            AddManuallyTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
-
-            add_new_add_ll.visibility = View.GONE
-        //    contact_add_ll.visibility = View.VISIBLE
-            contact_type = "Address book"
-
-        }
-
-        AddManuallyTxt!!.setOnClickListener {
-            contactTypePopUp!!.dismiss()
-            AddManuallyTxt.setTextColor(getResources().getColor(R.color.primary_color))
-            addBookTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
-            myContactTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
-            add_new_add_ll.visibility = View.GONE
-        //    contact_add_ll.visibility = View.VISIBLE
-            contact_type = "Add Manually"
-        }
-
-        remove_conDetailsTxt!!.setOnClickListener {
-            contactTypePopUp!!.dismiss()
-            myContactTxt.setTextColor(getResources().getColor(R.color.hint_color_tin))
-            addBookTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
-            AddManuallyTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
-         //   ed_phone.text?.clear()
-         //   ed_name.text?.clear()
-//            contact_name_txt.text = "Add contact no."
-//            contact_name_txt!!.setTextColor(getResources().getColor(R.color.primary_color))
-            contact_type = ""
+//
+//        myContactTxt!!.setOnClickListener {
+//            contactTypePopUp!!.dismiss()
+//            myContactTxt.setTextColor(getResources().getColor(R.color.primary_color))
+//            addBookTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
+//            AddManuallyTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
+//
 //            add_new_add_ll.visibility = View.GONE
-//            contact_add_ll.visibility = View.VISIBLE
-        }
-    }
+//        //    contact_add_ll.visibility = View.VISIBLE
+//            contact_type = "My Number"
+//        }
+//
+//        addBookTxt!!.setOnClickListener {
+//            contactTypePopUp!!.dismiss()
+//            addBookTxt.setTextColor(getResources().getColor(R.color.primary_color))
+//            myContactTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
+//            AddManuallyTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
+//
+//            add_new_add_ll.visibility = View.GONE
+//        //    contact_add_ll.visibility = View.VISIBLE
+//            contact_type = "Address book"
+//
+//        }
+//
+//        AddManuallyTxt!!.setOnClickListener {
+//            contactTypePopUp!!.dismiss()
+//            AddManuallyTxt.setTextColor(getResources().getColor(R.color.primary_color))
+//            addBookTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
+//            myContactTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
+//            add_new_add_ll.visibility = View.GONE
+//        //    contact_add_ll.visibility = View.VISIBLE
+//            contact_type = "Add Manually"
+//        }
+//
+//        remove_conDetailsTxt!!.setOnClickListener {
+//            contactTypePopUp!!.dismiss()
+//            myContactTxt.setTextColor(getResources().getColor(R.color.hint_color_tin))
+//            addBookTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
+//            AddManuallyTxt!!.setTextColor(getResources().getColor(R.color.hint_color_tin))
+//         //   ed_phone.text?.clear()
+//         //   ed_name.text?.clear()
+////            contact_name_txt.text = "Add contact no."
+////            contact_name_txt!!.setTextColor(getResources().getColor(R.color.primary_color))
+//            contact_type = ""
+////            add_new_add_ll.visibility = View.GONE
+////            contact_add_ll.visibility = View.VISIBLE
+//        }
+//    }
 }
 
 
