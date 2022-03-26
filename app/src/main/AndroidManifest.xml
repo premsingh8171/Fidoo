@@ -28,6 +28,7 @@
         android:theme="@style/Theme.TwicloRedesigned"
         tools:replace="android:allowBackup,android:name,android:theme,android:icon">
 
+
         <activity
             android:name=".dailyneed.ui.ServiceDailyNeedActivity"
             android:exported="true"
@@ -58,7 +59,10 @@
         <activity
             android:name=".activity.AuthActivity"
             android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme" />
+
+
         <activity
             android:name=".activity.SliderScreenActivity"
             android:screenOrientation="portrait" />
