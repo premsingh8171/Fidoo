@@ -235,6 +235,10 @@ class SendPackagesAddItem : BaseActivity() {
                         Toast.makeText(this, "Please select restriction", Toast.LENGTH_SHORT)
                     toast.show()
                 }
+            }else{
+                val toast =
+                    Toast.makeText(this, "Please enter all details", Toast.LENGTH_SHORT)
+                toast.show()
             }
         }
 
@@ -412,7 +416,7 @@ class SendPackagesAddItem : BaseActivity() {
 
                         sendPackagesImgAdapter = SendPackagesImgAdapter(
                             this,
-                            arraylist!!,  
+                            arraylist!!,
                             object : SendPackagesImgAdapter.OnClickSendPackages {
                                 override fun clearImage(
                                     position: Int,
@@ -529,6 +533,4 @@ class SendPackagesAddItem : BaseActivity() {
         finish()
         AppUtils.finishActivityLeftToRight(this)
     }
-
-
 }

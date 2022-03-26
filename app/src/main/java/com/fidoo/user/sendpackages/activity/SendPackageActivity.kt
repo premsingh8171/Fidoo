@@ -28,7 +28,7 @@ import com.fidoo.user.BuildConfig
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.sendpackages.model.SendPackagesModel
@@ -221,7 +221,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             addressType = "from"
             forSendPackageAddCheck = "1"
             startActivity(
-                Intent(this, SavedAddressesActivityNew::class.java)
+                Intent(this, SavedAddressesActivity::class.java)
                     .putExtra("type", "from")
                     .putExtra("where", where)
             )
@@ -234,7 +234,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             forSendPackageAddCheck = "1"
 
             startActivity(
-                Intent(this, SavedAddressesActivityNew::class.java)
+                Intent(this, SavedAddressesActivity::class.java)
                     .putExtra("type", "to")
                     .putExtra("where", where)
             )
@@ -357,18 +357,18 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                             && selectedtoLng.toString() != "0.0"
                         ){
 
-                        calculateStoreCustomerDistance()
-                        if (tv_address_to.text.isNotEmpty() && tv_address_from.text.isNotEmpty()) {
-                            //selectedfromLat.toString()+","+selectedfromLng.toString(), selectedtoLat.toString()+","+selectedtoLng.toString()
+                            calculateStoreCustomerDistance()
+                            if (tv_address_to.text.isNotEmpty() && tv_address_from.text.isNotEmpty()) {
+                                //selectedfromLat.toString()+","+selectedfromLng.toString(), selectedtoLat.toString()+","+selectedtoLng.toString()
 
-                            //val source = selectedfromLat.toString()+","+selectedfromLng.toString()
-                            //val destination = selectedtoLat.toString()+","+selectedtoLng.toString()
+                                //val source = selectedfromLat.toString()+","+selectedfromLng.toString()
+                                //val destination = selectedtoLat.toString()+","+selectedtoLng.toString()
 
-                            //Log.e("DISTANCE1",packageDistance)
-                            //val distance = packageDistance
-                            showIOSProgress()
-                            sendPackageInfo()
-                        }
+                                //Log.e("DISTANCE1",packageDistance)
+                                //val distance = packageDistance
+                                showIOSProgress()
+                                sendPackageInfo()
+                            }
                         } else {
                             showToast("please enter from/to address")
                         }
@@ -767,4 +767,5 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         SessionTwiclo(this).setcatname("")
         AppUtils.finishActivityLeftToRight(this)
     }
+
 }

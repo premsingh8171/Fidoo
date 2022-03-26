@@ -160,6 +160,12 @@
         <activity
             android:name=".addressmodule.activity.SavedAddressesActivityNew"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".addressmodule.activity.SavedAddressesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".addressmodule.activity.NewAddAddressActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.LoginActivity"
