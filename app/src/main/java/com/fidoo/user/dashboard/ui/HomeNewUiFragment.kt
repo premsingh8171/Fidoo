@@ -153,7 +153,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard{
 		val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
 			showDialog()
-
 		val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
 			object : ViewPager.OnPageChangeListener {
 				override fun onPageSelected(position: Int) {}
