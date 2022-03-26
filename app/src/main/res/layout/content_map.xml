@@ -57,17 +57,6 @@
                     android:textColor="#3CC13B"
                     android:textSize="12sp" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_Address_1"-->
-<!--                    android:fontFamily="@font/metropolis_semi_bold"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:maxLength="20"-->
-<!--                    android:layout_marginLeft="@dimen/margin_10"-->
-<!--                    android:layout_marginRight="@dimen/margin_10"-->
-<!--                    android:text="Your item will be delivered here"-->
-<!--                    android:textColor="#3CC13B"-->
-<!--                    android:textSize="12sp" />-->
 
 <!--                <TextView-->
 <!--                    android:fontFamily="@font/proxima"-->
