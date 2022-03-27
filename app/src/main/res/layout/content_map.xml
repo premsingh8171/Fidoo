@@ -66,19 +66,21 @@
 <!--                    android:text="Please place the pin accurately on the map"-->
 <!--                    android:textColor="@color/black"-->
 <!--                    android:textSize="@dimen/margin_10" />-->
-
-
             </LinearLayout>
-
         </FrameLayout>
-
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="50dp"
+            android:layout_centerInParent="true"
+            app:lottie_rawRes="@raw/swingpin"
+            app:lottie_autoPlay="true"
+            android:layout_height="90dp"/>
         <ImageView
+            android:id="@+id/markerLocation"
             android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:translationY="-18dp"
-            android:id="@+id/markerLocation"
-            android:src="@drawable/ic_location_pin"/>
+            android:translationY="-18dp" />
     </com.skyfishjy.library.RippleBackground>
 
     <com.mancj.materialsearchbar.MaterialSearchBar
