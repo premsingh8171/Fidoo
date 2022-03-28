@@ -260,8 +260,6 @@
 
                             </RelativeLayout>
                             <!-- end prescription view -->
-
-
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
@@ -269,10 +267,7 @@
                                 android:background="@color/lightGray"
                                 android:backgroundTint="@color/background"
                                 app:layout_constraintTop_toBottomOf="@+id/store_header_ll" />
-
                         </LinearLayout>
-
-
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -448,7 +443,8 @@
                 android:background="@color/lightGray"
                 android:padding="20dp"
                 android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@id/coupon_lay">
+                app:layout_constraintTop_toBottomOf="@id/coupon_lay"
+                tools:layout_editor_absoluteX="-16dp">
 
                 <TextView
                     android:id="@+id/billheadingtxt"
@@ -528,7 +524,6 @@
                     android:text=""
                     android:textSize="@dimen/text_size_12sp" />
 
-
                 <TextView
                     android:id="@+id/tv_delivery_charges_label"
                     android:layout_width="wrap_content"
@@ -539,7 +534,6 @@
                     android:text="Delivery Charges"
                     android:textSize="@dimen/text_size_12sp" />
 
-
                 <ImageView
                     android:id="@+id/new_delivery_popup"
                     android:layout_width="24dp"
@@ -549,8 +543,6 @@
                     android:layout_marginTop="@dimen/margin_10dp"
                     android:layout_toRightOf="@+id/tv_delivery_charges_label"
                     android:background="@drawable/bi_info_circle" />
-
-
                 <TextView
                     android:id="@+id/tv_delivery_charges"
                     android:layout_width="wrap_content"
@@ -585,8 +577,6 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp" />
 
-                <!--for urban piper-->
-
                 <TextView
                     android:id="@+id/tv_tax_charges_label"
                     android:layout_width="wrap_content"
@@ -611,7 +601,6 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp"
                     android:visibility="visible" />
-
 
                 <LinearLayout
                     android:id="@+id/view"
@@ -644,8 +633,6 @@
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp" />
-
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -693,13 +680,8 @@
                     android:padding="@dimen/margin_20dp"
                     android:textColor="@color/colorTitle"
                     android:textSize="@dimen/margin_12dp" />
-
             </RelativeLayout>
-<!--
 
-            MARK VISIBILITY
-
--->
             <FrameLayout
                 android:id="@+id/chargesFmBg"
                 android:layout_width="match_parent"
@@ -710,7 +692,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
             <FrameLayout
                 android:id="@+id/chargesFm"
                 android:layout_width="match_parent"
@@ -719,20 +700,17 @@
                 android:layout_marginBottom="-100dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/price_breakout_lay">
-
                 <LinearLayout
                     android:layout_width="280dp"
                     android:layout_height="@dimen/margin_160dp"
                     android:background="@drawable/charges_popup"
                     android:orientation="vertical"
                     android:visibility="visible">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="visible">
-
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -762,7 +740,6 @@
                                 android:text=""
                                 android:textColor="@color/primary_color"
                                 android:textSize="@dimen/text_size_12sp" />
-
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -795,7 +772,6 @@
                                 android:text=""
                                 android:textColor="@color/primary_color"
                                 android:textSize="@dimen/text_size_12sp" />
-
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -830,7 +806,6 @@
                                 android:textColor="@color/primary_color"
                                 android:textSize="@dimen/text_size_12sp" />
                         </RelativeLayout>
-
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -841,7 +816,6 @@
                         android:orientation="vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:spanCount="1" />
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -871,12 +845,8 @@
                             android:text=""
                             android:textColor="@color/primary_color"
                             android:textSize="@dimen/text_size_12sp" />
-
                     </RelativeLayout>
-
                 </LinearLayout>
-
-
             </FrameLayout>
 
             <FrameLayout
@@ -887,19 +857,16 @@
                 android:layout_marginBottom="-150dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/price_breakout_lay">
-
                 <LinearLayout
                     android:layout_width="270dp"
                     android:layout_height="@dimen/margin_85dp"
                     android:background="@drawable/charges_popup"
                     android:orientation="vertical">
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_10"
                         android:orientation="horizontal">
-
                         <TextView
                             android:id="@+id/tax_title"
                             android:layout_width="wrap_content"
@@ -934,16 +901,10 @@
                             android:text="*Levied by Merchant"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/margin_10" />
-
-
                     </RelativeLayout>
-
                 </LinearLayout>
-
             </FrameLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -956,7 +917,6 @@
         android:paddingBottom="@dimen/margin_20dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
-
 
         <LinearLayout
             android:id="@+id/payment_method_lay"
@@ -1011,8 +971,6 @@
                     android:text="Cash"
                     android:textColor="@color/grey"
                     app:layout_constraintStart_toEndOf="@id/img_cash" />
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -1027,7 +985,6 @@
                 android:orientation="horizontal"
                 app:layout_constraintStart_toEndOf="@+id/cash_lay"
                 app:layout_constraintTop_toTopOf="parent">
-
 
                 <ImageView
                     android:id="@+id/img_online"
@@ -1046,10 +1003,8 @@
                     android:text="Online"
                     android:textColor="@color/grey"
                     app:layout_constraintStart_toEndOf="@id/tv_cash"
-                    app:layout_constraintTop_toBottomOf="@id/img_cash" />
-
+                    app:layout_constraintTop_toBottomOf="@id/img_cash"/>
             </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -1076,7 +1031,6 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
@@ -1120,14 +1074,14 @@
                             android:text="Customization"
                             android:textColor="@android:color/black"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"/>
 
                         <ImageView
                             android:id="@+id/filterIcon"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
-                            android:layout_marginHorizontal="15dp" />
+                            android:layout_marginHorizontal="15dp"/>
                     </RelativeLayout>
 
                     <TextView
@@ -1137,7 +1091,7 @@
                         android:fontFamily="@font/metropolis_regular"
                         android:text="Choose your customization"
                         android:textColor="@android:color/darker_gray"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -1152,9 +1106,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="@dimen/margin_80dp"
-                        android:gravity="center"
-
-                        />
+                        android:gravity="center"/>
                 </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -1164,7 +1116,6 @@
                     android:background="@android:color/white"
                     android:elevation="5dp"
                     android:fadingEdgeLength="2dp">
-
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/add_remove_lay"
                         android:layout_width="wrap_content"
@@ -1175,7 +1126,6 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
-
 
                         <TextView
                             android:id="@+id/minusLay"
@@ -1190,7 +1140,6 @@
                             app:layout_constraintLeft_toRightOf="@+id/countValuee"
                             app:layout_constraintTop_toTopOf="parent" />
 
-
                         <TextView
                             android:id="@+id/countValuee"
                             android:layout_width="35dp"
@@ -1203,7 +1152,6 @@
                             app:layout_constraintLeft_toRightOf="@+id/minusLay"
                             app:layout_constraintTop_toTopOf="parent" />
 
-
                         <TextView
                             android:id="@+id/plusLay"
                             android:layout_width="35dp"
@@ -1215,8 +1163,6 @@
                             android:textSize="20sp"
                             app:layout_constraintLeft_toRightOf="@+id/countValuee"
                             app:layout_constraintTop_toTopOf="parent" />
-
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
@@ -1239,7 +1185,6 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView
@@ -1253,8 +1198,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </RelativeLayout>
         </LinearLayout>
-
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <FrameLayout
@@ -1315,12 +1258,8 @@
                 android:text="Before proceed to checkout you must add some products to your shoping cart."
                 android:textColor="@color/colorTextGray"
                 android:textSize="@dimen/margin_12dp" />
-
         </LinearLayout>
-
-
     </LinearLayout>
-
 
     <include
         android:id="@+id/no_internet_cart"
@@ -1331,6 +1270,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

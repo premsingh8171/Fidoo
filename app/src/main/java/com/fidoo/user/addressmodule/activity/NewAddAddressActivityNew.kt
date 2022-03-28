@@ -553,33 +553,38 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 //            }
 //        }
 
-        viewmodel?.editAddressResponse?.observe(this, {
+        viewmodel?.editAddressResponse?.observe(this) {
             dismissIOSProgress()
             Log.e("editAddressResponse_", Gson().toJson(it))
-            if (it.errorCode==200) {
+            if (it.errorCode == 200) {
                 SavedAddressesActivityNew.editAdd = 1
                 showToast("Address Edited successfully")
                 // savedAddressesActivity!!.finish()
                 finish()
                 AppUtils.finishActivityLeftToRight(this)
-            }else if (it.errorCode == 101) {
+            } else if (it.errorCode == 101) {
                 showAlertDialog(this)
             }
-        })
-        viewmodel?.addAddressResponse?.observe(this, {
+        }
+        /**
+         * ************************************************************************************************************************************************************
+         */
+        viewmodel?.addAddressResponse?.observe(this) {
             dismissIOSProgress()
-            if (it.errorCode==200) {
+            if (it.errorCode == 200) {
                 showToast("Address added successfully")
                 SavedAddressesActivityNew.editAdd = 1
                 finish()
                 AppUtils.finishActivityLeftToRight(this)
-            }else if (it.errorCode == 101) {
+                val intent = Intent(this,MainActivity::class.java)
+                startActivity(intent)
+            } else if (it.errorCode == 101) {
                 showAlertDialog(this)
             }
-        })
-        viewmodel?.failureResponse?.observe(this, {
+        }
+        viewmodel?.failureResponse?.observe(this) {
             showToast("Something is wrong, please try again")
-        })
+        }
     }
 
     /**

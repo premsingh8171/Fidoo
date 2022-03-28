@@ -112,6 +112,7 @@ class CartActivity : BaseActivity(),
 	AdapterCustomRadioClick, PaymentResultListener, PaymentResultWithDataListener {
 
 	var userAddressList : Int = 0
+
 	var viewmodel: CartViewModel? = null
 	var totalAmount: Double = 0.0
 	var storeViewModel: StoreDetailsViewModel? = null
@@ -1105,12 +1106,12 @@ class CartActivity : BaseActivity(),
 			cart_payment_lay.alpha = 1.0f
 		}
 
-		viewmodel?.deletePrescriptionResponse?.observe(this, { prescription ->
+		viewmodel?.deletePrescriptionResponse?.observe(this) { prescription ->
 			Log.e("prescription__", Gson().toJson(prescription))
 			dismissIOSProgress()
-		})
+		}
 
-		viewmodel?.appplyPromoResponse?.observe(this, { user ->
+		viewmodel?.appplyPromoResponse?.observe(this) { user ->
 			dismissIOSProgress()
 			Log.e("cart response", Gson().toJson(user))
 
@@ -1144,7 +1145,7 @@ class CartActivity : BaseActivity(),
 				tv_grand_total.text =
 					resources.getString(R.string.ruppee) + rounded.toString()
 
-			//	Log.e("Final Price after promo", tv_place_order.text.toString())
+				//	Log.e("Final Price after promo", tv_place_order.text.toString())
 
 				//discountLabel.visibility = View.VISIBLE
 				//discountValue.visibility = View.VISIBLE
@@ -1164,9 +1165,9 @@ class CartActivity : BaseActivity(),
 				showToast(user.message)
 			}
 
-		})
+		}
 
-		viewmodel?.orderPlaceResponse?.observe(this, { user ->
+		viewmodel?.orderPlaceResponse?.observe(this) { user ->
 			dismissIOSProgress()
 			Log.e("orderPlaceResponse____", Gson().toJson(user))
 			// Log.d("orderPlaceResponse____", user.errorCode.toString())
@@ -1208,13 +1209,13 @@ class CartActivity : BaseActivity(),
 			} else if (user.errorCode == 400) {
 				Toast.makeText(this, "" + user.message, Toast.LENGTH_LONG).show()
 
-			}else{
+			} else {
 				Toast.makeText(this, "" + user.message, Toast.LENGTH_LONG).show()
 
 			}
-		})
+		}
 
-		viewmodel?.cartCountResponse?.observe(this, { user ->
+		viewmodel?.cartCountResponse?.observe(this) { user ->
 			Log.d("cartCountResponse", Gson().toJson(user))
 			dismissIOSProgress()
 			if (user != null) {
@@ -1235,7 +1236,7 @@ class CartActivity : BaseActivity(),
 				}
 			}
 
-		})
+		}
 
 		viewmodel?.failureResponse?.observe(this) { user ->
 			dismissIOSProgress()
@@ -1294,6 +1295,7 @@ class CartActivity : BaseActivity(),
 		addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
 			Log.e("addresses_response", Gson().toJson(user))
 			if (!user.addressList.isNullOrEmpty()) {
+				userAddressList = user.addressList.size
 //				cart_payment_lay_One.setOnClickListener {
 //					showDialogBottom()
 //					cart_payment_lay_One.visibility = View.GONE
@@ -1343,7 +1345,6 @@ class CartActivity : BaseActivity(),
 				rvManageAddress?.layoutManager = GridLayoutManager(this@CartActivity, 1)
 				rvManageAddress?.setHasFixedSize(true)
 				rvManageAddress?.adapter = adapter
-				userAddressList = user.addressList.size
 			}
 		})
 		val manager = this@CartActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
