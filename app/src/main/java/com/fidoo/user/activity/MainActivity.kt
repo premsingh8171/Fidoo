@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.*
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.location.Address
 import android.location.Geocoder
@@ -155,14 +157,30 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
 
         this.registerReceiver(mBroadcastReceiver, IntentFilter("start_send_package_fragment"))
-        // val navController = findNavController(R.id.fragment4)
-        //bottomNavigationView.setupWithNavController(navController)
+
+        bottomNavigationView.itemIconTintList= null
+
+         val navController = findNavController(R.id.fragment4)
+        bottomNavigationView?.animation?.backgroundColor = Color.parseColor("#11520b")
+        bottomNavigationView.setupWithNavController(navController)
 
         // setCurrentFragment(HomeNewUiFragment())
 
+        bottomNavigationView.menu.findItem(R.id.SendPackageAct).setOnMenuItemClickListener {
+            item_idno=1
+            startActivity(
+                Intent(this@MainActivity, SendPackageActivity::class.java)
+                    .putExtra("where", where)
+                    .putExtra("cat_id", "")
+                    .putExtra("cat_name", "")
+            )
+
+            return@setOnMenuItemClickListener true
+        }
 
 
-        val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+
+       /* val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.homeFragment -> {
                     item_idno = 0
@@ -170,7 +188,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     val itemid= bottomNavigationView.menu.findItem(R.id.homeFragment)
 
                     CoroutineScope(Dispatchers.IO).launch {
-                        delay(90)
+                        delay(100)
                         setCurrentFragment(HomeNewUiFragment())
                     }
 
@@ -194,19 +212,28 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
                 }
                 R.id.searchFragment -> {
-                    setCurrentFragment(SearchFragmentNew())
+
+
                     item_idno = 2
                     settexttitle()
                     item.title = ""
+                    CoroutineScope(Dispatchers.IO).launch {
+                        delay(100)
+                        setCurrentFragment(SearchFragmentNew())
+                    }
 
 
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.ordersFragment -> {
-                    setCurrentFragment(OrdersFragment())
+
                     item_idno = 3
                     settexttitle()
                     item.title = ""
+                    CoroutineScope(Dispatchers.IO).launch {
+                        delay(100)
+                        setCurrentFragment(OrdersFragment())
+                    }
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.profileFragment -> {
@@ -214,13 +241,17 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     item_idno = 4
                     settexttitle()
                     item.title = ""
+                    CoroutineScope(Dispatchers.IO).launch {
+                        delay(100)
+                        setCurrentFragment(OrdersFragment())
+                    }
                     return@OnNavigationItemSelectedListener true
                 }
             }
             false
         }
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(navigasjonen)
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigasjonen)*/
 
 
 
@@ -668,38 +699,17 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
     }
 
-    override fun onBackPressed() {
-
-
-        if (item_idno == 0) {
-            AppUtils.finishActivityLeftToRight(this)
-        } else {
-            setCurrentFragment(HomeNewUiFragment())
-            settexttitle()
-            item_idno = 0
-            val home_item = bottomNavigationView.menu.findItem(R.id.homeFragment)
-            home_item.setChecked(true)
-        }
-    }
-
 
     override fun onStart() {
         if (gac != null) {
             gac!!.connect()
         }
-
-
         super.onStart()
-        if (item_idno==0){
+        if (item_idno==1) {
             setCurrentFragment(HomeNewUiFragment())
-            settexttitle()
-            val home_item = bottomNavigationView.menu.findItem(R.id.homeFragment)
-            home_item.setChecked(true)
+            item_idno=0
+            bottomNavigationView.menu.findItem(R.id.homeFragment).setChecked(true)
         }
-
-
-
-
 
     }
 

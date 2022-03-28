@@ -1311,6 +1311,7 @@ class NewDBStoreItemsActivity :
 
         } else {
             storeItemsAdapter.updateData(productList_, table_count!!)
+            
         }
 
     }
