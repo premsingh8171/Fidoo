@@ -137,7 +137,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-/*
+        /*
         mView.tv_manage_your_addresses.setOnClickListener {
             if (SessionTwiclo(requireContext()).isLoggedIn) {
                 addManages = "add_manage"
@@ -153,6 +153,8 @@ class ProfileFragment : Fragment() {
         }
 */
 
+        mView.profileMainClick.setOnClickListener {}
+
         mView.aboutUs_const.setOnClickListener {
             AppUtils.startActivityRightToLeft(
                 requireActivity(),
@@ -160,7 +162,7 @@ class ProfileFragment : Fragment() {
             )
         }
 
-/*
+        /*
         mView.tv_aboutUs.setOnClickListener {
             AppUtils.startActivityRightToLeft(
                 requireActivity(),
