@@ -129,9 +129,6 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_new_add_address_new)
         pref = SessionTwiclo(this)
-        /**
-         * ------------------------------------------------------------------------------------------------------
-         */
         saveBtn = findViewById(R.id.btn_continue)
         userAddress = findViewById(R.id.ed_address)
         userAddress.addTextChangedListener(saveAddressWatcher)
@@ -140,11 +137,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
             .create(AddressViewModel::class.java)
 
-        viewmodelusertrack = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-            .create(UserTrackerViewModel::class.java)
-
+        viewmodelusertrack = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(UserTrackerViewModel::class.java)
         where = pref!!.guestLogin
-
 
         if (SessionTwiclo(this).isLoggedIn == true) {
             viewmodelusertrack?.customerActivityLog(
@@ -184,9 +178,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             tv_Address.setText(model.location)
             tv_Address.setHorizontallyScrolling(true)
             tv_Address_1.setText(model.location)
-            /**
-             * ----------------------------------------------------------------------
-             */
+
 //            ed_name.setText(model.name)
 //            ed_phone.setText(model.phone_no)
             ed_address.setText(model.flatNo)
@@ -223,9 +215,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         }
 
         getDeviceLocation()
-        /**
-         * Test ---------------------------------------------------------------------------------------------------------------------------------------------------------
-         */
+
         if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
             tv_address_title.text = "Home"
         } else if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
@@ -233,9 +223,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         } else if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
             tv_address_title.text = "Other"
         }
-        /**
-         * ----------------------------------------------------------------------------------------------------------------------------------------
-         */
+
 //        if (SavedAddressesActivity.addAddressOrNot.equals("new_add")) {
 //            change_txt.visibility = View.VISIBLE
 //            contact_name_txt.visibility = View.VISIBLE
@@ -252,9 +240,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 //            btn_proceed.visibility = View.VISIBLE
 //            tv_SelectDeliveryAddress.visibility = View.VISIBLE
 //        }
-        /**
-         * Button proceed On Click
-         */
+
         btn_proceed.setOnClickListener {
             tv_SelectDeliveryAddress.visibility = View.GONE
             live_add_1.visibility = View.GONE
@@ -523,9 +509,6 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
         }
 
-        /**
-         *  ADD CONTACT BUTTON
-         */
 //        add_contactBtn.setOnClickListener {
 //            if (ed_phone.text.toString().equals("")) {
 //                showToast("Please enter your contact no.")
@@ -541,9 +524,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 //                showToast("Please enter contact name")
 //
 //            }
-            /**
-             *  ADD CONTACT NUMBER BUTTON
-             */
+
 //            else {
 //                contact_name_txt.text =
 //                    ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
@@ -571,9 +552,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                 showAlertDialog(this)
             }
         }
-        /**
-         * ************************************************************************************************************************************************************
-         */
+
         viewmodel?.addAddressResponse?.observe(this) {
             dismissIOSProgress()
             if (it.errorCode == 200) {
@@ -597,10 +576,6 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             showToast("Something is wrong, please try again")
         }
     }
-
-    /**
-     * -------------------------------------------------------------------------------------------------------------
-     */
 
     private val saveAddressWatcher = object : TextWatcher{
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -917,9 +892,6 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                             }
 
                         }
-                        /**
-                         * ************************************************************************************************************* COMMENT THIS BELOW
-                         */
 
                         val locationRequest = LocationRequest.create()
                         locationRequest.interval = 10000
@@ -981,9 +953,6 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             }
     }
 
-    /**
-     *  ****************************************************************************************************************** I HAVE TO CHECK THIS BELOW CODE
-     */
 //    override fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String? {
 //        val geocoder: Geocoder
 //        val addresses: List<Address>
@@ -1051,9 +1020,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                     tv_Address_1.visibility = View.VISIBLE
                 } catch (e: Exception) {
                 }
-                /**
-                 * ******************************************************************************************************** ALSO CHECKING THIS
-                 */
+
 //                try {
 //                    var  pincodeStr = address_list[0].postalCode
 //                    var  mApAddress = address_list[0].getAddressLine(0)
