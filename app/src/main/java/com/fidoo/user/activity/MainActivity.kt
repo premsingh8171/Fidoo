@@ -161,6 +161,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         // setCurrentFragment(HomeNewUiFragment())
 
 
+        bottomNavigationView.itemIconTintList= null
 
         val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {

@@ -686,13 +686,13 @@ interface BackEndApi {
 
     @Multipart
     @POST("addUpdateProfile.inc.php")
-    suspend fun addUpdateProfileApi(
+     fun addUpdateProfileApi(
         @Part("accountId") accountId: RequestBody?,
         @Part("accessToken") accessToken: RequestBody?,
         @Part("name") name: RequestBody?,
         @Part("emailid") emailid: RequestBody?,
         @Part photo: MultipartBody.Part?
-    ): Response<EditProfileModel>
+    ): Call<EditProfileModel>
 
     @FormUrlEncoded
     @POST("orderProceed_ver_29.inc.php")

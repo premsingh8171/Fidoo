@@ -498,7 +498,7 @@ class SendPacketFragment : com.fidoo.user.utils.BaseFragment(),
                     "contact",
                     com.fidoo.user.data.session.SessionTwiclo(
                         requireContext()
-                    ).profileDetail.account.country_code + com.fidoo.user.data.session.SessionTwiclo(
+                    ).profileDetail.account.countryCode + com.fidoo.user.data.session.SessionTwiclo(
                         requireContext()
                     ).profileDetail.account.userName
                 )

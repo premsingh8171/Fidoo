@@ -110,17 +110,21 @@ class OrdersAdapter(
         if (orders[position].serviceTypeId == "4") {
             when (orders[position].orderStatus) {
                 "0" -> {
+                    holder.view2.visibility = View.GONE
                     holder.buttonValue.visibility = View.GONE
                     holder.orderStatusTxt.text = context.getString(R.string.failed)
                     holder.orderStatusTxt?.setTextColor(Color.rgb(240, 0, 0))
 
                 }
                 "1" -> {
+                    holder.view2.visibility = View.VISIBLE
+
                     holder.orderStatusTxt.text =
                         context.getString(R.string.your_package_is_in_progress)
                     holder.orderStatusTxt?.setTextColor(Color.parseColor("#339347"))
                 }
                 "2" -> {
+                    holder.view2.visibility = View.GONE
                     holder.buttonValue.visibility = View.GONE
                     holder.orderStatusTxt.text = context.getString(R.string.cancelled)
                     holder.orderStatusTxt?.setTextColor(Color.rgb(240, 0, 0))
@@ -141,7 +145,7 @@ class OrdersAdapter(
                     } else {
                         holder.buttonValue.text = context.getString(R.string.review)
                     }
-
+                    holder.view2.visibility = View.VISIBLE
                     holder.orderStatusTxt.text = context.getString(R.string.delivered)
                     holder.orderStatusTxt?.setTextColor(Color.parseColor("#339347"))
 
@@ -155,6 +159,7 @@ class OrdersAdapter(
 
                 }
                 "6" -> {
+                    holder.view2.visibility = View.VISIBLE
                     holder.buttonValue.visibility = View.GONE
                     holder.orderStatusTxt.text =
                         context.getString(R.string.your_package_is_out_for_delivery)
@@ -162,6 +167,7 @@ class OrdersAdapter(
 
                 }
                 "7" -> {
+                    holder.view2.visibility = View.VISIBLE
                     holder.buttonValue.visibility = View.VISIBLE
                     holder.orderStatusTxt.text =
                         context.getString(R.string.your_package_is_accepted)
@@ -169,6 +175,7 @@ class OrdersAdapter(
 
                 }
                 "9" -> {
+                    holder.view2.visibility = View.VISIBLE
                     holder.buttonValue.visibility = View.VISIBLE
                     holder.buttonValue.text = context.getString(R.string.track_order)
                     holder.orderStatusTxt.text =
@@ -177,6 +184,7 @@ class OrdersAdapter(
 
                 }
                 "10" -> {
+                    holder.view2.visibility = View.VISIBLE
                     holder.buttonValue.visibility = View.VISIBLE
                     holder.orderStatusTxt.text =
                         context.getString(R.string.your_package_is_out_for_delivery)
@@ -185,6 +193,7 @@ class OrdersAdapter(
                 }
                 "8" -> {
                     holder.buttonValue.visibility = View.GONE
+                    holder.view2.visibility = View.GONE
                     holder.orderStatusTxt.text = context.getString(R.string.rejected)
                     holder.orderStatusTxt?.setTextColor(Color.rgb(240, 0, 0))
                 }
@@ -203,21 +212,25 @@ class OrdersAdapter(
             when (orders[position].orderStatus) {
                 "0" -> {
                     holder.buttonValue.visibility = View.GONE
+                    holder.view2.visibility = View.GONE
                     holder.orderStatusTxt.text = context.getString(R.string.failed)
                     holder.orderStatusTxt?.setTextColor(Color.rgb(240, 0, 0))
                 }
                 "1" -> {
+                    holder.view2.visibility = View.VISIBLE
                     holder.orderStatusTxt.text =
                         context.getString(R.string.your_order_is_in_progress)
                     holder.orderStatusTxt?.setTextColor(Color.parseColor("#339347"))
                 }
                 "2" -> {
                     holder.buttonValue.visibility = View.GONE
+                    holder.view2.visibility = View.GONE
                     holder.orderStatusTxt.text = context.getString(R.string.cancelled)
                     holder.orderStatusTxt?.setTextColor(Color.rgb(240, 0, 0))
 
                 }
                 "11" -> {
+                    holder.view2.visibility = View.VISIBLE
                     holder.orderStatusTxt.text =
                         context.getString(R.string.your_food_is_being_prepared)
                     holder.orderStatusTxt?.setTextColor(Color.parseColor("#339347"))
@@ -235,12 +248,14 @@ class OrdersAdapter(
                     } else {
                         holder.buttonValue.text = context.getString(R.string.review)
                     }
-
+                    holder.view2.visibility = View.VISIBLE
                     holder.orderStatusTxt.text = context.getString(R.string.delivered)
                     holder.orderStatusTxt?.setTextColor(Color.parseColor("#339347"))
                 }
                 "5" -> {
                     holder.buttonValue.visibility = View.GONE
+                    holder.view2.visibility = View.VISIBLE
+
                     holder.orderStatusTxt.text =
                         context.getString(R.string.your_order_is_being_processed)
                     holder.orderStatusTxt?.setTextColor(Color.parseColor("#339347"))
@@ -248,6 +263,8 @@ class OrdersAdapter(
                 }
                 "6" -> {
                     holder.buttonValue.visibility = View.GONE
+                    holder.view2.visibility = View.VISIBLE
+
                     holder.orderStatusTxt.text =
                         context.getString(R.string.your_order_is_out_for_delivery)
                     holder.orderStatusTxt?.setTextColor(Color.parseColor("#339347"))
@@ -255,6 +272,8 @@ class OrdersAdapter(
                 }
                 "7" -> {
                     holder.buttonValue.visibility = View.VISIBLE
+                    holder.view2.visibility = View.VISIBLE
+
                     holder.orderStatusTxt.text = context.getString(R.string.your_order_is_accepted)
                     holder.orderStatusTxt?.setTextColor(Color.parseColor("#339347"))
                 }
@@ -264,6 +283,7 @@ class OrdersAdapter(
                     } else {
                         holder.buttonValue.visibility = View.VISIBLE
                     }
+                    holder.view2.visibility = View.VISIBLE
 
                     holder.orderStatusTxt.text =
                         context.getString(R.string.your_order_is_being_processed)
@@ -277,6 +297,7 @@ class OrdersAdapter(
                 }
                 "8" -> {
                     holder.buttonValue.visibility = View.GONE
+                    holder.view2.visibility = View.GONE
                     holder.orderStatusTxt.text = context.getString(R.string.rejected)
                     holder.orderStatusTxt?.setTextColor(Color.rgb(240, 0, 0))
                 }
@@ -423,6 +444,7 @@ class OrdersAdapter(
         var rating_txt_ll = view.rating_txt_ll
         var rating_txt_ = view.rating_txt_
         var orderIdTxt = view.orderIdTxt
+        var view2 = view.view2
     }
 
     interface OnOrderItemClick {

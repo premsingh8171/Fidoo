@@ -23,19 +23,7 @@ import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.CommonUtils
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
-import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.activity_order_details_sendpackages.*
-import kotlinx.android.synthetic.main.activity_order_details_sendpackages.cart_discount
-import kotlinx.android.synthetic.main.activity_order_details_sendpackages.delivery_charge
-import kotlinx.android.synthetic.main.activity_order_details_sendpackages.delivery_coupon
-import kotlinx.android.synthetic.main.activity_order_details_sendpackages.delivery_coupon_label
-import kotlinx.android.synthetic.main.activity_order_details_sendpackages.grand_price
-import kotlinx.android.synthetic.main.activity_order_details_sendpackages.grand_price2
-import kotlinx.android.synthetic.main.activity_order_details_sendpackages.gstPriceTxt
-import kotlinx.android.synthetic.main.activity_order_details_sendpackages.gstTxt
-import kotlinx.android.synthetic.main.activity_order_details_sendpackages.label_cart_discount
-import kotlinx.android.synthetic.main.activity_order_details_sendpackages.label_delivery_charge
-import kotlinx.android.synthetic.main.activity_order_details_sendpackages.sub_total
 
 @Suppress("DEPRECATION")
 class OrderDetailsSendPackageActivity : BaseActivity() {
@@ -91,8 +79,9 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
                 try{
                   //  order_delivered_time.text =user.deleivered_at
                       if (user.delivery_boy_name.isNotEmpty()) {
-                          delivery_atTxt.text =
-                              "Order Delivered by " + user.delivery_boy_name + " at " + user.deleivered_at
+                          delivery_atTxt.text = "Order Delivered by " + user.delivery_boy_name
+
+                          deliveredAtTxt.text = user.deleivered_at
                       }else{
                           delivery_atTxt.text=""
                       }
