@@ -68,12 +68,13 @@
 <!--                    android:textSize="@dimen/margin_10" />-->
             </LinearLayout>
         </FrameLayout>
+
         <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="50dp"
+            android:layout_width="34dp"
+            android:layout_height="75dp"
             android:layout_centerInParent="true"
-            app:lottie_rawRes="@raw/swingpin"
             app:lottie_autoPlay="true"
-            android:layout_height="90dp"/>
+            app:lottie_rawRes="@raw/swingpin" />
         <ImageView
             android:id="@+id/markerLocation"
             android:layout_width="wrap_content"
