@@ -172,7 +172,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             return@setOnMenuItemClickListener true
         }
 
-        bottomNavigationView.itemIconTintList= null
+
 
 
        /* val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
