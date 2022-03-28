@@ -98,6 +98,8 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         var orderSuccess: Int? = 0
         var handleTrackScreenOrderSuccess: Int = 1 //when order status 3
 
+        var checkAddressSavedFromWhichActivity : String = ""
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

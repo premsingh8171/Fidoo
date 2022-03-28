@@ -36,11 +36,13 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
+import com.fidoo.user.activity.MainActivity.Companion.checkAddressSavedFromWhichActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.ChangeAddressActivity.Companion.value_current_loc
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew.Companion.savedAddressesActivity
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
+import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
@@ -75,6 +77,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
     companion object {
         val MY_PERMISSIONS_REQUEST_CODE = 123
+
     }
     var onMapNoNetDiolog: Dialog? = null
     private lateinit var saveBtn : Button
@@ -141,6 +144,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             .create(UserTrackerViewModel::class.java)
 
         where = pref!!.guestLogin
+
 
         if (SessionTwiclo(this).isLoggedIn == true) {
             viewmodelusertrack?.customerActivityLog(
@@ -279,6 +283,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 //            }
 //        })
         btn_continue.setOnClickListener {
+            checkAddressSavedFromWhichActivity = "fromNewAddressActivity"
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
             } else {
@@ -576,8 +581,14 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                 SavedAddressesActivityNew.editAdd = 1
                 finish()
                 AppUtils.finishActivityLeftToRight(this)
-                val intent = Intent(this,MainActivity::class.java)
-                startActivity(intent)
+                if (checkAddressSavedFromWhichActivity.equals("fromNewAddressActivity")) {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+                else if(checkAddressSavedFromWhichActivity.equals("fromCart")){
+                    val intent = Intent(this, CartActivity::class.java)
+                    startActivity(intent)
+                }
             } else if (it.errorCode == 101) {
                 showAlertDialog(this)
             }

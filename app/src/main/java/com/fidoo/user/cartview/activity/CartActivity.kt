@@ -38,6 +38,7 @@ import com.fidoo.user.BuildConfig
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addCartTempList
+import com.fidoo.user.activity.MainActivity.Companion.checkAddressSavedFromWhichActivity
 import com.fidoo.user.activity.MainActivity.Companion.handleTrackScreenOrderSuccess
 import com.fidoo.user.activity.MainActivity.Companion.onBackpressHandle
 import com.fidoo.user.activity.SplashActivity
@@ -497,6 +498,7 @@ class CartActivity : BaseActivity(),
 		}
 
 		delivery_address_lay.setOnClickListener {
+			checkAddressSavedFromWhichActivity = "fromCart"
 //			if (!isNetworkConnected) {
 //				showToast(resources.getString(R.string.provide_internet))
 //			} else {
