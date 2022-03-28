@@ -147,10 +147,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         pref = SessionTwiclo(requireContext())
         where = pref.guestLogin
 
-//		viewmodel?.getHomeDataApi(accountId,accessToken,"","")
-
-
-        // Display size
         val displayMetrics = DisplayMetrics()
         requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
         width = displayMetrics.widthPixels
@@ -206,7 +202,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
                         requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
                     view.visibility = View.VISIBLE
                 }
-                //  Log.d("storeVisibilityNested11", "$scrollY--$oldScrollY")
             } else if (scrollX == scrollY) {
 
                 if (scrollY < 5) {
@@ -237,10 +232,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         return fragmentHomeBinding?.root
     }
 
-
-    /**
-     * Showing BottomSheetDialog to see saved address or to add new one
-     */
     private fun showDialog() {
         dialog = context?.let { Dialog(it) }!!
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -250,8 +241,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
         val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
         val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
-//		val address = dialog.findViewById<TextView>(R.id.home_address_tv)
-//		address.text = SessionTwiclo(context).userAddress
         mBtnToTurnOnLocation?.setOnClickListener {
             val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivity(intent)
@@ -324,58 +313,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             }
         }
 
-
-//        addressViewModel?.getAddressesResponse?.observe(requireActivity(),
-//            androidx.lifecycle.Observer { user ->
-//                Log.e("addresses_response", Gson().toJson(user))
-//                if (!user.addressList.isNullOrEmpty()) {
-//                    bottomSheetAddress?.visibility = VISIBLE
-//                    val adapter = AddressesAdapterBottom(
-//                        requireContext(), user.addressList,
-//                        object : AddressesAdapterBottom.SetOnDeteleAddListener {
-//                            override fun onDelete(
-//								add_id: String,
-//								addressList: GetAddressModel.AddressList,
-//							) {
-//                            }
-//
-//                            override fun onClick(addressList: GetAddressModel.AddressList) {
-//                                when {
-//                                    addressList.addressType.equals("1") -> {
-//                                        SessionTwiclo(requireContext()).userAddress =
-//                                            addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-//                                        SessionTwiclo(requireContext()).addressType = "Home"
-//                                    }
-//                                    addressList.addressType.equals("2") -> {
-//                                        SessionTwiclo(requireContext()).userAddress =
-//                                            addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-//                                        SessionTwiclo(requireContext()).addressType = "Office"
-//                                    }
-//                                    else -> {
-//                                        SessionTwiclo(requireContext()).userAddress =
-//                                            addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-//                                        SessionTwiclo(requireContext()).addressType = "Other"
-//                                    }
-//                                }
-//                                SessionTwiclo(requireContext()).userAddress =
-//                                    addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-//                                SessionTwiclo(requireContext()).userAddressId = addressList.id
-//                                SessionTwiclo(requireContext()).userLat = addressList.latitude
-//                                SessionTwiclo(requireContext()).userLng = addressList.longitude
-//                                dialog?.dismiss()
-//                                restHomePage()
-//                            }
-//                        },
-//                        "bottomSheetAddress"
-//                    )
-//                    rvManageAddress?.layoutManager = GridLayoutManager(requireContext(), 1)
-//                    rvManageAddress?.setHasFixedSize(true)
-//                    rvManageAddress?.adapter = adapter
-//                }
-//            })
-
-        val manager =
-            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         //Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()
             lvCheckLocation?.visibility = View.GONE
@@ -388,11 +326,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         dialog?.window!!.setGravity(Gravity.BOTTOM)
 
     }
-
-    /**
-     *
-     */
-
 
     private fun restHomePage() {
         deleteRoomDataBase()
@@ -420,9 +353,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         }
     }
 
-    /**
-     * To check Location is enabled or not
-     */
     private fun isLocationEnabled(context: Context): Boolean {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return LocationManagerCompat.isLocationEnabled(locationManager)
