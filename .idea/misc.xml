@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_edit_profile.xml" value="0.14764492753623187" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_main.xml" value="0.14764492753623187" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.14764492753623187" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_profile.xml" value="0.14764492753623187" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/grocery_cat_item_layout.xml" value="0.14764492753623187" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/select_cat_restaurant_popup.xml" value="0.14764492753623187" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.14764492753623187" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/bottom_background.xml" value="0.240625" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/checkhome_active.xml" value="0.2026315789473684" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/dotted_vertical_line.xml" value="0.240625" />
@@ -34,7 +40,7 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

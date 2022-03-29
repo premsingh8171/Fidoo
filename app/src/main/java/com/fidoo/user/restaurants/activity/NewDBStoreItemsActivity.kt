@@ -1178,14 +1178,13 @@ class NewDBStoreItemsActivity :
                                     Log.e("product_sub_category_id_", i.toString())
                                     clickevent = 0
 
-                                    if (i == 0) {
-                                        storeItemsRecyclerview?.smoothScrollToPosition(i)
-                                        storeItemsRecyclerview?.scrollToPosition(i+1 )
-                                    } else {
-//                                       storeItemsRecyclerview?.scrollToPosition(i!!+4)
-//                                       storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
-                                        storeItemsRecyclerview?.smoothSnapToPosition(i)
-                                    }
+
+                                    (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1,300)
+                                       //storeItemsRecyclerview?.layoutManager?.scrollToPosition(i)
+                                     //  storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
+                                       // storeItemsRecyclerview?.smoothSnapToPosition(i+1)
+
+
                                 }
                             }
                         }
@@ -2154,7 +2153,7 @@ class NewDBStoreItemsActivity :
             override fun getHorizontalSnapPreference(): Int = snapMode
         }
         smoothScroller.targetPosition = position
-        storeItemsRecyclerview.layoutManager?.startSmoothScroll(smoothScroller)
+        storeItemsRecyclerview.scrollToPosition(position)
         //storeItemsRecyclerview.layoutManager?.scrollToPosition(position)
     }
 }

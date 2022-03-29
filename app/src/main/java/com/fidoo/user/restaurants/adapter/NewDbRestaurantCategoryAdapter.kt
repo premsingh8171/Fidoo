@@ -41,6 +41,7 @@ class NewDbRestaurantCategoryAdapter(
 			notifyDataSetChanged()
 		}
 
+
 		if (active_or_not == position) {
 			holder.itemView.cat_tv.setTextColor(Color.parseColor("#339347"))
 			holder.itemView.countTxt.setTextColor(Color.parseColor("#339347"))
