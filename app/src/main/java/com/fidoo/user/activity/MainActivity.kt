@@ -155,15 +155,27 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
 
         this.registerReceiver(mBroadcastReceiver, IntentFilter("start_send_package_fragment"))
-        // val navController = findNavController(R.id.fragment4)
-        //bottomNavigationView.setupWithNavController(navController)
-
-        // setCurrentFragment(HomeNewUiFragment())
-
 
         bottomNavigationView.itemIconTintList= null
+         val navController = findNavController(R.id.fragment4)
+        bottomNavigationView.setupWithNavController(navController)
 
-        val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        bottomNavigationView.menu.findItem(R.id.SendPackageAct).setOnMenuItemClickListener {
+            item_idno=1
+            startActivity(
+                Intent(this@MainActivity, SendPackageActivity::class.java)
+                    .putExtra("where", where)
+                    .putExtra("cat_id", "")
+                    .putExtra("cat_name", "")
+            )
+
+            return@setOnMenuItemClickListener true
+        }
+
+
+
+
+       /* val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.homeFragment -> {
                     item_idno = 0
@@ -221,7 +233,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             false
         }
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(navigasjonen)
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigasjonen)*/
 
 
 
@@ -669,19 +681,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
     }
 
-    override fun onBackPressed() {
 
-
-        if (item_idno == 0) {
-            AppUtils.finishActivityLeftToRight(this)
-        } else {
-            setCurrentFragment(HomeNewUiFragment())
-            settexttitle()
-            item_idno = 0
-            val home_item = bottomNavigationView.menu.findItem(R.id.homeFragment)
-            home_item.setChecked(true)
-        }
-    }
 
 
     override fun onStart() {
@@ -691,17 +691,12 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
         super.onStart()
-        if (item_idno==0){
-            setCurrentFragment(HomeNewUiFragment())
-            settexttitle()
-            val home_item = bottomNavigationView.menu.findItem(R.id.homeFragment)
-            home_item.setChecked(true)
+        if (item_idno==1) {
+            val navController = findNavController(R.id.fragment4)
+            item_idno=0
+            bottomNavigationView.setupWithNavController(navController)
+            navController.navigate(R.id.homeFragment)
         }
-
-
-
-
-
     }
 
     override fun onStop() {
