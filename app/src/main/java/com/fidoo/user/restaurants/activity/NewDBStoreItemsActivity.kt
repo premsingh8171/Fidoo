@@ -170,7 +170,6 @@ class NewDBStoreItemsActivity :
     }
 
 
-
     //for pagination
     var totalItem: Int? = 120
     var table_count: Int? = 0
@@ -438,7 +437,7 @@ class NewDBStoreItemsActivity :
             // if(filterActive==1) {
             //  filterActive=0
           //  deleteRoomDataBase()
-           // showIOSProgress()
+            showIOSProgress()
             totalItem = 120
             pagecount = 0
             if (veg_filter == 0) {
@@ -1288,12 +1287,17 @@ class NewDBStoreItemsActivity :
                                 Log.d("isScrolling__", "$currentItems-$scrollOutItems-$totalItems")
 
                                 if (table_count!! > productsListing_Count!!) {
-                                    if (isScrolling == true) {
-                                        totalItem = totalItem?.plus(100)
-                                        handleresponce = 1
-                                        //showIOSProgress()
-                                        getRoomData()
-                                        isScrolling = false
+                                    if (nonveg_str.isEmpty()) {
+
+                                        if (isScrolling == true) {
+                                            totalItem = totalItem?.plus(100)
+                                            handleresponce = 1
+                                            //showIOSProgress()
+                                            getRoomData()
+                                            isScrolling = false
+                                        }
+                                    }else{
+                                        filterQuery(nonveg_str)
                                     }
                                 }
                             }
@@ -1327,7 +1331,7 @@ class NewDBStoreItemsActivity :
                 restaurantProductsDatabase!!.resProductsDaoAccess()!!.filterQuery(search_key)
                     .observe(this, Observer { search ->
                         Log.d("searchData_g", Gson().toJson(search))
-
+                         dismissIOSProgress()
                         if (!query.equals("")) {
                             productListFilter = search as ArrayList<StoreItemProductsEntity>
                             storeItemsAdapter.updateData(
