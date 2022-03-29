@@ -3,11 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_userdsafdfdf/app/src/main/res/layout/activity_service_daily_need.xml" value="0.12047101449275362" />
-        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_userdsafdfdf/app/src/main/res/layout/activity_slider_screen.xml" value="0.12047101449275362" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/layout/activity_referral.xml" value="0.264" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
       </map>
     </option>
   </component>
-  <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="15" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.18" />
+      </ProjectState>
+    </option>
+  </component>
 </project>
