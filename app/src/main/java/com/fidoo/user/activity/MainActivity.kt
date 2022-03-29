@@ -692,9 +692,10 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         super.onStart()
         if (item_idno==1) {
-            setCurrentFragment(HomeNewUiFragment())
+            val navController = findNavController(R.id.fragment4)
             item_idno=0
-            bottomNavigationView.menu.findItem(R.id.homeFragment).setChecked(true)
+            bottomNavigationView.setupWithNavController(navController)
+            navController.navigate(R.id.homeFragment)
         }
     }
 
