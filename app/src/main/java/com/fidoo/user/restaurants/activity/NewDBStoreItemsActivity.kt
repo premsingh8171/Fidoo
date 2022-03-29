@@ -16,10 +16,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.AbsListView
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -440,8 +437,8 @@ class NewDBStoreItemsActivity :
         veg_switch_img.setOnClickListener {
             // if(filterActive==1) {
             //  filterActive=0
-            deleteRoomDataBase()
-            showIOSProgress()
+          //  deleteRoomDataBase()
+           // showIOSProgress()
             totalItem = 120
             pagecount = 0
             if (veg_filter == 0) {
@@ -449,20 +446,21 @@ class NewDBStoreItemsActivity :
                 // egg_switch_img.setImageResource(R.drawable.filter_off)
                 //  egg_filter=0
                 nonveg_str = "0"
-                getStoreDetailsApiCall()
+                //getStoreDetailsApiCall()
                 veg_filter = 1
+                filterQuery(nonveg_str)
 
             } else {
                 veg_switch_img.setImageResource(R.drawable.filter_off)
                 nonveg_str = ""
-                getStoreDetailsApiCall()
+               // getStoreDetailsApiCall()
                 veg_filter = 0
+                filterQuery(nonveg_str)
 
             }
-
             visibilityView()
             searchEdt_ResPrd.getText().clear()
-            getRoomData()
+           // getRoomData()
             // }
         }
 
@@ -488,7 +486,7 @@ class NewDBStoreItemsActivity :
                 }
                 visibilityView()
                 searchEdt_ResPrd.getText().clear()
-                getRoomData()
+               // getRoomData()
             }
         }
 
@@ -798,13 +796,18 @@ class NewDBStoreItemsActivity :
                     Log.e("Product_", productList.size.toString())
 
                     if (pagecount == 0) {
-                        getRoomData()
+                        if (nonveg_str.isEmpty()) {
+                            if (next_available == 0) {
+                             //   getRoomData()
+                                next_available=1
+                            }
+                        }
                     }
 
                     //ratingValue.text = user.rating
                     //  tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
 
-                    if (next_available == 0) {
+                  //  if (next_available == 0) {
                         //	Handler(Looper.getMainLooper()).postDelayed({
                         if (isNetworkConnected) {
                             if (SessionTwiclo(this@NewDBStoreItemsActivity).isLoggedIn) {
@@ -830,7 +833,7 @@ class NewDBStoreItemsActivity :
                             }
                         }
 
-                    }
+                  //  }
 
 
                     cat_visible = 1
@@ -845,7 +848,7 @@ class NewDBStoreItemsActivity :
                 cat_visible = 0
                 productList.clear()!!
                 deleteRoomDataBase()
-                getRoomData()
+              //  getRoomData()
                 dismissIOSProgress()
 //                val toast =
 //                    Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
@@ -1315,10 +1318,57 @@ class NewDBStoreItemsActivity :
 
     }
 
+    //search filterQuery get data
+    private fun filterQuery(query: String?) {
+        var search_key = "%$query%"
+        Log.d("searchData_", search_key.toString())
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                restaurantProductsDatabase!!.resProductsDaoAccess()!!.filterQuery(search_key)
+                    .observe(this, Observer { search ->
+                        Log.d("searchData_g", Gson().toJson(search))
+
+                        if (!query.equals("")) {
+                            productListFilter = search as ArrayList<StoreItemProductsEntity>
+                            storeItemsAdapter.updateData(
+                                productListFilter!!,
+                                productListFilter!!.size.toInt()
+                            )
+
+                            try {
+                                category_header_.text =
+                                    productListFilter!!.get(0)!!.subcategory_name.toString()
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                category_header_.text = ""
+                            }
+
+                        } else {
+                            try {
+                                category_header_.text =
+                                    mainlist!!.get(0)!!.subcategory_name.toString()
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                category_header_.text = ""
+                            }
+                            storeItemsAdapter.updateData(mainlist!!, table_count!!)
+                        }
+                        storeItemsAdapter?.notifyDataSetChanged()
+                        Log.d("searchdata_", search.toString())
+
+                    })
+            },
+            10
+        )
+    }
+
     //search query get data
     private fun searchQuery(query: String?) {
         var search_key = "%$query%"
         Log.d("searchData_", search_key.toString())
+        veg_switch_img.setImageResource(R.drawable.filter_off)
+        nonveg_str = ""
+        veg_filter=0
         Handler(Looper.getMainLooper()).postDelayed(
             {
                 restaurantProductsDatabase!!.resProductsDaoAccess()!!.searchQuery(search_key)
@@ -1360,46 +1410,51 @@ class NewDBStoreItemsActivity :
     //get data from room
     private fun getRoomData() {
         Handler(Looper.getMainLooper()).postDelayed({
-            if (searchEdt_ResPrd.getText().toString().equals("") || searchEdt_ResPrd.getText()
-                    .toString().startsWith(" ")
-            ) {
+            if(!nonveg_str.isEmpty()){
+                filterQuery(nonveg_str)
+            }else {
+                if (searchEdt_ResPrd.getText().toString().equals("") || searchEdt_ResPrd.getText()
+                        .toString().startsWith(" ")
+                ) {
 
-                restaurantProductsDatabase!!.resProductsDaoAccess()!!.getTableCount()
-                    .observe(this, { c ->
-                        Log.d("table_count", c.toString())
-                        table_count = c.toInt()
-                    })
+                    restaurantProductsDatabase!!.resProductsDaoAccess()!!.getTableCount()
+                        .observe(this, { c ->
+                            Log.d("table_count", c.toString())
+                            table_count = c.toInt()
+                        })
 
-                restaurantProductsDatabase!!.resProductsDaoAccess()!!
-                    .getAllProducts2(totalItem.toString())
-                    .observe(this, Observer { t ->
-                        Log.d("restaurantPrdD", t.size.toString() + "--" + handleresponce)
+                    restaurantProductsDatabase!!.resProductsDaoAccess()!!
+                        .getAllProducts2(totalItem.toString())
+                        .observe(this, Observer { t ->
+                            Log.d("restaurantPrdD", t.size.toString() + "--" + handleresponce)
 
-                        if (handleresponce == 0) {
-                            mainlist = t as ArrayList<StoreItemProductsEntity>?
-                            val s: Set<StoreItemProductsEntity> =
-                                LinkedHashSet<StoreItemProductsEntity>(mainlist)
-                            mainlist!!.clear()
-                            mainlist!!.addAll(s)
-                            productsListing_Count = mainlist!!.size
-                            rvStoreItemlisting(mainlist!!)
-                        } else {
-                            var productListUpdate: ArrayList<StoreItemProductsEntity> =
-                                ArrayList()
-                            productListUpdate = t as ArrayList<StoreItemProductsEntity>
-                            mainlist = productListUpdate
-                            val s: Set<StoreItemProductsEntity> =
-                                LinkedHashSet<StoreItemProductsEntity>(mainlist)
-                            mainlist!!.clear()
-                            mainlist!!.addAll(s)
-                            productsListing_Count = mainlist!!.size
-                            storeItemsAdapter.updateData(mainlist!!, table_count!!)
-                        }
-                    })
+                            if (handleresponce == 0) {
+                                mainlist = t as ArrayList<StoreItemProductsEntity>?
+                                val s: Set<StoreItemProductsEntity> =
+                                    LinkedHashSet<StoreItemProductsEntity>(mainlist)
+                                mainlist!!.clear()
+                                mainlist!!.addAll(s)
+                                productsListing_Count = mainlist!!.size
+                                rvStoreItemlisting(mainlist!!)
+                            } else {
+                                var productListUpdate: ArrayList<StoreItemProductsEntity> =
+                                    ArrayList()
+                                productListUpdate = t as ArrayList<StoreItemProductsEntity>
+                                mainlist = productListUpdate
+                                val s: Set<StoreItemProductsEntity> =
+                                    LinkedHashSet<StoreItemProductsEntity>(mainlist)
+                                mainlist!!.clear()
+                                mainlist!!.addAll(s)
+                                productsListing_Count = mainlist!!.size
+                                storeItemsAdapter.updateData(mainlist!!, table_count!!)
+                            }
 
-                //   dismissIOSProgress()
-            } else {
-                searchQuery(search_value)
+                        })
+
+                    //   dismissIOSProgress()
+                } else {
+                    searchQuery(search_value)
+                }
             }
         }, 100)
 

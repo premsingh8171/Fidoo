@@ -28,6 +28,9 @@ interface RestaurantProductsDao {
     @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" WHERE productName LIKE :query")
     fun searchQuery(query:String?): LiveData<List<StoreItemProductsEntity>>
 
+    @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" WHERE isNonveg LIKE :query")
+    fun filterQuery(query:String?): LiveData<List<StoreItemProductsEntity>>
+
     // @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" ORDER BY product_sub_category_id ASC LIMIT :limit")
 
     @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" LIMIT :limit")
