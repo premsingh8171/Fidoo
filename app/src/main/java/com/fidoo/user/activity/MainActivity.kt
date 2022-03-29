@@ -164,6 +164,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         bottomNavigationView?.animation?.backgroundColor = Color.parseColor("#11520b")
         bottomNavigationView.setupWithNavController(navController)
 
+
         // setCurrentFragment(HomeNewUiFragment())
 
         bottomNavigationView.menu.findItem(R.id.SendPackageAct).setOnMenuItemClickListener {
@@ -706,9 +707,10 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
         super.onStart()
         if (item_idno==1) {
-            setCurrentFragment(HomeNewUiFragment())
-            item_idno=0
-            bottomNavigationView.menu.findItem(R.id.homeFragment).setChecked(true)
+            val navController = findNavController(R.id.fragment4)
+           item_idno=0
+            bottomNavigationView.setupWithNavController(navController)
+            navController.navigate(R.id.homeFragment)
         }
 
     }
