@@ -325,9 +325,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                         addressType,
                                         lat.toString(),
                                         lng.toString(),
-                                        "Name",
+                                        defaultValue,
                                         "", defaultValue,
-                                        "0000000000",
+                                        defaultValue,
                                         tempAddressId, contact_type!!
                                     )
 
@@ -343,10 +343,10 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                         addressType,
                                         lat.toString(),
                                         lng.toString(),
-                                        "Name",
+                                        defaultValue,
                                         "",
                                         defaultValue,
-                                        "0000000000", contact_type!!
+                                        defaultValue, contact_type!!
                                     )
 
                                 }
@@ -380,9 +380,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                         addressType,
                                         lat.toString(),
                                         lng.toString(),
-                                        "Name",
+                                        defaultValue,
                                         "", defaultValue,
-                                        "0000000000",
+                                        defaultValue,
                                         tempAddressId, contact_type!!
                                     )
 
@@ -398,10 +398,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                         addressType,
                                         lat.toString(),
                                         lng.toString(),
-                                        "Name",
-                                        "",
                                         defaultValue,
-                                        "0000000000", contact_type!!
+                                        "",
+                                        defaultValue, defaultValue, contact_type!!
                                     )
 
                                 }
@@ -455,9 +454,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                     addressType,
                                     lat.toString(),
                                     lng.toString(),
-                                    "Name",
+                                    defaultValue,
                                     "", defaultValue,
-                                    "0000000000",
+                                    defaultValue,
                                     tempAddressId,
                                     contact_type!!
                                 )
@@ -474,10 +473,10 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                     addressType,
                                     lat.toString(),
                                     lng.toString(),
-                                    "Name",
+                                    defaultValue,
                                     "",
                                     defaultValue,
-                                    "0000000000",
+                                    defaultValue,
                                     contact_type!!
                                 )
                             }

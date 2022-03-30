@@ -220,6 +220,11 @@ class CartActivity : BaseActivity(),
 				if(user.addressList.isNullOrEmpty()){
 					tv_select_address.text = "Add Address"
 				}
+				if(user.errorCode == 200){
+					tv_select_address.text = "Select Address"
+					select_address_or_add_layout.visibility = View.VISIBLE
+					cart_payment_lay.visibility = View.GONE
+				}
 					if (!user.addressList.isNullOrEmpty()) {
 						user.addressList.forEach { list ->
 							if (tv_delivery_address.text.equals(list.location))

@@ -140,25 +140,26 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
 
-        if (isNetworkConnected) {
-            if (SessionTwiclo(this).isLoggedIn){
-                try {
-                    viewmodel?.getAddressesApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        "",
-                        ""
-                    )
-                }catch (e:Exception){
-                    e.printStackTrace()
-                }
-            }else{
-                getCurrentLocation()
-            }
-
-        } else {
-            showInternetToast()
-        }
+       // getAddress()
+//        if (isNetworkConnected) {
+//            if (SessionTwiclo(this).isLoggedIn){
+//                try {
+//                    viewmodel?.getAddressesApi(
+//                        SessionTwiclo(this).loggedInUserDetail.accountId,
+//                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                        "",
+//                        ""
+//                    )
+//                }catch (e:Exception){
+//                    e.printStackTrace()
+//                }
+//            }else{
+//                getCurrentLocation()
+//            }
+//
+//        } else {
+//            showInternetToast()
+//        }
 
         try {
             if (SessionTwiclo(this).orderId.isNotEmpty()){
@@ -344,6 +345,27 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     }
 
+    private fun getAddress() {
+        if (isNetworkConnected) {
+            if (SessionTwiclo(this).isLoggedIn){
+                try {
+                    viewmodel?.getAddressesApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        "",
+                        ""
+                    )
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
+            }else{
+                getCurrentLocation()
+            }
+
+        } else {
+            showInternetToast()
+        }    }
+
     override fun onPause() {
         super.onPause()
     }
@@ -463,6 +485,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     override fun onResume() {
         super.onResume()
         checkPermission()
+        getAddress()
         if (SessionTwiclo(this).orderId.isNotEmpty()) {
             orderId=SessionTwiclo(this).orderId
             viewmodel?.getOrderStatusApi(
