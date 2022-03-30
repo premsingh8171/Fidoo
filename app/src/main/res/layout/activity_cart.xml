@@ -1039,6 +1039,7 @@
             <LinearLayout
                 android:id="@+id/select_address_or_add_layout"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:gravity="center">
                 <TextView

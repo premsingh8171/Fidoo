@@ -1386,6 +1386,7 @@ class CartActivity : BaseActivity(),
 								userLat,
 								userLong
 							)
+
 						}
 					},
 					"bottomSheetAddress"
@@ -2057,6 +2058,7 @@ class CartActivity : BaseActivity(),
 			accountId,
 			accessToken, mImageParts
 		)
+		select_address_or_add_layout.visibility = View.GONE
 	}
 
 	override fun onIdSelected(
@@ -2349,6 +2351,7 @@ class CartActivity : BaseActivity(),
 								islocationValid = 1
 								if (check == 1) {
 									place_order_lay.visibility = View.VISIBLE
+
 								}
 							} else {
 								place_order_lay.visibility = View.GONE
