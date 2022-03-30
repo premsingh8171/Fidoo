@@ -1321,6 +1321,7 @@ class CartActivity : BaseActivity(),
 		addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
 			Log.e("addresses_response", Gson().toJson(user))
 			if (!user.addressList.isNullOrEmpty()) {
+				bottomSheetAddress?.visibility = View.VISIBLE
 				val adapter = AddressesAdapterBottom(
 					this@CartActivity, user.addressList,
 					object : AddressesAdapterBottom.SetOnDeteleAddListener {
