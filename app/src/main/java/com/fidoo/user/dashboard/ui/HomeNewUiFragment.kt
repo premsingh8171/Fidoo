@@ -157,10 +157,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
         fragmentHomeBinding?.viewPagerBannerNewDesh!!.clipToPadding = false
 
-        val manager =
-            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            dialog?.setCanceledOnTouchOutside(false)
             showDialog()
+        }
         val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
             object : ViewPager.OnPageChangeListener {
                 override fun onPageSelected(position: Int) {}

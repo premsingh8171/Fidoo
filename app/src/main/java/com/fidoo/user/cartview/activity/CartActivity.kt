@@ -96,7 +96,6 @@ import kotlinx.android.synthetic.main.activity_cart.customAddBtn
 import kotlinx.android.synthetic.main.activity_cart.customItemsRecyclerview
 import kotlinx.android.synthetic.main.activity_cart.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_cart.tv_coupon
-import kotlinx.android.synthetic.main.manage_address_bottomsheet_dialogue.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -221,6 +220,7 @@ class CartActivity : BaseActivity(),
 				this@CartActivity,
 				androidx.lifecycle.Observer { user ->
 					if (!user.addressList.isNullOrEmpty()) {
+
 						user.addressList.forEach { list ->
 							if (tv_delivery_address.text.equals(list.location))
 								Toast.makeText(_context, "${list.location}", Toast.LENGTH_SHORT).show()
@@ -1368,7 +1368,6 @@ class CartActivity : BaseActivity(),
 				rvManageAddress?.layoutManager = GridLayoutManager(this@CartActivity, 1)
 				rvManageAddress?.setHasFixedSize(true)
 				rvManageAddress?.adapter = adapter
-				ll_select_address?.visibility = View.VISIBLE
 			}
 		})
 		val manager = this@CartActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager

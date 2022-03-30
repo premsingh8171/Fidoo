@@ -73,6 +73,7 @@
         <LinearLayout
             android:id="@+id/ll_select_address"
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:background="@color/white"
             android:padding="16dp"
             android:layout_height="wrap_content">

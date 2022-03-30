@@ -40,12 +40,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
-                    android:id="@+id/tv_Address_2"
+                    android:id="@+id/tv_Address_locality"
                     android:fontFamily="@font/metropolis_semi_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:ellipsize="end"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/margin_10"
                     android:maxLines="1"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:layout_marginLeft="@dimen/margin_10"
@@ -55,26 +57,27 @@
                     android:textSize="12sp" />
 
 
-<!--                <TextView-->
-<!--                    android:fontFamily="@font/proxima"-->
-<!--                    android:layout_marginTop="@dimen/margin_2dp"-->
-<!--                    android:layout_marginBottom="@dimen/margin_20dp"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginLeft="@dimen/margin_10"-->
-<!--                    android:layout_marginRight="@dimen/margin_10"-->
-<!--                    android:text="Please place the pin accurately on the map"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="@dimen/margin_10" />-->
+                <!--                <TextView-->
+                <!--                    android:fontFamily="@font/proxima"-->
+                <!--                    android:layout_marginTop="@dimen/margin_2dp"-->
+                <!--                    android:layout_marginBottom="@dimen/margin_20dp"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginLeft="@dimen/margin_10"-->
+                <!--                    android:layout_marginRight="@dimen/margin_10"-->
+                <!--                    android:text="Please place the pin accurately on the map"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="@dimen/margin_10" />-->
             </LinearLayout>
         </FrameLayout>
 
         <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="34dp"
-            android:layout_height="75dp"
+            android:layout_width="24dp"
+            android:layout_height="56dp"
             android:layout_centerInParent="true"
             app:lottie_autoPlay="true"
-            app:lottie_rawRes="@raw/swingpin" />
+            app:lottie_rawRes="@raw/swingpin"
+            android:translationY="-18dp"/>
         <ImageView
             android:id="@+id/markerLocation"
             android:layout_width="wrap_content"
@@ -110,6 +113,4 @@
         android:background="@color/colorPrimary"
         android:layout_margin="16dp"
         android:textStyle="bold"/>
-
-
 </RelativeLayout>
