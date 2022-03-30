@@ -105,8 +105,6 @@
                         android:id="@+id/rvManageSavedAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen_5dp"
-                        android:layout_marginEnd="@dimen/dimen_5dp"
                         android:background="@color/lightGray"
                         android:orientation="vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

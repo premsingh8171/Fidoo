@@ -236,7 +236,7 @@ class ProfileFragment : Fragment() {
             )
         }
 
-        viewmodel?.getlogoutResponse?.observe(requireActivity(), { user ->
+        viewmodel?.getlogoutResponse?.observe(requireActivity()) { user ->
             try {
                 dismissIOSProgress()
                 Log.e("logout__response", Gson().toJson(user))
@@ -254,7 +254,7 @@ class ProfileFragment : Fragment() {
 //                startActivity(Intent(requireActivity(), SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
 
             }
-        })
+        }
 
         return mView
     }

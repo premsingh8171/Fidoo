@@ -523,7 +523,7 @@
         app:cardCornerRadius="@dimen/margin_15dp"
         android:layout_marginBottom="24dp"
         android:layout_height="wrap_content">
-        <android.inputmethodservice.ExtractEditText
+        <androidx.appcompat.widget.AppCompatCheckedTextView
             android:padding="@dimen/margin_15dp"
             android:textColor="@color/black"
             android:drawableStart="@drawable/ic_new_location"

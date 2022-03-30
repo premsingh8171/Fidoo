@@ -67,6 +67,12 @@
                         android:layout_marginBottom="@dimen/margin_2dp"
                         android:layout_weight="9"
                         android:visibility="gone"
+
+
+
+
+
+
                         app:cardCornerRadius="@dimen/margin_12dp">
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -124,7 +130,9 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/margin_10"
-                    android:visibility="gone"
+                   android:visibility="gone"
+
+
                     android:weightSum="10">
                     <LinearLayout
                         android:id="@+id/current_locLL"
