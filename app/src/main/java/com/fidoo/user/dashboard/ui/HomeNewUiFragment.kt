@@ -22,7 +22,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.location.LocationManagerCompat
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -127,17 +126,13 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        fragmentHomeBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_home_newui, container, false)
+        fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_newui, container, false)
 
         analytics = FirebaseAnalytics.getInstance(requireContext())
-        addressViewModel =
-            ViewModelProviders.of(requireActivity()).get(AddressViewModel::class.java)
+        addressViewModel = ViewModelProviders.of(requireActivity()).get(AddressViewModel::class.java)
         viewmodel = ViewModelProviders.of(requireActivity()).get(HomeFragmentViewModel::class.java)
-        fixedAddressViewModel =
-            ViewModelProviders.of(requireActivity()).get(HomeFragmentNewViewModel::class.java)
-        viewmodelusertrack =
-            ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
+        fixedAddressViewModel = ViewModelProviders.of(requireActivity()).get(HomeFragmentNewViewModel::class.java)
+        viewmodelusertrack = ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
         mMixpanel = MixpanelAPI.getInstance(requireContext(), "defeff96423cfb1e8c66f8ba83ab87fd")
 
         props.put("Dashboard initialized", true)
@@ -262,8 +257,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             CartActivity.accountId = SessionTwiclo(requireActivity()).loginDetail.accountId.toString()
             CartActivity.accessToken = SessionTwiclo(requireActivity()).loginDetail.accessToken
         }
-        fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity())
-        {
+        fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
             if (!it.addressList.isNullOrEmpty()) {
                 bottomSheetAddress?.visibility = VISIBLE
                 val adapter = AddressesAdapterBottom(
@@ -348,9 +342,38 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         }
     }
 
-    private fun isLocationEnabled(context: Context): Boolean {
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return LocationManagerCompat.isLocationEnabled(locationManager)
+    fun getAddress(){
+        fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
+            if (!it.addressList.isNullOrEmpty()) {
+                val flat = it.addressList[0].flatNo
+                val locality = it.addressList[0].location
+                val landmark = it.addressList[0].landmark
+                if (!landmark.isNullOrEmpty()) {
+                    userAddress_newDesh.text = "$flat"+" "+"$locality"
+                }
+                else{
+                    userAddress_newDesh.text = "$flat"+" "+"$locality"
+                }
+            }
+
+//            when {
+//                it.addressList[0].addressType.equals("1") -> {
+//                    SessionTwiclo(requireContext()).userAddress =
+//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
+//                    SessionTwiclo(requireContext()).addressType = "Home"
+//                }
+//                it.addressList[0].addressType.equals("2") -> {
+//                    SessionTwiclo(requireContext()).userAddress =
+//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
+//                    SessionTwiclo(requireContext()).addressType = "Office"
+//                }
+//                else -> {
+//                    SessionTwiclo(requireContext()).userAddress =
+//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
+//                    SessionTwiclo(requireContext()).addressType = "Other"
+//                }
+//            }
+        }
     }
 
     private fun slideDown(view: View) {
@@ -712,6 +735,15 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
     override fun onResume() {
         Log.d("Nishant", "onResume: ")
         super.onResume()
+        getAddress()
+        if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
+            CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
+            CartActivity.accessToken = SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
+        } else {
+            CartActivity.accountId = SessionTwiclo(requireActivity()).loginDetail.accountId.toString()
+            CartActivity.accessToken = SessionTwiclo(requireActivity()).loginDetail.accessToken
+        }
+
         ProfileFragment.addManages = ""
         deleteRoomDataBase()
         if ((activity as MainActivity).isNetworkConnected) {
@@ -725,7 +757,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
                 if (SessionTwiclo(context).addressType.equals("")) {
                     text_newDesh.text = "Your Location"
                 } else {
-
+                    //    userAddress_newDesh?.text = fixedAddressViewModel?.addrListModel?.value?.addressList?.get(0).toString()
                     text_newDesh.text = SessionTwiclo(context).addressType
                 }
 
@@ -736,6 +768,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             }
             fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
         }
+
+
     }
 
     override fun provideYourFragmentView(

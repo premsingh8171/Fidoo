@@ -3,13 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/layout/activity_cart.xml" value="0.21784420289855072" />
-        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/layout/activity_change_address.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/layout/activity_new_add_address_new.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/layout/activity_saved_addresses.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/layout/activity_saved_addresses_new.xml" value="0.21784420289855072" />
-        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/layout/content_map.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/layout/manage_address_bottomsheet_dialogue.xml" value="0.21784420289855072" />
+        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/layout/fragment_home_newui.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

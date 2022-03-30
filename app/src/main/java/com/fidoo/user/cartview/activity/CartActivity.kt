@@ -219,20 +219,21 @@ class CartActivity : BaseActivity(),
 			addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
 				if(user.addressList.size == 0){
 					tv_select_address.text = "Add Address"
+					select_address_or_add_layout.visibility = View.VISIBLE
 				}
 				else if(user.errorCode == 200){
 					tv_select_address.text = "Select Address"
 					select_address_or_add_layout.visibility = View.VISIBLE
 					cart_payment_lay.visibility = View.GONE
 				}
-				else if (!user.addressList.isNullOrEmpty()) {
-						user.addressList.forEach { list ->
-							if (tv_delivery_address.text.equals(list.location))
-								Toast.makeText(_context, "${list.location}", Toast.LENGTH_SHORT).show()
-							Log.d("Rishab", "${list.location}")
-
-						}
-					}
+//				else if (!user.addressList.isNullOrEmpty()) {
+//						user.addressList.forEach { list ->
+//							if (tv_delivery_address.text.equals(list.location))
+//								Toast.makeText(_context, "${list.location}", Toast.LENGTH_SHORT).show()
+//							Log.d("Rishab", "${list.location}")
+//
+//						}
+//					}
 					else{
 						select_address_or_add_layout.visibility = View.VISIBLE
 						cart_payment_lay.visibility = View.GONE
