@@ -96,6 +96,7 @@ import kotlinx.android.synthetic.main.activity_cart.customAddBtn
 import kotlinx.android.synthetic.main.activity_cart.customItemsRecyclerview
 import kotlinx.android.synthetic.main.activity_cart.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_cart.tv_coupon
+import kotlinx.android.synthetic.main.manage_address_bottomsheet_dialogue.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -213,6 +214,29 @@ class CartActivity : BaseActivity(),
 		tv_delivery_address.text = selectedAddressName
 		tv_landmark.text = selectedPreAddressName
 
+		tv_delivery_address.text = selectedAddressName
+		tv_landmark.text = selectedPreAddressName
+		if (!tv_delivery_address.text.isNullOrEmpty()) {
+			addressViewModel?.getAddressesResponse?.observe(
+				this@CartActivity,
+				androidx.lifecycle.Observer { user ->
+					if (!user.addressList.isNullOrEmpty()) {
+						user.addressList.forEach { list ->
+							if (tv_delivery_address.text.equals(list.location))
+								Toast.makeText(_context, "${list.location}", Toast.LENGTH_SHORT).show()
+							Log.d("Rishab", "${list.location}")
+
+						}
+					}
+					else{
+						select_address_or_add_layout.visibility = View.VISIBLE
+						cart_payment_lay.visibility = View.GONE
+					}
+				})
+		}
+		select_address_or_add_layout.setOnClickListener {
+			showDialogBottom()
+		}
 		address_id = SessionTwiclo(this).userAddressId
 		Log.d("address_idaddress_id", address_id)
 		selectedCouponId = ""
@@ -1297,11 +1321,6 @@ class CartActivity : BaseActivity(),
 		addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
 			Log.e("addresses_response", Gson().toJson(user))
 			if (!user.addressList.isNullOrEmpty()) {
-				userAddressList = user.addressList.size
-//				cart_payment_lay_One.setOnClickListener {
-//					showDialogBottom()
-//					cart_payment_lay_One.visibility = View.GONE
-//				}
 				val adapter = AddressesAdapterBottom(
 					this@CartActivity, user.addressList,
 					object : AddressesAdapterBottom.SetOnDeteleAddListener {
@@ -1338,6 +1357,8 @@ class CartActivity : BaseActivity(),
 							SessionTwiclo(this@CartActivity).userLat = addressList.latitude
 							SessionTwiclo(this@CartActivity).userLng = addressList.longitude
 							dialog?.dismiss()
+							select_address_or_add_layout.visibility = View.GONE
+							cart_payment_lay.visibility = View.VISIBLE
 							restHomePage()
 						}
 					},
@@ -1347,6 +1368,7 @@ class CartActivity : BaseActivity(),
 				rvManageAddress?.layoutManager = GridLayoutManager(this@CartActivity, 1)
 				rvManageAddress?.setHasFixedSize(true)
 				rvManageAddress?.adapter = adapter
+				ll_select_address?.visibility = View.VISIBLE
 			}
 		})
 		val manager = this@CartActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager

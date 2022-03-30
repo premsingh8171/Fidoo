@@ -944,7 +944,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                     } else {
                         Toast.makeText(
                             this@NewAddAddressActivityNew,
-                            "unable to get last location",
+                            "unable to get current location",
                             Toast.LENGTH_SHORT
                         )
                             .show()

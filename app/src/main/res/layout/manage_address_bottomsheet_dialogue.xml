@@ -71,6 +71,7 @@
         android:orientation="vertical"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:id="@+id/ll_select_address"
             android:layout_width="match_parent"
             android:background="@color/white"
             android:padding="16dp"
@@ -82,12 +83,14 @@
                 android:fontFamily="@font/worksans_semibold"
                 android:textSize="20sp"
                 android:textColor="@color/black"/>
+            <View
+                android:alpha=".4"
+                android:background="@android:color/darker_gray"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
         </LinearLayout>
-        <View
-            android:alpha=".4"
-            android:background="@android:color/darker_gray"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+
 
         <!--
 
