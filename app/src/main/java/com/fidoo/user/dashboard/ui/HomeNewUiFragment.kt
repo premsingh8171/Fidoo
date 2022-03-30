@@ -354,7 +354,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
                 val locality = it.addressList[0].location
                 val landmark = it.addressList[0].landmark
                 if (!landmark.isNullOrEmpty()) {
-                    userAddress_newDesh.text = "$flat"+" "+"$locality"
+                    userAddress_newDesh.text = "$flat"+" "+"$landmark"+" "+"$locality"
                 }
                 else{
                     userAddress_newDesh.text = "$flat"+" "+"$locality"
