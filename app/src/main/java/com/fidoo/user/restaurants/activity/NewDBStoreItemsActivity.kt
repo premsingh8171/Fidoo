@@ -23,6 +23,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -112,8 +113,6 @@ import kotlinx.android.synthetic.main.no_internet_connection.*
 import kotlinx.android.synthetic.main.no_item_found.*
 import java.math.RoundingMode
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.LinkedHashSet
 
 
 class NewDBStoreItemsActivity :
@@ -258,7 +257,10 @@ class NewDBStoreItemsActivity :
         viewmodel = ViewModelProvider(this).get(StoreDetailsViewModel::class.java)
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
         viewmodelusertrack = ViewModelProvider(this).get(UserTrackerViewModel::class.java)
-        tv_location.text = intent.getStringExtra("store_location").toString().replace(" ,", ", ")
+
+        tv_location.text =intent.getStringExtra("store_location").toString().replace(" ,", ", ")
+
+
 
         cartitemView_LLstore.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
@@ -1178,11 +1180,22 @@ class NewDBStoreItemsActivity :
                                     Log.e("product_sub_category_id_", i.toString())
                                     clickevent = 0
 
+                                    if (store_details_lay.isVisible) {
 
-                                    (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1,300)
+
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+                                            i + 1,
+                                            300
+                                        )
+                                    }else{
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+                                            i + 1,
+                                            570
+                                        )
+                                    }
                                        //storeItemsRecyclerview?.layoutManager?.scrollToPosition(i)
                                      //  storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
-                                       // storeItemsRecyclerview?.smoothSnapToPosition(i+1)
+                                     //   storeItemsRecyclerview?.smoothSnapToPosition(i)
 
 
                                 }
@@ -2153,7 +2166,30 @@ class NewDBStoreItemsActivity :
             override fun getHorizontalSnapPreference(): Int = snapMode
         }
         smoothScroller.targetPosition = position
-        storeItemsRecyclerview.scrollToPosition(position)
-        //storeItemsRecyclerview.layoutManager?.scrollToPosition(position)
+        layoutManager?.startSmoothScroll(smoothScroller)
+
     }
+
+    private fun multiline_text(width:Int, str:String): String {
+        var temp=""
+        var sentance=""
+
+        val strarray = str.split(",")
+        for (word in strarray) {
+            if (temp.length + word.length < width) { // create a temp variable and check if length with new word exceeds textview width.
+
+                if (temp.equals("")) {
+                    temp += "$word, "
+                }else{
+                    temp += "$word "
+                }
+            } else {
+                sentance += """$temp """.trimIndent() // add new line character
+                temp = word
+            }
+        }
+        return(sentance+temp)
+    }
+
+
 }

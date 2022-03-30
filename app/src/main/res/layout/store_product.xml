@@ -34,7 +34,7 @@
             <TextView
                 android:textAllCaps="false"
                 android:visibility="gone"
-                android:padding="@dimen/margin_10"
+                android:padding="@dimen/margin_30dp"
                 android:id="@+id/category_nameheader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

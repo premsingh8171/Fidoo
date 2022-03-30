@@ -4,10 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_edit_profile.xml" value="0.14764492753623187" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_grocery_new_ui.xml" value="0.22327898550724637" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_main.xml" value="0.14764492753623187" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_store_filter_list.xml" value="0.22327898550724637" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.14764492753623187" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_store_list.xml" value="0.22327898550724637" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fav_store_item.xml" value="0.22327898550724637" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_home_newui.xml" value="0.14447463768115942" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/fragment_profile.xml" value="0.14764492753623187" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/grocery_cat_item_layout.xml" value="0.14764492753623187" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/item_cat_new_ui.xml" value="0.14447463768115942" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/item_service_details_adapter.xml" value="0.14447463768115942" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/select_cat_restaurant_popup.xml" value="0.14764492753623187" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.14764492753623187" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/bottom_background.xml" value="0.240625" />
