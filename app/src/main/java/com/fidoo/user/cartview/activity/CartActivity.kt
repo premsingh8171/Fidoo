@@ -1337,8 +1337,11 @@ class CartActivity : BaseActivity(),
 		}
 		addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
 			Log.e("addresses_response", Gson().toJson(user))
+			if(user.addressList.size == 0){
+				bottomSheetAddress?.visibility = View.GONE
+			}
 			if (!user.addressList.isNullOrEmpty()) {
-				bottomSheetAddress?.visibility = View.VISIBLE
+
 				val adapter = AddressesAdapterBottom(
 					this@CartActivity, user.addressList,
 					object : AddressesAdapterBottom.SetOnDeteleAddListener {
@@ -1403,7 +1406,7 @@ class CartActivity : BaseActivity(),
 			lvCheckLocation?.visibility = View.GONE
 //		cart_payment_lay.visibility = View.GONE
 //		cart_payment_lay_One.visibility = View.VISIBLE
-		bottomSheetAddress?.visibility = View.VISIBLE
+
 		dialog?.show()
 		dialog?.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,

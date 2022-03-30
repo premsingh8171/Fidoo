@@ -62,20 +62,21 @@
                     android:textAllCaps="false"
                     android:textSize="15sp" />
             </RelativeLayout>
+            <View
+                android:alpha=".4"
+                android:background="@android:color/darker_gray"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
         </LinearLayout>
-        <View
-            android:alpha=".4"
-            android:background="@android:color/darker_gray"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
         <LinearLayout
             android:id="@+id/ll_bottomSheetAddress"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_height="wrap_content">
             <LinearLayout
+                android:id="@+id/cart_select_layout"
                 android:layout_width="match_parent"
+                android:orientation="vertical"
                 android:background="@color/white"
                 android:padding="16dp"
                 android:layout_height="wrap_content">
@@ -86,12 +87,14 @@
                     android:fontFamily="@font/worksans_semibold"
                     android:textSize="20sp"
                     android:textColor="@color/black"/>
+<!--                <View-->
+<!--                    android:alpha=".4"-->
+<!--                    android:background="@android:color/darker_gray"-->
+<!--                    android:layout_marginTop="10"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="1dp"/>-->
             </LinearLayout>
-            <View
-                android:alpha=".4"
-                android:background="@android:color/darker_gray"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/nsv_bottomAddress"
                 android:layout_width="match_parent"

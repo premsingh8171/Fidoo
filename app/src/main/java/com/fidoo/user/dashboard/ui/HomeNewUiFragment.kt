@@ -155,7 +155,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             dialog?.setCanceledOnTouchOutside(false)
-            showDialog()
+            showDialogUi()
         }
         val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
             object : ViewPager.OnPageChangeListener {
@@ -228,11 +228,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         return fragmentHomeBinding?.root
     }
 
-    private fun showDialog() {
+    private fun showDialogUi() {
         dialog = context?.let { Dialog(it) }!!
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
         val lvAddNewAdd = dialog?.findViewById<LinearLayout>(R.id.lv_add_new_address)
+        val notToSee = dialog?.findViewById<LinearLayout>(R.id.cart_select_layout)
         val bottomSheetAddress = dialog?.findViewById<LinearLayout>(R.id.ll_bottomSheetAddress)
         val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
         val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
@@ -258,8 +259,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             CartActivity.accessToken = SessionTwiclo(requireActivity()).loginDetail.accessToken
         }
         fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
+            if (it.addressList.size==0){
+                bottomSheetAddress?.visibility = View.GONE
+            }
             if (!it.addressList.isNullOrEmpty()) {
                 bottomSheetAddress?.visibility = VISIBLE
+                notToSee?.visibility = View.VISIBLE
                 val adapter = AddressesAdapterBottom(
                     requireContext(), it.addressList,
                     object : AddressesAdapterBottom.SetOnDeteleAddListener {
@@ -476,7 +481,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         }
         fragmentHomeBinding?.addressLayNewDesh?.setOnClickListener {
 
-            showDialog()
+            showDialogUi()
             /**
              * First Method to pop up BottomSheetDialogue
              */
