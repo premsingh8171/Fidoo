@@ -309,7 +309,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima"
-                    android:text="You get free deliverie for 1 order when your friend makes the first order"
+                    android:text="You get free delivery for 1 order when your friend makes the first order"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_aboutUs" />
