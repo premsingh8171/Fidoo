@@ -221,7 +221,7 @@ class CartActivity : BaseActivity(),
 					tv_select_address.text = "Add Address"
 				}
 				if(user.errorCode == 200){
-					tv_select_address.text = "Select Address"
+					tv_select_address.text = "Select AddressFF"
 					select_address_or_add_layout.visibility = View.VISIBLE
 					cart_payment_lay.visibility = View.GONE
 				}
@@ -1341,6 +1341,7 @@ class CartActivity : BaseActivity(),
 							addressList: GetAddressModel.AddressList
 						) {}
 						override fun onClick(addressList: GetAddressModel.AddressList) {
+
 							when {
 								addressList.addressType.equals("1") -> {
 									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
@@ -1371,6 +1372,15 @@ class CartActivity : BaseActivity(),
 							select_address_or_add_layout.visibility = View.GONE
 							cart_payment_lay.visibility = View.VISIBLE
 							restHomePage()
+							userLat= addressList.latitude
+							userLong=addressList.longitude
+							showIOSProgress()
+							viewmodel?.getCartDetails(
+								accountId,
+								accessToken,
+								userLat,
+								userLong
+							)
 						}
 					},
 					"bottomSheetAddress"

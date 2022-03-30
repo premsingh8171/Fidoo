@@ -484,7 +484,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     override fun onResume() {
         super.onResume()
-        checkPermission()
+        //checkPermission()
         getAddress()
         if (SessionTwiclo(this).orderId.isNotEmpty()) {
             orderId=SessionTwiclo(this).orderId
