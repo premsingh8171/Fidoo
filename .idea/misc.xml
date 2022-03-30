@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/drawable-v24/black_full_rounded_empty.xml" value="0.2595" />
+        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/drawable/black_full_rounded_empty_button.xml" value="0.2595" />
+        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/drawable/black_rounded_solid.xml" value="0.2595" />
+        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/drawable/black_rounded_solid_button.xml" value="0.2595" />
+        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/drawable/radio_selector.xml" value="0.2595" />
+        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/drawable/radio_selector_button.xml" value="0.2595" />
+        <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/layout/activity_new_add_address_new.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/layout/fragment_home_newui.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/imrep/Fidoo/app/src/main/res/layout/manage_address_bottomsheet_dialogue.xml" value="0.18432971014492755" />
       </map>

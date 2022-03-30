@@ -76,7 +76,6 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:weightSum="10"
-        android:visibility="visible"
         android:layout_below="@id/add_address_frmLL"
         android:layout_above="@id/btn_proceed"
         android:layout_height="match_parent">
@@ -308,7 +307,7 @@
                         android:layout_weight="1"
                         android:padding="6dp"
                         android:checked="true"
-                        android:background="@drawable/radio_selector"
+                        android:background="@drawable/radio_selector_button"
                         android:button="@android:color/transparent"
                         android:gravity="center"
                         android:text="Home" />
@@ -322,7 +321,7 @@
                         android:textSize="14sp"
                         android:layout_weight="1"
                         android:fontFamily="@font/worksans_semibold"
-                        android:background="@drawable/radio_selector"
+                        android:background="@drawable/radio_selector_button"
                         android:button="@android:color/transparent"
                         android:gravity="center"
                         android:text="Office" />
@@ -333,7 +332,7 @@
                         android:padding="6dp"
                         android:layout_weight="1"
                         android:textSize="14sp"
-                        android:background="@drawable/radio_selector"
+                        android:background="@drawable/radio_selector_button"
                         android:fontFamily="@font/worksans_semibold"
                         android:button="@android:color/transparent"
                         android:gravity="center"
