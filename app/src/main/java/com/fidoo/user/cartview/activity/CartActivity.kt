@@ -216,11 +216,11 @@ class CartActivity : BaseActivity(),
 		tv_delivery_address.text = selectedAddressName
 		tv_landmark.text = selectedPreAddressName
 		if (!tv_delivery_address.text.isNullOrEmpty()) {
-			addressViewModel?.getAddressesResponse?.observe(
-				this@CartActivity,
-				androidx.lifecycle.Observer { user ->
+			addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
+				if(user.addressList.isNullOrEmpty()){
+					tv_select_address.text = "Add Address"
+				}
 					if (!user.addressList.isNullOrEmpty()) {
-
 						user.addressList.forEach { list ->
 							if (tv_delivery_address.text.equals(list.location))
 								Toast.makeText(_context, "${list.location}", Toast.LENGTH_SHORT).show()
@@ -235,7 +235,13 @@ class CartActivity : BaseActivity(),
 				})
 		}
 		select_address_or_add_layout.setOnClickListener {
-			showDialogBottom()
+			if(tv_select_address.text.equals("Add Address")){
+				val intent = Intent(this@CartActivity,SavedAddressesActivityNew::class.java)
+				startActivity(intent)
+			}
+			else {
+				showDialogBottom()
+			}
 		}
 		address_id = SessionTwiclo(this).userAddressId
 		Log.d("address_idaddress_id", address_id)
@@ -1297,11 +1303,11 @@ class CartActivity : BaseActivity(),
 	 * ******************************************************************************************************************************************************************
 	 */
 	private fun showDialogBottom() {
-		dialog = this@CartActivity.let { Dialog(it) }
+		dialog = this@CartActivity?.let { Dialog(it) }!!
 		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
 		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
-		val bottomSheetAddress = dialog?.findViewById<LinearLayout>(R.id.ll_bottomSheetAddress)
 		val lvAddNewAdd = dialog?.findViewById<LinearLayout>(R.id.lv_add_new_address)
+		val bottomSheetAddress = dialog?.findViewById<LinearLayout>(R.id.ll_bottomSheetAddress)
 		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
 		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
 		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
@@ -1329,7 +1335,6 @@ class CartActivity : BaseActivity(),
 							add_id: String,
 							addressList: GetAddressModel.AddressList
 						) {}
-
 						override fun onClick(addressList: GetAddressModel.AddressList) {
 							when {
 								addressList.addressType.equals("1") -> {
@@ -1365,7 +1370,6 @@ class CartActivity : BaseActivity(),
 					},
 					"bottomSheetAddress"
 				)
-
 				rvManageAddress?.layoutManager = GridLayoutManager(this@CartActivity, 1)
 				rvManageAddress?.setHasFixedSize(true)
 				rvManageAddress?.adapter = adapter

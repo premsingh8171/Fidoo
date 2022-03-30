@@ -262,11 +262,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             CartActivity.accountId = SessionTwiclo(requireActivity()).loginDetail.accountId.toString()
             CartActivity.accessToken = SessionTwiclo(requireActivity()).loginDetail.accessToken
         }
-        fixedAddressViewModel?.getAddressesApi(accountId,
-            accessToken,
-            "",
-            ""
-        )?.observe(requireActivity())
+        fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity())
         {
             if (!it.addressList.isNullOrEmpty()) {
                 bottomSheetAddress?.visibility = VISIBLE
@@ -276,9 +272,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
                         override fun onDelete(
                             add_id: String,
                             addressList: GetAddressModel.AddressList,
-                        ) {
-                        }
-
+                        ) {}
                         override fun onClick(addressList: GetAddressModel.AddressList) {
                             when {
                                 addressList.addressType.equals("1") -> {
