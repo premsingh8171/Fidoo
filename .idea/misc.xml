@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/layout/activity_referral.xml" value="0.264" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/drawable/dotted_vertical_desh.xml" value="0.185" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/drawable/et_round_new.xml" value="0.229" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/drawable/feedback_bg.xml" value="0.185" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/drawable/ic_rectangle_23.xml" value="0.124" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/layout/activity_new_add_address.xml" value="0.14673913043478262" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/layout/activity_referral.xml" value="0.4" />
         <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
       </map>
     </option>

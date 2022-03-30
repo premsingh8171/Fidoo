@@ -165,7 +165,7 @@ class ProfileFragment : Fragment() {
             )
         }
 
-        mView.tv_sharefriend.setOnClickListener {
+        mView.share_app_constLL.setOnClickListener {
             //shareApp()
             if (SessionTwiclo(requireContext()).isLoggedIn) {
                 AppUtils.startActivityRightToLeft(
