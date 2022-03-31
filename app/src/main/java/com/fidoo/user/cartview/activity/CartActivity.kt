@@ -112,8 +112,6 @@ class CartActivity : BaseActivity(),
 	CustomCartPlusMinusClick,
 	AdapterCustomRadioClick, PaymentResultListener, PaymentResultWithDataListener {
 
-	var userAddressList : Int = 0
-
 	var viewmodel: CartViewModel? = null
 	var totalAmount: Double = 0.0
 	var storeViewModel: StoreDetailsViewModel? = null
