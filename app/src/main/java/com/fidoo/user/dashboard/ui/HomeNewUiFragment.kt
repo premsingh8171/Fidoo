@@ -41,6 +41,7 @@ import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addEditAdd
 import com.fidoo.user.activity.MainActivity.Companion.orderSuccess
 import com.fidoo.user.activity.SplashActivity
+import com.fidoo.user.addressmodule.activity.NewAddAddressActivityNew
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.addressmodule.adapter.AddressesAdapter
 import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
@@ -349,15 +350,16 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
     fun getAddress(){
         fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
-            if (!it.addressList.isNullOrEmpty()) {
-                val flat = it.addressList[0].flatNo
-                val locality = it.addressList[0].location
-                val landmark = it.addressList[0].landmark
-                if (!landmark.isNullOrEmpty()) {
-                    userAddress_newDesh.text = "$flat"+" "+"$landmark"+" "+"$locality"
-                }
-                else{
-                    userAddress_newDesh.text = "$flat"+" "+"$locality"
+            if(it.addressList.size >=1) {
+                if (!it.addressList.isNullOrEmpty()) {
+                    val flat = it.addressList[0].flatNo
+                    val locality = it.addressList[0].location
+                    val landmark = it.addressList[0].landmark
+                    if (!landmark.isNullOrEmpty()) {
+                        userAddress_newDesh.text = "$flat" + " " + "$landmark" + " " + "$locality"
+                    } else {
+                        userAddress_newDesh.text = "$flat" + " " + "$locality"
+                    }
                 }
             }
 
@@ -740,7 +742,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
     override fun onResume() {
         Log.d("Nishant", "onResume: ")
         super.onResume()
-        getAddress()
+
         if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
             CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
             CartActivity.accessToken = SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
@@ -774,6 +776,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
         }
 
+       if(NewAddAddressActivityNew.checkCount == 1){
+           getAddress()
+           NewAddAddressActivityNew.checkCount = 0
+       }
 
     }
 

@@ -77,6 +77,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
     companion object {
         val MY_PERMISSIONS_REQUEST_CODE = 123
+        var checkCount = 0
 
     }
     var onMapNoNetDiolog: Dialog? = null
@@ -269,6 +270,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 //            }
 //        })
         btn_continue.setOnClickListener {
+            checkCount = 1
             checkAddressSavedFromWhichActivity = "fromNewAddressActivity"
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
@@ -484,6 +486,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                     }
                 }
             }
+
         }
 
 //        contact_name_txt.setOnClickListener {
