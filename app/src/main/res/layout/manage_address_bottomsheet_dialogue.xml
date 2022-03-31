@@ -62,11 +62,6 @@
                     android:textAllCaps="false"
                     android:textSize="15sp" />
             </RelativeLayout>
-            <View
-                android:alpha=".4"
-                android:background="@android:color/darker_gray"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_bottomSheetAddress"

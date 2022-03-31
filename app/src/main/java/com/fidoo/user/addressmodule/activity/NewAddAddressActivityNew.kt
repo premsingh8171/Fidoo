@@ -135,8 +135,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         userAddress.addTextChangedListener(saveAddressWatcher)
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
-        viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-            .create(AddressViewModel::class.java)
+        viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(AddressViewModel::class.java)
 
         viewmodelusertrack = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(UserTrackerViewModel::class.java)
         where = pref!!.guestLogin
@@ -153,8 +152,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         }
 
         // where = intent.getStringExtra("where")
-        val mapFragment =
-            supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         mapView = mapFragment.view
 
@@ -170,8 +168,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
         if (intent.hasExtra("data")) {
 
-            val model: GetAddressModel.AddressList = Gson().fromJson(
-                intent.getStringExtra("data"),
+            val model: GetAddressModel.AddressList = Gson().fromJson(intent.getStringExtra("data"),
                 GetAddressModel.AddressList::class.java
             )
             lat = model.latitude.toDouble()
@@ -609,8 +606,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         locationRequest.fastestInterval = (10000 / 2).toLong()
         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
         builder.setAlwaysShow(true)
-        val result =
-            LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build())
+        val result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build())
         result.setResultCallback { result ->
             val status = result.status
             Log.d("resultt", result.toString())
