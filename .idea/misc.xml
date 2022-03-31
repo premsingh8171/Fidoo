@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_new_add_address.xml" value="0.20416666666666666" />
+        <entry key="..\:/twickloapp/app/src/main/res/layout/activity_order_details_sendpackages.xml" value="0.2" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/bottom_background.xml" value="0.240625" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/checkhome_active.xml" value="0.2026315789473684" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/dotted_vertical_line.xml" value="0.240625" />
@@ -33,7 +35,7 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

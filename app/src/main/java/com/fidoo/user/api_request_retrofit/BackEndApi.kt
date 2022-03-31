@@ -412,7 +412,7 @@ interface BackEndApi {
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
         @Field("order_id") order_id: String?
-    ): Call<SendPackageOrderDetailsModel>
+    ): Call<NewSendpackageOrderDetail>
 
     @FormUrlEncoded
     @POST("orderCancel.inc.php")

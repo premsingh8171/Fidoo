@@ -16,7 +16,7 @@ class OrderDetailsViewModel(application: Application) : AndroidViewModel(applica
     var OrderDetailsResponse: MutableLiveData<OrderDetailsModel>? = null
     var failureResponse: MutableLiveData<String>? = null
     var reviewResponse: MutableLiveData<ReviewModel>? = null
-    var sendPackageOrderDetailsRes: MutableLiveData<SendPackageOrderDetailsModel>? = null
+    var sendPackageOrderDetailsRes: MutableLiveData<NewSendpackageOrderDetail>? = null
     var productChangeRequestDetailsRes: MutableLiveData<ProductChangeRequestDetailsModel>? = null
     var approveProductChangeRequestRes: MutableLiveData<ApproveProductChangeRequestModel>? = null
     var sendPackageOrderDetailsMainModelRes: MutableLiveData<SendPackageOrderDetailsMainModel>? = null
@@ -25,7 +25,7 @@ class OrderDetailsViewModel(application: Application) : AndroidViewModel(applica
         failureResponse = MutableLiveData<String>()
         OrderDetailsResponse = MutableLiveData<OrderDetailsModel>()
         reviewResponse= MutableLiveData<ReviewModel>()
-        sendPackageOrderDetailsRes= MutableLiveData<SendPackageOrderDetailsModel>()
+        sendPackageOrderDetailsRes= MutableLiveData<NewSendpackageOrderDetail>()
         productChangeRequestDetailsRes = MutableLiveData<ProductChangeRequestDetailsModel>()
         approveProductChangeRequestRes = MutableLiveData<ApproveProductChangeRequestModel>()
         sendPackageOrderDetailsMainModelRes = MutableLiveData<SendPackageOrderDetailsMainModel>()
@@ -147,15 +147,15 @@ class OrderDetailsViewModel(application: Application) : AndroidViewModel(applica
             accessToken = accessToken,
             order_id = order_id
         )
-            .enqueue(object : Callback<SendPackageOrderDetailsModel> {
+            .enqueue(object : Callback<NewSendpackageOrderDetail> {
 
-                override fun onResponse(call: Call<SendPackageOrderDetailsModel>, response: Response<SendPackageOrderDetailsModel>) {
+                override fun onResponse(call: Call<NewSendpackageOrderDetail>, response: Response<NewSendpackageOrderDetail>) {
 
                     sendPackageOrderDetailsRes?.value = response.body()
 
                 }
 
-                override fun onFailure(call: Call<SendPackageOrderDetailsModel>, t: Throwable) {
+                override fun onFailure(call: Call<NewSendpackageOrderDetail>, t: Throwable) {
                     failureResponse?.value="Something went wrong"
                 }
             })

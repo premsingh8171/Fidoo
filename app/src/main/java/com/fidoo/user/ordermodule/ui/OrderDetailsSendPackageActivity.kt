@@ -57,7 +57,7 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
         if (isNetworkConnected) {
             viewmodel?.sendPackageOrderDetailsApi(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId")
+                SessionTwiclo(this).loggedInUserDetail.accessToken,orderId
             )
             viewmodelusertrack?.customerActivityLog(SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).mobileno,"ReviewOrder Screen",
@@ -117,9 +117,9 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
 //                    label_cart_discount.text = "Cart Discount (" + user.coupon_name + " )"
 //                }
 
-                val deliveryChargeWithTax = user.delivery_charge+ user.tax
+               // var deliveryChargeWithTax = user.delivery_charge + user.tax
 
-                delivery_charge.text = resources.getString(R.string.ruppee) + "" + deliveryChargeWithTax
+                delivery_charge.text = resources.getString(R.string.ruppee) + "" + user.delivery_charge + user.tax
 
                 label_delivery_charge.visibility = View.VISIBLE
 
