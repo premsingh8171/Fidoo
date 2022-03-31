@@ -7,13 +7,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorGray"
             android:orientation="vertical">
             <LinearLayout
                 android:id="@+id/topLay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/lightGray"
                 android:elevation="10dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
@@ -26,7 +24,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:background="@color/lightGray"
                     android:elevation="10dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -67,7 +64,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/margin_10"
                         android:layout_marginTop="2dp"
-                        android:visibility="gone"
+                       android:visibility="gone"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="@dimen/margin_2dp"
                         android:layout_weight="9"
@@ -128,7 +125,6 @@
                     android:id="@+id/locationViewll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/lightGray"
                     android:gravity="center_vertical"
                     android:visibility="gone"
                     android:orientation="horizontal"
@@ -161,22 +157,6 @@
                             android:textSize="16sp" />
 
                     </LinearLayout>
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_add_address"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:drawablePadding="@dimen/margin_10dp"-->
-<!--                        android:fontFamily="@font/proxima"-->
-<!--                        android:gravity="center"-->
-<!--                        android:maxLines="2"-->
-<!--                        android:paddingLeft="@dimen/margin_10dp"-->
-<!--                        android:paddingEnd="@dimen/margin_10dp"-->
-<!--                        android:singleLine="true"-->
-<!--                        android:text="Add New"-->
-<!--                        android:textColor="@color/primary_color"-->
-<!--                        android:textSize="13sp" />-->
                 </LinearLayout>
             </LinearLayout>
             <View
@@ -190,7 +170,6 @@
                 android:visibility="gone"
                 android:orientation="horizontal"
                 android:id="@+id/addDividerLl"
-                android:background="@color/colorGray"
                 android:layout_width="match_parent"
                 android:layout_height="5dp"/>
             <LinearLayout
@@ -227,8 +206,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/lightGray"
-                    android:backgroundTint="@color/lightGray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -238,7 +215,6 @@
                         android:id="@+id/addressesRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/lightGray"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -250,7 +226,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_20dp"
                         android:layout_marginBottom="@dimen/margin_20dp"
-                        android:background="@color/lightGray"
                         android:orientation="vertical"
                         android:visibility="gone"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

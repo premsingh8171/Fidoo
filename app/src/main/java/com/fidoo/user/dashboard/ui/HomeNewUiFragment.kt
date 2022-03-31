@@ -153,11 +153,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
         fragmentHomeBinding?.viewPagerBannerNewDesh!!.clipToPadding = false
 
-//        val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            dialog?.setCanceledOnTouchOutside(false)
-//            showDialogUi()
-//        }
+        val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            dialog?.setCanceledOnTouchOutside(false)
+            showDialogUi()
+        }
         val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
             object : ViewPager.OnPageChangeListener {
                 override fun onPageSelected(position: Int) {}
@@ -239,10 +239,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
         val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
         val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
-//        mBtnToTurnOnLocation?.setOnClickListener {
-//            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-//            startActivity(intent)
-//        }
+        mBtnToTurnOnLocation?.setOnClickListener {
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
+        }
         lvAddNewAdd?.setOnClickListener {
             startActivityForResult(
                 Intent(context, SavedAddressesActivityNew::class.java)
@@ -308,9 +308,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         }
 
         val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-//        //Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()
-//            lvCheckLocation?.visibility = View.GONE
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        //Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()
+            lvCheckLocation?.visibility = View.GONE
         dialog?.show()
         dialog?.window!!.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,

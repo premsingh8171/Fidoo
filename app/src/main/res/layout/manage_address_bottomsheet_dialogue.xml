@@ -16,23 +16,19 @@
         <LinearLayout
             android:id="@+id/manage_location_Off_or_On"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp">
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_5dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
-
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_location_off" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -44,12 +40,10 @@
                     android:textSize="20sp"
                     android:textStyle="normal" />
             </LinearLayout>
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_5dp">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,7 +52,6 @@
                     android:text="Please turn on device location to get accurate and fast delivery"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
-
                 <Button
                     android:id="@+id/btnToTurnLocationOn"
                     android:layout_width="wrap_content"
@@ -70,10 +63,15 @@
                     android:textSize="15sp" />
             </RelativeLayout>
         </LinearLayout>
-
+        <View
+            android:alpha=".4"
+            android:background="@android:color/darker_gray"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
         <LinearLayout
             android:id="@+id/ll_bottomSheetAddress"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -92,13 +90,14 @@
                     android:text="Select Delivery Address"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
-                <!--                <View-->
-                <!--                    android:alpha=".4"-->
-                <!--                    android:background="@android:color/darker_gray"-->
-                <!--                    android:layout_marginTop="10"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="1dp"/>-->
+
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha=".4"
+                android:background="@android:color/darker_gray" />
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/nsv_bottomAddress"
@@ -143,7 +142,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
-                android:src="@drawable/ic_add_address_new"
+                android:src="@drawable/ic_icon_for_user_app_marker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
