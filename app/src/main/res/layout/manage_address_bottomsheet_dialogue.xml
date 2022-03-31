@@ -4,44 +4,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:cardCornerRadius="10dp"
         android:layout_above="@id/layout_add_new_address"
-        android:background="@drawable/manage_location_bottomsheet_bg">
+        android:background="@drawable/manage_location_bottomsheet_bg"
+        android:orientation="vertical"
+        app:cardCornerRadius="10dp">
+
         <LinearLayout
             android:id="@+id/manage_location_Off_or_On"
-            android:orientation="vertical"
-            android:padding="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_5dp"
-                android:layout_height="wrap_content">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:src="@drawable/ic_location_off"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_location_off" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="normal"
                     android:layout_gravity="center"
+                    android:layout_marginStart="4dp"
                     android:fontFamily="@font/worksans_semibold"
                     android:text="Your device location is off"
-                    android:layout_marginStart="4dp"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:textColor="@color/black"/>
+                    android:textStyle="normal" />
             </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/dimen_5dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -55,50 +62,55 @@
                 <Button
                     android:id="@+id/btnToTurnLocationOn"
                     android:layout_width="wrap_content"
-                    android:letterSpacing="0"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:letterSpacing="0"
                     android:text="Turn On"
                     android:textAllCaps="false"
                     android:textSize="15sp" />
             </RelativeLayout>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ll_bottomSheetAddress"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/cart_select_layout"
                 android:layout_width="match_parent"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="16dp"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:padding="16dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Select Delivery Address"
                     android:fontFamily="@font/worksans_semibold"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"/>
-<!--                <View-->
-<!--                    android:alpha=".4"-->
-<!--                    android:background="@android:color/darker_gray"-->
-<!--                    android:layout_marginTop="10"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="1dp"/>-->
+                    android:text="Select Delivery Address"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+                <!--                <View-->
+                <!--                    android:alpha=".4"-->
+                <!--                    android:background="@android:color/darker_gray"-->
+                <!--                    android:layout_marginTop="10"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="1dp"/>-->
             </LinearLayout>
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/nsv_bottomAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <RelativeLayout
                     android:id="@+id/rlManageSavedAddressLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/lightGray">
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvManageSavedAddress"
                         android:layout_width="match_parent"
