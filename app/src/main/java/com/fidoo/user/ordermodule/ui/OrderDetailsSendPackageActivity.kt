@@ -74,7 +74,7 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             // AppUtils.finishActivityLeftToRight(this)
         }
 
-        viewmodel?.sendPackageOrderDetailsRes?.observe(this, { user ->
+        viewmodel?.sendPackageOrderDetailsRes?.observe(this) { user ->
             dismissIOSProgress()
             Log.e("orders_details_ffResponse", Gson().toJson(user))
 
@@ -193,7 +193,7 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             }
 
 
-        })
+        }
 
         viewmodel?.reviewResponse?.observe(this, { user ->
             CommonUtils.dismissIOSProgress()
