@@ -84,6 +84,10 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_home_newui.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.util.*
 
@@ -152,19 +156,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         pref = SessionTwiclo(requireContext())
         where = pref.guestLogin
 
-//        if (ContextCompat.checkSelfPermission(requireActivity(),
-//                Manifest.permission.ACCESS_FINE_LOCATION) !==
-//            PackageManager.PERMISSION_GRANTED) {
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
-//                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-//                ActivityCompat.requestPermissions(requireActivity(),
-//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
-//            } else {
-//                ActivityCompat.requestPermissions(requireActivity(),
-//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
-//            }
-//        }
-
         val displayMetrics = DisplayMetrics()
         requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
         width = displayMetrics.widthPixels
@@ -175,6 +166,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
         fragmentHomeBinding?.viewPagerBannerNewDesh!!.clipToPadding = false
 
+<<<<<<< HEAD
         val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
           //  dialog?.setCanceledOnTouchOutside(false)
@@ -183,6 +175,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             checkPermission()
         }
 
+=======
+>>>>>>> a803242994467aa0027fb685f245df7d79bd0e84
 
         val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
             object : ViewPager.OnPageChangeListener {
@@ -190,7 +184,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
                 override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
                 override fun onPageScrollStateChanged(arg0: Int) {}
             }
-
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(100)
+            val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                dialog?.setCanceledOnTouchOutside(false)
+                showDialogUi()
+            }
+        }
         fragmentHomeBinding?.viewPagerBannerNewDesh!!.addOnPageChangeListener(
             viewPagerPageChangeListener)
 
@@ -877,6 +878,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
     override fun onStart() {
         Log.d("Nishant", "onStart: ")
+
         super.onStart()
     }
 
