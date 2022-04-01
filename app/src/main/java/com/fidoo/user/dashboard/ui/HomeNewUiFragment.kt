@@ -156,19 +156,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         pref = SessionTwiclo(requireContext())
         where = pref.guestLogin
 
-//        if (ContextCompat.checkSelfPermission(requireActivity(),
-//                Manifest.permission.ACCESS_FINE_LOCATION) !==
-//            PackageManager.PERMISSION_GRANTED) {
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
-//                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-//                ActivityCompat.requestPermissions(requireActivity(),
-//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
-//            } else {
-//                ActivityCompat.requestPermissions(requireActivity(),
-//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
-//            }
-//        }
-
         val displayMetrics = DisplayMetrics()
         requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
         width = displayMetrics.widthPixels
