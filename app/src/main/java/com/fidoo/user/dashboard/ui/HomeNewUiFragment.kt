@@ -1,12 +1,16 @@
 package com.fidoo.user.dashboard.ui
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -22,6 +26,9 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -41,6 +48,7 @@ import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addEditAdd
 import com.fidoo.user.activity.MainActivity.Companion.orderSuccess
 import com.fidoo.user.activity.SplashActivity
+import com.fidoo.user.addressmodule.activity.NewAddAddressActivityNew
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.addressmodule.adapter.AddressesAdapter
 import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
@@ -76,7 +84,9 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_home_newui.*
 import org.json.JSONObject
+import permissions.dispatcher.*
 import java.util.*
+
 
 @Suppress("DEPRECATION")
 class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
@@ -141,6 +151,19 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
         pref = SessionTwiclo(requireContext())
         where = pref.guestLogin
+
+//        if (ContextCompat.checkSelfPermission(requireActivity(),
+//                Manifest.permission.ACCESS_FINE_LOCATION) !==
+//            PackageManager.PERMISSION_GRANTED) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
+//                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+//                ActivityCompat.requestPermissions(requireActivity(),
+//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+//            } else {
+//                ActivityCompat.requestPermissions(requireActivity(),
+//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+//            }
+//        }
 
         val displayMetrics = DisplayMetrics()
         requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -228,6 +251,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         return fragmentHomeBinding?.root
     }
 
+
     private fun showDialogUi() {
         dialog = context?.let { Dialog(it) }!!
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -290,8 +314,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
                                     SessionTwiclo(requireContext()).addressType = "Other"
                                 }
                             }
-                            SessionTwiclo(requireContext()).userAddress =
-                                addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+                            SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
                             SessionTwiclo(requireContext()).userAddressId = addressList.id
                             SessionTwiclo(requireContext()).userLat = addressList.latitude
                             SessionTwiclo(requireContext()).userLng = addressList.longitude
@@ -314,12 +337,13 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         dialog?.show()
         dialog?.window!!.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+            1350
         )
         dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window!!.setGravity(Gravity.BOTTOM)
 
     }
+
 
     private fun restHomePage() {
         deleteRoomDataBase()
@@ -349,15 +373,16 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
     fun getAddress(){
         fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
-            if (!it.addressList.isNullOrEmpty()) {
-                val flat = it.addressList[0].flatNo
-                val locality = it.addressList[0].location
-                val landmark = it.addressList[0].landmark
-                if (!landmark.isNullOrEmpty()) {
-                    userAddress_newDesh.text = "$flat"+" "+"$landmark"+" "+"$locality"
-                }
-                else{
-                    userAddress_newDesh.text = "$flat"+" "+"$locality"
+            if(it.addressList.size >=1) {
+                if (!it.addressList.isNullOrEmpty()) {
+                    val flat = it.addressList[0].flatNo
+                    val locality = it.addressList[0].location
+                    val landmark = it.addressList[0].landmark
+                    if (!landmark.isNullOrEmpty()) {
+                        userAddress_newDesh.text = "$flat" + " " + "$landmark" + " " + "$locality"
+                    } else {
+                        userAddress_newDesh.text = "$flat" + " " + "$locality"
+                    }
                 }
             }
 
@@ -739,7 +764,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
     override fun onResume() {
         Log.d("Nishant", "onResume: ")
         super.onResume()
-        getAddress()
+
         if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
             CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
             CartActivity.accessToken = SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
@@ -773,6 +798,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
         }
 
+       if(NewAddAddressActivityNew.checkCount == 1){
+           getAddress()
+           NewAddAddressActivityNew.checkCount = 0
+       }
 
     }
 
@@ -992,4 +1021,5 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //		recyclerView.adapter = addressAdapter
 //		recyclerView.layoutManager = linearLayoutManager
 //	}
+
 }

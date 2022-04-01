@@ -3,7 +3,24 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/drawable/black_full_rounded_empty_button.xml" value="0.1915" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/drawable/black_rounded_solid_button.xml" value="0.1915" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/drawable/ic_add_address_new.xml" value="0.1915" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/drawable/ic_cross_location.xml" value="0.1295" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/drawable/ic_home_new.xml" value="0.2265" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/drawable/ic_icon_for_user_app.xml" value="0.2265" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/drawable/ic_icon_for_user_app_marker.xml" value="0.2595" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/drawable/ic_office_new.xml" value="0.2265" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/drawable/ic_others_new.xml" value="0.2265" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/drawable/radio_selector_button.xml" value="0.1915" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/layout/activity_change_address.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/layout/activity_new_add_address_new.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/layout/activity_saved_addresses_new.xml" value="0.18432971014492755" />
         <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/layout/bottom_sheet_saved_address_items.xml" value="0.21784420289855072" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/layout/fragment_home_newui.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/layout/manage_address_bottomsheet_dialogue.xml" value="0.264" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/layout/no_internet_connection.xml" value="0.21784420289855072" />
       </map>
     </option>
   </component>

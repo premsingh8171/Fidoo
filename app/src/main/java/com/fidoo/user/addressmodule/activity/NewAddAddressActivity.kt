@@ -862,9 +862,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                 )
                             }
                         }*/
-                        if (ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.ACCESS_FINE_LOCATION
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION
                             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                                 this,
                                 Manifest.permission.ACCESS_COARSE_LOCATION
@@ -923,6 +921,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
     override fun onResume() {
         super.onResume()
+
     }
 
     private fun getGeoLocation(location: String?) {

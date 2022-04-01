@@ -15,6 +15,7 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -77,8 +78,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
     companion object {
         val MY_PERMISSIONS_REQUEST_CODE = 123
+        var checkCount = 0
 
-    }
+    } var booleanToCheck:Boolean = true
     var onMapNoNetDiolog: Dialog? = null
     private lateinit var saveBtn : Button
     private lateinit var userAddress : TextInputEditText
@@ -134,8 +136,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         userAddress.addTextChangedListener(saveAddressWatcher)
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
-        viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-            .create(AddressViewModel::class.java)
+        viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(AddressViewModel::class.java)
 
         viewmodelusertrack = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(UserTrackerViewModel::class.java)
         where = pref!!.guestLogin
@@ -152,8 +153,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         }
 
         // where = intent.getStringExtra("where")
-        val mapFragment =
-            supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         mapView = mapFragment.view
 
@@ -169,8 +169,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
         if (intent.hasExtra("data")) {
 
-            val model: GetAddressModel.AddressList = Gson().fromJson(
-                intent.getStringExtra("data"),
+            val model: GetAddressModel.AddressList = Gson().fromJson(intent.getStringExtra("data"),
                 GetAddressModel.AddressList::class.java
             )
             lat = model.latitude.toDouble()
@@ -269,6 +268,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 //            }
 //        })
         btn_continue.setOnClickListener {
+            checkCount = 1
             checkAddressSavedFromWhichActivity = "fromNewAddressActivity"
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
@@ -484,6 +484,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                     }
                 }
             }
+
         }
 
 //        contact_name_txt.setOnClickListener {
@@ -606,8 +607,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         locationRequest.fastestInterval = (10000 / 2).toLong()
         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
         builder.setAlwaysShow(true)
-        val result =
-            LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build())
+        val result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build())
         result.setResultCallback { result ->
             val status = result.status
             Log.d("resultt", result.toString())
@@ -625,6 +625,11 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
     private fun checkPermission() {
@@ -818,6 +823,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         }
     }
 
+    /**
+     * ************************************************************************************************************************************************************************
+     */
     private fun getDeviceLocation() {
         mFusedLocationProviderClient!!.lastLocation
             .addOnCompleteListener { task ->
@@ -892,40 +900,33 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
                         }
 
-                        val locationRequest = LocationRequest.create()
-                        locationRequest.interval = 10000
-                        locationRequest.fastestInterval = 5000
-                        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-                        locationCallback = object : LocationCallback() {
-                            override fun onLocationResult(locationResult: LocationResult) {
-                                super.onLocationResult(locationResult)
-                                mLastKnownLocation = locationResult.lastLocation
+//                        val locationRequest = LocationRequest.create()
+//                        locationRequest.interval = 10000
+//                        locationRequest.fastestInterval = 5000
+//                        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+//                        locationCallback = object : LocationCallback() {
+//                            override fun onLocationResult(locationResult: LocationResult) {
+//                                super.onLocationResult(locationResult)
+//                                mLastKnownLocation = locationResult.lastLocation
+//
+//                                mMap!!.moveCamera(
+//                                    CameraUpdateFactory.newLatLngZoom(
+//                                        LatLng(
+//                                            mLastKnownLocation!!.latitude,
+//                                            mLastKnownLocation!!.longitude
+//                                        ), DEFAULT_ZOOM
+//                                    )
+//                                )
+//
+//
+//
+//                                mFusedLocationProviderClient!!.removeLocationUpdates(
+//                                    locationCallback!!
+//                                )
+//                            }
+//                        }
 
-                                mMap!!.moveCamera(
-                                    CameraUpdateFactory.newLatLngZoom(
-                                        LatLng(
-                                            mLastKnownLocation!!.latitude,
-                                            mLastKnownLocation!!.longitude
-                                        ), DEFAULT_ZOOM
-                                    )
-                                )
-
-
-
-                                mFusedLocationProviderClient!!.removeLocationUpdates(
-                                    locationCallback!!
-                                )
-                            }
-                        }
-
-                        if (ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.ACCESS_FINE_LOCATION
-                            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.ACCESS_COARSE_LOCATION
-                            ) != PackageManager.PERMISSION_GRANTED
-                        ) {
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                             //    ActivityCompat#requestPermissions
                             // here to request the missing permissions, and then overriding
                             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -941,16 +942,12 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                         )*/
 
                     } else {
-                        Toast.makeText(
-                            this@NewAddAddressActivityNew,
-                            "unable to get current location",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        Toast.makeText(this@NewAddAddressActivityNew, "unable to get current location", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
     }
+
 
     override fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String? {
         val geocoder: Geocoder
@@ -979,8 +976,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+
     }
 
     private fun getGeoLocation(location: String?) {

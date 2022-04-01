@@ -140,26 +140,26 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
 
-       // getAddress()
-//        if (isNetworkConnected) {
-//            if (SessionTwiclo(this).isLoggedIn){
-//                try {
-//                    viewmodel?.getAddressesApi(
-//                        SessionTwiclo(this).loggedInUserDetail.accountId,
-//                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                        "",
-//                        ""
-//                    )
-//                }catch (e:Exception){
-//                    e.printStackTrace()
-//                }
-//            }else{
-//                getCurrentLocation()
-//            }
-//
-//        } else {
-//            showInternetToast()
-//        }
+        getAddress()
+        if (isNetworkConnected) {
+            if (SessionTwiclo(this).isLoggedIn){
+                try {
+                    viewmodel?.getAddressesApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        "",
+                        ""
+                    )
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
+            }else{
+                getCurrentLocation()
+            }
+
+        } else {
+            showInternetToast()
+        }
 
         try {
             if (SessionTwiclo(this).orderId.isNotEmpty()){
@@ -210,26 +210,26 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
            )
         }
 
-//        try {
-//            if (sessionInstance!!.isLoggedIn) {
-//                homeFragmentViewModel?.checkPaymentStatusApi(
-//                    sessionInstance.loggedInUserDetail.accountId,
-//                    sessionInstance.loggedInUserDetail.accessToken
-//                )
-//            }
-//        }catch (e:java.lang.Exception){
-//            e.printStackTrace()
-//        }
-//
-//
-//        homeFragmentViewModel?.checkPaymentStatusRes?.observe(this, {
-////            Log.d("checkPaymentStatusRes", Gson().toJson(it))
-////            if (it.error_code == 200) {
-////
-////            }
-//        })
+        try {
+            if (sessionInstance!!.isLoggedIn) {
+                homeFragmentViewModel?.checkPaymentStatusApi(
+                    sessionInstance.loggedInUserDetail.accountId,
+                    sessionInstance.loggedInUserDetail.accessToken
+                )
+            }
+        }catch (e:java.lang.Exception){
+            e.printStackTrace()
+        }
 
-        viewmodel?.orderStatusModelResponse?.observe(this, {
+
+        homeFragmentViewModel?.checkPaymentStatusRes?.observe(this) {
+//            Log.d("checkPaymentStatusRes", Gson().toJson(it))
+//            if (it.error_code == 200) {
+//
+//            }
+        }
+
+        viewmodel?.orderStatusModelResponse?.observe(this) {
             Log.e("StatusMod_", Gson().toJson(it))
             try {
                 if (it.order_status != null) {
@@ -244,9 +244,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
                         it.order_status.equals("2") -> {
                             showOrderStatusTxt.text = "Your order is cancelled"
-                            SessionTwiclo(this).orderId=""
-                            SessionTwiclo(this).storeImg=""
-                            orderStatus_fm.visibility=View.GONE
+                            SessionTwiclo(this).orderId = ""
+                            SessionTwiclo(this).storeImg = ""
+                            orderStatus_fm.visibility = View.GONE
                         }
 
                         it.order_status.equals("11") -> {
@@ -255,9 +255,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
                         it.order_status.equals("3") -> {
                             showOrderStatusTxt.text = "Your order is delivered"
-                            SessionTwiclo(this).orderId=""
-                            SessionTwiclo(this).storeImg=""
-                            orderStatus_fm.visibility=View.GONE
+                            SessionTwiclo(this).orderId = ""
+                            SessionTwiclo(this).storeImg = ""
+                            orderStatus_fm.visibility = View.GONE
                         }
 
                         it.order_status.equals("5") -> {
@@ -269,13 +269,14 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                         }
 
                         it.order_status.equals("7") -> {
-                            showOrderStatusTxt.text = SessionTwiclo(this).storeName + " has accepted your order"
+                            showOrderStatusTxt.text =
+                                SessionTwiclo(this).storeName + " has accepted your order"
                         }
 
                         it.order_status.equals("9") -> {
                             showOrderStatusTxt.text =
                                 "Your Order is ready and will soon be picked up by driver"
-                        //+ it.deliveryBoyName
+                            //+ it.deliveryBoyName
                         }
 
                         it.order_status.equals("10") -> {
@@ -303,10 +304,11 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
                     }
                 }
-            } catch (e: Exception) { }
-        })
+            } catch (e: Exception) {
+            }
+        }
 
-        viewmodel?.getAddressesResponse?.observe(this,{user ->
+        viewmodel?.getAddressesResponse?.observe(this) { user ->
             Log.e("homeaddRes", Gson().toJson(user))
 
             if (user.addressList != null) {
@@ -315,9 +317,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     try {
                         for (i in addressList.indices) {
                             if (i == 0) {
-                                if (SessionTwiclo(this).userAddress!=""){
-                                    Log.d("default_add___","="+SessionTwiclo(this).userAddress)
-                                }else {
+                                if (SessionTwiclo(this).userAddress != "") {
+                                    Log.d("default_add___", "=" + SessionTwiclo(this).userAddress)
+                                } else {
                                     SessionTwiclo(this).userAddress = addressList.get(0).location
                                     SessionTwiclo(this).userLat = addressList.get(0).latitude
                                     SessionTwiclo(this).userLng = addressList.get(0).longitude
@@ -337,11 +339,11 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     }
 
                 }
-            }else{
+            } else {
                 getCurrentLocation()
             }
 
-        })
+        }
 
     }
 
@@ -364,11 +366,10 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         } else {
             showInternetToast()
-        }    }
-
-    override fun onPause() {
-        super.onPause()
+        }
     }
+
+
   
     private fun getCurrentLocation() {
         Log.e("Locationcall", "call")
@@ -482,6 +483,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
+    /**
+     * ****************************************************************************************************************************************CHECKING
+     */
     override fun onResume() {
         super.onResume()
         //checkPermission()
@@ -494,7 +498,9 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             )
         }
     }
-
+    /**
+     * ****************************************************************************************************************************************CHECKING
+     */
     @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String?>, grantResults: IntArray

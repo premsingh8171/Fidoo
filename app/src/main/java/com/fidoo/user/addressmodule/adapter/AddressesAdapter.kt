@@ -95,7 +95,7 @@ class AddressesAdapter(
                 } else {
                     holder.storeName.text = "Home"
                 }
-                holder.addressTypeIcon.setImageResource(R.drawable.ic_home)
+                holder.addressTypeIcon.setImageResource(R.drawable.ic_home_new)
             }
             addressList[position].addressType.equals("2") -> {
                 if (addressList[position].is_default.equals("1")) {
@@ -105,7 +105,7 @@ class AddressesAdapter(
                     holder.storeName.text = "Office"
                 }
                 holder.storeName.text = "Office"
-                holder.addressTypeIcon.setImageResource(R.drawable.ic_office)
+                holder.addressTypeIcon.setImageResource(R.drawable.ic_office_new)
             }
 
             else -> {
@@ -116,7 +116,7 @@ class AddressesAdapter(
                     holder.storeName.text = "Other"
                 }
                 holder.storeName.text = "Other"
-                holder.addressTypeIcon.setImageResource(R.drawable.ic_others)
+                holder.addressTypeIcon.setImageResource(R.drawable.ic_others_new)
             }
         }
 

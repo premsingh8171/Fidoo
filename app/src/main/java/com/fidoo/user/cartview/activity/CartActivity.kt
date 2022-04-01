@@ -112,8 +112,6 @@ class CartActivity : BaseActivity(),
 	CustomCartPlusMinusClick,
 	AdapterCustomRadioClick, PaymentResultListener, PaymentResultWithDataListener {
 
-	var userAddressList : Int = 0
-
 	var viewmodel: CartViewModel? = null
 	var totalAmount: Double = 0.0
 	var storeViewModel: StoreDetailsViewModel? = null
@@ -1318,6 +1316,7 @@ class CartActivity : BaseActivity(),
 		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
 		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
 		val lvAddNewAdd = dialog?.findViewById<LinearLayout>(R.id.lv_add_new_address)
+		val notToSee = dialog?.findViewById<LinearLayout>(R.id.cart_select_layout)
 		val bottomSheetAddress = dialog?.findViewById<LinearLayout>(R.id.ll_bottomSheetAddress)
 		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
 		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
@@ -1341,7 +1340,8 @@ class CartActivity : BaseActivity(),
 				bottomSheetAddress?.visibility = View.GONE
 			}
 			if (!user.addressList.isNullOrEmpty()) {
-
+				bottomSheetAddress?.visibility = View.VISIBLE
+				notToSee?.visibility = View.VISIBLE
 				val adapter = AddressesAdapterBottom(
 					this@CartActivity, user.addressList,
 					object : AddressesAdapterBottom.SetOnDeteleAddListener {
@@ -1369,9 +1369,6 @@ class CartActivity : BaseActivity(),
 
 								}
 							}
-							// holder.itemView.setassDefaultTxt.visibility=View.VISIBLE
-							//  holder.itemView.selectedadd_img.visibility=View.VISIBLE
-							// holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
 
 							SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 							SessionTwiclo(this@CartActivity).userAddressId = addressList.id
@@ -1402,15 +1399,11 @@ class CartActivity : BaseActivity(),
 		})
 		val manager = this@CartActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-		//Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()
 			lvCheckLocation?.visibility = View.GONE
-//		cart_payment_lay.visibility = View.GONE
-//		cart_payment_lay_One.visibility = View.VISIBLE
-
 		dialog?.show()
 		dialog?.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
-			ViewGroup.LayoutParams.WRAP_CONTENT
+			1350
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)

@@ -21,24 +21,7 @@
             android:layout_height="24dp"
             app:tint="@color/black" />
     </FrameLayout>
-    <!--    <FrameLayout-->
-    <!--        android:id="@+id/add_address_frmLL_One"-->
-    <!--        android:layout_margin="@dimen/margin_12dp"-->
-    <!--        android:elevation="@dimen/dimen_5dp"-->
-    <!--        android:visibility="gone"-->
-    <!--        android:background="@drawable/circular_border"-->
-    <!--        android:backgroundTint="@color/white"-->
-    <!--        android:layout_width="@dimen/margin_40dp"-->
-    <!--        android:layout_height="@dimen/margin_40dp">-->
-    <!--        <ImageView-->
-    <!--            android:rotation="180"-->
-    <!--            android:background="@color/white"-->
-    <!--            android:layout_gravity="center"-->
-    <!--            android:src="@drawable/ic_back_vector"-->
-    <!--            android:layout_width="24dp"-->
-    <!--            android:layout_height="24dp"-->
-    <!--            app:tint="@color/black" />-->
-    <!--    </FrameLayout>-->
+
 
     <TextView
         android:id="@+id/tv_SelectDeliveryAddress"
@@ -121,17 +104,6 @@
         android:id="@+id/add_new_add_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!--        <TextView-->
-        <!--            android:fontFamily="@font/proxima"-->
-        <!--            android:paddingLeft="@dimen/margin_10"-->
-        <!--            android:paddingTop="@dimen/margin_10"-->
-        <!--            android:layout_margin="@dimen/dimen_5dp"-->
-        <!--            android:textColor="@color/black"-->
-        <!--            android:text="Select location"-->
-        <!--            android:textSize="@dimen/dimen_16sp"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content" />-->
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -156,7 +128,7 @@
                         android:layout_height="@dimen/margin_24dp"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="4dp"
-                        android:src="@drawable/ic_new_location"
+                        android:src="@drawable/ic_icon_for_user_app_marker"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -338,55 +310,9 @@
                         android:gravity="center"
                         android:text="Other" />
                 </RadioGroup>
-                <!--                <CheckBox-->
-                <!--                    android:visibility="visible"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:paddingVertical="10dp"-->
-                <!--                    android:id="@+id/defaultCheckBox"-->
-                <!--                    android:paddingHorizontal="5dp"-->
-                <!--                    android:layout_marginHorizontal="10dp"-->
-                <!--                    app:layout_constraintLeft_toLeftOf="parent"-->
-                <!--                    app:layout_constraintTop_toBottomOf="@+id/tl_landmark"-->
-                <!--                    android:text="Set as default address" />-->
-
-                <!--                <TextView-->
-                <!--                    android:fontFamily="@font/proxima"-->
-                <!--                    android:textSize="12sp"-->
-                <!--                    android:id="@+id/contact_name_txt"-->
-                <!--                    android:layout_gravity="center"-->
-                <!--                    android:textColorHint="@color/primary_color"-->
-                <!--                    android:textStyle="bold"-->
-                <!--                    android:gravity="center"-->
-                <!--                    android:drawablePadding="@dimen/dimen_5dp"-->
-                <!--                    android:drawableLeft="@drawable/ic_call"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:textColor="@color/primary_color"-->
-                <!--                    android:layout_height="25dp"-->
-                <!--                    android:text="Add contact no." />-->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <!--                    <com.google.android.material.button.MaterialButton-->
-                    <!--                        android:layout_marginBottom="@dimen/margin_20dp"-->
-                    <!--                        android:id="@+id/btn_grey"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginStart="16dp"-->
-                    <!--                        android:layout_marginTop="17dp"-->
-                    <!--                        android:layout_marginEnd="16dp"-->
-                    <!--                        android:letterSpacing="0"-->
-                    <!--                        android:visibility="visible"-->
-                    <!--                        android:padding="15dp"-->
-                    <!--                        android:textSize="16sp"-->
-                    <!--                        android:text="Save"-->
-                    <!--                        android:textAllCaps="false"-->
-                    <!--                        android:textColor="@color/white"-->
-                    <!--                        app:backgroundTint="@color/primary_color"-->
-                    <!--                        app:cornerRadius="10dp"-->
-                    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
-                    <!--                        app:layout_constraintStart_toStartOf="parent"/>-->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_continue"
                         android:layout_width="match_parent"
@@ -402,13 +328,11 @@
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-
                         app:cornerRadius="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
                 </RelativeLayout>
-
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
@@ -525,7 +449,7 @@
         <androidx.appcompat.widget.AppCompatCheckedTextView
             android:padding="@dimen/margin_15dp"
             android:textColor="@color/black"
-            android:drawableStart="@drawable/ic_new_location"
+            android:drawableStart="@drawable/ic_icon_for_user_app_marker"
             android:drawablePadding="@dimen/margin_10"
             android:id="@+id/tv_Address_1"
             android:background="@color/white"
