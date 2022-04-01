@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -26,6 +27,7 @@ import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.ordermodule.ui.TrackSendPAckagesOrderActivity
 import com.fidoo.user.sendpackages.adapter.DeliveryChargesSendAdapter
@@ -50,6 +52,7 @@ import kotlinx.android.synthetic.main.activity_send_package_order_detail.payment
 import kotlinx.android.synthetic.main.activity_send_package_order_detail.tv_cash
 import kotlinx.android.synthetic.main.activity_send_package_order_detail.tv_grand_total
 import kotlinx.android.synthetic.main.activity_send_package_order_detail.tv_place_order
+import kotlinx.android.synthetic.main.new_deliverycharges_layout.*
 import org.json.JSONObject
 import java.lang.reflect.Type
 
@@ -108,6 +111,30 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         val delivery_tax_rate = intent.getStringExtra("delivery_tax_rate")
         var delivery_charges = intent.getStringExtra("delivery_charges")
 
+        tv_deliveryCharges_label.text= "Delivery charges | ${distance} kms"
+        val dist:Int= distance!!.toInt()
+        useconstants.user_dist= dist
+        if (dist<=3){
+            upto_3kms_.text= "upto 3kms"
+            rate_id1.text= resources.getString(R.string.ruppee)+"18"
+        }
+        if (dist>3 && dist<=6){
+            upto_3kms_.text= "above 3kms-6kms"
+            rate_id1.text= resources.getString(R.string.ruppee)+"36"
+        }
+        if (dist>6 && dist<=9){
+            upto_3kms_.text= "above 6kms-9kms"
+            rate_id1.text= resources.getString(R.string.ruppee)+"54"
+        }
+        if (dist>9 && dist<=12){
+            upto_3kms_.text= "above 9kms-12kms"
+            rate_id1.text= resources.getString(R.string.ruppee)+"72"
+        }
+        if (dist>12){
+            upto_3kms_.text= "above 12kms"
+            rate_id1.text= resources.getString(R.string.ruppee)+"90"
+        }
+
         try {
             if (delivery_charges != null) {
                 val gson = Gson()
@@ -118,8 +145,12 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                 deliveryChargesList = deliveryChargesList1 as ArrayList
 
 
+
+
+                val layoutmanager= LinearLayoutManager(this)
+                rv_newchargesa.layoutManager= layoutmanager
                 var adaptersend = DeliveryChargesSendAdapter(this, deliveryChargesList!!)
-                charges_rvSend.adapter = adaptersend
+                rv_newchargesa.adapter = adaptersend
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -210,6 +241,28 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
 
         }
 
+        address_details_lay.setOnClickListener {
+
+            upto_3kms_.visibility= View.VISIBLE
+            rate_id1.visibility= View.VISIBLE
+            morecharges_.visibility=View.VISIBLE
+            rv_newchargesa.visibility= View.GONE
+            tv_gstax.visibility= View.GONE
+            xyz2.visibility = View.GONE
+            new_polygon_2i.visibility= View.GONE
+
+        }
+
+        items_details_lay.setOnClickListener {
+            upto_3kms_.visibility= View.VISIBLE
+            rate_id1.visibility= View.VISIBLE
+            morecharges_.visibility=View.VISIBLE
+            rv_newchargesa.visibility= View.GONE
+            tv_gstax.visibility= View.GONE
+            xyz2.visibility = View.GONE
+            new_polygon_2i.visibility= View.GONE
+        }
+
         online_lay.setOnClickListener {
             paymentMode = "online"
             online_lay.setBackgroundResource(R.drawable.black_rounded_solid)
@@ -294,15 +347,33 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
         }
 
         chargesFmBgs.setOnClickListener {
-            chargesFmBgs.visibility = View.GONE
+            /*chargesFmBgs.visibility = View.GONE
             chargesFms.visibility = View.GONE
-            chargesFmBgbottoms.visibility = View.GONE
+            chargesFmBgbottoms.visibility = View.GONE*/
+
+
+
+
+
         }
 
-        tv_deliveryCharges_label.setOnClickListener {
-            chargesFmBgs.visibility = View.VISIBLE
-            chargesFms.visibility = View.VISIBLE
-            chargesFmBgbottoms.visibility = View.VISIBLE
+        new_delivery_popupsp.setOnClickListener {
+            /* chargesFmBgs.visibility = View.VISIBLE
+             chargesFms.visibility = View.VISIBLE
+             chargesFmBgbottoms.visibility = View.VISIBLE*/
+            cvdeliverydetail.visibility= View.VISIBLE
+            xyz2.visibility= View.VISIBLE
+            new_polygon_2i.visibility= View.VISIBLE
+
+
+            morecharges_.setOnClickListener {
+                upto_3kms_.visibility= View.GONE
+                rate_id1.visibility= View.GONE
+                morecharges_.visibility=View.GONE
+                rv_newchargesa.visibility= View.VISIBLE
+                tv_gstax.visibility= View.VISIBLE
+
+            }
         }
 
         sendPackagesViewModel?.sendPackagesResponse?.observe(this) {
@@ -441,7 +512,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                 prefill.put("email", SessionTwiclo(this).profileDetail.account.emailid)
                 prefill.put(
                     "contact",
-                    SessionTwiclo(this).profileDetail.account.country_code + SessionTwiclo(this).profileDetail.account.userName
+                    SessionTwiclo(this).profileDetail.account.countryCode + SessionTwiclo(this).profileDetail.account.userName
                 )
                 options.put("prefill", prefill)
             } else {

@@ -218,7 +218,6 @@ class StoreFilterListActivity : BaseActivity() {
                     if (user.errorCode == 101) {
                         showAlertDialog(this)
                     }
-                    dismissIOSProgress()
             }
         })
 
@@ -304,7 +303,7 @@ class StoreFilterListActivity : BaseActivity() {
     private fun apicall(serive_id: String?) {
 
         if (isNetworkConnected) {
-
+              showIOSProgress()
             if (SessionTwiclo(this).isLoggedIn) {
 
                 if (serive_id != null) {

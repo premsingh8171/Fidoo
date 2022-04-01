@@ -564,6 +564,7 @@
                                             android:layout_marginTop="@dimen/dimen_5dp"
                                             android:fontFamily="@font/proxima"
                                             android:text=""
+                                            android:visibility="invisible"
                                             android:textColor="@color/grey"
                                             android:textSize="@dimen/text_size_12sp" />
 

@@ -25,7 +25,7 @@
 
             <FrameLayout
                 android:layout_width="wrap_content"
-               android:layout_alignParentEnd="true"
+                android:layout_alignParentEnd="true"
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/skip1"
@@ -108,18 +108,18 @@
         </RelativeLayout>
 
         <FrameLayout
-        android:id="@+id/letsBegin_fml"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/margin_30dp"
-        android:layout_marginRight="@dimen/margin_30dp"
-        android:layout_marginBottom="@dimen/margin_40dp"
-        android:layout_width="56dp"
-        android:background="@drawable/forwordbutton"
-        android:layout_height="56dp"
-        android:elevation="10dp"
-        android:visibility="visible" />
+            android:id="@+id/letsBegin_fml"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_30dp"
+            android:layout_marginRight="@dimen/margin_30dp"
+            android:layout_marginBottom="@dimen/margin_40dp"
+            android:layout_width="56dp"
+            android:background="@drawable/forwordbutton"
+            android:layout_height="56dp"
+            android:elevation="10dp"
+            android:visibility="visible" />
 
     </RelativeLayout>
 

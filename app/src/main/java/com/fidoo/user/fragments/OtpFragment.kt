@@ -19,10 +19,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.fidoo.user.R
+import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity.Companion.appversion
 import com.fidoo.user.activity.SplashActivity.Companion.mobile_number
-import com.fidoo.user.api_request_retrofit.ApiCalls
 import com.fidoo.user.api_request_retrofit.ApiInterface
 import com.fidoo.user.data.SendResponse
 import com.fidoo.user.data.model.ResendModel
@@ -33,6 +33,7 @@ import com.fidoo.user.utils.BaseFragment
 import com.fidoo.user.utils.SmsBroadcastReceiver
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.mixpanel.android.mpmetrics.MixpanelAPI
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_otp.view.*
 import org.json.JSONObject
 
@@ -60,6 +61,7 @@ class OtpFragment : BaseFragment() {
         const val TAG = "SMS_USER_CONSENT"
 
         const val REQ_USER_CONSENT = 100
+        var backhanlde: Int = 0
     }
 
 
@@ -85,6 +87,7 @@ class OtpFragment : BaseFragment() {
         startSmsUserConsent()
 
 
+
         Log.d("referaal_id_", sessionInstance.referralId)
 
         mView.otp_view?.otpListener = object : OTPListener {
@@ -104,6 +107,7 @@ class OtpFragment : BaseFragment() {
             resendApi()
 
         }
+
 
         mView.tv_phone.text = mData.mobile
 
@@ -130,21 +134,38 @@ class OtpFragment : BaseFragment() {
         }
 
         requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(this, object : OnBackPressedCallback(true) {
+            .onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    Log.d(TAG, "Fragment back pressed invoked")
 
+                    AppUtils.startActivityRightToLeft(
+                        requireActivity(),
+                        Intent(requireContext(), AuthActivity::class.java)
+                    )
 
+//                    val intent = Intent(requireContext(), AuthActivity::class.java)
+//                    requireContext().startActivity(intent)
+                    AppUtils.finishActivityLeftToRight(requireActivity())
+                    backhanlde = 1
+
+//                    val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
+//                    findNavController().navigate(action)
+
+//                    NavHostFragment.findNavController(this@OtpFragment).navigateUp()
+                    //Navigation.findNavController(mView).popBackStack()
+
+//                    findNavController().navigateUp()
+                    //findNavController().navigate(R.id.action_otpFragment_to_signInFragment)
                     // if you want onBackPressed() to be called as normal afterwards
-                    if (isEnabled) {
-                        isEnabled = false
-                        val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
-                        findNavController().navigate(action)
-                    }
+//                    if (isEnabled) {
+//                        isEnabled = false
+//                        val action = OtpFragmentDirections.actionOtpFragmentToSignInFragment()
+//                        findNavController().navigate(action)
+//                    }
+
                 }
             }
             )
+
 
 
 
@@ -214,6 +235,7 @@ class OtpFragment : BaseFragment() {
                             e.printStackTrace()
                         }
                     }
+
 
                 }
                 ApiInterface.OTP_FAILURE -> {
@@ -374,6 +396,5 @@ class OtpFragment : BaseFragment() {
         Log.d("referaal_id_", sessionInstance.referralId)
 
     }
-
 
 }

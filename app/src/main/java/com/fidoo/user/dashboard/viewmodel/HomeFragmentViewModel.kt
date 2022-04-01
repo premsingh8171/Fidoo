@@ -14,6 +14,9 @@ import com.fidoo.user.dashboard.model.newmodel.ServiceDetailsModel
 import com.fidoo.user.data.model.BannerModel
 import com.fidoo.user.data.model.CartCountModel
 import com.fidoo.user.utils.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,18 +67,18 @@ class HomeFragmentViewModel(application: Application) : AndroidViewModel(applica
             accountId = accountId, accessToken = accessToken
         ).enqueue(object : Callback<HomeServicesModel> {
             override fun onResponse(
-                    call: Call<HomeServicesModel>,
-                    response: Response<HomeServicesModel>
-                ) {
-                    progressDialog?.value = false
-                    homeServicesResponse?.value = response.body()
-                }
+                call: Call<HomeServicesModel>,
+                response: Response<HomeServicesModel>
+            ) {
+                progressDialog?.value = false
+                homeServicesResponse?.value = response.body()
+            }
 
-                override fun onFailure(call: Call<HomeServicesModel>, t: Throwable) {
-                    progressDialog?.value = false
-                    failureResponse?.value = "Something went wrong"
-                }
-            })
+            override fun onFailure(call: Call<HomeServicesModel>, t: Throwable) {
+                progressDialog?.value = false
+                failureResponse?.value = "Something went wrong"
+            }
+        })
     }
 
     fun getHomeDataApi(
@@ -85,28 +88,42 @@ class HomeFragmentViewModel(application: Application) : AndroidViewModel(applica
         user_long: String
     ) {
 
-       // Log.e("getHomeDataApi", "$accountId--$accessToken--$user_lat--$user_long")
-        WebServiceClient.client.create(BackEndApi::class.java).gethomeDataApi(
-            accountId = accountId,
-            accessToken = accessToken,
-            user_lat = user_lat,
-            user_long = user_long
-        ).enqueue(object : Callback<ServiceDetailsModel> {
+        GlobalScope.launch(Dispatchers.IO) {
+            var response = WebServiceClient.client.create(BackEndApi::class.java).gethomeDataApi(
+                accountId = accountId,
+                accessToken = accessToken,
+                user_lat = user_lat,
+                user_long = user_long
+            )
+            if (response.isSuccessful) {
+                homeDataResponse?.postValue(response.body())
+            } else {
+                failureResponse?.postValue("Something went wrong")
+            }
+        }
 
-                override fun onResponse(
-                    call: Call<ServiceDetailsModel>,
-                    response: Response<ServiceDetailsModel>
-                ) {
-                    progressDialog?.value = false
-                    homeDataResponse?.value = response.body()
-
-                }
-
-                override fun onFailure(call: Call<ServiceDetailsModel>, t: Throwable) {
-                    progressDialog?.value = false
-                    failureResponse?.value = "Something went wrong"
-                }
-            })
+        // Log.e("getHomeDataApi", "$accountId--$accessToken--$user_lat--$user_long")
+//        WebServiceClient.client.create(BackEndApi::class.java).gethomeDataApi(
+//            accountId = accountId,
+//            accessToken = accessToken,
+//            user_lat = user_lat,
+//            user_long = user_long
+//        ).enqueue(object : Callback<ServiceDetailsModel> {
+//
+//                override fun onResponse(
+//                    call: Call<ServiceDetailsModel>,
+//                    response: Response<ServiceDetailsModel>
+//                ) {
+//                    progressDialog?.value = false
+//                    homeDataResponse?.value = response.body()
+//
+//                }
+//
+//                override fun onFailure(call: Call<ServiceDetailsModel>, t: Throwable) {
+//                    progressDialog?.value = false
+//                    failureResponse?.value = "Something went wrong"
+//                }
+//            })
 
     }
 
@@ -140,17 +157,17 @@ class HomeFragmentViewModel(application: Application) : AndroidViewModel(applica
             accountId = accountId, accessToken = accessToken
         ).enqueue(object : Callback<CheckPaymentStatusModel> {
             override fun onResponse(
-                    call: Call<CheckPaymentStatusModel>,
-                    response: Response<CheckPaymentStatusModel>
-                ) {
-                    progressDialog?.value = false
-                    checkPaymentStatusRes?.value = response.body()
-                }
+                call: Call<CheckPaymentStatusModel>,
+                response: Response<CheckPaymentStatusModel>
+            ) {
+                progressDialog?.value = false
+                checkPaymentStatusRes?.value = response.body()
+            }
 
-                override fun onFailure(call: Call<CheckPaymentStatusModel>, t: Throwable) {
-                    failureResponse?.value = "Something went wrong"
-                }
-            })
+            override fun onFailure(call: Call<CheckPaymentStatusModel>, t: Throwable) {
+                failureResponse?.value = "Something went wrong"
+            }
+        })
     }
 
     override fun onResponse(call: Call<BannerModel>?, response: Response<BannerModel>?) {

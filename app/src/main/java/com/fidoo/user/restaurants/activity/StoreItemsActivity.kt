@@ -823,8 +823,9 @@ class StoreItemsActivity :
             dismissIOSProgress()
             cartitemView_LLstore.visibility = View.GONE
             cat_FloatBtn.visibility = View.GONE
+            Log.e("stores___esponse", Gson().toJson(user))
+
             if (user.errorCode == 200) {
-                Log.e("stores___esponse", Gson().toJson(user))
                 mModelDataTemp = user
 
                 categoryy = ArrayList()

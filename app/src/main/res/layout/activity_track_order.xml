@@ -302,6 +302,7 @@
                                         tools:srcCompat="@tools:sample/avatars" />
 
                                     <TextView
+                                        android:visibility="gone"
                                         android:id="@+id/store_name_txt_info"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -313,17 +314,16 @@
                                         android:textSize="12sp"
                                         android:textStyle="bold"
                                         app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toEndOf="@+id/store_img_onOrder"
+                                        app:layout_constraintLeft_toRightOf="@+id/store_img_onOrder"
                                         app:layout_constraintTop_toTopOf="parent" />
 <!--                                    is preparing your order-->
                                     <TextView
-                                        android:layout_marginRight="@dimen/margin_10"
+                                        android:layout_marginRight="@dimen/margin_30dp"
                                         android:id="@+id/status_store_txt"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="250dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="@dimen/dimen_5dp"
+                                        android:layout_marginLeft="@dimen/margin_10dp"
                                         android:fontFamily="@font/proxima"
-                                        android:maxLines="1"
                                         android:text=""
                                         android:textColor="@color/colorTitle"
                                         android:textSize="12sp"
@@ -593,7 +593,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_below="@+id/tv_order_picked_details"
-                                        android:layout_marginTop="@dimen/margin_35dp"
+                                        android:layout_marginTop="@dimen/margin_40dp"
                                         android:fontFamily="@font/proxima"
                                         android:text="Delivery partner en route to deliver" />
 

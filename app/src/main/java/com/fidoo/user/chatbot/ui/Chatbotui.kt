@@ -203,7 +203,7 @@ class Chatbotui :AppCompatActivity() {
                     LayoutFeedback.visibility = View.VISIBLE
 
                 } else {
-                  LayoutFeedback.visibility = View.GONE
+                    LayoutFeedback.visibility = View.GONE
                     tvlast.visibility = View.VISIBLE
                 }
             }
@@ -431,9 +431,9 @@ class Chatbotui :AppCompatActivity() {
 
 
                 CoroutineScope(Dispatchers.Main).launch {
-                 delay(2500)
-                 LayoutFeedback.visibility = View.VISIBLE
-}
+                    delay(2500)
+                    LayoutFeedback.visibility = View.VISIBLE
+                }
 
                 viewModel = ViewModelProvider(this).get(ChatbotViewModel::class.java)
                 intent.getStringExtra("orderId")?.let { it1 ->
@@ -461,7 +461,7 @@ class Chatbotui :AppCompatActivity() {
                     setRecyclerViewBotmsg()
 
                 }
-            /////////// //Feedback model for cod and order placed situation//////////////////////////////////////////////////////////////////////////////////////
+                /////////// //Feedback model for cod and order placed situation//////////////////////////////////////////////////////////////////////////////////////
 
                 BtnNo.setOnClickListener {
                     botlogo3 .visibility = View.VISIBLE

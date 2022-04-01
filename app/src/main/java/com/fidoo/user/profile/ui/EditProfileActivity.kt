@@ -26,10 +26,12 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
+import kotlinx.android.synthetic.main.fragment_signup_screen_fm.view.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.util.regex.Pattern
 
 class EditProfileActivity : BaseActivity() {
     var viewmodel: EditProfileViewModel? = null
@@ -38,6 +40,15 @@ class EditProfileActivity : BaseActivity() {
     var contsCardHeight = 0
     var height = 0
     var width = 0
+
+    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
+        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                "\\@" +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                "(" +
+                "\\." +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                ")+")
 
     private var mMixpanel: MixpanelAPI? = null
 
@@ -109,8 +120,8 @@ class EditProfileActivity : BaseActivity() {
         save_data.setOnClickListener {
             if (nameEdt.text.toString().equals("")) {
                 showToast("Please enter full name")
-            } else if (emailEdt.text.toString().equals("")) {
-                showToast("Please enter email")
+            } else if (!(isValidEmail(emailEdt.text.toString()))) {
+                showToast("Please enter valid email")
             } else {
                 addUpdateProfileApi(filePathTemp)
             }
@@ -141,14 +152,11 @@ class EditProfileActivity : BaseActivity() {
             Log.e("addUpdateResponse_", Gson().toJson(user))
             dismissIOSProgress()
             if (user.errorCode==200) {
-                if (user.error == true) {
-                    // showToast(user.message)
-                } else {
+
                     sessionTwiclo!!.storeProfileDetail(user)
                     //  Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_LONG).show()
 //                startActivity(Intent(this, MainActivity::class.java))
 //                finishAffinity()
-                }
                 finish()
             }else{
                 showToast(user.message)
@@ -242,5 +250,9 @@ class EditProfileActivity : BaseActivity() {
     override fun onBackPressed() {
         finish()
         AppUtils.finishActivityLeftToRight(this)
+    }
+
+    fun isValidEmail(str: String): Boolean{
+        return EMAIL_ADDRESS_PATTERN.matcher(str).matches()
     }
 }

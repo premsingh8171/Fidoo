@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import com.fidoo.user.restaurants.activity.StoreItemsActivity
 import com.fidoo.user.store.model.StoreListingModel
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fav_store_item.view.*
+import java.lang.StringBuilder
 import java.text.ParseException
 import java.util.*
 
@@ -60,8 +62,24 @@ class StoreAdapter(
 
 	override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
 		if (!storeList[position].cuisines.isNullOrEmpty()) {
-			holder.cuisine?.text =
-				storeList[position].cuisines.joinToString(separator = ", ").replace(",", ", ").trim()
+
+			var str=""
+			//storeList[position].cuisines.joinToString(separator = ", ").replace(",", ", ").trim()
+
+			for (i in 0 until storeList[position].cuisines!!.size) {
+				if (i<2){
+					str	=str+ storeList[position].cuisines[i]+","
+				}
+			}
+			if (str.endsWith(",")) {
+				str = str.substring(0, str.length - 1);
+				if (storeList[position].cuisines!!.size.equals(3)){
+					holder.cuisine?.text =str+"..more"
+				}else{
+					holder.cuisine?.text =str
+				}
+			}
+			Log.d("textvalue__", str)
 			holder.cuisine?.visibility = View.VISIBLE
 		} else {
 			holder.cuisine?.visibility = View.GONE
@@ -69,7 +87,9 @@ class StoreAdapter(
 		}
 		var coupanStr: String? = ""
 
+
 		try {
+
 			if (storeList[position].couponsAvailable.size > 0) {
 				for (i in storeList[position].couponsAvailable.indices) {
 
@@ -112,9 +132,9 @@ class StoreAdapter(
 			holder.closingTimeText.text = " "
 		}
 
-		var retStr = storeList[position].name.toLowerCase().substring(0, 1)
-			.toUpperCase() + storeList[position].name.toLowerCase().substring(1)
-		holder.storeName?.text = retStr
+//		var retStr = storeList[position].name.toLowerCase().substring(0, 1)
+//			.toUpperCase() + storeList[position].name.toLowerCase().substring(1)
+		holder.storeName?.text = storeList[position].name.toString()
 
 		if (storeList[position].rating.toString() == "") {
 			//holder.ratingTxt.text = "--"
@@ -224,7 +244,6 @@ class StoreAdapter(
 		} catch (e: Exception) {
 			e.printStackTrace()
 		}
-
 
 
 		Glide.with(context)

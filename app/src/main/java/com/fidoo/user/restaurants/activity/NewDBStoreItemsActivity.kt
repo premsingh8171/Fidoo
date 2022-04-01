@@ -16,10 +16,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.AbsListView
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -27,6 +24,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.fidoo.user.R
@@ -165,15 +163,15 @@ class NewDBStoreItemsActivity :
         var handleresponce: Int = 0
         var productsListing_Count: Int? = 0
         var storeIDCheckOnCart: String = ""
-
         //for bottom view of restaurant license
         var fssai: String? = ""
         var restaurantName: String? = ""
         var restaurantAddress: String? = ""
     }
 
+
     //for pagination
-    var totalItem: Int? = 100
+    var totalItem: Int? = 120
     var table_count: Int? = 0
     private var manager: GridLayoutManager? = null
     private var currentItems = 0
@@ -185,6 +183,7 @@ class NewDBStoreItemsActivity :
     var egg_filter: Int = 0
     var cat_visible: Int = 0
     var isCustomizeOpen: Int = 0
+    var filterActive: Int = 0// for handle filter api call response
     var cart_count: Int = 0
     lateinit var storeItemsAdapter: StoreItemsAdapter
     lateinit var restaurantCategoryAdapter: NewDbRestaurantCategoryAdapter
@@ -220,7 +219,6 @@ class NewDBStoreItemsActivity :
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
         distanceViewModel = ViewModelProvider(this).get(TrackViewModel::class.java)
         behavior = BottomSheetBehavior.from(bottom_sheet)
-
         tempProductList = ArrayList()
         addCartTempList = ArrayList()
         customIdsList = ArrayList()
@@ -436,52 +434,59 @@ class NewDBStoreItemsActivity :
         }
 
         veg_switch_img.setOnClickListener {
-            deleteRoomDataBase()
+            // if(filterActive==1) {
+            //  filterActive=0
+          //  deleteRoomDataBase()
             showIOSProgress()
-            totalItem = 100
-            pagecount=0
+            totalItem = 120
+            pagecount = 0
             if (veg_filter == 0) {
                 veg_switch_img.setImageResource(R.drawable.filter_on)
                 // egg_switch_img.setImageResource(R.drawable.filter_off)
                 //  egg_filter=0
                 nonveg_str = "0"
-                getStoreDetailsApiCall()
+                //getStoreDetailsApiCall()
                 veg_filter = 1
+                filterQuery(nonveg_str)
 
             } else {
                 veg_switch_img.setImageResource(R.drawable.filter_off)
                 nonveg_str = ""
-                getStoreDetailsApiCall()
+               // getStoreDetailsApiCall()
                 veg_filter = 0
+                filterQuery(nonveg_str)
 
             }
-
             visibilityView()
             searchEdt_ResPrd.getText().clear()
-            getRoomData()
+           // getRoomData()
+            // }
         }
 
         egg_switch_img.setOnClickListener {
-            deleteRoomDataBase()
-            showIOSProgress()
-            totalItem = 100
-            pagecount=0
-            if (egg_filter == 0) {
-                egg_switch_img.setImageResource(R.drawable.filter_on)
-                // veg_switch_img.setImageResource(R.drawable.filter_off)
-                contains_egg = "1"
-                getStoreDetailsApiCall()
-                egg_filter = 1
+            if(filterActive==1) {
+                filterActive=0
+                deleteRoomDataBase()
+                showIOSProgress()
+                totalItem = 120
+                pagecount = 0
+                if (egg_filter == 0) {
+                    egg_switch_img.setImageResource(R.drawable.filter_on)
+                    // veg_switch_img.setImageResource(R.drawable.filter_off)
+                    contains_egg = "1"
+                    getStoreDetailsApiCall()
+                    egg_filter = 1
 
-            } else {
-                egg_switch_img.setImageResource(R.drawable.filter_off)
-                contains_egg = ""
-                getStoreDetailsApiCall()
-                egg_filter = 0
+                } else {
+                    egg_switch_img.setImageResource(R.drawable.filter_off)
+                    contains_egg = ""
+                    getStoreDetailsApiCall()
+                    egg_filter = 0
+                }
+                visibilityView()
+                searchEdt_ResPrd.getText().clear()
+               // getRoomData()
             }
-            visibilityView()
-            searchEdt_ResPrd.getText().clear()
-            getRoomData()
         }
 
         //Default behaviour of Bottom Sheet
@@ -493,6 +498,9 @@ class NewDBStoreItemsActivity :
             storeName.split(' ').joinToString(" ") { it.capitalize(Locale.getDefault()) }
         store_nameTxt.text =
             storeName.split(' ').joinToString(" ") { it.capitalize(Locale.getDefault()) }
+
+         restaurantName=  storeName.split(' ').joinToString(" ") { it.capitalize(Locale.getDefault()) }
+         restaurantAddress= intent.getStringExtra("store_location").toString().replace(" ,", ", ")
 
         //storeID = intent.getStringExtra("storeId")!!
 
@@ -582,7 +590,7 @@ class NewDBStoreItemsActivity :
 
         //cartcount responce
         viewmodel?.cartCountResponse?.observe(this) { cartcount ->
-           // dismissIOSProgress()
+            // dismissIOSProgress()
             addCartTempList!!.clear()
             tempProductList!!.clear()
             //Log.d("cartCountResponse___",cartcount.toString())
@@ -629,11 +637,12 @@ class NewDBStoreItemsActivity :
             tempProductList!!.clear()
             addCartTempList!!.clear()
             next_available = storeData.next_available
+            filterActive = storeData.next_available
             latestCatList.clear()
 
-           // if (next_available.toString().equals("1")){
-                dismissIOSProgress()
-           // }
+            // if (next_available.toString().equals("1")){
+            dismissIOSProgress()
+            // }
 
 //            if (cat_listShow == 0) {
 //                catList!!.clear()
@@ -643,22 +652,33 @@ class NewDBStoreItemsActivity :
 
             val productList: ArrayList<Product> = ArrayList()
 
-            try {
+          //  try {
                 if (storeData.service_id.equals("7")) {
                     store_preference_Rlay.visibility = View.GONE
                 } else {
                     store_preference_Rlay.visibility = View.VISIBLE
                 }
 
+            if(storeData.address.isNotEmpty()) {
                 restaurantAddress = storeData.address.toString()
                 fssai = "License no. " + storeData.fssai.toString()
                 restaurantName = storeData.store_name.toString()
-
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
 
-         //   dismissIOSProgress()
+                Log.d("updateData__",restaurantAddress+"-"+fssai+"-"+restaurantName)
+
+                if (!storeData.offers.isNullOrEmpty()) {
+                    tv_coupon.text = storeData.offers[0].coupon_desc
+                    coupan_view_ll.visibility = View.VISIBLE
+                } else {
+                    coupan_view_ll.visibility = View.GONE
+                }
+
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+
+            //   dismissIOSProgress()
 
             if (storeData.error_code==200) {
 
@@ -775,13 +795,18 @@ class NewDBStoreItemsActivity :
                     Log.e("Product_", productList.size.toString())
 
                     if (pagecount == 0) {
-                        getRoomData()
+                        if (nonveg_str.isEmpty()) {
+                            if (next_available == 0) {
+                             //   getRoomData()
+                                next_available=1
+                            }
+                        }
                     }
 
                     //ratingValue.text = user.rating
-                    tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
+                    //  tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
 
-                    if (next_available == 0) {
+                  //  if (next_available == 0) {
                         //	Handler(Looper.getMainLooper()).postDelayed({
                         if (isNetworkConnected) {
                             if (SessionTwiclo(this@NewDBStoreItemsActivity).isLoggedIn) {
@@ -807,7 +832,7 @@ class NewDBStoreItemsActivity :
                             }
                         }
 
-                    }
+                  //  }
 
 
                     cat_visible = 1
@@ -822,7 +847,7 @@ class NewDBStoreItemsActivity :
                 cat_visible = 0
                 productList.clear()!!
                 deleteRoomDataBase()
-                getRoomData()
+              //  getRoomData()
                 dismissIOSProgress()
 //                val toast =
 //                    Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
@@ -927,8 +952,9 @@ class NewDBStoreItemsActivity :
             dismissIOSProgress()
             cartitemView_LLstore.visibility = View.GONE
             cat_FloatBtn.visibility = View.GONE
+            Log.e("stores___esponse", Gson().toJson(user))
+
             if (user.errorCode == 200) {
-                Log.e("stores___esponse", Gson().toJson(user))
                 mModelDataTemp = user
 
                 categoryy = ArrayList()
@@ -1145,7 +1171,7 @@ class NewDBStoreItemsActivity :
                     cat_id = category.product_sub_category_id
                     viewAll_txt.setTextColor(Color.parseColor("#000000"))
                     selectCategoryDiolog?.dismiss()
-                    totalItem = 100
+                    totalItem = 120
 
                     try {
                         for (i in mainlist!!.indices) {
@@ -1158,8 +1184,9 @@ class NewDBStoreItemsActivity :
                                         storeItemsRecyclerview?.smoothScrollToPosition(i)
                                         storeItemsRecyclerview?.scrollToPosition(i+1 )
                                     } else {
-                                       storeItemsRecyclerview?.scrollToPosition(i!!+4)
-                                       storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
+//                                       storeItemsRecyclerview?.scrollToPosition(i!!+4)
+//                                       storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
+                                        storeItemsRecyclerview?.smoothSnapToPosition(i)
                                     }
                                 }
                             }
@@ -1190,9 +1217,11 @@ class NewDBStoreItemsActivity :
                 this,
                 productList_,
                 fssai!!,
-                restaurantName!!,
+                intent.getStringExtra("storeName").toString(),
+               // restaurantName!!,
                 "3.5",
-                restaurantAddress!!,
+               // restaurantAddress!!,
+                intent.getStringExtra("store_location").toString().replace(" ,", ", "),
                 this,
                 this,
                 table_count!!.toInt(),
@@ -1257,7 +1286,9 @@ class NewDBStoreItemsActivity :
                                 handleresponce = 1
                                 Log.d("isScrolling__", "$currentItems-$scrollOutItems-$totalItems")
 
-                                    if (table_count!! > productsListing_Count!!) {
+                                if (table_count!! > productsListing_Count!!) {
+                                    if (nonveg_str.isEmpty()) {
+
                                         if (isScrolling == true) {
                                             totalItem = totalItem?.plus(100)
                                             handleresponce = 1
@@ -1265,7 +1296,10 @@ class NewDBStoreItemsActivity :
                                             getRoomData()
                                             isScrolling = false
                                         }
+                                    }else{
+                                        filterQuery(nonveg_str)
                                     }
+                                }
                             }
                         }
 
@@ -1288,10 +1322,57 @@ class NewDBStoreItemsActivity :
 
     }
 
+    //search filterQuery get data
+    private fun filterQuery(query: String?) {
+        var search_key = "%$query%"
+        Log.d("searchData_", search_key.toString())
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                restaurantProductsDatabase!!.resProductsDaoAccess()!!.filterQuery(search_key)
+                    .observe(this, Observer { search ->
+                        Log.d("searchData_g", Gson().toJson(search))
+                         dismissIOSProgress()
+                        if (!query.equals("")) {
+                            productListFilter = search as ArrayList<StoreItemProductsEntity>
+                            storeItemsAdapter.updateData(
+                                productListFilter!!,
+                                productListFilter!!.size.toInt()
+                            )
+
+                            try {
+                                category_header_.text =
+                                    productListFilter!!.get(0)!!.subcategory_name.toString()
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                category_header_.text = ""
+                            }
+
+                        } else {
+                            try {
+                                category_header_.text =
+                                    mainlist!!.get(0)!!.subcategory_name.toString()
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                category_header_.text = ""
+                            }
+                            storeItemsAdapter.updateData(mainlist!!, table_count!!)
+                        }
+                        storeItemsAdapter?.notifyDataSetChanged()
+                        Log.d("searchdata_", search.toString())
+
+                    })
+            },
+            10
+        )
+    }
+
     //search query get data
     private fun searchQuery(query: String?) {
         var search_key = "%$query%"
         Log.d("searchData_", search_key.toString())
+        veg_switch_img.setImageResource(R.drawable.filter_off)
+        nonveg_str = ""
+        veg_filter=0
         Handler(Looper.getMainLooper()).postDelayed(
             {
                 restaurantProductsDatabase!!.resProductsDaoAccess()!!.searchQuery(search_key)
@@ -1333,46 +1414,51 @@ class NewDBStoreItemsActivity :
     //get data from room
     private fun getRoomData() {
         Handler(Looper.getMainLooper()).postDelayed({
-            if (searchEdt_ResPrd.getText().toString().equals("") || searchEdt_ResPrd.getText()
-                    .toString().startsWith(" ")
-            ) {
+            if(!nonveg_str.isEmpty()){
+                filterQuery(nonveg_str)
+            }else {
+                if (searchEdt_ResPrd.getText().toString().equals("") || searchEdt_ResPrd.getText()
+                        .toString().startsWith(" ")
+                ) {
 
-                restaurantProductsDatabase!!.resProductsDaoAccess()!!.getTableCount()
-                    .observe(this, { c ->
-                        Log.d("table_count", c.toString())
-                        table_count = c.toInt()
-                    })
+                    restaurantProductsDatabase!!.resProductsDaoAccess()!!.getTableCount()
+                        .observe(this, { c ->
+                            Log.d("table_count", c.toString())
+                            table_count = c.toInt()
+                        })
 
-                restaurantProductsDatabase!!.resProductsDaoAccess()!!
-                    .getAllProducts2(totalItem.toString())
-                    .observe(this, Observer { t ->
-                        Log.d("restaurantPrdD", t.size.toString() + "--" + handleresponce)
+                    restaurantProductsDatabase!!.resProductsDaoAccess()!!
+                        .getAllProducts2(totalItem.toString())
+                        .observe(this, Observer { t ->
+                            Log.d("restaurantPrdD", t.size.toString() + "--" + handleresponce)
 
-                        if (handleresponce == 0) {
-                            mainlist = t as ArrayList<StoreItemProductsEntity>?
-                            val s: Set<StoreItemProductsEntity> =
-                                LinkedHashSet<StoreItemProductsEntity>(mainlist)
-                            mainlist!!.clear()
-                            mainlist!!.addAll(s)
-                            productsListing_Count = mainlist!!.size
-                            rvStoreItemlisting(mainlist!!)
-                        } else {
-                            var productListUpdate: ArrayList<StoreItemProductsEntity> =
-                                ArrayList()
-                            productListUpdate = t as ArrayList<StoreItemProductsEntity>
-                            mainlist = productListUpdate
-                            val s: Set<StoreItemProductsEntity> =
-                                LinkedHashSet<StoreItemProductsEntity>(mainlist)
-                            mainlist!!.clear()
-                            mainlist!!.addAll(s)
-                            productsListing_Count = mainlist!!.size
-                            storeItemsAdapter.updateData(mainlist!!, table_count!!)
-                        }
-                    })
+                            if (handleresponce == 0) {
+                                mainlist = t as ArrayList<StoreItemProductsEntity>?
+                                val s: Set<StoreItemProductsEntity> =
+                                    LinkedHashSet<StoreItemProductsEntity>(mainlist)
+                                mainlist!!.clear()
+                                mainlist!!.addAll(s)
+                                productsListing_Count = mainlist!!.size
+                                rvStoreItemlisting(mainlist!!)
+                            } else {
+                                var productListUpdate: ArrayList<StoreItemProductsEntity> =
+                                    ArrayList()
+                                productListUpdate = t as ArrayList<StoreItemProductsEntity>
+                                mainlist = productListUpdate
+                                val s: Set<StoreItemProductsEntity> =
+                                    LinkedHashSet<StoreItemProductsEntity>(mainlist)
+                                mainlist!!.clear()
+                                mainlist!!.addAll(s)
+                                productsListing_Count = mainlist!!.size
+                                storeItemsAdapter.updateData(mainlist!!, table_count!!)
+                            }
 
-             //   dismissIOSProgress()
-            } else {
-                searchQuery(search_value)
+                        })
+
+                    //   dismissIOSProgress()
+                } else {
+                    searchQuery(search_value)
+                }
             }
         }, 100)
 
@@ -2072,6 +2158,7 @@ class NewDBStoreItemsActivity :
         storeIDCheckOnCart = storeID
 
         var str = intent.getStringExtra("cuisine_types")
+
         if (str!!.endsWith(",")) {
             var sb = StringBuffer(str)
             sb.deleteCharAt(sb.length - 1)
@@ -2080,17 +2167,20 @@ class NewDBStoreItemsActivity :
             tv_cuisnes.text = str
         }
 
+        tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
 
         tv_distance.text = intent.getStringExtra("distance") + "km"
+
         if (!intent.getStringExtra("coupon_desc").equals("")) {
-            tv_coupon.text = intent.getStringExtra("coupon_desc")
+            // tv_coupon.text = intent.getStringExtra("coupon_desc")
             coupan_view_ll.visibility = View.VISIBLE
         } else {
             coupan_view_ll.visibility = View.GONE
         }
 
-        Log.d("OnRESUME", "RESUME")
+        Log.d("OnRESUME___", "RESUME"+intent.getStringExtra("delivery_time"))
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
         if (handleresponce == 1) {
             getRoomData()
             if (SessionTwiclo(this).isLoggedIn) {
@@ -2117,7 +2207,15 @@ class NewDBStoreItemsActivity :
             }
             cat_FloatBtn.visibility = View.VISIBLE
         }
-
     }
 
+    fun RecyclerView.smoothSnapToPosition(position: Int, snapMode: Int = LinearSmoothScroller.SNAP_TO_START) {
+        val smoothScroller = object : LinearSmoothScroller(this@NewDBStoreItemsActivity) {
+            override fun getVerticalSnapPreference(): Int = snapMode
+            override fun getHorizontalSnapPreference(): Int = snapMode
+        }
+        smoothScroller.targetPosition = position
+        storeItemsRecyclerview.layoutManager?.startSmoothScroll(smoothScroller)
+        storeItemsRecyclerview.layoutManager?.scrollToPosition(position)
+    }
 }

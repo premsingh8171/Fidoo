@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightGray"
@@ -9,7 +10,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="300dp"
         android:background="@color/colorGray"
         android:fitsSystemWindows="true">
 
@@ -60,14 +61,15 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/storeItemsRecyclerview"
                 android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_20dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/margin_15dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <!-- header-->
     <LinearLayout
@@ -244,14 +246,13 @@
         <RelativeLayout
             android:id="@+id/store_details_lay"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="@dimen/margin_170dp"
             android:background="@color/lightGray"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/margin_10"
-            android:paddingRight="@dimen/margin_10"
             android:visibility="visible">
 
             <TextView
+                android:paddingLeft="@dimen/margin_10"
                 android:id="@+id/store_nameTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -265,46 +266,98 @@
                 android:textSize="@dimen/margin_20dp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tv_cuisnes"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:id="@+id/addLabelRl"
                 android:layout_below="@+id/store_nameTxt"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/dimen_5dp"
-                android:layout_marginEnd="@dimen/dimen_5dp"
-                android:fontFamily="@font/proxima"
-                android:gravity="end"
-                android:maxLines="3"
-                android:paddingLeft="@dimen/margin_4dp"
-                android:text="#"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dimen_14dp" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3">
 
-            <TextView
-                android:id="@+id/tv_location"
-                android:layout_width="200dp"
+                <TextView
+                    android:layout_marginStart="@dimen/margin_10"
+                    android:id="@+id/tv_cuisnes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:fontFamily="@font/proxima"
+                    android:maxLines="3"
+                    android:layout_weight="1.8"
+                    android:paddingLeft="@dimen/margin_4dp"
+                    android:text="#"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_14dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_15dp"
+                    android:layout_weight="1.2">
+
+                    <TextView
+                        android:gravity="end"
+                        android:id="@+id/tv_location"
+                        android:layout_width="match_parent"
+                        android:layout_marginEnd="@dimen/margin_10"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/dimen_5dp"
+                        android:fontFamily="@font/proxima"
+                        android:maxLines="4"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_14dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+<!--
+            <RelativeLayout
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
+                android:id="@+id/addLabelRl"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/store_nameTxt"
-                android:layout_marginTop="@dimen/dimen_5dp"
-                android:ellipsize="marquee"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:focusedByDefault="true"
-                android:fontFamily="@font/proxima"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:maxLines="3"
-                android:paddingLeft="@dimen/dimen_5dp"
-                android:selectAllOnFocus="true"
-                android:text=""
-                android:textColor="@color/black"
-                android:textSize="@dimen/dimen_14dp" />
+                android:layout_below="@+id/store_nameTxt">
+
+                <TextView
+                    android:id="@+id/tv_cuisnes"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:fontFamily="@font/proxima"
+                    android:maxLines="3"
+                    android:paddingLeft="@dimen/margin_4dp"
+                    android:text="#"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_14dp" />
+
+                <TextView
+                    android:id="@+id/tv_location"
+                    android:gravity="end"
+                    android:layout_width="200dp"
+                    android:layout_marginEnd="@dimen/dimen_5dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:focusedByDefault="true"
+                    android:fontFamily="@font/proxima"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="3"
+
+                    android:selectAllOnFocus="true"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_14dp" />
+            </RelativeLayout>
+-->
 
             <LinearLayout
+                android:paddingRight="@dimen/margin_10"
                 android:id="@+id/distance_viewll_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_location"
+                android:layout_below="@+id/addLabelRl"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/margin_10"
                 android:orientation="horizontal">
@@ -333,11 +386,11 @@
             </LinearLayout>
 
             <LinearLayout
+                android:paddingLeft="@dimen/margin_10"
                 android:id="@+id/timelL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_location"
-                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_below="@+id/addLabelRl"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -346,7 +399,7 @@
                     android:layout_height="20dp"
                     android:layout_below="@id/tv_location"
                     android:layout_marginLeft="@dimen/margin_2dp"
-                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:layout_marginTop="@dimen/dimen_11dp"
                     android:layout_marginEnd="10dp"
                     android:layout_toStartOf="@id/tv_deliveryTime"
                     android:src="@drawable/watch_icon"
@@ -358,7 +411,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_cuisnes"
                     android:layout_marginTop="@dimen/margin_15dp"
-                    android:layout_marginEnd="@dimen/margin_20dp"
+                    android:layout_marginEnd="@dimen/margin_7dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
                     android:textSize="@dimen/dimen_14dp" />
@@ -367,36 +420,38 @@
 
             <LinearLayout
                 android:id="@+id/coupan_view_ll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_location"
-                android:layout_alignParentBottom="true"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="@dimen/dimen_5dp"
-                android:layout_toRightOf="@+id/timelL"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_below="@+id/timelL"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@color/colorGra"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
                 <ImageView
-                    android:layout_width="@dimen/margin_24dp"
-                    android:layout_height="@dimen/margin_24dp"
+                    android:layout_width="@dimen/margin_22dp"
+                    android:layout_height="@dimen/margin_22dp"
                     android:layout_below="@id/tv_location"
-                    android:layout_marginLeft="@dimen/dimen_5dp"
-                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_10"
                     android:layout_marginEnd="8dp"
-                    android:padding="@dimen/margin_2dp"
-                    android:src="@drawable/offer_icon" />
+                    android:paddingTop="@dimen/margin_2dp"
+                    android:paddingBottom="@dimen/margin_2dp"
+                    android:src="@drawable/offer_icon"
+                    tools:ignore="UseAppTint" />
 
                 <TextView
                     android:id="@+id/tv_coupon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_15dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
+                    android:paddingRight="@dimen/margin_10"
                     android:text=""
                     android:textColor="@color/primary_color"
-                    android:textSize="@dimen/dimen_14dp" />
+                    android:textSize="@dimen/dimen_14dp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -406,22 +461,31 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/lightGray"
-            android:padding="5dp"
             android:visibility="visible"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/store_details_lay">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="@dimen/margin_10">
+                android:layout_height="40dp">
 
                 <ImageView
                     android:id="@+id/veg_switch_img"
                     android:layout_width="@dimen/margin_50dp"
                     android:layout_height="@dimen/dimen_16sp"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dimen_5dp"
                     android:src="@drawable/filter_off" />
+
+                <ImageView
+                    android:id="@+id/egg_switch_img"
+                    android:layout_width="@dimen/margin_50dp"
+                    android:layout_height="@dimen/dimen_16sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@id/tv_vegOnly_txt"
+                    android:src="@drawable/filter_off"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_vegOnly_txt"
@@ -433,18 +497,7 @@
                     android:fontFamily="@font/proxima"
                     android:text="Veg Only" />
 
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/egg_switch_img"
-                    android:layout_width="@dimen/margin_50dp"
-                    android:layout_height="@dimen/dimen_16sp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_toEndOf="@id/tv_vegOnly_txt"
-                    android:src="@drawable/filter_off" />
-
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/tv_containsEgg_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -452,7 +505,9 @@
                     android:layout_marginLeft="@dimen/dimen_5dp"
                     android:layout_toEndOf="@id/egg_switch_img"
                     android:fontFamily="@font/proxima"
-                    android:text="Contains Egg" />
+                    android:text="Contains Egg"
+                    android:visibility="gone" />
+
             </RelativeLayout>
 
         </RelativeLayout>
@@ -466,14 +521,13 @@
                 android:id="@+id/category_header_"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_5dp"
+                android:layout_marginLeft="@dimen/margin_15dp"
                 android:layout_marginRight="@dimen/dimen_5dp"
                 android:fontFamily="@font/proxima"
-                android:padding="@dimen/margin_10"
                 android:text=""
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:visibility="visible" />
 
@@ -705,6 +759,26 @@
                     android:elevation="5dp"
                     android:fadingEdgeLength="2dp">
 
+                    <TextView
+                        android:id="@+id/customAddBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginHorizontal="10dp"
+                        android:background="@drawable/black_full_rounded_empty"
+                        android:backgroundTint="@color/primary_color"
+                        android:fontFamily="@font/proxima"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="7dp"
+                        android:text="50"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/add_remove_lay"
                         android:layout_width="wrap_content"
@@ -755,26 +829,6 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <TextView
-                        android:id="@+id/customAddBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginHorizontal="10dp"
-                        android:background="@drawable/black_full_rounded_empty"
-                        android:backgroundTint="@color/primary_color"
-                        android:fontFamily="@font/proxima"
-                        android:gravity="center"
-                        android:maxLines="2"
-                        android:paddingHorizontal="15dp"
-                        android:paddingVertical="7dp"
-                        android:text="50"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

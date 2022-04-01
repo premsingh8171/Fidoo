@@ -34,24 +34,29 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".chatbot.ui.Chatbotui"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".dailyneed.ui.CategoryProductListActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".grocerynewui.activity.ViewAllProducts"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".grocerynewui.activity.GroceryNewUiActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".referral.activity.ReferralActivity"
             android:screenOrientation="portrait"
@@ -136,7 +141,7 @@
                app to run.
         -->
         <activity
-            android:name=".addressmodule.activity.NewAddAddressActivity"
+            android:name=".addressmodule.activity.NewAddAddressActivityNew"
             android:screenOrientation="portrait" /> <!-- <activity -->
         <!-- android:name=".addressmodule.activity.AddAddressActivity" -->
         <!-- android:screenOrientation="portrait" /> -->
@@ -163,7 +168,13 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
+            android:name=".addressmodule.activity.SavedAddressesActivityNew"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".addressmodule.activity.SavedAddressesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".addressmodule.activity.NewAddAddressActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -243,6 +254,7 @@
         <activity
             android:name=".sendpackages.activity.SendPackageActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".viewprescription.ViewPrescriptionActivity"
             android:screenOrientation="portrait" />
@@ -251,13 +263,17 @@
             android:name=".profile.ui.EditProfileActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ordermodule.ui.OrderDetailsSendPackageActivity"
+            android:screenOrientation="portrait" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" /> <!-- rzp_test_17ihcfTIqBGF9R       rzp_live_iceNLz5pb15jtP -->
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_17ihcfTIqBGF9R" />
+            android:value="rzp_live_iceNLz5pb15jtP" />
 
         <service
             android:name=".fcm.MyFirebaseMessagingService"

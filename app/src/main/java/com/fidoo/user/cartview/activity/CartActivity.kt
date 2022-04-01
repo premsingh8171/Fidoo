@@ -2,25 +2,28 @@ package com.fidoo.user.cartview.activity
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.android.volley.Request
 import com.android.volley.Response
@@ -35,10 +38,13 @@ import com.fidoo.user.BuildConfig
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addCartTempList
+import com.fidoo.user.activity.MainActivity.Companion.checkAddressSavedFromWhichActivity
 import com.fidoo.user.activity.MainActivity.Companion.handleTrackScreenOrderSuccess
 import com.fidoo.user.activity.MainActivity.Companion.onBackpressHandle
 import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
+import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
+import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.adapter.CartItemsAdapter
 import com.fidoo.user.cartview.adapter.DeliveryChargesAdapter
@@ -70,6 +76,7 @@ import com.fidoo.user.restaurants.viewmodel.StoreDetailsViewModel
 import com.fidoo.user.services.OrderBackgroundgService
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
+import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.FORADDRESS_REQUEST_CODE
 import com.fidoo.user.utils.showAlertDialog
@@ -89,14 +96,7 @@ import kotlinx.android.synthetic.main.activity_cart.customAddBtn
 import kotlinx.android.synthetic.main.activity_cart.customItemsRecyclerview
 import kotlinx.android.synthetic.main.activity_cart.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_cart.tv_coupon
-import kotlinx.android.synthetic.main.activity_grocery_items.*
-import kotlinx.android.synthetic.main.activity_review_order.*
-import kotlinx.android.synthetic.main.activity_store_items.*
-import kotlinx.android.synthetic.main.activity_track_order.*
-import kotlinx.android.synthetic.main.fragment_profile.view.*
-import kotlinx.android.synthetic.main.grocery_item_layout.view.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
-import kotlinx.android.synthetic.main.select_cat_popup.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -111,7 +111,7 @@ class CartActivity : BaseActivity(),
 	AdapterClick,
 	CustomCartPlusMinusClick,
 	AdapterCustomRadioClick, PaymentResultListener, PaymentResultWithDataListener {
-
+//
 	var viewmodel: CartViewModel? = null
 	var totalAmount: Double = 0.0
 	var storeViewModel: StoreDetailsViewModel? = null
@@ -162,6 +162,9 @@ class CartActivity : BaseActivity(),
 	var prescriptionAdapter: PrescriptionAdapter? = null
 	private var mMixpanel: MixpanelAPI? = null
 
+	private  var dialog : Dialog? = null
+	private var where: String? = ""
+
 	companion object {
 		var store_imgStr: String = ""
 		var store_nameStr: String = ""
@@ -208,6 +211,47 @@ class CartActivity : BaseActivity(),
 		tv_delivery_address.text = selectedAddressName
 		tv_landmark.text = selectedPreAddressName
 
+		tv_delivery_address.text = selectedAddressName
+		tv_landmark.text = selectedPreAddressName
+		if (!tv_delivery_address.text.isNullOrEmpty()) {
+			addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
+				if(user.addressList.size == 0){
+					tv_select_address.text = "Add Address"
+					select_address_or_add_layout.visibility = View.VISIBLE
+				}
+				else if(user.errorCode == 200){
+					tv_select_address.text = "Select Address"
+					select_address_or_add_layout.visibility = View.VISIBLE
+					cart_payment_lay.visibility = View.GONE
+				}
+//				else if (!user.addressList.isNullOrEmpty()) {
+//						user.addressList.forEach { list ->
+//							if (tv_delivery_address.text.equals(list.location))
+//								Toast.makeText(_context, "${list.location}", Toast.LENGTH_SHORT).show()
+//							Log.d("Rishab", "${list.location}")
+//
+//						}
+//					}
+				else{
+					select_address_or_add_layout.visibility = View.VISIBLE
+					cart_payment_lay.visibility = View.GONE
+				}
+			})
+		}
+		else if(tv_delivery_address.text.isNullOrEmpty()){
+			tv_select_address.text = "Add Address"
+			select_address_or_add_layout.visibility = View.VISIBLE
+			cart_payment_lay.visibility = View.GONE
+		}
+		select_address_or_add_layout.setOnClickListener {
+			if(tv_select_address.text.equals("Add Address")){
+				val intent = Intent(this@CartActivity,SavedAddressesActivityNew::class.java)
+				startActivity(intent)
+			}
+			else {
+				showDialogBottom()
+			}
+		}
 		address_id = SessionTwiclo(this).userAddressId
 		Log.d("address_idaddress_id", address_id)
 		selectedCouponId = ""
@@ -322,11 +366,32 @@ class CartActivity : BaseActivity(),
 			prescriptionLay2.visibility = View.VISIBLE
 		}
 
-		tv_delivery_charges_label.setOnClickListener {
+		new_delivery_popup.setOnClickListener {
 			chargesFm.visibility = View.VISIBLE
 			chargesFmBg.visibility = View.VISIBLE
 			chargesFmBgbottom.visibility = View.VISIBLE
 		}
+
+		/**
+		 * ****************************************************************************************************************************************
+		 */
+//		if (userAddressList == 0){
+//			cart_payment_lay.visibility = View.GONE
+//			cart_payment_lay_One.visibility = View.VISIBLE
+//			cart_payment_lay_One.setOnClickListener {
+//				startActivityForResult(
+//					Intent(this, SavedAddressesActivity::class.java)
+//						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
+//				)
+//				val toast = Toast.makeText(this, "$userAddressList", Toast.LENGTH_LONG)
+//				toast.show()
+//			}
+//		}
+//		else if (userAddressList > 0){
+//			cart_payment_lay.visibility = View.GONE
+//			cart_payment_lay_One.visibility = View.VISIBLE
+//			showDialogBottom()
+//		}
 
 		chargesFmBg.setOnClickListener {
 			chargesFmBgbottom.visibility = View.GONE
@@ -334,6 +399,7 @@ class CartActivity : BaseActivity(),
 			chargesFmBg.visibility = View.GONE
 			chargesFmBg.visibility = View.GONE
 			tax_and_charges_lay.visibility = View.GONE
+
 		}
 
 		chargesFmBgbottom.setOnClickListener {
@@ -415,6 +481,9 @@ class CartActivity : BaseActivity(),
 				showInternetToast()
 			}
 		}
+		/**
+		 * **********************************************************************************************
+		 */
 
 		delivery_address_lay.setOnClickListener {
 			if (!isNetworkConnected) {
@@ -422,10 +491,12 @@ class CartActivity : BaseActivity(),
 
 			} else {
 				startActivityForResult(
-					Intent(this, SavedAddressesActivity::class.java)
+					Intent(this, SavedAddressesActivityNew::class.java)
 						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
 				)
+
 			}
+
 		}
 
 		cash_lay.setOnClickListener {
@@ -466,14 +537,19 @@ class CartActivity : BaseActivity(),
 		}
 
 		delivery_address_lay.setOnClickListener {
-			if (!isNetworkConnected) {
-				showToast(resources.getString(R.string.provide_internet))
-			} else {
-				startActivity(
-					Intent(this, SavedAddressesActivity::class.java).putExtra("type", "order")
-				)
-			}
+			checkAddressSavedFromWhichActivity = "fromCart"
+//			if (!isNetworkConnected) {
+//				showToast(resources.getString(R.string.provide_internet))
+//			} else {
+//				startActivity(
+//					Intent(this, SavedAddressesActivity::class.java).putExtra("type", "order")
+//
+//				)
+//			}
+			showDialogBottom()
 		}
+
+
 
 		cart_payment_lay.setOnClickListener {
 			if (!isNetworkConnected) {
@@ -524,7 +600,7 @@ class CartActivity : BaseActivity(),
 					}
 				}else{
 					Toast.makeText(this,"One order is already in queue.",Toast.LENGTH_SHORT).show()
-				//	showToast("One order is already in queue.")
+					//	showToast("One order is already in queue.")
 				}
 			}
 		}
@@ -888,13 +964,15 @@ class CartActivity : BaseActivity(),
 					finalPrice = totalAmount
 
 					//numberOfItemsValue.text = noOfItems.toString() + " Items"
-					
+
 
 					//edit by prem
 					val rounded = finalPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 					tv_grand_total.text =
 						resources.getString(R.string.ruppee) + rounded.toString()
-
+					/**
+					 *  ---------------------------------------------------------------------------------------------
+					 */
 					tv_place_order.text = "Pay " + resources.getString(R.string.ruppee) + rounded.toString()
 
 					Log.e("Bottom Price", tv_place_order.text.toString())
@@ -1069,12 +1147,12 @@ class CartActivity : BaseActivity(),
 			cart_payment_lay.alpha = 1.0f
 		}
 
-		viewmodel?.deletePrescriptionResponse?.observe(this, { prescription ->
+		viewmodel?.deletePrescriptionResponse?.observe(this) { prescription ->
 			Log.e("prescription__", Gson().toJson(prescription))
 			dismissIOSProgress()
-		})
+		}
 
-		viewmodel?.appplyPromoResponse?.observe(this, { user ->
+		viewmodel?.appplyPromoResponse?.observe(this) { user ->
 			dismissIOSProgress()
 			Log.e("cart response", Gson().toJson(user))
 
@@ -1108,7 +1186,7 @@ class CartActivity : BaseActivity(),
 				tv_grand_total.text =
 					resources.getString(R.string.ruppee) + rounded.toString()
 
-			//	Log.e("Final Price after promo", tv_place_order.text.toString())
+				//	Log.e("Final Price after promo", tv_place_order.text.toString())
 
 				//discountLabel.visibility = View.VISIBLE
 				//discountValue.visibility = View.VISIBLE
@@ -1128,9 +1206,9 @@ class CartActivity : BaseActivity(),
 				showToast(user.message)
 			}
 
-		})
+		}
 
-		viewmodel?.orderPlaceResponse?.observe(this, { user ->
+		viewmodel?.orderPlaceResponse?.observe(this) { user ->
 			dismissIOSProgress()
 			Log.e("orderPlaceResponse____", Gson().toJson(user))
 			// Log.d("orderPlaceResponse____", user.errorCode.toString())
@@ -1172,13 +1250,13 @@ class CartActivity : BaseActivity(),
 			} else if (user.errorCode == 400) {
 				Toast.makeText(this, "" + user.message, Toast.LENGTH_LONG).show()
 
-			}else{
+			} else {
 				Toast.makeText(this, "" + user.message, Toast.LENGTH_LONG).show()
 
 			}
-		})
+		}
 
-		viewmodel?.cartCountResponse?.observe(this, { user ->
+		viewmodel?.cartCountResponse?.observe(this) { user ->
 			Log.d("cartCountResponse", Gson().toJson(user))
 			dismissIOSProgress()
 			if (user != null) {
@@ -1199,7 +1277,7 @@ class CartActivity : BaseActivity(),
 				}
 			}
 
-		})
+		}
 
 		viewmodel?.failureResponse?.observe(this) { user ->
 			dismissIOSProgress()
@@ -1220,6 +1298,157 @@ class CartActivity : BaseActivity(),
 		getPresciption()
 
 	}
+
+//	private fun showDialogBottom() {
+//		dialog = this@CartActivity.let { Dialog(it) }!!
+//		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
+//
+//		dialog?.show()
+//	}
+
+
+	/**
+	 * ******************************************************************************************************************************************************************
+	 */
+	private fun showDialogBottom() {
+		dialog = this@CartActivity?.let { Dialog(it) }!!
+		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
+		val lvAddNewAdd = dialog?.findViewById<LinearLayout>(R.id.lv_add_new_address)
+		val notToSee = dialog?.findViewById<LinearLayout>(R.id.cart_select_layout)
+		val bottomSheetAddress = dialog?.findViewById<LinearLayout>(R.id.ll_bottomSheetAddress)
+		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
+		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
+		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
+		mBtnToTurnOnLocation?.setOnClickListener {
+			val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+			startActivity(intent)
+		}
+		lvAddNewAdd?.setOnClickListener {
+			startActivityForResult(
+				Intent(this, SavedAddressesActivityNew::class.java)
+					.putExtra("type", "address")
+					.putExtra("where", where
+					), AUTOCOMPLETE_REQUEST_CODE
+			)
+			MainActivity.addEditAdd = "Dashboard"
+		}
+		addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
+			Log.e("addresses_response", Gson().toJson(user))
+			if(user.addressList.size == 0){
+				bottomSheetAddress?.visibility = View.GONE
+			}
+			if (!user.addressList.isNullOrEmpty()) {
+				bottomSheetAddress?.visibility = View.VISIBLE
+				notToSee?.visibility = View.VISIBLE
+				val adapter = AddressesAdapterBottom(
+					this@CartActivity, user.addressList,
+					object : AddressesAdapterBottom.SetOnDeteleAddListener {
+						override fun onDelete(
+							add_id: String,
+							addressList: GetAddressModel.AddressList
+						) {}
+						override fun onClick(addressList: GetAddressModel.AddressList) {
+
+							when {
+								addressList.addressType.equals("1") -> {
+									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(this@CartActivity).addressType= "Home"
+								}
+
+								addressList.addressType.equals("2") -> {
+									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(this@CartActivity).addressType = "Office"
+
+								}
+
+								else -> {
+									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(this@CartActivity).addressType = "Other"
+
+								}
+							}
+
+							SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+							SessionTwiclo(this@CartActivity).userAddressId = addressList.id
+							SessionTwiclo(this@CartActivity).userLat = addressList.latitude
+							SessionTwiclo(this@CartActivity).userLng = addressList.longitude
+							dialog?.dismiss()
+							select_address_or_add_layout.visibility = View.GONE
+							cart_payment_lay.visibility = View.VISIBLE
+							restHomePage()
+							userLat= addressList.latitude
+							userLong=addressList.longitude
+							showIOSProgress()
+							viewmodel?.getCartDetails(
+								accountId,
+								accessToken,
+								userLat,
+								userLong
+							)
+
+						}
+					},
+					"bottomSheetAddress"
+				)
+				rvManageAddress?.layoutManager = GridLayoutManager(this@CartActivity, 1)
+				rvManageAddress?.setHasFixedSize(true)
+				rvManageAddress?.adapter = adapter
+			}
+		})
+		val manager = this@CartActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+			lvCheckLocation?.visibility = View.GONE
+		dialog?.show()
+		dialog?.window!!.setLayout(
+			ViewGroup.LayoutParams.MATCH_PARENT,
+			1350
+		)
+		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+		dialog?.window!!.setGravity(Gravity.BOTTOM)
+
+	}
+
+	/**
+	 * ****************************************************************************************************************************************************************
+	 */
+
+
+	private fun restHomePage() {
+		deleteRoomDataBase()
+		if (SessionTwiclo(this@CartActivity).isLoggedIn) {
+			viewmodel?.getCartCountApi(
+				SessionTwiclo(this@CartActivity).loggedInUserDetail.accountId,
+				SessionTwiclo(this@CartActivity).loggedInUserDetail.accessToken
+			)
+			tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
+		}
+		else {
+			tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
+		}
+	}
+
+	private fun deleteRoomDataBase() {
+		try {
+			Thread {
+				restaurantProductsDatabase = Room.databaseBuilder(
+					this@CartActivity.applicationContext,
+					RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
+				)
+					.fallbackToDestructiveMigration()
+					.build()
+				restaurantProductsDatabase.resProductsDaoAccess()!!.deleteAll()
+
+			}.start()
+		} catch (e: java.lang.Exception) {
+			e.printStackTrace()
+		}
+	}
+
+	/**
+	 *
+	 */
 
 	private fun getStoreDetails() {
 		storeViewModel?.getStoreDetails(
@@ -1291,7 +1520,7 @@ class CartActivity : BaseActivity(),
 	}
 
 	private fun storeDetailsResponce() {
-		storeViewModel?.getStoreDetailsApi?.observe(this, { storeData ->
+		storeViewModel?.getStoreDetailsApi?.observe(this) { storeData ->
 			Log.e("storeDataCartActivity", Gson().toJson(storeData))
 			dismissIOSProgress()
 			try {
@@ -1353,7 +1582,7 @@ class CartActivity : BaseActivity(),
 
 			//calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
 
-		})
+		}
 	}
 
 	private fun startPayment(razorpayOrderId: String?) {
@@ -1397,7 +1626,7 @@ class CartActivity : BaseActivity(),
 				prefill.put("email", SessionTwiclo(this).profileDetail.account.emailid)
 				prefill.put(
 					"contact",
-					SessionTwiclo(this).profileDetail.account.country_code + SessionTwiclo(this).profileDetail.account.userName
+					SessionTwiclo(this).profileDetail.account.countryCode + SessionTwiclo(this).profileDetail.account.userName
 				)
 				options.put("prefill", prefill)
 			} else {
@@ -1504,8 +1733,7 @@ class CartActivity : BaseActivity(),
 					Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
 				}
 				else -> {
-					Toast.makeText(this, "Please upload your prescription", Toast.LENGTH_SHORT)
-						.show()
+//					Toast.makeText(this, "Please upload your prescription", Toast.LENGTH_SHORT) .show()
 				}
 			}
 
@@ -1826,6 +2054,7 @@ class CartActivity : BaseActivity(),
 			accountId,
 			accessToken, mImageParts
 		)
+		select_address_or_add_layout.visibility = View.GONE
 	}
 
 	override fun onIdSelected(
@@ -2062,7 +2291,7 @@ class CartActivity : BaseActivity(),
 			)
 		}
 	}
-//	AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY
+	//	AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY
 	fun calculateStoreCustomerDistance() {
 		val source = userLat + "," + userLong
 		val destination = storeLat + "," + storeLong
@@ -2118,6 +2347,7 @@ class CartActivity : BaseActivity(),
 								islocationValid = 1
 								if (check == 1) {
 									place_order_lay.visibility = View.VISIBLE
+
 								}
 							} else {
 								place_order_lay.visibility = View.GONE
@@ -2304,9 +2534,15 @@ class CartActivity : BaseActivity(),
 		}, 5000)
 	}
 
-	override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {}
+	override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
 
-	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {}
+	}
+
+	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
+
+	}
+
+
 
 //	override fun onRestart() {
 //		super.onRestart()

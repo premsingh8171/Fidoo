@@ -178,5 +178,10 @@
     <string name="out_for_delivery">Out for delivery</string>
     <string name="accepted">Accepted</string>
     <string name="everything_delivered">Everything\nDelivered<font color='#369c47'>.</font></string>
+    <string name="delivery_ch1">
+     <string name="button_allow">Allow</string>
+    <string name="button_deny">Deny</string>
+</string>
+
 
 </resources>

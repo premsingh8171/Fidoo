@@ -23,7 +23,9 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
@@ -96,6 +98,8 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
     //for map
     var rider_LatLng: LatLng? = null
+    var rider_LatLngOrg: LatLng? = null
+    var rider_LatLng2: LatLng? = null
     var merchantLatLng: LatLng? = null
     var user_LatLng: LatLng? = null
 
@@ -103,9 +107,14 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
     var merchantLatLngStr: String? = ""
     var user_LatLngStr: String? = ""
 
+    private var movingBikeMarker: Marker? = null
+    private var previousLatLng: LatLng? = null
+    private var currentLatLng: LatLng? = null
+
     //var timerStatus =  true
     var userName: String? = ""
     var driverMobileNo: String? = ""
+    var userMobileNo: String? = ""
     var viewmodel: TrackViewModel? = null
     var orderViewModel: OrderDetailsViewModel? = null
     var viewmodelusertrack: UserTrackerViewModel? = null
@@ -125,9 +134,16 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
     var order_cancel_Diolog: Dialog? = null
     private lateinit var prescriptionDatabase: PrescriptionDatabase
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
+    var call_Diolog: Dialog? = null
 
     private var mMixpanel: MixpanelAPI? = null
+    var latLngList: ArrayList<LatLng> = ArrayList()
 
+    var responseHandle = 0
+    private lateinit var handler: Handler
+    private lateinit var runnable: Runnable
+    var store_phone: String? = ""
+    var rider_phone: String? = ""
     companion object {
         var trackOrderContext: Context? = null
         val notiInterface = TrackSendPAckagesOrderActivity()
@@ -187,18 +203,39 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 //       }
         customer_care_fmL.setOnClickListener {
 
-//            val dialIntent = Intent(Intent.ACTION_DIAL)
-//            dialIntent.data = Uri.parse("tel:" + 9871322057)
-//            startActivity(dialIntent)
-            AppUtils.startActivityRightToLeft(this,Intent(this, Chatbotui::class.java)
-                .putExtra("orderId", intent.getStringExtra("orderId")!!))
+            val dialIntent = Intent(Intent.ACTION_DIAL)
+            dialIntent.data = Uri.parse("tel:" + 9871322057)
+            startActivity(dialIntent)
+
+//            AppUtils.startActivityRightToLeft(this,Intent(this, Chatbotui::class.java)
+//                .putExtra("orderId", intent.getStringExtra("orderId")!!))
         }
 
         tv_delivery_boy_callNew.setOnClickListener {
 
-            val dialIntent = Intent(Intent.ACTION_DIAL)
-            dialIntent.data = Uri.parse("tel:" + driverMobileNo)
-            startActivity(dialIntent)
+//            val dialIntent = Intent(Intent.ACTION_DIAL)
+//            dialIntent.data = Uri.parse("tel:" + driverMobileNo)
+//            startActivity(dialIntent)
+
+            if (userMobileNo!!.isNotEmpty()) {
+                onCallPopUp(1)
+
+                if (sessionInstance.profileDetail != null) {
+                    viewmodel?.callCustomerApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        userMobileNo!!,
+                        driverMobileNo!!
+                    )
+                } else {
+                    viewmodel?.callCustomerApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        userMobileNo!!,
+                        driverMobileNo!!
+                    )
+                }
+            }
         }
 
         viewmodel?.trackSendPackagesOrderApi(
@@ -214,31 +251,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
         )
 
 
-        timer = object : CountDownTimer(10000, 1000) {
-
-            override fun onTick(millisUntilFinished: Long) {
-                Log.e("_Timer", "seconds remaining: " + millisUntilFinished / 1000)
-            }
-
-            override fun onFinish() {
-                viewmodel?.trackSendPackagesOrderApi(
-                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accountId,
-                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accessToken,
-                    OrderId_str
-                )
-
-                viewmodel?.getLocationApi(
-                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accountId,
-                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accessToken,
-                    OrderId_str,
-                    "user"
-                )
-                //trackApi call
-
-                timer?.start()
-            }
-
-        }.start()
 
         orderTrackBack_fmL.setOnClickListener {
             if (intent.hasExtra("type")) {
@@ -284,8 +296,8 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
             try {
                 if (user.driverLatitude.isNotEmpty()) {
-                    rider_LatLng =
-                        LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
+                    rider_LatLng = LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
+                    rider_LatLngOrg = LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
                     rider_LatLngStr = user.driverLatitude + "," + user.driverLongitude
                     Log.e("rider_LatLngStr", rider_LatLngStr.toString())
                 }
@@ -313,6 +325,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
             }
+            calculateEstimatedTime(rider_LatLngStr!!, user_LatLngStr!!)
 
 
             if (order_status_for_track.equals("")) {
@@ -367,33 +380,55 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                     check_gMap2 = 1
                 }
 
+                drawRoute(rider_LatLngStr!!, merchantLatLngStr!!, "")
+
                 if (rider_LatLng != null) {
+//                    var rotation=0.0f
+//
+//                    try {
+//                        if (latLngList.isNullOrEmpty()){
+//                            var rider_LatLngNext= LatLng(latLngList[1].latitude, latLngList[1].longitude)
+//                            rotation = MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
+//                        }else {
+//                            rotation = MapUtils.getRotation(rider_LatLng!!, user_LatLng!!).toFloat()
+//                        }
+//
+//
+//                    }catch (e:Exception){
+//                        e.printStackTrace()
+//                    }
+//                    rotation = MapUtils.getRotation(rider_LatLng!!, rider_LatLng!!)
+//                    if (!rotation.isNaN()) {
+//                        Log.d("rotationf__", rotation.toString())
+//                        val valueAnimator = AnimationUtils.cabAnimator()
+//
+//                        movingBikeMarker=   mMap?.addMarker(
+//                            MarkerOptions()
+//                                .position(rider_LatLng!!)
+//                                .rotation(rotation)
+//                                .icon(bitmapDescriptorFromVector_(this, R.drawable.rider))
+//                                .rotation(rotation)
+//                                .anchor(0.5f, .5f)
+//                                .zIndex(20.0f)
+//                            //	.draggable(true).flat(true)
+//
+//                        )
+//                        valueAnimator.start()
+//
+//                    }
+//
+//                    mMap?.animateCamera(
+//                        CameraUpdateFactory.newLatLngZoom(
+//                            rider_LatLng,
+//                            14f
+//                        ), 3000, null
+//                    )
 
-                    val rotation = MapUtils.getRotation(rider_LatLng!!, merchantLatLng!!)
-                    if (!rotation.isNaN()) {
-                        Log.d("rotationf__", rotation.toString())
-                        val valueAnimator = AnimationUtils.cabAnimator()
 
-                        mMap?.addMarker(
-                            MarkerOptions()
-                                .position(rider_LatLng!!)
-                                .icon(bitmapDescriptorFromVector_(this, R.drawable.rider))
-                                .rotation(rotation)
-                                .anchor(0.5f, .5f)
-                                .zIndex(20.0f)
-                            //	.draggable(true).flat(true)
-
-                        )
-                        valueAnimator.start()
-
+                    if (rider_LatLng != null) {
+                        //    updateCarLocation(rider_LatLng!!)
+                        showDefaultLocationOnMap(rider_LatLng!!)
                     }
-
-                    mMap?.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                            rider_LatLng,
-                            14f
-                        ), 3000, null
-                    )
 
                 }
 
@@ -410,7 +445,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
                 }
 
-                drawRoute(rider_LatLngStr!!, merchantLatLngStr!!, "")
 
             } else if (order_status_for_track.equals("order_picked")) {
                 if (check_gMap3 == 0) {
@@ -418,29 +452,51 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                     check_gMap3 = 1
                 }
 
-                if (rider_LatLng != null) {
-                    val rotation = MapUtils.getRotation(rider_LatLng!!, user_LatLng!!)
-                    if (!rotation.isNaN()) {
-                        mMap?.addMarker(
-                            MarkerOptions()
-                                .position(rider_LatLng!!)
-                                .icon(bitmapDescriptorFromVector_(this, R.drawable.rider))
-                                .rotation(rotation)
-                                .anchor(0.5f, .5f)
-                                .zIndex(20.0f)
-                                .draggable(true).flat(true)
-
-                        )
-                    }
-
-
-                    mMap?.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                            rider_LatLng,
-                            14f
-                        ), 3000, null
-                    )
-                }
+//                if (rider_LatLng != null) {
+//                    var rotation = 0.0f
+//
+//                    try {
+//                        if (latLngList.isNullOrEmpty()) {
+//                            var rider_LatLngNext =
+//                                LatLng(latLngList[1].latitude, latLngList[1].longitude)
+//                            rotation =
+//                                MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
+//                        } else {
+//                            rotation = MapUtils.getRotation(rider_LatLng!!, user_LatLng!!).toFloat()
+//                        }
+//
+//
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                    }
+//                    //  val rotation = MapUtils.getRotation(rider_LatLng!!, merchantLatLng!!)
+//                    if (!rotation.isNaN()) {
+//                        Log.d("rotationf__", rotation.toString())
+//                        val valueAnimator = AnimationUtils.cabAnimator()
+//
+//                        mMap?.addMarker(
+//                            MarkerOptions()
+//                                .position(rider_LatLng!!)
+//                                .rotation(rotation)
+//                                .icon(bitmapDescriptorFromVector_(this, R.drawable.rider))
+//                                .rotation(rotation)
+//                                .anchor(0.5f, .5f)
+//                                .zIndex(20.0f)
+//                            //	.draggable(true).flat(true)
+//
+//                        )
+//                        valueAnimator.start()
+//
+//                    }
+//
+//                    mMap?.animateCamera(
+//                        CameraUpdateFactory.newLatLngZoom(
+//                            rider_LatLng,
+//                            14f
+//                        ), 3000, null
+//                    )
+//
+//                }
 
                 if (user_LatLng != null) {
 
@@ -458,8 +514,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                 drawRoute(rider_LatLngStr!!, user_LatLngStr!!, "")
             }
 
-            calculateEstimatedTime(rider_LatLngStr!!, user_LatLngStr!!)
-
 
         })
 
@@ -472,6 +526,8 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                         "Total delivery charge :" + "₹" + it.total_delivery_charge
 
                     driverMobileNo = it.delivery_boy_phone
+                    userMobileNo = it.customer_phone
+
 
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -479,7 +535,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
                 try {
                     if (it.order_status != null) {
-
                         when {
 
                             it.order_status.equals("0") -> {
@@ -496,7 +551,12 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                             }
 
                             it.order_status.equals("2") -> {
-                                finish()
+
+                                if (MainActivity.onBackpressHandle.equals("1")) {
+                                    startActivity(Intent(this, MainActivity::class.java))
+                                } else {
+                                    finish()
+                                }
                             }
 
                             it.order_status.equals("9") -> {
@@ -600,6 +660,31 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                                 )
                                 tv_delivery_boy_callNew.setImageResource(R.drawable.call_fill)
 
+//                                rider_pickup_locImg.setColorFilter(resources.getColor(R.color.primary_color))
+//
+//                                vertical_line_btw_two_loc2.background.setTint(
+//                                    getResources().getColor(
+//                                        R.color.primary_color
+//                                    )
+//                                )
+                                order_status_for_track = "rider_assign"
+
+                            }
+
+                            it.order_status.equals("15") -> {
+                                // at pickup location
+                                tv_delivery_boy_new.text = it.rider_status
+                                order_status_new.text = it.order_message
+                                rider_picLocTimeStr = it.updated_at
+                                tv_At_pickup_locTime.text = rider_picLocTimeStr
+                                rider_assignImg.setColorFilter(resources.getColor(R.color.primary_color))
+                                vertical_line_btw_two_loc1.background.setTint(
+                                    getResources().getColor(
+                                        R.color.primary_color
+                                    )
+                                )
+                                tv_delivery_boy_callNew.setImageResource(R.drawable.call_fill)
+
                                 rider_pickup_locImg.setColorFilter(resources.getColor(R.color.primary_color))
                                 vertical_line_btw_two_loc2.background.setTint(
                                     getResources().getColor(
@@ -623,7 +708,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
             }
 
         })
-
 
     }
 
@@ -699,7 +783,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
     }
 
     override fun onMapReady(p0: GoogleMap?) {
-
         if (p0 != null) {
             mMap = p0
             mMap!!.getUiSettings().setCompassEnabled(false);
@@ -736,7 +819,6 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
     fun drawRoute(rider_latLong: String, destination: String, type: String) {
         val path: MutableList<List<LatLng>> = ArrayList()
-        val latLngList: ArrayList<LatLng> = ArrayList()
 
         val urlDirections =
             "https://maps.googleapis.com/maps/api/directions/json?origin=" + rider_latLong + "&destination=" +
@@ -779,13 +861,27 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
                     for (i in 0 until path.size) {
                         var markerRiderLat =
-                            steps.getJSONObject(i).getJSONObject("start_location").getString("lat")
+                            steps.getJSONObject(i).getJSONObject("start_location")
+                                .getString("lat")
                         var markerRiderIng =
-                            steps.getJSONObject(i).getJSONObject("start_location").getString("lng")
+                            steps.getJSONObject(i).getJSONObject("start_location")
+                                .getString("lng")
                         options.addAll(path[i]).color(Color.BLACK).zIndex(5.0f)
-                        latLngList.add(LatLng(markerRiderLat.toDouble(), markerRiderIng.toDouble()))
+                        latLngList.add(
+                            LatLng(
+                                markerRiderLat.toDouble(),
+                                markerRiderIng.toDouble()
+                            )
+                        )
                     }
                     this?.mMap!!.addPolyline(options)
+                    responseHandle = 0
+                  //  updateCarLocation(latLngList[0])
+                    updateCarLocationNew(path)
+                    // responseHandle=1
+
+
+
                     //showPath(latLngList)
                 }
             }, Response.ErrorListener {
@@ -793,6 +889,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
         val requestQueue = Volley.newRequestQueue(this)
         requestQueue.add(directionsRequest)
     }
+
 
     fun createDashedLine(latLngOrig: LatLng, latLngDest: LatLng, color: Int) {
         if (mMap != null) {
@@ -824,18 +921,44 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
         }
     }
 
-
     override fun onResume() {
         super.onResume()
         //mMap = GoogleMap()
         //MainActivity.check = "yes"
-        Log.e("upcoming resume", "yes")
+        Log.e("upcoming_resume", "yes")
         tv_order_id.text = intent.getStringExtra("orderId")!!
         viewmodel?.getLocationApi(
             SessionTwiclo(this).loggedInUserDetail.accountId,
             SessionTwiclo(this).loggedInUserDetail.accessToken,
             intent.getStringExtra("orderId")!!, "user"
         )
+
+        timer = object : CountDownTimer(10000, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                Log.e("_Timer", "seconds remaining: " + millisUntilFinished / 1000)
+            }
+
+            override fun onFinish() {
+                viewmodel?.trackSendPackagesOrderApi(
+                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accountId,
+                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accessToken,
+                    OrderId_str
+                )
+
+                viewmodel?.getLocationApi(
+                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accountId,
+                    SessionTwiclo(this@TrackSendPAckagesOrderActivity).loggedInUserDetail.accessToken,
+                    OrderId_str,
+                    "user"
+                )
+                //trackApi call
+
+                timer?.start()
+            }
+
+        }.start()
+
 
     }
 
@@ -844,6 +967,9 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
         timer!!.cancel()
         MainActivity.check = "no"
         Log.e("upcoming Pause", "yes")
+        if (call_Diolog != null) {
+            call_Diolog!!.dismiss()
+        }
     }
 
     override fun onStop() {
@@ -1249,5 +1375,149 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
         }.start()
     }
 
+    private fun updateCarLocation(latLng: LatLng) {
+        //   if (movingBikeMarker==null) {
+        movingBikeMarker = addCarMarkerAndGet(latLng)
+        //  }
+        if (previousLatLng == null) {
+            currentLatLng = latLng
+            previousLatLng = currentLatLng
+            movingBikeMarker?.position = currentLatLng
+            movingBikeMarker?.setAnchor(0.5f, 0.5f)
+            animateCamera(currentLatLng!!)
+        } else {
+            previousLatLng = currentLatLng
+            currentLatLng = latLng
+            val valueAnimator = AnimationUtils.cabAnimator()
+            valueAnimator.addUpdateListener { va ->
+                if (currentLatLng != null && previousLatLng != null) {
+                    val multiplier = va.animatedFraction
+                    val nextLocation = LatLng(
+                        multiplier * currentLatLng!!.latitude + (1 - multiplier) * previousLatLng!!.latitude,
+                        multiplier * currentLatLng!!.longitude + (1 - multiplier) * previousLatLng!!.longitude
+                    )
+                    movingBikeMarker?.position = nextLocation
+                    val rotation = MapUtils.getRotation(previousLatLng!!, nextLocation)
+                    Log.d("dfddf",rotation.toString())
+                    if (!rotation.isNaN()) {
+                        movingBikeMarker?.rotation = rotation
+                    }
+                    movingBikeMarker?.setAnchor(0.5f, 0.5f)
+                    animateCamera(nextLocation)
+                }
+            }
+            valueAnimator.start()
+        }
+    }
+
+    private fun updateCarLocationNew(path: MutableList<List<LatLng>>) {
+
+        var index = -1
+        var next = 0
+
+        val handler = Handler()
+        handler.postDelayed(Runnable {
+            if (index<path.size-1){
+                index++
+                next=index+1
+
+            }else{
+                next=1
+            }
+            if (index<path.size-1){
+                rider_LatLng= LatLng( latLngList[index].latitude.toDouble(), latLngList[index].longitude.toDouble())
+                rider_LatLng2= LatLng( latLngList[next].latitude.toDouble(), latLngList[next].longitude.toDouble())
+                Log.d("fdsdds","$rider_LatLng--$rider_LatLng2")
+            }
+
+            movingBikeMarker = addCarMarkerAndGet(rider_LatLngOrg!!)
+            movingBikeMarker?.setAnchor(0.5f, 0.5f)
+            animateCamera(rider_LatLngOrg!!)
+
+            val valueAnimator = AnimationUtils.cabAnimator()
+            valueAnimator.addUpdateListener {
+                try {
+                    var v =valueAnimator.animatedFraction
+                    val Lng=v*rider_LatLng2!!.longitude+(1-v)*rider_LatLng!!.longitude
+                    var lat=v*rider_LatLng2!!.latitude+(1-v)*rider_LatLng!!.latitude
+                    var newPos=LatLng(lat,Lng)
+
+                    movingBikeMarker!!.position=rider_LatLngOrg
+                    val rotation = MapUtils.getRotation(rider_LatLng!!, newPos)
+                    Log.d("rotation_",rotation.toString()+"--"+newPos)
+                    if (!rotation.isNaN()) {
+                        movingBikeMarker?.rotation = rotation
+                    }
+                }catch (e:Exception){e.printStackTrace()}
+
+
+            }
+            valueAnimator.start()
+
+        }, 600)
+    }
+
+
+    private fun moveCamera(latLng: LatLng) {
+        mMap?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+    }
+
+    private fun animateCamera(latLng: LatLng) {
+        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(15.5f).build()
+        mMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+    }
+
+    private fun addCarMarkerAndGet(latLng: LatLng): Marker {
+        val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(MapUtils.getCarBitmap(this))
+        return mMap!!.addMarker(MarkerOptions().position(latLng).flat(true).icon(bitmapDescriptor))
+    }
+
+    private fun addOriginDestinationMarkerAndGet(latLng: LatLng): Marker {
+        val bitmapDescriptor =
+            BitmapDescriptorFactory.fromBitmap(MapUtils.getOriginDestinationMarkerBitmap())
+
+        return mMap!!.addMarker(
+            MarkerOptions().position(latLng).flat(true).icon(bitmapDescriptor)
+        )
+    }
+
+    private fun showDefaultLocationOnMap(latLng: LatLng) {
+        moveCamera(latLng)
+        animateCamera(latLng)
+
+    }
+
+    private fun onCallPopUp(type: Int) {
+        call_Diolog = Dialog(this)
+        call_Diolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        call_Diolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        call_Diolog?.setContentView(R.layout.call_popup)
+        call_Diolog?.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        call_Diolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+        call_Diolog?.setCanceledOnTouchOutside(true)
+        call_Diolog?.show()
+
+        val callTypeTxt = call_Diolog?.findViewById<TextView>(R.id.callTypeTxt)
+        val regImg = call_Diolog?.findViewById<ImageView>(R.id.regImg)
+        val cancelDialogConstL =
+            call_Diolog?.findViewById<ConstraintLayout>(R.id.cancelDialogConstL)
+
+        if (regImg != null) {
+            Glide.with(this)
+                .load(R.drawable.call_wait)
+                .fitCenter()
+                .error(R.drawable.default_item)
+                .into(regImg)
+        }
+
+            callTypeTxt!!.setText("Just a minute, connecting with the rider in a bit.")
+
+        cancelDialogConstL?.setOnClickListener {
+            call_Diolog?.dismiss()
+        }
+    }
 
 }

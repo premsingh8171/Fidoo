@@ -1,6 +1,5 @@
 package com.fidoo.user.newsearch.ui
 
-import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
@@ -15,13 +14,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.fidoo.user.R
+import com.fidoo.user.dailyneed.ui.ServiceDailyNeedActivity
 import com.fidoo.user.data.CheckConnectivity
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.newsearch.adapter.SearchSuggestionsAdapter
 import com.fidoo.user.newsearch.model.Suggestion
 import com.fidoo.user.newsearch.viewmodel.SearchNewViewModel
+import com.fidoo.user.sendpackages.activity.SendPackageActivity
+import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.google.gson.Gson
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_search_new.view.*
 
 @Suppress("DEPRECATION")
@@ -51,7 +54,8 @@ class SearchFragmentNew : Fragment() {
         mView = inflater.inflate(R.layout.fragment_search_new, container, false)
         sessionTwiclo = SessionTwiclo(requireContext())
         viewmodel = ViewModelProviders.of(requireActivity()).get(SearchNewViewModel::class.java)
-        viewmodelusertrack = ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
+        viewmodelusertrack =
+            ViewModelProviders.of(requireActivity()).get(UserTrackerViewModel::class.java)
 
 //        mView.searchKeyETxt?.addTextChangedListener(object : TextWatcher {
 //            override fun afterTextChanged(s: Editable) {
@@ -78,6 +82,7 @@ class SearchFragmentNew : Fragment() {
                     mView.searchKeyETxt.hint = "Search Dishes"
                 }
             }
+
             override fun onFinish() {
                 timer!!.start()
             }
@@ -125,12 +130,37 @@ class SearchFragmentNew : Fragment() {
             suggestions,
             object : SearchSuggestionsAdapter.SuggestionsSearchItemClick {
                 override fun onItemClick(pos: Int, model: Suggestion) {
-                    startActivity(
-                        Intent(
-                            context,
-                            NewSearchActivity::class.java
-                        ).putExtra("service_id", "")
-                    )
+
+                    Log.d("dfdmodelfdf",model.id)
+                    if (model.id.equals("5")||model.id.equals("7")) {
+                        startActivity(
+                            Intent(
+                                context,
+                                StoreListActivity::class.java
+                            )
+                                .putExtra("serviceId", model.id)
+                                .putExtra("serviceName", model.service_name)
+                        )
+                    } else if (model.id.equals("4")) {
+                        startActivity(
+                            Intent(
+                                context,
+                                SendPackageActivity::class.java
+                            )
+                                .putExtra("serviceId", model.id)
+                                .putExtra("serviceName", model.service_name)
+                                .putExtra("where", "Search")
+
+                        )
+                    } else {
+                        AppUtils.startActivityRightToLeft(
+                            requireActivity(),
+                            Intent(requireActivity(), ServiceDailyNeedActivity::class.java).putExtra(
+                                "serviceId", model.id
+                            ).putExtra("serviceName", model.service_name)
+                        )
+                    }
+
                 }
             })
         mView.recyclerviewList.adapter = searchSuggestionAdapter
@@ -162,7 +192,9 @@ class SearchFragmentNew : Fragment() {
     }
 
     fun closeProgress() {
-        if (_progressDlg == null) { return }
+        if (_progressDlg == null) {
+            return
+        }
 
         _progressDlg!!.dismiss()
         _progressDlg = null
@@ -170,7 +202,9 @@ class SearchFragmentNew : Fragment() {
     }
 
     fun dismissIOSProgress() {
-        if (_progressDlg == null) { return }
+        if (_progressDlg == null) {
+            return
+        }
 
         _progressDlg!!.dismiss()
         _progressDlg = null

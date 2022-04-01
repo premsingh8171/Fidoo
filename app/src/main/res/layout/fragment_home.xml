@@ -9,6 +9,82 @@
         android:background="@color/colorGray"
         tools:context=".fragments.home.HomeFragment">
 
+        <LinearLayout
+            android:id="@+id/no_internet_onHomeLl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/lightGray"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topLay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="-50dp"
+                    android:src="@drawable/no_internet" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="No Internet Connection"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/margin_14dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="@dimen/margin_2dp"
+                    android:paddingLeft="60dp"
+                    android:paddingRight="60dp"
+                    android:text="Please check your internet connectivity and try again..."
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="@dimen/margin_12dp" />
+
+                <TextView
+                    android:id="@+id/retry_onHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="@dimen/margin_2dp"
+                    android:padding="@dimen/margin_15dp"
+                    android:paddingLeft="60dp"
+                    android:paddingRight="60dp"
+                    android:text="Retry"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/margin_12dp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="#70000000"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topLay" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/topLay"
             android:layout_width="match_parent"
@@ -21,6 +97,49 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/cartIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_cart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/profileIconn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/black" />
+
+            <ImageView
+                android:id="@+id/profileIconn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/profile_icon"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/cartCountTxt"
+                android:layout_width="@dimen/margin_20dp"
+                android:layout_height="@dimen/margin_20dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:background="@drawable/badge_bg"
+                android:gravity="center"
+                android:maxLength="2"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="9sp"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_bias="1.2"
+                app:layout_constraintLeft_toLeftOf="@+id/cartIcon"
+                app:layout_constraintRight_toRightOf="@+id/cartIcon"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/address_lay"
@@ -42,6 +161,15 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="#339347" />
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrow_downward"
+                    app:layout_constraintBottom_toBottomOf="@+id/text"
+                    app:layout_constraintLeft_toRightOf="@+id/text"
+                    app:layout_constraintTop_toTopOf="@+id/text"
+                    app:tint="@color/black" />
+
                 <TextView
                     android:id="@+id/text"
                     android:layout_width="0dp"
@@ -55,15 +183,6 @@
                     android:textStyle="bold"
                     app:layout_constraintLeft_toRightOf="@+id/routeIcon"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/arrow_downward"
-                    app:layout_constraintBottom_toBottomOf="@+id/text"
-                    app:layout_constraintLeft_toRightOf="@+id/text"
-                    app:layout_constraintTop_toTopOf="@+id/text"
-                    app:tint="@color/black" />
 
                 <TextView
                     android:id="@+id/userAddress"
@@ -98,62 +217,8 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
-                android:id="@+id/cartIcon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginRight="15dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_cart"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/profileIconn"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
-
-            <TextView
-                android:id="@+id/cartCountTxt"
-                android:layout_width="@dimen/margin_20dp"
-                android:layout_height="@dimen/margin_20dp"
-                android:layout_marginTop="@dimen/dimen_8dp"
-                android:background="@drawable/badge_bg"
-                android:gravity="center"
-                android:maxLength="2"
-                android:text="0"
-                android:textColor="@android:color/white"
-                android:textSize="9sp"
-                android:visibility="gone"
-                app:layout_constraintHorizontal_bias="1.2"
-                app:layout_constraintLeft_toLeftOf="@+id/cartIcon"
-                app:layout_constraintRight_toRightOf="@+id/cartIcon"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/profileIconn"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="15dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/profile_icon"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="5dp"
-            android:background="#70000000"
-            android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topLay" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/deshbordRefresh"
@@ -238,15 +303,6 @@
                             android:clickable="false"
                             android:focusable="false">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:fontFamily="@font/proxima"
-                                android:text="What you want to order today?"
-                                android:textColor="@color/black"
-                                android:textSize="18sp" />
-
                             <ImageView
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"
@@ -255,6 +311,37 @@
                                 android:baselineAlignBottom="false"
                                 android:src="@drawable/arrow_forward"
                                 android:visibility="gone" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/proxima"
+                                android:text="What you want to order today?"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/categorySmallRecyclerview1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/margin_10"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:layout_marginBottom="@dimen/margin_30dp"
+                            android:gravity="center">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/categorySmallRecyclerview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/categoryRecyclerView"
+                                app:spanCount="4" />
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -272,28 +359,6 @@
 
                         </androidx.recyclerview.widget.RecyclerView>
 
-                        <LinearLayout
-                            android:id="@+id/categorySmallRecyclerview1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:layout_marginRight="@dimen/margin_10"
-                            android:layout_marginBottom="@dimen/margin_30dp"
-                            android:gravity="center">
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:layout_gravity="center"
-                                android:id="@+id/categorySmallRecyclerview"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/categoryRecyclerView"
-                                app:spanCount="4" />
-                        </LinearLayout>
-
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/categoriesRecyclerView"
@@ -310,133 +375,6 @@
                     <!--end category view-->
 
                     <!--start send packags view-->
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/standalone_section"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_10"
-                        android:background="@color/lightGray"
-                        android:visibility="visible"
-                        app:layout_constraintTop_toBottomOf="@+id/categoriesViewLL">
-
-                        <LinearLayout
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:layout_marginRight="@dimen/margin_20dp"
-                            android:gravity="center"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/btn_delivery"
-                                android:elevation="0dp"
-                                app:cardCornerRadius="@dimen/margin_15dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:layout_marginTop="@dimen/margin_30dp"
-                                android:layout_marginBottom="@dimen/margin_30dp"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                android:layout_width="match_parent"
-                                android:layout_height="180dp">
-                                <ImageView
-                                    android:scaleType="fitXY"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/pickup_"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintRight_toRightOf="parent" />
-
-                            </androidx.cardview.widget.CardView>
-
-                        </LinearLayout>
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:visibility="gone"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:layout_marginTop="@dimen/margin_30dp"
-                            android:layout_marginRight="@dimen/margin_20dp"
-                            android:layout_marginBottom="@dimen/margin_30dp"
-                            android:background="@drawable/corner_radius"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintCircleRadius="30dp"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-
-                            <TextView
-                                android:id="@+id/tv_pickup_drop"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="20dp"
-                                android:layout_marginTop="40dp"
-                                android:fontFamily="@font/proxima"
-                                android:text="Pickup and Drop"
-                                android:textColor="@color/white"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/tv_leave_delivery_hassel"
-                                android:layout_width="200dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="20dp"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="@font/proxima"
-                                android:lineSpacingExtra="@dimen/dimen_5dp"
-                                android:text="Leave your parcel delivery hassel to us!"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_size_14sp"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tv_pickup_drop" />
-
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="@dimen/margin_35dp"
-                                android:layout_marginStart="20dp"
-                                android:layout_marginTop="20dp"
-                                android:background="@drawable/corner_radius_button"
-                                android:backgroundTint="#2B2B94"
-                                android:fontFamily="@font/proxima"
-                                android:paddingLeft="@dimen/margin_10"
-                                android:paddingRight="@dimen/margin_10"
-                                android:text="Pickup now"
-                                android:textAllCaps="false"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_size_12sp"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tv_leave_delivery_hassel" />
-
-                            <LinearLayout
-                                android:layout_marginRight="-1dp"
-                                android:layout_marginTop="@dimen/margin_10"
-                                android:layout_marginBottom="@dimen/margin_10"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintRight_toRightOf="parent">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/drop"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintRight_toRightOf="parent" />
-
-                            </LinearLayout>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                    <!--end send packags view-->
-
-                    <!--start fidoo bottom view-->
                     <LinearLayout
                         android:id="@+id/delivery_lay"
                         android:layout_width="match_parent"
@@ -448,6 +386,40 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/standalone_section">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/margin_100dp"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginTop="@dimen/margin_20dp"
+                            android:layout_marginRight="@dimen/margin_20dp"
+                            android:src="@drawable/fidoo_5"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/delivery_lay" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/margin_100dp"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginRight="@dimen/margin_20dp"
+                            android:src="@drawable/fidoo_6"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/delivery_lay" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/margin_100dp"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginRight="@dimen/margin_20dp"
+                            android:layout_marginBottom="@dimen/margin_100dp"
+                            android:src="@drawable/fidoo_7"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/delivery_lay" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -497,42 +469,138 @@
 
                         </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/margin_100dp"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:layout_marginTop="@dimen/margin_20dp"
-                            android:layout_marginRight="@dimen/margin_20dp"
-                            android:src="@drawable/fidoo_5"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/delivery_lay" />
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/margin_100dp"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:layout_marginTop="@dimen/dimen_5dp"
-                            android:layout_marginRight="@dimen/margin_20dp"
-                            android:src="@drawable/fidoo_6"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/delivery_lay" />
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/margin_100dp"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:layout_marginTop="@dimen/dimen_5dp"
-                            android:layout_marginRight="@dimen/margin_20dp"
-                            android:layout_marginBottom="@dimen/margin_100dp"
-                            android:src="@drawable/fidoo_7"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/delivery_lay" />
-
 
                     </LinearLayout>
+                    <!--end send packags view-->
+
+                    <!--start fidoo bottom view-->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/standalone_section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:background="@color/lightGray"
+                        android:visibility="visible"
+                        app:layout_constraintTop_toBottomOf="@+id/categoriesViewLL">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginRight="@dimen/margin_20dp"
+                            android:gravity="center"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/btn_delivery"
+                                android:layout_width="match_parent"
+                                android:layout_height="180dp"
+                                android:layout_marginTop="@dimen/margin_30dp"
+                                android:layout_marginBottom="@dimen/margin_30dp"
+                                android:elevation="0dp"
+                                app:cardCornerRadius="@dimen/margin_15dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scaleType="fitXY"
+                                    android:src="@drawable/pickup_"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent" />
+
+                            </androidx.cardview.widget.CardView>
+
+                        </LinearLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_marginLeft="@dimen/margin_20dp"
+                            android:layout_marginTop="@dimen/margin_30dp"
+                            android:layout_marginRight="@dimen/margin_20dp"
+                            android:layout_marginBottom="@dimen/margin_30dp"
+                            android:background="@drawable/corner_radius"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintCircleRadius="30dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin_10"
+                                android:layout_marginRight="-1dp"
+                                android:layout_marginBottom="@dimen/margin_10"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintRight_toRightOf="parent">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/drop"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tv_leave_delivery_hassel"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/proxima"
+                                android:lineSpacingExtra="@dimen/dimen_5dp"
+                                android:text="Leave your parcel delivery hassel to us!"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_size_14sp"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_pickup_drop" />
+
+                            <TextView
+                                android:id="@+id/tv_pickup_drop"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="40dp"
+                                android:fontFamily="@font/proxima"
+                                android:text="Pickup and Drop"
+                                android:textColor="@color/white"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/margin_35dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/corner_radius_button"
+                                android:backgroundTint="#2B2B94"
+                                android:fontFamily="@font/proxima"
+                                android:paddingLeft="@dimen/margin_10"
+                                android:paddingRight="@dimen/margin_10"
+                                android:text="Pickup now"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_size_12sp"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_leave_delivery_hassel" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                     <!--end fidoo bottom view-->
 
 
@@ -540,71 +608,6 @@
 
             </androidx.core.widget.NestedScrollView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-        <LinearLayout
-            android:id="@+id/no_internet_onHomeLl"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/lightGray"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topLay">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="-50dp"
-                    android:src="@drawable/no_internet" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="No Internet Connection"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/margin_14dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:gravity="center"
-                    android:lineSpacingExtra="@dimen/margin_2dp"
-                    android:paddingLeft="60dp"
-                    android:paddingRight="60dp"
-                    android:text="Please check your internet connectivity and try again..."
-                    android:textColor="@color/colorTextGray"
-                    android:textSize="@dimen/margin_12dp" />
-
-                <TextView
-                    android:id="@+id/retry_onHome"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:gravity="center"
-                    android:lineSpacingExtra="@dimen/margin_2dp"
-                    android:padding="@dimen/margin_15dp"
-                    android:paddingLeft="60dp"
-                    android:paddingRight="60dp"
-                    android:text="Retry"
-                    android:textColor="@color/primary_color"
-                    android:textSize="@dimen/margin_12dp" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -7,6 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
 import com.fidoo.user.profile.model.EditProfileModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -17,15 +20,32 @@ class EditProfileViewModel(application: Application) : AndroidViewModel(applicat
 
     var addUpdateResponse: MutableLiveData<EditProfileModel>? = null
     var failureResponse: MutableLiveData<String>? = null
+
     init {
 
         addUpdateResponse = MutableLiveData<EditProfileModel>()
         failureResponse = MutableLiveData<String>()
     }
 
-    fun addUpdateProfileApi(accountId: RequestBody?, accessToken: RequestBody?, name: RequestBody?, email: RequestBody?, image: MultipartBody.Part?) {
+    fun addUpdateProfileApi(
+        accountId: RequestBody?,
+        accessToken: RequestBody?,
+        name: RequestBody?,
+        email: RequestBody?,
+        image: MultipartBody.Part?
+    ) {
+//        GlobalScope.launch(Dispatchers.IO) {
+//            var response = WebServiceClient.client.create(BackEndApi::class.java)
+//                .addUpdateProfileApi(accountId, accessToken, name, email, image)
+//            if (response.isSuccessful) {
+//                addUpdateResponse?.postValue(response.body())
+//            } else {
+//                failureResponse?.postValue("Something went wrong")
+//            }
+//        }
 
-        val call: Call<EditProfileModel> = WebServiceClient.client.create(BackEndApi::class.java).addUpdateProfileApi(accountId,accessToken,name,email,image)
+        val call: Call<EditProfileModel> = WebServiceClient.client.create(BackEndApi::class.java)
+            .addUpdateProfileApi(accountId, accessToken, name, email, image)
         call.enqueue(object : Callback<EditProfileModel> {
             override fun onResponse(
                 call: Call<EditProfileModel>,
@@ -38,16 +58,13 @@ class EditProfileViewModel(application: Application) : AndroidViewModel(applicat
                 call: Call<EditProfileModel>,
                 t: Throwable
             ) {
-                failureResponse?.value="Something went wrong"
-                Log.e("ddddd",t.message.toString())
+                failureResponse?.value = "Something went wrong"
+                Log.e("ddddd", t.message.toString())
             }
         })
 
 
     }
-
-
-
 
 
 }

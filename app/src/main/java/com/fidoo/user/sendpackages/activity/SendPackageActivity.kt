@@ -8,7 +8,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
@@ -45,9 +44,7 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import kotlinx.android.synthetic.main.activity_send_package.*
-import kotlinx.android.synthetic.main.activity_sendpackages_additem.*
 import kotlinx.android.synthetic.main.buy_popup.view.*
-import kotlinx.android.synthetic.main.logout_popup.*
 import org.json.JSONObject
 
 
@@ -93,6 +90,9 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         var forSendPackageAddCheck: String = "0"
         var standard_charges: String = ""
         var other_taxes_and_charges: String = ""
+        var catnameeee: String = ""
+        var etvalue: String = ""
+
     }
 
     var contsCardHeight = 0
@@ -101,7 +101,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     var isSelected: Int? = 0
     private lateinit var sendPackagesDb: SendPackagesDb
 
-    var deliveryChargesList:ArrayList<SendPackagesModel.DeliveryCharges>?=null
+    var deliveryChargesList: ArrayList<SendPackagesModel.DeliveryCharges>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,6 +126,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         height = Math.round(((displayMetrics.heightPixels * 40) / 100).toDouble()).toInt()
 
         contsCardHeight = height - 150
+
 
         sendPackagesConstll.layoutParams = ConstraintLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -250,8 +251,8 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                 tv_base_charges.text =
                     "Delivery charges starting from " + user.base_price + " for first" + user.base_distance + " kms"
 
-                deliveryChargesList= ArrayList()
-                deliveryChargesList=user.deliveryChargesList as ArrayList
+                deliveryChargesList = ArrayList()
+                deliveryChargesList = user.deliveryChargesList as ArrayList
 
 
             } catch (e: NullPointerException) {
@@ -285,17 +286,16 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                     .putExtra("base_charges", user.base_price)
                     .putExtra("cat_name", cat_nameStr)
                     .putExtra("cat_Id", cat_idStr)
-                    .putExtra("document_Id",documentId)
-                    .putExtra("discount",user.discount)
-                    .putExtra("coupon_name",user.coupon_name)
-                    .putExtra("value_after_discount",user.value_after_discount)
-                    .putExtra("standard_charges","")
-                    .putExtra("charges_one",user.charges_one)
-                    .putExtra("charges_two",user.charges_two)
-                    .putExtra("charges_three",user.charges_three)
-                    .putExtra("delivery_tax_rate",user.delivery_tax_rate)
-                    .putExtra("delivery_charges",deliveryCharges)
-
+                    .putExtra("document_Id", documentId)
+                    .putExtra("discount", user.discount)
+                    .putExtra("coupon_name", user.coupon_name)
+                    .putExtra("value_after_discount", user.value_after_discount)
+                    .putExtra("standard_charges", "")
+                    .putExtra("charges_one", user.charges_one)
+                    .putExtra("charges_two", user.charges_two)
+                    .putExtra("charges_three", user.charges_three)
+                    .putExtra("delivery_tax_rate", user.delivery_tax_rate)
+                    .putExtra("delivery_charges", deliveryCharges)
             )
 
             /*buyPopup(
@@ -316,8 +316,14 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         })
 
         back_action.setOnClickListener {
+           /* SessionTwiclo(this).setetvalue("")
+            SessionTwiclo(this).setcatname("")
             finish()
-            AppUtils.finishActivityLeftToRight(this)
+            AppUtils.finishActivityLeftToRight(this)*/
+
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("itemid","0")
+            startActivity(intent)
         }
 
         info_im.setOnClickListener {
@@ -330,10 +336,6 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
 
 
         tv_placeOrder.setOnClickListener {
-
-            Intent(this, SendPackageOrderDetail::class.java)
-                .putExtra("test", " hii")
-
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
 
@@ -353,18 +355,24 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                         showToast("Please enter to notes")
                     }
                     else -> {
+                        if (selectedfromLat.toString() != "0.0"
+                            && selectedfromLng.toString() != "0.0"
+                            && selectedtoLat.toString() != "0.0"
+                            && selectedtoLng.toString() != "0.0"
+                        ){
 
-                        calculateStoreCustomerDistance()
-                        if (tv_address_to.text.isNotEmpty() && tv_address_from.text.isNotEmpty()) {
-                            //selectedfromLat.toString()+","+selectedfromLng.toString(), selectedtoLat.toString()+","+selectedtoLng.toString()
+                            calculateStoreCustomerDistance()
+                            if (tv_address_to.text.isNotEmpty() && tv_address_from.text.isNotEmpty()) {
+                                //selectedfromLat.toString()+","+selectedfromLng.toString(), selectedtoLat.toString()+","+selectedtoLng.toString()
 
-                            //val source = selectedfromLat.toString()+","+selectedfromLng.toString()
-                            //val destination = selectedtoLat.toString()+","+selectedtoLng.toString()
+                                //val source = selectedfromLat.toString()+","+selectedfromLng.toString()
+                                //val destination = selectedtoLat.toString()+","+selectedtoLng.toString()
 
-                            //Log.e("DISTANCE1",packageDistance)
-                            //val distance = packageDistance
-                            showIOSProgress()
-                            sendPackageInfo()
+                                //Log.e("DISTANCE1",packageDistance)
+                                //val distance = packageDistance
+                                showIOSProgress()
+                                sendPackageInfo()
+                            }
                         } else {
                             showToast("please enter from/to address")
                         }
@@ -425,6 +433,8 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                     cat_idStr = data!!.getStringExtra("cat_id").toString()
                     documentId = data!!.getStringExtra("document_id").toString().replace(" ", "")
                     Log.e("result__", "$cat_nameStr--$cat_idStr--$documentId")
+                } else {
+                    Log.e("elseresult__", "$cat_nameStr--$cat_idStr--$documentId")
                 }
             }
         }
@@ -499,13 +509,11 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                     showToast("No result found")
                 }
             }, Response.ErrorListener { }) {
-
         }
         val requestQueue = Volley.newRequestQueue(this)
         requestQueue.add(directionsRequest)
 
         //return packageDistance!!
-
 
     }
 
@@ -638,7 +646,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                 )
                 prefill.put(
                     "contact",
-                    SessionTwiclo(this).profileDetail.account.country_code + SessionTwiclo(
+                    SessionTwiclo(this).profileDetail.account.countryCode + SessionTwiclo(
                         this
                     ).profileDetail.account.userName
                 )
@@ -684,6 +692,14 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
 
     override fun onResume() {
         super.onResume()
+
+        try {
+            catnameeee = SessionTwiclo(this).getcatname()
+            etvalue = SessionTwiclo(this).getetvalue()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         deleteAllSendPackages()
         if (selectedFromAddress.isNotEmpty()) {
             location_icon_from.setColorFilter(getResources().getColor(R.color.primary_color));
@@ -751,7 +767,11 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
 
     override fun onBackPressed() {
         super.onBackPressed()
+        SessionTwiclo(this).setetvalue("")
+        SessionTwiclo(this).setcatname("")
         AppUtils.finishActivityLeftToRight(this)
+
     }
 
 }
+

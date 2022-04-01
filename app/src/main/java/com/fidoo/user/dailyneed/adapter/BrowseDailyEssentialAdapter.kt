@@ -1,6 +1,7 @@
 package com.fidoo.user.dailyneed.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ class BrowseDailyEssentialAdapter(
         holder.itemView.itemLayout_width.layoutParams = params
         holder.itemView.dailyNeedItem_Txt.text = categoryList[position].category_name
 
+        Log.d("backgroundimg",categoryList[position].background_image)
         Glide.with(con)
             .load(categoryList[position].background_image)
             .fitCenter()

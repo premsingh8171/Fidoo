@@ -39,6 +39,9 @@ import kotlinx.android.synthetic.main.fragment_splash.*
 import kotlinx.android.synthetic.main.fragment_splash.view.*
 import kotlinx.android.synthetic.main.item_cat_new_ui.view.*
 import kotlinx.android.synthetic.main.select_cat_popup.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import retrofit2.Call
 import retrofit2.Callback
@@ -69,9 +72,12 @@ class SplashFragment : BaseFragment() {
         mView = inflater!!.inflate(R.layout.fragment_splash, parent, false)
         mSessionTwiclo = SessionTwiclo(requireContext())
 
+
         if (isNetworkConnected) {
             // custAppVerCheck(BuildConfig.VERSION_NAME)
-            SplashActivity.appversion?.let { custAppVerCheck(it) }
+            SplashActivity.appversion?.let {
+                custAppVerCheck(it)
+            }
         } else {
             showInternetToast()
         }
@@ -85,6 +91,7 @@ class SplashFragment : BaseFragment() {
         } catch (e: java.lang.Exception) {
             account_id = ""
         }
+
 
         return mView
     }
@@ -216,6 +223,7 @@ class SplashFragment : BaseFragment() {
                 if (response.body()!!.error_code == 300) {
                     updateAppDialog(response.body()!!.latest_version)
                 } else {
+                    fidooSplashLogo.setMaxProgress(0.6f)
                     fidooSplashLogo.playAnimation()
 
 //                    Glide.with(mmContext!!).load(R.drawable.splash_screen)

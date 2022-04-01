@@ -84,7 +84,7 @@ class SliderScreenActivity : BaseActivity() {
                 //letsBegin_txt.text = "Next"
 
             } else if (currentPage == 2) {
-               // letsBegin_txt.text = "Let's Begin"
+                // letsBegin_txt.text = "Let's Begin"
                 letsBegin_fml1.setOnClickListener{
                     currentPage--
                     activeDot(currentPage)
@@ -95,7 +95,7 @@ class SliderScreenActivity : BaseActivity() {
                 finish()
                 overridePendingTransition(0, 0)
                 AppUtils.startActivityRightToLeft(this, Intent(this,AuthActivity::class.java))
-              //  goForVerificationScreen(AuthActivity::class.java,"","","","")
+                //  goForVerificationScreen(AuthActivity::class.java,"","","","")
 
             }
         }
@@ -130,10 +130,10 @@ class SliderScreenActivity : BaseActivity() {
         if (position == 0) {
             letsBegin_fml1.visibility = View.GONE
 
-          //  letsBegin_txt.text = "Next"
+            //  letsBegin_txt.text = "Next"
         }
         if (position == 1) {
-          //  letsBegin_txt.text = "Next"
+            //  letsBegin_txt.text = "Next"
             letsBegin_fml1.setOnClickListener{
                 currentPage--
                 activeDot(currentPage)
@@ -143,7 +143,7 @@ class SliderScreenActivity : BaseActivity() {
             letsBegin_fml1.visibility = View.VISIBLE
         }
         if (position == 2) {
-          //  letsBegin_txt.text = "Let's Begin"\
+            //  letsBegin_txt.text = "Let's Begin"\
             letsBegin_fml1.setOnClickListener{
                 currentPage--
                 activeDot(currentPage)

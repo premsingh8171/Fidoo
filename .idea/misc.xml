@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/drawable/dotted_vertical_desh.xml" value="0.185" />
         <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/drawable/et_round_new.xml" value="0.229" />
         <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_useral/app/src/main/res/drawable/feedback_bg.xml" value="0.185" />
@@ -14,6 +15,16 @@
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="11" project-jdk-type="JavaSDK" />
+=======
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/layout/bottom_sheet_saved_address_items.xml" value="0.21784420289855072" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.16485507246376813" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/activity_saved_addresses_new.xml" value="0.1598731884057971" />
+        <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/layout/saved_address_items.xml" value="0.22447916666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+>>>>>>> nishantbranchMergeWithShobha
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>

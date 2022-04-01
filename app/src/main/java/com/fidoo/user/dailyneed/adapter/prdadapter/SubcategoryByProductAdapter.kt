@@ -142,8 +142,8 @@ class SubcategoryByProductAdapter(
 					//performing negative action
 					builder.setNegativeButton("No") { _, _ ->
 						count = 0
-						holder.itemView.add_itemll_breakFast.visibility = View.VISIBLE
-						holder.itemView.minusplus_ll_breakFast.visibility = View.GONE
+						holder.itemView.add_itemll_catPrd.visibility = View.VISIBLE
+						holder.itemView.minusplus_ll_catPrd.visibility = View.GONE
 					}
 					val alertDialog: AlertDialog = builder.create()
 					alertDialog.setCancelable(false)

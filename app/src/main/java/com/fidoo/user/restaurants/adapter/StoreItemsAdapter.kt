@@ -59,7 +59,13 @@ class StoreItemsAdapter(
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val index = productList[position]
 
-         try {
+         Log.d("indexindex", restaurantName + "--" + restaurantAddress)
+
+        holder.fssaitxt.text = fssai
+        holder.restaurant_nametxt.text = restaurantName
+        holder.restaurant_addtxt.text = restaurantAddress
+
+       //  try {
        // Log.d("indexindex", index.price!! + "--" + index.offerPrice)
 
         if (!index.price!!.equals(index.offerPrice!!)) {
@@ -73,14 +79,24 @@ class StoreItemsAdapter(
                 con.resources.getString(R.string.ruppee) + "" + index.offerPrice
             holder.priceTxt.visibility=View.VISIBLE
         } else {
-            holder.offerPrice.text =
-                con.resources.getString(R.string.ruppee) + "" + index.offerPrice
-            holder.priceTxt.visibility=View.INVISIBLE
+            if(index.offerPrice!!< 0.toString()){
+                holder.offerPrice.text =
+                    con.resources.getString(R.string.ruppee) + 0
+            }else{
+                holder.offerPrice.text =
+                    con.resources.getString(R.string.ruppee) + index.offerPrice!!
+            }
+
+//            holder.offerPrice.text =
+//                con.resources.getString(R.string.ruppee) + "" + index.offerPrice
+//            holder.priceTxt.visibility=View.INVISIBLE
 
         }
-        }catch (e:Exception){
-            e.printStackTrace()
-        }
+
+
+//        }catch (e:Exception){
+//            e.printStackTrace()
+//        }
 
         if (index.offerPrice.equals("0")){
             holder.offerPrice.visibility=View.GONE
@@ -365,9 +381,6 @@ class StoreItemsAdapter(
         }
 
         if (total_item_count - 1 == position) {
-            holder.fssaitxt.text = fssai
-            holder.restaurant_nametxt.text = restaurantName
-            holder.restaurant_addtxt.text = restaurantAddress
             holder.store_bottom_ll.visibility = View.VISIBLE
         } else {
             holder.store_bottom_ll.visibility = View.GONE

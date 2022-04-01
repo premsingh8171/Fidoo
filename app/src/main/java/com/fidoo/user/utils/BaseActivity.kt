@@ -146,7 +146,7 @@ abstract class BaseActivity : AppCompatActivity(), Handler.Callback {
         _progressDlg!!.show()
     }
 
-    fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String? {
+    open fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String? {
         val geocoder = Geocoder(this, Locale.getDefault())
         try {
             val addressList = geocoder.getFromLocation(latitude, longitude, 1)
@@ -576,8 +576,8 @@ abstract class BaseActivity : AppCompatActivity(), Handler.Callback {
     ) {
         view.text = ""
         val str = SpannableString(change_color_str)
-        str.setSpan(
-            ForegroundColorSpan(Color.parseColor("#339347")),
+       str.setSpan(
+            ForegroundColorSpan(Color.GREEN),
             0,
             str.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE

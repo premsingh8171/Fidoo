@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
 import com.fidoo.user.data.model.LoginModel
+import com.fidoo.user.fragments.SignInFragment
 import com.fidoo.user.utils.SingleLiveEvent
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,19 +46,19 @@ class LoginViewModel(application: Application) : AndroidViewModel(application),
 
     }
 
-    fun login(countryCode: String, device_id: String, referral_Id: String) {
+    fun login(countryCode: String, device_id: String, referral_Id: String,mobileNo: String) {
         Log.d(
             "login_parameter",
             "countryCode-$countryCode,mobileNo-$mobileNo,device_id-$device_id,referral_id-$referral_Id"
         )
         Log.d(
             "mobileNo__",
-            mobileNo?.get().toString()
+            mobileNo.toString()
         )
 
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).login(
-            username = mobileNo?.get(),
+            username = mobileNo,
             country_code = countryCode,
             device_id = device_id,
             device_type = "android",

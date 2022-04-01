@@ -421,7 +421,6 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
         Log.e("CART ERROR",t.toString())
     }
 
-
     fun checkPaymentStatusApi(accountId: String, accessToken: String) {
         Log.e("checkPaymentStatusApi__", "$accountId, $accessToken")
         WebServiceClient.client.create(BackEndApi::class.java).checkPaymentStatusApi(

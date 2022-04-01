@@ -528,7 +528,9 @@ class ServiceDetailsAdapter(
             .into(view)
     }
 
-    class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {}
+    class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+    }
 
 
     interface ItemClick {

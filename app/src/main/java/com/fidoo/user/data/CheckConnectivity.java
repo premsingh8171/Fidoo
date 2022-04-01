@@ -23,7 +23,6 @@ public class CheckConnectivity {
         mActiveNetwork = mConnectivityManager.getActiveNetworkInfo();
     }
 
-
     //check for network is available or not true or false would be returned
     public Boolean isNetworkAvailable() {
 
@@ -66,7 +65,6 @@ public class CheckConnectivity {
         return isMobileNetwork;
     }
 
-
     public void getType() {
 
         if (mActiveNetwork != null) {
@@ -75,12 +73,8 @@ public class CheckConnectivity {
             showToast("Your are Offline");
     }
 
-
-
     public void showToast(String msg) {
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
-
-
     }
 
 }

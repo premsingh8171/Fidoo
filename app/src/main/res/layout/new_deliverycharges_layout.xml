@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/delivery_ch"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_marginLeft="81dp"
+    android:layout_marginTop="430dp"
+    android:layout_centerInParent="true"
+
+    android:layout_marginRight="49dp"
+
+    android:elevation="6dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvdeliverydetail"
+        android:layout_width="230dp"
+        android:elevation="5dp"
+        android:layout_height="wrap_content"
+
+        app:cardCornerRadius="10dp">
+
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true">
+
+            <TextView
+                android:id="@+id/delivery_txt1"
+                android:layout_width="214dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="8dp"
+                android:textColor="#212121"
+                android:gravity="top"
+                android:textStyle="bold"
+                android:lineSpacingExtra="3sp"
+                android:text="Delivery charges applied as mentioned below :"
+                android:textAppearance="@style/delivery_ch"
+                android:translationY="-1.5sp" />
+
+            <TextView
+                android:id="@+id/upto_3kms_"
+                android:layout_width="168dp"
+                android:layout_height="15dp"
+                android:layout_below="@+id/delivery_txt1"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="8dp"
+                android:gravity="top"
+                android:textColor="#212121"
+                android:lineSpacingExtra="3sp"
+                android:text="upto 3kms:"
+                android:textAppearance="@style/upto_3kms_"
+                android:translationY="-1.5sp" />
+
+            <TextView
+                android:id="@+id/rate_id1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/delivery_txt1"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="8dp"
+                android:gravity="top"
+                android:lineSpacingExtra="3sp"
+                android:text="rs"
+                android:textColor="#212121"
+                android:textAppearance="@style/somerate_id"
+                android:translationY="-1.5sp" />
+
+            <TextView
+                android:id="@+id/morecharges_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/upto_3kms_"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="More"
+                android:textAppearance="@style/morechargesnew"
+                android:visibility="visible" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/delivery_txt1"
+                android:visibility="gone"
+                android:id="@+id/rv_newchargesa"/>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rv_newchargesa"
+                android:layout_margin="8dp"
+                android:id="@+id/tv_gstax"
+                android:text="(Additional GST @ 18% charge is applicable) "
+                android:textAppearance="@style/additional_"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
+
+</RelativeLayout>

@@ -43,7 +43,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_weight="5"
             android:id="@+id/mapLayout"
-            android:layout_marginBottom="240dp"
+            android:layout_marginBottom="270dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +80,7 @@
         android:orientation="vertical"
         android:id="@+id/add_new_add_ll"
         android:layout_width="match_parent"
-        android:layout_height="400dp">
+        android:layout_height="430dp">
 
         <TextView
             android:fontFamily="@font/proxima"
@@ -132,18 +132,18 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/proxima"
-
                         android:text="fff"
                         android:textSize="16sp"
                         app:layout_constraintStart_toEndOf="@+id/locationImage"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:layout_marginTop="@dimen/dimen_5dp"
                         android:padding="@dimen/dimen_5dp"
                         android:textColor="@color/black"
                         android:layout_marginEnd="@dimen/margin_70dp"
                         android:id="@+id/tv_Address"
+                        android:background="@color/white"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_40dp"
