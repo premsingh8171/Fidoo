@@ -736,7 +736,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         super.onDestroy()
     }
 
-
     override fun onResume() {
         Log.d("Nishant", "onResume: ")
         super.onResume()

@@ -402,14 +402,14 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         })
     }
 
-    private fun checkLocation(){
-        val manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            showAlertLocation()
-        }
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        getLocationUpdates()
-    }
+//    private fun checkLocation(){
+//        val manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            showAlertLocation()
+//        }
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+//        getLocationUpdates()
+//    }
 
     private fun showAlertLocation() {
         val dialog = AlertDialog.Builder(this)
@@ -425,39 +425,39 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         dialog.show()
     }
 
-    private fun getLocationUpdates() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        locationRequest = LocationRequest()
-        locationRequest.interval = 50000
-        locationRequest.fastestInterval = 50000
-        locationRequest.smallestDisplacement = 170f //170 m = 0.1 mile
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY //according to your app
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) {
-                locationResult ?: return
-                if (locationResult.locations.isNotEmpty()) {
-                    /*val location = locationResult.lastLocation
-                    Log.e("location", location.toString())*/
-                    val addresses: List<Address>?
-                    val geoCoder = Geocoder(applicationContext, Locale.getDefault())
-                    addresses = geoCoder.getFromLocation(
-                        locationResult.lastLocation.latitude,
-                        locationResult.lastLocation.longitude,
-                        1
-                    )
-                    if (addresses != null && addresses.isNotEmpty()) {
-                        val address: String = addresses[0].getAddressLine(0)
-                        val city: String = addresses[0].locality
-                        val state: String = addresses[0].adminArea
-                        val country: String = addresses[0].countryName
-                        val postalCode: String = addresses[0].postalCode
-                        val knownName: String = addresses[0].featureName
-                        Log.e("location", "$address $city $state $postalCode $country $knownName")
-                    }
-                }
-            }
-        }
-    }
+//    private fun getLocationUpdates() {
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+//        locationRequest = LocationRequest()
+//        locationRequest.interval = 50000
+//        locationRequest.fastestInterval = 50000
+//        locationRequest.smallestDisplacement = 170f //170 m = 0.1 mile
+//        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY //according to your app
+//        locationCallback = object : LocationCallback() {
+//            override fun onLocationResult(locationResult: LocationResult?) {
+//                locationResult ?: return
+//                if (locationResult.locations.isNotEmpty()) {
+//                    /*val location = locationResult.lastLocation
+//                    Log.e("location", location.toString())*/
+//                    val addresses: List<Address>?
+//                    val geoCoder = Geocoder(applicationContext, Locale.getDefault())
+//                    addresses = geoCoder.getFromLocation(
+//                        locationResult.lastLocation.latitude,
+//                        locationResult.lastLocation.longitude,
+//                        1
+//                    )
+//                    if (addresses != null && addresses.isNotEmpty()) {
+//                        val address: String = addresses[0].getAddressLine(0)
+//                        val city: String = addresses[0].locality
+//                        val state: String = addresses[0].adminArea
+//                        val country: String = addresses[0].countryName
+//                        val postalCode: String = addresses[0].postalCode
+//                        val knownName: String = addresses[0].featureName
+//                        Log.e("location", "$address $city $state $postalCode $country $knownName")
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     // Start location updates
     private fun startLocationUpdates() {
