@@ -82,13 +82,27 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
                 visible_View_ReviewOrdLl.visibility = View.VISIBLE
                 try {
                     //  order_delivered_time.text =user.deleivered_at
-                    if (user.delivery_boy_name.isNotEmpty()) {
-                        delivery_atTxt.text = "Order Delivered by " + user.delivery_boy_name
 
-                        deliveredAtTxt.text = user.deleivered_at
-                    } else {
-                        delivery_atTxt.text = ""
+
+                    if (user.order_status.equals("0")) {
+                        orderstatus_tv.text = "failed"
+                        orderStatusLabel.text = ""
+                        deliveredAtTxt.text = ""
+                        delivery_boyTxt.text = ""
                     }
+                    if (user.order_status.equals("2")) {
+                        orderstatus_tv.text = "Cancelled"
+                        orderStatusLabel.text = ""
+                        deliveredAtTxt.text = ""
+                        delivery_boyTxt.text = ""
+                    }
+                    if (user.order_status.equals("3")) {
+                        orderstatus_tv.text = "Delivered"
+                        orderStatusLabel.text = "Time"
+                        deliveredAtTxt.text = user.deleivered_at
+                        delivery_boyTxt.text = "Order Delivered by " + user.delivery_boy_name
+                    }
+
 
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -123,14 +137,14 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
 
                 //  var deliveryChargeWithTax = user.delivery_charge.valuser.tax
 
-                    if (user.tax.isNullOrEmpty()){
-                        delivery_charge.text =
+                if (user.tax.isNullOrEmpty()) {
+                    delivery_charge.text =
                         resources.getString(R.string.ruppee) + "" + user.delivery_charge
-                    }else{
+                } else {
 
-                        delivery_charge.text =
+                    delivery_charge.text =
                         resources.getString(R.string.ruppee) + "" + (user.delivery_charge.toInt() + user.tax.toInt()).toFloat()
-                    }
+                }
 
 
 

@@ -209,7 +209,7 @@
                                 android:layout_height="wrap_content">
 
                                 <TextView
-                                    android:id="@+id/delivery_atTxt"
+                                    android:id="@+id/delivery_boyTxt"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text=""
@@ -747,8 +747,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:textColor="@color/black"
-                            android:id="@+id/orderOnValue"
+                            android:id="@+id/orderstatus_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/detailLabel"
@@ -756,7 +755,8 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="@dimen/margin_10"
                             android:fontFamily="@font/proxima"
-                            android:text="Order is delivered"
+                            android:text=""
+                            android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/detailLabel" />
 
@@ -769,7 +769,7 @@
                             android:layout_marginTop="@dimen/margin_20dp"
                             android:layout_marginRight="10dp"
                             android:fontFamily="@font/proxima"
-                            android:text="Time"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             app:layout_constraintRight_toRightOf="parent"
@@ -782,9 +782,8 @@
                             android:layout_below="@+id/orderStatusLabel"
                             android:layout_alignParentEnd="true"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="10dp"
                             android:layout_marginRight="10dp"
-                            android:layout_marginBottom="@dimen/margin_20dp"
                             android:fontFamily="@font/proxima"
                             android:text=""
                             app:layout_constraintRight_toRightOf="parent"
