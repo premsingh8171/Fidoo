@@ -83,6 +83,10 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_home_newui.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import permissions.dispatcher.*
 import java.util.*
@@ -175,18 +179,21 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
         fragmentHomeBinding?.viewPagerBannerNewDesh!!.clipToPadding = false
 
-        val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            dialog?.setCanceledOnTouchOutside(false)
-            showDialogUi()
-        }
+
         val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
             object : ViewPager.OnPageChangeListener {
                 override fun onPageSelected(position: Int) {}
                 override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
                 override fun onPageScrollStateChanged(arg0: Int) {}
             }
-
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(100)
+            val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                dialog?.setCanceledOnTouchOutside(false)
+                showDialogUi()
+            }
+        }
         fragmentHomeBinding?.viewPagerBannerNewDesh!!.addOnPageChangeListener(
             viewPagerPageChangeListener)
 
@@ -866,6 +873,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
     override fun onStart() {
         Log.d("Nishant", "onStart: ")
+
         super.onStart()
     }
 
