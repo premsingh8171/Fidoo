@@ -17,7 +17,7 @@ import com.android.volley.toolbox.Volley
 import com.fidoo.user.BuildConfig
 import com.fidoo.user.R
 import com.fidoo.user.interfaces.AdapterClick
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.sendpackages.model.SendPackagesModel
 import com.fidoo.user.sendpackages.viewmodel.SendPackagesViewModel
 import com.google.gson.Gson
@@ -157,7 +157,7 @@ class SendPacketFragment : com.fidoo.user.utils.BaseFragment(),
         mView.from_address_lay.setOnClickListener {
             addressType = "from"
             startActivity(
-                Intent(requireContext(), SavedAddressesActivity::class.java).putExtra(
+                Intent(requireContext(), SavedAddressesActivityNew::class.java).putExtra(
                     "type",
                     "from"
                 )
@@ -184,7 +184,7 @@ class SendPacketFragment : com.fidoo.user.utils.BaseFragment(),
         mView.to_address_lay.setOnClickListener {
             addressType = "to"
             startActivity(
-                Intent(requireContext(), SavedAddressesActivity::class.java).putExtra(
+                Intent(requireContext(), SavedAddressesActivityNew::class.java).putExtra(
                     "type",
                     "to"
                 )

@@ -2,29 +2,28 @@ package com.fidoo.user.cartview.activity
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
-import android.view.Gravity
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.view.*
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.android.volley.Request
 import com.android.volley.Response
@@ -39,10 +38,13 @@ import com.fidoo.user.BuildConfig
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addCartTempList
+import com.fidoo.user.activity.MainActivity.Companion.checkAddressSavedFromWhichActivity
 import com.fidoo.user.activity.MainActivity.Companion.handleTrackScreenOrderSuccess
 import com.fidoo.user.activity.MainActivity.Companion.onBackpressHandle
 import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
+import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
+import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.adapter.CartItemsAdapter
 import com.fidoo.user.cartview.adapter.DeliveryChargesAdapter
@@ -51,9 +53,7 @@ import com.fidoo.user.cartview.model.CartModel
 import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
 import com.fidoo.user.cartview.roomdb.entity.PrescriptionViewEntity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
-import com.fidoo.user.constants.useconstants
-import com.fidoo.user.data.model.AddCartInputModel
-import com.fidoo.user.data.model.AddToCartModel
+import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.grocery.activity.GroceryItemsActivity.Companion.onresumeHandle
 import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
@@ -76,6 +76,7 @@ import com.fidoo.user.restaurants.viewmodel.StoreDetailsViewModel
 import com.fidoo.user.services.OrderBackgroundgService
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
+import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.FORADDRESS_REQUEST_CODE
 import com.fidoo.user.utils.showAlertDialog
@@ -89,7 +90,12 @@ import com.razorpay.PaymentData
 import com.razorpay.PaymentResultListener
 import com.razorpay.PaymentResultWithDataListener
 import kotlinx.android.synthetic.main.activity_cart.*
-import kotlinx.android.synthetic.main.new_deliverycharges_layout.*
+import kotlinx.android.synthetic.main.activity_cart.backIcon
+import kotlinx.android.synthetic.main.activity_cart.bottom_sheet
+import kotlinx.android.synthetic.main.activity_cart.customAddBtn
+import kotlinx.android.synthetic.main.activity_cart.customItemsRecyclerview
+import kotlinx.android.synthetic.main.activity_cart.linear_progress_indicator
+import kotlinx.android.synthetic.main.activity_cart.tv_coupon
 import kotlinx.android.synthetic.main.no_internet_connection.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -97,8 +103,6 @@ import okhttp3.RequestBody
 import org.json.JSONObject
 import java.io.File
 import java.math.RoundingMode
-import java.text.DecimalFormat
-import kotlin.math.roundToInt
 
 
 @Suppress("DEPRECATION")
@@ -128,7 +132,6 @@ class CartActivity : BaseActivity(),
 	var filePathTemp: String = ""
 	var fileUri: Uri? = null
 	var count: Int = 1
-	var delivery_chargesList= ArrayList<CartModel.DeliveryCharges>()
 	var isPrescriptionRequire: String = ""
 	var distanceViewModel: TrackViewModel? = null
 	private val co = Checkout()
@@ -156,11 +159,11 @@ class CartActivity : BaseActivity(),
 	var check: Int = 0
 	var prescription_id: Int = 0
 	var checkStore: Int = 0
-	private lateinit var  sendPackagesDiolog: Dialog
 	var prescriptionAdapter: PrescriptionAdapter? = null
 	private var mMixpanel: MixpanelAPI? = null
-	private var posA:Float = 0.0F
-	private var posB:Float = 0.0F
+
+	private  var dialog : Dialog? = null
+	private var where: String? = ""
 
 	companion object {
 		var store_imgStr: String = ""
@@ -208,6 +211,47 @@ class CartActivity : BaseActivity(),
 		tv_delivery_address.text = selectedAddressName
 		tv_landmark.text = selectedPreAddressName
 
+		tv_delivery_address.text = selectedAddressName
+		tv_landmark.text = selectedPreAddressName
+		if (!tv_delivery_address.text.isNullOrEmpty()) {
+			addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
+				if(user.addressList.size == 0){
+					tv_select_address.text = "Add Address"
+					select_address_or_add_layout.visibility = View.VISIBLE
+				}
+				else if(user.errorCode == 200){
+					tv_select_address.text = "Select Address"
+					select_address_or_add_layout.visibility = View.VISIBLE
+					cart_payment_lay.visibility = View.GONE
+				}
+//				else if (!user.addressList.isNullOrEmpty()) {
+//						user.addressList.forEach { list ->
+//							if (tv_delivery_address.text.equals(list.location))
+//								Toast.makeText(_context, "${list.location}", Toast.LENGTH_SHORT).show()
+//							Log.d("Rishab", "${list.location}")
+//
+//						}
+//					}
+				else{
+					select_address_or_add_layout.visibility = View.VISIBLE
+					cart_payment_lay.visibility = View.GONE
+				}
+			})
+		}
+		else if(tv_delivery_address.text.isNullOrEmpty()){
+			tv_select_address.text = "Add Address"
+			select_address_or_add_layout.visibility = View.VISIBLE
+			cart_payment_lay.visibility = View.GONE
+		}
+		select_address_or_add_layout.setOnClickListener {
+			if(tv_select_address.text.equals("Add Address")){
+				val intent = Intent(this@CartActivity,SavedAddressesActivityNew::class.java)
+				startActivity(intent)
+			}
+			else {
+				showDialogBottom()
+			}
+		}
 		address_id = SessionTwiclo(this).userAddressId
 		Log.d("address_idaddress_id", address_id)
 		selectedCouponId = ""
@@ -322,54 +366,46 @@ class CartActivity : BaseActivity(),
 			prescriptionLay2.visibility = View.VISIBLE
 		}
 
-
-
-
 		new_delivery_popup.setOnClickListener {
-			/*	chargesFm.visibility = View.VISIBLE
-                chargesFmBg.visibility = View.VISIBLE
-                chargesFmBgbottom.visibility = View.VISIBLE*/
-			cvdeliverydetail.visibility= View.VISIBLE
-			xyz.visibility= View.VISIBLE
-			new_polygon_2.visibility= View.VISIBLE
-
-			morecharges_.setOnClickListener {
-				upto_3kms_.visibility= View.GONE
-				rate_id1.visibility= View.GONE
-				morecharges_.visibility=View.GONE
-				rv_newchargesa.visibility= View.VISIBLE
-				tv_gstax.visibility= View.VISIBLE
-			}
-
+			chargesFm.visibility = View.VISIBLE
+			chargesFmBg.visibility = View.VISIBLE
+			chargesFmBgbottom.visibility = View.VISIBLE
 		}
 
+		/**
+		 * ****************************************************************************************************************************************
+		 */
+//		if (userAddressList == 0){
+//			cart_payment_lay.visibility = View.GONE
+//			cart_payment_lay_One.visibility = View.VISIBLE
+//			cart_payment_lay_One.setOnClickListener {
+//				startActivityForResult(
+//					Intent(this, SavedAddressesActivity::class.java)
+//						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
+//				)
+//				val toast = Toast.makeText(this, "$userAddressList", Toast.LENGTH_LONG)
+//				toast.show()
+//			}
+//		}
+//		else if (userAddressList > 0){
+//			cart_payment_lay.visibility = View.GONE
+//			cart_payment_lay_One.visibility = View.VISIBLE
+//			showDialogBottom()
+//		}
 
-		nested_top_lay.setOnClickListener {
-			new_polygon_2.visibility= View.GONE
-			upto_3kms_.visibility= View.VISIBLE
-			rate_id1.visibility= View.VISIBLE
-			morecharges_.visibility=View.VISIBLE
-			rv_newchargesa.visibility= View.GONE
-			tv_gstax.visibility= View.GONE
-			xyz.visibility = View.GONE
-
-		}
 		chargesFmBg.setOnClickListener {
-			/*chargesFmBgbottom.visibility = View.GONE
+			chargesFmBgbottom.visibility = View.GONE
 			chargesFm.visibility = View.GONE
 			chargesFmBg.visibility = View.GONE
 			chargesFmBg.visibility = View.GONE
-			tax_and_charges_lay.visibility = View.GONE*/
-			cvdeliverydetail.visibility= View.GONE
-			//polygon_tv.visibility= View.GONE
-
+			tax_and_charges_lay.visibility = View.GONE
 
 		}
 
 		chargesFmBgbottom.setOnClickListener {
-			/*chargesFmBgbottom.visibility = View.GONE
+			chargesFmBgbottom.visibility = View.GONE
 			chargesFm.visibility = View.GONE
-			chargesFmBg.visibility = View.GONE*/
+			chargesFmBg.visibility = View.GONE
 		}
 
 		tv_tax_charges_label.setOnClickListener {
@@ -445,17 +481,22 @@ class CartActivity : BaseActivity(),
 				showInternetToast()
 			}
 		}
+		/**
+		 * **********************************************************************************************
+		 */
 
-		delivery_addressCard.setOnClickListener {
+		delivery_address_lay.setOnClickListener {
 			if (!isNetworkConnected) {
 				showToast(resources.getString(R.string.provide_internet))
 
 			} else {
 				startActivityForResult(
-					Intent(this, SavedAddressesActivity::class.java)
+					Intent(this, SavedAddressesActivityNew::class.java)
 						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
 				)
+
 			}
+
 		}
 
 		cash_lay.setOnClickListener {
@@ -495,15 +536,20 @@ class CartActivity : BaseActivity(),
 
 		}
 
-		delivery_addressCard.setOnClickListener {
-			if (!isNetworkConnected) {
-				showToast(resources.getString(R.string.provide_internet))
-			} else {
-				startActivity(
-					Intent(this, SavedAddressesActivity::class.java).putExtra("type", "order")
-				)
-			}
+		delivery_address_lay.setOnClickListener {
+			checkAddressSavedFromWhichActivity = "fromCart"
+//			if (!isNetworkConnected) {
+//				showToast(resources.getString(R.string.provide_internet))
+//			} else {
+//				startActivity(
+//					Intent(this, SavedAddressesActivity::class.java).putExtra("type", "order")
+//
+//				)
+//			}
+			showDialogBottom()
 		}
+
+
 
 		cart_payment_lay.setOnClickListener {
 			if (!isNetworkConnected) {
@@ -656,7 +702,6 @@ class CartActivity : BaseActivity(),
 			//   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
 		}
 
-
 		viewmodel?.addRemoveCartResponse?.observe(this) { user ->
 			dismissIOSProgress()
 			Log.e("addRemove_cart_response", Gson().toJson(user))
@@ -734,8 +779,6 @@ class CartActivity : BaseActivity(),
 			}
 		}
 
-
-
 		viewmodel?.getCartDetailsResponse?.observe(this) { user ->
 			dismissIOSProgress()
 			main_lay.visibility = View.VISIBLE
@@ -743,10 +786,7 @@ class CartActivity : BaseActivity(),
 			Log.e("getCartDetailsResponse_", Gson().toJson(user))
 
 			isPrescriptionRequire = "0"
-
-
 			linear_progress_indicator.visibility = View.GONE
-
 
 			if (!user.error) {
 				if (user.cart != null) {
@@ -759,7 +799,6 @@ class CartActivity : BaseActivity(),
 
 					Log.e("storeDataCartActivity__", "$storeLat---$storeLong-$other_taxes_and_charges")
 					calculateStoreCustomerDistance()
-
 
 					//do work for charges
 					try {
@@ -787,14 +826,10 @@ class CartActivity : BaseActivity(),
 
 						}
 
-
 						value_AdditionalTxt.text=user.delivery_tax_rate
 
-						val layoutmanager= LinearLayoutManager(this)
-						rv_newchargesa.layoutManager= layoutmanager
-
 						var adapterCharges=DeliveryChargesAdapter(this,user.deliveryChargesList as ArrayList)
-						rv_newchargesa.adapter=adapterCharges
+						charges_rv.adapter=adapterCharges
 					} catch (e: Exception) {
 						e.printStackTrace()
 					}
@@ -858,7 +893,6 @@ class CartActivity : BaseActivity(),
 						//cashOnDeliveryRadioBtn.isChecked = false
 						//onlineRadioBtn.isChecked = true
 					}
-
 
 					val mModelData: CartModel = user
 
@@ -936,46 +970,15 @@ class CartActivity : BaseActivity(),
 					val rounded = finalPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 					tv_grand_total.text =
 						resources.getString(R.string.ruppee) + rounded.toString()
-
+					/**
+					 *  ---------------------------------------------------------------------------------------------
+					 */
 					tv_place_order.text = "Pay " + resources.getString(R.string.ruppee) + rounded.toString()
 
 					Log.e("Bottom Price", tv_place_order.text.toString())
 					Log.e("Grand Total", tv_grand_total.text.toString())
 					//showToast(mModelData.deliveryDiscount)
 					//showToast(finalPrice.toString())
-
-
-					val dist:Double = (mModelData.distance.toDouble()/1000)
-					val df= DecimalFormat("#.##")
-					val net_dist= df.format(dist)
-					tv_delivery_charges_label.text= "Delivery charges | ${net_dist}kms"
-					useconstants.user_dist = mModelData.distance
-
-					if (mModelData.distance<=3000){
-						upto_3kms_.text= "upto 3kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"18"
-					}
-
-					if (mModelData.distance>3000 && mModelData.distance<=6000){
-						upto_3kms_.text= "above 3kms-6kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"36"
-					}
-
-					if (mModelData.distance>6000 && mModelData.distance<=9000){
-						upto_3kms_.text= "above 6kms-9kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"54"
-					}
-
-					if (mModelData.distance > 9000 && mModelData.distance<=12000){
-						upto_3kms_.text= "above 9kms-12kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"72"
-					}
-
-					if (mModelData.distance>12000){
-						upto_3kms_.text= "above 12kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"90"
-					}
-
 					tv_delivery_charges.text =
 						resources.getString(R.string.ruppee) + deliveryChargeWithTax
 
@@ -1070,13 +1073,8 @@ class CartActivity : BaseActivity(),
 						tv_cart_discount_label.visibility = View.GONE
 						tv_cart_afterDiscount.visibility = View.GONE
 						tv_cart_afterdiscount_lable.visibility = View.GONE
-						//	tv_coupon.text = "NO Coupan Applied"
-						cv_couponCard.visibility= View.GONE
-						smpview.visibility= View.GONE
-
-
-
-						//coupon_lay.visibility = View.GONE
+						tv_coupon.visibility = View.GONE
+						coupon_lay.visibility = View.GONE
 						//discountValue.visibility = View.GONE
 					}
 
@@ -1149,12 +1147,12 @@ class CartActivity : BaseActivity(),
 			cart_payment_lay.alpha = 1.0f
 		}
 
-		viewmodel?.deletePrescriptionResponse?.observe(this, { prescription ->
+		viewmodel?.deletePrescriptionResponse?.observe(this) { prescription ->
 			Log.e("prescription__", Gson().toJson(prescription))
 			dismissIOSProgress()
-		})
+		}
 
-		viewmodel?.appplyPromoResponse?.observe(this, { user ->
+		viewmodel?.appplyPromoResponse?.observe(this) { user ->
 			dismissIOSProgress()
 			Log.e("cart response", Gson().toJson(user))
 
@@ -1208,9 +1206,9 @@ class CartActivity : BaseActivity(),
 				showToast(user.message)
 			}
 
-		})
+		}
 
-		viewmodel?.orderPlaceResponse?.observe(this, { user ->
+		viewmodel?.orderPlaceResponse?.observe(this) { user ->
 			dismissIOSProgress()
 			Log.e("orderPlaceResponse____", Gson().toJson(user))
 			// Log.d("orderPlaceResponse____", user.errorCode.toString())
@@ -1252,13 +1250,13 @@ class CartActivity : BaseActivity(),
 			} else if (user.errorCode == 400) {
 				Toast.makeText(this, "" + user.message, Toast.LENGTH_LONG).show()
 
-			}else{
+			} else {
 				Toast.makeText(this, "" + user.message, Toast.LENGTH_LONG).show()
 
 			}
-		})
+		}
 
-		viewmodel?.cartCountResponse?.observe(this, { user ->
+		viewmodel?.cartCountResponse?.observe(this) { user ->
 			Log.d("cartCountResponse", Gson().toJson(user))
 			dismissIOSProgress()
 			if (user != null) {
@@ -1279,7 +1277,7 @@ class CartActivity : BaseActivity(),
 				}
 			}
 
-		})
+		}
 
 		viewmodel?.failureResponse?.observe(this) { user ->
 			dismissIOSProgress()
@@ -1300,6 +1298,157 @@ class CartActivity : BaseActivity(),
 		getPresciption()
 
 	}
+
+//	private fun showDialogBottom() {
+//		dialog = this@CartActivity.let { Dialog(it) }!!
+//		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
+//
+//		dialog?.show()
+//	}
+
+
+	/**
+	 * ******************************************************************************************************************************************************************
+	 */
+	private fun showDialogBottom() {
+		dialog = this@CartActivity?.let { Dialog(it) }!!
+		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
+		val lvAddNewAdd = dialog?.findViewById<LinearLayout>(R.id.lv_add_new_address)
+		val notToSee = dialog?.findViewById<LinearLayout>(R.id.cart_select_layout)
+		val bottomSheetAddress = dialog?.findViewById<LinearLayout>(R.id.ll_bottomSheetAddress)
+		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
+		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
+		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
+		mBtnToTurnOnLocation?.setOnClickListener {
+			val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+			startActivity(intent)
+		}
+		lvAddNewAdd?.setOnClickListener {
+			startActivityForResult(
+				Intent(this, SavedAddressesActivityNew::class.java)
+					.putExtra("type", "address")
+					.putExtra("where", where
+					), AUTOCOMPLETE_REQUEST_CODE
+			)
+			MainActivity.addEditAdd = "Dashboard"
+		}
+		addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
+			Log.e("addresses_response", Gson().toJson(user))
+			if(user.addressList.size == 0){
+				bottomSheetAddress?.visibility = View.GONE
+			}
+			if (!user.addressList.isNullOrEmpty()) {
+				bottomSheetAddress?.visibility = View.VISIBLE
+				notToSee?.visibility = View.VISIBLE
+				val adapter = AddressesAdapterBottom(
+					this@CartActivity, user.addressList,
+					object : AddressesAdapterBottom.SetOnDeteleAddListener {
+						override fun onDelete(
+							add_id: String,
+							addressList: GetAddressModel.AddressList
+						) {}
+						override fun onClick(addressList: GetAddressModel.AddressList) {
+
+							when {
+								addressList.addressType.equals("1") -> {
+									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(this@CartActivity).addressType= "Home"
+								}
+
+								addressList.addressType.equals("2") -> {
+									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(this@CartActivity).addressType = "Office"
+
+								}
+
+								else -> {
+									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(this@CartActivity).addressType = "Other"
+
+								}
+							}
+
+							SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+							SessionTwiclo(this@CartActivity).userAddressId = addressList.id
+							SessionTwiclo(this@CartActivity).userLat = addressList.latitude
+							SessionTwiclo(this@CartActivity).userLng = addressList.longitude
+							dialog?.dismiss()
+							select_address_or_add_layout.visibility = View.GONE
+							cart_payment_lay.visibility = View.VISIBLE
+							restHomePage()
+							userLat= addressList.latitude
+							userLong=addressList.longitude
+							showIOSProgress()
+							viewmodel?.getCartDetails(
+								accountId,
+								accessToken,
+								userLat,
+								userLong
+							)
+
+						}
+					},
+					"bottomSheetAddress"
+				)
+				rvManageAddress?.layoutManager = GridLayoutManager(this@CartActivity, 1)
+				rvManageAddress?.setHasFixedSize(true)
+				rvManageAddress?.adapter = adapter
+			}
+		})
+		val manager = this@CartActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+			lvCheckLocation?.visibility = View.GONE
+		dialog?.show()
+		dialog?.window!!.setLayout(
+			ViewGroup.LayoutParams.MATCH_PARENT,
+			1350
+		)
+		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+		dialog?.window!!.setGravity(Gravity.BOTTOM)
+
+	}
+
+	/**
+	 * ****************************************************************************************************************************************************************
+	 */
+
+
+	private fun restHomePage() {
+		deleteRoomDataBase()
+		if (SessionTwiclo(this@CartActivity).isLoggedIn) {
+			viewmodel?.getCartCountApi(
+				SessionTwiclo(this@CartActivity).loggedInUserDetail.accountId,
+				SessionTwiclo(this@CartActivity).loggedInUserDetail.accessToken
+			)
+			tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
+		}
+		else {
+			tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
+		}
+	}
+
+	private fun deleteRoomDataBase() {
+		try {
+			Thread {
+				restaurantProductsDatabase = Room.databaseBuilder(
+					this@CartActivity.applicationContext,
+					RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
+				)
+					.fallbackToDestructiveMigration()
+					.build()
+				restaurantProductsDatabase.resProductsDaoAccess()!!.deleteAll()
+
+			}.start()
+		} catch (e: java.lang.Exception) {
+			e.printStackTrace()
+		}
+	}
+
+	/**
+	 *
+	 */
 
 	private fun getStoreDetails() {
 		storeViewModel?.getStoreDetails(
@@ -1371,7 +1520,7 @@ class CartActivity : BaseActivity(),
 	}
 
 	private fun storeDetailsResponce() {
-		storeViewModel?.getStoreDetailsApi?.observe(this, { storeData ->
+		storeViewModel?.getStoreDetailsApi?.observe(this) { storeData ->
 			Log.e("storeDataCartActivity", Gson().toJson(storeData))
 			dismissIOSProgress()
 			try {
@@ -1433,7 +1582,7 @@ class CartActivity : BaseActivity(),
 
 			//calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
 
-		})
+		}
 	}
 
 	private fun startPayment(razorpayOrderId: String?) {
@@ -1584,8 +1733,7 @@ class CartActivity : BaseActivity(),
 					Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
 				}
 				else -> {
-					Toast.makeText(this, "Please upload your prescription", Toast.LENGTH_SHORT)
-						.show()
+//					Toast.makeText(this, "Please upload your prescription", Toast.LENGTH_SHORT) .show()
 				}
 			}
 
@@ -1906,6 +2054,7 @@ class CartActivity : BaseActivity(),
 			accountId,
 			accessToken, mImageParts
 		)
+		select_address_or_add_layout.visibility = View.GONE
 	}
 
 	override fun onIdSelected(
@@ -2198,6 +2347,7 @@ class CartActivity : BaseActivity(),
 								islocationValid = 1
 								if (check == 1) {
 									place_order_lay.visibility = View.VISIBLE
+
 								}
 							} else {
 								place_order_lay.visibility = View.GONE
@@ -2390,9 +2540,6 @@ class CartActivity : BaseActivity(),
 
 	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
 
-	}
-	private fun mtrtoKM(meters:Double):Double{
-		return (meters/1000)
 	}
 
 

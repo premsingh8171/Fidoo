@@ -533,6 +533,4 @@ class SendPackagesAddItem : BaseActivity() {
         finish()
         AppUtils.finishActivityLeftToRight(this)
     }
-
-
 }

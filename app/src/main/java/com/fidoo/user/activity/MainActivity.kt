@@ -119,6 +119,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         var orderProcess: Int? = 0
         var orderSuccess: Int? = 0
         var handleTrackScreenOrderSuccess: Int = 1 //when order status 3
+        var checkAddressSavedFromWhichActivity : String = ""
 
     }
 
@@ -157,7 +158,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         this.registerReceiver(mBroadcastReceiver, IntentFilter("start_send_package_fragment"))
 
         bottomNavigationView.itemIconTintList= null
-         val navController = findNavController(R.id.fragment4)
+        val navController = findNavController(R.id.fragment4)
         bottomNavigationView.setupWithNavController(navController)
 
         bottomNavigationView.menu.findItem(R.id.SendPackageAct).setOnMenuItemClickListener {
@@ -175,65 +176,65 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
 
-       /* val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.homeFragment -> {
-                    item_idno = 0
-                    item.setChecked(true)
-                    val itemid= bottomNavigationView.menu.findItem(R.id.homeFragment)
+        /* val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+             when (item.itemId) {
+                 R.id.homeFragment -> {
+                     item_idno = 0
+                     item.setChecked(true)
+                     val itemid= bottomNavigationView.menu.findItem(R.id.homeFragment)
 
-                    CoroutineScope(Dispatchers.IO).launch {
-                        delay(90)
-                        setCurrentFragment(HomeNewUiFragment())
-                    }
+                     CoroutineScope(Dispatchers.IO).launch {
+                         delay(90)
+                         setCurrentFragment(HomeNewUiFragment())
+                     }
 
-                    settexttitle()
-                    item.title = ""
-
-
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.SendPackageAct -> {
-                    startActivity(
-                        Intent(this@MainActivity, SendPackageActivity::class.java)
-                            .putExtra("where", where)
-                            .putExtra("cat_id", "")
-                            .putExtra("cat_name", "")
-                    )
-                    item_idno = 0
-                    settexttitle()
-                    item.title = ""
-                    return@OnNavigationItemSelectedListener true
-
-                }
-                R.id.searchFragment -> {
-                    setCurrentFragment(SearchFragmentNew())
-                    item_idno = 2
-                    settexttitle()
-                    item.title = ""
+                     settexttitle()
+                     item.title = ""
 
 
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.ordersFragment -> {
-                    setCurrentFragment(OrdersFragment())
-                    item_idno = 3
-                    settexttitle()
-                    item.title = ""
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.profileFragment -> {
-                    setCurrentFragment(ProfileFragment())
-                    item_idno = 4
-                    settexttitle()
-                    item.title = ""
-                    return@OnNavigationItemSelectedListener true
-                }
-            }
-            false
-        }
+                     return@OnNavigationItemSelectedListener true
+                 }
+                 R.id.SendPackageAct -> {
+                     startActivity(
+                         Intent(this@MainActivity, SendPackageActivity::class.java)
+                             .putExtra("where", where)
+                             .putExtra("cat_id", "")
+                             .putExtra("cat_name", "")
+                     )
+                     item_idno = 0
+                     settexttitle()
+                     item.title = ""
+                     return@OnNavigationItemSelectedListener true
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(navigasjonen)*/
+                 }
+                 R.id.searchFragment -> {
+                     setCurrentFragment(SearchFragmentNew())
+                     item_idno = 2
+                     settexttitle()
+                     item.title = ""
+
+
+                     return@OnNavigationItemSelectedListener true
+                 }
+                 R.id.ordersFragment -> {
+                     setCurrentFragment(OrdersFragment())
+                     item_idno = 3
+                     settexttitle()
+                     item.title = ""
+                     return@OnNavigationItemSelectedListener true
+                 }
+                 R.id.profileFragment -> {
+                     setCurrentFragment(ProfileFragment())
+                     item_idno = 4
+                     settexttitle()
+                     item.title = ""
+                     return@OnNavigationItemSelectedListener true
+                 }
+             }
+             false
+         }
+
+         bottomNavigationView.setOnNavigationItemSelectedListener(navigasjonen)*/
 
 
 
@@ -576,7 +577,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     override fun onResume() {
         super.onResume()
-        checkPermission()
+       /// checkPermission()
         if (SessionTwiclo(this).orderId.isNotEmpty()) {
             orderId = SessionTwiclo(this).orderId
             viewmodel?.getOrderStatusApi(
@@ -839,33 +840,33 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         alertDialog.show()
     }
 
-    private fun checkPermission() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this, Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            ) {
-                ActivityCompat.requestPermissions(
-                    this, arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION //Manifest.permission.READ_PHONE_STATE
-                    ),
-                    MY_PERMISSIONS_REQUEST_CODE
-                )
-            } else {
-                ActivityCompat.requestPermissions(
-                    this, arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ),
-                    MY_PERMISSIONS_REQUEST_CODE
-                )
-            }
-        }
-    }
+//    private fun checkPermission() {
+//        if (ContextCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            )
+//            != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(
+//                    this, Manifest.permission.ACCESS_FINE_LOCATION
+//                )
+//            ) {
+//                ActivityCompat.requestPermissions(
+//                    this, arrayOf(
+//                        Manifest.permission.ACCESS_FINE_LOCATION //Manifest.permission.READ_PHONE_STATE
+//                    ),
+//                    MY_PERMISSIONS_REQUEST_CODE
+//                )
+//            } else {
+//                ActivityCompat.requestPermissions(
+//                    this, arrayOf(
+//                        Manifest.permission.ACCESS_FINE_LOCATION
+//                    ),
+//                    MY_PERMISSIONS_REQUEST_CODE
+//                )
+//            }
+//        }
+//    }
 
     fun geocoderAddress(lat: String, lng: String) {
         val geocodeUrl =

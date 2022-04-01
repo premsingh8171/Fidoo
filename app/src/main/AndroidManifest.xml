@@ -137,7 +137,7 @@
                app to run.
         -->
         <activity
-            android:name=".addressmodule.activity.NewAddAddressActivity"
+            android:name=".addressmodule.activity.NewAddAddressActivityNew"
             android:screenOrientation="portrait" /> <!-- <activity -->
         <!-- android:name=".addressmodule.activity.AddAddressActivity" -->
         <!-- android:screenOrientation="portrait" /> -->
@@ -164,7 +164,13 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
+            android:name=".addressmodule.activity.SavedAddressesActivityNew"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".addressmodule.activity.SavedAddressesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".addressmodule.activity.NewAddAddressActivity"
             android:screenOrientation="portrait" />
 
         <activity

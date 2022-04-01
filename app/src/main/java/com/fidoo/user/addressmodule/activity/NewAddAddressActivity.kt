@@ -259,60 +259,60 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 //                                if (ed_name.text.toString().equals("")) {
 //                                    showToast("Please add contact details")
 //                                } else {
-                                    showIOSProgress()
-                                    if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
-                                        addressType = "1"
+                                showIOSProgress()
+                                if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
+                                    addressType = "1"
+                                } else
+                                    if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
+                                        addressType = "2"
                                     } else
-                                        if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
-                                            addressType = "2"
-                                        } else
-                                            if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
-                                                addressType = "3"
-                                            }
+                                        if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
+                                            addressType = "3"
+                                        }
 
-                                    defaultValue = if (defaultCheckBox.isChecked) {
-                                        "1"
-                                    } else {
-                                        "0"
-                                    }
+                                defaultValue = if (defaultCheckBox.isChecked) {
+                                    "1"
+                                } else {
+                                    "0"
+                                }
 
-                                    if (intent.hasExtra("data")) {
-                                        viewmodel?.editAddressDetails(
-                                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                            ed_address.text.toString(),
-                                            ed_address.text.toString(),
-                                            tv_Address.text.toString(),
-                                            ed_landmark.text.toString(),
-                                            addressType,
-                                            lat.toString(),
-                                            lng.toString(),
-                                            ed_name.text.toString(),
-                                            "", defaultValue,
-                                            ed_phone.text.toString(),
-                                            tempAddressId, contact_type!!
-                                        )
+                                if (intent.hasExtra("data")) {
+                                    viewmodel?.editAddressDetails(
+                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                        ed_address.text.toString(),
+                                        ed_address.text.toString(),
+                                        tv_Address.text.toString(),
+                                        ed_landmark.text.toString(),
+                                        addressType,
+                                        lat.toString(),
+                                        lng.toString(),
+                                        ed_name.text.toString(),
+                                        "", defaultValue,
+                                        ed_phone.text.toString(),
+                                        tempAddressId, contact_type!!
+                                    )
 
-                                    } else {
+                                } else {
 
-                                        viewmodel?.addAddressDetails(
-                                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                            ed_address.text.toString(),
-                                            ed_address.text.toString(),
-                                            tv_Address.text.toString(),
-                                            ed_landmark.text.toString(),
-                                            addressType,
-                                            lat.toString(),
-                                            lng.toString(),
-                                            ed_name.text.toString(),
-                                            "",
-                                            defaultValue,
-                                            ed_phone.text.toString(), contact_type!!
-                                        )
+                                    viewmodel?.addAddressDetails(
+                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                        ed_address.text.toString(),
+                                        ed_address.text.toString(),
+                                        tv_Address.text.toString(),
+                                        ed_landmark.text.toString(),
+                                        addressType,
+                                        lat.toString(),
+                                        lng.toString(),
+                                        ed_name.text.toString(),
+                                        "",
+                                        defaultValue,
+                                        ed_phone.text.toString(), contact_type!!
+                                    )
 
-                                    }
-                               // }
+                                }
+                                // }
                             } else {
                                 showIOSProgress()
                                 if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
@@ -491,12 +491,12 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 //
 //            }
 //            else {
-                contact_name_txt.text =
-                    ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
-                contact_name_txt.setTextColor(getColor(R.color.black))
-                contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.BLACK));
-                contact_add_ll.visibility = View.GONE
-                add_new_add_ll.visibility = View.VISIBLE
+            contact_name_txt.text =
+                ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
+            contact_name_txt.setTextColor(getColor(R.color.black))
+            contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.BLACK));
+            contact_add_ll.visibility = View.GONE
+            add_new_add_ll.visibility = View.VISIBLE
             if(ed_name.getText().toString().equals("")){
                 contact_name_txt.text="Add contact no."
             }else if(ed_phone.getText().toString().equals(""))
@@ -849,7 +849,6 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             override fun onLocationResult(locationResult: LocationResult) {
                                 super.onLocationResult(locationResult)
                                 mLastKnownLocation = locationResult.lastLocation
-
                                 mMap!!.moveCamera(
                                     CameraUpdateFactory.newLatLngZoom(
                                         LatLng(
@@ -858,17 +857,12 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                         ), DEFAULT_ZOOM
                                     )
                                 )
-
-
-
                                 mFusedLocationProviderClient!!.removeLocationUpdates(
                                     locationCallback!!
                                 )
                             }
                         }*/
-                        if (ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.ACCESS_FINE_LOCATION
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION
                             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                                 this,
                                 Manifest.permission.ACCESS_COARSE_LOCATION
@@ -927,6 +921,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
     override fun onResume() {
         super.onResume()
+
     }
 
     private fun getGeoLocation(location: String?) {
@@ -1182,5 +1177,3 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
     }
 }
-
-
