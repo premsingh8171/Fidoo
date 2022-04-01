@@ -77,6 +77,7 @@ import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.BaseFragment
 import com.fidoo.user.utils.CardSliderLayoutManager
+import com.fidoo.user.utils.showAlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
@@ -84,7 +85,6 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_home_newui.*
 import org.json.JSONObject
-import permissions.dispatcher.*
 import java.util.*
 
 
@@ -177,9 +177,13 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
         val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            dialog?.setCanceledOnTouchOutside(false)
+          //  dialog?.setCanceledOnTouchOutside(false)
             showDialogUi()
+        }else{
+            checkPermission()
         }
+
+
         val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
             object : ViewPager.OnPageChangeListener {
                 override fun onPageSelected(position: Int) {}
@@ -283,50 +287,58 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
             CartActivity.accessToken = SessionTwiclo(requireActivity()).loginDetail.accessToken
         }
         fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
-            if (it.addressList.size==0){
-                bottomSheetAddress?.visibility = View.GONE
-            }
-            if (!it.addressList.isNullOrEmpty()) {
-                bottomSheetAddress?.visibility = VISIBLE
-                notToSee?.visibility = View.VISIBLE
-                val adapter = AddressesAdapterBottom(
-                    requireContext(), it.addressList,
-                    object : AddressesAdapterBottom.SetOnDeteleAddListener {
-                        override fun onDelete(
-                            add_id: String,
-                            addressList: GetAddressModel.AddressList,
-                        ) {}
-                        override fun onClick(addressList: GetAddressModel.AddressList) {
-                            when {
-                                addressList.addressType.equals("1") -> {
-                                    SessionTwiclo(requireContext()).userAddress =
-                                        addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-                                    SessionTwiclo(requireContext()).addressType = "Home"
-                                }
-                                addressList.addressType.equals("2") -> {
-                                    SessionTwiclo(requireContext()).userAddress =
-                                        addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-                                    SessionTwiclo(requireContext()).addressType = "Office"
-                                }
-                                else -> {
-                                    SessionTwiclo(requireContext()).userAddress =
-                                        addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-                                    SessionTwiclo(requireContext()).addressType = "Other"
-                                }
-                            }
-                            SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-                            SessionTwiclo(requireContext()).userAddressId = addressList.id
-                            SessionTwiclo(requireContext()).userLat = addressList.latitude
-                            SessionTwiclo(requireContext()).userLng = addressList.longitude
-                            dialog?.dismiss()
-                            restHomePage()
-                        }
-                    },
-                    "bottomSheetAddress"
-                )
-                rvManageAddress?.layoutManager = GridLayoutManager(requireContext(), 1)
-                rvManageAddress?.setHasFixedSize(true)
-                rvManageAddress?.adapter = adapter
+            if (it.errorCode==200) {
+               if (it.addressList.size == 0) {
+                   bottomSheetAddress?.visibility = View.GONE
+               }
+               if (!it.addressList.isNullOrEmpty()) {
+                   bottomSheetAddress?.visibility = VISIBLE
+                   notToSee?.visibility = View.VISIBLE
+                   val adapter = AddressesAdapterBottom(
+                       requireContext(), it.addressList,
+                       object : AddressesAdapterBottom.SetOnDeteleAddListener {
+                           override fun onDelete(
+                               add_id: String,
+                               addressList: GetAddressModel.AddressList,
+                           ) {
+                           }
+
+                           override fun onClick(addressList: GetAddressModel.AddressList) {
+                               when {
+                                   addressList.addressType.equals("1") -> {
+                                       SessionTwiclo(requireContext()).userAddress =
+                                           addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+                                       SessionTwiclo(requireContext()).addressType = "Home"
+                                   }
+                                   addressList.addressType.equals("2") -> {
+                                       SessionTwiclo(requireContext()).userAddress =
+                                           addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+                                       SessionTwiclo(requireContext()).addressType = "Office"
+                                   }
+                                   else -> {
+                                       SessionTwiclo(requireContext()).userAddress =
+                                           addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+                                       SessionTwiclo(requireContext()).addressType = "Other"
+                                   }
+                               }
+                               SessionTwiclo(requireContext()).userAddress =
+                                   addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+                               SessionTwiclo(requireContext()).userAddressId = addressList.id
+                               SessionTwiclo(requireContext()).userLat = addressList.latitude
+                               SessionTwiclo(requireContext()).userLng = addressList.longitude
+                               dialog?.dismiss()
+                               restHomePage()
+                           }
+                       },
+                       "bottomSheetAddress"
+                   )
+                   rvManageAddress?.layoutManager = GridLayoutManager(requireContext(), 1)
+                   rvManageAddress?.setHasFixedSize(true)
+                   rvManageAddress?.adapter = adapter
+               }
+           }else if (it.errorCode==101){
+                showAlertDialog(requireActivity())
+
             }
         }
 
@@ -1021,5 +1033,35 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //		recyclerView.adapter = addressAdapter
 //		recyclerView.layoutManager = linearLayoutManager
 //	}
+
+
+    private fun checkPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            ) {
+                ActivityCompat.requestPermissions(
+                    requireActivity(), arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION //Manifest.permission.READ_PHONE_STATE
+                    ),
+                    MainActivity.MY_PERMISSIONS_REQUEST_CODE
+                )
+            } else {
+                ActivityCompat.requestPermissions(
+                    requireActivity(), arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ),
+                    MainActivity.MY_PERMISSIONS_REQUEST_CODE
+                )
+            }
+        }
+    }
+
 
 }

@@ -240,9 +240,9 @@ class SavedAddressesActivityNew : BaseActivity() {
             Log.e("cart response", Gson().toJson(user))
             showToast(user)
 
-
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
+
 //        backIcon.setOnClickListener {
 //            finish()
 //        }
