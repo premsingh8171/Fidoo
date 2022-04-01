@@ -66,6 +66,7 @@ class ChangeAddressActivity : BaseActivity() {
         current_loc_ChangeAdd.setOnClickListener {
             value_current_loc="Current_location"
             finish()
+            AppUtils.finishActivityLeftToRight(this)
         }
 
         searchEdt__ChangeAdd?.addTextChangedListener(object : TextWatcher {
@@ -159,6 +160,7 @@ class ChangeAddressActivity : BaseActivity() {
                 resultIntent.putExtra("location",value);
                 setResult(RESULT_OK, resultIntent)
                 finish()
+                AppUtils.finishActivityLeftToRight(this@ChangeAddressActivity)
 
             }
 

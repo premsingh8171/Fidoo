@@ -1,12 +1,16 @@
 package com.fidoo.user.dashboard.ui
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -22,6 +26,9 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -77,7 +84,9 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_home_newui.*
 import org.json.JSONObject
+import permissions.dispatcher.*
 import java.util.*
+
 
 @Suppress("DEPRECATION")
 class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
@@ -142,6 +151,19 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
         pref = SessionTwiclo(requireContext())
         where = pref.guestLogin
+
+//        if (ContextCompat.checkSelfPermission(requireActivity(),
+//                Manifest.permission.ACCESS_FINE_LOCATION) !==
+//            PackageManager.PERMISSION_GRANTED) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
+//                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+//                ActivityCompat.requestPermissions(requireActivity(),
+//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+//            } else {
+//                ActivityCompat.requestPermissions(requireActivity(),
+//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+//            }
+//        }
 
         val displayMetrics = DisplayMetrics()
         requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -229,6 +251,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         return fragmentHomeBinding?.root
     }
 
+
     private fun showDialogUi() {
         dialog = context?.let { Dialog(it) }!!
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -314,12 +337,13 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         dialog?.show()
         dialog?.window!!.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+            1350
         )
         dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window!!.setGravity(Gravity.BOTTOM)
 
     }
+
 
     private fun restHomePage() {
         deleteRoomDataBase()
@@ -998,4 +1022,5 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //		recyclerView.adapter = addressAdapter
 //		recyclerView.layoutManager = linearLayoutManager
 //	}
+
 }
