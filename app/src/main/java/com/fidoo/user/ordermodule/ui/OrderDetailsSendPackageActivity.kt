@@ -24,6 +24,8 @@ import com.fidoo.user.utils.CommonUtils
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import kotlinx.android.synthetic.main.activity_order_details_sendpackages.*
+import kotlinx.android.synthetic.main.buy_popup.*
+import kotlin.math.roundToInt
 
 @Suppress("DEPRECATION")
 class OrderDetailsSendPackageActivity : BaseActivity() {
@@ -47,9 +49,9 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
 
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
-        if (intent.getStringExtra("orderId")!=null){
-            orderId=intent.getStringExtra("orderId")
-            sendPackageOrdTxt.text="Order: #"+orderId
+        if (intent.getStringExtra("orderId") != null) {
+            orderId = intent.getStringExtra("orderId")
+            sendPackageOrdTxt.text = "Order: #" + orderId
         }
 
         onClick()
@@ -57,13 +59,15 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
         if (isNetworkConnected) {
             viewmodel?.sendPackageOrderDetailsApi(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,orderId
+                SessionTwiclo(this).loggedInUserDetail.accessToken, orderId
             )
-            viewmodelusertrack?.customerActivityLog(SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).mobileno,"ReviewOrder Screen",
-                SplashActivity.appversion, "",SessionTwiclo(this).deviceToken
+            viewmodelusertrack?.customerActivityLog(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).mobileno, "ReviewOrder Screen",
+                SplashActivity.appversion, "", SessionTwiclo(this).deviceToken
             )
-        } else { }
+        } else {
+        }
 
         backIcon_reviewOrd.setOnClickListener {
             finish()
@@ -74,19 +78,19 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             dismissIOSProgress()
             Log.e("orders_details_ffResponse", Gson().toJson(user))
 
-            if (user!=null) {
-                visible_View_ReviewOrdLl.visibility=View.VISIBLE
-                try{
-                  //  order_delivered_time.text =user.deleivered_at
-                      if (user.delivery_boy_name.isNotEmpty()) {
-                          delivery_atTxt.text = "Order Delivered by " + user.delivery_boy_name
+            if (user != null) {
+                visible_View_ReviewOrdLl.visibility = View.VISIBLE
+                try {
+                    //  order_delivered_time.text =user.deleivered_at
+                    if (user.delivery_boy_name.isNotEmpty()) {
+                        delivery_atTxt.text = "Order Delivered by " + user.delivery_boy_name
 
-                          deliveredAtTxt.text = user.deleivered_at
-                      }else{
-                          delivery_atTxt.text=""
-                      }
+                        deliveredAtTxt.text = user.deleivered_at
+                    } else {
+                        delivery_atTxt.text = ""
+                    }
 
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
 
@@ -117,9 +121,18 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
 //                    label_cart_discount.text = "Cart Discount (" + user.coupon_name + " )"
 //                }
 
-               // var deliveryChargeWithTax = user.delivery_charge + user.tax
+                //  var deliveryChargeWithTax = user.delivery_charge.valuser.tax
 
-                delivery_charge.text = resources.getString(R.string.ruppee) + "" + user.delivery_charge + user.tax
+                    if (user.tax.isNullOrEmpty()){
+                        delivery_charge.text =
+                        resources.getString(R.string.ruppee) + "" + user.delivery_charge
+                    }else{
+
+                        delivery_charge.text =
+                        resources.getString(R.string.ruppee) + "" + (user.delivery_charge.toInt() + user.tax.toInt()).toFloat()
+                    }
+
+
 
                 label_delivery_charge.visibility = View.VISIBLE
 
@@ -153,31 +166,34 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
 //                    gstPriceTxt.visibility = View.VISIBLE
 //                }
 
-                grand_price.text = resources.getString(R.string.ruppee) + "" + user.final_delivery_charge
-                sub_total.text = resources.getString(R.string.ruppee) + "" + user.final_delivery_charge
-                grand_price2.text = resources.getString(R.string.ruppee) + "" + user.final_delivery_charge
-                label_payMode1.text = "Payment Mode: "+ user.payment_mode
+                grand_price.text =
+                    resources.getString(R.string.ruppee) + "" + user.final_delivery_charge
+                sub_total.text =
+                    resources.getString(R.string.ruppee) + "" + user.final_delivery_charge
+                grand_price2.text =
+                    resources.getString(R.string.ruppee) + "" + user.final_delivery_charge
+                label_payMode1.text = "Payment Mode: " + user.payment_mode
 
-            }else{
-                visible_View_ReviewOrdLl.visibility=View.GONE
+            } else {
+                visible_View_ReviewOrdLl.visibility = View.GONE
             }
-            
-            
+
+
         })
 
         viewmodel?.reviewResponse?.observe(this, { user ->
             CommonUtils.dismissIOSProgress()
 
-                if (_progressDlg != null) {
-                    _progressDlg!!.dismiss()
-                    _progressDlg = null
-                }
-                handleApiResponse=1
+            if (_progressDlg != null) {
+                _progressDlg!!.dismiss()
+                _progressDlg = null
+            }
+            handleApiResponse = 1
 
-                val user: ReviewModel = user
-                Log.e("reviewResponse_", Gson().toJson(user))
-                Toast.makeText(this, user.message, Toast.LENGTH_SHORT).show()
-                finish()
+            val user: ReviewModel = user
+            Log.e("reviewResponse_", Gson().toJson(user))
+            Toast.makeText(this, user.message, Toast.LENGTH_SHORT).show()
+            finish()
 
         })
 
@@ -198,7 +214,12 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             driver_star4.setImageResource(R.drawable.start_off)
             driver_star5.setImageResource(R.drawable.start_off)
             driver_rating = "1"
-            review_submitSendPackage.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submitSendPackage.setBackgroundTintList(
+                ContextCompat.getColorStateList(
+                    this,
+                    R.color.primary_color
+                )
+            );
         }
 
         driver_star2.setOnClickListener {
@@ -208,7 +229,12 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             driver_star4.setImageResource(R.drawable.start_off)
             driver_star5.setImageResource(R.drawable.start_off)
             driver_rating = "2"
-            review_submitSendPackage.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submitSendPackage.setBackgroundTintList(
+                ContextCompat.getColorStateList(
+                    this,
+                    R.color.primary_color
+                )
+            );
         }
 
         driver_star3.setOnClickListener {
@@ -218,7 +244,12 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             driver_star4.setImageResource(R.drawable.start_off)
             driver_star5.setImageResource(R.drawable.start_off)
             driver_rating = "3"
-            review_submitSendPackage.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submitSendPackage.setBackgroundTintList(
+                ContextCompat.getColorStateList(
+                    this,
+                    R.color.primary_color
+                )
+            );
         }
 
         driver_star4.setOnClickListener {
@@ -228,7 +259,12 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             driver_star4.setImageResource(R.drawable.start_on)
             driver_star5.setImageResource(R.drawable.start_off)
             driver_rating = "4"
-            review_submitSendPackage.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submitSendPackage.setBackgroundTintList(
+                ContextCompat.getColorStateList(
+                    this,
+                    R.color.primary_color
+                )
+            );
         }
 
         driver_star5.setOnClickListener {
@@ -238,10 +274,20 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             driver_star4.setImageResource(R.drawable.start_on)
             driver_star5.setImageResource(R.drawable.start_on)
             driver_rating = "5"
-            review_submitSendPackage.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submitSendPackage.setBackgroundTintList(
+                ContextCompat.getColorStateList(
+                    this,
+                    R.color.primary_color
+                )
+            );
         }
 
-        review_submitSendPackage.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorHint));
+        review_submitSendPackage.setBackgroundTintList(
+            ContextCompat.getColorStateList(
+                this,
+                R.color.colorHint
+            )
+        );
 
 
         review_submitSendPackage.setOnClickListener {
@@ -262,7 +308,7 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
         } catch (ex: Exception) {
             Log.wtf("IOS_error_starting", ex.cause!!)
         }
-       // checkStatusOfReview=1
+        // checkStatusOfReview=1
         viewmodel?.reviewSubmitApi(
             SessionTwiclo(this).loggedInUserDetail.accountId,
             SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -273,7 +319,7 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             ""
         )
     }
-    
+
     override fun onBackPressed() {
         finish()
     }

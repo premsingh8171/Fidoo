@@ -212,7 +212,8 @@
                                     android:id="@+id/delivery_atTxt"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text=" "
+                                    android:text=""
+                                    android:layout_gravity="center"
                                     android:fontFamily="@font/proxima"
                                     app:layout_constraintStart_toEndOf="@id/storeImg"
                                     app:layout_constraintTop_toTopOf="parent" />

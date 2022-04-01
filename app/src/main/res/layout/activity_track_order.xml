@@ -181,7 +181,7 @@
                 android:background="@drawable/feedback_bg"
                 android:orientation="vertical"
                 app:behavior_hideable="false"
-                app:behavior_peekHeight="250dp"
+                app:behavior_peekHeight="1250dp"
                 app:layout_behavior="@string/bottom_sheet_behavior">
 
                 <LinearLayout
