@@ -1520,7 +1520,7 @@ class CartActivity : BaseActivity(),
 	}
 
 	private fun storeDetailsResponce() {
-		storeViewModel?.getStoreDetailsApi?.observe(this, { storeData ->
+		storeViewModel?.getStoreDetailsApi?.observe(this) { storeData ->
 			Log.e("storeDataCartActivity", Gson().toJson(storeData))
 			dismissIOSProgress()
 			try {
@@ -1582,7 +1582,7 @@ class CartActivity : BaseActivity(),
 
 			//calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
 
-		})
+		}
 	}
 
 	private fun startPayment(razorpayOrderId: String?) {
@@ -1733,8 +1733,7 @@ class CartActivity : BaseActivity(),
 					Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
 				}
 				else -> {
-					Toast.makeText(this, "Please upload your prescription", Toast.LENGTH_SHORT)
-						.show()
+//					Toast.makeText(this, "Please upload your prescription", Toast.LENGTH_SHORT) .show()
 				}
 			}
 

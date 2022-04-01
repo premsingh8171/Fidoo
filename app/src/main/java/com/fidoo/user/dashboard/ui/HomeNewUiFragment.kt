@@ -267,7 +267,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
         val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
         mBtnToTurnOnLocation?.setOnClickListener {
-            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+
+            val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            requestPermissions(permList,100)
+                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivity(intent)
         }
         lvAddNewAdd?.setOnClickListener {
