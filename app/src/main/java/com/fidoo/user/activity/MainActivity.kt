@@ -96,6 +96,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
 
     companion object {
+        var checkAddressSavedFromWhichActivity : String = ""
         var addEditAdd: String? = ""
         var service_idStr: String? = ""
         var tempProductList: ArrayList<TempProductListModel>? = null
