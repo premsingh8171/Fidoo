@@ -338,15 +338,23 @@
                                 android:layout_marginTop="4dp"
                                 android:fontFamily="@font/proxima"
                                 android:lineHeight="18sp"
-                                android:text="You get free delivery for 1 order when your friend makes the first order"
+                                android:text="You get free deliveries for 3 orders when your friend makes the first order"
                                 android:textSize="14sp" />
 
                         </RelativeLayout>
+
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </RelativeLayout>
+
+
             </RelativeLayout>
+
         </ScrollView>
+
     </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -357,7 +365,8 @@
         android:background="@drawable/dotted_rectangle_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <TextView
             android:layout_width="0dp"
@@ -374,7 +383,13 @@
             android:contentDescription="@string/todo"
             android:src="@drawable/content_copy"
             app:tint="@color/colorPrimary" />
+
+
     </RelativeLayout>
+
+
+
+
 </RelativeLayout>
 
 
