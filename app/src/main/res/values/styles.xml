@@ -7,7 +7,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
-        <item name="colorControlHighlight">@color/red</item>
         <item name="colorAccent">@color/primary_color</item>
         <item name="fontFamily">@font/proxima</item>
     </style>
@@ -138,8 +137,6 @@
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
 
         <item name="android:textSize">12sp</item>
-
-        <item name="colorControlHighlight">#369E3A</item>
 
         <item name="android:fontFamily">@font/proxima</item>
     </style>

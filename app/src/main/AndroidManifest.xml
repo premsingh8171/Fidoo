@@ -28,6 +28,7 @@
         android:theme="@style/Theme.TwicloRedesigned"
         tools:replace="android:allowBackup,android:name,android:theme,android:icon">
 
+
         <activity
             android:name=".dailyneed.ui.ServiceDailyNeedActivity"
             android:exported="true"
@@ -63,7 +64,10 @@
         <activity
             android:name=".activity.AuthActivity"
             android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme" />
+
+
         <activity
             android:name=".activity.SliderScreenActivity"
             android:screenOrientation="portrait" />
@@ -137,7 +141,7 @@
                app to run.
         -->
         <activity
-            android:name=".addressmodule.activity.NewAddAddressActivity"
+            android:name=".addressmodule.activity.NewAddAddressActivityNew"
             android:screenOrientation="portrait" /> <!-- <activity -->
         <!-- android:name=".addressmodule.activity.AddAddressActivity" -->
         <!-- android:screenOrientation="portrait" /> -->
@@ -164,7 +168,13 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
+            android:name=".addressmodule.activity.SavedAddressesActivityNew"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".addressmodule.activity.SavedAddressesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".addressmodule.activity.NewAddAddressActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -200,6 +210,7 @@
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
+
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

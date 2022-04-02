@@ -17,13 +17,13 @@ public class EditProfileModel {
     @Expose
     public String accessToken;
     @SerializedName("message")
+    @Expose
     public String message;
     @SerializedName("account")
     @Expose
     public Account account;
 
     public class Account {
-
         @SerializedName("id")
         @Expose
         public String id;
@@ -32,13 +32,13 @@ public class EditProfileModel {
         public String userName;
         @SerializedName("name")
         @Expose
-        public String name="";
+        public String name;
         @SerializedName("emailid")
         @Expose
-        public String emailid="";
+        public String emailid;
         @SerializedName("image")
         @Expose
-        public String image="";
+        public String image;
         @SerializedName("device_id")
         @Expose
         public String deviceId;
@@ -50,10 +50,10 @@ public class EditProfileModel {
         public String createAt;
         @SerializedName("support_number")
         @Expose
-        public String support_number;
+        public String supportNumber;
         @SerializedName("country_code")
         @Expose
-        public String country_code="";
+        public String countryCode;
 
     }
 }

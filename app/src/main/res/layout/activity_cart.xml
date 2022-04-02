@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGray"
-    android:id="@+id/main_layout"
     tools:context="com.fidoo.user.cartview.activity.CartActivity">
 
 
@@ -155,8 +154,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/lightGray"
                 android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@+id/store_header_ll"
-                tools:layout_editor_absoluteX="4dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/store_header_ll" />
 
             <RelativeLayout
                 android:id="@+id/store_instructionRl"
@@ -261,8 +260,6 @@
 
                             </RelativeLayout>
                             <!-- end prescription view -->
-
-
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
@@ -270,10 +267,7 @@
                                 android:background="@color/lightGray"
                                 android:backgroundTint="@color/background"
                                 app:layout_constraintTop_toBottomOf="@+id/store_header_ll" />
-
                         </LinearLayout>
-
-
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -314,180 +308,149 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@color/lightGray"
+                android:padding="@dimen/margin_10"
                 app:layout_constraintTop_toBottomOf="@+id/store_instructionRl">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_delivery_at"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardElevation="0dp"
-                    android:id="@+id/delivery_addressCard"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_toEndOf="@id/img_location_cart"
+                    android:fontFamily="@font/proxima"
+                    android:text="Delivery address"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_14sp"
+                    android:textStyle="bold" />
 
-                    >
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="@dimen/margin_10"
-                        android:id="@+id/rv_delivery_addressCard"
-                        android:background="@color/lightGray"
-                        >
-
-                        <TextView
-                            android:id="@+id/tv_delivery_at"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:layout_marginTop="@dimen/margin_10"
-                            android:layout_toEndOf="@id/img_location_cart"
-                            android:fontFamily="@font/proxima"
-                            android:text="Delivery address"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_size_14sp"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:id="@+id/img_location_cart"
-                            android:layout_width="10dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_delivery_at"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:layout_marginTop="8dp"
-                            android:src="@drawable/location_icon"
-                            app:tint="@color/primary_color" />
-
-                        <TextView
-                            android:id="@+id/tv_delivery_address_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_toEndOf="@id/tv_delivery_at"
-                            android:fontFamily="@font/proxima"
-                            android:text="Office"
-                            android:textColor="@color/colorPrimary"
-                            android:visibility="invisible" />
-
-                        <TextView
-                            android:id="@+id/changeaddtxt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_delivery_at"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
-                            android:layout_marginTop="@dimen/margin_10"
-                            android:layout_marginEnd="@dimen/margin_10dp"
-                            android:layout_toRightOf="@+id/tv_delivery_address"
-                            android:fontFamily="@font/proxima"
-                            android:gravity="end"
-                            android:text="Change"
-                            android:textColor="@color/primary_color"
-                            android:textSize="@dimen/text_size_12sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_landmark"
-                            android:layout_width="250dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_delivery_at"
-                            android:layout_marginLeft="@dimen/dimen_5dp"
-                            android:layout_marginTop="@dimen/margin_10"
-                            android:layout_marginBottom="@dimen/margin_10"
-                            android:layout_toRightOf="@+id/img_location_cart"
-                            android:ellipsize="end"
-                            android:fontFamily="@font/proxima"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textColor="@color/txt_color"
-                            android:textSize="@dimen/text_size_12sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/tv_delivery_address"
-                            android:layout_width="250dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_landmark"
-                            android:layout_marginLeft="@dimen/dimen_5dp"
-                            android:layout_marginTop="@dimen/margin_10"
-                            android:layout_marginBottom="@dimen/margin_10"
-                            android:layout_toRightOf="@+id/img_location_cart"
-                            android:ellipsize="end"
-                            android:fontFamily="@font/proxima"
-                            android:maxLines="2"
-                            android:text=""
-                            android:textColor="@color/txt_color"
-                            android:textSize="@dimen/text_size_12sp" />
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <View
-                    android:id="@+id/smpviewnew"
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
-                    android:layout_below="@+id/delivery_addressCard"
-
-                    android:layout_marginTop="@dimen/margin_10dp"
-                    android:background="@color/input_fieldcolor" />
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/img_location_cart"
+                    android:layout_width="10dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/cv_couponCard"
-                    app:cardElevation="0dp"
-                    android:layout_below="@+id/smpviewnew"
-                    >
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    android:layout_below="@+id/tv_delivery_at"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/location_icon"
+                    app:tint="@color/primary_color" />
 
-                        android:id="@+id/rv_couponsCard"
-                        android:background="@color/lightGray"
-                        >
-                        <ImageView
-                            android:id="@+id/coupanimg"
-                            android:layout_width="@dimen/margin_24dp"
-                            android:layout_height="@dimen/margin_24dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:layout_marginTop="@dimen/margin_20dp"
-                            android:src="@drawable/offer_icon" />
+                <TextView
+                    android:id="@+id/tv_delivery_address_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/tv_delivery_at"
+                    android:fontFamily="@font/proxima"
+                    android:text="Office"
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="invisible" />
 
-                        <TextView
-                            android:id="@+id/tv_coupon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="@dimen/margin_25dp"
-                            android:layout_marginBottom="@dimen/margin_20dp"
-                            android:layout_toRightOf="@+id/coupanimg"
-                            android:fontFamily="@font/proxima"
-                            android:text="Coupon Applied Successfully" />
+                <TextView
+                    android:id="@+id/changeaddtxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_delivery_at"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_marginEnd="@dimen/margin_10dp"
+                    android:layout_toRightOf="@+id/tv_delivery_address"
+                    android:fontFamily="@font/proxima"
+                    android:gravity="end"
+                    android:text="Change"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:textStyle="bold" />
 
-                        <ImageView
-                            android:layout_width="@dimen/margin_20dp"
-                            android:layout_height="@dimen/margin_20dp"
-                            android:layout_alignParentRight="true"
+                <TextView
+                    android:id="@+id/tv_landmark"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_delivery_at"
+                    android:layout_marginLeft="@dimen/dimen_5dp"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_toRightOf="@+id/img_location_cart"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textColor="@color/txt_color"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:visibility="gone" />
 
-                            android:src="@drawable/cancel_icon"
-                            android:visibility="gone"
-                            app:tint="@color/primary_color" />
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/tv_delivery_address"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_landmark"
+                    android:layout_marginLeft="@dimen/dimen_5dp"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_toRightOf="@+id/img_location_cart"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima"
+                    android:maxLines="2"
+                    android:text=""
+                    android:textColor="@color/txt_color"
+                    android:textSize="@dimen/text_size_12sp" />
 
-                <View
-                    android:id="@+id/smpview"
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
-                    android:layout_below="@+id/cv_couponCard"
-                    android:layout_marginTop="@dimen/margin_10dp"
-                    android:background="@color/input_fieldcolor" />
+            </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/coupon_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@color/lightGray"
+                android:padding="20dp"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/delivery_address_lay">
+
+                <ImageView
+                    android:layout_width="@dimen/margin_24dp"
+                    android:layout_height="@dimen/margin_24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/offer_icon" />
+
+                <TextView
+                    android:id="@+id/tv_coupon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="35dp"
+                    android:fontFamily="@font/proxima"
+                    android:text="Coupon Applied Successfully" />
+
+                <ImageView
+                    android:layout_width="@dimen/margin_20dp"
+                    android:layout_height="@dimen/margin_20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/cancel_icon"
+                    android:visibility="gone"
+                    app:tint="@color/primary_color" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/price_breakout_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/lightGray"
+                android:padding="20dp"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/coupon_lay"
+                tools:layout_editor_absoluteX="-16dp">
 
                 <TextView
                     android:id="@+id/billheadingtxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/smpview"
-                    android:layout_marginLeft="@dimen/margin_20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/dimen_5dp"
                     android:layout_marginBottom="@dimen/margin_10"
                     android:fontFamily="@font/proxima"
                     android:text="Bill Details"
@@ -500,7 +463,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/billheadingtxt"
-                    android:layout_marginLeft="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
                     android:text="Item total"
                     android:textColor="@color/black"
@@ -510,7 +472,6 @@
                     android:id="@+id/tv_subtotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/margin_20dp"
                     android:layout_below="@+id/billheadingtxt"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/proxima"
@@ -524,7 +485,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_subtotal_label"
                     android:layout_marginTop="10dp"
-                    android:layout_marginLeft="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
                     android:text="Cart Discount"
                     android:textColor="@color/black"
@@ -537,7 +497,6 @@
                     android:layout_below="@id/tv_subtotal"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
                     android:textColor="@color/black"
@@ -548,7 +507,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_cart_discount_label"
-                    android:layout_marginLeft="@dimen/margin_20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
                     android:text="After Discount"
@@ -561,55 +519,30 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_cart_discount"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/margin_20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/text_size_12sp" />
 
                 <TextView
                     android:id="@+id/tv_delivery_charges_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_cart_afterdiscount_lable"
-                    android:layout_marginStart="@dimen/margin_20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
                     android:text="Delivery Charges"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
-
-
-                <include
-                    android:id="@+id/xyz"
-                    layout="@layout/new_deliverycharges_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/new_polygon_2"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="@dimen/margin_25dp"
-                    android:visibility="gone" />
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/new_polygon_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/tv_delivery_charges_label"
-                    android:layout_above="@id/new_delivery_popup"
-                    android:layout_marginLeft="8dp"
-                    android:background="@drawable/polygon9new" />
+                    android:textSize="@dimen/text_size_12sp" />
 
                 <ImageView
                     android:id="@+id/new_delivery_popup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_below="@+id/tv_cart_afterdiscount_lable"
                     android:layout_marginLeft="@dimen/dimen_8dp"
                     android:layout_marginTop="@dimen/margin_10dp"
                     android:layout_toRightOf="@+id/tv_delivery_charges_label"
                     android:background="@drawable/bi_info_circle" />
-
-
                 <TextView
                     android:id="@+id/tv_delivery_charges"
                     android:layout_width="wrap_content"
@@ -619,7 +552,6 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
-                    android:layout_marginRight="@dimen/margin_20dp"
                     android:textSize="@dimen/text_size_12sp" />
 
                 <TextView
@@ -631,7 +563,6 @@
                     android:fontFamily="@font/proxima"
                     android:text="Delivery Discount"
                     android:textColor="@color/black"
-                    android:layout_marginLeft="@dimen/margin_20dp"
                     android:textSize="@dimen/text_size_12sp" />
 
                 <TextView
@@ -643,18 +574,14 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
-                    android:layout_marginRight="@dimen/margin_20dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp" />
-
-                <!--for urban piper-->
 
                 <TextView
                     android:id="@+id/tv_tax_charges_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_delivery_discount_label"
-                    android:layout_marginLeft="@dimen/margin_20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
                     android:text="Restaurant GST"
@@ -670,12 +597,10 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
-                    android:layout_marginRight="@dimen/margin_20dp"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp"
                     android:visibility="visible" />
-
 
                 <LinearLayout
                     android:id="@+id/view"
@@ -692,7 +617,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/view"
                     android:layout_marginTop="10dp"
-                    android:layout_marginLeft="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
                     android:text="Grand Total"
                     android:textColor="@color/black"
@@ -705,13 +629,10 @@
                     android:layout_below="@id/view"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp" />
-
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -721,7 +642,7 @@
                 android:layout_marginTop="@dimen/margin_10"
                 android:background="@color/lightGray"
                 android:padding="15dp"
-                app:layout_constraintTop_toBottomOf="@id/delivery_address_lay">
+                app:layout_constraintTop_toBottomOf="@id/price_breakout_lay">
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/cb_no_contact_delivery"
@@ -759,7 +680,6 @@
                     android:padding="@dimen/margin_20dp"
                     android:textColor="@color/colorTitle"
                     android:textSize="@dimen/margin_12dp" />
-
             </RelativeLayout>
 
             <FrameLayout
@@ -772,7 +692,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
             <FrameLayout
                 android:id="@+id/chargesFm"
                 android:layout_width="match_parent"
@@ -780,21 +699,18 @@
                 android:layout_marginLeft="@dimen/margin_15dp"
                 android:layout_marginBottom="-100dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/coupon_lay">
-
+                app:layout_constraintBottom_toTopOf="@+id/price_breakout_lay">
                 <LinearLayout
                     android:layout_width="280dp"
                     android:layout_height="@dimen/margin_160dp"
                     android:background="@drawable/charges_popup"
                     android:orientation="vertical"
                     android:visibility="visible">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="visible">
-
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -824,7 +740,6 @@
                                 android:text=""
                                 android:textColor="@color/primary_color"
                                 android:textSize="@dimen/text_size_12sp" />
-
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -857,7 +772,6 @@
                                 android:text=""
                                 android:textColor="@color/primary_color"
                                 android:textSize="@dimen/text_size_12sp" />
-
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -892,18 +806,16 @@
                                 android:textColor="@color/primary_color"
                                 android:textSize="@dimen/text_size_12sp" />
                         </RelativeLayout>
-
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginTop="@dimen/dimen_5dp"
                         android:id="@+id/charges_rv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen_5dp"
                         android:orientation="vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:spanCount="1" />
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -933,12 +845,8 @@
                             android:text=""
                             android:textColor="@color/primary_color"
                             android:textSize="@dimen/text_size_12sp" />
-
                     </RelativeLayout>
-
                 </LinearLayout>
-
-
             </FrameLayout>
 
             <FrameLayout
@@ -948,20 +856,17 @@
                 android:layout_marginStart="@dimen/margin_15dp"
                 android:layout_marginBottom="-150dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/coupon_lay">
-
+                app:layout_constraintBottom_toTopOf="@+id/price_breakout_lay">
                 <LinearLayout
                     android:layout_width="270dp"
                     android:layout_height="@dimen/margin_85dp"
                     android:background="@drawable/charges_popup"
                     android:orientation="vertical">
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_10"
                         android:orientation="horizontal">
-
                         <TextView
                             android:id="@+id/tax_title"
                             android:layout_width="wrap_content"
@@ -996,16 +901,10 @@
                             android:text="*Levied by Merchant"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/margin_10" />
-
-
                     </RelativeLayout>
-
                 </LinearLayout>
-
             </FrameLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -1019,7 +918,6 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
 
-
         <LinearLayout
             android:id="@+id/payment_method_lay"
             android:layout_width="wrap_content"
@@ -1029,7 +927,7 @@
             android:background="@drawable/payment_btn_bg"
             android:gravity="center"
             android:weightSum="10"
-            app:layout_constraintBottom_toTopOf="@+id/cart_payment_lay"
+            app:layout_constraintBottom_toTopOf="@+id/payment_by_cash_or_online"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -1073,8 +971,6 @@
                     android:text="Cash"
                     android:textColor="@color/grey"
                     app:layout_constraintStart_toEndOf="@id/img_cash" />
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -1089,7 +985,6 @@
                 android:orientation="horizontal"
                 app:layout_constraintStart_toEndOf="@+id/cash_lay"
                 app:layout_constraintTop_toTopOf="parent">
-
 
                 <ImageView
                     android:id="@+id/img_online"
@@ -1108,40 +1003,64 @@
                     android:text="Online"
                     android:textColor="@color/grey"
                     app:layout_constraintStart_toEndOf="@id/tv_cash"
-                    app:layout_constraintTop_toBottomOf="@id/img_cash" />
-
+                    app:layout_constraintTop_toBottomOf="@id/img_cash"/>
             </LinearLayout>
-
         </LinearLayout>
+        <!--
 
-        <LinearLayout
-            android:id="@+id/cart_payment_lay"
+
+
+
+        -->
+        <RelativeLayout
+            android:id="@+id/payment_by_cash_or_online"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent">
-
-            <TextView
-                android:id="@+id/tv_place_order"
+            <LinearLayout
+                android:id="@+id/cart_payment_lay"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50dp"
-                android:layout_gravity="center"
-                android:background="@drawable/corner_radius_green"
-                android:fontFamily="@font/proxima"
-                android:paddingVertical="15dp"
-                android:text="Place Order | 00"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                app:layout_constraintLeft_toLeftOf="parent" />
-        </LinearLayout>
-
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_place_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/corner_radius_green"
+                    android:fontFamily="@font/proxima"
+                    android:paddingVertical="15dp"
+                    android:text="Place Order | 00"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/select_address_or_add_layout"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_select_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/corner_radius_green"
+                    android:fontFamily="@font/proxima"
+                    android:paddingVertical="15dp"
+                    android:text="Select Address"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+            </LinearLayout>
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
@@ -1185,14 +1104,14 @@
                             android:text="Customization"
                             android:textColor="@android:color/black"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"/>
 
                         <ImageView
                             android:id="@+id/filterIcon"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
-                            android:layout_marginHorizontal="15dp" />
+                            android:layout_marginHorizontal="15dp"/>
                     </RelativeLayout>
 
                     <TextView
@@ -1202,7 +1121,7 @@
                         android:fontFamily="@font/metropolis_regular"
                         android:text="Choose your customization"
                         android:textColor="@android:color/darker_gray"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -1217,9 +1136,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="@dimen/margin_80dp"
-                        android:gravity="center"
-
-                        />
+                        android:gravity="center"/>
                 </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -1229,7 +1146,6 @@
                     android:background="@android:color/white"
                     android:elevation="5dp"
                     android:fadingEdgeLength="2dp">
-
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/add_remove_lay"
                         android:layout_width="wrap_content"
@@ -1240,7 +1156,6 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
-
 
                         <TextView
                             android:id="@+id/minusLay"
@@ -1255,7 +1170,6 @@
                             app:layout_constraintLeft_toRightOf="@+id/countValuee"
                             app:layout_constraintTop_toTopOf="parent" />
 
-
                         <TextView
                             android:id="@+id/countValuee"
                             android:layout_width="35dp"
@@ -1268,7 +1182,6 @@
                             app:layout_constraintLeft_toRightOf="@+id/minusLay"
                             app:layout_constraintTop_toTopOf="parent" />
 
-
                         <TextView
                             android:id="@+id/plusLay"
                             android:layout_width="35dp"
@@ -1280,8 +1193,6 @@
                             android:textSize="20sp"
                             app:layout_constraintLeft_toRightOf="@+id/countValuee"
                             app:layout_constraintTop_toTopOf="parent" />
-
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
@@ -1304,7 +1215,6 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView
@@ -1318,8 +1228,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </RelativeLayout>
         </LinearLayout>
-
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <FrameLayout
@@ -1380,24 +1288,8 @@
                 android:text="Before proceed to checkout you must add some products to your shoping cart."
                 android:textColor="@color/colorTextGray"
                 android:textSize="@dimen/margin_12dp" />
-
         </LinearLayout>
-
-
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="731dp" />
-
-    </RelativeLayout>
-
 
     <include
         android:id="@+id/no_internet_cart"
@@ -1408,6 +1300,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

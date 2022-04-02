@@ -44,9 +44,7 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import kotlinx.android.synthetic.main.activity_send_package.*
-import kotlinx.android.synthetic.main.activity_sendpackages_additem.*
 import kotlinx.android.synthetic.main.buy_popup.view.*
-import kotlinx.android.synthetic.main.logout_popup.*
 import org.json.JSONObject
 
 
@@ -648,7 +646,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                 )
                 prefill.put(
                     "contact",
-                    SessionTwiclo(this).profileDetail.account.country_code + SessionTwiclo(
+                    SessionTwiclo(this).profileDetail.account.countryCode + SessionTwiclo(
                         this
                     ).profileDetail.account.userName
                 )

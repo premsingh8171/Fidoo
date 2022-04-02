@@ -64,30 +64,30 @@ class ReferralActivity : BaseActivity() {
 
 
         // Display size
-        val displayMetrics = DisplayMetrics()
-        this.windowManager.defaultDisplay.getMetrics(displayMetrics)
-        //  int height = displayMetrics.heightPixels;
-        //  int height = displayMetrics.heightPixels;
-        width = displayMetrics.widthPixels
-        height = Math.round(width * 0.5).toInt()
+//        val displayMetrics = DisplayMetrics()
+//        this.windowManager.defaultDisplay.getMetrics(displayMetrics)
+//        //  int height = displayMetrics.heightPixels;
+//        //  int height = displayMetrics.heightPixels;
+//        width = displayMetrics.widthPixels
+//        height = Math.round(width * 0.5).toInt()
+//
+//        height=Math.round(((displayMetrics.heightPixels*40)/100).toDouble()).toInt()
+//        Log.d("height___", height?.toString())
+//        Log.d("height_rrrr__", displayMetrics.heightPixels.toString())
+//        contsCardHeight = height - 200
 
-        height=Math.round(((displayMetrics.heightPixels*40)/100).toDouble()).toInt()
-        Log.d("height___", height?.toString())
-        Log.d("height_rrrr__", displayMetrics.heightPixels.toString())
-        contsCardHeight = height - 200
+//        constraintLayoutRef.layoutParams = ConstraintLayout.LayoutParams(
+//            ViewGroup.LayoutParams.MATCH_PARENT,
+//            height
+//        )
 
-        constraintLayoutRef.layoutParams = ConstraintLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            height
-        )
-
-        val params: ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        params.topToTop=0
-        params.setMargins(50,contsCardHeight,50,0)
-        constReferralCard.layoutParams = params
+//        val params: ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(
+//            ViewGroup.LayoutParams.MATCH_PARENT,
+//            ViewGroup.LayoutParams.WRAP_CONTENT
+//        )
+//        params.topToTop=0
+//        params.setMargins(50,contsCardHeight,50,0)
+//        constReferralCard.layoutParams = params
 
         referralviewMode?.referralApi(
             sessionTwiclo.loggedInUserDetail.accountId,

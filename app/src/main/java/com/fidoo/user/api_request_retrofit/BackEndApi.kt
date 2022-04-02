@@ -412,7 +412,7 @@ interface BackEndApi {
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
         @Field("order_id") order_id: String?
-    ): Call<SendPackageOrderDetailsModel>
+    ): Call<NewSendpackageOrderDetail>
 
     @FormUrlEncoded
     @POST("orderCancel.inc.php")
@@ -686,13 +686,13 @@ interface BackEndApi {
 
     @Multipart
     @POST("addUpdateProfile.inc.php")
-    suspend fun addUpdateProfileApi(
+     fun addUpdateProfileApi(
         @Part("accountId") accountId: RequestBody?,
         @Part("accessToken") accessToken: RequestBody?,
         @Part("name") name: RequestBody?,
         @Part("emailid") emailid: RequestBody?,
         @Part photo: MultipartBody.Part?
-    ): Response<EditProfileModel>
+    ): Call<EditProfileModel>
 
     @FormUrlEncoded
     @POST("orderProceed_ver_29.inc.php")

@@ -152,14 +152,11 @@ class EditProfileActivity : BaseActivity() {
             Log.e("addUpdateResponse_", Gson().toJson(user))
             dismissIOSProgress()
             if (user.errorCode==200) {
-                if (user.error == true) {
-                    // showToast(user.message)
-                } else {
+
                     sessionTwiclo!!.storeProfileDetail(user)
                     //  Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_LONG).show()
 //                startActivity(Intent(this, MainActivity::class.java))
 //                finishAffinity()
-                }
                 finish()
             }else{
                 showToast(user.message)

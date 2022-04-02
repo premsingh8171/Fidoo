@@ -18,7 +18,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -27,7 +26,7 @@ import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.adapter.SliderAdapter
 import com.fidoo.user.dashboard.adapter.SliderAdapterExample
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.data.SliderItem
 import com.fidoo.user.data.model.BannerModel
@@ -489,7 +488,7 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding?.addressLay?.setOnClickListener {
             //if (SessionTwiclo(context).isLoggedIn){
             startActivityForResult(
-                Intent(context, SavedAddressesActivity::class.java)
+                Intent(context, SavedAddressesActivityNew::class.java)
                     .putExtra("type", "address")
                     .putExtra(
                         "where", where
