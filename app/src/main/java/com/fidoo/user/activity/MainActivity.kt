@@ -432,7 +432,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             }
         })
 
-        viewmodel?.getAddressesResponse?.observe(this,{user ->
+        viewmodel?.getAddressesResponse?.observe(this) { user ->
             Log.e("homeaddRes_", Gson().toJson(user))
 
             if (user.addressList != null) {
@@ -456,7 +456,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
                         if (addressList.size == 0) {
                             Log.d("addressList__size", "message")
-                            getCurrentLocation()
+                            //getCurrentLocation()
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -467,7 +467,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                 getCurrentLocation()
             }
 
-        })
+        }
 
     }
 
@@ -565,6 +565,28 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         }
     }
 
+    private fun  getAddress() {
+        if (isNetworkConnected) {
+            if (SessionTwiclo(this).isLoggedIn){
+                try {
+                    viewmodel?.getAddressesApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        "",
+                        ""
+                    )
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
+            }else{
+                getCurrentLocation()
+            }
+
+        } else {
+            showInternetToast()
+        }
+    }
+
     // Start location updates
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(
@@ -596,7 +618,8 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
     override fun onResume() {
         super.onResume()
-        checkPermission()
+        getAddress()
+        //checkPermission()
         if (SessionTwiclo(this).orderId.isNotEmpty()) {
             orderId = SessionTwiclo(this).orderId
             viewmodel?.getOrderStatusApi(
