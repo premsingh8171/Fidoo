@@ -4,20 +4,20 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.DialogInterface
+
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
-import android.provider.Settings
+
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
@@ -37,6 +37,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -77,12 +81,16 @@ import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.BaseFragment
 import com.fidoo.user.utils.CardSliderLayoutManager
+import com.fidoo.user.utils.maps.model.GeocoderModel
 import com.fidoo.user.utils.showAlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
+import com.robin.locationgetter.EasyLocation
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_newui.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -166,13 +174,16 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
 		fragmentHomeBinding?.viewPagerBannerNewDesh!!.clipToPadding = false
 
-		val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			//  dialog?.setCanceledOnTouchOutside(false)
-			showDialogUi()
-		}else{
-			checkPermission()
-		}
+
+//        val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//          //  dialog?.setCanceledOnTouchOutside(false)
+//            showDialogUi()
+//        }else{
+//            checkPermission()
+//        }
+
+
 
 		val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
 			object : ViewPager.OnPageChangeListener {
@@ -265,13 +276,16 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
 		mBtnToTurnOnLocation?.setOnClickListener {
 
-			val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
-				Manifest.permission.ACCESS_COARSE_LOCATION,
-				Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-			requestPermissions(permList,100)
-			val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-			startActivity(intent)
+//            val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+//                Manifest.permission.ACCESS_COARSE_LOCATION,
+//                Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+//            requestPermissions(permList,100)
+//                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+//            startActivity(intent)
+			getCurrentLocation()
+			dialog?.dismiss()
 		}
+
 		lvAddNewAdd?.setOnClickListener {
 			startActivityForResult(
 				Intent(context, SavedAddressesActivityNew::class.java)
@@ -308,23 +322,44 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 							override fun onClick(addressList: GetAddressModel.AddressList) {
 								when {
 									addressList.addressType.equals("1") -> {
-										SessionTwiclo(requireContext()).userAddress =
-											addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-										SessionTwiclo(requireContext()).addressType = "Home"
+										if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
+											SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.location
+											SessionTwiclo(requireContext()).addressType = "Home"
+										}
+										else{
+											SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+											SessionTwiclo(requireContext()).addressType = "Home"
+										}
 									}
 									addressList.addressType.equals("2") -> {
-										SessionTwiclo(requireContext()).userAddress =
-											addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-										SessionTwiclo(requireContext()).addressType = "Office"
+										if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
+											SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.location
+											SessionTwiclo(requireContext()).addressType = "Office"
+										}
+										else{
+											SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+											SessionTwiclo(requireContext()).addressType = "Office"
+										}
 									}
 									else -> {
-										SessionTwiclo(requireContext()).userAddress =
-											addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-										SessionTwiclo(requireContext()).addressType = "Other"
+										if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
+											SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.location
+											SessionTwiclo(requireContext()).addressType = "Other"
+										}
+										else{
+											SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+											SessionTwiclo(requireContext()).addressType = "Other"
+										}
 									}
 								}
-								SessionTwiclo(requireContext()).userAddress =
-									addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+								if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
+									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.location
+									SessionTwiclo(requireContext()).addressType = "Home"
+								}
+								else{
+									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									SessionTwiclo(requireContext()).addressType = "Home"
+								}
 								SessionTwiclo(requireContext()).userAddressId = addressList.id
 								SessionTwiclo(requireContext()).userLat = addressList.latitude
 								SessionTwiclo(requireContext()).userLng = addressList.longitude
@@ -351,7 +386,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		dialog?.show()
 		dialog?.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
-			1350
+			1200
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)
@@ -816,7 +851,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			getAddress()
 			NewAddAddressActivityNew.checkCount = 0
 		}
-
 	}
 
 	override fun provideYourFragmentView(
@@ -1065,6 +1099,66 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			}
 		}
 	}
+	private fun getCurrentLocation() {
+		Log.e("Locationcall", "call")
 
+		EasyLocation(requireActivity(), object : EasyLocation.EasyLocationCallBack {
+			override fun permissionDenied() {
+				Log.e("Location", "permission  denied")
+			}
 
+			override fun locationSettingFailed() {
+				Log.e("Location", "setting failed")
+			}
+
+			override fun getLocation(location: Location) {
+				Log.e(
+					"Location_lat_lng",
+					" latitude ${location.latitude} longitude ${location.longitude}"
+				)
+
+				var address=getGeoAddressFromLatLong(location.latitude, location.longitude)
+
+				if (address!!.isNotEmpty()) {
+					SessionTwiclo(requireActivity()).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
+					SessionTwiclo(requireActivity()).userLat = location.latitude.toString()
+					SessionTwiclo(requireActivity()).userLng = location.longitude.toString()
+					userAddress?.text = SessionTwiclo(requireActivity()).userAddress
+				}else{
+					geocoderAddress(location.latitude.toString(),location.longitude.toString())
+				}
+			}
+		})
+	}
+	fun geocoderAddress(lat:String,lng:String) {
+		val geocodeUrl =
+			"https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
+		Log.e("geocodeUrl", geocodeUrl)
+		val geocodeRequest = object :
+			StringRequest(Request.Method.GET, geocodeUrl, Response.Listener<String> { response ->
+				dismissIOSProgress()
+				Log.e("geocoderes_", "gson- $response")
+				val gsonBuilder = GsonBuilder();
+				val gson = gsonBuilder.create()
+				var model =gson.fromJson(response.toString(), GeocoderModel::class.java)
+				if(model.status.equals("OK")) {
+					if (model.results.size!=0) {
+						SessionTwiclo(requireActivity()).userAddress = model.results[0].formattedAddress
+						SessionTwiclo(requireActivity()).userLat =lat
+						SessionTwiclo(requireActivity()).userLng = lng
+						if(SessionTwiclo(requireActivity()).userAddress.isNotEmpty()) {
+							userAddress?.text = SessionTwiclo(requireActivity()).userAddress
+						}else{
+							userAddress?.text= model.results[0].formattedAddress
+						}
+					}
+				}
+
+			}, Response.ErrorListener { dismissIOSProgress()}) {
+
+		}
+		val requestQueue = Volley.newRequestQueue(requireActivity())
+		requestQueue.add(geocodeRequest)
+
+	}
 }
