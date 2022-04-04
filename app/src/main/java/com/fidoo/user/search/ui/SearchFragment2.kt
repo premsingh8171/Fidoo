@@ -667,7 +667,6 @@ class SearchFragment2 : Fragment(), AdapterClick,
 
     }
 
-
     private fun RecentSearchRv(recentList: ArrayList<String>) {
         if (recentList.size>0) {
             mView.store_item_tv.text = "Recent Searches"
