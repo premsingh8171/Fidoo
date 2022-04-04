@@ -42,6 +42,7 @@ import com.fidoo.user.activity.MainActivity.Companion.checkAddressSavedFromWhich
 import com.fidoo.user.activity.MainActivity.Companion.handleTrackScreenOrderSuccess
 import com.fidoo.user.activity.MainActivity.Companion.onBackpressHandle
 import com.fidoo.user.activity.SplashActivity
+import com.fidoo.user.addressmodule.activity.NewAddAddressActivityNew
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
 import com.fidoo.user.addressmodule.model.GetAddressModel
@@ -54,6 +55,7 @@ import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
 import com.fidoo.user.cartview.roomdb.entity.PrescriptionViewEntity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.constants.useconstants
+import com.fidoo.user.dashboard.viewmodel.HomeFragmentNewViewModel
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.grocery.activity.GroceryItemsActivity.Companion.onresumeHandle
@@ -98,6 +100,7 @@ import kotlinx.android.synthetic.main.activity_cart.customItemsRecyclerview
 import kotlinx.android.synthetic.main.activity_cart.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_cart.tv_coupon
 import kotlinx.android.synthetic.main.activity_saved_addresses_new.*
+import kotlinx.android.synthetic.main.fragment_home_newui.*
 import kotlinx.android.synthetic.main.new_deliverycharges_layout.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -116,7 +119,7 @@ class CartActivity : BaseActivity(),
 	AdapterClick,
 	CustomCartPlusMinusClick,
 	AdapterCustomRadioClick, PaymentResultListener, PaymentResultWithDataListener {
-
+	private var fixedAddressViewModel: HomeFragmentNewViewModel? = null
 	var viewmodel: CartViewModel? = null
 	var totalAmount: Double = 0.0
 	var storeViewModel: StoreDetailsViewModel? = null
@@ -1371,7 +1374,40 @@ class CartActivity : BaseActivity(),
 //
 //		dialog?.show()
 //	}
+   fun getAddress(){
+	fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(this@CartActivity) {
+		if(it.addressList.size >=1) {
+			if (!it.addressList.isNullOrEmpty()) {
+				val flat = it.addressList[0].flatNo
+				val locality = it.addressList[0].location
+				val landmark = it.addressList[0].landmark
+				if (!landmark.isNullOrEmpty()) {
+					tv_delivery_address.text = "$flat" + " " + "$landmark" + " " + "$locality"
+				} else {
+					tv_delivery_address.text = "$flat" + " " + "$locality"
+				}
+			}
+		}
 
+//            when {
+//                it.addressList[0].addressType.equals("1") -> {
+//                    SessionTwiclo(requireContext()).userAddress =
+//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
+//                    SessionTwiclo(requireContext()).addressType = "Home"
+//                }
+//                it.addressList[0].addressType.equals("2") -> {
+//                    SessionTwiclo(requireContext()).userAddress =
+//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
+//                    SessionTwiclo(requireContext()).addressType = "Office"
+//                }
+//                else -> {
+//                    SessionTwiclo(requireContext()).userAddress =
+//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
+//                    SessionTwiclo(requireContext()).addressType = "Other"
+//                }
+//            }
+	}
+}
 
 	/**
 	 * ******************************************************************************************************************************************************************
@@ -1415,6 +1451,7 @@ class CartActivity : BaseActivity(),
 							addressList: GetAddressModel.AddressList
 						) {}
 						override fun onClick(addressList: GetAddressModel.AddressList) {
+							NewAddAddressActivityNew.checkCount = 0
 							when {
 								addressList.addressType.equals("1") -> {
 									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
@@ -2170,6 +2207,14 @@ class CartActivity : BaseActivity(),
 		// customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
 		customAddBtn.text = "Add | " + resources.getString(R.string.ruppee) + tempPrice.toString()
 
+	}
+
+	override fun onStart() {
+		if(NewAddAddressActivityNew.checkCount == 1){
+			getAddress()
+			//		NewAddAddressActivityNew.checkCount = 0
+		}
+		super.onStart()
 	}
 
 	override fun onCustomRadioClick(checkedId: String?, position: String?) {

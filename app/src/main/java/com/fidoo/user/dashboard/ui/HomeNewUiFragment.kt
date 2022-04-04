@@ -846,10 +846,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}
 
-		if(NewAddAddressActivityNew.checkCount == 1){
-			getAddress()
-	//		NewAddAddressActivityNew.checkCount = 0
-		}
+
 	}
 
 	override fun provideYourFragmentView(
@@ -907,7 +904,13 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 	override fun onStart() {
 		Log.d("Nishant", "onStart: ")
-
+		CoroutineScope(Dispatchers.IO).launch {
+			delay(50)
+		}
+		if(NewAddAddressActivityNew.checkCount == 1){
+			getAddress()
+			//		NewAddAddressActivityNew.checkCount = 0
+		}
 		super.onStart()
 	}
 
