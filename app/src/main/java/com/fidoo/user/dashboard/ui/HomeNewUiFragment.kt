@@ -7,7 +7,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
-
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -18,7 +17,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
@@ -138,6 +136,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		var service_id: String? = ""
 		var service_name: String? = ""
 		var itemPosition: Int? = 0
+		var countButtonOn:Int?= 0
 	}
 
 	var sliderItem = SliderItem()
@@ -274,14 +273,20 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
 		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
 		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
-		mBtnToTurnOnLocation?.setOnClickListener {
-
-            val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-            requestPermissions(permList,100)
-			val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivity(intent)
-			getCurrentLocation()
-			dialog?.dismiss()
+		if (countButtonOn == 0) {
+			mBtnToTurnOnLocation?.setOnClickListener {
+				getCurrentLocationAddress()
+				val permList = arrayOf(
+					Manifest.permission.ACCESS_FINE_LOCATION,
+					Manifest.permission.ACCESS_COARSE_LOCATION,
+					Manifest.permission.ACCESS_BACKGROUND_LOCATION
+				)
+				requestPermissions(permList, 100)
+				val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+				startActivity(intent)
+				dialog?.dismiss()
+			}
+			countButtonOn = 1
 		}
 
 		lvAddNewAdd?.setOnClickListener {
@@ -304,7 +309,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			if (it.errorCode==200) {
 				if (it.addressList.size == 0) {
 					bottomSheetAddress?.visibility = View.GONE
-					getCurrentLocation()
+					getCurrentLocationAddress()
 				}
 				if (!it.addressList.isNullOrEmpty()) {
 					bottomSheetAddress?.visibility = VISIBLE
@@ -841,20 +846,23 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			else {
 				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 				text_newDesh.text = SessionTwiclo(context).addressType
-				getCurrentLocation()
+//				getCurrentLocationAddress()
 			}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}
-//		fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
-//			if(it.addressList.size == 0) {
-//				if (!it.addressList.isNullOrEmpty()) {
-//					getCurrentLocation()
-//				}
-//			}
-
-
-
-
+		if (countButtonOn == 1) {
+			fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")
+				?.observe(requireActivity()) {
+					if (it.addressList.size == 0) {
+						if (!it.addressList.isNullOrEmpty()) {
+							getCurrentLocationAddress()
+						}
+					}
+//					else{
+//						getCurrentLocationAddress()
+//					}
+				}
+		}
 	}
 
 	override fun provideYourFragmentView(
@@ -1109,7 +1117,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			}
 		}
 	}
-	private fun getCurrentLocation() {
+	private fun getCurrentLocationAddress() {
 		Log.e("Locationcall", "call")
 
 		EasyLocation(requireActivity(), object : EasyLocation.EasyLocationCallBack {
