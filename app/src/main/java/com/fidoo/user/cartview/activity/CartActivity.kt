@@ -97,6 +97,7 @@ import kotlinx.android.synthetic.main.activity_cart.customAddBtn
 import kotlinx.android.synthetic.main.activity_cart.customItemsRecyclerview
 import kotlinx.android.synthetic.main.activity_cart.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_cart.tv_coupon
+import kotlinx.android.synthetic.main.activity_saved_addresses_new.*
 import kotlinx.android.synthetic.main.new_deliverycharges_layout.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -254,6 +255,7 @@ class CartActivity : BaseActivity(),
 			}
 			else {
 				showDialogBottom()
+
 			}
 		}
 		address_id = SessionTwiclo(this).userAddressId
@@ -516,7 +518,7 @@ class CartActivity : BaseActivity(),
 		 * **********************************************************************************************
 		 */
 
-		delivery_address_lay.setOnClickListener {
+		delivery_addressCard.setOnClickListener {
 			if (!isNetworkConnected) {
 				showToast(resources.getString(R.string.provide_internet))
 
@@ -1414,7 +1416,6 @@ class CartActivity : BaseActivity(),
 							addressList: GetAddressModel.AddressList
 						) {}
 						override fun onClick(addressList: GetAddressModel.AddressList) {
-
 							when {
 								addressList.addressType.equals("1") -> {
 									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
@@ -1436,8 +1437,10 @@ class CartActivity : BaseActivity(),
 
 							SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 							SessionTwiclo(this@CartActivity).userAddressId = addressList.id
+							address_id=addressList.id
 							SessionTwiclo(this@CartActivity).userLat = addressList.latitude
 							SessionTwiclo(this@CartActivity).userLng = addressList.longitude
+							//address_id = SessionTwiclo(this@CartActivity).userAddressId
 							dialog?.dismiss()
 							select_address_or_add_layout.visibility = View.GONE
 							cart_payment_lay.visibility = View.VISIBLE
@@ -1487,6 +1490,9 @@ class CartActivity : BaseActivity(),
 				SessionTwiclo(this@CartActivity).loggedInUserDetail.accessToken
 			)
 			tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
+			Toast.makeText(_context, ""+address_id, Toast.LENGTH_LONG).show()
+
+
 		}
 		else {
 			tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
@@ -1529,7 +1535,9 @@ class CartActivity : BaseActivity(),
 	override fun onResume() {
 		super.onResume()
 		storeId = intent.getStringExtra("storeId").toString()
+
 		address_id = SessionTwiclo(this).userAddressId
+
 		Log.d("address_id_____", "" + address_id)
 		tv_delivery_address_title.text = selectedAddressTitle
 		tv_delivery_address.text = selectedAddressName

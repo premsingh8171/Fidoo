@@ -35,6 +35,7 @@ class OrderDetailsViewModel(application: Application) : AndroidViewModel(applica
 
     fun getOrderDetails(accountId: String, accessToken: String, order_id: String?) {
         // progressDialog?.value = true
+        Log.d("getOrderDetails___","$accountId$accessToken----$order_id")
         WebServiceClient.client.create(BackEndApi::class.java).orderDetailsApi(
                 accountId = accountId, accessToken = accessToken, order_id = order_id
         ).enqueue(this)
