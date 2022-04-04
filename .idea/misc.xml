@@ -3,12 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Fidoo New/app/src/main/res/layout/activity_cart.xml" value="0.264" />
-        <entry key="..\:/Fidoo New/app/src/main/res/layout/activity_order_details.xml" value="0.21784420289855072" />
+        <entry key="..\:/Fidoo New/app/src/main/res/layout/activity_cart.xml" value="0.1526268115942029" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/layout/activity_new_add_address_new.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/imrep/Fidoo User/app/src/main/res/layout/content_map.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>

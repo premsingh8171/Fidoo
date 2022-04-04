@@ -320,6 +320,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 							}
 
 							override fun onClick(addressList: GetAddressModel.AddressList) {
+								NewAddAddressActivityNew.checkCount = 0
 								when {
 									addressList.addressType.equals("1") -> {
 										if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
@@ -847,7 +848,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 		if(NewAddAddressActivityNew.checkCount == 1){
 			getAddress()
-			NewAddAddressActivityNew.checkCount = 0
+	//		NewAddAddressActivityNew.checkCount = 0
 		}
 	}
 

@@ -215,7 +215,6 @@ class CartActivity : BaseActivity(),
 		tv_delivery_address_title.text = selectedAddressTitle
 		tv_delivery_address.text = selectedAddressName
 		tv_landmark.text = selectedPreAddressName
-
 		tv_delivery_address.text = selectedAddressName
 		tv_landmark.text = selectedPreAddressName
 		if (!tv_delivery_address.text.isNullOrEmpty()) {
@@ -1490,7 +1489,7 @@ class CartActivity : BaseActivity(),
 				SessionTwiclo(this@CartActivity).loggedInUserDetail.accessToken
 			)
 			tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
-			Toast.makeText(_context, ""+address_id, Toast.LENGTH_LONG).show()
+//			Toast.makeText(_context, ""+address_id, Toast.LENGTH_LONG).show()
 
 
 		}
