@@ -17,6 +17,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 
 import android.util.DisplayMetrics
 import android.util.Log
@@ -276,12 +277,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
 		mBtnToTurnOnLocation?.setOnClickListener {
 
-//            val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
-//                Manifest.permission.ACCESS_COARSE_LOCATION,
-//                Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-//            requestPermissions(permList,100)
-//                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-//            startActivity(intent)
+            val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            requestPermissions(permList,100)
+                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
 			getCurrentLocation()
 			dialog?.dismiss()
 		}
