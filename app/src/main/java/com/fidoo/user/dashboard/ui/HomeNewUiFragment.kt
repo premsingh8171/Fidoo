@@ -276,11 +276,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
 		mBtnToTurnOnLocation?.setOnClickListener {
 
-            val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
             requestPermissions(permList,100)
-                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+			val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivity(intent)
 			getCurrentLocation()
 			dialog?.dismiss()
@@ -306,6 +304,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			if (it.errorCode==200) {
 				if (it.addressList.size == 0) {
 					bottomSheetAddress?.visibility = View.GONE
+					getCurrentLocation()
 				}
 				if (!it.addressList.isNullOrEmpty()) {
 					bottomSheetAddress?.visibility = VISIBLE
@@ -838,13 +837,22 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					text_newDesh.text = SessionTwiclo(context).addressType
 				}
 
-			} else {
+			}
+			else {
 				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 				text_newDesh.text = SessionTwiclo(context).addressType
-
+				getCurrentLocation()
 			}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}
+//		fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
+//			if(it.addressList.size == 0) {
+//				if (!it.addressList.isNullOrEmpty()) {
+//					getCurrentLocation()
+//				}
+//			}
+
+
 
 
 	}
