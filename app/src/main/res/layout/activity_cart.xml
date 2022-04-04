@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+    
+<androidx.constraintlayout.widget.ConstraintLayout
     android:background="@color/colorGray"
     android:id="@+id/main_layout"
-    tools:context="com.fidoo.user.cartview.activity.CartActivity">
+    tools:context="com.fidoo.user.cartview.activity.CartActivity" 
+    android:layout_height="wrap_content" android:layout_width="match_parent">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,7 +68,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@id/place_order_lay"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topLay">
@@ -1007,159 +1010,7 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/place_order_lay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/margin_10"
-        android:paddingRight="@dimen/margin_10"
-        android:paddingBottom="@dimen/margin_20dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent">
 
-
-        <LinearLayout
-            android:id="@+id/payment_method_lay"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/margin_35dp"
-            android:layout_marginTop="@dimen/margin_15dp"
-            android:layout_marginBottom="@dimen/margin_15dp"
-            android:background="@drawable/payment_btn_bg"
-            android:gravity="center"
-            android:weightSum="10"
-            app:layout_constraintBottom_toTopOf="@+id/payment_by_cash_or_online"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tv_pay_using"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="@font/proxima"
-                android:text="Payment mode: "
-                android:visibility="gone"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/cash_lay"
-                android:layout_width="@dimen/margin_130dp"
-                android:layout_height="match_parent"
-                android:layout_margin=".8dp"
-                android:layout_weight="5"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toEndOf="@+id/tv_pay_using"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/img_cash"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:src="@drawable/cash_icon_grey"
-                    app:layout_constraintStart_toEndOf="@id/tv_pay_using"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_cash"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:fontFamily="@font/proxima"
-                    android:text="Cash"
-                    android:textColor="@color/grey"
-                    app:layout_constraintStart_toEndOf="@id/img_cash" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/online_lay"
-                android:layout_width="@dimen/margin_130dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin=".8dp"
-                android:layout_weight="5"
-                android:background="@drawable/black_rounded_solid"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toEndOf="@+id/cash_lay"
-                app:layout_constraintTop_toTopOf="@+id/payment_by_cash_or_online">
-
-
-                <ImageView
-                    android:id="@+id/img_online"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:src="@drawable/online_pay_grey"
-                    app:layout_constraintStart_toEndOf="@id/img_cash"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_online"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:fontFamily="@font/proxima"
-                    android:text="Online"
-                    android:textColor="@color/grey"
-                    app:layout_constraintStart_toEndOf="@id/tv_cash"
-                    app:layout_constraintTop_toBottomOf="@id/img_cash" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/payment_by_cash_or_online"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent">
-            <LinearLayout
-                android:id="@+id/cart_payment_lay"
-                android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-                <TextView
-                    android:id="@+id/tv_place_order"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_50dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/corner_radius_green"
-                    android:fontFamily="@font/proxima"
-                    android:paddingVertical="15dp"
-                    android:text="Place Order | 00"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    app:layout_constraintLeft_toLeftOf="parent" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/select_address_or_add_layout"
-                android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-                <TextView
-                    android:id="@+id/tv_select_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_50dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/corner_radius_green"
-                    android:fontFamily="@font/proxima"
-                    android:paddingVertical="15dp"
-                    android:text="Select Address"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    app:layout_constraintLeft_toLeftOf="parent" />
-            </LinearLayout>
-        </RelativeLayout>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -1434,3 +1285,157 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/place_order_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10"
+        android:paddingBottom="@dimen/margin_20dp"
+
+       android:layout_alignParentBottom="true">
+
+
+        <LinearLayout
+            android:id="@+id/payment_method_lay"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_35dp"
+            android:layout_marginTop="@dimen/margin_15dp"
+            android:layout_marginBottom="@dimen/margin_15dp"
+            android:background="@drawable/payment_btn_bg"
+            android:gravity="center"
+            android:weightSum="10"
+            app:layout_constraintBottom_toTopOf="@+id/payment_by_cash_or_online"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_pay_using"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/proxima"
+                android:text="Payment mode: "
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/cash_lay"
+                android:layout_width="@dimen/margin_130dp"
+                android:layout_height="match_parent"
+                android:layout_margin=".8dp"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@+id/tv_pay_using"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/img_cash"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/cash_icon_grey"
+                    app:layout_constraintStart_toEndOf="@id/tv_pay_using"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_cash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/proxima"
+                    android:text="Cash"
+                    android:textColor="@color/grey"
+                    app:layout_constraintStart_toEndOf="@id/img_cash" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/online_lay"
+                android:layout_width="@dimen/margin_130dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin=".8dp"
+                android:layout_weight="5"
+                android:background="@drawable/black_rounded_solid"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@+id/cash_lay"
+                app:layout_constraintTop_toTopOf="@+id/payment_by_cash_or_online">
+
+
+                <ImageView
+                    android:id="@+id/img_online"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/online_pay_grey"
+                    app:layout_constraintStart_toEndOf="@id/img_cash"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_online"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/proxima"
+                    android:text="Online"
+                    android:textColor="@color/grey"
+                    app:layout_constraintStart_toEndOf="@id/tv_cash"
+                    app:layout_constraintTop_toBottomOf="@id/img_cash" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/payment_by_cash_or_online"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <LinearLayout
+                android:id="@+id/cart_payment_lay"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_place_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/corner_radius_green"
+                    android:fontFamily="@font/proxima"
+                    android:paddingVertical="15dp"
+                    android:text="Place Order | 00"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/select_address_or_add_layout"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_select_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/corner_radius_green"
+                    android:fontFamily="@font/proxima"
+                    android:paddingVertical="15dp"
+                    android:text="Select Address"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
