@@ -2107,6 +2107,7 @@ class CartActivity : BaseActivity(),
 		}.start()
 	}
 
+
 	private fun updateByCartIdProductCustomized(
 		count: Int,
 		productId: String,
@@ -2372,6 +2373,7 @@ class CartActivity : BaseActivity(),
 			}
 		}
 	}
+
 
 	override fun onRemoveItemClick(
 		productId: String?,
