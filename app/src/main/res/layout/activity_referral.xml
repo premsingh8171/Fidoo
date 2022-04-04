@@ -338,7 +338,7 @@
                                 android:layout_marginTop="4dp"
                                 android:fontFamily="@font/proxima"
                                 android:lineHeight="18sp"
-                                android:text="You get free deliveries for 3 orders when your friend makes the first order"
+                                android:text="You get free delivery for 1 order when your friend makes the first order"
                                 android:textSize="14sp" />
 
                         </RelativeLayout>
