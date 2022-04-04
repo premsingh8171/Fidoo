@@ -27,7 +27,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -684,11 +683,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 			if (it.error_code == 200) {
 				if (it.homeData.isNotEmpty()) {
-
 					homeRecyclerview(it.homeData as ArrayList)
 				}
 			}
-
 		}
 
 		viewmodel?.failureResponse?.observe(requireActivity()) { user ->

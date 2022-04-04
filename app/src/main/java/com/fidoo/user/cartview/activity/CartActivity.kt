@@ -515,20 +515,20 @@ class CartActivity : BaseActivity(),
 		/**
 		 * **********************************************************************************************
 		 */
-//
-//		delivery_address_lay.setOnClickListener {
-//			if (!isNetworkConnected) {
-//				showToast(resources.getString(R.string.provide_internet))
-//
-//			} else {
-//				startActivityForResult(
-//					Intent(this, SavedAddressesActivityNew::class.java)
-//						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
-//				)
-//
-//			}
-//
-//		}
+
+		delivery_address_lay.setOnClickListener {
+			if (!isNetworkConnected) {
+				showToast(resources.getString(R.string.provide_internet))
+
+			} else {
+				startActivityForResult(
+					Intent(this, SavedAddressesActivityNew::class.java)
+						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
+				)
+
+			}
+
+		}
 
 		cash_lay.setOnClickListener {
 			isSelected = "cash"
