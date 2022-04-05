@@ -1378,8 +1378,8 @@ class CartActivity : BaseActivity(),
 //		dialog?.show()
 //	}
    fun getAddress(){
-	fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(this@CartActivity) {
-		if(it.addressList.size >=1) {
+	addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer {
+		if (it.addressList.size >= 1) {
 			if (!it.addressList.isNullOrEmpty()) {
 				val flat = it.addressList[0].flatNo
 				val locality = it.addressList[0].location
@@ -1392,24 +1392,7 @@ class CartActivity : BaseActivity(),
 			}
 		}
 
-//            when {
-//                it.addressList[0].addressType.equals("1") -> {
-//                    SessionTwiclo(requireContext()).userAddress =
-//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
-//                    SessionTwiclo(requireContext()).addressType = "Home"
-//                }
-//                it.addressList[0].addressType.equals("2") -> {
-//                    SessionTwiclo(requireContext()).userAddress =
-//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
-//                    SessionTwiclo(requireContext()).addressType = "Office"
-//                }
-//                else -> {
-//                    SessionTwiclo(requireContext()).userAddress =
-//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
-//                    SessionTwiclo(requireContext()).addressType = "Other"
-//                }
-//            }
-	}
+		})
 }
 
 	/**
@@ -1583,10 +1566,12 @@ class CartActivity : BaseActivity(),
 		Log.d("address_id_____", "" + address_id)
 		tv_delivery_address_title.text = selectedAddressTitle
 		if(NewAddAddressActivityNew.checkCount == 1){
-			//getAddress()
+			        getAddress()
 			//		NewAddAddressActivityNew.checkCount = 0
-
-			tv_delivery_address.text = currentlyAddedAddress
+			/**
+			 * ***********************************************************************************************************************
+			 */
+			//tv_delivery_address.text = currentlyAddedAddress
 		}
 		else if(NewAddAddressActivityNew.checkCount == 0){
 			tv_delivery_address.text = selectedAddressName
