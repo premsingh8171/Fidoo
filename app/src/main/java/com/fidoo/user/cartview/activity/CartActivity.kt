@@ -55,6 +55,7 @@ import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
 import com.fidoo.user.cartview.roomdb.entity.PrescriptionViewEntity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.constants.useconstants
+import com.fidoo.user.constants.useconstants.currentlyAddedAddress
 import com.fidoo.user.dashboard.viewmodel.HomeFragmentNewViewModel
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
@@ -1576,7 +1577,18 @@ class CartActivity : BaseActivity(),
 
 		Log.d("address_id_____", "" + address_id)
 		tv_delivery_address_title.text = selectedAddressTitle
-		tv_delivery_address.text = selectedAddressName
+		if(NewAddAddressActivityNew.checkCount == 1){
+			//getAddress()
+			//		NewAddAddressActivityNew.checkCount = 0
+
+			tv_delivery_address.text = currentlyAddedAddress
+		}
+		else if(NewAddAddressActivityNew.checkCount == 0){
+			tv_delivery_address.text = selectedAddressName
+		}
+		else{
+			tv_delivery_address.text = selectedAddressName
+		}
 		tv_landmark.text = selectedPreAddressName
 
 		if (!isNetworkConnected) {
@@ -2211,11 +2223,13 @@ class CartActivity : BaseActivity(),
 	}
 
 	override fun onStart() {
-		if(NewAddAddressActivityNew.checkCount == 1){
-			getAddress()
-			//		NewAddAddressActivityNew.checkCount = 0
-		}
 		super.onStart()
+		if(NewAddAddressActivityNew.checkCount == 1){
+			//getAddress()
+			//		NewAddAddressActivityNew.checkCount = 0
+
+			tv_delivery_address.text = currentlyAddedAddress
+		}
 	}
 
 	override fun onCustomRadioClick(checkedId: String?, position: String?) {

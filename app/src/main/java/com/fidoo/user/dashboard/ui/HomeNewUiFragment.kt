@@ -57,6 +57,7 @@ import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
+import com.fidoo.user.constants.useconstants.currentlyAddedAddress
 import com.fidoo.user.dailyneed.ui.ServiceDailyNeedActivity
 import com.fidoo.user.dashboard.adapter.SliderAdapterExample
 import com.fidoo.user.dashboard.adapter.newadapter.ServiceDetailsAdapter
@@ -434,8 +435,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					val landmark = it.addressList[0].landmark
 					if (!landmark.isNullOrEmpty()) {
 						userAddress_newDesh.text = "$flat" + " " + "$landmark" + " " + "$locality"
+						currentlyAddedAddress = userAddress_newDesh.text.toString()
 					} else {
 						userAddress_newDesh.text = "$flat" + " " + "$locality"
+						currentlyAddedAddress = userAddress_newDesh.text.toString()
 					}
 				}
 			}
@@ -803,20 +806,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		}
 	}
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		Log.d("Nishant", "onCreate: ")
-		super.onCreate(savedInstanceState)
-	}
-
-	override fun onDestroy() {
-		Log.d("Nishant", "onDestroy: ")
-		super.onDestroy()
-	}
 
 	override fun onResume() {
 		Log.d("Nishant", "onResume: ")
 		super.onResume()
-
+		Toast.makeText(requireContext(), "$currentlyAddedAddress", Toast.LENGTH_SHORT).show()
 		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
 			CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
 			CartActivity.accessToken = SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
@@ -920,9 +914,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 	override fun onStart() {
 		Log.d("Nishant", "onStart: ")
-		CoroutineScope(Dispatchers.IO).launch {
-			delay(50)
-		}
+//		CoroutineScope(Dispatchers.IO).launch {
+//			delay(50)
+//		}
 		if(NewAddAddressActivityNew.checkCount == 1){
 			getAddress()
 			//		NewAddAddressActivityNew.checkCount = 0
