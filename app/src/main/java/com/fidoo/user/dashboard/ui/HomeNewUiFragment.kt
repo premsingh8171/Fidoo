@@ -58,6 +58,7 @@ import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.constants.useconstants.currentlyAddedAddress
+import com.fidoo.user.constants.useconstants.navigateFromNewAddressActivity
 import com.fidoo.user.dailyneed.ui.ServiceDailyNeedActivity
 import com.fidoo.user.dashboard.adapter.SliderAdapterExample
 import com.fidoo.user.dashboard.adapter.newadapter.ServiceDetailsAdapter
@@ -298,6 +299,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					), AUTOCOMPLETE_REQUEST_CODE
 			)
 			addEditAdd = "Dashboard"
+			navigateFromNewAddressActivity = 1
 		}
 		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
 			CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId

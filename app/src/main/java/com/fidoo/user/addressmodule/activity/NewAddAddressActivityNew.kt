@@ -44,6 +44,8 @@ import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew.Companion
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
+import com.fidoo.user.constants.useconstants
+import com.fidoo.user.constants.useconstants.navigateFromCart
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
@@ -578,11 +580,11 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                 SavedAddressesActivityNew.editAdd = 1
                 finish()
                 AppUtils.finishActivityLeftToRight(this)
-                if (checkAddressSavedFromWhichActivity.equals("fromNewAddressActivity")) {
-                    val intent = Intent(this, MainActivity::class.java)
+                if (useconstants.navigateFromNewAddressActivity == 1) {
+                    val intent = Intent(this,MainActivity::class.java)
                     startActivity(intent)
                 }
-                else if(checkAddressSavedFromWhichActivity.equals("fromCart")){
+               else if(navigateFromCart == 1){
                     val intent = Intent(this, CartActivity::class.java)
                     startActivity(intent)
                 }

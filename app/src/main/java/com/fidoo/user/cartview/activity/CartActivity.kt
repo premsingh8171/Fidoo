@@ -56,6 +56,8 @@ import com.fidoo.user.cartview.roomdb.entity.PrescriptionViewEntity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.constants.useconstants
 import com.fidoo.user.constants.useconstants.currentlyAddedAddress
+import com.fidoo.user.constants.useconstants.navigateFromCart
+import com.fidoo.user.constants.useconstants.navigateFromNewAddressActivity
 import com.fidoo.user.dashboard.viewmodel.HomeFragmentNewViewModel
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
@@ -1428,6 +1430,7 @@ class CartActivity : BaseActivity(),
 			startActivity(intent)
 		}
 		lvAddNewAdd?.setOnClickListener {
+			navigateFromNewAddressActivity = 0
 			startActivityForResult(
 				Intent(this, SavedAddressesActivityNew::class.java)
 					.putExtra("type", "address")
@@ -1435,6 +1438,7 @@ class CartActivity : BaseActivity(),
 					), AUTOCOMPLETE_REQUEST_CODE
 			)
 			MainActivity.addEditAdd = "Dashboard"
+			navigateFromCart = 1
 		}
 		addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
 			Log.e("addresses_response", Gson().toJson(user))
