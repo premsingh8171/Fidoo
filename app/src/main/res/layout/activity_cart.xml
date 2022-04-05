@@ -1293,7 +1293,7 @@
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
         android:paddingBottom="@dimen/margin_20dp"
-
+        android:visibility="gone"
        android:layout_alignParentBottom="true">
 
 
