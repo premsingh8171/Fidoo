@@ -810,7 +810,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	override fun onResume() {
 		Log.d("Nishant", "onResume: ")
 		super.onResume()
-//		Toast.makeText(requireContext(), "$currentlyAddedAddress", Toast.LENGTH_SHORT).show()
+	//	Toast.makeText(requireContext(), "$currentlyAddedAddress", Toast.LENGTH_SHORT).show()
 		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
 			CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
 			CartActivity.accessToken = SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
