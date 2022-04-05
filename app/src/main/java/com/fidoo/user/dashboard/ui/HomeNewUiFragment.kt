@@ -922,11 +922,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //		CoroutineScope(Dispatchers.IO).launch {
 //			delay(50)
 //		}
+		super.onStart()
 		if(NewAddAddressActivityNew.checkCount == 1){
 			getAddress()
 			//		NewAddAddressActivityNew.checkCount = 0
 		}
-		super.onStart()
 	}
 
 	override fun onStop() {
