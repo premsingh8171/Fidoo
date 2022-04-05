@@ -179,43 +179,13 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
         val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-          //  dialog?.setCanceledOnTouchOutside(false)
+            dialog?.setCanceledOnTouchOutside(false)
             showDialogUi()
         }
-//		else{
-//            checkPermission()
-//        }
-
 
 //	fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
 //		if(it.addressList.size == 0) {
 //				getCurrentLocationAddress()
-//		}
-//		else{
-//			ProfileFragment.addManages = ""
-//			deleteRoomDataBase()
-//			if ((activity as MainActivity).isNetworkConnected) {
-//				if (SessionTwiclo(context).isLoggedIn) {
-//					viewmodel?.getCartCountApi(
-//						SessionTwiclo(context).loggedInUserDetail.accountId,
-//						SessionTwiclo(context).loggedInUserDetail.accessToken
-//					)
-//					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
-//
-//					if (SessionTwiclo(context).addressType.equals("")) {
-//						text_newDesh.text = "Your Location"
-//					} else {
-//						text_newDesh.text = SessionTwiclo(context).addressType
-//					}
-//
-//				}
-//				else {
-//					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
-//					text_newDesh.text = SessionTwiclo(context).addressType
-////				getCurrentLocationAddress()
-//				}
-//				fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
-//			}
 //		}
 //	}
 
@@ -227,14 +197,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
 				override fun onPageScrollStateChanged(arg0: Int) {}
 			}
-//		CoroutineScope(Dispatchers.Main).launch {
-//			delay(100)
-//			val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//			if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//				dialog?.setCanceledOnTouchOutside(false)
-//				showDialogUi()
-//			}
-//		}
 		fragmentHomeBinding?.viewPagerBannerNewDesh!!.addOnPageChangeListener(
 			viewPagerPageChangeListener)
 
@@ -482,24 +444,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					}
 				}
 			}
-
-//            when {
-//                it.addressList[0].addressType.equals("1") -> {
-//                    SessionTwiclo(requireContext()).userAddress =
-//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
-//                    SessionTwiclo(requireContext()).addressType = "Home"
-//                }
-//                it.addressList[0].addressType.equals("2") -> {
-//                    SessionTwiclo(requireContext()).userAddress =
-//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
-//                    SessionTwiclo(requireContext()).addressType = "Office"
-//                }
-//                else -> {
-//                    SessionTwiclo(requireContext()).userAddress =
-//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
-//                    SessionTwiclo(requireContext()).addressType = "Other"
-//                }
-//            }
 		}
 	}
 
@@ -952,12 +896,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	override fun onStart() {
 		deleteRoomDataBase()
 		Log.d("Nishant", "onStart: ")
-//		CoroutineScope(Dispatchers.IO).launch {
-//			delay(50)
-//		}
 		if(NewAddAddressActivityNew.checkCount == 1){
 			getAddress()
-			//		NewAddAddressActivityNew.checkCount = 0
 		}
 		super.onStart()
 
