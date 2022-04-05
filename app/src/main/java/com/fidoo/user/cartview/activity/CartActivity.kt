@@ -1457,17 +1457,14 @@ class CartActivity : BaseActivity(),
 									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 									SessionTwiclo(this@CartActivity).addressType= "Home"
 								}
-
 								addressList.addressType.equals("2") -> {
 									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 									SessionTwiclo(this@CartActivity).addressType = "Office"
-
 								}
 
 								else -> {
 									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 									SessionTwiclo(this@CartActivity).addressType = "Other"
-
 								}
 							}
 
