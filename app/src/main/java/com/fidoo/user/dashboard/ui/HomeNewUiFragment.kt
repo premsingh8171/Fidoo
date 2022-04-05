@@ -92,13 +92,8 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.robin.locationgetter.EasyLocation
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_newui.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.util.*
-
 
 @Suppress("DEPRECATION")
 class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
@@ -120,19 +115,16 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	var catIconWidth = 0
 	var currentPage = 0
 	var timer: Timer? = null
-	val DELAY_MS: Long = 8000 //delay in milliseconds before task is to be executed
-	val PERIOD_MS: Long = 8000 // time in milliseconds between successive task executions.
+	val DELAY_MS: Long = 8000
+	val PERIOD_MS: Long = 8000
 	var payment_suc_Diolog: Dialog? = null
-
 	var addressViewModel: AddressViewModel? = null
 	var address = ArrayList<String>()
 	lateinit var addressAdapter: AddressesAdapter
-
 	private var mMixpanel: MixpanelAPI? = null
 	private val props = JSONObject()
 	var accessToken: String = ""
 	var accountId: String = ""
-
 	private var dialog: Dialog? = null
 
 	companion object {
@@ -141,7 +133,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		var itemPosition: Int? = 0
 		var countButtonOn:Int?= 0
 	}
-
 	var sliderItem = SliderItem()
 	var mmContext: Context? = null
 	private lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
@@ -160,9 +151,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		mMixpanel = MixpanelAPI.getInstance(requireContext(), "defeff96423cfb1e8c66f8ba83ab87fd")
 
 		props.put("Dashboard initialized", true)
-
 		mMixpanel?.track("DashBoard", props)
-
 		pref = SessionTwiclo(requireContext())
 		where = pref.guestLogin
 
@@ -176,7 +165,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
 		fragmentHomeBinding?.viewPagerBannerNewDesh!!.clipToPadding = false
 
-
         val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             dialog?.setCanceledOnTouchOutside(false)
@@ -188,8 +176,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //				getCurrentLocationAddress()
 //		}
 //	}
-
-
 
 		val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
 			object : ViewPager.OnPageChangeListener {
@@ -214,16 +200,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					)
 				}
 			}
-		} catch (e: Exception) {
 		}
-
+		catch (e: Exception) {
+		}
 		apiCall("1")
 		getObserveResponse()
 		onClickEvent()
-
 		fragmentHomeBinding?.mainViewNestedSNewDesh!!.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
 			if (scrollY > oldScrollY) {
-
 				if (10 < scrollY) {
 					fragmentHomeBinding?.topLayNewDesh!!.elevation = 20f
 					fragmentHomeBinding?.topLayNewDesh!!.setBackgroundResource(R.color.white)
@@ -231,8 +215,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 					view.visibility = View.VISIBLE
 				}
-			} else if (scrollX == scrollY) {
-
+			}
+			else if (scrollX == scrollY) {
 				if (scrollY < 5) {
 					fragmentHomeBinding?.topLayNewDesh!!.setBackgroundResource(R.color.lightGray)
 					fragmentHomeBinding?.topLayNewDesh!!.elevation = 0f
@@ -240,9 +224,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 					view.visibility = View.VISIBLE
 				}
-				//  Log.d("storeVisibilityNested1", "$scrollY--$oldScrollY")
-			} else {
-
+			}
+			else {
 				if (10 < scrollY) {
 					fragmentHomeBinding?.topLayNewDesh!!.elevation = 20f
 					fragmentHomeBinding?.topLayNewDesh!!.setBackgroundResource(R.color.white)
@@ -250,17 +233,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 					view.visibility = View.VISIBLE
 				}
-				//  Log.d("storeVisibilityNested2", "$scrollY--$oldScrollY")
 			}
 		})
-
 		fragmentHomeBinding?.userAddressNewDesh?.text = SessionTwiclo(context).userAddress
 		fragmentHomeBinding?.textNewDesh?.text = SessionTwiclo(context).addressType
-
-
 		return fragmentHomeBinding?.root
 	}
-
 
 	private fun showDialogUi() {
 		dialog = context?.let { Dialog(it) }!!
@@ -288,7 +266,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //			}
 //
 //		}
-
 		lvAddNewAdd?.setOnClickListener {
 			startActivityForResult(
 				Intent(context, SavedAddressesActivityNew::class.java)
@@ -303,7 +280,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
 			CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
 			CartActivity.accessToken = SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
-		} else {
+		}
+		else {
 			CartActivity.accountId = SessionTwiclo(requireActivity()).loginDetail.accountId.toString()
 			CartActivity.accessToken = SessionTwiclo(requireActivity()).loginDetail.accessToken
 		}
@@ -311,7 +289,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			if (it.errorCode==200) {
 				if (it.addressList.size == 0) {
 					bottomSheetAddress?.visibility = View.GONE
-
 					if (countButtonOn == 0) {
 						mBtnToTurnOnLocation?.setOnClickListener {
 							countButtonOn = 1
@@ -326,7 +303,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 							startActivity(intent)
 							dialog?.dismiss()
 						}
-
 					}
 					/**
 					 * ***************************************************************************************************************************************ISSUE
@@ -344,7 +320,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 								addressList: GetAddressModel.AddressList,
 							) {
 							}
-
 							override fun onClick(addressList: GetAddressModel.AddressList) {
 								NewAddAddressActivityNew.checkCount = 0
 								when {
@@ -404,13 +379,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			}
 			else if (it.errorCode==101){
 				showAlertDialog(requireActivity())
-
 			}
 		}
-
 		val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-		//Toast.makeText(context, "GPS is disable!", Toast.LENGTH_LONG).show()
 			lvCheckLocation?.visibility = View.GONE
 		dialog?.show()
 		dialog?.window!!.setLayout(
@@ -419,9 +391,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)
-
 	}
-
 
 	private fun restHomePage() {
 		deleteRoomDataBase()
@@ -435,21 +405,20 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 				if (SessionTwiclo(context).addressType.equals("")) {
 					text_newDesh.text = "Your Location"
-				} else {
-
+				}
+				else {
 					text_newDesh.text = SessionTwiclo(context).addressType
 				}
-
-			} else {
+			}
+			else {
 				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 				text_newDesh.text = SessionTwiclo(context).addressType
-
 			}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}
 	}
 
-	fun getAddress(){
+	private fun getAddress(){
 		fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
 			if(it.addressList.size >=1) {
 				if (!it.addressList.isNullOrEmpty()) {
@@ -491,14 +460,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	}
 
 	private fun onClickEvent() {
-
 		fragmentHomeBinding?.deshbordRefreshNewDesh!!.setOnRefreshListener {
 			apiCall("0")
 		}
-
 		fragmentHomeBinding?.retryOnHomeNewDesh!!.setOnClickListener {
 			if ((activity as MainActivity).isNetworkConnected) {
-
 				if (SessionTwiclo(context).isLoggedIn) {
 					try {
 						_progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
@@ -509,28 +475,24 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					} catch (ex: Exception) {
 						Log.wtf("IOS_error_starting", ex.cause!!)
 					}
-
 					viewmodel?.getHomeDataApi(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
 						SessionTwiclo(context).loggedInUserDetail.accessToken,
 						SessionTwiclo(context).userLat,
 						SessionTwiclo(context).userLng
 					)
-
 					viewmodel?.getBanners(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
 						SessionTwiclo(context).loggedInUserDetail.accessToken,
 						"1"
 					)
-
-
 					viewmodelusertrack?.customerActivityLog(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
 						SessionTwiclo(requireContext()).mobileno, "Home Screen",
 						SplashActivity.appversion, "", SessionTwiclo(requireContext()).deviceToken
 					)
-
-				} else {
+				}
+				else {
 					viewmodel?.getBanners(
 						"",
 						"",
@@ -551,9 +513,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = VISIBLE
 				(activity as MainActivity).showInternetToast()
 			}
-
 		}
-
 		fragmentHomeBinding?.cartIconNewDesh?.setOnClickListener {
 			if (SessionTwiclo(context).isLoggedIn) {
 				AppUtils.startActivityRightToLeft(
@@ -561,13 +521,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						"storeId", SessionTwiclo(context).storeId
 					)
 				)
-			} else {
+			}
+			else {
 				showLoginDialog("Please login to proceed")
 			}
-
 		}
 		fragmentHomeBinding?.addressLayNewDesh?.setOnClickListener {
-
 			showDialogUi()
 			/**
 			 * First Method to pop up BottomSheetDialogue
@@ -582,21 +541,17 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	private fun getObserveResponse() {
 		viewmodel?.cartCountResponse?.observe(requireActivity()) { user ->
 			Log.d("mModelData___", Gson().toJson(user))
-
 			if (_progressDlg != null) {
 				_progressDlg!!.dismiss()
 				_progressDlg = null
 			}
-
 			if (user != null) {
 				if (!user.error) {
 					val mModelData: CartCountModel = user
-
 					if (context != null) {
 						Log.d("mModelData___", mModelData.store_id)
 						SessionTwiclo(context).storeId = mModelData.store_id
 					}
-
 					if (user.count != null) {
 						if (user.count.toInt() > 0) {
 							fragmentHomeBinding?.cartCountTxtNewDesh?.visibility = View.VISIBLE
@@ -605,8 +560,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 							fragmentHomeBinding?.cartCountTxtNewDesh?.visibility = View.GONE
 						}
 					}
-
-				} else {
+				}
+				else {
 					if (user.errorCode == 101) {
 					}
 				}
@@ -635,14 +590,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 							SliderAdapterExample(
 								activity
 							) { }
-
 						fragmentHomeBinding?.tabDotsHomeNewDesh?.setupWithViewPager(
 							viewPagerBanner_newDesh,
 							true
 						)
 						adapterr.renewItems(sliderItemList)
 						fragmentHomeBinding?.viewPagerBannerNewDesh!!.adapter = adapterr
-
 						val handler = Handler()
 						val Update = Runnable {
 							Log.d(
@@ -655,14 +608,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 							} else {
 								currentPage++
 								// fragmentHomeBinding?.viewPagerBannerNewDesh!!.setPadding(70,0,10,0)
-
 							}
 							fragmentHomeBinding?.viewPagerBannerNewDesh!!.setCurrentItem(
 								currentPage,
 								true
 							)
 							Log.d("currenftPage__", currentPage.toString())
-
 						}
 						timer = Timer()
 						timer!!.schedule(object : TimerTask() {
@@ -670,7 +621,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 								handler.post(Update)
 							}
 						}, DELAY_MS, PERIOD_MS)
-
 						try {
 							if (user.show_slider.equals("1")) {
 								fragmentHomeBinding?.bannerLLNewDesh!!.visibility = View.VISIBLE
@@ -679,12 +629,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 							}
 						} catch (e: Exception) {
 						}
-
 					}
 				}
 			}
 		}
-
 		viewmodel?.homeDataResponse?.observe(requireActivity()) {
 			Log.e("homeDataResponse__", Gson().toJson(it))
 			fragmentHomeBinding?.mainViewNestedSNewDesh!!.visibility = View.VISIBLE
@@ -693,30 +641,24 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				_progressDlg = null
 			}
 			//fidooLoaderCancel()
-
 			if (it.error_code == 200) {
 				if (it.homeData.isNotEmpty()) {
 					homeRecyclerview(it.homeData as ArrayList)
 				}
 			}
 		}
-
 		viewmodel?.failureResponse?.observe(requireActivity()) { user ->
 			//dismissIOSProgress()
 			fragmentHomeBinding?.deshbordRefreshNewDesh!!.isRefreshing = false
-
 			if (_progressDlg != null) {
 				_progressDlg!!.dismiss()
 				_progressDlg = null
 			}
-
 			if (context != null) {
 				Toast.makeText(context, user, Toast.LENGTH_SHORT).show()
 			}
-
 			Log.e("cart_response", Gson().toJson(user))
 		}
-
 		viewmodel?.checkPaymentStatusRes?.observe(requireActivity()) { user ->
 			Log.e("checkPaymentStatusRes_", Gson().toJson(user))
 			dismissIOSProgress()
@@ -739,7 +681,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			if (SessionTwiclo(context).isLoggedIn) {
 				mMixpanel?.identify(SessionTwiclo(context).loggedInUserDetail.accountId)
 				mMixpanel?.people?.identify(SessionTwiclo(context).loggedInUserDetail.accountId)
-
 				try {
 					if (dialogStartOrNot == "1") {
 						_progressDlg = ProgressDialog(context, R.style.TransparentProgressDialog)
@@ -751,19 +692,16 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				} catch (ex: Exception) {
 					Log.wtf("IOS_error_starting", ex.cause!!)
 				}
-
 				viewmodel?.getHomeDataApi(
 					SessionTwiclo(context).loggedInUserDetail.accountId,
 					SessionTwiclo(context).loggedInUserDetail.accessToken,
 					SessionTwiclo(context).userLat,
 					SessionTwiclo(context).userLng
 				)
-
 				viewmodel?.getBanners(
 					SessionTwiclo(context).loggedInUserDetail.accountId,
 					SessionTwiclo(context).loggedInUserDetail.accessToken,
 					"1")
-
 				viewmodelusertrack?.customerActivityLog(
 					SessionTwiclo(context).loggedInUserDetail.accountId,
 					SessionTwiclo(requireContext()).mobileno, "Home Screen",
@@ -775,24 +713,21 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					"",
 					"1"
 				)
-
 				viewmodel?.getHomeDataApi(
 					"",
 					"",
 					SessionTwiclo(context).userLat,
 					SessionTwiclo(context).userLng
 				)
-
 			}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 			fragmentHomeBinding?.deshbordRefreshNewDesh!!.visibility = View.VISIBLE
-
-		} else {
+		}
+		else {
 			fragmentHomeBinding?.deshbordRefreshNewDesh!!.visibility = View.GONE
 			fragmentHomeBinding?.mainViewNestedSNewDesh!!.visibility = View.GONE
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.VISIBLE
 		}
-
 	}
 
 	override fun onActivityResult(
@@ -805,10 +740,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 		if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
 			fragmentHomeBinding?.userAddressNewDesh?.text = SessionTwiclo(context).userAddress
-
 		}
 	}
-
 
 	override fun onResume() {
 		super.onResume()
@@ -849,7 +782,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					if (it.addressList.size == 0) {
 
 						getCurrentLocationAddress()
-
 					}
 				}
 			countButtonOn = 0
@@ -875,7 +807,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			)
 		}
 		builder.setNegativeButton("Cancel") { _, _ ->
-
 		}
 		val alertDialog: androidx.appcompat.app.AlertDialog = builder.create()
 		alertDialog.setCancelable(true)
@@ -891,15 +822,16 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					"serviceId", model.id
 				).putExtra("serviceName", model.service_name)
 			)
-
-		} else if (model.id.equals("4")) {
+		}
+		else if (model.id.equals("4")) {
 			AppUtils.startActivityRightToLeft(
 				requireActivity(), Intent(context, SendPackageActivity::class.java)
 					.putExtra("where", where)
 					.putExtra("cat_id", model.id)
 					.putExtra("cat_name", model.service_name)
 			)
-		} else {
+		}
+		else {
 			AppUtils.startActivityRightToLeft(
 				requireActivity(),
 				Intent(requireActivity(), ServiceDailyNeedActivity::class.java).putExtra(
@@ -916,7 +848,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			getAddress()
 		}
 		super.onStart()
-
 	}
 
 	override fun onStop() {
@@ -951,7 +882,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					.putExtra("cat_id", "")
 					.putExtra("cat_name", "")
 			)
-		} else {
+		}
+		else {
 			AppUtils.startActivityRightToLeft(
 				requireActivity(), Intent(context, SendPackageActivity::class.java)
 					.putExtra("where", where)
@@ -986,7 +918,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					"serviceId", model.id
 				).putExtra("serviceName", model.category_name)
 			)
-		} else {
+		}
+		else {
 			AppUtils.startActivityRightToLeft(
 				requireActivity(),
 				Intent(requireActivity(), ServiceDailyNeedActivity::class.java).putExtra(
@@ -1008,7 +941,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		mmContext = context
 	}
 
-	//delete room data
 	private fun deleteRoomDataBase() {
 		try {
 			Thread {
@@ -1037,8 +969,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		)
 		payment_suc_Diolog?.setCanceledOnTouchOutside(true)
 		payment_suc_Diolog?.show()
-		val payment_successImg =
-			payment_suc_Diolog?.findViewById<ImageView>(R.id.payment_successImg)
+		val payment_successImg = payment_suc_Diolog?.findViewById<ImageView>(R.id.payment_successImg)
 
 		Glide.with(this).load(R.drawable.pay_suc)
 			.listener(object : RequestListener<Drawable?> {
@@ -1050,8 +981,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				): Boolean {
 					return false
 				}
-
-
 				override fun onResourceReady(
 					resource: Drawable?,
 					model: Any,
@@ -1069,15 +998,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			payment_suc_Diolog?.dismiss()
 		}, 5000)
 	}
-
-
-//	private fun setAddressAdapter() {
-//		addressAdapter = AddressesAdapter(requireContext(), address)
-//		val linearLayoutManager = LinearLayoutManager(requireContext())
-//		recyclerView.adapter = addressAdapter
-//		recyclerView.layoutManager = linearLayoutManager
-//	}
-
 
 	private fun checkPermission() {
 		if (ContextCompat.checkSelfPermission(
@@ -1106,37 +1026,34 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			}
 		}
 	}
+
 	private fun getCurrentLocationAddress() {
 		Log.e("Locationcall", "call")
-
 		EasyLocation(requireActivity(), object : EasyLocation.EasyLocationCallBack {
 			override fun permissionDenied() {
 				Log.e("Location", "permission  denied")
 			}
-
 			override fun locationSettingFailed() {
 				Log.e("Location", "setting failed")
 			}
-
 			override fun getLocation(location: Location) {
 				Log.e("Location_lat_lng", " latitude ${location.latitude} longitude ${location.longitude}")
-
 				var address=getGeoAddressFromLatLong(location.latitude, location.longitude)
-
 				if (address!!.isNotEmpty()) {
 					SessionTwiclo(requireActivity()).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
 					SessionTwiclo(requireActivity()).userLat = location.latitude.toString()
 					SessionTwiclo(requireActivity()).userLng = location.longitude.toString()
 					userAddress?.text = SessionTwiclo(requireActivity()).userAddress
-				}else{
+				}
+				else{
 					geocoderAddress(location.latitude.toString(),location.longitude.toString())
 				}
 			}
 		})
 	}
+
 	fun geocoderAddress(lat:String,lng:String) {
-		val geocodeUrl =
-			"https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
+		val geocodeUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
 		Log.e("geocodeUrl", geocodeUrl)
 		val geocodeRequest = object :
 			StringRequest(Request.Method.GET, geocodeUrl, Response.Listener<String> { response ->
@@ -1159,10 +1076,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				}
 
 			}, Response.ErrorListener { dismissIOSProgress()}) {
-
 		}
 		val requestQueue = Volley.newRequestQueue(requireActivity())
 		requestQueue.add(geocodeRequest)
-
 	}
 }
