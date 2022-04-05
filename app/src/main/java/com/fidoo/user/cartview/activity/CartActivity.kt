@@ -866,8 +866,11 @@ class CartActivity : BaseActivity(),
 
 						value_AdditionalTxt.text=user.delivery_tax_rate
 
+						val layoutManagerpopup= LinearLayoutManager(this)
+						rv_newchargesa.layoutManager= layoutManagerpopup
+
 						var adapterCharges=DeliveryChargesAdapter(this,user.deliveryChargesList as ArrayList)
-						charges_rv.adapter=adapterCharges
+						rv_newchargesa.adapter=adapterCharges
 					} catch (e: Exception) {
 						e.printStackTrace()
 					}
