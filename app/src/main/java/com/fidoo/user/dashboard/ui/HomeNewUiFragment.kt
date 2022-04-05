@@ -1103,10 +1103,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			}
 
 			override fun getLocation(location: Location) {
-				Log.e(
-					"Location_lat_lng",
-					" latitude ${location.latitude} longitude ${location.longitude}"
-				)
+				Log.e("Location_lat_lng", " latitude ${location.latitude} longitude ${location.longitude}")
 
 				var address=getGeoAddressFromLatLong(location.latitude, location.longitude)
 
