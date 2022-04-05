@@ -177,11 +177,12 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		fragmentHomeBinding?.viewPagerBannerNewDesh!!.clipToPadding = false
 
 
-//        val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//          //  dialog?.setCanceledOnTouchOutside(false)
-//            showDialogUi()
-//        }else{
+        val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+          //  dialog?.setCanceledOnTouchOutside(false)
+            showDialogUi()
+        }
+//		else{
 //            checkPermission()
 //        }
 
@@ -193,14 +194,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
 				override fun onPageScrollStateChanged(arg0: Int) {}
 			}
-		CoroutineScope(Dispatchers.Main).launch {
-			delay(100)
-			val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-			if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-				dialog?.setCanceledOnTouchOutside(false)
-				showDialogUi()
-			}
-		}
+//		CoroutineScope(Dispatchers.Main).launch {
+//			delay(100)
+//			val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//			if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//				dialog?.setCanceledOnTouchOutside(false)
+//				showDialogUi()
+//			}
+//		}
 		fragmentHomeBinding?.viewPagerBannerNewDesh!!.addOnPageChangeListener(
 			viewPagerPageChangeListener)
 
@@ -287,7 +288,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				requestPermissions(permList, 100)
 				val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
 				startActivity(intent)
-				dialog?.dismiss()
+
 			}
 			countButtonOn = 1
 		}
@@ -813,7 +814,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 
 	override fun onResume() {
-		Log.d("Nishant", "onResume: ")
 		super.onResume()
 	//	Toast.makeText(requireContext(), "$currentlyAddedAddress", Toast.LENGTH_SHORT).show()
 		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
@@ -861,6 +861,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //						getCurrentLocationAddress()
 //					}
 				}
+			countButtonOn = 0
 		}
 	}
 
@@ -918,15 +919,17 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	}
 
 	override fun onStart() {
+		restHomePage()
 		Log.d("Nishant", "onStart: ")
 //		CoroutineScope(Dispatchers.IO).launch {
 //			delay(50)
 //		}
-		super.onStart()
 		if(NewAddAddressActivityNew.checkCount == 1){
 			getAddress()
 			//		NewAddAddressActivityNew.checkCount = 0
 		}
+		super.onStart()
+
 	}
 
 	override fun onStop() {
