@@ -1503,7 +1503,7 @@ class CartActivity : BaseActivity(),
 		dialog?.show()
 		dialog?.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
-			1200
+			1400
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)

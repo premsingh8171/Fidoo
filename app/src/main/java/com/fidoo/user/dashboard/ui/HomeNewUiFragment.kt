@@ -187,6 +187,39 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //        }
 
 
+//	fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
+//		if(it.addressList.size == 0) {
+//				getCurrentLocationAddress()
+//		}
+//		else{
+//			ProfileFragment.addManages = ""
+//			deleteRoomDataBase()
+//			if ((activity as MainActivity).isNetworkConnected) {
+//				if (SessionTwiclo(context).isLoggedIn) {
+//					viewmodel?.getCartCountApi(
+//						SessionTwiclo(context).loggedInUserDetail.accountId,
+//						SessionTwiclo(context).loggedInUserDetail.accessToken
+//					)
+//					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+//
+//					if (SessionTwiclo(context).addressType.equals("")) {
+//						text_newDesh.text = "Your Location"
+//					} else {
+//						text_newDesh.text = SessionTwiclo(context).addressType
+//					}
+//
+//				}
+//				else {
+//					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+//					text_newDesh.text = SessionTwiclo(context).addressType
+////				getCurrentLocationAddress()
+//				}
+//				fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
+//			}
+//		}
+//	}
+
+
 
 		val viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
 			object : ViewPager.OnPageChangeListener {
@@ -279,7 +312,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
 		if (countButtonOn == 0) {
 			mBtnToTurnOnLocation?.setOnClickListener {
-				getCurrentLocationAddress()
+				countButtonOn = 1
+//				getCurrentLocationAddress()
 				val permList = arrayOf(
 					Manifest.permission.ACCESS_FINE_LOCATION,
 					Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -288,9 +322,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				requestPermissions(permList, 100)
 				val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
 				startActivity(intent)
-
+                dialog?.dismiss()
 			}
-			countButtonOn = 1
+
 		}
 
 		lvAddNewAdd?.setOnClickListener {
@@ -315,7 +349,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			if (it.errorCode==200) {
 				if (it.addressList.size == 0) {
 					bottomSheetAddress?.visibility = View.GONE
-					getCurrentLocationAddress()
+//					getCurrentLocationAddress()
 				}
 				if (!it.addressList.isNullOrEmpty()) {
 					bottomSheetAddress?.visibility = VISIBLE
@@ -398,7 +432,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		dialog?.show()
 		dialog?.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
-			1200
+			1400
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)
@@ -853,13 +887,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")
 				?.observe(requireActivity()) {
 					if (it.addressList.size == 0) {
-						if (!it.addressList.isNullOrEmpty()) {
-							getCurrentLocationAddress()
-						}
+
+						getCurrentLocationAddress()
+
 					}
-//					else{
-//						getCurrentLocationAddress()
-//					}
 				}
 			countButtonOn = 0
 		}
@@ -919,7 +950,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	}
 
 	override fun onStart() {
-		restHomePage()
+		deleteRoomDataBase()
 		Log.d("Nishant", "onStart: ")
 //		CoroutineScope(Dispatchers.IO).launch {
 //			delay(50)
