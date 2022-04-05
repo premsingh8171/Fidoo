@@ -116,6 +116,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	lateinit var pref: SessionTwiclo
 	var height = 0
 	var width = 0
+	var address_id: String = ""
 	var catIconWidth = 0
 	var currentPage = 0
 	var timer: Timer? = null
@@ -370,6 +371,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 									SessionTwiclo(requireContext()).addressType = "Home"
 								}
 								SessionTwiclo(requireContext()).userAddressId = addressList.id
+								address_id=addressList.id
 								SessionTwiclo(requireContext()).userLat = addressList.latitude
 								SessionTwiclo(requireContext()).userLng = addressList.longitude
 								dialog?.dismiss()
