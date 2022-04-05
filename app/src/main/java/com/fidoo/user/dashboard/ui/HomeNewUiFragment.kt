@@ -272,22 +272,22 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
 		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
 		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
-		if (countButtonOn == 0) {
-			mBtnToTurnOnLocation?.setOnClickListener {
-				countButtonOn = 1
+//		if (countButtonOn == 0) {
+//			mBtnToTurnOnLocation?.setOnClickListener {
+//				countButtonOn = 1
 //				getCurrentLocationAddress()
-				val permList = arrayOf(
-					Manifest.permission.ACCESS_FINE_LOCATION,
-					Manifest.permission.ACCESS_COARSE_LOCATION,
-					Manifest.permission.ACCESS_BACKGROUND_LOCATION
-				)
-				requestPermissions(permList, 100)
-				val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-				startActivity(intent)
-                dialog?.dismiss()
-			}
-
-		}
+//				val permList = arrayOf(
+//					Manifest.permission.ACCESS_FINE_LOCATION,
+//					Manifest.permission.ACCESS_COARSE_LOCATION,
+//					Manifest.permission.ACCESS_BACKGROUND_LOCATION
+//				)
+//				requestPermissions(permList, 100)
+//				val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+//				startActivity(intent)
+//                dialog?.dismiss()
+//			}
+//
+//		}
 
 		lvAddNewAdd?.setOnClickListener {
 			startActivityForResult(
@@ -311,6 +311,26 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			if (it.errorCode==200) {
 				if (it.addressList.size == 0) {
 					bottomSheetAddress?.visibility = View.GONE
+
+					if (countButtonOn == 0) {
+						mBtnToTurnOnLocation?.setOnClickListener {
+							countButtonOn = 1
+							getCurrentLocationAddress()
+							val permList = arrayOf(
+								Manifest.permission.ACCESS_FINE_LOCATION,
+								Manifest.permission.ACCESS_COARSE_LOCATION,
+								Manifest.permission.ACCESS_BACKGROUND_LOCATION
+							)
+							requestPermissions(permList, 100)
+							val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+							startActivity(intent)
+							dialog?.dismiss()
+						}
+
+					}
+					/**
+					 * ***************************************************************************************************************************************ISSUE
+					 */
 //					getCurrentLocationAddress()
 				}
 				if (!it.addressList.isNullOrEmpty()) {
@@ -381,7 +401,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					rvManageAddress?.setHasFixedSize(true)
 					rvManageAddress?.adapter = adapter
 				}
-			}else if (it.errorCode==101){
+			}
+			else if (it.errorCode==101){
 				showAlertDialog(requireActivity())
 
 			}
@@ -748,9 +769,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					SessionTwiclo(requireContext()).mobileno, "Home Screen",
 					SplashActivity.appversion, "", SessionTwiclo(requireContext()).deviceToken
 				)
-
 			} else {
-
 				viewmodel?.getBanners(
 					"",
 					"",
@@ -793,7 +812,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 	override fun onResume() {
 		super.onResume()
-	//	Toast.makeText(requireContext(), "$currentlyAddedAddress", Toast.LENGTH_SHORT).show()
 		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
 			CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
 			CartActivity.accessToken = SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
@@ -815,15 +833,13 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				if (SessionTwiclo(context).addressType.equals("")) {
 					text_newDesh.text = "Your Location"
 				} else {
-					//    userAddress_newDesh?.text = fixedAddressViewModel?.addrListModel?.value?.addressList?.get(0).toString()
 					text_newDesh.text = SessionTwiclo(context).addressType
 				}
-
 			}
 			else {
 				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 				text_newDesh.text = SessionTwiclo(context).addressType
-//				getCurrentLocationAddress()
+				getCurrentLocationAddress()
 			}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}
