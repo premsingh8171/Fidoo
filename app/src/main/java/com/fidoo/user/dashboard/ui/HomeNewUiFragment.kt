@@ -300,6 +300,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			)
 			addEditAdd = "Dashboard"
 			navigateFromNewAddressActivity = 1
+			dialog?.dismiss()
 		}
 		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
 			CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId

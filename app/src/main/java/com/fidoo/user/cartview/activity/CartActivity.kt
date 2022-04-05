@@ -1439,6 +1439,7 @@ class CartActivity : BaseActivity(),
 			)
 			MainActivity.addEditAdd = "Dashboard"
 			navigateFromCart = 1
+			dialog?.dismiss()
 		}
 		addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
 			Log.e("addresses_response", Gson().toJson(user))
