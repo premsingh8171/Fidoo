@@ -1093,19 +1093,47 @@ class CartActivity : BaseActivity(),
 					//tv_delivery_discount.text = "Cart Discount (" + mModelData.coupon_name +")"
 
 					//totalAmountBottom.text = resources.getString(R.string.ruppee) + finalPrice.toString()
+					Log.d("eligible_for_cart_coupon_",mModelData.eligible_for_cart_coupon)
+					if (mModelData.eligible_for_cart_coupon.equals("0")){
+						cv_couponCard.visibility = View.VISIBLE
+						smpviewnew.visibility = View.VISIBLE
+						tv_cart_discount_label.visibility = View.GONE
+						tv_cart_discount.visibility = View.GONE
 
-					if (!mModelData.coupon_id.equals("")) {
+						tv_coupon.text =  mModelData.coupon_name
+						tv_limitexceed.text =  "Your limit has been exceeded."
+						tv_limitexceed.setTextColor(resources.getColor(R.color.red))
 
-						tv_coupon.visibility = View.VISIBLE
+					}else if (mModelData.eligible_for_cart_coupon.equals("1")){
+						cv_couponCard.visibility = View.VISIBLE
+						smpviewnew.visibility = View.VISIBLE
 
-						tv_cart_discount.visibility = View.VISIBLE
 						tv_cart_discount_label.visibility = View.VISIBLE
-						tv_cart_discount_label.text =
-							"Cart Discount (" + mModelData.coupon_name + ")"
-						tv_coupon.text = "Cart Coupon Applied (" + mModelData.coupon_name + ")"
+						tv_cart_discount.visibility = View.VISIBLE
 						tv_cart_discount.text =
 							"- " + resources.getString(R.string.ruppee) + user.discount_amount.toFloat()
 								.toString()
+						tv_coupon.text =  mModelData.coupon_name
+						tv_limitexceed.text =  "Offer applied on the billed"
+					}
+					else{
+						cv_couponCard.visibility = View.GONE
+						smpviewnew.visibility = View.GONE
+
+					}
+					if (!mModelData.coupon_id.equals("")) {
+
+						//tv_coupon.visibility = View.VISIBLE
+
+						//tv_cart_discount.visibility = View.VISIBLE
+						//tv_cart_discount_label.visibility = View.VISIBLE
+
+//						tv_cart_discount_label.text =
+//							"Cart Discount (" + mModelData.coupon_name + ")"
+//						tv_coupon.text =  mModelData.coupon_name
+//						tv_cart_discount.text =
+//							"- " + resources.getString(R.string.ruppee) + user.discount_amount.toFloat()
+//								.toString()
 
 						//	totalAmount = (totalAmount - mModelData.discount_amount.toDouble())
 

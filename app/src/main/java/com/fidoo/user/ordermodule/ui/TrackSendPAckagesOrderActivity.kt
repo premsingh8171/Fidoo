@@ -517,7 +517,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
         })
 
-        viewmodel?.trackPackageOrderModelRes?.observe(this, {
+        viewmodel?.trackPackageOrderModelRes?.observe(this) {
             Log.e("trackPackageOrder_", Gson().toJson(it))
             if (it.error_code.equals("200")) {
                 try {
@@ -707,7 +707,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
                 }
             }
 
-        })
+        }
 
     }
 

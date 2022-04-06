@@ -351,7 +351,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
     }
 
     fun applyPromoApi(accountId: String, accessToken: String, promocode: String) {
-
+        Log.d("applyPromoApi","$accountId--+$accessToken--$promocode")
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).applyOffersApi(
             accountId = accountId, accessToken = accessToken, promocode = promocode

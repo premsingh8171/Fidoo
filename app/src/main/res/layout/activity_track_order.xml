@@ -309,7 +309,7 @@
                                         android:layout_marginStart="5dp"
                                         android:fontFamily="@font/proxima"
                                         android:maxLines="1"
-                                        android:text="Store Name"
+                                        android:text=""
                                         android:textColor="@color/colorTitle"
                                         android:textSize="12sp"
                                         android:textStyle="bold"

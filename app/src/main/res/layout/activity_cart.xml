@@ -426,31 +426,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:layout_below="@+id/delivery_addressCard"
-
-                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:visibility="gone"
                     android:background="@color/input_fieldcolor" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:id="@+id/cv_couponCard"
                     app:cardElevation="0dp"
-                    android:layout_below="@+id/smpviewnew"
-                    >
+                    android:layout_marginTop="@dimen/margin_10dp"
+
+                    android:layout_below="@+id/smpviewnew">
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
                         android:id="@+id/rv_couponsCard"
-                        android:background="@color/lightGray"
-                        >
+                        android:background="@color/lightGray">
+
+                        <RelativeLayout
+                            android:layout_marginEnd="@dimen/margin_20dp"
+                            android:layout_marginStart="@dimen/margin_20dp"
+                            android:background="@drawable/dotted_card_rectangle_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
                         <ImageView
                             android:id="@+id/coupanimg"
                             android:layout_width="@dimen/margin_24dp"
                             android:layout_height="@dimen/margin_24dp"
                             android:layout_alignParentStart="true"
-                            android:layout_marginLeft="@dimen/margin_20dp"
-                            android:layout_marginTop="@dimen/margin_20dp"
+                            android:layout_marginLeft="@dimen/margin_10dp"
                             android:src="@drawable/offer_icon" />
 
                         <TextView
@@ -458,12 +464,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginTop="@dimen/margin_25dp"
-                            android:layout_marginBottom="@dimen/margin_20dp"
-                            android:layout_toRightOf="@+id/coupanimg"
-                            android:fontFamily="@font/proxima"
-                            android:text="Coupon Applied Successfully" />
+                            android:textColor="@color/primary_color"
 
+                            android:layout_toRightOf="@+id/coupanimg"
+                            android:fontFamily="@font/proximanova_bd"
+                            android:text="" />
+
+                            <TextView
+                                android:id="@+id/tv_limitexceed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_coupon"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="@dimen/dimen_5dp"
+                                android:layout_toRightOf="@+id/coupanimg"
+                                android:fontFamily="@font/proxima"
+                                android:text="" />
                         <ImageView
                             android:layout_width="@dimen/margin_20dp"
                             android:layout_height="@dimen/margin_20dp"
@@ -472,13 +488,14 @@
                             android:src="@drawable/cancel_icon"
                             android:visibility="gone"
                             app:tint="@color/primary_color" />
+                        </RelativeLayout>
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
                 <View
                     android:id="@+id/smpview"
                     android:layout_width="match_parent"
-                    android:layout_height="15dp"
+                    android:layout_height="10dp"
                     android:layout_below="@+id/cv_couponCard"
                     android:layout_marginTop="@dimen/margin_10dp"
                     android:background="@color/input_fieldcolor" />

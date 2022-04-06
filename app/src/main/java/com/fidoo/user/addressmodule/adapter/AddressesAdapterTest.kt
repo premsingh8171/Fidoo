@@ -236,7 +236,8 @@ class AddressesAdapterTest(
                 }
 
                 if (stringExtra.equals("from")) {
-                    SendPackageActivity.selectedFromAddress= addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                    SendPackageActivity.selectedFromAddress= "Building: "+addressList.get(position).flatNo + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                    //SendPackageActivity.selectedFromAddress= addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
                     //  SendPackageActivity.selectedFromAddress = addressList[position].location
                     SendPackageActivity.selectedfromLat = addressList[position].latitude.toDouble()
                     SendPackageActivity.selectedfromLng= addressList[position].longitude.toDouble()
@@ -246,7 +247,8 @@ class AddressesAdapterTest(
                 }
 
                 if (stringExtra.equals("to")) {
-                    SendPackageActivity.selectedToAddress= addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                    SendPackageActivity.selectedToAddress= "Building: "+addressList.get(position).flatNo + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
+                    //SendPackageActivity.selectedToAddress= addressList.get(position).flatNo + ", Building: " + addressList.get(position).building + ", Landmark: " + addressList.get(position).landmark+", "+addressList[position].location
                     /// SendPackageActivity.selectedToAddress = addressList[position].location
                     SendPackageActivity.selectedtoLat = addressList[position].latitude.toDouble()
                     SendPackageActivity.selectedtoLng= addressList[position].longitude.toDouble()

@@ -11,6 +11,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.location.Location
@@ -19,6 +20,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
@@ -29,6 +33,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.text.bold
 import androidx.lifecycle.ViewModelProviders
 import androidx.room.Room
 import com.android.volley.Request
@@ -74,6 +79,7 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.prudhvir3ddy.rideshare.utils.AnimationUtils
 import com.prudhvir3ddy.rideshare.utils.MapUtils
+import io.grpc.netty.shaded.io.netty.handler.codec.DateFormatter.append
 import kotlinx.android.synthetic.main.activity_track_order.*
 import kotlinx.android.synthetic.main.activity_track_order.address_details_lay
 import kotlinx.android.synthetic.main.activity_track_order.customer_care_fmL
@@ -365,9 +371,9 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
             waitingLay.visibility = View.GONE
         })
 
-        viewmodel?.callCustomerResponse?.observe(this, {
+        viewmodel?.callCustomerResponse?.observe(this) {
             Log.d("callCustomerResponse", Gson().toJson(it))
-        })
+        }
 
         viewmodel?.customerCallMerchantRes?.observe(this, {
             Log.d("customerCallMerchantRes", Gson().toJson(it))
@@ -381,7 +387,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
     }
 
     fun observeGetLocationResponse() {
-        viewmodel?.getLocationResponse?.observe(this, { user ->
+        viewmodel?.getLocationResponse?.observe(this) { user ->
             try {
                 Log.e("getLocationResponse___", Gson().toJson(user))
                 Log.e("getLocationResponse___", timerStatus.toString())
@@ -400,7 +406,8 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                     rider_LatLng =
                         LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
                     rider_LatLngStr = user.driverLatitude + "," + user.driverLongitude
-                    rider_LatLngOrg = LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
+                    rider_LatLngOrg =
+                        LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
 
                     Log.e("rider_LatLngStr", rider_LatLngStr.toString())
                 }
@@ -622,7 +629,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                 }
                 drawRoute(rider_LatLngStr!!, user_LatLngStr!!, "")
             }
-        })
+        }
     }
 
     fun observeOrderDetailResponse() {
@@ -646,6 +653,11 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             cancelBtn.text =
                                 "Cancel Order (" + (millisUntilFinished / 1000) + ")"
 
+                            val storeName = SpannableStringBuilder()
+                                .bold { append(it.storeName) }
+                                //.append(name)
+                            //txtResult.setText(s)
+                            status_store_txt.text=storeName
                             if ((millisUntilFinished / 1000) < 1) {
                                 waitingLay.visibility = View.GONE
                                 cancelBtn.visibility = View.GONE
@@ -655,6 +667,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                                     "Please wait while we confirm your order"
                             }
                         }
+
 
                         override fun onFinish() {
                             if (handleClick == 0) {
@@ -769,7 +782,11 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         it.orderStatus.equals("1") -> {
                             // holder.buttonValue.visibility = View.VISIBLE
                             // holder.buttonValue.visibility = View.GONE
-                            status_store_txt.text = it.storeName+" has received your order"
+                            var storeName = SpannableStringBuilder()
+                                .bold { append(it.storeName) }
+                            .append(" has received your order")
+
+                            status_store_txt.text = storeName
                            // order_status.text = "Please wait while we confirm your order"
                             order_status.text = "Waiting for merchant to accept the order"
                             tv_delivery_boy_call.visibility = View.GONE
@@ -834,7 +851,12 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         }
 
                         it.orderStatus.equals("11") -> {
-                            status_store_txt.text =it.storeName+ " is preparing your order"
+                            var storeName = SpannableStringBuilder()
+                                .bold { append(it.storeName) }
+                                .append(" is preparing your order")
+
+                            status_store_txt.text = storeName
+
                             order_status.text = "Your order is being prepared"
                             //tv_delivery_boy.text=it.deliveryBoyName +" has reached at "+it.storeName
                             tv_delivery_boy.text =
@@ -852,7 +874,12 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         it.orderStatus.equals("5") -> {
                             //  holder.buttonValue.visibility = View.VISIBLE
                             //holder.buttonValue.visibility = View.GONE
-                            status_store_txt.text =it.storeName +" is preparing your order"
+                            var storeName = SpannableStringBuilder()
+                                .bold { append(it.storeName) }
+                                .append(" is preparing your order")
+
+                            status_store_txt.text = storeName
+
                             order_status.text = "Order is in progress"
                             cancelBtn.visibility = View.GONE
                             tv_delivery_boy_call.visibility = View.VISIBLE
@@ -880,8 +907,14 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                         }
 
                         it.orderStatus.equals("7") -> {
+                            var storeName = SpannableStringBuilder()
+                                .bold { append(it.storeName) }
+                                .append(" is preparing your order")
+
+                            status_store_txt.text = storeName
+
                             //holder.buttonValue.visibility = View.VISIBLE
-                            status_store_txt.text =it.storeName+ " is preparing your order"
+
                             order_status.text = it.storeName + " has accepted your order"
                             tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
                             order_confirm_pointer.setColorFilter(Color.rgb(51, 147, 71))
@@ -899,8 +932,13 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                                 "Your order is ready and will soon be picked up by ",
                                 it.deliveryBoyName
                             )
+                            var storeName = SpannableStringBuilder()
+                                .bold { append(it.storeName) }
+                                .append(" has prepared your order")
+
+                            status_store_txt.text = storeName
 //                            tv_delivery_boy.text =  "Your Order is ready and will soon be picked up by " + it.deliveryBoyName
-                            status_store_txt.text =it.storeName+ " has prepared your order"
+
                             order_status.text =
                                 "Your order is ready and will soon be picked up by " + it.deliveryBoyName
                             tv_order_confirmed.setTextColor(Color.rgb(51, 147, 71))
@@ -997,7 +1035,11 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                                 it.deliveryBoyName + " is on the way to pick your order"
                             order_status.text =
                                 it.deliveryBoyName + " is on the way to pick your order from " + it.storeName
-                            status_store_txt.text =it.storeName+ " is preparing your order"
+                            var storeName = SpannableStringBuilder()
+                                .bold { append(it.storeName) }
+                                .append(" is preparing your order")
+
+                            status_store_txt.text = storeName
                             driver_cardView.visibility = View.VISIBLE
                             tv_delivery_boy_call.visibility = View.VISIBLE
                             tv_we_will_assign_delivery_partner_soon.visibility = View.INVISIBLE
@@ -1019,7 +1061,11 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
                             //	order_status.text = "It's ready. Just packing it."
                             order_status.text =
                                 it.deliveryBoyName + " has reached at " + it.storeName
-                            status_store_txt.text =it.storeName+ " is preparing your order"
+                            var storeName = SpannableStringBuilder()
+                                .bold { append(it.storeName) }
+                                .append(" is preparing your order")
+
+                            status_store_txt.text = storeName
                             tv_delivery_boy.text =
                                 it.deliveryBoyName + " has reached at " + it.storeName
                             driver_cardView.visibility = View.VISIBLE
@@ -1738,4 +1784,5 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         val cameraPosition = CameraPosition.Builder().target(latLng).zoom(14.5f).build()
         mMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
+
 }

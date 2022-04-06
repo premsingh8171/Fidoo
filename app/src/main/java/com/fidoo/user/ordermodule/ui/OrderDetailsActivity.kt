@@ -76,14 +76,15 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         }
 
         // Inflate the layout for this fragment
-        viewmodel?.OrderDetailsResponse?.observe(this, { user ->
+        viewmodel?.OrderDetailsResponse?.observe(this) { user ->
             Log.e("orderDetails__", Gson().toJson(user))
             dismissIOSProgress()
             val mModelData: OrderDetailsModel = user
             items = mModelData.items
             tv_address.text = mModelData.deliveryAddress
-            label_payMode.text = "Payment Mode: "+ mModelData.paymentMode
-            tv_deliveryboy_name.text="Order delivered by "+mModelData.deliveryBoyName+" at "+mModelData.delivered_at
+            label_payMode.text = "Payment Mode: " + mModelData.paymentMode
+            tv_deliveryboy_name.text =
+                "Order delivered by " + mModelData.deliveryBoyName + " at " + mModelData.delivered_at
 
             Log.e("orders details Response", Gson().toJson(mModelData))
 
@@ -207,7 +208,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             sub_total.text = resources.getString(R.string.ruppee) + "" + mModelData.all_items_total
             grand_price2.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
             Log.e("delivery_discount", mModelData.delivery_discount.toString())
-        })
+        }
 
         viewmodel?.failureResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
