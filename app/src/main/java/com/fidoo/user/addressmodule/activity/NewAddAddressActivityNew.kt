@@ -983,12 +983,12 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
             val address = addresses[0].getAddressLine(0)
             val sub_locality = addresses[0].subLocality
-            val apartment = addresses[0].featureName
-            if(apartment != null) {
-                tv_Address_locality.text = "$apartment" + " " + "$sub_locality"
+            val feature_Name = addresses[0].featureName
+            if(sub_locality != null) {
+                tv_Address_locality.text = "$feature_Name" + " " + "$sub_locality"
             }
             else{
-                tv_Address_locality.text = "$apartment"
+                tv_Address_locality.text = "$feature_Name"
             }
             address
         } catch (e: IndexOutOfBoundsException) {

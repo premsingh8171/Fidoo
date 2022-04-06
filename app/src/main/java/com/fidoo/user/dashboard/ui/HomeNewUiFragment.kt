@@ -241,6 +241,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	}
 
 	private fun showDialogUi() {
+		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
+			CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
+			CartActivity.accessToken = SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
+		}
+		else {
+			CartActivity.accountId = SessionTwiclo(requireActivity()).loginDetail.accountId.toString()
+			CartActivity.accessToken = SessionTwiclo(requireActivity()).loginDetail.accessToken
+		}
 		dialog = context?.let { Dialog(it) }!!
 		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
 		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
@@ -264,7 +272,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				startActivity(intent)
                 dialog?.dismiss()
 			}
-
 		}
 		lvAddNewAdd?.setOnClickListener {
 			startActivityForResult(
@@ -277,14 +284,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			navigateFromNewAddressActivity = 1
 			dialog?.dismiss()
 		}
-		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
-			CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
-			CartActivity.accessToken = SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
-		}
-		else {
-			CartActivity.accountId = SessionTwiclo(requireActivity()).loginDetail.accountId.toString()
-			CartActivity.accessToken = SessionTwiclo(requireActivity()).loginDetail.accessToken
-		}
+
 		fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
 			if (it.errorCode==200) {
 				if (it.addressList.size == 0) {
