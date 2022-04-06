@@ -1144,6 +1144,7 @@ class CartActivity : BaseActivity(),
 
 						//showToast("Offer applied successfully")
 					} else {
+						cv_couponCard.visibility = View.GONE
 						tv_cart_discount.visibility = View.GONE
 						tv_cart_discount_label.visibility = View.GONE
 						tv_cart_afterDiscount.visibility = View.GONE

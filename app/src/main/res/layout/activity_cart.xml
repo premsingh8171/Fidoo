@@ -434,15 +434,13 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/cv_couponCard"
                     app:cardElevation="0dp"
-                    android:layout_below="@+id/smpviewnew"
-                    >
+                    android:layout_below="@+id/smpviewnew">
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
                         android:id="@+id/rv_couponsCard"
-                        android:background="@color/lightGray"
-                        >
+                        android:background="@color/lightGray">
                         <ImageView
                             android:id="@+id/coupanimg"
                             android:layout_width="@dimen/margin_24dp"
