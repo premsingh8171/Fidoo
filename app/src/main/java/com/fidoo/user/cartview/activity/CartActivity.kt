@@ -1143,7 +1143,9 @@ class CartActivity : BaseActivity(),
 						tv_cart_afterdiscount_lable.visibility = View.VISIBLE
 
 						//showToast("Offer applied successfully")
-					} else {
+					}
+					else {
+						smpviewnew.visibility = View.GONE
 						cv_couponCard.visibility = View.GONE
 						tv_cart_discount.visibility = View.GONE
 						tv_cart_discount_label.visibility = View.GONE
@@ -1158,7 +1160,8 @@ class CartActivity : BaseActivity(),
 					//place_order_lay.visibility = View.VISIBLE
 					noItemsTxt.visibility = View.GONE
 					check = 1
-				} else {
+				}
+				else {
 					nested_top_lay.visibility = View.GONE
 					place_order_lay.visibility = View.GONE
 					noItemsTxt.visibility = View.VISIBLE
@@ -1167,12 +1170,12 @@ class CartActivity : BaseActivity(),
 					//showToast("No items")
 					//finish()
 				}
-			} else {
+			}
+			else {
 				if (user.errorCode == 101) {
 					showAlertDialog(this)
 				}
 			}
-
 		}
 
 		viewmodel?.paymentResponse?.observe(this) { user ->

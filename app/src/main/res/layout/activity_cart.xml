@@ -323,16 +323,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardElevation="0dp"
-                    android:id="@+id/delivery_addressCard"
-
-                    >
+                    android:id="@+id/delivery_addressCard">
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="@dimen/margin_10"
                         android:id="@+id/rv_delivery_addressCard"
-                        android:background="@color/lightGray"
-                        >
+                        android:background="@color/lightGray">
 
                         <TextView
                             android:id="@+id/tv_delivery_at"
@@ -1347,8 +1344,6 @@
                     android:text="Cash"
                     android:textColor="@color/grey"
                     app:layout_constraintStart_toEndOf="@id/img_cash" />
-
-
             </LinearLayout>
 
             <LinearLayout
