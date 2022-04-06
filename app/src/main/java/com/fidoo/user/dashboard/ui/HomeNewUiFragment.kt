@@ -261,7 +261,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		if (countButtonOn == 0) {
 			mBtnToTurnOnLocation?.setOnClickListener {
 				countButtonOn = 1
-				getCurrentLocationAddress()
+//				getCurrentLocationAddress()
 				val permList = arrayOf(
 					Manifest.permission.ACCESS_FINE_LOCATION,
 					Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -292,7 +292,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					/**
 					 * ***************************************************************************************************************************************ISSUE
 					 */
-//					getCurrentLocationAddress()
+					getCurrentLocationAddress()
 				}
 				if (!it.addressList.isNullOrEmpty()) {
 					bottomSheetAddress?.visibility = VISIBLE
