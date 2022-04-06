@@ -54,7 +54,15 @@ public class SessionTwiclo {
     public void setUserAddress(String mFlag) {
         editor.putString("user_address", mFlag);
         editor.commit();
+    }
 
+    public void setCurrentlyAddress(String currentAdd){
+        editor.putString("curr_add", currentAdd);
+        editor.commit();
+    }
+
+    public String getCurrentlyAddress(){
+        return pref.getString("curr_add","");
     }
 
     public String getUserAddressId() {
@@ -64,7 +72,6 @@ public class SessionTwiclo {
     public void setUserAddressId(String mFlag) {
         editor.putString("user_address_id", mFlag);
         editor.commit();
-
     }
     public String getAddressType() {
         return pref.getString("user_address_type", "");
@@ -81,7 +88,6 @@ public class SessionTwiclo {
     public void setUserLat(String lat) {
         editor.putString("user_lat", lat);
         editor.commit();
-
     }
 
     public String getUserLng() {
@@ -91,7 +97,6 @@ public class SessionTwiclo {
     public void setUserLng(String lng) {
         editor.putString("user_lng", lng);
         editor.commit();
-
     }
 
     public String getDeviceToken() {
@@ -101,9 +106,7 @@ public class SessionTwiclo {
     public void setDeviceToken(String token) {
         editor.putString("device_token", token);
         editor.commit();
-
     }
-
 
     public String getStoreId() {
         return pref.getString("store_id", "");
@@ -112,7 +115,6 @@ public class SessionTwiclo {
     public void setStoreId(String store_id) {
         editor.putString("store_id", store_id);
         editor.commit();
-
     }
 
     public String getServiceId() {
@@ -122,7 +124,6 @@ public class SessionTwiclo {
     public void setServiceId(String service_id) {
         editor.putString("service_id", service_id);
         editor.commit();
-
     }
 
     /******
@@ -179,7 +180,6 @@ public class SessionTwiclo {
         return favorites;
     }
 
-
     //   To retrieve sub category details
     public EditProfileModel getProfileDetail() {
         EditProfileModel favorites;
@@ -197,7 +197,6 @@ public class SessionTwiclo {
         }
         return favorites;
     }
-
 
     public LoginModel getLoginDetail() {
         LoginModel favorites;
@@ -222,7 +221,6 @@ public class SessionTwiclo {
         editor.commit();
     }
 
-
     public String getGuestLogin() {
         return pref.getString("guest_login", "");
     }
@@ -230,7 +228,6 @@ public class SessionTwiclo {
     public void setGuestLogin(String guest_login) {
         editor.putString("guest_login", guest_login);
         editor.commit();
-
     }
 
     public String getMobileno() {
@@ -240,8 +237,8 @@ public class SessionTwiclo {
     public void setMobileno(String mobile) {
         editor.putString("mobile", mobile);
         editor.commit();
-
     }
+
     public String getbackMobileno() {
         return pref.getString("backmobile", "");
     }
@@ -249,9 +246,7 @@ public class SessionTwiclo {
     public void setbackMobileno(String backmobile) {
         editor.putString("backmobile", backmobile);
         editor.commit();
-
     }
-
 
     public String getReferralId() {
         return pref.getString("referral_Id", "");
@@ -260,7 +255,6 @@ public class SessionTwiclo {
     public void setReferralId(String referral_Id) {
         editor.putString("referral_Id", referral_Id);
         editor.commit();
-
     }
 
     //String
@@ -279,7 +273,6 @@ public class SessionTwiclo {
         }.getType();
         return gson.fromJson(json, type);
     }
-
 
     public String getStoreName() {
         return pref.getString("store_name", "");
@@ -307,7 +300,6 @@ public class SessionTwiclo {
         editor.putString("order_Id", order_Id);
         editor.commit();
     }
-
 
     //String
     public void saveSendResponseList(ArrayList<SendResponse> list, String key) {

@@ -207,7 +207,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_centerVertical="true"
-                                    android:layout_marginLeft="@dimen/margin_30dp"
+                                    android:layout_marginStart="@dimen/margin_30dp"
                                     android:fontFamily="@font/proxima"
                                     android:padding="@dimen/dimen_5dp"
                                     android:text="Please add your prescription"
@@ -299,13 +299,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/margin_30dp"
+                            android:layout_marginStart="@dimen/margin_30dp"
                             android:background="@null"
                             android:fontFamily="@font/proxima"
                             android:hint="Any instruction for the store?"
                             android:padding="@dimen/dimen_5dp"
                             android:textColor="@color/colorTitle"
-                            android:textSize="@dimen/margin_12dp" />
+                            android:textSize="12sp" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -323,29 +323,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardElevation="0dp"
-                    android:id="@+id/delivery_addressCard"
-
-                    >
+                    android:id="@+id/delivery_addressCard">
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="@dimen/margin_10"
                         android:id="@+id/rv_delivery_addressCard"
-                        android:background="@color/lightGray"
-                        >
+                        android:background="@color/lightGray">
 
                         <TextView
                             android:id="@+id/tv_delivery_at"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
-                            android:layout_marginLeft="@dimen/margin_10"
+                            android:layout_marginStart="@dimen/margin_10"
                             android:layout_marginTop="@dimen/margin_10"
                             android:layout_toEndOf="@id/img_location_cart"
                             android:fontFamily="@font/proxima"
                             android:text="Delivery address"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_size_14sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -353,7 +350,7 @@
                             android:layout_width="10dp"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/tv_delivery_at"
-                            android:layout_marginLeft="@dimen/margin_10"
+                            android:layout_marginStart="@dimen/margin_10"
                             android:layout_marginTop="8dp"
                             android:src="@drawable/location_icon"
                             app:tint="@color/primary_color" />
@@ -375,26 +372,25 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_delivery_at"
                             android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
                             android:layout_marginTop="@dimen/margin_10"
                             android:layout_marginEnd="@dimen/margin_10dp"
-                            android:layout_toRightOf="@+id/tv_delivery_address"
+                            android:layout_toEndOf="@+id/tv_delivery_address"
                             android:fontFamily="@font/proxima"
                             android:gravity="end"
                             android:text="Change"
                             android:textColor="@color/primary_color"
-                            android:textSize="@dimen/text_size_12sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_landmark"
-                            android:layout_width="250dp"
+                            android:layout_width="260dp"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_delivery_at"
-                            android:layout_marginLeft="@dimen/dimen_5dp"
-                            android:layout_marginTop="@dimen/margin_10"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginTop="8dp"
                             android:layout_marginBottom="@dimen/margin_10"
-                            android:layout_toRightOf="@+id/img_location_cart"
+                            android:layout_toEndOf="@+id/img_location_cart"
                             android:ellipsize="end"
                             android:fontFamily="@font/proxima"
                             android:maxLines="1"
@@ -405,11 +401,11 @@
 
                         <TextView
                             android:id="@+id/tv_delivery_address"
-                            android:layout_width="250dp"
+                            android:layout_width="260dp"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_landmark"
                             android:layout_marginLeft="@dimen/dimen_5dp"
-                            android:layout_marginTop="@dimen/margin_10"
+                            android:layout_marginTop="@dimen/dimen_8dp"
                             android:layout_marginBottom="@dimen/margin_10"
                             android:layout_toRightOf="@+id/img_location_cart"
                             android:ellipsize="end"
@@ -436,7 +432,6 @@
                     android:id="@+id/cv_couponCard"
                     app:cardElevation="0dp"
                     android:layout_marginTop="@dimen/margin_10dp"
-
                     android:layout_below="@+id/smpviewnew">
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -1310,7 +1305,7 @@
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
         android:paddingBottom="@dimen/margin_20dp"
-
+        android:visibility="gone"
        android:layout_alignParentBottom="true">
 
 
@@ -1367,8 +1362,6 @@
                     android:text="Cash"
                     android:textColor="@color/grey"
                     app:layout_constraintStart_toEndOf="@id/img_cash" />
-
-
             </LinearLayout>
 
             <LinearLayout

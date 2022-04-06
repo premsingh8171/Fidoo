@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.LatLng
 import java.io.IOException
 import java.util.*
 
-abstract class BaseFragment : Fragment(), Handler.Callback {
+abstract class BaseFragment : Fragment(), Handler.Callback{
     var _context: Context? = null
     var _handler: Handler? = null
     var uiHandlerMethod: UiHandleMethods? = null

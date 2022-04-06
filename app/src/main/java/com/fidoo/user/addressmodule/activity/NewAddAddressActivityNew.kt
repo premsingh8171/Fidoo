@@ -44,6 +44,8 @@ import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew.Companion
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
+import com.fidoo.user.constants.useconstants
+import com.fidoo.user.constants.useconstants.navigateFromCart
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
@@ -578,11 +580,11 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                 SavedAddressesActivityNew.editAdd = 1
                 finish()
                 AppUtils.finishActivityLeftToRight(this)
-                if (checkAddressSavedFromWhichActivity.equals("fromNewAddressActivity")) {
-                    val intent = Intent(this, MainActivity::class.java)
+                if (useconstants.navigateFromNewAddressActivity == 1) {
+                    val intent = Intent(this,MainActivity::class.java)
                     startActivity(intent)
                 }
-                else if(checkAddressSavedFromWhichActivity.equals("fromCart")){
+               else if(navigateFromCart == 1){
                     val intent = Intent(this, CartActivity::class.java)
                     startActivity(intent)
                 }
@@ -981,12 +983,12 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
             val address = addresses[0].getAddressLine(0)
             val sub_locality = addresses[0].subLocality
-            val apartment = addresses[0].featureName
-            if(apartment != null) {
-                tv_Address_locality.text = "$apartment" + " " + "$sub_locality"
+            val feature_Name = addresses[0].featureName
+            if(sub_locality != null) {
+                tv_Address_locality.text = "$feature_Name" + " " + "$sub_locality"
             }
             else{
-                tv_Address_locality.text = "$apartment"
+                tv_Address_locality.text = "$feature_Name"
             }
             address
         } catch (e: IndexOutOfBoundsException) {
@@ -994,11 +996,6 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             ""
 
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-
     }
 
     private fun getGeoLocation(location: String?) {

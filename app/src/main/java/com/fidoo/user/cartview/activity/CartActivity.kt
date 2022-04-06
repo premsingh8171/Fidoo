@@ -1,5 +1,6 @@
 package com.fidoo.user.cartview.activity
 
+import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -55,6 +56,9 @@ import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
 import com.fidoo.user.cartview.roomdb.entity.PrescriptionViewEntity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.constants.useconstants
+import com.fidoo.user.constants.useconstants.currentlyAddedAddress
+import com.fidoo.user.constants.useconstants.navigateFromCart
+import com.fidoo.user.constants.useconstants.navigateFromNewAddressActivity
 import com.fidoo.user.dashboard.viewmodel.HomeFragmentNewViewModel
 import com.fidoo.user.data.model.*
 import com.fidoo.user.data.session.SessionTwiclo
@@ -863,8 +867,11 @@ class CartActivity : BaseActivity(),
 
 						value_AdditionalTxt.text=user.delivery_tax_rate
 
+						val layoutManagerpopup= LinearLayoutManager(this)
+						rv_newchargesa.layoutManager= layoutManagerpopup
+
 						var adapterCharges=DeliveryChargesAdapter(this,user.deliveryChargesList as ArrayList)
-						charges_rv.adapter=adapterCharges
+						rv_newchargesa.adapter=adapterCharges
 					} catch (e: Exception) {
 						e.printStackTrace()
 					}
@@ -1164,7 +1171,10 @@ class CartActivity : BaseActivity(),
 						tv_cart_afterdiscount_lable.visibility = View.VISIBLE
 
 						//showToast("Offer applied successfully")
-					} else {
+					}
+					else {
+						smpviewnew.visibility = View.GONE
+						cv_couponCard.visibility = View.GONE
 						tv_cart_discount.visibility = View.GONE
 						tv_cart_discount_label.visibility = View.GONE
 						tv_cart_afterDiscount.visibility = View.GONE
@@ -1178,7 +1188,8 @@ class CartActivity : BaseActivity(),
 					//place_order_lay.visibility = View.VISIBLE
 					noItemsTxt.visibility = View.GONE
 					check = 1
-				} else {
+				}
+				else {
 					nested_top_lay.visibility = View.GONE
 					place_order_lay.visibility = View.GONE
 					noItemsTxt.visibility = View.VISIBLE
@@ -1187,12 +1198,12 @@ class CartActivity : BaseActivity(),
 					//showToast("No items")
 					//finish()
 				}
-			} else {
+			}
+			else {
 				if (user.errorCode == 101) {
 					showAlertDialog(this)
 				}
 			}
-
 		}
 
 		viewmodel?.paymentResponse?.observe(this) { user ->
@@ -1403,8 +1414,8 @@ class CartActivity : BaseActivity(),
 //		dialog?.show()
 //	}
    fun getAddress(){
-	fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(this@CartActivity) {
-		if(it.addressList.size >=1) {
+	addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer {
+		if (it.addressList.size >= 1) {
 			if (!it.addressList.isNullOrEmpty()) {
 				val flat = it.addressList[0].flatNo
 				val locality = it.addressList[0].location
@@ -1417,24 +1428,7 @@ class CartActivity : BaseActivity(),
 			}
 		}
 
-//            when {
-//                it.addressList[0].addressType.equals("1") -> {
-//                    SessionTwiclo(requireContext()).userAddress =
-//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
-//                    SessionTwiclo(requireContext()).addressType = "Home"
-//                }
-//                it.addressList[0].addressType.equals("2") -> {
-//                    SessionTwiclo(requireContext()).userAddress =
-//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
-//                    SessionTwiclo(requireContext()).addressType = "Office"
-//                }
-//                else -> {
-//                    SessionTwiclo(requireContext()).userAddress =
-//                        it.addressList[0].flatNo + ", " + it.addressList[0].landmark + ", " + it.addressList[0].location
-//                    SessionTwiclo(requireContext()).addressType = "Other"
-//                }
-//            }
-	}
+		})
 }
 
 	/**
@@ -1451,10 +1445,18 @@ class CartActivity : BaseActivity(),
 		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
 		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
 		mBtnToTurnOnLocation?.setOnClickListener {
+			val permList = arrayOf(
+				Manifest.permission.ACCESS_FINE_LOCATION,
+				Manifest.permission.ACCESS_COARSE_LOCATION,
+				Manifest.permission.ACCESS_BACKGROUND_LOCATION
+			)
+			requestPermissions(permList, 100)
 			val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
 			startActivity(intent)
+			dialog?.dismiss()
 		}
 		lvAddNewAdd?.setOnClickListener {
+			navigateFromNewAddressActivity = 0
 			startActivityForResult(
 				Intent(this, SavedAddressesActivityNew::class.java)
 					.putExtra("type", "address")
@@ -1462,6 +1464,8 @@ class CartActivity : BaseActivity(),
 					), AUTOCOMPLETE_REQUEST_CODE
 			)
 			MainActivity.addEditAdd = "Dashboard"
+			navigateFromCart = 1
+			dialog?.dismiss()
 		}
 		addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
 			Log.e("addresses_response", Gson().toJson(user))
@@ -1485,17 +1489,14 @@ class CartActivity : BaseActivity(),
 									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 									SessionTwiclo(this@CartActivity).addressType= "Home"
 								}
-
 								addressList.addressType.equals("2") -> {
 									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 									SessionTwiclo(this@CartActivity).addressType = "Office"
-
 								}
 
 								else -> {
 									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 									SessionTwiclo(this@CartActivity).addressType = "Other"
-
 								}
 							}
 
@@ -1534,7 +1535,7 @@ class CartActivity : BaseActivity(),
 		dialog?.show()
 		dialog?.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
-			1200
+			1400
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)
@@ -1604,7 +1605,20 @@ class CartActivity : BaseActivity(),
 
 		Log.d("address_id_____", "" + address_id)
 		tv_delivery_address_title.text = selectedAddressTitle
-		tv_delivery_address.text = selectedAddressName
+		if(NewAddAddressActivityNew.checkCount == 1){
+			        getAddress()
+			//		NewAddAddressActivityNew.checkCount = 0
+			/**
+			 * ***********************************************************************************************************************
+			 */
+			//tv_delivery_address.text = currentlyAddedAddress
+		}
+		else if(NewAddAddressActivityNew.checkCount == 0){
+			tv_delivery_address.text = selectedAddressName
+		}
+		else{
+			tv_delivery_address.text = selectedAddressName
+		}
 		tv_landmark.text = selectedPreAddressName
 
 		if (!isNetworkConnected) {
@@ -2239,11 +2253,13 @@ class CartActivity : BaseActivity(),
 	}
 
 	override fun onStart() {
-		if(NewAddAddressActivityNew.checkCount == 1){
-			getAddress()
-			//		NewAddAddressActivityNew.checkCount = 0
-		}
 		super.onStart()
+		if(NewAddAddressActivityNew.checkCount == 1){
+			//getAddress()
+			//		NewAddAddressActivityNew.checkCount = 0
+
+			tv_delivery_address.text = currentlyAddedAddress
+		}
 	}
 
 	override fun onCustomRadioClick(checkedId: String?, position: String?) {

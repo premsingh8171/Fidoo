@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
+=======
+        <entry key="..\:/New Fiddo App/app/src/main/res/layout/activity_cart.xml" value="0.25416666666666665" />
+        <entry key="..\:/New Fiddo App/app/src/main/res/layout/activity_category_product_list.xml" value="0.2" />
+        <entry key="..\:/New Fiddo App/app/src/main/res/layout/activity_new_add_address_new.xml" value="0.25416666666666665" />
+        <entry key="..\:/New Fiddo App/app/src/main/res/layout/activity_service_daily_need.xml" value="0.2" />
+        <entry key="..\:/New Fiddo App/app/src/main/res/layout/fragment_home_newui.xml" value="0.25416666666666665" />
+>>>>>>> b9d601e683a699c779f79b66185a7f769ccf2972
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.176" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_edit_profile.xml" value="0.14764492753623187" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_grocery_new_ui.xml" value="0.22327898550724637" />
