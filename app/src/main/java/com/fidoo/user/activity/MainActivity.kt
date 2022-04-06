@@ -353,7 +353,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 ////            }
 //        })
 
-        viewmodel?.orderStatusModelResponse?.observe(this, {
+        viewmodel?.orderStatusModelResponse?.observe(this) {
             Log.e("StatusMod_", Gson().toJson(it))
             try {
                 if (it.order_status != null) {
@@ -430,7 +430,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                 }
             } catch (e: Exception) {
             }
-        })
+        }
 
         viewmodel?.getAddressesResponse?.observe(this) { user ->
             Log.e("homeaddRes_", Gson().toJson(user))
