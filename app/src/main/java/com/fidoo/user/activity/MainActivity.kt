@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.location.Address
 import android.location.Geocoder
@@ -13,7 +12,6 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.SystemClock.sleep
 import android.provider.Settings
 import android.util.Log
 import android.view.View
@@ -22,7 +20,6 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -41,16 +38,12 @@ import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
-import com.fidoo.user.dashboard.ui.HomeNewUiFragment
 import com.fidoo.user.dashboard.viewmodel.HomeFragmentViewModel
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.fragments.SendPacketFragment
-import com.fidoo.user.newsearch.ui.SearchFragmentNew
-import com.fidoo.user.ordermodule.ui.OrdersFragment
 import com.fidoo.user.ordermodule.ui.TrackOrderActivity
-import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.sendpackages.activity.SendPackageActivity
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.maps.model.GeocoderModel
@@ -58,31 +51,18 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.*
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.rpc.context.AttributeContext
 import com.mixpanel.android.mpmetrics.MixpanelAPI
-import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.robin.locationgetter.EasyLocation
 import com.sanojpunchihewa.updatemanager.UpdateManager
 import com.sanojpunchihewa.updatemanager.UpdateManagerConstant
-import io.opencensus.resource.Resource
-import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_new_add_address.*
-import kotlinx.android.synthetic.main.activity_track_order.*
-import kotlinx.android.synthetic.main.activity_track_order.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_newui.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
-
 
 class MainActivity : BaseActivity(), android.location.LocationListener, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -93,7 +73,6 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     var item_idno = 0
     private var where: String? = ""
     private var mMixpanel: MixpanelAPI? = null
-
 
     companion object {
         var checkAddressSavedFromWhichActivity : String = ""
@@ -109,7 +88,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         var ll: Location? = null
         var gac: GoogleApiClient? = null
-        private lateinit var fusedLocationClient: FusedLocationProviderClient
+        lateinit var fusedLocationClient: FusedLocationProviderClient
         private lateinit var locationRequest: LocationRequest
         private lateinit var locationCallback: LocationCallback
         val MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
@@ -121,8 +100,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         var onBackpressHandle: String? = "0"
         var orderProcess: Int? = 0
         var orderSuccess: Int? = 0
-        var handleTrackScreenOrderSuccess: Int = 1 //when order status 3
-
+        var handleTrackScreenOrderSuccess: Int = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -133,7 +111,6 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         FirebaseApp.initializeApp(this)
-        //searchSuggestionsList = ArrayList<String>()
 
         viewmodel = ViewModelProvider(this).get(AddressViewModel::class.java)
         homeFragmentViewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
@@ -148,17 +125,11 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         val mBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                //This piece of code will be executed when you click on your item
-                // Call your fragment...
                 val sendPacketFragment: FragmentManager = supportFragmentManager
-                sendPacketFragment.beginTransaction()
-                    .add(R.id.sendPacketFragment, SendPacketFragment())
-
+                sendPacketFragment.beginTransaction().add(R.id.sendPacketFragment, SendPacketFragment())
             }
         }
-
         this.registerReceiver(mBroadcastReceiver, IntentFilter("start_send_package_fragment"))
-
         bottomNavigationView.itemIconTintList= null
 
          val navController = findNavController(R.id.fragment4)
@@ -179,8 +150,6 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
             return@setOnMenuItemClickListener true
         }
-
-
 
        /* val navigasjonen = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {

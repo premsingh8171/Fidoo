@@ -258,9 +258,9 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
 		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
 		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
-		if (countButtonOn == 0) {
+//		if (countButtonOn == 0) {
 			mBtnToTurnOnLocation?.setOnClickListener {
-				countButtonOn = 1
+//				countButtonOn = 1
 //				getCurrentLocationAddress()
 				val permList = arrayOf(
 					Manifest.permission.ACCESS_FINE_LOCATION,
@@ -272,7 +272,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				startActivity(intent)
                 dialog?.dismiss()
 			}
-		}
+//		}
 		lvAddNewAdd?.setOnClickListener {
 			startActivityForResult(
 				Intent(context, SavedAddressesActivityNew::class.java)
@@ -733,9 +733,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		super.onResume()
 		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
 			CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
-			CartActivity.accessToken = SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
+			CartActivity.accessToken =
+				SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
 		} else {
-			CartActivity.accountId = SessionTwiclo(requireActivity()).loginDetail.accountId.toString()
+			CartActivity.accountId =
+				SessionTwiclo(requireActivity()).loginDetail.accountId.toString()
 			CartActivity.accessToken = SessionTwiclo(requireActivity()).loginDetail.accessToken
 		}
 
@@ -754,24 +756,25 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				} else {
 					text_newDesh.text = SessionTwiclo(context).addressType
 				}
-			}
-			else {
+			} else {
 				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 				text_newDesh.text = SessionTwiclo(context).addressType
 				getCurrentLocationAddress()
 			}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}
-		if (countButtonOn == 1) {
+
+//		if (countButtonOn == 1) {
 			fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")
 				?.observe(requireActivity()) {
-					if (it.addressList.size == 0) {
-
-						getCurrentLocationAddress()
+					if (it.errorCode==200) {
+						if (it.addressList.size == 0) {
+							getCurrentLocationAddress()
+						}
 					}
 				}
-			countButtonOn = 0
-		}
+//			countButtonOn = 0
+//		}
 	}
 
 	override fun provideYourFragmentView(
