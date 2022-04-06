@@ -729,6 +729,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	}
 
 	override fun onResume() {
+		Log.d("Home", "onResume: ")
 		super.onResume()
 		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
 			CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
@@ -838,7 +839,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 	override fun onStop() {
 		super.onStop()
-		Log.d("Nishant", "onStop: ")
+		Log.d("Home", "onStop: ")
 		dialog?.dismiss()
 	}
 
@@ -1013,6 +1014,20 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		}
 	}
 
+	override fun onDetach() {
+		Log.d("Home", "onDetach: ")
+		super.onDetach()
+	}
+
+	override fun onDestroyView() {
+		Log.d("Home", "onDestroyView: ")
+		super.onDestroyView()
+	}
+
+	override fun onDestroy() {
+		Log.d("Home", "onDestroy: ")
+		super.onDestroy()
+	}
 	private fun getCurrentLocationAddress() {
 		Log.e("Locationcall", "call")
 		EasyLocation(requireActivity(), object : EasyLocation.EasyLocationCallBack {
