@@ -267,7 +267,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					Manifest.permission.ACCESS_COARSE_LOCATION,
 					Manifest.permission.ACCESS_BACKGROUND_LOCATION
 				)
-				requestPermissions(permList, 100)
+				requestPermissions(permList, 123)
 				val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
 				startActivity(intent)
                 dialog?.dismiss()
@@ -759,7 +759,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			} else {
 				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 				text_newDesh.text = SessionTwiclo(context).addressType
-				getCurrentLocationAddress()
+//				getCurrentLocationAddress()
 			}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}

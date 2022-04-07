@@ -230,6 +230,10 @@ class CartActivity : BaseActivity(),
 					tv_select_address.text = "Add Address"
 					select_address_or_add_layout.visibility = View.VISIBLE
 				}
+				else if (navigateFromCart == 1){
+					cart_payment_lay.visibility = View.VISIBLE
+					select_address_or_add_layout.visibility = View.GONE
+				}
 				else if(user.errorCode == 200){
 					tv_select_address.text = "Select Address"
 					select_address_or_add_layout.visibility = View.VISIBLE

@@ -15,7 +15,6 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -141,12 +140,12 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(AddressViewModel::class.java)
         val manager = this@NewAddAddressActivityNew.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivity(intent)
+//            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+//            startActivity(intent)
             val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-            requestPermissions(permList,100)
+            requestPermissions(permList, MY_PERMISSIONS_REQUEST_CODE)
         }
 //        val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
 //            Manifest.permission.ACCESS_COARSE_LOCATION,
