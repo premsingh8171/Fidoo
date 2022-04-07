@@ -1425,9 +1425,9 @@ class CartActivity : BaseActivity(),
 				val locality = it.addressList[0].location
 				val landmark = it.addressList[0].landmark
 				if (!landmark.isNullOrEmpty()) {
-					tv_delivery_address.text = "$flat" + " " + "$landmark" + " " + "$locality"
+					tv_delivery_address.text = "$flat" + "," + "$landmark" + "," + "$locality"
 				} else {
-					tv_delivery_address.text = "$flat" + " " + "$locality"
+					tv_delivery_address.text = "$flat" + "," + "$locality"
 				}
 			}
 		}
