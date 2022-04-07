@@ -12,7 +12,7 @@ plugins {
 android {
 
     compileSdk 32
-//buildToolsVersion "30.0.3"
+   // buildToolsVersion "32.0.0"
 
     defaultConfig {
         applicationId "com.fidoo.user"
@@ -134,6 +134,7 @@ android {
 
     }
     buildToolsVersion '32.0.0'
+    compileSdkVersion 32
 
 }
 
