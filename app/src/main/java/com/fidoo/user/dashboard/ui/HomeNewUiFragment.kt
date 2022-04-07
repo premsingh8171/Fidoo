@@ -131,7 +131,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		var service_id: String? = ""
 		var service_name: String? = ""
 		var itemPosition: Int? = 0
-		var countButtonOn:Int?= 0
+//		var countButtonOn:Int?= 0
 	}
 	var sliderItem = SliderItem()
 	var mmContext: Context? = null
@@ -267,7 +267,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					Manifest.permission.ACCESS_COARSE_LOCATION,
 					Manifest.permission.ACCESS_BACKGROUND_LOCATION
 				)
-				requestPermissions(permList, 100)
+				requestPermissions(permList, 123)
 				val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
 				startActivity(intent)
                 dialog?.dismiss()
@@ -411,10 +411,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					val locality = it.addressList[0].location
 					val landmark = it.addressList[0].landmark
 					if (!landmark.isNullOrEmpty()) {
-						userAddress_newDesh.text = "$flat" + " " + "$landmark" + " " + "$locality"
+						userAddress_newDesh.text = "$flat" + ", " + "$landmark" + ", " + "$locality"
 						currentlyAddedAddress = userAddress_newDesh.text.toString()
 					} else {
-						userAddress_newDesh.text = "$flat" + " " + "$locality"
+						userAddress_newDesh.text = "$flat" + ", " + "$locality"
 						currentlyAddedAddress = userAddress_newDesh.text.toString()
 					}
 				}
@@ -759,7 +759,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			} else {
 				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 				text_newDesh.text = SessionTwiclo(context).addressType
-				getCurrentLocationAddress()
+//				getCurrentLocationAddress()
 			}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}

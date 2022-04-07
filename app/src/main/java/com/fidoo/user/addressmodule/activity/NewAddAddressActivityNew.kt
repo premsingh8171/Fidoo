@@ -15,7 +15,6 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -146,7 +145,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-            requestPermissions(permList,100)
+            requestPermissions(permList, MY_PERMISSIONS_REQUEST_CODE)
         }
 //        val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
 //            Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -182,13 +181,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         placesClient = Places.createClient(this)
         val token = AutocompleteSessionToken.newInstance()
         checkPermission()
-
         displayLocationSettingsRequest(this)
-
         getLocation()
-
         if (intent.hasExtra("data")) {
-
             val model: GetAddressModel.AddressList = Gson().fromJson(intent.getStringExtra("data"),
                 GetAddressModel.AddressList::class.java
             )

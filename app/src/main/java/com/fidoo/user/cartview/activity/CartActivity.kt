@@ -230,6 +230,10 @@ class CartActivity : BaseActivity(),
 					tv_select_address.text = "Add Address"
 					select_address_or_add_layout.visibility = View.VISIBLE
 				}
+//				else if (navigateFromCart == 1){
+//					cart_payment_lay.visibility = View.VISIBLE
+//					select_address_or_add_layout.visibility = View.GONE
+//				}
 				else if(user.errorCode == 200){
 					tv_select_address.text = "Select Address"
 					select_address_or_add_layout.visibility = View.VISIBLE
@@ -1427,9 +1431,9 @@ class CartActivity : BaseActivity(),
 				val locality = it.addressList[0].location
 				val landmark = it.addressList[0].landmark
 				if (!landmark.isNullOrEmpty()) {
-					tv_delivery_address.text = "$flat" + " " + "$landmark" + " " + "$locality"
+					tv_delivery_address.text = "$flat" + ", " + "$landmark" + ", " + "$locality"
 				} else {
-					tv_delivery_address.text = "$flat" + " " + "$locality"
+					tv_delivery_address.text = "$flat" + ", " + "$locality"
 				}
 			}
 		}
