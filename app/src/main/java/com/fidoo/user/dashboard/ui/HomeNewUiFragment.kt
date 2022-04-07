@@ -131,7 +131,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		var service_id: String? = ""
 		var service_name: String? = ""
 		var itemPosition: Int? = 0
-		var countButtonOn:Int?= 0
+//		var countButtonOn:Int?= 0
 	}
 	var sliderItem = SliderItem()
 	var mmContext: Context? = null
