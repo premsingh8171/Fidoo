@@ -83,44 +83,58 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             items = mModelData.items
             tv_address.text = mModelData.deliveryAddress
             label_payMode.text = "Payment Mode: " + mModelData.paymentMode
-            tv_deliveryboy_name.text =
-                "Order delivered by " + mModelData.deliveryBoyName + " at " + mModelData.delivered_at
+
 
             Log.e("orders details Response", Gson().toJson(mModelData))
 
             when {
                 user.orderStatus.equals("0") -> {
                     orderStatusValue.text = getString(R.string.failed)
+                    tv_deliveryboy_name.text = ""
+
                 }
                 user.orderStatus.equals("1") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("2") -> {
                     orderStatusValue.text = getString(R.string.cancelled)
+                    tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("11") -> {
                     orderStatusValue.text = getString(R.string.preparing)
+                    tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("3") -> {
                     orderStatusValue.text = getString(R.string.delivered)
+                    tv_deliveryboy_name.text =
+                        "Order delivered by " + mModelData.deliveryBoyName + " at " + mModelData.delivered_at
+
                 }
                 user.orderStatus.equals("5") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+
                 }
                 user.orderStatus.equals("6") -> {
                     orderStatusValue.text = getString(R.string.out_for_delivery)
+                    tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("7") -> {
                     orderStatusValue.text = getString(R.string.accepted)
+                    tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("9") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("10") -> {
                     orderStatusValue.text = getString(R.string.out_for_delivery)
+                    tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("8") -> {
                     orderStatusValue.text = getString(R.string.rejected)
+                    tv_deliveryboy_name.text = ""
                 }
             }
 

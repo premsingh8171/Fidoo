@@ -1125,7 +1125,7 @@ class CartActivity : BaseActivity(),
 							"- " + resources.getString(R.string.ruppee) + user.discount_amount.toFloat()
 								.toString()
 						tv_coupon.text =  mModelData.coupon_name
-						tv_limitexceed.text =  "Offer applied on the billed"
+						tv_limitexceed.text =  "Offer applied on the bill"
 					}
 					else{
 						cv_couponCard.visibility = View.GONE
@@ -1228,6 +1228,11 @@ class CartActivity : BaseActivity(),
 		viewmodel?.paymentFailureResponse?.observe(this) { user ->
 			Log.e("paymentFailureResponse_", Gson().toJson(user))
 			dismissIOSProgress()
+			if (user.errorCode==100){
+				payment_failed_Diolog()
+			}else if (user.errorCode==200){
+				paySuccessPopUp()
+			}
 		}
 
 		viewmodel?.checkPaymentStatusRes?.observe(this) { user ->
@@ -1235,8 +1240,9 @@ class CartActivity : BaseActivity(),
 			dismissIOSProgress()
 			if (user.error_code==200){
 				paySuccessPopUp()
-			}else{
-
+			}else {
+//				if (user.error_code==100){
+//				payment_failed_Diolog()
 			}
 		}
 
@@ -1812,7 +1818,7 @@ class CartActivity : BaseActivity(),
 				SessionTwiclo(this).deviceToken
 			)
 			//Toast.makeText(this, "Payment failed, Please try again", Toast.LENGTH_LONG).show()
-			payment_failed_Diolog()
+			//payment_failed_Diolog()
 
 
 			viewmodel?.paymentFailureApi(

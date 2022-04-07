@@ -673,7 +673,7 @@ class NewDBStoreItemsActivity :
                 Log.d("updateData__",restaurantAddress+"-"+fssai+"-"+restaurantName)
 
                 if (!storeData.offers.isNullOrEmpty()) {
-                    tv_coupon.text = storeData.offers[0].coupon_desc
+                    tv_coupon.text = "Flat "+storeData.offers[0].discount+" % OFF On Total Cart Value"
                     coupan_view_ll.visibility = View.VISIBLE
                 } else {
                     coupan_view_ll.visibility = View.GONE

@@ -95,8 +95,8 @@ class StoreAdapter(
 
 					holder.itemView.discount_offer_txt.text =
 						storeList[position].couponsAvailable[i].discount.toString() + "% OFF"
-					holder.itemView.offertxt_.text =
-						storeList[position].couponsAvailable[i].couponDesc.toString()
+					holder.itemView.offertxt_.text ="Flat "+
+						storeList[position].couponsAvailable[i].discount.toString() + "% OFF"
 					holder.itemView.v1.visibility = View.VISIBLE
 					holder.itemView.coupan_offerll.visibility = View.VISIBLE
 					holder.itemView.discount_offer_Frm.visibility = View.VISIBLE
