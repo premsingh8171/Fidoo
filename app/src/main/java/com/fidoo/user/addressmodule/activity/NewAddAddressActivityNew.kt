@@ -140,8 +140,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(AddressViewModel::class.java)
         val manager = this@NewAddAddressActivityNew.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-//            startActivity(intent)
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
             val permList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_BACKGROUND_LOCATION)
@@ -181,13 +181,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         placesClient = Places.createClient(this)
         val token = AutocompleteSessionToken.newInstance()
         checkPermission()
-
         displayLocationSettingsRequest(this)
-
         getLocation()
-
         if (intent.hasExtra("data")) {
-
             val model: GetAddressModel.AddressList = Gson().fromJson(intent.getStringExtra("data"),
                 GetAddressModel.AddressList::class.java
             )
