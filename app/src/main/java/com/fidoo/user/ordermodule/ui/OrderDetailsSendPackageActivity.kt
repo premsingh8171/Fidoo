@@ -102,6 +102,7 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
                         deliveredAtTxt.text = user.deleivered_at
                         delivery_boyTxt.text = "Order Delivered by " + user.delivery_boy_name
                     }
+
                     if (user.order_status.equals("9")) {
                         orderstatus_tv.text = "In Progress"
                         orderStatusLabel.text = ""
