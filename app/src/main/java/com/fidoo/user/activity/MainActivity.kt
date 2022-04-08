@@ -436,13 +436,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             } else {
                 getCurrentLocation()
             }
-
         }
-
-    }
-
-    override fun onPause() {
-        super.onPause()
     }
 
     private fun getCurrentLocation() {
