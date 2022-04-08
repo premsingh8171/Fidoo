@@ -129,6 +129,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                 sendPacketFragment.beginTransaction().add(R.id.sendPacketFragment, SendPacketFragment())
             }
         }
+
         this.registerReceiver(mBroadcastReceiver, IntentFilter("start_send_package_fragment"))
         bottomNavigationView.itemIconTintList= null
 
@@ -952,6 +953,5 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         id.findItem(R.id.ordersFragment).title = "Order"
         id.findItem(R.id.profileFragment).title = "Profile"
     }
-
 
 }
