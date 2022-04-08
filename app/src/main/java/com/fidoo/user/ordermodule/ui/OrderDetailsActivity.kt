@@ -127,6 +127,9 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                 user.orderStatus.equals("9") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
+                }user.orderStatus.equals("16") -> {
+                    orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("10") -> {
                     orderStatusValue.text = getString(R.string.out_for_delivery)

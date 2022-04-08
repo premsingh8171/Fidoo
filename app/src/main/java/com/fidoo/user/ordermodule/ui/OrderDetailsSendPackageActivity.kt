@@ -90,7 +90,7 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
                         deliveredAtTxt.text = ""
                         delivery_boyTxt.text = ""
                     }
-                    if (user.order_status.equals("2")) {
+                    if (user.order_status.equals("2") && user.order_status.equals("17")) {
                         orderstatus_tv.text = "Cancelled"
                         orderStatusLabel.text = ""
                         deliveredAtTxt.text = ""
@@ -103,6 +103,12 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
                         delivery_boyTxt.text = "Order Delivered by " + user.delivery_boy_name
                     }
                     if (user.order_status.equals("9")) {
+                        orderstatus_tv.text = "In Progress"
+                        orderStatusLabel.text = ""
+                        deliveredAtTxt.text = ""
+                        delivery_boyTxt.text = ""
+
+                    }else if (user.order_status.equals("16")){
                         orderstatus_tv.text = "In Progress"
                         orderStatusLabel.text = ""
                         deliveredAtTxt.text = ""
