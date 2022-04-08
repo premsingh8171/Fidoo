@@ -10,7 +10,7 @@
         android:id="@+id/mapView2"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
     <com.skyfishjy.library.RippleBackground
         android:layout_width="match_parent"
@@ -57,7 +57,6 @@
                     android:textColor="#3CC13B"
                     android:textSize="12sp" />
 
-
                 <!--                <TextView-->
                 <!--                    android:fontFamily="@font/proxima"-->
                 <!--                    android:layout_marginTop="@dimen/margin_2dp"-->
@@ -71,7 +70,6 @@
                 <!--                    android:textSize="@dimen/margin_10" />-->
             </LinearLayout>
         </FrameLayout>
-
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="24dp"
             android:layout_height="56dp"
@@ -102,7 +100,6 @@
         android:visibility="gone"
         android:outlineProvider="bounds"
         app:mt_placeholder="Search a place"/>
-
     <Button
         android:id="@+id/btn_find"
         android:layout_width="match_parent"

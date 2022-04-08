@@ -12,6 +12,8 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -93,6 +95,7 @@ import com.robin.locationgetter.EasyLocation
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_newui.*
 import org.json.JSONObject
+import java.io.IOException
 import java.util.*
 
 @Suppress("DEPRECATION")
@@ -292,7 +295,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					/**
 					 * ***************************************************************************************************************************************ISSUE
 					 */
-					getCurrentLocationAddress()
+//					getCurrentLocationAddress()
 				}
 				if (!it.addressList.isNullOrEmpty()) {
 					bottomSheetAddress?.visibility = VISIBLE
@@ -769,7 +772,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				?.observe(requireActivity()) {
 					if (it.errorCode==200) {
 						if (it.addressList.size == 0) {
-							getCurrentLocationAddress()
+//							getCurrentLocationAddress()
 						}
 					}
 				}
@@ -1033,27 +1036,38 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	}
 	private fun getCurrentLocationAddress() {
 		Log.e("Locationcall", "call")
-		EasyLocation(requireActivity(), object : EasyLocation.EasyLocationCallBack {
-			override fun permissionDenied() {
-				Log.e("Location", "permission  denied")
-			}
-			override fun locationSettingFailed() {
-				Log.e("Location", "setting failed")
-			}
-			override fun getLocation(location: Location) {
-				Log.e("Location_lat_lng", " latitude ${location.latitude} longitude ${location.longitude}")
-				var address=getGeoAddressFromLatLong(location.latitude, location.longitude)
-				if (address!!.isNotEmpty()) {
-					SessionTwiclo(requireActivity()).userAddress = getGeoAddressFromLatLong(location.latitude, location.longitude)
-					SessionTwiclo(requireActivity()).userLat = location.latitude.toString()
-					SessionTwiclo(requireActivity()).userLng = location.longitude.toString()
-					userAddress?.text = SessionTwiclo(requireActivity()).userAddress
+		try {
+			if (_context != null)
+			EasyLocation(_context as Activity, object : EasyLocation.EasyLocationCallBack {
+				override fun permissionDenied() {
+					Log.e("Location", "permission  denied")
 				}
-				else{
-					geocoderAddress(location.latitude.toString(),location.longitude.toString())
+				override fun locationSettingFailed() {
+					Log.e("Location", "setting failed")
 				}
-			}
-		})
+				override fun getLocation(location: Location) {
+					Log.e("Location_lat_lng", " latitude ${location.latitude} longitude ${location.longitude}")
+						if (requireActivity()!=null) {
+							SessionTwiclo(requireActivity()).userAddress = getGeoAddressFromLatLong1(
+								location.latitude,
+								location.longitude,
+								requireActivity()
+							)
+							SessionTwiclo(requireActivity()).userLat = location.latitude.toString()
+							SessionTwiclo(requireActivity()).userLng = location.longitude.toString()
+							userAddress?.text = SessionTwiclo(requireActivity()).userAddress
+
+					}
+					else{
+						geocoderAddress(location.latitude.toString(),location.longitude.toString())
+					}
+				}
+			})
+		}
+		catch (e: Exception){
+
+		}
+
 	}
 
 	fun geocoderAddress(lat:String,lng:String) {
@@ -1084,4 +1098,36 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		val requestQueue = Volley.newRequestQueue(requireActivity())
 		requestQueue.add(geocodeRequest)
 	}
+
+
+
+	private fun getGeoAddressFromLatLong1(latitude: Double, longitude: Double,context:Context): String {
+		val geocoder: Geocoder
+		val addresses: List<Address>
+		var address=""
+		return try {
+			if (context!=null) {
+				geocoder = Geocoder(context, Locale.getDefault())
+
+				addresses = geocoder.getFromLocation(
+					latitude,
+					longitude,
+					1
+				) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+				 address =
+					addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+				val city = addresses[0].locality
+				val state = addresses[0].adminArea
+				val country = addresses[0].countryName
+				val postalCode = addresses[0].postalCode
+				//   String knownName = addresses.get(0).getFeatureName(); // Only if available else return
+
+			}
+			address
+		} catch (e: IOException) {
+			e.printStackTrace()
+			""
+		}
+	}
+
 }

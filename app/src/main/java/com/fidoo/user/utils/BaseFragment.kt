@@ -137,11 +137,12 @@ abstract class BaseFragment : Fragment(), Handler.Callback{
         _progressDlg!!.show()
     }
 
-    fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String {
+    fun getGeoAddressFromLatLong(latitude: Double, longitude: Double,context:Context): String {
         val geocoder: Geocoder
         val addresses: List<Address>
-        geocoder = Geocoder(requireContext(), Locale.getDefault())
         return try {
+            geocoder = Geocoder(context, Locale.getDefault())
+
             addresses = geocoder.getFromLocation(
                 latitude,
                 longitude,
