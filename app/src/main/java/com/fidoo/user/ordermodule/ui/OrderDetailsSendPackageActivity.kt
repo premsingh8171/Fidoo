@@ -48,7 +48,7 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
         viewmodelusertrack = ViewModelProviders.of(this).get(UserTrackerViewModel::class.java)
 
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
-
+//
         if (intent.getStringExtra("orderId") != null) {
             orderId = intent.getStringExtra("orderId")
             sendPackageOrdTxt.text = "Order: #" + orderId
