@@ -386,6 +386,7 @@ class OrdersAdapter(
                                         orders[position].delivery_boy_mobile
                                     )
                                     .putExtra(ORDER_STATUS, holder.orderStatusTxt.text)
+                                    .putExtra("serviceTypeId", orders[position].serviceTypeId)
                             )
                         }
                     } else {
@@ -398,6 +399,8 @@ class OrdersAdapter(
                                     orders[position].delivery_boy_mobile
                                 )
                                 .putExtra(ORDER_STATUS, holder.orderStatusTxt.text)
+                                .putExtra("serviceTypeId", orders[position].serviceTypeId)
+
                         )
                     }
                 }
