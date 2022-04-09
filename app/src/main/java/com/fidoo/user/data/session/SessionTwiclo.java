@@ -301,6 +301,7 @@ public class SessionTwiclo {
         editor.commit();
     }
 
+
     //String
     public void saveSendResponseList(ArrayList<SendResponse> list, String key) {
         SharedPreferences.Editor editor = pref.edit();
