@@ -16,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
@@ -28,6 +29,7 @@ import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.model.StoreDetailsModel
+import com.fidoo.user.restaurants.model.vegDiffUtil
 import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 import kotlinx.android.synthetic.main.store_product.view.*
 import java.util.concurrent.Executors
@@ -432,6 +434,14 @@ class StoreItemsAdapter(
         // Set other dialog properties
         alertDialog.setCancelable(true)
         alertDialog.show()
+    }
+
+    fun putvegdata(veglist:ArrayList<StoreItemProductsEntity>){
+        val diffutil= vegDiffUtil(productList, veglist)
+        val diffresult= DiffUtil.calculateDiff(diffutil)
+        productList.addAll(veglist)
+        diffresult.dispatchUpdatesTo(this)
+
     }
 
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
