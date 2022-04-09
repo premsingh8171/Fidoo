@@ -102,7 +102,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                     tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("11") -> {
-                    orderStatusValue.text = getString(R.string.preparing)
+                    orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("3") -> {
@@ -117,11 +117,15 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
 
                 }
                 user.orderStatus.equals("6") -> {
-                    orderStatusValue.text = getString(R.string.out_for_delivery)
+                    orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("7") -> {
-                    orderStatusValue.text = getString(R.string.accepted)
+                    orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                }
+                user.orderStatus.equals("14") -> {
+                    orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("9") -> {
@@ -132,11 +136,23 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                     tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("10") -> {
-                    orderStatusValue.text = getString(R.string.out_for_delivery)
+                    orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
                 }
                 user.orderStatus.equals("8") -> {
                     orderStatusValue.text = getString(R.string.rejected)
+                    tv_deliveryboy_name.text = ""
+                }
+                user.orderStatus.equals("13") -> {
+                    orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                }
+                user.orderStatus.equals("15") -> {
+                    orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                }
+                user.orderStatus.equals("17") -> {
+                    orderStatusValue.text = getString(R.string.cancelled)
                     tv_deliveryboy_name.text = ""
                 }
             }
