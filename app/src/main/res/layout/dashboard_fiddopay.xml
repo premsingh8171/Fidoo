@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="#292992"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/firstLinear"
+            android:layout_width="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:text="FIDOOPAY"
+                app:drawableEndCompat="@drawable/ic_cross_fidoopay" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/secondLinear"
+            android:layout_width="match_parent"
+            android:layout_below="@id/firstLinear"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/totalBalanceInWallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:text="Rs 5000"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:text="Available Fidoo Pay Balance"/>
+        </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/firstLinear"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_forward_fidoopay"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Control your"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Payment"
+            android:textColor="#359C47"
+            android:textStyle="bold"
+            android:textSize="36sp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
