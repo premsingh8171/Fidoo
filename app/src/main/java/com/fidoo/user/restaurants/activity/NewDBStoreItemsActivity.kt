@@ -470,9 +470,14 @@ class NewDBStoreItemsActivity :
 
 
 
+
                 if (vegcount==0) {
 
                     CoroutineScope(Dispatchers.Main).launch {
+                       // delay(150)
+//                        veg_filter = 1
+//                        isonlyveg = false
+//                        getRoomData()
                         showIOSProgress()
                         delay(2000)
 
@@ -480,14 +485,18 @@ class NewDBStoreItemsActivity :
                         isonlyveg = true
                         veg_filter = 0
 
-                        getRoomData()
+                       // getRoomData()
                         showIOSProgress()
 
                         storeItemsAdapter.putvegdata(mainlist!!)
+                        storeItemsAdapter.notifyDataSetChanged()
                         storeItemsRecyclerview.visibility = View.VISIBLE
 
 
 
+                        mainlist?.forEach {
+                            println("vegkeitem-->>${it.isNonveg}")
+                        }
 
                         dismissIOSProgress()
 
@@ -505,6 +514,9 @@ class NewDBStoreItemsActivity :
                     storeItemsRecyclerview.visibility = View.VISIBLE
                     vegcount=1
                     veg_filter = 1
+                    mainlist?.forEach {
+                        println("vegkeitem-->>${it.isNonveg}")
+                    }
                 }
 
 //                mainlist!!.clear()
@@ -1524,7 +1536,7 @@ class NewDBStoreItemsActivity :
             } else {
                 searchQuery(search_value)
             }
-        }, 10)
+        }, 100)
 
 
 
