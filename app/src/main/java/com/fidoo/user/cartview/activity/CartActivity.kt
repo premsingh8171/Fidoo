@@ -173,7 +173,6 @@ class CartActivity : BaseActivity(),
 	var checkStore: Int = 0
 	var prescriptionAdapter: PrescriptionAdapter? = null
 	private var mMixpanel: MixpanelAPI? = null
-
 	private  var dialog : Dialog? = null
 	private var where: String? = ""
 
@@ -838,6 +837,7 @@ class CartActivity : BaseActivity(),
 					// store lat long
 					storeLat = user.store_lat
 					storeLong = user.store_long
+
 					other_taxes_and_charges = user.totalTaxAndCharges.toString()
 
 					Log.e("storeDataCartActivity__", "$storeLat---$storeLong-$other_taxes_and_charges")
@@ -944,6 +944,7 @@ class CartActivity : BaseActivity(),
 
 					Log.e("mModelData_", mModelData.cart.size.toString())
 					storeId=mModelData.cart[0].storeId.toString()
+					SessionTwiclo(this).serviceId = mModelData.cart[0].service_id.toString()
 
 					val adapter = CartItemsAdapter(this, mModelData.cart, this, this)
 					cartItemsRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -1423,6 +1424,7 @@ class CartActivity : BaseActivity(),
 //
 //		dialog?.show()
 //	}
+
    fun getAddress(){
 	addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer {
 		if (it.addressList.size >= 1) {
@@ -1444,6 +1446,7 @@ class CartActivity : BaseActivity(),
 	/**
 	 * ******************************************************************************************************************************************************************
 	 */
+
 	private fun showDialogBottom() {
 		dialog = this@CartActivity?.let { Dialog(it) }!!
 		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1566,7 +1569,6 @@ class CartActivity : BaseActivity(),
 			)
 			tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
 //			Toast.makeText(_context, ""+address_id, Toast.LENGTH_LONG).show()
-
 
 		}
 		else {
@@ -2463,7 +2465,9 @@ class CartActivity : BaseActivity(),
 			)
 		}
 	}
-	//	AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY
+
+	//AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY
+
 	fun calculateStoreCustomerDistance() {
 		val source = userLat + "," + userLong
 		val destination = storeLat + "," + storeLong
@@ -2546,7 +2550,6 @@ class CartActivity : BaseActivity(),
 
 				}
 			}, Response.ErrorListener { }) {
-
 		}
 		val requestQueue = Volley.newRequestQueue(this)
 		requestQueue.add(directionsRequest)
@@ -2699,6 +2702,9 @@ class CartActivity : BaseActivity(),
 					).putExtra(
 						"type",
 						""
+					).putExtra(
+						"serviceTypeId",
+						SessionTwiclo(this).serviceId
 					)
 				)
 				finishAffinity()
@@ -2706,14 +2712,9 @@ class CartActivity : BaseActivity(),
 		}, 5000)
 	}
 
-	override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
+	override fun onPaymentSuccess(p0: String?, p1: PaymentData?){}
 
-	}
-
-	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
-
-	}
-
+	override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?){}
 
 
 //	override fun onRestart() {
@@ -2729,5 +2730,6 @@ class CartActivity : BaseActivity(),
 //			}
 //		}catch (e:Exception){}
 //	}
+
 
 }

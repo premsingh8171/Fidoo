@@ -25,10 +25,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:background="@color/primary_color"
+        android:background="@color/white"
         android:scaleType="fitXY"
         app:lottie_autoPlay="true"
-        app:lottie_rawRes="@raw/splashscreen"
+        app:lottie_rawRes="@raw/flash_screen"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

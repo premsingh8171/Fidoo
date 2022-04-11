@@ -301,6 +301,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                         ""
                     )
                     .putExtra("order_status", "")
+                    .putExtra("serviceTypeId", SessionTwiclo(this).serviceId)
             )
         }
 

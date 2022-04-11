@@ -36,6 +36,9 @@ interface RestaurantProductsDao {
     @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" LIMIT :limit")
     fun getAllProducts2(limit:String?): LiveData<List<StoreItemProductsEntity>>
 
+    @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" WHERE isNonveg = :veg"+" LIMIT :limit")
+    fun getAllVegProduct(veg:String?,limit: String?): LiveData<List<StoreItemProductsEntity>>
+
 
     @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" LIMIT :pageSize OFFSET :pageIndex")
     fun getAllProducts3(pageSize:String,pageIndex:String): LiveData<List<StoreItemProductsEntity>>

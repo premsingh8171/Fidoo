@@ -175,6 +175,7 @@
     <string name="no_details_found_for_failed_order">No details found for failed order</string>
     <string name="in_progress">In Progress</string>
     <string name="preparing">Preparing</string>
+    <string name="Delivery_boy_reached_to_your_loc">Delivery boy reached your location </string>
     <string name="out_for_delivery">Out for delivery</string>
     <string name="accepted">Accepted</string>
     <string name="everything_delivered">Everything\nDelivered<font color='#369c47'>.</font></string>
