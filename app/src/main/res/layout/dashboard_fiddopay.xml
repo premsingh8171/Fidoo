@@ -110,6 +110,68 @@
                 android:textColor="@color/black"
                 android:padding="16dp"
                 android:layout_height="wrap_content"/>
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_weight="4"
+               android:layout_height="0dp">
+               <ImageView
+                   android:id="@+id/walletHistory_fidoopay"
+                   android:layout_width="wrap_content"
+                   android:layout_marginStart="16dp"
+                   android:src="@drawable/ic_wallethistory_fidoopay"
+                   android:layout_height="wrap_content"/>
+
+               <ImageView
+                   android:id="@+id/showqrcode_fidoopay"
+                   android:layout_width="wrap_content"
+                   android:layout_marginStart="20dp"
+                   android:layout_height="wrap_content"
+                   android:layout_toEndOf="@id/walletHistory_fidoopay"
+                   android:src="@drawable/ic_showqrcode_fidoopay" />
+
+               <ImageView
+                   android:id="@+id/fidoowallet_fidoopay"
+                   android:layout_width="wrap_content"
+                   android:src="@drawable/ic_wallet_fidoopay"
+                   android:layout_marginEnd="20dp"
+                   android:layout_toStartOf="@id/referearn_fidoopay"
+                   android:layout_height="wrap_content"/>
+
+               <ImageView
+                   android:id="@+id/referearn_fidoopay"
+                   android:layout_width="wrap_content"
+                   android:layout_alignParentEnd="true"
+                   android:layout_marginEnd="16dp"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/ic_referearn_fidooay" />
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:text="Wallet history"
+                   android:layout_marginStart="16dp"
+                   android:layout_below="@id/walletHistory_fidoopay"
+                   android:layout_height="wrap_content"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:text="Show QR code"
+                   android:layout_marginStart="20dp"
+                   android:layout_toEndOf="@id/walletHistory_fidoopay"
+                   android:layout_below="@id/showqrcode_fidoopay"
+                   android:layout_height="wrap_content"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_below="@id/fidoowallet_fidoopay"
+                   android:layout_marginEnd="20dp"
+                   android:layout_toStartOf="@id/referearn_fidoopay"
+                   android:text="Fidoo Wallet"
+                   android:layout_height="wrap_content"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_below="@id/referearn_fidoopay"
+                   android:layout_marginEnd="16dp"
+                   android:layout_alignParentEnd="true"
+                   android:text="Refer And Earn"
+                   android:layout_height="wrap_content"/>
+           </RelativeLayout>
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>
