@@ -489,6 +489,9 @@ class NewDBStoreItemsActivity :
                         storeItemsRecyclerview.visibility = View.VISIBLE
                         getRoomData()
                         showIOSProgress()
+                        mainlist!!.forEach {
+                            println("sardarji-->${it.isNonveg} --NAAM-->${it.productName}")
+                        }
 
                         storeItemsAdapter.putvegdata(mainlist!!)
 
@@ -1277,20 +1280,12 @@ class NewDBStoreItemsActivity :
                                     if (store_details_lay.isVisible) {
 
 
-                                        storeItemsRecyclerview.post(Runnable {
-                                            kotlin.run {
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 350)
-                                            }
-                                        })
+
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
 
                                     }else{
-                                        storeItemsRecyclerview.post(Runnable {
-                                            kotlin.run {
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 500)
-                                            }
-                                        })
 
-
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 670)
 
                                     }
                                        //storeItemsRecyclerview?.layoutManager?.scrollToPosition(i)
@@ -1365,7 +1360,7 @@ class NewDBStoreItemsActivity :
                         try {
                             category_header_.visibility = View.VISIBLE
                             category_header_.text =
-                                mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
+                                mainlist!!.get(scrollOutItems+1)!!.subcategory_name.toString()
                             category_header_TXt.text =
                                 mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
                             //Log.d("totalItem___", table_count.toString())
@@ -1412,7 +1407,7 @@ class NewDBStoreItemsActivity :
                         try {
                             category_header_.visibility = View.VISIBLE
                             category_header_.text =
-                                productListFilter!!.get(scrollOutItems)!!.subcategory_name.toString()
+                                productListFilter!!.get(scrollOutItems+1)!!.subcategory_name.toString()
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
