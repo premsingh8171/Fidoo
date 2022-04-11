@@ -7,8 +7,7 @@ import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 import com.google.firebase.crashlytics.internal.model.CrashlyticsReport.Session.User
-
-
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -34,10 +33,10 @@ interface RestaurantProductsDao {
     // @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" ORDER BY product_sub_category_id ASC LIMIT :limit")
 
     @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" LIMIT :limit")
-    fun getAllProducts2(limit:String?): LiveData<List<StoreItemProductsEntity>>
+    fun getAllProducts2(limit:String?): Flow<List<StoreItemProductsEntity>>
 
     @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" WHERE isNonveg = :veg"+" LIMIT :limit")
-    fun getAllVegProduct(veg:String?,limit: String?): LiveData<List<StoreItemProductsEntity>>
+    fun getAllVegProduct(veg:String?,limit: String?): Flow<List<StoreItemProductsEntity>>
 
 
     @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" LIMIT :pageSize OFFSET :pageIndex")
