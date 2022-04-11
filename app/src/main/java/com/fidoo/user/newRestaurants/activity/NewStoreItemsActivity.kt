@@ -838,7 +838,6 @@ class NewStoreItemsActivity :
 
 	}
 
-
 	private fun visibilityView() {
 		store_details_lay.visibility = View.VISIBLE
 		res_header_constL.visibility = View.VISIBLE
@@ -954,7 +953,6 @@ class NewStoreItemsActivity :
 		catrecyclerView?.adapter = restaurantCategoryAdapter
 
 	}
-
 
 	private fun recyclerviewListData(arrayList: ArrayList<Subcategory>) {
 		storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)

@@ -131,6 +131,7 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
     var improvement: String? = ""
     var store_phone: String? = ""
     var rider_phone: String? = ""
+    var serviceTypeId: String? = ""
     var improvementArray: ArrayList<String>? = null
     var checkStatusOfReview: Int = 0
     var reviewpopup: Int = 0
@@ -199,6 +200,9 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
         if (intent.getStringExtra("orderId") != "") {
             bgServicOrderId = intent.getStringExtra("orderId")!!
             tv_order_id.text = intent.getStringExtra("orderId")!!
+            serviceTypeId = intent.getStringExtra("serviceTypeId")!!
+            Log.e("serviceTypeIds", serviceTypeId.toString())
+
             startService(Intent(applicationContext, OrderBackgroundgService::class.java))
         }
 
@@ -223,12 +227,16 @@ class TrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallb
 //        }
 
         customer_care_fmL.setOnClickListener {
-//            val dialIntent = Intent(Intent.ACTION_DIAL)
-//            dialIntent.data = Uri.parse("tel:" + 9871322057)
-//            startActivity(dialIntent)
-         // Log.d("hello", "hello")
-            AppUtils.startActivityRightToLeft(this,Intent(this, Chatbotui::class.java)
-                .putExtra("orderId", intent.getStringExtra("orderId")!!))
+            if (serviceTypeId.equals("")) {
+            val dialIntent = Intent(Intent.ACTION_DIAL)
+            dialIntent.data = Uri.parse("tel:" + 9871322057)
+            startActivity(dialIntent)
+            }else {
+                AppUtils.startActivityRightToLeft(
+                    this, Intent(this, Chatbotui::class.java)
+                        .putExtra("orderId", intent.getStringExtra("orderId")!!)
+                )
+            }
         }
 
         callStore.setOnClickListener {

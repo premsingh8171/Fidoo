@@ -301,6 +301,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                         ""
                     )
                     .putExtra("order_status", "")
+                    .putExtra("serviceTypeId", SessionTwiclo(this).serviceId)
             )
         }
 
@@ -436,13 +437,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             } else {
                 getCurrentLocation()
             }
-
         }
-
-    }
-
-    override fun onPause() {
-        super.onPause()
     }
 
     private fun getCurrentLocation() {

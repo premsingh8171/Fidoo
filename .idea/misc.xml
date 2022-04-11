@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Fidoo New App/app/src/main/res/layout/activity_new_add_address_new.xml" value="0.25416666666666665" />
         <entry key="..\:/Fidoo New App/app/src/main/res/layout/content_map.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/drawable/background_splash.xml" value="0.1645" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/drawable/ic_splash_loader.xml" value="0.1845" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.176" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_edit_profile.xml" value="0.14764492753623187" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_grocery_new_ui.xml" value="0.22327898550724637" />
@@ -14,6 +16,7 @@
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_order_rejected.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_review_order.xml" value="0.14447463768115942" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_send_package_order_detail.xml" value="0.14447463768115942" />
+        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_splash.xml" value="0.14764492753623187" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_store_filter_list.xml" value="0.22327898550724637" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.14764492753623187" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_store_list.xml" value="0.22327898550724637" />
