@@ -474,18 +474,14 @@ class NewDBStoreItemsActivity :
                 storeItemsRecyclerview.visibility= View.GONE
                     getvegitems()
                 showIOSProgress()
-                if (vegcount==0) {
+
                     Handler().postDelayed({
                         storeItemsAdapter.putvegdata(veg_item_list!!)
                         storeItemsRecyclerview.visibility = View.VISIBLE
                         dismissIOSProgress()
                         vegcount=1
                     }, 2000)
-                }else{
-                    storeItemsAdapter.putvegdata(veg_item_list!!)
-                    storeItemsRecyclerview.visibility = View.VISIBLE
-                    dismissIOSProgress()
-                }
+
 
 //
 ////
@@ -499,12 +495,15 @@ class NewDBStoreItemsActivity :
                 storeItemsAdapter.notifyDataSetChanged()
                 // getRoomData()
                 nonveg_str = "0"
+                storeItemsRecyclerview.visibility = View.GONE
                 showIOSProgress()
                 getRoomData()
-                storeItemsAdapter.putvegdata(mainlist!!)
-                // getStoreDetailsApiCall()
+                Handler().postDelayed({
+                    storeItemsAdapter.putvegdata(mainlist!!)
+                    storeItemsRecyclerview.visibility = View.VISIBLE
+                    dismissIOSProgress()
 
-                dismissIOSProgress()
+                }, 1000)
 
             }
 
