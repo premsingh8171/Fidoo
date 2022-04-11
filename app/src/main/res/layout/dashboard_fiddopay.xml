@@ -70,6 +70,7 @@
             android:text="Control your"
             android:layout_marginTop="24dp"
             android:textColor="@color/black"
+            android:layout_marginStart="16dp"
             android:textStyle="bold"
             android:textSize="24sp"
             android:layout_height="wrap_content"/>
@@ -77,8 +78,38 @@
             android:layout_width="wrap_content"
             android:text="Payment"
             android:textColor="#359C47"
+            android:layout_marginStart="16dp"
             android:textStyle="bold"
             android:textSize="36sp"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinateLayoutFirst"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:id="@+id/bottomSheetBtnForPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F8F8F8"
+            android:isScrollContainer="true"
+            android:orientation="vertical"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="320dp"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Fidoo Pay"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:padding="16dp"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

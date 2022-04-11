@@ -206,9 +206,12 @@
             android:name=".newsearch.ui.NewSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.TestClass"
             android:screenOrientation="portrait"
 
             android:theme="@style/SplashTheme">
