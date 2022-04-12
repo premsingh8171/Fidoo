@@ -211,7 +211,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activity.TestClass"
+            android:name=".FidooPay.FidoPayDashboard"
             android:screenOrientation="portrait"
 
             android:theme="@style/SplashTheme">

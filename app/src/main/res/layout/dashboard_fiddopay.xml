@@ -371,7 +371,7 @@
                 </LinearLayout>
             </LinearLayout>
             <RelativeLayout
-                android:id="@+id/relativeLayoutBottom"
+                android:id="@+id/scanToPayFidoPay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
@@ -380,10 +380,9 @@
                 android:paddingEnd="16dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/roundedbutton_fidoopay">
                 <TextView
-                    android:id="@+id/store_name_txt_info1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima"
