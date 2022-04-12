@@ -112,7 +112,6 @@
                 android:isScrollContainer="true"
                 android:orientation="vertical"
                 app:behavior_hideable="false"
-                app:behavior_peekHeight="320dp"
                 app:layout_behavior="@string/bottom_sheet_behavior">
                 <ImageView
                     android:id="@+id/pullbar"
@@ -163,6 +162,7 @@
                                     android:orientation="vertical">
                                     <ImageView
                                         android:layout_width="wrap_content"
+                                        android:layout_gravity="center"
                                         android:layout_height="wrap_content"
                                         android:src="@drawable/ic_wallethistory_fidoopay" />
                                     <TextView
@@ -181,6 +181,7 @@
                                     android:orientation="vertical">
                                     <ImageView
                                         android:layout_width="wrap_content"
+                                        android:layout_gravity="center"
                                         android:layout_height="wrap_content"
                                         android:src="@drawable/ic_showqrcode_fidoopay" />
                                     <TextView
@@ -199,6 +200,7 @@
                                     android:orientation="vertical">
                                     <ImageView
                                         android:layout_width="wrap_content"
+                                        android:layout_gravity="center"
                                         android:layout_height="wrap_content"
                                         android:src="@drawable/ic_wallet_fidoopay" />
                                     <TextView
@@ -218,6 +220,7 @@
                                     <ImageView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
                                         android:src="@drawable/ic_referearn_fidooay" />
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -307,6 +310,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_paywithsecurityandtrust_fidoopay" />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"/>
                         </LinearLayout>
                     </RelativeLayout>
                 </androidx.core.widget.NestedScrollView>
