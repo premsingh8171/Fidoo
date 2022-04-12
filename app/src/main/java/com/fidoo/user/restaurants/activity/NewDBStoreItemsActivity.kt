@@ -2429,6 +2429,7 @@ class NewDBStoreItemsActivity :
         }
         return(sentance+temp)
     }
+
     private fun getvegitems(){
         CoroutineScope(Dispatchers.IO).launch {
 
