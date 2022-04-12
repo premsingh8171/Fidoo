@@ -387,10 +387,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/proxima"
+                    android:gravity="center"
+                    android:drawablePadding="10dp"
                     android:text="Fidoo Pay"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_fidoopay_logo" />
             </RelativeLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
