@@ -164,25 +164,21 @@
                                         android:textColor="@color/black"
                                         android:textSize="24sp"
                                         android:textStyle="bold" />
-
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal"
                                         android:weightSum="4">
-
                                         <LinearLayout
                                             android:id="@+id/walletHistory_fidoopay"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_weight="1"
                                             android:orientation="vertical">
-
                                             <ImageView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:src="@drawable/ic_wallethistory_fidoopay" />
-
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
@@ -191,19 +187,16 @@
                                                 android:textAlignment="center"
                                                 android:textColor="@color/black" />
                                         </LinearLayout>
-
                                         <LinearLayout
                                             android:id="@+id/showqrcode_fidoopay"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_weight="1"
                                             android:orientation="vertical">
-
                                             <ImageView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:src="@drawable/ic_showqrcode_fidoopay" />
-
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
@@ -212,19 +205,16 @@
                                                 android:textAlignment="center"
                                                 android:textColor="@color/black" />
                                         </LinearLayout>
-
                                         <LinearLayout
                                             android:id="@+id/fidoowallet_fidoopay"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_weight="1"
                                             android:orientation="vertical">
-
                                             <ImageView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:src="@drawable/ic_wallet_fidoopay" />
-
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
@@ -233,19 +223,16 @@
                                                 android:textAlignment="center"
                                                 android:textColor="@color/black" />
                                         </LinearLayout>
-
                                         <LinearLayout
                                             android:id="@+id/referearn_fidoopay"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_weight="1"
                                             android:orientation="vertical">
-
                                             <ImageView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:src="@drawable/ic_referearn_fidooay" />
-
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
@@ -255,21 +242,18 @@
                                                 android:textColor="@color/black" />
                                         </LinearLayout>
                                     </LinearLayout>
-
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="20dp"
                                         android:layout_marginTop="16dp"
                                         android:layout_marginEnd="20dp">
-
                                         <LinearLayout
                                             android:layout_width="160dp"
                                             android:layout_height="175dp"
                                             android:background="@drawable/ic_backgroundfirst_fidoopay"
                                             android:gravity="center"
                                             android:orientation="vertical">
-
                                             <TextView
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
@@ -278,7 +262,6 @@
                                                 android:textColor="@color/black"
                                                 android:textSize="36sp"
                                                 android:textStyle="bold" />
-
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
@@ -287,7 +270,6 @@
                                                 android:textColor="@color/black"
                                                 android:textSize="18sp" />
                                         </LinearLayout>
-
                                         <LinearLayout
                                             android:layout_width="160dp"
                                             android:layout_height="175dp"
@@ -295,7 +277,6 @@
                                             android:background="@drawable/ic_backgroundfirst_fidoopay"
                                             android:gravity="center"
                                             android:orientation="vertical">
-
                                             <TextView
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
@@ -304,7 +285,6 @@
                                                 android:textColor="@color/black"
                                                 android:textSize="36sp"
                                                 android:textStyle="bold" />
-
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
@@ -314,7 +294,6 @@
                                                 android:textSize="18sp" />
                                         </LinearLayout>
                                     </LinearLayout>
-
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -324,13 +303,11 @@
                                         android:textColor="@color/black"
                                         android:textSize="24sp"
                                         android:textStyle="bold" />
-
                                     <androidx.recyclerview.widget.RecyclerView
                                         android:id="@+id/rvShowingRecentRecipients_fidoopay"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:visibility="gone" />
-
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -340,7 +317,6 @@
                                         android:textColor="@color/black"
                                         android:textSize="24sp"
                                         android:textStyle="bold" />
-
                                     <ImageView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
