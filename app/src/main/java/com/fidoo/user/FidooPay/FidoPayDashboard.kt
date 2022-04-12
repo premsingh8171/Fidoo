@@ -1,15 +1,15 @@
-package com.fidoo.user.activity
+package com.fidoo.user.FidooPay
 
 import android.os.Bundle
-import android.view.*
-import android.widget.*
+import android.view.WindowManager
+import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import com.fidoo.user.R
 import com.fidoo.user.utils.BaseActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.dashboard_fiddopay.*
 
-class TestClass : BaseActivity(){
+class FidoPayDashboard : BaseActivity(){
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
