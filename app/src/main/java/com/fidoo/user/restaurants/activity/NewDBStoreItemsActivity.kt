@@ -2438,6 +2438,7 @@ class NewDBStoreItemsActivity :
         }
         return(sentance+temp)
     }
+
     private fun getvegitems(){
 
         restaurantProductsDatabase!!.resProductsDaoAccess()!!.getvegTableCount("0")
