@@ -490,9 +490,7 @@ class ServiceDetailsAdapter(
             //  height = Math.round(catIconWidth * 0.49).toInt()
 
             try {
-                upComingServiceAdapter = UpComingServiceAdapter(
-                    con,
-                    serviceList[position].upcoming_services as ArrayList,
+                upComingServiceAdapter = UpComingServiceAdapter(con, serviceList[position].upcoming_services as ArrayList,
                     object : UpComingServiceAdapter.ItemClickShop {
                         override fun onItemClick(pos: Int, model: UpcomingServices) {
                             clickEventOfDashboard.onUpcomingServicesClick(5, pos, model)
@@ -531,7 +529,6 @@ class ServiceDetailsAdapter(
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     }
-
 
     interface ItemClick {
         fun onItemClick(pos: Int, serviceList: Service)

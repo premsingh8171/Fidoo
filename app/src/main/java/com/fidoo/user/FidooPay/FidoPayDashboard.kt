@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.WindowManager
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.fidoo.user.R
 import com.fidoo.user.utils.BaseActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.android.synthetic.main.dashboard_fiddopay.*
+
 
 class FidoPayDashboard : BaseActivity(){
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
@@ -16,7 +18,10 @@ class FidoPayDashboard : BaseActivity(){
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
-        setContentView(R.layout.dashboard_fiddopay)
-        behavior = BottomSheetBehavior.from(bottomSheetBtn)
+        setContentView(R.layout.fidoopay_dashboard_activity)
+        val fidoPayDashboardFragment = FidoPayDashboardFragment()
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frameLayout, fidoPayDashboardFragment).commit()
     }
 }
