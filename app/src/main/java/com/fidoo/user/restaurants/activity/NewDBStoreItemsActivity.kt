@@ -531,7 +531,7 @@ class NewDBStoreItemsActivity :
                     egg_switch_img.setImageResource(R.drawable.filter_on)
                     // veg_switch_img.setImageResource(R.drawable.filter_off)
                     contains_egg = "1"
-                    getStoreDetailsApiCall()
+                  //  getStoreDetailsApiCall()
                     egg_filter = 1
 
                 } else {
