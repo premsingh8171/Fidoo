@@ -121,6 +121,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.RoundingMode
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashSet
 
 
 class NewDBStoreItemsActivity :
@@ -468,19 +470,20 @@ class NewDBStoreItemsActivity :
                 storeItemsAdapter.notifyDataSetChanged()
 
 
-////
-
-//
                 storeItemsRecyclerview.visibility= View.GONE
+                shimmerFrameLayout.startShimmer()
+                shimmerFrameLayout.visibility= View.VISIBLE
                     getvegitems()
-                showIOSProgress()
+
 
                     Handler().postDelayed({
                         storeItemsAdapter.putvegdata(veg_item_list!!)
                         storeItemsRecyclerview.visibility = View.VISIBLE
-                        dismissIOSProgress()
+                        shimmerFrameLayout.visibility= View.GONE
+                        shimmerFrameLayout.stopShimmer()
+
                         vegcount=1
-                    }, 2000)
+                    }, 1000)
 
 
 //
@@ -496,12 +499,15 @@ class NewDBStoreItemsActivity :
                 // getRoomData()
                 nonveg_str = "0"
                 storeItemsRecyclerview.visibility = View.GONE
-                showIOSProgress()
+                shimmerFrameLayout.startShimmer()
+                shimmerFrameLayout.visibility= View.VISIBLE
                 getRoomData()
                 Handler().postDelayed({
                     storeItemsAdapter.putvegdata(mainlist!!)
+
                     storeItemsRecyclerview.visibility = View.VISIBLE
-                    dismissIOSProgress()
+                    shimmerFrameLayout.visibility= View.GONE
+                    shimmerFrameLayout.stopShimmer()
 
                 }, 1000)
 
@@ -518,7 +524,7 @@ class NewDBStoreItemsActivity :
             if(filterActive==1) {
                 filterActive=0
                 deleteRoomDataBase()
-                showIOSProgress()
+
                 totalItem = 120
                 pagecount = 0
                 if (egg_filter == 0) {
@@ -1204,7 +1210,12 @@ class NewDBStoreItemsActivity :
 
         cat_listShow = 1
         if (!isonlyveg){
-            veg_rvcategory(catList)
+            val s: Set<Subcategory> =
+                LinkedHashSet<Subcategory>(new_veggielist)
+            new_veggielist.clear()
+            new_veggielist.addAll(s)
+
+            veg_rvcategory(new_veggielist)
         }else {
             rvCategory(catList)
         }
@@ -1244,9 +1255,7 @@ class NewDBStoreItemsActivity :
                                                 (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 675)
 
                                     }
-                                       //storeItemsRecyclerview?.layoutManager?.scrollToPosition(i)
-                                     //  storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
-                                     //   storeItemsRecyclerview?.smoothSnapToPosition(i)
+
 
 
                                 }
@@ -2430,7 +2439,17 @@ class NewDBStoreItemsActivity :
         return(sentance+temp)
     }
     private fun getvegitems(){
+
+        restaurantProductsDatabase!!.resProductsDaoAccess()!!.getvegTableCount("0")
+            .observe(this@NewDBStoreItemsActivity, { c ->
+                Log.d("table_count", c.toString())
+                table_count = c.toInt()
+            })
+
+
         CoroutineScope(Dispatchers.IO).launch {
+
+
 
             isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllVegProduct("0",totalItem.toString())
 

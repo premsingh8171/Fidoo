@@ -42,8 +42,11 @@ interface RestaurantProductsDao {
     @Query("SELECT * FROM " + RestaurantProductsDatabase.TABLE_NAME +" LIMIT :pageSize OFFSET :pageIndex")
     fun getAllProducts3(pageSize:String,pageIndex:String): LiveData<List<StoreItemProductsEntity>>
 
-    @Query("SELECT COUNT(*) FROM "+  RestaurantProductsDatabase.TABLE_NAME)
+    @Query("SELECT COUNT(*) FROM "+  RestaurantProductsDatabase.TABLE_NAME )
     fun getTableCount(): LiveData<Integer>
+
+    @Query("SELECT COUNT(*) FROM "+  RestaurantProductsDatabase.TABLE_NAME +" WHERE isNonveg = :veg")
+    fun getvegTableCount(veg:String?): LiveData<Integer>
 
 
     @Query("UPDATE "+ RestaurantProductsDatabase.TABLE_NAME +" SET cartQuantity=:quantity WHERE productId = :product_id")
