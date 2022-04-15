@@ -212,25 +212,25 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".FidooPay.FidooPayQrTest"
+            android:name=".FidoPay.FidoPayQrTest"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".FidooPay.FidoPayDashboardActivity"
+            android:name=".FidoPay.FidoPayDashboardActivity"
             android:screenOrientation="portrait"
-
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".FidoPay.FidoPayEnterDetailsForPayment"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="https://fidoo.page.link"
                     android:scheme="https" />

@@ -15,16 +15,17 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:background="@color/white"
             android:elevation="20dp"
             app:cardElevation="4dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:background="@color/white"
                 android:layout_height="wrap_content">
 
                 <FrameLayout
-                    android:id="@+id/btnBackFromWallet"
+                    android:id="@+id/btnBackFromPaymentToOther"
                     android:layout_width="@dimen/margin_40dp"
                     android:layout_height="@dimen/margin_40dp"
                     android:layout_marginStart="8dp"
@@ -97,26 +98,28 @@
         android:layout_marginBottom="24dp"
         android:textColor="#818181"
         android:textSize="14sp"
-        android:layout_above="@id/btnAddNewMember"
+        android:layout_above="@id/btnSelectModeOfPayment"
         android:layout_height="wrap_content"/>
+
     <RelativeLayout
-        android:id="@+id/btnAddNewMember"
+        android:id="@+id/btnSelectModeOfPayment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_centerInParent="true"
         android:padding="16dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/proxima"
             android:layout_centerInParent="true"
+            android:fontFamily="@font/proxima"
             android:text="Send Money"
             android:textColor="#646667"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </RelativeLayout>
 </RelativeLayout>

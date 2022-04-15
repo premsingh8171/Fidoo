@@ -1,4 +1,4 @@
-package com.fidoo.user.FidooPay
+package com.fidoo.user.FidoPay
 
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -16,7 +16,7 @@ import com.fidoo.user.R
 import com.fidoo.user.utils.BaseActivity
 import kotlinx.android.synthetic.main.fidoopay_scanner.*
 
-class FidooPayQrTest: BaseActivity() {
+class FidoPayQrTest: BaseActivity() {
     private lateinit var codeScanner: CodeScanner
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
