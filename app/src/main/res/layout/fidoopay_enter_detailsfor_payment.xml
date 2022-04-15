@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:layout_width="match_parent"
@@ -8,6 +7,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:gravity="center"
         android:layout_height="wrap_content">
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -37,68 +37,46 @@
                         android:src="@drawable/ic_back_fidoopay"
                         app:tint="@color/black" />
                 </FrameLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24dp"
                     android:layout_centerHorizontal="true"
-                    android:text="Recepient Details"
+                    android:layout_marginTop="@dimen/margin_24dp"
+                    android:text="Payment to"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
+       <ImageView
+           android:layout_width="80dp"
+           android:layout_marginTop="14dp"
+           android:layout_height="80dp"/>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Lorem Ipsum"
+            android:layout_marginTop="6dp"
             android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:padding="16dp"
-            android:text="Add a new member"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="@dimen/margin_15dp"
-                android:hint="Enter Name" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="@dimen/margin_15dp"
-                android:hint="Enter Phone Number" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="@dimen/margin_15dp"
-                android:hint="Enter Email(Optional)" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:textSize="16sp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="9868 - 750 - 666"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:text="₹ 0"
+            android:textColor="#292992"
+            android:textSize="32sp"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:padding="20dp"
+            android:text="Drop a note"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
     <TextView
         android:layout_width="match_parent"
@@ -124,7 +102,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima"
             android:layout_centerInParent="true"
-            android:text="Add a new member"
+            android:text="Send Money"
             android:textColor="#646667"
             android:textSize="16sp"
             android:textStyle="bold"/>
