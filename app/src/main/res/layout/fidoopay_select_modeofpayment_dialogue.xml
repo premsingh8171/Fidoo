@@ -2,20 +2,23 @@
 <androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@drawable/feedback_bg"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:backgroundTint="@color/white"
     android:layout_height="match_parent">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textColor="@color/black"
-        android:padding="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:textStyle="bold"
         android:text="Select Mode of Payment"/>
     <RadioGroup
-        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
+        android:layout_marginStart="16dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <androidx.appcompat.widget.AppCompatRadioButton
@@ -43,10 +46,10 @@
         android:background="#359C47"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="16dp"
         android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
