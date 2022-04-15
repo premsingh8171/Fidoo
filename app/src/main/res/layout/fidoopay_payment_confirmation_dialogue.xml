@@ -4,70 +4,88 @@
     android:layout_width="match_parent"
     android:background="@color/transparent"
     android:layout_height="match_parent">
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:gravity="center"
         android:background="@drawable/feedback_bg"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:gravity="center"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:text="Lorem Ipsum"
-            android:textStyle="bold"
-            android:textSize="18sp"
             android:textColor="@color/black"
-            android:layout_height="wrap_content"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="9868 - 750 - 666"/>
+            android:textColor="#818181"
+            android:text="9868 - 750 - 666" />
+
         <TextView
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Amount Paid"
             android:textColor="#818181"
-            android:textSize="18sp"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:text="Transfer Amount"
-            android:textColor="@color/black"
-            android:layout_marginTop="5dp"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:text="₹ 5000.00"
-            android:textColor="#292992"
-            android:layout_marginTop="5dp"
-            android:textStyle="bold"
-            android:textSize="28sp"
-            android:layout_height="wrap_content"/>
+            android:textSize="18sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sep 6, 2021 | 5:48PM"/>
+            android:layout_marginTop="5dp"
+            android:text="Transfer Amount"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="₹ 5000.00"
+            android:textColor="#292992"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#818181"
+            android:text="Sep 6, 2021 | 5:48PM" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:weightSum="2"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
-            android:layout_height="wrap_content">
+            android:layout_marginBottom="16dp"
+            android:weightSum="2">
+
             <Button
                 android:layout_width="wrap_content"
-                android:text="Close"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                android:textAllCaps="false"
+                android:padding="10dp"
+                android:text="Close" />
+
             <Button
                 android:layout_width="wrap_content"
-                android:text="Summary"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:padding="10dp"
+                android:textAllCaps="false"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+                android:text="Summary" />
         </LinearLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
     <ImageView
