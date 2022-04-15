@@ -16,7 +16,7 @@ class FidoPayDashboardActivity : BaseActivity(){
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
-        setContentView(R.layout.fidoopay_dashboard_activity)
+        setContentView(R.layout.fidoopay_enter_detailsfor_payment)
 //        val fidoPayDashboardFragment = FidoPayDashboardFragment()
 //        val fragmentManager: FragmentManager = supportFragmentManager
 //        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()

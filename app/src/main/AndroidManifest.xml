@@ -212,11 +212,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".FidooPay.FidoPayDashboardActivity"
+            android:name=".FidooPay.FidooPayQrTest"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".FidooPay.FidooPayQrTest"
+            android:name=".FidooPay.FidoPayDashboardActivity"
             android:screenOrientation="portrait"
 
             android:theme="@style/SplashTheme">
