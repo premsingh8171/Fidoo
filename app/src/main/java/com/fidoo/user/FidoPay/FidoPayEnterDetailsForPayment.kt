@@ -11,7 +11,8 @@ import com.fidoo.user.utils.BaseActivity
 import kotlinx.android.synthetic.main.fidoopay_enter_detailsfor_payment.*
 
 class FidoPayEnterDetailsForPayment : BaseActivity() {
-    private var dialog: Dialog? = null
+    private var paymentModeDialogue: Dialog? = null
+    private var paymentConfirmationDialogue: Dialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -19,20 +20,33 @@ class FidoPayEnterDetailsForPayment : BaseActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.fidoopay_enter_detailsfor_payment)
         btnSelectModeOfPayment.setOnClickListener {
-            showDialogueOfPaymentMode()
+            showDialogueOfPaymentConfirmation()
         }
     }
     private fun showDialogueOfPaymentMode() {
-        dialog = Dialog(this)
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog?.setContentView(R.layout.fidoopay_select_modeofpayment_dialogue)
+        paymentModeDialogue = Dialog(this)
+        paymentModeDialogue?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        paymentModeDialogue?.setContentView(R.layout.fidoopay_payment_confirmation_dialogue)
 
-        dialog?.window!!.setLayout(
+        paymentModeDialogue?.window!!.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window!!.setGravity(Gravity.BOTTOM)
-        dialog?.show()
+        paymentModeDialogue?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        paymentModeDialogue?.window!!.setGravity(Gravity.BOTTOM)
+        paymentModeDialogue?.show()
+    }
+    private fun showDialogueOfPaymentConfirmation() {
+        paymentConfirmationDialogue = Dialog(this)
+        paymentConfirmationDialogue?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        paymentConfirmationDialogue?.setContentView(R.layout.fidoopay_payment_confirmation_dialogue)
+
+        paymentConfirmationDialogue?.window!!.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        paymentConfirmationDialogue?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        paymentConfirmationDialogue?.window!!.setGravity(Gravity.CENTER)
+        paymentConfirmationDialogue?.show()
     }
 }
