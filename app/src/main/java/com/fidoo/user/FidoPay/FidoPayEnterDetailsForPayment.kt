@@ -23,7 +23,7 @@ class FidoPayEnterDetailsForPayment : BaseActivity() {
         }
     }
     private fun showDialogueOfPaymentMode() {
-        dialog = this?.let { Dialog(it) }!!
+        dialog = Dialog(this)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.setContentView(R.layout.fidoopay_select_modeofpayment_dialogue)
 
