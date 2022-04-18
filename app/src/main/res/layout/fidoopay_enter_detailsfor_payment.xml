@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -91,6 +92,40 @@
             android:text="Drop a note"
             android:textSize="16sp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/btn_cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_cross_fidoopay"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_below="@id/btn_cross"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Summary"
+                    android:textSize="34sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/share"
+
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
         android:text="Having an Issue?"
