@@ -207,10 +207,12 @@
             android:name=".newsearch.ui.NewSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+<!--
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+-->
         <activity
             android:name=".FidoPay.FidoPayQrTest"
             android:screenOrientation="portrait"
@@ -220,7 +222,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".FidoPay.FidoPayEnterDetailsForPayment"
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
