@@ -837,6 +837,7 @@ class CartActivity : BaseActivity(),
 					// store lat long
 					storeLat = user.store_lat
 					storeLong = user.store_long
+
 					other_taxes_and_charges = user.totalTaxAndCharges.toString()
 
 					Log.e("storeDataCartActivity__", "$storeLat---$storeLong-$other_taxes_and_charges")
@@ -943,6 +944,7 @@ class CartActivity : BaseActivity(),
 
 					Log.e("mModelData_", mModelData.cart.size.toString())
 					storeId=mModelData.cart[0].storeId.toString()
+					SessionTwiclo(this).serviceId = mModelData.cart[0].service_id.toString()
 
 					val adapter = CartItemsAdapter(this, mModelData.cart, this, this)
 					cartItemsRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -2700,6 +2702,9 @@ class CartActivity : BaseActivity(),
 					).putExtra(
 						"type",
 						""
+					).putExtra(
+						"serviceTypeId",
+						SessionTwiclo(this).serviceId
 					)
 				)
 				finishAffinity()

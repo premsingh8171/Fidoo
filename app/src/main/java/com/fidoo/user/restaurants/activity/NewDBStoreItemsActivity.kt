@@ -459,32 +459,38 @@ class NewDBStoreItemsActivity :
                 veg_switch_img.setImageResource(R.drawable.filter_on)
                 mainlist!!.clear()
                 storeItemsAdapter.notifyDataSetChanged()
+
                 storeItemsRecyclerview.visibility = View.GONE
 
 
 
 
-                veg_filter = 0
                 isonlyveg = false
-                getRoomData()
 
 
+
+                CoroutineScope(Dispatchers.IO).launch {
+//
+//
+                    veg_filter = 1
+
+                    getRoomData()
+
+//
+                }
 
                 if (vegcount==0) {
-
                     CoroutineScope(Dispatchers.Main).launch {
                         showIOSProgress()
                         delay(2000)
 
-
-                        isonlyveg = true
                         veg_filter = 0
-
+                        isonlyveg = true
+                        storeItemsRecyclerview.visibility = View.VISIBLE
                         getRoomData()
                         showIOSProgress()
 
                         storeItemsAdapter.putvegdata(mainlist!!)
-                        storeItemsRecyclerview.visibility = View.VISIBLE
 
 
 
@@ -493,10 +499,10 @@ class NewDBStoreItemsActivity :
 
                         vegcount=1
                         veg_filter = 1
-
+                        delay(2000)
+                        storeItemsAdapter.putvegdata(mainlist!!)
 
                     }
-
                 }else{
                     isonlyveg = true
                     getRoomData()
@@ -537,6 +543,7 @@ class NewDBStoreItemsActivity :
             } else {
                 veg_switch_img.setImageResource(R.drawable.filter_off)
                 nonveg_str = ""
+
                 // getRoomData()
                 nonveg_str = "0"
                 showIOSProgress()
@@ -553,6 +560,7 @@ class NewDBStoreItemsActivity :
             // getRoomData()
             // }
         }
+
 
         egg_switch_img.setOnClickListener {
             if(filterActive==1) {
@@ -1278,7 +1286,7 @@ class NewDBStoreItemsActivity :
                                     }else{
                                         storeItemsRecyclerview.post(Runnable {
                                             kotlin.run {
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 550)
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 500)
                                             }
                                         })
 
@@ -1524,7 +1532,7 @@ class NewDBStoreItemsActivity :
             } else {
                 searchQuery(search_value)
             }
-        }, 10)
+        }, 100)
 
 
 

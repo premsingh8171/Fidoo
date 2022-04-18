@@ -3,9 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/activity_chatbotui.xml" value="0.1796875" />
+        <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
+        <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/activity_new_add_address.xml" value="0.1796875" />
+        <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/activity_new_add_address_new.xml" value="0.1796875" />
+        <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/activity_saved_addresses.xml" value="0.1796875" />
+        <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/activity_store_items.xml" value="0.1796875" />
+        <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/activity_store_list.xml" value="0.1796875" />
         <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/activity_track_order.xml" value="0.17978113600833767" />
+        <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/activity_track_sendpackages_order.xml" value="0.1796875" />
+        <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/botitemlayout.xml" value="0.1796875" />
+        <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/category_adapter.xml" value="0.1796875" />
         <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/fragment_home_newui.xml" value="0.1796875" />
         <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/fragment_splash.xml" value="0.1796875" />
+        <entry key="..\:/fidoo_user_newApp/app/src/main/res/layout/saved_address_items.xml" value="0.1796875" />
       </map>
     </option>
   </component>

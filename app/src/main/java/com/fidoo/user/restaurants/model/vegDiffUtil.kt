@@ -18,7 +18,7 @@ class vegDiffUtil(private val oldlist: ArrayList<StoreItemProductsEntity>, priva
      * Checks if the items are same based on a key value i.e here considering id is unique
      */
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldlist[oldItemPosition].id == newlist[newItemPosition].id
+        return oldlist[oldItemPosition].productName.equals(newlist[newItemPosition].productName)
     }
 
     /**

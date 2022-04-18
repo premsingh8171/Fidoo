@@ -374,6 +374,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                                 sendPackageInfo()
                             }
                         } else {
+
                             showToast("please enter from/to address")
                         }
 
