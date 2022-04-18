@@ -211,7 +211,7 @@ class StoreItemsActivity :
 
         rvStoreItemlisting(mainlist!!)
 
-        getRoomData()
+        //getRoomData()
 
         viewmodel = ViewModelProvider(this).get(StoreDetailsViewModel::class.java)
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
@@ -418,7 +418,7 @@ class StoreItemsActivity :
 
             visibilityView()
             searchEdt_ResPrd.getText().clear()
-            getRoomData()
+          //  getRoomData()
         }
 
         egg_switch_img.setOnClickListener {
@@ -440,7 +440,7 @@ class StoreItemsActivity :
             }
             visibilityView()
             searchEdt_ResPrd.getText().clear()
-            getRoomData()
+           // getRoomData()
         }
 
         //Default behaviour of Bottom Sheet
@@ -521,11 +521,11 @@ class StoreItemsActivity :
                         StoreListActivity.serive_id_,
                         SessionTwiclo(this).deviceToken
                     )
-                    getRoomData()
+                  //  getRoomData()
                 } else {
                     deleteRoomDataBase()
                     getStoreDetailsApiCall()
-                    getRoomData()
+                 //   getRoomData()
                 }
             } else {
                 cartitemView_LLstore.visibility = View.GONE
@@ -696,7 +696,7 @@ class StoreItemsActivity :
                 //  rvHeaderCategory(catList)
                 Log.e("Product_", productList.size.toString())
 
-                getRoomData()
+             //   getRoomData()
 
                 //ratingValue.text = user.rating
                 tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
@@ -718,7 +718,7 @@ class StoreItemsActivity :
                 cat_visible = 0
                 productList.clear()!!
                 deleteRoomDataBase()
-                getRoomData()
+            //    getRoomData()
 
 //                val toast =
 //                    Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
@@ -750,7 +750,7 @@ class StoreItemsActivity :
                 } catch (e: Exception) {
 
                 }
-                getRoomData()
+            //    getRoomData()
                 if (SessionTwiclo(this).isLoggedIn) {
                     viewmodel?.getCartCountApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -807,7 +807,7 @@ class StoreItemsActivity :
                 } catch (e: Exception) {
                 }
 
-                getRoomData()
+              //  getRoomData()
                 viewmodel?.getCartCountApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken
@@ -1005,7 +1005,7 @@ class StoreItemsActivity :
 
         }
 
-        viewAll_txt?.setOnClickListener(View.OnClickListener {
+        viewAll_txt.setOnClickListener(View.OnClickListener {
             cat_id = ""
             active_or_not = 0
             viewAll_txt.setTextColor(Color.parseColor("#a9a9a9"))
@@ -1020,7 +1020,7 @@ class StoreItemsActivity :
             getStoreDetailsApiCall()
             visibilityView()
             searchEdt_ResPrd.getText().clear()
-            getRoomData()
+            //  getRoomData()
 
         })
 
@@ -1157,7 +1157,7 @@ class StoreItemsActivity :
                                         totalItem = totalItem?.plus(50)
                                         handleresponce = 1
                                         showIOSProgress()
-                                        getRoomData()
+                 //                       getRoomData()
                                         isScrolling = false
                                     }
                                 }
@@ -1226,54 +1226,54 @@ class StoreItemsActivity :
     }
 
     //get data from room
-    private fun getRoomData() {
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (searchEdt_ResPrd.getText().toString().equals("") || searchEdt_ResPrd.getText()
-                    .toString().startsWith(" ")
-            ) {
-
-                restaurantProductsDatabase!!.resProductsDaoAccess()!!.getTableCount()
-                    .observe(this, { c ->
-                        Log.d("table_count", c.toString())
-                        table_count = c.toInt()
-                    })
-
-                restaurantProductsDatabase!!.resProductsDaoAccess()!!
-                    .getAllProducts2(totalItem.toString())
-                    .observe(this, Observer { t ->
-                        Log.d("restaurantPrdD", t.size.toString())
-
-                        if (handleresponce == 0) {
-
-                            mainlist = t as ArrayList<StoreItemProductsEntity>?
-                            val s: Set<StoreItemProductsEntity> =
-                                LinkedHashSet<StoreItemProductsEntity>(mainlist)
-                            mainlist!!.clear()
-                            mainlist!!.addAll(s)
-                            productsListing_Count = mainlist!!.size
-                            rvStoreItemlisting(mainlist!!)
-                        } else {
-                            var productListUpdate: ArrayList<StoreItemProductsEntity> =
-                                ArrayList()
-                            productListUpdate = t as ArrayList<StoreItemProductsEntity>
-                            mainlist = productListUpdate
-                            val s: Set<StoreItemProductsEntity> =
-                                LinkedHashSet<StoreItemProductsEntity>(mainlist)
-                            mainlist!!.clear()
-                            mainlist!!.addAll(s)
-                            productsListing_Count = mainlist!!.size
-                            storeItemsAdapter.updateData(mainlist!!, table_count!!)
-                        }
-                    })
-
-                dismissIOSProgress()
-            } else {
-                searchQuery(search_value)
-            }
-        }, 100)
-
-
-    }
+//    private fun getRoomData() {
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            if (searchEdt_ResPrd.getText().toString().equals("") || searchEdt_ResPrd.getText()
+//                    .toString().startsWith(" ")
+//            ) {
+//
+//                restaurantProductsDatabase!!.resProductsDaoAccess()!!.getTableCount()
+//                    .observe(this, { c ->
+//                        Log.d("table_count", c.toString())
+//                        table_count = c.toInt()
+//                    })
+//
+//                restaurantProductsDatabase!!.resProductsDaoAccess()!!
+//                    .getAllProducts2(totalItem.toString())
+//                    .observe(this, Observer { t ->
+//                        Log.d("restaurantPrdD", t.size.toString())
+//
+//                        if (handleresponce == 0) {
+//
+//                            mainlist = t as ArrayList<StoreItemProductsEntity>?
+//                            val s: Set<StoreItemProductsEntity> =
+//                                LinkedHashSet<StoreItemProductsEntity>(mainlist)
+//                            mainlist!!.clear()
+//                            mainlist!!.addAll(s)
+//                            productsListing_Count = mainlist!!.size
+//                            rvStoreItemlisting(mainlist!!)
+//                        } else {
+//                            var productListUpdate: ArrayList<StoreItemProductsEntity> =
+//                                ArrayList()
+//                            productListUpdate = t as ArrayList<StoreItemProductsEntity>
+//                            mainlist = productListUpdate
+//                            val s: Set<StoreItemProductsEntity> =
+//                                LinkedHashSet<StoreItemProductsEntity>(mainlist)
+//                            mainlist!!.clear()
+//                            mainlist!!.addAll(s)
+//                            productsListing_Count = mainlist!!.size
+//                            storeItemsAdapter.updateData(mainlist!!, table_count!!)
+//                        }
+//                    })
+//
+//                dismissIOSProgress()
+//            } else {
+//                searchQuery(search_value)
+//            }
+//        }, 100)
+//
+//
+//    }
 
     //update database
     private fun updateProductS(count: Int, productId: String) {
@@ -1986,7 +1986,7 @@ class StoreItemsActivity :
         Log.d("OnRESUME", "RESUME")
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
         if (handleresponce == 1) {
-            getRoomData()
+          //  getRoomData()
             if (SessionTwiclo(this).isLoggedIn) {
                 viewmodel?.getCartCountApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,

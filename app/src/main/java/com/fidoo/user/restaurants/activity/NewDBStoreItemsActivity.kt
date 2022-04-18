@@ -27,6 +27,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
@@ -115,9 +116,13 @@ import kotlinx.android.synthetic.main.no_item_found.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.RoundingMode
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashSet
 
 
 class NewDBStoreItemsActivity :
@@ -129,6 +134,7 @@ class NewDBStoreItemsActivity :
     AdapterCartAddRemoveClick {
     private var categoryy: ArrayList<CustomListModel>? = null
     private var mainlist: ArrayList<StoreItemProductsEntity>? = null
+    private var veg_item_list: ArrayList<StoreItemProductsEntity>? = null
     private var productListFilter: ArrayList<StoreItemProductsEntity>? = null
     private var mModelDataTemp: CustomizeProductResponseModel? = null
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
@@ -163,7 +169,7 @@ class NewDBStoreItemsActivity :
     var search_value: String? = ""
     var storeName: String = ""
     private var mMixpanel: MixpanelAPI? = null
-    lateinit var isVegApplied : LiveData<List<StoreItemProductsEntity>>
+    lateinit var isVegApplied : Flow<List<StoreItemProductsEntity>>
 
     companion object {
         var lastCustomized_str: String = ""
@@ -209,6 +215,7 @@ class NewDBStoreItemsActivity :
     var active_or_not: Int = 0
     var clickevent: Int = 1
     var catList: ArrayList<Subcategory> = ArrayList()
+    var new_veggielist: ArrayList<Subcategory> = ArrayList()
     var latestCatList: ArrayList<Subcategory> = ArrayList()
     var sessionTwiclo: SessionTwiclo? = null
     var viewmodelusertrack: UserTrackerViewModel? = null
@@ -456,102 +463,53 @@ class NewDBStoreItemsActivity :
             pagecount = 0
 
             if (veg_filter == 0) {
+                veg_filter = 1
+                isonlyveg= false
                 veg_switch_img.setImageResource(R.drawable.filter_on)
                 mainlist!!.clear()
                 storeItemsAdapter.notifyDataSetChanged()
 
-                storeItemsRecyclerview.visibility = View.GONE
+
+                storeItemsRecyclerview.visibility= View.GONE
+                shimmerFrameLayout.startShimmer()
+                shimmerFrameLayout.visibility= View.VISIBLE
+                    getvegitems()
 
 
-
-
-                isonlyveg = false
-
-
-
-                CoroutineScope(Dispatchers.IO).launch {
-//
-//
-                    veg_filter = 1
-
-                    getRoomData()
-
-//
-                }
-
-                if (vegcount==0) {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        showIOSProgress()
-                        delay(2000)
-
-                        veg_filter = 0
-                        isonlyveg = true
+                    Handler().postDelayed({
+                        storeItemsAdapter.putvegdata(veg_item_list!!)
                         storeItemsRecyclerview.visibility = View.VISIBLE
-                        getRoomData()
-                        showIOSProgress()
-
-                        storeItemsAdapter.putvegdata(mainlist!!)
-
-
-
-
-                        dismissIOSProgress()
+                        shimmerFrameLayout.visibility= View.GONE
+                        shimmerFrameLayout.stopShimmer()
 
                         vegcount=1
-                        veg_filter = 1
-                        delay(2000)
-                        storeItemsAdapter.putvegdata(mainlist!!)
+                    }, 1000)
 
-                    }
-                }else{
-                    isonlyveg = true
-                    getRoomData()
-                    storeItemsAdapter.putvegdata(mainlist!!)
-                    storeItemsAdapter.notifyDataSetChanged()
-                    storeItemsRecyclerview.visibility = View.VISIBLE
-                    vegcount=1
-                    veg_filter = 1
-                }
 
-//                mainlist!!.clear()
-//                storeItemsAdapter.notifyDataSetChanged()
 //
-//                getvegroomitemsnew()
-//                veg_filter = 1
-//                getRoomData()
-//                veg_filter = 0
+////
 //
-//                getvegroomitemsnew()
-//
-//
-//                    storeItemsAdapter.putvegdata(mvegModel_list!!)
-//                   // storeItemsAdapter.notifyDataSetChanged()
-//                    veg_filter = 1
-//                    nonveg_str = "1"
-//                    // getStoreDetailsApiCall()
-//                    dismissIOSProgress()
-
-
-
-
-
-
-
-
-
-
             } else {
                 veg_switch_img.setImageResource(R.drawable.filter_off)
                 nonveg_str = ""
-
+                isonlyveg=true
+                veg_filter = 0
+                veg_item_list!!.clear()
+                storeItemsAdapter.notifyDataSetChanged()
                 // getRoomData()
                 nonveg_str = "0"
-                showIOSProgress()
+                storeItemsRecyclerview.visibility = View.GONE
+                shimmerFrameLayout.startShimmer()
+                shimmerFrameLayout.visibility= View.VISIBLE
                 getRoomData()
-                storeItemsAdapter.putvegdata(mainlist!!)
-                // getStoreDetailsApiCall()
-                veg_filter = 0
-                dismissIOSProgress()
+                Handler().postDelayed({
+                    storeItemsAdapter.putvegdata(mainlist!!)
+
+                    storeItemsRecyclerview.visibility = View.VISIBLE
+                    shimmerFrameLayout.visibility= View.GONE
+                    shimmerFrameLayout.stopShimmer()
+
+                }, 1000)
 
             }
 
@@ -566,14 +524,14 @@ class NewDBStoreItemsActivity :
             if(filterActive==1) {
                 filterActive=0
                 deleteRoomDataBase()
-                showIOSProgress()
+
                 totalItem = 120
                 pagecount = 0
                 if (egg_filter == 0) {
                     egg_switch_img.setImageResource(R.drawable.filter_on)
                     // veg_switch_img.setImageResource(R.drawable.filter_off)
                     contains_egg = "1"
-                    getStoreDetailsApiCall()
+                  //  getStoreDetailsApiCall()
                     egg_filter = 1
 
                 } else {
@@ -807,6 +765,9 @@ class NewDBStoreItemsActivity :
                             for (j in 0 until storeData.subcategory[i].product.size) {
                                 val productData = storeData.subcategory[i].product[j]
                                 productList.add(productData)
+                                if (storeData.subcategory[i].product[j].is_nonveg.equals("0")){
+                                    new_veggielist.add(storeData.subcategory[i])
+                                }
                                 lastCustomized_str = ""
                                 product_customize_id = ""
                                 var customNamesList_: ArrayList<String>? = ArrayList()
@@ -1248,7 +1209,16 @@ class NewDBStoreItemsActivity :
         })
 
         cat_listShow = 1
-        rvCategory(catList)
+        if (!isonlyveg){
+            val s: Set<Subcategory> =
+                LinkedHashSet<Subcategory>(new_veggielist)
+            new_veggielist.clear()
+            new_veggielist.addAll(s)
+
+            veg_rvcategory(new_veggielist)
+        }else {
+            rvCategory(catList)
+        }
 
     }
 
@@ -1265,7 +1235,7 @@ class NewDBStoreItemsActivity :
                     cat_id = category.product_sub_category_id
                     viewAll_txt.setTextColor(Color.parseColor("#000000"))
                     selectCategoryDiolog?.dismiss()
-                    totalItem = 120
+                    totalItem = 600
 
                     try {
                         for (i in mainlist!!.indices) {
@@ -1277,25 +1247,72 @@ class NewDBStoreItemsActivity :
                                     if (store_details_lay.isVisible) {
 
 
-                                        storeItemsRecyclerview.post(Runnable {
-                                            kotlin.run {
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 350)
-                                            }
-                                        })
+
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
 
                                     }else{
-                                        storeItemsRecyclerview.post(Runnable {
-                                            kotlin.run {
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 500)
-                                            }
-                                        })
 
-
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 675)
 
                                     }
-                                       //storeItemsRecyclerview?.layoutManager?.scrollToPosition(i)
-                                     //  storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
-                                     //   storeItemsRecyclerview?.smoothSnapToPosition(i)
+
+
+
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
+//                    deleteRoomDataBase()
+//                    getStoreDetailsApiCall()
+//                    getRoomData()
+
+                }
+            })
+
+        catrecyclerView?.adapter = restaurantCategoryAdapter
+
+    }
+
+    private fun veg_rvcategory(catList: ArrayList<Subcategory>){
+        clickevent = 1
+        restaurantCategoryAdapter = NewDbRestaurantCategoryAdapter(
+            this,
+            catList,
+            active_or_not,
+
+            object : NewDbRestaurantCategoryAdapter.CategoryItemClick {
+                override fun onItemClick(pos: Int, category: Subcategory) {
+                    Log.d("category_id__", category.product_sub_category_id)
+                    active_or_not = pos
+                    cat_id = category.product_sub_category_id
+                    viewAll_txt.setTextColor(Color.parseColor("#000000"))
+                    selectCategoryDiolog?.dismiss()
+                    totalItem = 600
+
+                    try {
+                        for (i in veg_item_list!!.indices) {
+                            if (veg_item_list!![i].subcategory_name.equals(category.subcategory_name.toString())) {
+                                if (clickevent == 1) {
+                                    Log.e("product_sub_category_id_", i.toString())
+                                    clickevent = 0
+
+                                    if (store_details_lay.isVisible) {
+
+
+
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
+
+                                    }else{
+
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 670)
+
+                                    }
+                                    //storeItemsRecyclerview?.layoutManager?.scrollToPosition(i)
+                                    //  storeItemsRecyclerview?.smoothScrollToPosition(i!! + 4)
+                                    //   storeItemsRecyclerview?.smoothSnapToPosition(i)
 
 
                                 }
@@ -1365,7 +1382,7 @@ class NewDBStoreItemsActivity :
                         try {
                             category_header_.visibility = View.VISIBLE
                             category_header_.text =
-                                mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
+                                mainlist!!.get(scrollOutItems+1)!!.subcategory_name.toString()
                             category_header_TXt.text =
                                 mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
                             //Log.d("totalItem___", table_count.toString())
@@ -1412,7 +1429,7 @@ class NewDBStoreItemsActivity :
                         try {
                             category_header_.visibility = View.VISIBLE
                             category_header_.text =
-                                productListFilter!!.get(scrollOutItems)!!.subcategory_name.toString()
+                                productListFilter!!.get(scrollOutItems+1)!!.subcategory_name.toString()
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -1424,6 +1441,118 @@ class NewDBStoreItemsActivity :
         } else {
             storeItemsAdapter.updateData(productList_, table_count!!)
             
+        }
+
+    }
+
+    private fun vegStoreItemlisting(vegproductList_: ArrayList<StoreItemProductsEntity>) {
+
+        if (countRes == 0) {
+            storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)
+            storeItemsRecyclerview.setHasFixedSize(true)
+
+            storeItemsAdapter = StoreItemsAdapter(
+                this,
+                this,
+                vegproductList_,
+                fssai!!,
+                intent.getStringExtra("storeName").toString(),
+                // restaurantName!!,
+                "3.5",
+                // restaurantAddress!!,
+                intent.getStringExtra("store_location").toString().replace(" ,", ", "),
+                this,
+                this,
+                table_count!!.toInt(),
+                storeID
+            )
+
+            storeItemsRecyclerview.adapter = storeItemsAdapter
+            storeItemsRecyclerview.layoutManager = manager
+            storeItemsRecyclerview?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                        isScrolling = true
+                        //handleresponce = 0
+                    }
+                }
+
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    currentItems = manager!!.childCount
+                    totalItems = manager!!.itemCount
+                    scrollOutItems = manager!!.findFirstVisibleItemPosition()
+                    var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
+
+                    //	 Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem--$--"+mainlist!!.get(firstvisibleItem)!!.subcategory_name.toString());
+
+                    if (searchEdt_ResPrd.getText().toString()
+                            .equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
+                    ) {
+                        try {
+                            category_header_.visibility = View.VISIBLE
+                            category_header_.text =
+                                veg_item_list!!.get(scrollOutItems+1)!!.subcategory_name.toString()
+                            category_header_TXt.text =
+                                veg_item_list!!.get(scrollOutItems)!!.subcategory_name.toString()
+                            //Log.d("totalItem___", table_count.toString())
+
+                            try {
+                                for (i in new_veggielist.indices) {
+                                    if (new_veggielist[i].subcategory_name .equals(
+                                            category_header_.getText().toString()
+                                        )
+                                    ) {
+                                        Log.d("totalItem__gg_", "$i--${catList.size}")
+                                        active_or_not = i
+                                        restaurantCategoryAdapter.activePos(active_or_not)
+                                        restaurantCategoryAdapter.notifyDataSetChanged()
+
+                                    }
+                                }
+                            } catch (e: java.lang.Exception) {
+                                e.printStackTrace()
+                            }
+
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+
+                        if (dy > 1) {
+                            if (isScrolling && (currentItems + scrollOutItems) / 2 == totalItems / 2) {
+                                handleresponce = 1
+                                Log.d("isScrolling__", "$currentItems-$scrollOutItems-$totalItems")
+
+                                if (table_count!! > productsListing_Count!!) {
+                                    if (isScrolling == true) {
+                                        totalItem = totalItem?.plus(100)
+                                        handleresponce = 1
+                                        //showIOSProgress()
+                                        getvegitems()
+                                        isScrolling = false
+                                    }
+                                }
+                            }
+                        }
+
+                    } else {
+                        try {
+                            category_header_.visibility = View.VISIBLE
+                            category_header_.text =
+                                productListFilter!!.get(scrollOutItems+1)!!.subcategory_name.toString()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+            })
+
+        } else {
+            storeItemsAdapter.updateData(vegproductList_, table_count!!)
+
         }
 
     }
@@ -1483,48 +1612,48 @@ class NewDBStoreItemsActivity :
                         table_count = c.toInt()
                     })
 
-                if(veg_filter == 0){
                     isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllProducts2(totalItem.toString())
-                }else{
-                    isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllVegProduct("0",totalItem.toString())
-
-                }
 
 
-                isVegApplied
-                    .observe(this, Observer { t ->
-                        Log.d("restaurantPrdD", t.size.toString() + "--" + handleresponce)
 
-                        if (handleresponce == 0) {
-                            mainlist!!.clear()
-                            mainlist = t as ArrayList<StoreItemProductsEntity>?
-                            val s: Set<StoreItemProductsEntity> =
-                                LinkedHashSet<StoreItemProductsEntity>(mainlist)
-                            mainlist!!.clear()
+                lifecycleScope.launchWhenCreated {
 
-                            mainlist!!.addAll(s)
 
-                            productsListing_Count = mainlist!!.size
-                            if (isonlyveg) {
-                                Log.d("dudi", "Second: $productsListing_Count")
-                                rvStoreItemlisting(mainlist!!)
-                            }
-                        } else {
-                            var productListUpdate: ArrayList<StoreItemProductsEntity> =
-                                ArrayList()
-                            productListUpdate = t as ArrayList<StoreItemProductsEntity>
-                            mainlist = productListUpdate
-                            val s: Set<StoreItemProductsEntity> =
-                                LinkedHashSet<StoreItemProductsEntity>(mainlist)
-                            mainlist!!.clear()
-                            mainlist!!.addAll(s)
+                    isVegApplied
+                        .collect(){
+                            Log.d("restaurantPrdD", it.size.toString() + "--" + handleresponce)
 
-                            productsListing_Count = mainlist!!.size
-                            if (isonlyveg) {
-                                storeItemsAdapter.updateData(mainlist!!, table_count!!)
+                            if (handleresponce == 0) {
+
+                                mainlist = it as ArrayList<StoreItemProductsEntity>?
+                                val s: Set<StoreItemProductsEntity> =
+                                    LinkedHashSet<StoreItemProductsEntity>(mainlist)
+                                mainlist!!.clear()
+
+                                mainlist!!.addAll(s)
+
+                                productsListing_Count = mainlist!!.size
+                                if (isonlyveg) {
+                                    Log.d("dudi", "Second: $productsListing_Count")
+                                    rvStoreItemlisting(mainlist!!)
+                                }
+                            } else {
+                                var productListUpdate: ArrayList<StoreItemProductsEntity> =
+                                    ArrayList()
+                                productListUpdate = it as ArrayList<StoreItemProductsEntity>
+                                mainlist = productListUpdate
+                                val s: Set<StoreItemProductsEntity> =
+                                    LinkedHashSet<StoreItemProductsEntity>(mainlist)
+                                mainlist!!.clear()
+                                mainlist!!.addAll(s)
+
+                                productsListing_Count = mainlist!!.size
+                                if (isonlyveg) {
+                                    storeItemsAdapter.updateData(mainlist!!, table_count!!)
+                                }
                             }
                         }
-                    })
+                }
 
 //                if (vegToggle .equals("On") || vegToggle.equals("Off")) {
 //                    dismissIOSProgress()
@@ -1532,7 +1661,7 @@ class NewDBStoreItemsActivity :
             } else {
                 searchQuery(search_value)
             }
-        }, 100)
+        }, 1)
 
 
 
@@ -2308,6 +2437,67 @@ class NewDBStoreItemsActivity :
             }
         }
         return(sentance+temp)
+    }
+
+    private fun getvegitems(){
+
+        restaurantProductsDatabase!!.resProductsDaoAccess()!!.getvegTableCount("0")
+            .observe(this@NewDBStoreItemsActivity, { c ->
+                Log.d("table_count", c.toString())
+                table_count = c.toInt()
+            })
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+
+
+            isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllVegProduct("0",totalItem.toString())
+
+            lifecycleScope.launchWhenCreated {
+
+
+                    isVegApplied
+                        .collect(){
+                            Log.d("restaurantPrdD", it.size.toString() + "--" + handleresponce)
+
+                            if (handleresponce == 0) {
+
+                                veg_item_list = it as ArrayList<StoreItemProductsEntity>?
+                                val s: Set<StoreItemProductsEntity> =
+                                    LinkedHashSet<StoreItemProductsEntity>(veg_item_list)
+                                veg_item_list!!.clear()
+
+                                veg_item_list!!.addAll(s)
+
+                                productsListing_Count = veg_item_list!!.size
+                                if (!isonlyveg) {
+                                    Log.d("dudi", "Second: $productsListing_Count")
+                                    vegStoreItemlisting(veg_item_list!!)
+                                }
+                            } else {
+                                var productListUpdate: ArrayList<StoreItemProductsEntity> =
+                                    ArrayList()
+                                productListUpdate = it as ArrayList<StoreItemProductsEntity>
+                                veg_item_list = productListUpdate
+                                val s: Set<StoreItemProductsEntity> =
+                                    LinkedHashSet<StoreItemProductsEntity>(veg_item_list)
+                                veg_item_list!!.clear()
+                                veg_item_list!!.addAll(s)
+
+                                productsListing_Count = veg_item_list!!.size
+                                if (!isonlyveg) {
+                                    storeItemsAdapter.updateData(veg_item_list!!, table_count!!)
+                                }
+                            }
+                        }
+                }
+
+//                if (vegToggle .equals("On") || vegToggle.equals("Off")) {
+//                    dismissIOSProgress()
+//                }
+
+        }
     }
 
 
