@@ -7,7 +7,6 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:layout_below="@id/test"
         android:layout_margin="@dimen/margin_12dp"
         android:elevation="@dimen/dimen_5dp"
         android:backgroundTint="@color/white"
@@ -25,7 +24,6 @@
     </FrameLayout>
 
     <TextView
-        android:layout_below="@id/test"
         android:id="@+id/tv_SelectDeliveryAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,7 +35,6 @@
         android:textStyle="bold" />
 
     <TextView
-        android:layout_below="@id/test"
         android:id="@+id/tv_AddAddress"
         android:layout_width="wrap_content"
         android:layout_toEndOf="@id/add_address_frmLL"
