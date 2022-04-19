@@ -145,7 +145,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
          */
         userName = SessionTwiclo(this).loginDetail.account.name
         userPhone = SessionTwiclo(this).loginDetail.account.userName
-        Toast.makeText(this, "$userName$userPhone", Toast.LENGTH_SHORT).show()
+ //       Toast.makeText(this, "$userName$userPhone", Toast.LENGTH_SHORT).show()
         viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(AddressViewModel::class.java)
         val manager = this@NewAddAddressActivityNew.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
