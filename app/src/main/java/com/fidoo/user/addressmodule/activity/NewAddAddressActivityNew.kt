@@ -169,7 +169,15 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
         viewmodelusertrack = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(UserTrackerViewModel::class.java)
         where = pref!!.guestLogin
-
+        homeRadioBtn.setOnClickListener {
+            other_add_contact_details.visibility = View.GONE
+        }
+        officeRadioBtn.setOnClickListener {
+            other_add_contact_details.visibility = View.GONE
+        }
+        otherRadioBtn.setOnClickListener {
+            other_add_contact_details.visibility = View.VISIBLE
+        }
         if (SessionTwiclo(this).isLoggedIn == true) {
             viewmodelusertrack?.customerActivityLog(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -203,8 +211,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             tv_Address.setHorizontallyScrolling(true)
             tv_Address_1.setText(model.location)
 
-//            ed_name.setText(model.name)
-//            ed_phone.setText(model.phone_no)
+            ed_name.setText(model.name)
+            ed_phone.setText(model.phone_no)
             ed_address.setText(model.flatNo)
             //buildingValue.setText(model.building)
             ed_landmark.setText(model.landmark)
@@ -226,15 +234,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 //                )
 //            }
 
-            homeRadioBtn.setOnClickListener {
-                other_add_contact_details.visibility = View.GONE
-            }
-            officeRadioBtn.setOnClickListener {
-                other_add_contact_details.visibility = View.GONE
-            }
-            otherRadioBtn.setOnClickListener {
-                other_add_contact_details.visibility = View.VISIBLE
-            }
+
             when {
                 model.addressType.equals("1") -> {
                     homeRadioBtn.isChecked = true
