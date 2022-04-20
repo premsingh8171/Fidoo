@@ -310,7 +310,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             checkAddressSavedFromWhichActivity = "fromNewAddressActivity"
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
-            } else {
+            }
+            else {
                 if (where.equals("guest")) {
                     SessionTwiclo(this).userLat = lat.toString()
                     SessionTwiclo(this).userLng = lng.toString()
@@ -331,124 +332,126 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                         else if (tv_Address.equals("") || tv_Address_1.equals("")) {
                             showToast("Location not available")
                         }
-//                        else {
-//                            if (MainActivity.addEditAdd == "SendPackage") {
-////                                if (ed_name.text.toString().equals("")) {
-////                                    showToast("Please add contact details")
-////                                } else {
-//                                showIOSProgress()
-//                                if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
-//                                    addressType = "1"
-//                                } else
-//                                    if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
-//                                        addressType = "2"
-//                                    } else
-//                                        if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
-//                                            addressType = "3"
-//                                        }
-//
-////                                defaultValue = if (defaultCheckBox.isChecked) {
-////                                    "1"
-////                                } else {
-////                                    "0"
-////                                }
-//
-//                                if (intent.hasExtra("data")) {
-//                                    viewmodel?.editAddressDetails(
-//                                        SessionTwiclo(this).loggedInUserDetail.accountId,
-//                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                                        ed_address.text.toString(),
-//                                        ed_address.text.toString(),
-//                                        tv_Address.text.toString(),
-//                                        ed_landmark.text.toString(),
-//                                        addressType,
-//                                        lat.toString(),
-//                                        lng.toString(),
-//                                        defaultValue,
-//                                        "", defaultValue,
-//                                        defaultValue,
-//                                        tempAddressId, contact_type!!
-//                                    )
-//
+                        else {
+                            if (MainActivity.addEditAdd == "SendPackage") {
+//                                if (ed_name.text.toString().equals("")) {
+//                                    showToast("Please add contact details")
 //                                } else {
-//
-//                                    viewmodel?.addAddressDetails(
-//                                        SessionTwiclo(this).loggedInUserDetail.accountId,
-//                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                                        ed_address.text.toString(),
-//                                        ed_address.text.toString(),
-//                                        tv_Address.text.toString(),
-//                                        ed_landmark.text.toString(),
-//                                        addressType,
-//                                        lat.toString(),
-//                                        lng.toString(),
-//                                        defaultValue,
-//                                        "",
-//                                        defaultValue,
-//                                        defaultValue, contact_type!!
-//                                    )
-//
-//                                }
-//                                // }
-//                            }
-//                            else {
-//                                showIOSProgress()
-//                                if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
-//                                    addressType = "1"
-//                                } else
-//                                    if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
-//                                        addressType = "2"
-//                                    } else
-//                                        if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
-//                                            addressType = "3"
-//                                        }
-//
-////                                defaultValue = if (defaultCheckBox.isChecked) {
-////                                    "1"
-////                                } else {
-////                                    "0"
-////                                }
-//
-//                                if (intent.hasExtra("data")) {
-//                                    viewmodel?.editAddressDetails(
-//                                        SessionTwiclo(this).loggedInUserDetail.accountId,
-//                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                                        ed_address.text.toString(),
-//                                        ed_address.text.toString(),
-//                                        tv_Address.text.toString(),
-//                                        ed_landmark.text.toString(),
-//                                        addressType,
-//                                        lat.toString(),
-//                                        lng.toString(),
-//                                        defaultValue,
-//                                        "", defaultValue,
-//                                        defaultValue,
-//                                        tempAddressId, contact_type!!
-//                                    )
-//
-//                                } else {
-//
-//                                    viewmodel?.addAddressDetails(
-//                                        SessionTwiclo(this).loggedInUserDetail.accountId,
-//                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-//                                        ed_address.text.toString(),
-//                                        ed_address.text.toString(),
-//                                        tv_Address.text.toString(),
-//                                        ed_landmark.text.toString(),
-//                                        addressType,
-//                                        lat.toString(),
-//                                        lng.toString(),
-//                                        defaultValue,
-//                                        "",
-//                                        defaultValue, defaultValue, contact_type!!
-//                                    )
-//
-//                                }
-//
-//                            }
-//                        }
+                                showIOSProgress()
+                                if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
+                                    addressType = "1"
+                                } else
+                                    if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
+                                        addressType = "2"
+                                    } else
+                                        if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
+                                            addressType = "3"
+                                        }
 
-                    } else {
+//                                defaultValue = if (defaultCheckBox.isChecked) {
+//                                    "1"
+//                                } else {
+//                                    "0"
+//                                }
+
+                                if (intent.hasExtra("data")) {
+                                    viewmodel?.editAddressDetails(
+                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                        ed_address.text.toString(),
+                                        ed_address.text.toString(),
+                                        tv_Address.text.toString(),
+                                        ed_landmark.text.toString(),
+                                        addressType,
+                                        lat.toString(),
+                                        lng.toString(),
+                                        defaultValue,
+                                        "", defaultValue,
+                                        defaultValue,
+                                        tempAddressId, contact_type!!
+                                    )
+
+                                } else {
+
+                                    viewmodel?.addAddressDetails(
+                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                        ed_address.text.toString(),
+                                        ed_address.text.toString(),
+                                        tv_Address.text.toString(),
+                                        ed_landmark.text.toString(),
+                                        addressType,
+                                        lat.toString(),
+                                        lng.toString(),
+                                        defaultValue,
+                                        "",
+                                        defaultValue,
+                                        defaultValue, contact_type!!
+                                    )
+
+                                }
+                                // }
+                            }
+                            else {
+                                showIOSProgress()
+                                if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
+                                    addressType = "1"
+                                } else
+                                    if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
+                                        addressType = "2"
+                                    } else
+                                        if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
+                                            addressType = "3"
+                                        }
+
+//                                defaultValue = if (defaultCheckBox.isChecked) {
+//                                    "1"
+//                                } else {
+//                                    "0"
+//                                }
+
+                                if (intent.hasExtra("data")) {
+                                    viewmodel?.editAddressDetails(
+                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                        ed_address.text.toString(),
+                                        ed_address.text.toString(),
+                                        tv_Address.text.toString(),
+                                        ed_landmark.text.toString(),
+                                        addressType,
+                                        lat.toString(),
+                                        lng.toString(),
+                                        defaultValue,
+                                        "", defaultValue,
+                                        defaultValue,
+                                        tempAddressId, contact_type!!
+                                    )
+
+                                } else {
+
+                                    viewmodel?.addAddressDetails(
+                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                        ed_address.text.toString(),
+                                        ed_address.text.toString(),
+                                        tv_Address.text.toString(),
+                                        ed_landmark.text.toString(),
+                                        addressType,
+                                        lat.toString(),
+                                        lng.toString(),
+                                        ed_name.text.toString(),
+                                        "", defaultValue,
+                                        ed_phone.text.toString(),
+                                        contact_type!!
+                                    )
+
+                                }
+
+                            }
+                        }
+
+                    }
+                    else {
                         if (ed_address.text.toString().equals("")) {
                             showToast("Please enter your house number")
 
@@ -459,7 +462,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 //                        }
 //                        //updated by shobha
                         else if (handleOtherButtonAddress == true){
-                             if (ed_name.text.toString().equals("")) {
+                            if (ed_name.text.toString().equals("")) {
                                 showToast("Please add contact details")
                             }
                             else if (ed_phone.text.toString().equals("")) {
@@ -500,10 +503,10 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                     addressType,
                                     lat.toString(),
                                     lng.toString(),
-                                   // userName,
+                                    // userName,
                                     ed_name.text.toString(),
                                     "", defaultValue,
-                                   // userPhone,
+                                    // userPhone,
                                     ed_phone.text.toString(),
                                     tempAddressId,
                                     contact_type!!
@@ -521,11 +524,11 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                     addressType,
                                     lat.toString(),
                                     lng.toString(),
-                                //    userName,
+                                    //    userName,
                                     ed_name.text.toString(),
                                     "",
                                     defaultValue,
-                                //    userPhone,
+                                    //    userPhone,
                                     ed_phone.text.toString(),
                                     contact_type!!
                                 )
