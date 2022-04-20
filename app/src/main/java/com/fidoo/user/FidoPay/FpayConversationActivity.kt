@@ -34,7 +34,7 @@ class FpayConversationActivity : BaseActivity(){
         updatedList=ArrayList()
         conversation_rv?.layoutManager = LinearLayoutManager(this)
 
-        for (i in 1..2) {
+        for (i in 1..50) {
                 conversationList!!.add(ConversationModel("50000","message from sender","20000","message from receiver"))
 
         }
@@ -64,9 +64,9 @@ class FpayConversationActivity : BaseActivity(){
         })
         sendmsg_img.setOnClickListener(View.OnClickListener {
 
-            msg_value?.let { it1 -> adapter.updateData(updatedList!!, it1) }
-            adapter.notifyDataSetChanged()
-            Log.d("updatedListnew__", updatedList!!.size.toString())
+//            msg_value?.let { it1 -> adapter.updateData(updatedList!!, it1) }
+//            adapter.notifyDataSetChanged()
+//            Log.d("updatedListnew__", updatedList!!.size.toString())
         })
     }
 

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/backGround_et"
-        android:orientation="vertical">
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backGround_et"
+    android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/headerlayout"
@@ -39,11 +36,13 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="sfdafsdfdf" />
 
                 <TextView
+                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="sfdafsdfdf" />
@@ -53,10 +52,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/conversation_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/headerlayout"
-            android:layout_marginTop="@dimen/margin_10dp"
-            android:layout_marginBottom="@dimen/dimen_50dp"
+
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:spanCount="1" />
 
@@ -65,7 +63,6 @@
             android:layout_height="@dimen/dimen_60dp"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
-
             android:orientation="horizontal">
 
             <TextView
@@ -116,4 +113,3 @@
 
         </LinearLayout>
     </RelativeLayout>
-</layout>
