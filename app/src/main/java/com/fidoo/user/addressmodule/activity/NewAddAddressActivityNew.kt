@@ -306,13 +306,12 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                     SessionTwiclo(this).userAddress = tv_Address.text.toString()
                     SavedAddressesActivity.savedAddressesActivity!!.finish().toString()
                     finish()
-                } else {
+                }
+                else {
                     if (SavedAddressesActivity.addAddressOrNot.equals("new_add")) {
                         if (ed_address.text.toString().equals("")) {
                             showToast("Please enter your house number")
-                        }
-
-                        else if (tv_Address.equals("")) {
+                        } else if (tv_Address.equals("")) {
                             showToast("Location not available")
                         }
                         else {
@@ -347,9 +346,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                         ed_phone.text.toString(),
                                         tempAddressId, contact_type!!
                                     )
-
-                                } else {
-
+                                }
+                                else {
                                     viewmodel?.addAddressDetails(
                                         SessionTwiclo(this).loggedInUserDetail.accountId,
                                         SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -367,8 +365,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                     )
                                 }
                                 // }
-                            }
-                            else {
+                            } else {
                                 showIOSProgress()
                                 if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
                                     addressType = "1"
@@ -396,9 +393,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                         ed_phone.text.toString(),
                                         tempAddressId, contact_type!!
                                     )
-
-                                } else {
-
+                                }
+                                else {
                                     viewmodel?.addAddressDetails(
                                         SessionTwiclo(this).loggedInUserDetail.accountId,
                                         SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -414,12 +410,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                         defaultValue,
                                         ed_phone.text.toString(), contact_type!!
                                     )
-
                                 }
-
                             }
                         }
-
                     }
                     else {
                         if (ed_address.text.toString().equals("")) {
@@ -431,14 +424,16 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                 showToast("Please add contact details")
                             } else if (ed_phone.text.toString().equals("")) {
                                 showToast("Please add contact details")
-                            } else {
+                            }
+                            else {
                                 showIOSProgress()
                                 if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
                                     addressType = "1"
                                 } else
                                     if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
                                         addressType = "2"
-                                    } else
+                                    }
+                                    else
                                         if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
                                             addressType = "3"
                                         }
@@ -460,8 +455,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                         tempAddressId,
                                         contact_type!!
                                     )
-
-                                } else {
+                                }
+                                else {
                                     viewmodel?.addAddressDetails(
                                         SessionTwiclo(this).loggedInUserDetail.accountId,
                                         SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -484,7 +479,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                         else {
                             if (tv_Address.equals("")) {
                                 showToast("Location not available")
-                            } else {
+                            }
+                            else {
                                 showIOSProgress()
                                 if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
                                     addressType = "1"
@@ -513,8 +509,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                         tempAddressId,
                                         contact_type!!
                                     )
-
-                                } else {
+                                }
+                                else {
                                     viewmodel?.addAddressDetails(
                                         SessionTwiclo(this).loggedInUserDetail.accountId,
                                         SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -533,11 +529,10 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                     )
                                 }
                             }
-                    }
+                        }
                     }
                 }
             }
-
         }
 
 //        contact_name_txt.setOnClickListener {
