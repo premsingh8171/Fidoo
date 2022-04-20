@@ -510,7 +510,6 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                     }
                 }
             }
-
         }
 
 //        contact_name_txt.setOnClickListener {

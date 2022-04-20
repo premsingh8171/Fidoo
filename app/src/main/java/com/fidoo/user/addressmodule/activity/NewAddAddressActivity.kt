@@ -313,62 +313,63 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
                                 }
                                 // }
-                            } else {
-                                showIOSProgress()
-                                if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
-                                    addressType = "1"
-                                } else
-                                    if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
-                                        addressType = "2"
-                                    } else
-                                        if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
-                                            addressType = "3"
-                                        }
-
-                                defaultValue = if (defaultCheckBox.isChecked) {
-                                    "1"
-                                } else {
-                                    "0"
-                                }
-
-                                if (intent.hasExtra("data")) {
-                                    viewmodel?.editAddressDetails(
-                                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                        ed_address.text.toString(),
-                                        ed_address.text.toString(),
-                                        tv_Address.text.toString(),
-                                        ed_landmark.text.toString(),
-                                        addressType,
-                                        lat.toString(),
-                                        lng.toString(),
-                                        ed_name.text.toString(),
-                                        "", defaultValue,
-                                        ed_phone.text.toString(),
-                                        tempAddressId, contact_type!!
-                                    )
-
-                                } else {
-
-                                    viewmodel?.addAddressDetails(
-                                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                        ed_address.text.toString(),
-                                        ed_address.text.toString(),
-                                        tv_Address.text.toString(),
-                                        ed_landmark.text.toString(),
-                                        addressType,
-                                        lat.toString(),
-                                        lng.toString(),
-                                        ed_name.text.toString(),
-                                        "",
-                                        defaultValue,
-                                        ed_phone.text.toString(), contact_type!!
-                                    )
-
-                                }
-
                             }
+//                            else {
+//                                showIOSProgress()
+//                                if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
+//                                    addressType = "1"
+//                                } else
+//                                    if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
+//                                        addressType = "2"
+//                                    } else
+//                                        if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
+//                                            addressType = "3"
+//                                        }
+//
+//                                defaultValue = if (defaultCheckBox.isChecked) {
+//                                    "1"
+//                                } else {
+//                                    "0"
+//                                }
+//
+//                                if (intent.hasExtra("data")) {
+//                                    viewmodel?.editAddressDetails(
+//                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+//                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                                        ed_address.text.toString(),
+//                                        ed_address.text.toString(),
+//                                        tv_Address.text.toString(),
+//                                        ed_landmark.text.toString(),
+//                                        addressType,
+//                                        lat.toString(),
+//                                        lng.toString(),
+//                                        ed_name.text.toString(),
+//                                        "", defaultValue,
+//                                        ed_phone.text.toString(),
+//                                        tempAddressId, contact_type!!
+//                                    )
+//
+//                                } else {
+//
+//                                    viewmodel?.addAddressDetails(
+//                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+//                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                                        ed_address.text.toString(),
+//                                        ed_address.text.toString(),
+//                                        tv_Address.text.toString(),
+//                                        ed_landmark.text.toString(),
+//                                        addressType,
+//                                        lat.toString(),
+//                                        lng.toString(),
+//                                        ed_name.text.toString(),
+//                                        "",
+//                                        defaultValue,
+//                                        ed_phone.text.toString(), contact_type!!
+//                                    )
+//
+//                                }
+//
+//                            }
                         }
 
                     } else {
