@@ -310,7 +310,6 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                         defaultValue,
                                         ed_phone.text.toString(), contact_type!!
                                     )
-
                                 }
                                 // }
                             }
