@@ -171,12 +171,15 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         where = pref!!.guestLogin
         homeRadioBtn.setOnClickListener {
             other_add_contact_details.visibility = View.GONE
+            handleOtherButtonAddress = false
         }
         officeRadioBtn.setOnClickListener {
             other_add_contact_details.visibility = View.GONE
+            handleOtherButtonAddress = false
         }
         otherRadioBtn.setOnClickListener {
             other_add_contact_details.visibility = View.VISIBLE
+            handleOtherButtonAddress = true
         }
         if (SessionTwiclo(this).isLoggedIn == true) {
             viewmodelusertrack?.customerActivityLog(
@@ -455,9 +458,15 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 //
 //                        }
 //                        //updated by shobha
-//                        else if (ed_name.text.toString().equals("")) {
-//                            showToast("Please add contact details")
-//                        }
+                        else if (handleOtherButtonAddress == true){
+                             if (ed_name.text.toString().equals("")) {
+                                showToast("Please add contact details")
+                            }
+                            else if (ed_phone.text.toString().equals("")) {
+                                showToast("Please add contact details")
+                            }
+                        }
+
                         else if (tv_Address.equals("") || tv_Address_1.equals("")) {
                             showToast("Location not available")
 
@@ -491,9 +500,11 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                     addressType,
                                     lat.toString(),
                                     lng.toString(),
-                                    userName,
+                                   // userName,
+                                    ed_name.text.toString(),
                                     "", defaultValue,
-                                    userPhone,
+                                   // userPhone,
+                                    ed_phone.text.toString(),
                                     tempAddressId,
                                     contact_type!!
                                 )
@@ -510,10 +521,12 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                     addressType,
                                     lat.toString(),
                                     lng.toString(),
-                                    userName,
+                                //    userName,
+                                    ed_name.text.toString(),
                                     "",
                                     defaultValue,
-                                    userPhone,
+                                //    userPhone,
+                                    ed_phone.text.toString(),
                                     contact_type!!
                                 )
                             }

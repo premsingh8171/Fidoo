@@ -344,7 +344,8 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 //                                        lng.toString(),
 //                                        ed_name.text.toString(),
 //                                        "", defaultValue,
-//                                        ed_phone.text.toString(),
+//
+                        //                                        ,
 //                                        tempAddressId, contact_type!!
 //                                    )
 //
