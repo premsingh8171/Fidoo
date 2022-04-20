@@ -83,7 +83,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         val MY_PERMISSIONS_REQUEST_CODE = 123
         var checkCount = 0
 
-    } var booleanToCheck:Boolean = true
+    }
+    var handleOtherButtonAddress : Boolean = false
     var onMapNoNetDiolog: Dialog? = null
     private lateinit var saveBtn : Button
     private lateinit var userAddress : TextInputEditText
@@ -224,6 +225,16 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 //                    )
 //                )
 //            }
+
+            homeRadioBtn.setOnClickListener {
+                other_add_contact_details.visibility = View.GONE
+            }
+            officeRadioBtn.setOnClickListener {
+                other_add_contact_details.visibility = View.GONE
+            }
+            otherRadioBtn.setOnClickListener {
+                other_add_contact_details.visibility = View.VISIBLE
+            }
             when {
                 model.addressType.equals("1") -> {
                     homeRadioBtn.isChecked = true
