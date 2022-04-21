@@ -22,6 +22,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             app:tint="@color/black" />
+
     </FrameLayout>
 
     <TextView
@@ -334,37 +335,49 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tl_name"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="65dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
-                        app:boxCornerRadiusBottomEnd="15dp"
-                        app:boxCornerRadiusBottomStart="15dp"
-                        app:boxCornerRadiusTopEnd="15dp"
-                        app:boxCornerRadiusTopStart="15dp"
-                        app:endIconMode="clear_text"
-                        app:errorEnabled="true"
-                        android:importantForAutofill="no"
-                        app:hintTextColor="@color/colorHint"
-                        app:boxStrokeColor="@color/backGround_et"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tl_phone">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:textColor="@color/black"
-                            android:hint="Name"
-                            android:textSize="12sp"
-                            android:id="@+id/ed_name"
-                            android:importantForAutofill="no"
+                        app:layout_constraintTop_toBottomOf="@+id/tl_phone"
+                        android:layout_height="wrap_content">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tl_name"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:inputType="text|textNoSuggestions" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_height="65dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            app:boxCornerRadiusBottomEnd="15dp"
+                            app:boxCornerRadiusBottomStart="15dp"
+                            app:boxCornerRadiusTopEnd="15dp"
+                            app:boxCornerRadiusTopStart="15dp"
+                            app:endIconMode="clear_text"
+                            app:errorEnabled="true"
+                            android:importantForAutofill="no"
+                            app:hintTextColor="@color/colorHint"
+                            app:boxStrokeColor="@color/backGround_et"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:textColor="@color/black"
+                                android:hint="Name"
+                                android:textSize="12sp"
+                                android:id="@+id/ed_name"
+                                android:importantForAutofill="no"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:inputType="text|textNoSuggestions" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <ImageView
+                            android:id="@+id/ivSelectContactFromPhoneBook"
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:padding="16dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_phonebook"/>
+                    </RelativeLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tl_phone"

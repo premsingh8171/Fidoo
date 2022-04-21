@@ -1,8 +1,10 @@
 package com.fidoo.user.addressmodule.activity
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ContentResolver
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -14,7 +16,9 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -221,9 +225,11 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
         if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
             tv_address_title.text = "Home"
-        } else if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
+        }
+        else if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
             tv_address_title.text = "Office"
-        } else if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
+        }
+        else if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
             tv_address_title.text = "Other"
         }
 
@@ -240,6 +246,14 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             btn_continue.visibility = View.VISIBLE
             iv_mapSlider.visibility  = View.GONE
             iv_emptyMap.visibility = View.VISIBLE
+        }
+/**
+ * ****************************************************************************************************************************************************************************
+ */
+        ivSelectContactFromPhoneBook.setOnClickListener {
+            var i = Intent(Intent.ACTION_PICK)
+            i.type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
+            startActivityForResult(i,111)
         }
 
         ed_address.doAfterTextChanged {
@@ -533,6 +547,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         }
     }
 
+
+
     private val saveAddressWatcher = object : TextWatcher{
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
@@ -708,6 +724,15 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 111 && resultCode == Activity.RESULT_OK){
+            var contactUri : Uri = data?.data ?: return
+            var cols = arrayOf(ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
+            var rs = contentResolver.query(contactUri,cols,null,null,null)
+            if (rs?.moveToFirst()!!){
+                ed_phone.setText(rs.getString(0))
+                ed_name.setText(rs.getString(1))
+            }
+        }
         if (requestCode == 51) {
             if (resultCode == RESULT_OK) {
                 if (intent.hasExtra("data")) {
