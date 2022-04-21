@@ -106,13 +106,11 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
     var where: String? = ""
     var contact_type: String? = ""
 
-
     private var mLastKnownLocation: Location? = null
     private var locationCallback: LocationCallback? = null
 
     //private var searchBar: searchBar? = null
     private var mapView: View? = null
-    private var btnFind: Button? = null
     private var rippleBg: RippleBackground? = null
     private var DEFAULT_ZOOM = 18f
     private var locationManager: LocationManager? = null
@@ -123,9 +121,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
     private val SECOND_ACTIVITY_REQUEST_CODE = 0
     var pref: SessionTwiclo? = null
-    var contactTypePopUp: Dialog? = null
     private var mMixpanel: MixpanelAPI? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
