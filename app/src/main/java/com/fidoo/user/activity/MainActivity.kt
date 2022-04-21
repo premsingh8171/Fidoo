@@ -134,7 +134,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         bottomNavigationView.itemIconTintList= null
 
          val navController = findNavController(R.id.fragment4)
-        bottomNavigationView?.animation?.backgroundColor = Color.parseColor("#11520b")
+      //  bottomNavigationView?.animation?.backgroundColor = Color.parseColor("#11520b")
         bottomNavigationView.setupWithNavController(navController)
 
 

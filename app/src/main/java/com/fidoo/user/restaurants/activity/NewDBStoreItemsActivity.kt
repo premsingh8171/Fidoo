@@ -191,6 +191,7 @@ class NewDBStoreItemsActivity :
     var totalItem: Int? = 800
     var table_count: Int? = 0
     private var manager: GridLayoutManager? = null
+    private var manager1: GridLayoutManager? = null
     private var currentItems = 0
     private var totalItems: Int = 0
     private var scrollOutItems: Int = 0
@@ -248,6 +249,7 @@ class NewDBStoreItemsActivity :
         storeIDCheckOnCart = storeID
         Log.d("storeIDCheckOnCart___", storeIDCheckOnCart)
         manager = GridLayoutManager(this, 1)
+        manager1 = GridLayoutManager(this, 1)
 
         customerLatitude = ""
         customerLongitude = ""
@@ -429,7 +431,10 @@ class NewDBStoreItemsActivity :
                     this
                 ).storeId.equals("")
             ) {
-                showIOSProgress()
+                shimmerFrameLayout.visibility= View.VISIBLE
+                storeItemsRecyclerview.visibility= View.GONE
+                shimmerFrameLayout.startShimmer()
+              //  showIOSProgress()
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
                 SessionTwiclo(this).serviceId = MainActivity.service_idStr
 
@@ -468,18 +473,23 @@ class NewDBStoreItemsActivity :
                 veg_switch_img.setImageResource(R.drawable.filter_on)
                 mainlist!!.clear()
                 storeItemsAdapter.notifyDataSetChanged()
+                storeItemsRecyclerview.invalidate()
 
 
-                storeItemsRecyclerview.visibility= View.GONE
+                storeItemsRecyclerview.visibility= View.INVISIBLE
                 shimmerFrameLayout.startShimmer()
                 shimmerFrameLayout.visibility= View.VISIBLE
+                handleresponce=0
                     getvegitems()
 
-
                     Handler().postDelayed({
-                        storeItemsAdapter.putvegdata(veg_item_list!!)
+                      //  storeItemsAdapter.putvegdata(veg_item_list!!)
                         storeItemsRecyclerview.visibility = View.VISIBLE
+
+                       storeItemsAdapter.notifyDataSetChanged()
+
                         shimmerFrameLayout.visibility= View.GONE
+                        handleresponce=1
                         shimmerFrameLayout.stopShimmer()
 
                         vegcount=1
@@ -501,12 +511,16 @@ class NewDBStoreItemsActivity :
                 storeItemsRecyclerview.visibility = View.GONE
                 shimmerFrameLayout.startShimmer()
                 shimmerFrameLayout.visibility= View.VISIBLE
+                handleresponce=0
                 getRoomData()
                 Handler().postDelayed({
-                    storeItemsAdapter.putvegdata(mainlist!!)
-
+                  //  storeItemsAdapter.putvegdata(mainlist!!)
                     storeItemsRecyclerview.visibility = View.VISIBLE
+
+                    storeItemsAdapter.notifyDataSetChanged()
+
                     shimmerFrameLayout.visibility= View.GONE
+                    handleresponce=1
                     shimmerFrameLayout.stopShimmer()
 
                 }, 1000)
@@ -698,7 +712,16 @@ class NewDBStoreItemsActivity :
             latestCatList.clear()
 
             // if (next_available.toString().equals("1")){
-            dismissIOSProgress()
+            shimmerFrameLayout_main.visibility= View.GONE
+                main_appbar_ll.visibility=View.VISIBLE
+                storeItemsRecyclerview.visibility= View.VISIBLE
+                shimmerFrameLayout_main.stopShimmer()
+
+
+
+
+
+          //  dismissIOSProgress()
             // }
 
 //            if (cat_listShow == 0) {
@@ -739,21 +762,21 @@ class NewDBStoreItemsActivity :
 
             if (storeData.error_code==200) {
 
-                if (pagecount>0){
-                    latestCatList =storeData.subcategory as ArrayList
-                    catList.addAll(latestCatList)
-                    val s: Set<Subcategory> =
-                        LinkedHashSet<Subcategory>(catList)
-                    catList!!.clear()
-                    catList!!.addAll(s)
-
-                }else{
-                    catList=storeData.subcategory as ArrayList
-                    val s: Set<Subcategory> =
-                        LinkedHashSet<Subcategory>(catList)
-                    catList!!.clear()
-                    catList!!.addAll(s)
-                }
+//                if (pagecount>0){
+////                    latestCatList =storeData.subcategory as ArrayList
+////                    catList.addAll(latestCatList)
+////                    val s: Set<Subcategory> =
+////                        LinkedHashSet<Subcategory>(catList)
+////                    catList!!.clear()
+////                    catList!!.addAll(s)
+//
+//                }else{
+//                    catList=storeData.subcategory as ArrayList
+//                    val s: Set<Subcategory> =
+//                        LinkedHashSet<Subcategory>(catList)
+//                    catList!!.clear()
+//                    catList!!.addAll(s)
+//                }
 
 
                 if (storeData.subcategory.isNotEmpty()) {
@@ -768,6 +791,7 @@ class NewDBStoreItemsActivity :
                                 if (storeData.subcategory[i].product[j].is_nonveg.equals("0")){
                                     new_veggielist.add(storeData.subcategory[i])
                                 }
+                                catList.add(storeData.subcategory[i])
                                 lastCustomized_str = ""
                                 product_customize_id = ""
                                 var customNamesList_: ArrayList<String>? = ArrayList()
@@ -903,7 +927,10 @@ class NewDBStoreItemsActivity :
                 productList.clear()!!
                 deleteRoomDataBase()
                 getRoomData()
-                dismissIOSProgress()
+                shimmerFrameLayout.visibility= View.GONE
+                storeItemsRecyclerview.visibility=View.VISIBLE
+                shimmerFrameLayout.stopShimmer()
+               // dismissIOSProgress()
 //                val toast =
 //                    Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
 //                toast.show()
@@ -914,7 +941,10 @@ class NewDBStoreItemsActivity :
         })
 
         viewmodel?.addRemoveCartResponse?.observe(this) { user ->
-            dismissIOSProgress()
+            shimmerFrameLayout.visibility= View.GONE
+            storeItemsRecyclerview.visibility=View.VISIBLE
+            shimmerFrameLayout.stopShimmer()
+           // dismissIOSProgress()
             Log.e("addRemoveCartRes____", Gson().toJson(user))
             if (user.errorCode == 200) {
                 handleresponce = 1
@@ -949,14 +979,20 @@ class NewDBStoreItemsActivity :
         }
 
         viewmodel?.failureResponse?.observe(this) { user ->
-            dismissIOSProgress()
+            shimmerFrameLayout.visibility= View.GONE
+            storeItemsRecyclerview.visibility=View.VISIBLE
+            shimmerFrameLayout.stopShimmer()
+           // dismissIOSProgress()
             Log.e("cart response", Gson().toJson(user))
             //showToast(user)
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         }
 
         viewmodel?.addToCartResponse?.observe(this, Observer { user ->
-            dismissIOSProgress()
+            shimmerFrameLayout.visibility= View.GONE
+            storeItemsRecyclerview.visibility=View.VISIBLE
+            shimmerFrameLayout.stopShimmer()
+           // dismissIOSProgress()
             if (user.errorCode == 200) {
                 handleresponce = 1
                 Log.e("stores_addResponse____", Gson().toJson(user))
@@ -1004,7 +1040,10 @@ class NewDBStoreItemsActivity :
         })
 
         viewmodel?.customizeProductResponse?.observe(this, Observer { user ->
-            dismissIOSProgress()
+            shimmerFrameLayout.visibility= View.GONE
+            storeItemsRecyclerview.visibility=View.VISIBLE
+            shimmerFrameLayout.stopShimmer()
+          //  dismissIOSProgress()
             cartitemView_LLstore.visibility = View.GONE
             cat_FloatBtn.visibility = View.GONE
             Log.e("stores___esponse", Gson().toJson(user))
@@ -1100,7 +1139,10 @@ class NewDBStoreItemsActivity :
         })
 
         viewmodel?.clearCartResponse?.observe(this, Observer { user ->
-            dismissIOSProgress()
+            shimmerFrameLayout.visibility= View.GONE
+            storeItemsRecyclerview.visibility=View.VISIBLE
+            shimmerFrameLayout.stopShimmer()
+          //  dismissIOSProgress()
             if (user.errorCode == 200) {
                 Log.e("stores_response", Gson().toJson(user))
                 if (tempType.equals("custom")) {
@@ -1217,6 +1259,10 @@ class NewDBStoreItemsActivity :
 
             veg_rvcategory(new_veggielist)
         }else {
+            val s: Set<Subcategory> =
+                LinkedHashSet<Subcategory>(catList)
+            catList.clear()
+            catList.addAll(s)
             rvCategory(catList)
         }
 
@@ -1303,11 +1349,11 @@ class NewDBStoreItemsActivity :
 
 
 
-                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 ,450)
 
                                     }else{
 
-                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 670)
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 , 473)
 
                                     }
                                     //storeItemsRecyclerview?.layoutManager?.scrollToPosition(i)
@@ -1468,7 +1514,7 @@ class NewDBStoreItemsActivity :
             )
 
             storeItemsRecyclerview.adapter = storeItemsAdapter
-            storeItemsRecyclerview.layoutManager = manager
+            storeItemsRecyclerview.layoutManager = manager1
             storeItemsRecyclerview?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -1481,10 +1527,10 @@ class NewDBStoreItemsActivity :
 
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    currentItems = manager!!.childCount
-                    totalItems = manager!!.itemCount
-                    scrollOutItems = manager!!.findFirstVisibleItemPosition()
-                    var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
+                    currentItems = manager1!!.childCount
+                    totalItems = manager1!!.itemCount
+                    scrollOutItems = manager1!!.findFirstVisibleItemPosition()
+                    var firstvisibleItem = manager1!!.findFirstCompletelyVisibleItemPosition()
 
                     //	 Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem--$--"+mainlist!!.get(firstvisibleItem)!!.subcategory_name.toString());
 
@@ -1749,7 +1795,11 @@ class NewDBStoreItemsActivity :
 
     private fun getStoreDetailsApiCall() {
         if (isNetworkConnected) {
-            showIOSProgress()
+            shimmerFrameLayout_main.visibility= View.VISIBLE
+            main_appbar_ll.visibility=View.GONE
+            storeItemsRecyclerview.visibility=View.GONE
+            shimmerFrameLayout_main.startShimmer()
+          //  showIOSProgress()
 
             //fidooLoaderShow()
             category_header_.visibility = View.GONE
@@ -1844,7 +1894,10 @@ class NewDBStoreItemsActivity :
 
                 }
                 //  tempProductId = productId
-                showIOSProgress()
+                shimmerFrameLayout.visibility= View.VISIBLE
+                storeItemsRecyclerview.visibility= View.GONE
+                shimmerFrameLayout.startShimmer()
+               // showIOSProgress()
                 customIdsList!!.clear()
                 customNamesList!!.clear()
                 if (productId != null) {
@@ -1868,7 +1921,10 @@ class NewDBStoreItemsActivity :
                     }
 
                     //  tempProductId = productId
-                    showIOSProgress()
+                    shimmerFrameLayout.visibility= View.VISIBLE
+                    storeItemsRecyclerview.visibility= View.GONE
+                    shimmerFrameLayout.startShimmer()
+                  //  showIOSProgress()
                     //customIdsList!!.clear()
                     if (productId != null) {
                         viewmodel?.customizeProductApi(
@@ -1894,7 +1950,10 @@ class NewDBStoreItemsActivity :
                 Log.e("intent store id", intent.getStringExtra("storeId").toString())
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
                 Log.e("  store id", SessionTwiclo(this).storeId.toString())
-                showIOSProgress()
+                shimmerFrameLayout.visibility= View.VISIBLE
+                storeItemsRecyclerview.visibility= View.GONE
+                shimmerFrameLayout.startShimmer()
+               // showIOSProgress()
 
                 viewmodel!!.addToCartApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -2263,7 +2322,10 @@ class NewDBStoreItemsActivity :
             }
 
             //tempProductId = productId
-            showIOSProgress()
+            shimmerFrameLayout.visibility= View.VISIBLE
+            storeItemsRecyclerview.visibility= View.GONE
+            shimmerFrameLayout.startShimmer()
+          //  showIOSProgress()
             customIdsList!!.clear()
             customNamesList!!.clear()
             viewmodel?.customizeProductApi(
@@ -2274,7 +2336,10 @@ class NewDBStoreItemsActivity :
 
         //performing negative action
         builder.setNegativeButton("REPEAT") { _, which ->
-            showIOSProgress()
+            shimmerFrameLayout.visibility= View.VISIBLE
+            storeItemsRecyclerview.visibility= View.GONE
+            shimmerFrameLayout.startShimmer()
+           // showIOSProgress()
             viewmodel?.addRemoveCartDetails(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -2497,6 +2562,83 @@ class NewDBStoreItemsActivity :
 //                    dismissIOSProgress()
 //                }
 
+        }
+    }
+    private fun catpopup2(){
+        clickevent == 1
+        selectCategoryDiolog = Dialog(this)
+        selectCategoryDiolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        selectCategoryDiolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        selectCategoryDiolog?.setContentView(R.layout.select_cat_restaurant_popup)
+        selectCategoryDiolog?.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+
+//        slide_ = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
+//        selectCategoryDiolog?.layout_catPopup?.startAnimation(slide_)
+        selectCategoryDiolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
+        selectCategoryDiolog?.setCanceledOnTouchOutside(true)
+      //  selectCategoryDiolog?.show()
+        val outsid_viewRl = selectCategoryDiolog?.findViewById<ConstraintLayout>(R.id.outsid_viewRl)
+        val txtError = selectCategoryDiolog?.findViewById<TextView>(R.id.txtError)
+        viewAll_txt = selectCategoryDiolog?.findViewById<TextView>(R.id.viewAll_txt_)!!
+        val dismisspopUp = selectCategoryDiolog?.findViewById<ImageView>(R.id.dismisspopUp)
+        catrecyclerView = selectCategoryDiolog?.findViewById(R.id.cat_resRecyclerview)!!
+
+        // catRecyclerview
+        txtError?.setOnClickListener(View.OnClickListener {
+            selectCategoryDiolog?.dismiss()
+        })
+
+        outsid_viewRl?.setOnClickListener(View.OnClickListener {
+            selectCategoryDiolog?.dismiss()
+        })
+
+        dismisspopUp?.setOnClickListener(View.OnClickListener {
+            selectCategoryDiolog?.dismiss()
+        })
+
+        if (active_or_not == 0) {
+            viewAll_txt.setTextColor(Color.parseColor("#a9a9a9"))
+        } else {
+            viewAll_txt.setTextColor(Color.parseColor("#000000"))
+
+        }
+
+        viewAll_txt.setOnClickListener(View.OnClickListener {
+            cat_id = ""
+            active_or_not = 0
+            viewAll_txt.setTextColor(Color.parseColor("#a9a9a9"))
+            restaurantCategoryAdapter.notifyDataSetChanged()
+            selectCategoryDiolog?.dismiss()
+            //  showIOSProgress()
+
+            // storeItemsRecyclerview?.smoothScrollToPosition(0)
+
+            //api call here
+            deleteRoomDataBase()
+            getStoreDetailsApiCall()
+            visibilityView()
+            searchEdt_ResPrd.getText().clear()
+            getRoomData()
+
+        })
+
+        cat_listShow = 1
+        if (!isonlyveg){
+            val s: Set<Subcategory> =
+                LinkedHashSet<Subcategory>(new_veggielist)
+            new_veggielist.clear()
+            new_veggielist.addAll(s)
+
+            veg_rvcategory(new_veggielist)
+        }else {
+            val s: Set<Subcategory> =
+                LinkedHashSet<Subcategory>(catList)
+            catList.clear()
+            catList.addAll(s)
+            rvCategory(catList)
         }
     }
 

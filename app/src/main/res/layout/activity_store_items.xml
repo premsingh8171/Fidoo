@@ -7,12 +7,20 @@
     android:background="@color/lightGray"
     android:fitsSystemWindows="true">
 
+
+
+
+
+
+
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:background="@color/colorGray"
         android:fitsSystemWindows="true">
+
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -95,9 +103,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+
     <!-- header-->
     <LinearLayout
         android:layout_width="match_parent"
+        android:id="@+id/main_appbar_ll"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -559,6 +570,22 @@
         </LinearLayout>
 
     </LinearLayout>
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerFrameLayout_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/restaurent_home_shimmer" />
+
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <FrameLayout
         android:id="@+id/cartitemView_LLstore"
@@ -873,4 +900,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
