@@ -1594,6 +1594,7 @@ class CartActivity : BaseActivity(),
 
 	override fun onResume() {
 		super.onResume()
+		dialog?.setCanceledOnTouchOutside(true)
 		storeId = intent.getStringExtra("storeId").toString()
 
 		address_id = SessionTwiclo(this).userAddressId
