@@ -525,15 +525,13 @@ class CartActivity : BaseActivity(),
 				showInternetToast()
 			}
 		}
-		/**
-		 * **********************************************************************************************
-		 */
 
 		delivery_addressCard.setOnClickListener {
 			if (!isNetworkConnected) {
 				showToast(resources.getString(R.string.provide_internet))
 
-			} else {
+			}
+			else {
 				startActivityForResult(
 					Intent(this, SavedAddressesActivityNew::class.java)
 						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
@@ -1325,7 +1323,6 @@ class CartActivity : BaseActivity(),
 
 				showToast(user.message)
 			}
-
 		}
 
 		viewmodel?.orderPlaceResponse?.observe(this) { user ->
@@ -1396,7 +1393,6 @@ class CartActivity : BaseActivity(),
 					}
 				}
 			}
-
 		}
 
 		viewmodel?.failureResponse?.observe(this) { user ->
@@ -1444,10 +1440,6 @@ class CartActivity : BaseActivity(),
 
 		})
 }
-
-	/**
-	 * ******************************************************************************************************************************************************************
-	 */
 
 	private fun showDialogBottom() {
 		dialog = this@CartActivity?.let { Dialog(it) }!!
@@ -1551,17 +1543,12 @@ class CartActivity : BaseActivity(),
 		dialog?.show()
 		dialog?.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
-			1400
+			ViewGroup.LayoutParams.WRAP_CONTENT
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)
 
 	}
-
-	/**
-	 * ****************************************************************************************************************************************************************
-	 */
-
 
 	private fun restHomePage() {
 		deleteRoomDataBase()
@@ -1596,10 +1583,6 @@ class CartActivity : BaseActivity(),
 		}
 	}
 
-	/**
-	 *
-	 */
-
 	private fun getStoreDetails() {
 		storeViewModel?.getStoreDetails(
 			accountId,
@@ -1623,9 +1606,6 @@ class CartActivity : BaseActivity(),
 		if(NewAddAddressActivityNew.checkCount == 1){
 			        getAddress()
 			//		NewAddAddressActivityNew.checkCount = 0
-			/**
-			 * ***********************************************************************************************************************
-			 */
 			//tv_delivery_address.text = currentlyAddedAddress
 		}
 		else if(NewAddAddressActivityNew.checkCount == 0){

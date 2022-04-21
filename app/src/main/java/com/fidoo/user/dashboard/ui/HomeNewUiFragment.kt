@@ -372,7 +372,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		dialog?.show()
 		dialog?.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
-			1400
+			ViewGroup.LayoutParams.WRAP_CONTENT
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)

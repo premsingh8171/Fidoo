@@ -99,9 +99,10 @@
                 android:alpha=".4"
                 android:background="@android:color/darker_gray" />
 
-            <androidx.core.widget.NestedScrollView
+            <com.fidoo.user.addressmodule.activity.MaxHeightScrollView
                 android:id="@+id/nsv_bottomAddress"
                 android:layout_width="match_parent"
+                app:maxHeight="225dp"
                 android:layout_height="wrap_content">
 
                 <RelativeLayout
@@ -119,7 +120,7 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:spanCount="1" />
                 </RelativeLayout>
-            </androidx.core.widget.NestedScrollView>
+            </com.fidoo.user.addressmodule.activity.MaxHeightScrollView>
         </LinearLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
     <LinearLayout
