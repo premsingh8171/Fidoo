@@ -28,8 +28,10 @@ import com.fidoo.user.addressmodule.adapter.AddressSearchAdapter
 import com.fidoo.user.addressmodule.adapter.AddressesAdapter
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
+import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.activity.CartActivity.Companion.storeLat
 import com.fidoo.user.cartview.activity.CartActivity.Companion.storeLong
+import com.fidoo.user.constants.useconstants.navigateFromCart
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.store.activity.StoreListActivity
@@ -97,6 +99,13 @@ class SavedAddressesActivityNew : BaseActivity() {
         // where=intent.getStringExtra("where")
         where = pref!!.guestLogin
         Log.d("where_where", where!!)
+//        if (navigateFromCart == 1){
+//            addressesRecyclerView.visibility = View.GONE
+//        }
+        if (CartActivity.addNewAddressFromCart == 1){
+            addressesRecyclerView.visibility = View.GONE
+            CartActivity.addNewAddressFromCart = 0
+        }
         if (where.equals("guest")) {
             //  linear_progress_indicator.visibility = View.GONE
         }

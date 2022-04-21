@@ -177,6 +177,9 @@ class CartActivity : BaseActivity(),
 	private var where: String? = ""
 
 	companion object {
+
+		var addNewAddressFromCart : Int = 0
+
 		var store_imgStr: String = ""
 		var store_nameStr: String = ""
 		var selectedAddressId: String = ""
@@ -190,7 +193,6 @@ class CartActivity : BaseActivity(),
 		var storeLat: String = ""
 		var storeLong: String = ""
 		var other_taxes_and_charges: String = ""
-
 		//var storeCustomerDistance: String = ""
 		var delivery_Lat: Double? = 0.0
 		var delivery_Lng: Double? = 0.0
@@ -1469,6 +1471,7 @@ class CartActivity : BaseActivity(),
 			dialog?.dismiss()
 		}
 		lvAddNewAdd?.setOnClickListener {
+			addNewAddressFromCart = 1
 			navigateFromNewAddressActivity = 0
 			startActivityForResult(
 				Intent(this, SavedAddressesActivityNew::class.java)
