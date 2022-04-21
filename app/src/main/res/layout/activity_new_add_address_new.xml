@@ -350,7 +350,6 @@
                             app:boxCornerRadiusBottomStart="15dp"
                             app:boxCornerRadiusTopEnd="15dp"
                             app:boxCornerRadiusTopStart="15dp"
-                            app:endIconMode="clear_text"
                             app:errorEnabled="true"
                             android:importantForAutofill="no"
                             app:hintTextColor="@color/colorHint"
@@ -374,7 +373,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerInParent="true"
                             android:padding="16dp"
-                            android:layout_marginEnd="20dp"
+                            android:layout_marginEnd="15dp"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_phonebook"/>
                     </RelativeLayout>
@@ -405,7 +404,7 @@
                             android:textSize="12sp"
                             android:id="@+id/ed_phone"
                             android:digits="0123456789"
-                            android:maxLength="10"
+                            android:maxLength="13"
                             android:importantForAutofill="no"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
