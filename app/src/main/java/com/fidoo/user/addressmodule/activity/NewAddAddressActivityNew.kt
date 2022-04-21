@@ -247,10 +247,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             iv_mapSlider.visibility  = View.GONE
             iv_emptyMap.visibility = View.VISIBLE
         }
-/**
- * ****************************************************************************************************************************************************************************
- */
-        ivSelectContactFromPhoneBook.setOnClickListener {
+
+        ivPickContact.setOnClickListener {
             var i = Intent(Intent.ACTION_PICK)
             i.type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
             startActivityForResult(i,111)
@@ -258,6 +256,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
         ed_address.doAfterTextChanged {
             btn_continue.isEnabled = true
+            live_add_1.visibility = View.GONE
+            locationImage.visibility = View.GONE
         }
 
         btn_continue.setOnClickListener {
