@@ -82,7 +82,6 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
     companion object {
         val MY_PERMISSIONS_REQUEST_CODE = 123
         var checkCount = 0
-
     }
     var handleOtherButtonAddress : Boolean = false
     var onMapNoNetDiolog: Dialog? = null
