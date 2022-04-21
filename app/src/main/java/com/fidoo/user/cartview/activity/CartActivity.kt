@@ -413,11 +413,6 @@ class CartActivity : BaseActivity(),
 
 		}
 
-
-
-		/**
-		 * ****************************************************************************************************************************************
-		 */
 //		if (userAddressList == 0){
 //			cart_payment_lay.visibility = View.GONE
 //			cart_payment_lay_One.visibility = View.VISIBLE
@@ -1538,12 +1533,14 @@ class CartActivity : BaseActivity(),
 			}
 		})
 		val manager = this@CartActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+		if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			lvCheckLocation?.visibility = View.GONE
+		}
+		dialog?.setCanceledOnTouchOutside(true)
 		dialog?.show()
 		dialog?.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
-			ViewGroup.LayoutParams.WRAP_CONTENT
+			ViewGroup.LayoutParams.MATCH_PARENT
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)

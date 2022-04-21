@@ -123,17 +123,17 @@
             </com.fidoo.user.addressmodule.activity.MaxHeightScrollView>
         </LinearLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
+    <View
+        android:alpha=".4"
+        android:background="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
     <LinearLayout
         android:id="@+id/layout_add_new_address"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
         android:layout_height="wrap_content">
-        <View
-            android:alpha=".4"
-            android:background="@android:color/darker_gray"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
         <LinearLayout
             android:id="@+id/lv_add_new_address"
             android:padding="15dp"
