@@ -62,7 +62,6 @@ class SavedAddressesActivityNew : BaseActivity() {
     var logoutDiolog: Dialog? = null
     private var mMixpanel: MixpanelAPI? = null
 
-
     companion object {
         var savedAddressesActivity: SavedAddressesActivityNew? = null
         var editAdd: Int? = 0
@@ -100,10 +99,9 @@ class SavedAddressesActivityNew : BaseActivity() {
         Log.d("where_where", where!!)
         if (where.equals("guest")) {
             //  linear_progress_indicator.visibility = View.GONE
-
-        } else {
+        }
+        else {
             Log.e("store lat", storeLat)
-
             if (isNetworkConnected) {
                 showIOSProgress()
 
@@ -114,7 +112,8 @@ class SavedAddressesActivityNew : BaseActivity() {
                         storeLat,
                         storeLong
                     )
-                } else {
+                }
+                else {
                     viewmodel?.getAddressesApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -130,8 +129,8 @@ class SavedAddressesActivityNew : BaseActivity() {
                     StoreListActivity.serive_id_,
                     SessionTwiclo(this).deviceToken
                 )
-
-            } else {
+            }
+            else {
                 showInternetToast()
             }
         }
@@ -143,8 +142,8 @@ class SavedAddressesActivityNew : BaseActivity() {
             addDividerLl.visibility = View.GONE
             headingaddItxt.visibility = View.VISIBLE
             add_addressfm.visibility = View.VISIBLE
-
-        } else {
+        }
+        else {
             locationViewll.visibility = View.VISIBLE
             searchAdd_cardView.visibility = View.VISIBLE
             searchAdd_cardView.setOnClickListener {
@@ -161,34 +160,27 @@ class SavedAddressesActivityNew : BaseActivity() {
                     .putExtra("where", where), 1
             )
         }
-
         backIcon_saved_address.setOnClickListener {
             finish()
             AppUtils.finishActivityLeftToRight(this)
         }
-//        tv_add_address.setOnClickListener {
-//            var intent = Intent(applicationContext, AddAddressActivity::class.java)
-//            startActivity(intent)
-//        }
 
         viewmodel?.getAddressesResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
             Log.e("addresses_response", Gson().toJson(user))
             //  linear_progress_indicator.visibility = View.GONE
-
             if(user.errorCode==200) {
                 if (user.addressList.isNullOrEmpty()) {
                     SessionTwiclo(this).userAddress = ""
 //                emptyTxt.visibility = View.VISIBLE
 //                emptyTxt.visibility = View.VISIBLE
                     emptyScren_ll.visibility = View.GONE
-
-                } else {
+                }
+                else {
                       emptyTxt.visibility = View.GONE
                      emptyLastTxt.visibility = View.GONE
                      emptyScren_ll.visibility = View.GONE
                 }
-
 
                 if (!user.addressList.isNullOrEmpty()) {
                     val adapter = AddressesAdapter(this, user.addressList, object : AddressesAdapter.SetOnDeteleAddListener {
@@ -199,9 +191,7 @@ class SavedAddressesActivityNew : BaseActivity() {
                                 //hit api
                                 // Log.e("adadd_id", add_id)
                                 deleteAddDialog(add_id)
-
                             }
-
                         },
                         intent.getStringExtra("type")
                     )
@@ -209,13 +199,10 @@ class SavedAddressesActivityNew : BaseActivity() {
                     addressesRecyclerView?.setHasFixedSize(true)
                     addressesRecyclerView?.adapter = adapter
                 }
-            }else if (user.errorCode==101){
-                showAlertDialog(this)
-            }else{
-
             }
-
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+            else if (user.errorCode==101){
+                showAlertDialog(this)
+            }
         })
 
         viewmodel?.removeAddressResponse?.observe(this, Observer { user ->
@@ -290,7 +277,8 @@ class SavedAddressesActivityNew : BaseActivity() {
                     clear_searchImg.visibility = View.VISIBLE
                     search_add_rv.visibility = View.VISIBLE
                     searchAdd(search_value!!, token)
-                } else {
+                }
+                else {
                     search_add_rv.visibility = View.GONE
                     tv_yourAddresses_New.visibility = View.VISIBLE
                     clear_searchImg.visibility = View.GONE
@@ -298,7 +286,6 @@ class SavedAddressesActivityNew : BaseActivity() {
                     addressesRecyclerView.visibility = View.VISIBLE
                     searchAddList.clear()
                 }
-
             }
         })
 
@@ -311,8 +298,6 @@ class SavedAddressesActivityNew : BaseActivity() {
             addressesRecyclerView.visibility = View.VISIBLE
             searchAdd("", token)
         }
-
-
     }
 
     private fun searchAdd(searchValue: String, token: AutocompleteSessionToken) {
@@ -342,17 +327,16 @@ class SavedAddressesActivityNew : BaseActivity() {
                             searchAddList.addAll(s)
                             //  Log.i("predictionList___d", searchAddList.get(0).toString())
                             searchAddRecyclerview(searchAddList)
-                        } catch (e: Exception) {
+                        }
+                        catch (e: Exception) {
 
                         }
-
                     }
                 } else {
                     Log.i("mytag", "prediction fetching task unsuccessful")
                 }
             }
-
-    }
+       }
 
     private fun searchAddRecyclerview(searchAddList: ArrayList<String>) {
         addressSearchAdapter =
@@ -370,7 +354,6 @@ class SavedAddressesActivityNew : BaseActivity() {
 //                    .putExtra("where",where),1)
                     // getGeoLocation(value)
                 }
-
             })
         search_add_rv?.adapter = addressSearchAdapter
     }
@@ -387,10 +370,8 @@ class SavedAddressesActivityNew : BaseActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 // There are no request codes
                 //val data: Intent? = result.data
-
             }
         }
-
 
     override fun onResume() {
         super.onResume()
@@ -414,13 +395,12 @@ class SavedAddressesActivityNew : BaseActivity() {
                     )
                 }
                 editAdd = 0
-            } else {
+            }
+            else {
                 showInternetToast()
             }
         }
-
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -452,14 +432,12 @@ class SavedAddressesActivityNew : BaseActivity() {
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-
                 }
-
-            } else {
+            }
+            else {
                 showInternetToast()
             }
         }
-
 
         if (requestCode == 100 && resultCode == RESULT_OK) {
             var place: com.google.android.libraries.places.api.model.Place =
