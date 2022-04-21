@@ -292,9 +292,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			if (it.errorCode==200) {
 				if (it.addressList.size == 0) {
 					bottomSheetAddress?.visibility = View.GONE
-					/**
-					 * ***************************************************************************************************************************************ISSUE
-					 */
 //					getCurrentLocationAddress()
 				}
 				if (!it.addressList.isNullOrEmpty()) {
