@@ -39,7 +39,6 @@ import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.checkAddressSavedFromWhichActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.ChangeAddressActivity.Companion.value_current_loc
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew.Companion.savedAddressesActivity
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
@@ -145,6 +144,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         /**
          * *****************************************************************************************************************
          */
+
         userName = SessionTwiclo(this).loginDetail.account.name
         userPhone = SessionTwiclo(this).loginDetail.account.userName
  //       Toast.makeText(this, "$userName$userPhone", Toast.LENGTH_SHORT).show()
@@ -182,6 +182,10 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             other_add_contact_details.visibility = View.VISIBLE
             handleOtherButtonAddress = true
         }
+//        if (handleOtherAddressOnEdit == 1 && addressType.equals("3")){
+//            other_add_contact_details.visibility = View.VISIBLE
+//            handleOtherButtonAddress = true
+//        }
         if (SessionTwiclo(this).isLoggedIn == true) {
             viewmodelusertrack?.customerActivityLog(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -680,6 +684,10 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
         getLocation()
         getDeviceLocation()
+        if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
+            other_add_contact_details.visibility = View.VISIBLE
+            handleOtherButtonAddress = true
+        }
 
     }
 
