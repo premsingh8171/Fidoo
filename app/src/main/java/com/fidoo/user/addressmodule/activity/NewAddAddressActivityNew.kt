@@ -604,6 +604,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             other_add_contact_details.visibility = View.VISIBLE
             handleOtherButtonAddress = true
         }
+        if(!ed_address.text.toString().equals("") || !ed_phone.text.toString().equals("")){
+            live_add_1.visibility = View.GONE
+        }
     }
 
     private fun checkPermission() {

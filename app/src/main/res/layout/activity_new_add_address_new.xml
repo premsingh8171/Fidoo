@@ -5,7 +5,15 @@
     android:layout_width="match_parent"
     android:background="@android:color/white"
     android:layout_height="match_parent">
-
+    <ImageView
+        android:id="@+id/iv_emptyMap"
+        android:src="@drawable/empty_map"
+        android:visibility="gone"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_below="@id/add_address_frmLL"
+        android:layout_above="@id/btn_proceed"
+        android:layout_height="match_parent"/>
     <FrameLayout
         android:layout_marginTop="14dp"
         android:layout_marginStart="10dp"
@@ -51,21 +59,9 @@
         android:textColor="@color/black"
         android:layout_height="wrap_content"/>
 
-    <ImageView
-        android:id="@+id/iv_emptyMap"
-        android:src="@drawable/empty_map"
-        android:visibility="gone"
-        android:scaleType="fitXY"
-        android:layout_width="match_parent"
-        android:layout_below="@id/add_address_frmLL"
-        android:layout_above="@id/btn_proceed"
-        android:layout_height="match_parent"/>
-
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/iv_mapSlider"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:weightSum="10"
         android:layout_below="@id/add_address_frmLL"
         android:layout_above="@id/btn_proceed"
         android:layout_height="match_parent">
@@ -74,11 +70,9 @@
             android:id="@+id/linear_progress_indicator_map"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:indeterminate="true"
-            app:layout_constraintBottom_toBottomOf="@id/topLay"/>
+            android:indeterminate="true"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_weight="5"
             android:id="@+id/mapLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -98,10 +92,34 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/live_add_1"
+            android:layout_width="match_parent"
+            android:elevation="@dimen/dimen_50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="@dimen/margin_15dp"
+            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:padding="@dimen/margin_15dp"
+                android:textColor="@color/black"
+                android:drawablePadding="@dimen/margin_10"
+                android:id="@+id/tv_Address_1"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima"
+                android:textSize="14sp"
+                app:drawableStartCompat="@drawable/ic_icon_for_user_app_marker" />
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressindicatorAdd"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@+id/add_new_add_ll"
@@ -116,14 +134,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<!--        <com.fidoo.user.addressmodule.activity.MaxHeightScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            app:maxHeight="500dp"-->
+<!--            android:layout_height="0dp">-->
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -193,19 +213,6 @@
                         app:layout_constraintTop_toTopOf="@+id/tv_address_title"
                         android:visibility="visible" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <View
-                    android:visibility="gone"
-                    android:id="@+id/view"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
-                    android:background="@color/colorGray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/live_add" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_marginTop="10dp"
@@ -433,32 +440,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
             </LinearLayout>
-        </ScrollView>
+<!--        </com.fidoo.user.addressmodule.activity.MaxHeightScrollView>-->
     </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/live_add_1"
-        android:layout_width="match_parent"
-        android:layout_above="@id/btn_proceed"
-        android:elevation="@dimen/dimen_50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:cardCornerRadius="@dimen/margin_15dp"
-        android:layout_marginBottom="24dp"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatCheckedTextView
-            android:padding="@dimen/margin_15dp"
-            android:textColor="@color/black"
-            android:drawableStart="@drawable/ic_icon_for_user_app_marker"
-            android:drawablePadding="@dimen/margin_10"
-            android:id="@+id/tv_Address_1"
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/proxima"
-            android:textSize="14sp"/>
-    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_proceed"
