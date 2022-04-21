@@ -69,11 +69,8 @@ import com.google.gson.GsonBuilder
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.skyfishjy.library.RippleBackground
-
 import kotlinx.android.synthetic.main.activity_new_add_address_new.*
-
 import kotlinx.android.synthetic.main.content_map.*
-
 import java.util.*
 
 @Suppress("DEPRECATION")
