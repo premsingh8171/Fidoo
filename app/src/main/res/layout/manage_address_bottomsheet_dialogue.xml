@@ -6,9 +6,9 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/layout_add_new_address"
         android:background="@drawable/manage_location_bottomsheet_bg"
         android:orientation="vertical"
         app:cardCornerRadius="10dp">
@@ -71,7 +71,6 @@
         <LinearLayout
             android:id="@+id/ll_bottomSheetAddress"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -123,15 +122,15 @@
             </com.fidoo.user.addressmodule.activity.MaxHeightScrollView>
         </LinearLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
-    <View
-        android:alpha=".4"
-        android:background="@android:color/darker_gray"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+<!--    <View-->
+<!--        android:alpha=".4"-->
+<!--        android:background="@android:color/darker_gray"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"/>-->
     <LinearLayout
         android:id="@+id/layout_add_new_address"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/topLayout"
         android:orientation="vertical"
         android:layout_height="wrap_content">
         <LinearLayout
