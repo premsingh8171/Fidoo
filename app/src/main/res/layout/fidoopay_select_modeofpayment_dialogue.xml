@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/feedback_bg"
+    android:orientation="vertical"
+    android:backgroundTint="@color/white"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"
+        android:text="Select Mode of Payment"/>
+    <RadioGroup
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:buttonTint="@color/black"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:fontFamily="@font/proxima"
+            android:text="Fidoo Wallet\n₹ 50.00" />
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:buttonTint="@color/black"
+            android:textColor="@color/black"
+            android:padding="8dp"
+            android:fontFamily="@font/proxima"
+            android:text="Debit Card / Credit Card / UPI / Net Banking" />
+    </RadioGroup>
+    <LinearLayout
+        android:id="@+id/btnConfirmPaymentMode"
+        android:padding="15dp"
+        android:background="#359C47"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            android:layout_marginStart="10dp"
+            android:letterSpacing="0.01"
+            android:textSize="16sp"
+            android:fontFamily="@font/worksans_semibold"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
