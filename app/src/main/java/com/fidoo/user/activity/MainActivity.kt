@@ -452,29 +452,35 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             }
 
             override fun getLocation(location: Location) {
-                Log.e(
-                    "Location_lat_lng",
-                    " latitude ${location.latitude} longitude ${location.longitude}"
-                )
-                var address = getGeoAddressFromLatLong(location.latitude, location.longitude)
+                try {
+                    Log.e(
+                       "Location_lat_lng",
+                         " latitude ${location.latitude} longitude ${location.longitude}"
+                    )
+                    var address = getGeoAddressFromLatLong(location.latitude, location.longitude)
 
-                if (address!!.isNotEmpty()) {
-                    val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
-                    val addresses: List<Address> = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    val fulladdress = addresses[0].getAddressLine(0)
-                    val city = addresses[0].locality
+                    if (address!!.isNotEmpty()) {
+                        val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
+                        val addresses: List<Address> =
+                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                        val fulladdress = addresses[0].getAddressLine(0)
+                        val city = addresses[0].locality
 //                    val state = addresses[0].adminArea
 //                    val zip = addresses[0].postalCode
 //                    val country = addresses[0].countryName
-                    SessionTwiclo(this@MainActivity).userAddress =fulladdress
+                        SessionTwiclo(this@MainActivity).userAddress = fulladdress
                         //getGeoAddressFromLatLong(location.latitude, location.longitude)
-                    SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
-                    SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
-                    Log.d("fromcurrentadd___",fulladdress)
-                    userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
-                } else {
-                    geocoderAddress(location.latitude.toString(), location.longitude.toString())
+                        SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
+                        SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
+                        Log.d("fromcurrentadd___", fulladdress)
+                        userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
+                    } else {
+                        geocoderAddress(location.latitude.toString(), location.longitude.toString())
+                    }
+                }catch (e:Exception){
+                    e.printStackTrace()
                 }
+
             }
         })
     }
