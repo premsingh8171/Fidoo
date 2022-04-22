@@ -23,7 +23,6 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_about_us.*
 
-
 class AboutUsActivity : BaseActivity() {
 
     private var mMixpanel: MixpanelAPI? = null

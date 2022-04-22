@@ -2645,16 +2645,14 @@ class NewDBStoreItemsActivity :
     override fun onRestart() {
         super.onRestart()
 
-        if (veg_filter==0){
-            getvegitems()
-        }
-
-        if (veg_filter==1){
-            getRoomData()
-        }
-
-
+//        if (veg_filter==0){
+//            getvegitems()
+//        }
+//
+//        if (veg_filter==1){
+//            getRoomData()
+//        }
+       getStoreDetailsApiCall()
+        getRoomData()
     }
-
-
 }
