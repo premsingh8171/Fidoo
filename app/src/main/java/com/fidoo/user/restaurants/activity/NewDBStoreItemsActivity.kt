@@ -912,12 +912,9 @@ class NewDBStoreItemsActivity :
                         }
 
                     }
-
-
                     cat_visible = 1
                     no_itemsFound_res.visibility = View.GONE
                     no_item_foundll.visibility = View.GONE
-
                 }
 
             } else if (storeData.error_code == 101) {
@@ -1653,12 +1650,12 @@ class NewDBStoreItemsActivity :
             ) {
 
                 restaurantProductsDatabase!!.resProductsDaoAccess()!!.getTableCount()
-                    .observe(this, { c ->
+                    .observe(this) { c ->
                         Log.d("table_count", c.toString())
                         table_count = c.toInt()
-                    })
+                    }
 
-                    isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllProducts2(totalItem.toString())
+                isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllProducts2(totalItem.toString())
 
 
 
