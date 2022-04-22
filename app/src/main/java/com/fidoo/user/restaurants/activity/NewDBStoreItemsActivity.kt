@@ -2507,21 +2507,14 @@ class NewDBStoreItemsActivity :
     private fun getvegitems(){
 
         restaurantProductsDatabase!!.resProductsDaoAccess()!!.getvegTableCount("0")
-            .observe(this@NewDBStoreItemsActivity, { c ->
+            .observe(this@NewDBStoreItemsActivity) { c ->
                 Log.d("table_count", c.toString())
                 table_count = c.toInt()
-            })
-
+            }
 
         CoroutineScope(Dispatchers.IO).launch {
-
-
-
             isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllVegProduct("0",totalItem.toString())
-
             lifecycleScope.launchWhenCreated {
-
-
                     isVegApplied
                         .collect(){
                             Log.d("restaurantPrdD", it.size.toString() + "--" + handleresponce)
@@ -2557,10 +2550,6 @@ class NewDBStoreItemsActivity :
                             }
                         }
                 }
-
-//                if (vegToggle .equals("On") || vegToggle.equals("Off")) {
-//                    dismissIOSProgress()
-//                }
 
         }
     }
