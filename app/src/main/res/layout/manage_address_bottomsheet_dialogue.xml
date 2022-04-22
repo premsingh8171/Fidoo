@@ -52,6 +52,7 @@
                     android:text="Please turn on device location to get accurate and fast delivery"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
+
                 <Button
                     android:id="@+id/btnToTurnLocationOn"
                     android:layout_width="wrap_content"
@@ -60,6 +61,7 @@
                     android:letterSpacing="0"
                     android:text="Turn On"
                     android:textAllCaps="false"
+                    android:textColor="@color/white"
                     android:textSize="15sp" />
             </RelativeLayout>
         </LinearLayout>
