@@ -439,6 +439,7 @@ class StoreItemsAdapter(
     fun putvegdata(veglist:ArrayList<StoreItemProductsEntity>){
         val diffutil= vegDiffUtil(productList, veglist)
         val diffresult= DiffUtil.calculateDiff(diffutil)
+        productList.clear()
         productList.addAll(veglist)
         diffresult.dispatchUpdatesTo(this)
 
