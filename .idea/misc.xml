@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Nishant Rishab/Desktop/fidoo_user/app/src/main/res/layout/manage_address_bottomsheet_dialogue.xml" value="0.2" />
         <entry key="..\:/Fidoo New App/app/src/main/res/layout/activity_new_add_address_new.xml" value="0.25416666666666665" />
         <entry key="..\:/Fidoo New App/app/src/main/res/layout/content_map.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Nishant Rishab/Desktop/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.264" />
+        <entry key="..\:/Users/Nishant Rishab/Desktop/fidoo_user/app/src/main/res/layout/activity_order_details.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Nishant Rishab/Desktop/fidoo_user/app/src/main/res/layout/manage_address_bottomsheet_dialogue.xml" value="0.2" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/drawable/background_splash.xml" value="0.1645" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/drawable/ic_splash_loader.xml" value="0.1845" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_auth.xml" value="0.14764492753623187" />
