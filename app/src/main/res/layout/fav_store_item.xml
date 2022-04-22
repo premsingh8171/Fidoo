@@ -112,6 +112,7 @@
                         android:fontFamily="@font/proxima"
                         android:paddingStart="@dimen/dimen_5dp"
                         android:text="@string/_1_2km"
+                        android:maxLines="2"
                         android:textColor="@color/colorTextGray"
                         android:textSize="12sp" />
 

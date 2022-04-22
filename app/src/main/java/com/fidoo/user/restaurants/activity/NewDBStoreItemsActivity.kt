@@ -622,7 +622,7 @@ class NewDBStoreItemsActivity :
             no_internet_Ll.visibility = View.VISIBLE
         }
 
-        retry_onRefresh.setOnClickListener {
+         retry_onRefresh.setOnClickListener {
 
             if (isNetworkConnected) {
                 if (sessionTwiclo!!.isLoggedIn) {
@@ -1353,7 +1353,7 @@ class NewDBStoreItemsActivity :
 
                                     }else{
 
-                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 , 473)
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 , 630)
 
                                     }
                                     //storeItemsRecyclerview?.layoutManager?.scrollToPosition(i)
@@ -2640,6 +2640,20 @@ class NewDBStoreItemsActivity :
             catList.addAll(s)
             rvCategory(catList)
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+
+        if (veg_filter==0){
+            getvegitems()
+        }
+
+        if (veg_filter==1){
+            getRoomData()
+        }
+
+
     }
 
 
