@@ -103,8 +103,6 @@ import kotlinx.android.synthetic.main.activity_cart.customAddBtn
 import kotlinx.android.synthetic.main.activity_cart.customItemsRecyclerview
 import kotlinx.android.synthetic.main.activity_cart.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_cart.tv_coupon
-import kotlinx.android.synthetic.main.activity_saved_addresses_new.*
-import kotlinx.android.synthetic.main.fragment_home_newui.*
 import kotlinx.android.synthetic.main.new_deliverycharges_layout.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -116,13 +114,8 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import kotlinx.android.synthetic.main.activity_cart.new_delivery_popup as new_delivery_popup1
 
-
 @Suppress("DEPRECATION")
-class CartActivity : BaseActivity(),
-	CartItemsAdapter.AdapterCartAddRemoveClick,
-	AdapterClick,
-	CustomCartPlusMinusClick,
-	AdapterCustomRadioClick, PaymentResultListener, PaymentResultWithDataListener {
+class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick, AdapterClick, CustomCartPlusMinusClick, AdapterCustomRadioClick, PaymentResultListener, PaymentResultWithDataListener {
 	private var fixedAddressViewModel: HomeFragmentNewViewModel? = null
 	var viewmodel: CartViewModel? = null
 	var totalAmount: Double = 0.0
@@ -248,7 +241,7 @@ class CartActivity : BaseActivity(),
 //
 //						}
 //					}
-				else{
+				else {
 					select_address_or_add_layout.visibility = View.VISIBLE
 					cart_payment_lay.visibility = View.GONE
 				}
@@ -293,7 +286,8 @@ class CartActivity : BaseActivity(),
 		if (SessionTwiclo(this).loggedInUserDetail != null) {
 			accountId = SessionTwiclo(this).loggedInUserDetail.accountId
 			accessToken = SessionTwiclo(this).loggedInUserDetail.accessToken
-		} else {
+		}
+		else {
 			accountId = SessionTwiclo(this).loginDetail.accountId.toString()
 			accessToken = SessionTwiclo(this).loginDetail.accessToken
 		}
@@ -310,7 +304,8 @@ class CartActivity : BaseActivity(),
 					)
 				}
 			}
-		}catch (e:Exception){}
+		}
+		catch (e:Exception){}
 
 		var paykey = BuildConfig.pay_key.toString()
 		co.setKeyID(paykey)
@@ -331,7 +326,8 @@ class CartActivity : BaseActivity(),
 			no_internet_Ll.visibility = View.GONE
 			getStoreDetails()
 
-		} else {
+		}
+		else {
 			linear_progress_indicator.visibility = View.GONE
 			main_lay.visibility = View.GONE
 			no_internet_cart.visibility = View.VISIBLE
@@ -359,7 +355,8 @@ class CartActivity : BaseActivity(),
 				main_lay.visibility = View.VISIBLE
 				no_internet_cart.visibility = View.GONE
 				no_internet_Ll.visibility = View.GONE
-			} else {
+			}
+			else {
 				main_lay.visibility = View.GONE
 				linear_progress_indicator.visibility = View.GONE
 				no_internet_cart.visibility = View.VISIBLE
@@ -398,9 +395,7 @@ class CartActivity : BaseActivity(),
 				rv_newchargesa.visibility= View.VISIBLE
 				tv_gstax.visibility= View.VISIBLE
 			}
-
 		}
-
 
 		nested_top_lay.setOnClickListener {
 			new_polygon_2.visibility= View.GONE
@@ -410,7 +405,6 @@ class CartActivity : BaseActivity(),
 			rv_newchargesa.visibility= View.GONE
 			tv_gstax.visibility= View.GONE
 			xyz.visibility = View.GONE
-
 		}
 
 //		if (userAddressList == 0){
@@ -438,7 +432,6 @@ class CartActivity : BaseActivity(),
 //			chargesFmBg.visibility = View.GONE
 //			tax_and_charges_lay.visibility = View.GONE
 			cvdeliverydetail.visibility= View.VISIBLE
-
 		}
 
 		chargesFmBgbottom.setOnClickListener {
@@ -451,13 +444,13 @@ class CartActivity : BaseActivity(),
 
 //			chargesFmBg.visibility = View.VISIBLE
 //			tax_and_charges_lay.visibility = View.VISIBLE
-
 		}
 
 		cb_no_contact_delivery.setOnCheckedChangeListener { _, b ->
 			deliveryOption = if (b) {
 				"contactless"
-			} else {
+			}
+			else {
 				"contact"
 			}
 		}
@@ -481,18 +474,17 @@ class CartActivity : BaseActivity(),
 				viewmodel?.getCartDetailsResponse?.observe(this, Observer { user ->
 					val mCartModelData: CartModel = user
 					//	Log.d("gfhbdlfdf",Gson)
-
 					try {
 						if (user.cart.size != 0) {
 							for (i in 0 until user.cart.size) {
 								mCartId = mCartModelData.cart[i].cart_id
 							}
 						}
-					} catch (e: NullPointerException) {
+					}
+					catch (e: NullPointerException) {
 						e.toString()
 						mCartId=""
 					}
-
 				})
 
 				Log.e("customIdsList", customIdsList.toString())
@@ -515,8 +507,8 @@ class CartActivity : BaseActivity(),
 					addCartTempList!!,
 					mCartId!!
 				)
-
-			} else {
+			}
+			else {
 				showInternetToast()
 			}
 		}
@@ -524,16 +516,13 @@ class CartActivity : BaseActivity(),
 		delivery_addressCard.setOnClickListener {
 			if (!isNetworkConnected) {
 				showToast(resources.getString(R.string.provide_internet))
-
 			}
 			else {
 				startActivityForResult(
 					Intent(this, SavedAddressesActivityNew::class.java)
 						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
 				)
-
 			}
-
 		}
 
 		cash_lay.setOnClickListener {
@@ -548,11 +537,9 @@ class CartActivity : BaseActivity(),
 //                resources,
 //                R.drawable.black_rounded_solid, null
 //            )
-
 			tv_online.setTextColor(resources.getColor(R.color.grey))
 			img_online.setImageResource(R.drawable.online_pay_grey)
 			img_online.setColorFilter(resources.getColor(R.color.grey))
-
 		}
 
 		online_lay.setOnClickListener {
@@ -586,8 +573,6 @@ class CartActivity : BaseActivity(),
 			showDialogBottom()
 		}
 
-
-
 		cart_payment_lay.setOnClickListener {
 			if (!isNetworkConnected) {
 				showToast(resources.getString(R.string.provide_internet))
@@ -601,11 +586,12 @@ class CartActivity : BaseActivity(),
 						tv_landmark.text = ""
 
 						showToast("Please select your address")
-
-					} else if (isPrescriptionRequire == "1") {
+					}
+					else if (isPrescriptionRequire == "1") {
 						if (filePathTemp.equals("")) {
 							showToast("Please upload prescription")
-						} else {
+						}
+						else {
 							if (isNetworkConnected) {
 								showIOSProgress()
 								viewmodel?.orderPlaceApi(
@@ -618,11 +604,13 @@ class CartActivity : BaseActivity(),
 									ed_delivery_instructions.text.toString(),
 									isSelected, merchant_instructions
 								)
-							} else {
+							}
+							else {
 								showInternetToast()
 							}
 						}
-					} else {
+					}
+					else {
 						showIOSProgress()
 						viewmodel?.orderPlaceApi(
 							accountId,
@@ -635,7 +623,8 @@ class CartActivity : BaseActivity(),
 							isSelected, merchant_instructions
 						)
 					}
-				}else{
+				}
+				else{
 					Toast.makeText(this,"One order is already in queue.",Toast.LENGTH_SHORT).show()
 					//	showToast("One order is already in queue.")
 				}
@@ -651,7 +640,8 @@ class CartActivity : BaseActivity(),
 
 				if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
 					behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
-				} else {
+				}
+				else {
 					behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
 				}
 
@@ -674,16 +664,17 @@ class CartActivity : BaseActivity(),
 						}
 					}.start()
 					//   }
-				} catch (e: Exception) { }
+				}
+				catch (e: Exception) { }
 
 				getStoreDetails()
 
 				viewmodel?.getCartDetails(accountId, accessToken, userLat, userLong)
 
 				showToast(mModelData.message)
-			}else if(user.errorCode == 101){
+			}
+			else if(user.errorCode == 101){
 				showAlertDialog(this)
-
 			}
 		}
 
@@ -769,7 +760,8 @@ class CartActivity : BaseActivity(),
 					if (user.product_customize_id != null) {
 						product_customize_id = user.product_customize_id!!
 					}
-				} catch (e: Exception) {e.printStackTrace() }
+				}
+				catch (e: Exception) {e.printStackTrace() }
 
 				viewmodel?.getCartDetails(
 					accountId,
@@ -777,7 +769,6 @@ class CartActivity : BaseActivity(),
 					userLat,
 					userLong
 				)
-
 				try {
 					Thread {
 						updateByCartIdProductCustomized(
@@ -785,17 +776,13 @@ class CartActivity : BaseActivity(),
 							lastCustomized_str!!, cart_id, product_customize_id
 						)
 					}.start()
-				} catch (e: Exception) {
-
 				}
-
+				catch (e: Exception) { }
 				getStoreDetails()
-
-
-			}else if(user.errorCode==101){
+			}
+			else if(user.errorCode==101){
 				showAlertDialog(this)
 			}
-
 		}
 
 		viewmodel?.deleteCartResponse?.observe(this) { user ->
@@ -968,10 +955,10 @@ class CartActivity : BaseActivity(),
 							} else {
 								store_header_ll.visibility = View.GONE
 							}
-						} catch (e: java.lang.Exception) {
+						}
+						catch (e: java.lang.Exception) {
 							e.printStackTrace()
 						}
-
 
 						tempp = 0.0
 						for (j in 0 until mModelData.cart[i].customizeItem.size) {
@@ -1007,8 +994,6 @@ class CartActivity : BaseActivity(),
 
 					//numberOfItemsValue.text = noOfItems.toString() + " Items"
 
-
-					//edit by prem
 					val rounded = finalPrice.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 					tv_grand_total.text =
 						resources.getString(R.string.ruppee) + rounded.toString()
@@ -1053,7 +1038,6 @@ class CartActivity : BaseActivity(),
 						rate_id1.text= resources.getString(R.string.ruppee)+"90"
 					}
 
-
 					tv_delivery_charges.text =
 						resources.getString(R.string.ruppee) + deliveryChargeWithTax
 
@@ -1066,12 +1050,9 @@ class CartActivity : BaseActivity(),
 						tv_tax_charges.visibility = View.VISIBLE
 					}
 
-					tv_tax_charges.text =
-						resources.getString(R.string.ruppee) + mModelData.totalTaxAndCharges
-					charges_value.text =
-						resources.getString(R.string.ruppee) + mModelData.allItemChargeTotal
+					tv_tax_charges.text = resources.getString(R.string.ruppee) + mModelData.totalTaxAndCharges
+					charges_value.text = resources.getString(R.string.ruppee) + mModelData.allItemChargeTotal
 					//tax_value.text = resources.getString(R.string.ruppee) + mModelData.allItemTaxTotal
-
 
 					if (mModelData.deliveryDiscount == 0) {
 						//delivery_coupon_name.visibility = View.GONE
@@ -1084,8 +1065,8 @@ class CartActivity : BaseActivity(),
 						tv_delivery_discount.visibility = View.GONE
 						tv_cart_afterdiscount_lable.visibility = View.VISIBLE
 						tv_cart_afterDiscount.visibility = View.VISIBLE
-
-					} else {
+					}
+					else {
 						tv_cart_afterdiscount_lable.visibility = View.GONE
 						tv_cart_afterDiscount.visibility = View.GONE
 						tv_delivery_discount_label.visibility = View.VISIBLE
@@ -1093,12 +1074,9 @@ class CartActivity : BaseActivity(),
 						tv_delivery_discount_label.text = "Delivery Discount (" + mModelData.delivery_coupon_name + ")"
 						tv_delivery_discount.text = "- " + resources.getString(R.string.ruppee) + mModelData.deliveryDiscount.toFloat()
 						tv_cart_afterDiscount.text = resources.getString(R.string.ruppee) + mModelData.after_discount_value.toFloat().toString()
-
 					}
-
 					//discountValue.text = resources.getString(R.string.ruppee) + mModelData.discount_amount.toString()
 					//tv_delivery_discount.text = "Cart Discount (" + mModelData.coupon_name +")"
-
 					//totalAmountBottom.text = resources.getString(R.string.ruppee) + finalPrice.toString()
 					Log.d("eligible_for_cart_coupon_",mModelData.eligible_for_cart_coupon)
 					if (mModelData.eligible_for_cart_coupon.equals("0")){
@@ -1110,8 +1088,8 @@ class CartActivity : BaseActivity(),
 						tv_coupon.text =  mModelData.coupon_name
 						tv_limitexceed.text =  "Your limit has been exceeded."
 						tv_limitexceed.setTextColor(resources.getColor(R.color.red))
-
-					}else if (mModelData.eligible_for_cart_coupon.equals("1")){
+					}
+					else if (mModelData.eligible_for_cart_coupon.equals("1")){
 						cv_couponCard.visibility = View.VISIBLE
 						smpviewnew.visibility = View.VISIBLE
 
@@ -1218,7 +1196,6 @@ class CartActivity : BaseActivity(),
 //				accessToken,
 //				finalOrderId
 //			)
-
 		}
 
 		viewmodel?.paymentFailureResponse?.observe(this) { user ->
@@ -1305,8 +1282,8 @@ class CartActivity : BaseActivity(),
 				//discountValue.visibility = View.VISIBLE
 				//showToast("0.0Offer applied successfully")
 
-			} else {
-
+			}
+			else {
 				/*appliedpromoValue.visibility = View.GONE
                 appliedpromoDesc.visibility = View.GONE
                 removeBtn.visibility = View.GONE
@@ -1337,12 +1314,13 @@ class CartActivity : BaseActivity(),
 						if (user.storeOffline == 1 && user.productOutOfStock == 1) {
 							showToast("This Store/Item is not available at this moment")
 						}
-					} else {
+					}
+					else {
 						startPayment(user.razorPayOrderId)
 					}
 					//launchPayUMoneyFlow()
-
-				} else {
+				}
+				else {
 					if (isNetworkConnected) {
 						paySuccessPopUp()
 						viewmodel?.paymentApi(
@@ -1354,17 +1332,18 @@ class CartActivity : BaseActivity(),
 							"cash",
 							other_taxes_and_charges
 						)
-					} else {
+					}
+					else {
 						showInternetToast()
 					}
-
 				}
-			} else if (user.errorCode == 400) {
+			}
+			else if (user.errorCode == 400) {
 				Toast.makeText(this, "" + user.message, Toast.LENGTH_LONG).show()
 
-			} else {
+			}
+			else {
 				Toast.makeText(this, "" + user.message, Toast.LENGTH_LONG).show()
-
 			}
 		}
 
@@ -1403,11 +1382,8 @@ class CartActivity : BaseActivity(),
 				accessToken
 			)
 		}
-
 		prescriptiontInsert(prescription_id!!, "null", "null", "null")
-
 		getPresciption()
-
 	}
 
 //	private fun showDialogBottom() {
@@ -1522,7 +1498,6 @@ class CartActivity : BaseActivity(),
 								userLat,
 								userLong
 							)
-
 						}
 					},
 					"bottomSheetAddress"
