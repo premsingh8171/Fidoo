@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
@@ -12,7 +11,6 @@
         android:background="@drawable/manage_location_bottomsheet_bg"
         android:orientation="vertical"
         app:cardCornerRadius="10dp">
-
         <LinearLayout
             android:id="@+id/manage_location_Off_or_On"
             android:layout_width="match_parent"
@@ -28,7 +26,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_cross_location" />
+                    android:src="@drawable/ic_cross_location"
+                    android:contentDescription="TODO" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -52,7 +51,6 @@
                     android:text="Please turn on device location to get accurate and fast delivery"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
-
                 <Button
                     android:id="@+id/btnToTurnLocationOn"
                     android:layout_width="wrap_content"
@@ -75,7 +73,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <LinearLayout
                 android:id="@+id/cart_select_layout"
                 android:layout_width="match_parent"
@@ -83,7 +80,6 @@
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:padding="16dp">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -91,27 +87,22 @@
                     android:text="Select Delivery Address"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
-
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:alpha=".4"
                 android:background="@android:color/darker_gray" />
-
             <com.fidoo.user.addressmodule.activity.MaxHeightScrollView
                 android:id="@+id/nsv_bottomAddress"
                 android:layout_width="match_parent"
                 app:maxHeight="225dp"
                 android:layout_height="wrap_content">
-
                 <RelativeLayout
                     android:id="@+id/rlManageSavedAddressLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/lightGray">
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvManageSavedAddress"
                         android:layout_width="match_parent"
@@ -135,6 +126,11 @@
         android:layout_below="@id/topLayout"
         android:orientation="vertical"
         android:layout_height="wrap_content">
+        <View
+            android:alpha=".4"
+            android:background="@android:color/darker_gray"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
         <LinearLayout
             android:id="@+id/lv_add_new_address"
             android:padding="15dp"
@@ -146,7 +142,8 @@
             <ImageView
                 android:src="@drawable/ic_add_address_new"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:contentDescription="TODO" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -163,6 +160,5 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
     </LinearLayout>
-
 </RelativeLayout>
 
