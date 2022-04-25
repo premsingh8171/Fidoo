@@ -172,7 +172,9 @@ class ServiceDetailsAdapter(
                 var model: Service = serviceList[position].services!!.get(2)
                 clickEventOfDashboard.onExploreCatClick(0, 2, model)
             }
-
+          if (serviceList.size == 2){
+              holder.itemView.dailyNeed_constView.visibility = View.GONE
+          }
         }
 
         //popular curation view
@@ -514,7 +516,6 @@ class ServiceDetailsAdapter(
         } else {
             holder.itemView.bottomview_ll.visibility = View.GONE
         }
-
     }
 
     private fun loadImg(imageUrl: String, view: ImageView) {
