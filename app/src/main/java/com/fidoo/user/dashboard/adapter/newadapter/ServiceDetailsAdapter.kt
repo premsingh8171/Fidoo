@@ -79,6 +79,9 @@ class ServiceDetailsAdapter(
             holder.itemView.service_cat_staticView.visibility = View.VISIBLE
             holder.itemView.headerTxt.text = serviceList[position].service_heading
 
+            if (serviceList[position].services?.size!! < 3){
+                holder.itemView.dailyNeed_constView.visibility = View.GONE
+            }
             if (serviceList[position].service_text.toString().isNotEmpty()) {
                 holder.itemView.marque_txt.text = serviceList[position].service_text + "  |  " + serviceList[position].service_text
                 holder.itemView.marque_txt.isSelected = true
@@ -172,9 +175,6 @@ class ServiceDetailsAdapter(
                 var model: Service = serviceList[position].services!!.get(2)
                 clickEventOfDashboard.onExploreCatClick(0, 2, model)
             }
-          if (serviceList.size == 2){
-              holder.itemView.dailyNeed_constView.visibility = View.GONE
-          }
         }
 
         //popular curation view
