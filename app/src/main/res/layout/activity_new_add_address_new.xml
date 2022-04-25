@@ -411,7 +411,6 @@
                         android:textSize="12sp"
                         android:id="@+id/ed_phone"
                         android:digits="0123456789"
-                        android:maxLength="13"
                         android:importantForAutofill="no"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
