@@ -82,6 +82,9 @@ class ServiceDetailsAdapter(
             if (serviceList[position].services?.size!! < 3){
                 holder.itemView.dailyNeed_constView.visibility = View.GONE
             }
+            else if (serviceList[position].services?.size!! >= 3){
+                holder.itemView.dailyNeed_constView.visibility = View.VISIBLE
+            }
             if (serviceList[position].service_text.toString().isNotEmpty()) {
                 holder.itemView.marque_txt.text = serviceList[position].service_text + "  |  " + serviceList[position].service_text
                 holder.itemView.marque_txt.isSelected = true
