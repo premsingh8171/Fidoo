@@ -134,7 +134,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		var service_id: String? = ""
 		var service_name: String? = ""
 		var itemPosition: Int? = 0
-//		var countButtonOn:Int?= 0
 	}
 	var sliderItem = SliderItem()
 	var mmContext: Context? = null
@@ -260,10 +259,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
 		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
 		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
-//		if (countButtonOn == 0) {
 			mBtnToTurnOnLocation?.setOnClickListener {
-//				countButtonOn = 1
-//				getCurrentLocationAddress()
 				val permList = arrayOf(
 					Manifest.permission.ACCESS_FINE_LOCATION,
 					Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -274,7 +270,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				startActivity(intent)
                 dialog?.dismiss()
 			}
-//		}
 		lvAddNewAdd?.setOnClickListener {
 			startActivityForResult(
 				Intent(context, SavedAddressesActivityNew::class.java)
@@ -291,7 +286,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			if (it.errorCode==200) {
 				if (it.addressList.size == 0) {
 					bottomSheetAddress?.visibility = View.GONE
-//					getCurrentLocationAddress()
 				}
 				if (!it.addressList.isNullOrEmpty()) {
 					bottomSheetAddress?.visibility = VISIBLE
@@ -380,45 +374,49 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	private fun restHomePage() {
 		deleteRoomDataBase()
 		if ((activity as MainActivity).isNetworkConnected) {
+            try {
 
-			if (SessionTwiclo(context).isLoggedIn) {
-				viewmodel?.getCartCountApi(
-					SessionTwiclo(context).loggedInUserDetail.accountId,
-					SessionTwiclo(context).loggedInUserDetail.accessToken
-				)
-				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+				if (SessionTwiclo(context).isLoggedIn) {
+					viewmodel?.getCartCountApi(
+						SessionTwiclo(context).loggedInUserDetail.accountId,
+						SessionTwiclo(context).loggedInUserDetail.accessToken
+					)
+					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 
-				if (SessionTwiclo(context).addressType.equals("")) {
-					text_newDesh.text = "Your Location"
-				}
-				else {
+					if (SessionTwiclo(context).addressType.equals("")) {
+						text_newDesh.text = "Your Location"
+					} else {
+						text_newDesh.text = SessionTwiclo(context).addressType
+					}
+				} else {
+					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 					text_newDesh.text = SessionTwiclo(context).addressType
 				}
 			}
-			else {
-				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
-				text_newDesh.text = SessionTwiclo(context).addressType
-			}
+			catch (e : Exception){}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}
 	}
 
 	private fun getAddress(){
 		fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
-			if(it.addressList.size >=1) {
-				if (!it.addressList.isNullOrEmpty()) {
-					val flat = it.addressList[0].flatNo
-					val locality = it.addressList[0].location
-					val landmark = it.addressList[0].landmark
-					if (!landmark.isNullOrEmpty()) {
-						userAddress_newDesh.text = "$flat" + ", " + "$landmark" + ", " + "$locality"
-						currentlyAddedAddress = userAddress_newDesh.text.toString()
-					} else {
-						userAddress_newDesh.text = "$flat" + ", " + "$locality"
-						currentlyAddedAddress = userAddress_newDesh.text.toString()
+			try {
+				if (it.addressList.size >= 1) {
+					if (!it.addressList.isNullOrEmpty()) {
+						val flat = it.addressList[0].flatNo
+						val locality = it.addressList[0].location
+						val landmark = it.addressList[0].landmark
+						if (!landmark.isNullOrEmpty()) {
+							userAddress_newDesh.text =
+								"$flat" + ", " + "$landmark" + ", " + "$locality"
+							currentlyAddedAddress = userAddress_newDesh.text.toString()
+						} else {
+							userAddress_newDesh.text = "$flat" + ", " + "$locality"
+							currentlyAddedAddress = userAddress_newDesh.text.toString()
+						}
 					}
 				}
-			}
+			} catch (e : Exception){}
 		}
 	}
 
@@ -750,37 +748,26 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		ProfileFragment.addManages = ""
 		deleteRoomDataBase()
 		if ((activity as MainActivity).isNetworkConnected) {
-			if (SessionTwiclo(context).isLoggedIn) {
-				viewmodel?.getCartCountApi(
-					SessionTwiclo(context).loggedInUserDetail.accountId,
-					SessionTwiclo(context).loggedInUserDetail.accessToken
-				)
-				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+			try {
+				if (SessionTwiclo(context).isLoggedIn) {
+					viewmodel?.getCartCountApi(
+						SessionTwiclo(context).loggedInUserDetail.accountId,
+						SessionTwiclo(context).loggedInUserDetail.accessToken
+					)
+					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 
-				if (SessionTwiclo(context).addressType.equals("")) {
-					text_newDesh.text = "Your Location"
+					if (SessionTwiclo(context).addressType.equals("")) {
+						text_newDesh.text = "Your Location"
+					} else {
+						text_newDesh.text = SessionTwiclo(context).addressType
+					}
 				} else {
+					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 					text_newDesh.text = SessionTwiclo(context).addressType
 				}
-			} else {
-				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
-				text_newDesh.text = SessionTwiclo(context).addressType
-//				getCurrentLocationAddress()
-			}
+			} catch (e : Exception){}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}
-
-//		if (countButtonOn == 1) {
-			fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")
-				?.observe(requireActivity()) {
-					if (it.errorCode==200) {
-						if (it.addressList.size == 0) {
-//							getCurrentLocationAddress()
-						}
-					}
-				}
-//			countButtonOn = 0
-//		}
 	}
 
 	override fun provideYourFragmentView(
