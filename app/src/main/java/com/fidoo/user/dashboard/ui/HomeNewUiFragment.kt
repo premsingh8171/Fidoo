@@ -380,6 +380,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	private fun restHomePage() {
 		deleteRoomDataBase()
 		if ((activity as MainActivity).isNetworkConnected) {
+
 			if (SessionTwiclo(context).isLoggedIn) {
 				viewmodel?.getCartCountApi(
 					SessionTwiclo(context).loggedInUserDetail.accountId,
