@@ -33,7 +33,7 @@ class NewDbRestaurantCategoryAdapter(
 
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		holder.itemView.cat_tv.text = list.get(position).subcategory_name
-		holder.itemView.countTxt.text = "( "+list[position].product.size.toString()+" )";
+		holder.itemView.countTxt.text = "("+list[position].product.size.toString()+")";
 		holder.itemView.category_constL.setOnClickListener {
 			//   index=position
 			active_or_not = position
