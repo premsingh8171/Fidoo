@@ -836,9 +836,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 	override fun onStart() {
 		deleteRoomDataBase()
-		Log.d("Nishant", "onStart: ")
 		if(NewAddAddressActivityNew.checkCount == 1){
-			userAddress_newDesh.text = ""
 			getAddress()
 		}
 		super.onStart()
@@ -1023,107 +1021,93 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		}
 	}
 
-	override fun onDetach() {
-		Log.d("Home", "onDetach: ")
-		super.onDetach()
-	}
+//	private fun getCurrentLocationAddress() {
+//		Log.e("Locationcall", "call")
+//		try {
+//			if (_context != null)
+//			EasyLocation(_context as Activity, object : EasyLocation.EasyLocationCallBack {
+//				override fun permissionDenied() {
+//					Log.e("Location", "permission  denied")
+//				}
+//				override fun locationSettingFailed() {
+//					Log.e("Location", "setting failed")
+//				}
+//				override fun getLocation(location: Location) {
+//					Log.e("Location_lat_lng", " latitude ${location.latitude} longitude ${location.longitude}")
+//						if (requireActivity()!=null) {
+//							SessionTwiclo(requireActivity()).userAddress = getGeoAddressFromLatLong1(
+//								location.latitude,
+//								location.longitude,
+//								requireActivity()
+//							)
+//							SessionTwiclo(requireActivity()).userLat = location.latitude.toString()
+//							SessionTwiclo(requireActivity()).userLng = location.longitude.toString()
+//							userAddress?.text = SessionTwiclo(requireActivity()).userAddress
+//
+//					}
+//					else {
+//						geocoderAddress(location.latitude.toString(),location.longitude.toString())
+//					}
+//				}
+//			})
+//		}
+//		catch (e: Exception){ }
+//	}
 
-	override fun onDestroyView() {
-		Log.d("Home", "onDestroyView: ")
-		super.onDestroyView()
-	}
+//	fun geocoderAddress(lat:String,lng:String) {
+//		val geocodeUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
+//		Log.e("geocodeUrl", geocodeUrl)
+//		val geocodeRequest = object :
+//			StringRequest(Request.Method.GET, geocodeUrl, Response.Listener<String> { response ->
+//				dismissIOSProgress()
+//				Log.e("geocoderes_", "gson- $response")
+//				val gsonBuilder = GsonBuilder();
+//				val gson = gsonBuilder.create()
+//				var model =gson.fromJson(response.toString(), GeocoderModel::class.java)
+//				if(model.status.equals("OK")) {
+//					if (model.results.size!=0) {
+//						SessionTwiclo(requireActivity()).userAddress = model.results[0].formattedAddress
+//						SessionTwiclo(requireActivity()).userLat =lat
+//						SessionTwiclo(requireActivity()).userLng = lng
+//						if(SessionTwiclo(requireActivity()).userAddress.isNotEmpty()) {
+//							userAddress?.text = SessionTwiclo(requireActivity()).userAddress
+//						}
+//						else{
+//							userAddress?.text= model.results[0].formattedAddress
+//						}
+//					}
+//				}
+//			}, Response.ErrorListener { dismissIOSProgress()}) {
+//		}
+//		val requestQueue = Volley.newRequestQueue(requireActivity())
+//		requestQueue.add(geocodeRequest)
+//	}
 
-	override fun onDestroy() {
-		Log.d("Home", "onDestroy: ")
-		super.onDestroy()
-	}
-	private fun getCurrentLocationAddress() {
-		Log.e("Locationcall", "call")
-		try {
-			if (_context != null)
-			EasyLocation(_context as Activity, object : EasyLocation.EasyLocationCallBack {
-				override fun permissionDenied() {
-					Log.e("Location", "permission  denied")
-				}
-				override fun locationSettingFailed() {
-					Log.e("Location", "setting failed")
-				}
-				override fun getLocation(location: Location) {
-					Log.e("Location_lat_lng", " latitude ${location.latitude} longitude ${location.longitude}")
-						if (requireActivity()!=null) {
-							SessionTwiclo(requireActivity()).userAddress = getGeoAddressFromLatLong1(
-								location.latitude,
-								location.longitude,
-								requireActivity()
-							)
-							SessionTwiclo(requireActivity()).userLat = location.latitude.toString()
-							SessionTwiclo(requireActivity()).userLng = location.longitude.toString()
-							userAddress?.text = SessionTwiclo(requireActivity()).userAddress
-
-					}
-					else {
-						geocoderAddress(location.latitude.toString(),location.longitude.toString())
-					}
-				}
-			})
-		}
-		catch (e: Exception){ }
-	}
-
-	fun geocoderAddress(lat:String,lng:String) {
-		val geocodeUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
-		Log.e("geocodeUrl", geocodeUrl)
-		val geocodeRequest = object :
-			StringRequest(Request.Method.GET, geocodeUrl, Response.Listener<String> { response ->
-				dismissIOSProgress()
-				Log.e("geocoderes_", "gson- $response")
-				val gsonBuilder = GsonBuilder();
-				val gson = gsonBuilder.create()
-				var model =gson.fromJson(response.toString(), GeocoderModel::class.java)
-				if(model.status.equals("OK")) {
-					if (model.results.size!=0) {
-						SessionTwiclo(requireActivity()).userAddress = model.results[0].formattedAddress
-						SessionTwiclo(requireActivity()).userLat =lat
-						SessionTwiclo(requireActivity()).userLng = lng
-						if(SessionTwiclo(requireActivity()).userAddress.isNotEmpty()) {
-							userAddress?.text = SessionTwiclo(requireActivity()).userAddress
-						}
-						else{
-							userAddress?.text= model.results[0].formattedAddress
-						}
-					}
-				}
-			}, Response.ErrorListener { dismissIOSProgress()}) {
-		}
-		val requestQueue = Volley.newRequestQueue(requireActivity())
-		requestQueue.add(geocodeRequest)
-	}
-
-	private fun getGeoAddressFromLatLong1(latitude: Double, longitude: Double,context:Context): String {
-		val geocoder: Geocoder
-		val addresses: List<Address>
-		var address=""
-		return try {
-			if (context!=null) {
-				geocoder = Geocoder(context, Locale.getDefault())
-				addresses = geocoder.getFromLocation(
-					latitude,
-					longitude,
-					1
-				) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-				 address =
-					addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-				val city = addresses[0].locality
-				val state = addresses[0].adminArea
-				val country = addresses[0].countryName
-				val postalCode = addresses[0].postalCode
-				//   String knownName = addresses.get(0).getFeatureName(); // Only if available else return
-			}
-			address
-		}
-		catch (e: IOException) {
-			e.printStackTrace()
-			""
-		}
-	}
+//	private fun getGeoAddressFromLatLong1(latitude: Double, longitude: Double,context:Context): String {
+//		val geocoder: Geocoder
+//		val addresses: List<Address>
+//		var address=""
+//		return try {
+//			if (context!=null) {
+//				geocoder = Geocoder(context, Locale.getDefault())
+//				addresses = geocoder.getFromLocation(
+//					latitude,
+//					longitude,
+//					1
+//				) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+//				 address =
+//					addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+//				val city = addresses[0].locality
+//				val state = addresses[0].adminArea
+//				val country = addresses[0].countryName
+//				val postalCode = addresses[0].postalCode
+//				//   String knownName = addresses.get(0).getFeatureName(); // Only if available else return
+//			}
+//			address
+//		}
+//		catch (e: IOException) {
+//			e.printStackTrace()
+//			""
+//		}
+//	}
 }

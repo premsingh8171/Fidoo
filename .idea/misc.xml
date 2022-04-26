@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Nishant Rishab/Desktop/fidoo_user/app/src/main/res/drawable/ic_vector.xml" value="0.224" />
         <entry key="..\:/Users/Nishant Rishab/Desktop/fidoo_user/app/src/main/res/layout/activity_new_add_address_new.xml" value="0.18206521739130435" />
+        <entry key="..\:/Users/Nishant Rishab/Desktop/fidoo_user/app/src/main/res/layout/activity_track_order_new.xml" value="0.18206521739130435" />
+        <entry key="..\:/Users/Nishant Rishab/Desktop/fidoo_user/app/src/main/res/layout/fragment_home_newui.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Nishant Rishab/Desktop/fidoo_user/app/src/main/res/layout/item_cat_new_ui.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Nishant Rishab/Desktop/fidoo_user/app/src/main/res/layout/item_service_details_adapter.xml" value="0.21784420289855072" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.176" />
