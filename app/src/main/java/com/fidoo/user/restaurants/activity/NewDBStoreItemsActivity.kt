@@ -133,6 +133,7 @@ class NewDBStoreItemsActivity :
     private var mainlist: ArrayList<StoreItemProductsEntity>? = null
     private var veg_item_list: ArrayList<StoreItemProductsEntity>? = null
     private var productListFilter: ArrayList<StoreItemProductsEntity>? = null
+    private var filterdSearch_list: ArrayList<StoreItemProductsEntity>? = null
     private var mModelDataTemp: CustomizeProductResponseModel? = null
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
     var customIdsListTemp: ArrayList<CustomCheckBoxModel>? = null
@@ -167,6 +168,7 @@ class NewDBStoreItemsActivity :
     var storeName: String = ""
     private var mMixpanel: MixpanelAPI? = null
     lateinit var isVegApplied : Flow<List<StoreItemProductsEntity>>
+
 
     companion object {
         var lastCustomized_str: String = ""
@@ -351,7 +353,15 @@ class NewDBStoreItemsActivity :
                     return
                 }
 
+
+
+
                 searchQuery(search_value)
+
+
+
+
+
 
             }
         })
@@ -1631,9 +1641,78 @@ class NewDBStoreItemsActivity :
                         Log.d("searchdata_", search.toString())
 
                     })
+
             },
             10
         )
+
+
+
+    }
+
+    private fun new_search_query(query1: String?){
+        var search_key = "%$query1%"
+
+
+
+
+                restaurantProductsDatabase!!.resProductsDaoAccess()!!.searchQuery(search_key)
+
+                    .observe(this@NewDBStoreItemsActivity, Observer {
+
+
+
+
+                        if (!query1.equals("")) {
+                            productListFilter = it as ArrayList<StoreItemProductsEntity>
+
+                            val s: Set<StoreItemProductsEntity> =
+                                LinkedHashSet<StoreItemProductsEntity>(veg_item_list)
+                            productListFilter!!.clear()
+
+                            productListFilter!!.addAll(s)
+
+                            storeItemsAdapter.updateData(
+                                productListFilter!!,
+                                productListFilter!!.size.toInt()
+                            )
+
+//                            try {
+//                                category_header_.text =
+//                                    productListFilter!!.get(0)!!.subcategory_name.toString()
+//                            } catch (e: Exception) {
+//                                e.printStackTrace()
+//                                category_header_.text = ""
+//                            }
+//
+//                        } else {
+//                            try {
+//                                category_header_.text =
+//                                    mainlist!!.get(0)!!.subcategory_name.toString()
+//                            } catch (e: Exception) {
+//                                e.printStackTrace()
+//                                category_header_.text = ""
+//                            }
+//                          //  storeItemsAdapter.updateData(mainlist!!, table_count!!)
+//                        }
+                        }
+                        storeItemsAdapter?.notifyDataSetChanged()
+                        Log.d("searchdata_", it.toString())
+
+                })
+
+
+
+
+
+        storeItemsRecyclerview.visibility = View.VISIBLE
+
+
+
+        shimmerFrameLayout.visibility= View.GONE
+
+        shimmerFrameLayout.stopShimmer()
+
     }
 
     //get data from room
@@ -2623,9 +2702,10 @@ class NewDBStoreItemsActivity :
     }
 
     override fun onRestart() {
-        super.onRestart()
 
-       getStoreDetailsApiCall()
+        getStoreDetailsApiCall()
         getRoomData()
+
+        super.onRestart()
     }
 }
