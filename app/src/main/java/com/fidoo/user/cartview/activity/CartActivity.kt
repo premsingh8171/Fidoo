@@ -56,7 +56,7 @@ import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
 import com.fidoo.user.cartview.roomdb.entity.PrescriptionViewEntity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.constants.useconstants
-import com.fidoo.user.constants.useconstants.currentlyAddedAddress
+
 import com.fidoo.user.constants.useconstants.navigateFromCart
 import com.fidoo.user.constants.useconstants.navigateFromNewAddressActivity
 import com.fidoo.user.dashboard.viewmodel.HomeFragmentNewViewModel
@@ -2222,12 +2222,12 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 	override fun onStart() {
 		super.onStart()
-		if(NewAddAddressActivityNew.checkCount == 1){
-			//getAddress()
-			//		NewAddAddressActivityNew.checkCount = 0
-
-			tv_delivery_address.text = currentlyAddedAddress
-		}
+//		if(NewAddAddressActivityNew.checkCount == 1){
+//			//getAddress()
+//			//		NewAddAddressActivityNew.checkCount = 0
+//
+//			tv_delivery_address.text = currentlyAddedAddress
+//		}
 	}
 
 	override fun onCustomRadioClick(checkedId: String?, position: String?) {

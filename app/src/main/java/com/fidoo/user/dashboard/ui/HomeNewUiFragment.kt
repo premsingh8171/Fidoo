@@ -59,7 +59,7 @@ import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
-import com.fidoo.user.constants.useconstants.currentlyAddedAddress
+
 import com.fidoo.user.constants.useconstants.navigateFromNewAddressActivity
 import com.fidoo.user.dailyneed.ui.ServiceDailyNeedActivity
 import com.fidoo.user.dashboard.adapter.SliderAdapterExample
@@ -407,11 +407,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						val landmark = it.addressList[0].landmark
 						if (!landmark.isNullOrEmpty()) {
 							userAddress_newDesh.text = "$flat" + ", " + "$landmark" + ", " + "$locality"
-							currentlyAddedAddress = userAddress_newDesh.text.toString()
+		//					currentlyAddedAddress = userAddress_newDesh.text.toString()
 
 						} else {
 							userAddress_newDesh.text = "$flat" + ", " + "$locality"
-							currentlyAddedAddress = userAddress_newDesh.text.toString()
+		//					currentlyAddedAddress = userAddress_newDesh.text.toString()
 						}
 					}
 				}
