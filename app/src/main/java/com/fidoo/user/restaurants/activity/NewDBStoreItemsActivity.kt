@@ -320,6 +320,9 @@ class NewDBStoreItemsActivity :
         }
 
         search_backImg.setOnClickListener {
+            isonlyveg= true
+            handleresponce=1
+            getRoomData()
             hideKeyboard(searchEdt_ResPrd)
             visibilityView()
         }
@@ -355,20 +358,24 @@ class NewDBStoreItemsActivity :
                 before: Int, count: Int
             ) {
                 search_value = s.toString()
+                isonlyveg= false
 
                 if (mainlist!!.isEmpty()) {
                     return
                 }
+                storeItemsRecyclerview.visibility= View.INVISIBLE
+                shimmerFrameLayout.startShimmer()
+                shimmerFrameLayout.visibility= View.VISIBLE
+
+
+                Handler().postDelayed({
+
+
+                    new_search_query(search_value)
 
 
 
-
-                searchQuery(search_value)
-
-
-
-
-
+                },500)
 
             }
         })
@@ -382,6 +389,8 @@ class NewDBStoreItemsActivity :
 //        }
 
         backIcon.setOnClickListener {
+
+
             if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                 AppUtils.finishActivityLeftToRight(this)
             } else {
@@ -392,7 +401,10 @@ class NewDBStoreItemsActivity :
                 } else {
                     cartitemView_LLstore.visibility = View.VISIBLE
                 }
+
             }
+
+
         }
 
         cat_FloatBtn.setOnTouchListener(object : View.OnTouchListener {
@@ -1676,11 +1688,7 @@ class NewDBStoreItemsActivity :
                         if (!query1.equals("")) {
                             productListFilter = it as ArrayList<StoreItemProductsEntity>
 
-                            val s: Set<StoreItemProductsEntity> =
-                                LinkedHashSet<StoreItemProductsEntity>(veg_item_list)
-                            productListFilter!!.clear()
 
-                            productListFilter!!.addAll(s)
 
                             storeItemsAdapter.updateData(
                                 productListFilter!!,
@@ -1708,6 +1716,13 @@ class NewDBStoreItemsActivity :
                         }
                         storeItemsAdapter?.notifyDataSetChanged()
                         Log.d("searchdata_", it.toString())
+                        storeItemsRecyclerview.visibility = View.VISIBLE
+
+                        //   storeItemsAdapter.notifyDataSetChanged()
+
+                        shimmerFrameLayout.visibility= View.GONE
+
+                        shimmerFrameLayout.stopShimmer()
 
                 })
 
@@ -1715,13 +1730,7 @@ class NewDBStoreItemsActivity :
 
 
 
-        storeItemsRecyclerview.visibility = View.VISIBLE
 
-
-
-        shimmerFrameLayout.visibility= View.GONE
-
-        shimmerFrameLayout.stopShimmer()
 
     }
 
