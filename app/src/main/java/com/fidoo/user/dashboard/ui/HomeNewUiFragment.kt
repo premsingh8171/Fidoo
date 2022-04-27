@@ -59,7 +59,7 @@ import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
-import com.fidoo.user.constants.useconstants.currentlyAddedAddress
+
 import com.fidoo.user.constants.useconstants.navigateFromNewAddressActivity
 import com.fidoo.user.dailyneed.ui.ServiceDailyNeedActivity
 import com.fidoo.user.dashboard.adapter.SliderAdapterExample
@@ -332,14 +332,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 										}
 									}
 								}
-								if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
-									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.location
-									SessionTwiclo(requireContext()).addressType = "Home"
-								}
-								else{
-									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-									SessionTwiclo(requireContext()).addressType = "Home"
-								}
+//								if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
+//									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.location
+//									SessionTwiclo(requireContext()).addressType = "Home"
+//								}
+//								else{
+//									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+//									SessionTwiclo(requireContext()).addressType = "Home"
+//								}
 								SessionTwiclo(requireContext()).userAddressId = addressList.id
 								address_id=addressList.id
 								SessionTwiclo(requireContext()).userLat = addressList.latitude
@@ -375,7 +375,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		deleteRoomDataBase()
 		if ((activity as MainActivity).isNetworkConnected) {
             try {
-
 				if (SessionTwiclo(context).isLoggedIn) {
 					viewmodel?.getCartCountApi(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
@@ -403,16 +402,25 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			try {
 				if (it.addressList.size >= 1) {
 					if (!it.addressList.isNullOrEmpty()) {
+						if (it.addressList[0].addressType.equals("1")){
+							text_newDesh.text = "Home"
+						}
+						else if (it.addressList[0].addressType.equals("2")){
+							text_newDesh.text = "Office"
+						}
+						else if (it.addressList[0].addressType.equals("3")){
+							text_newDesh.text = "Other"
+						}
 						val flat = it.addressList[0].flatNo
 						val locality = it.addressList[0].location
 						val landmark = it.addressList[0].landmark
 						if (!landmark.isNullOrEmpty()) {
-							userAddress_newDesh.text =
-								"$flat" + ", " + "$landmark" + ", " + "$locality"
-							currentlyAddedAddress = userAddress_newDesh.text.toString()
+							userAddress_newDesh.text = "$flat" + ", " + "$landmark" + ", " + "$locality"
+		//					currentlyAddedAddress = userAddress_newDesh.text.toString()
+
 						} else {
 							userAddress_newDesh.text = "$flat" + ", " + "$locality"
-							currentlyAddedAddress = userAddress_newDesh.text.toString()
+		//					currentlyAddedAddress = userAddress_newDesh.text.toString()
 						}
 					}
 				}

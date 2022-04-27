@@ -358,8 +358,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                         if (selectedfromLat.toString() != "0.0"
                             && selectedfromLng.toString() != "0.0"
                             && selectedtoLat.toString() != "0.0"
-                            && selectedtoLng.toString() != "0.0"
-                        ){
+                            && selectedtoLng.toString() != "0.0"){
 
                             calculateStoreCustomerDistance()
                             if (tv_address_to.text.isNotEmpty() && tv_address_from.text.isNotEmpty()) {
@@ -373,17 +372,13 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                                 showIOSProgress()
                                 sendPackageInfo()
                             }
-                        } else {
-
-                            showToast("please enter from/to address")
                         }
-
-
+                        else {
+                            showToast("should place order")
+                        }
                     }
                 }
             }
-            // buyPopup()
-
         }
 
 
@@ -502,7 +497,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                                 showToast("The distance between pickup and drop location must be less than 15 KM's to proceed")
                             }
                         } else {
-                            showToastLong("Service is available only Gurugram!")
+                            showToastLong("Service is available only in Gurugram!")
 
                         }
                     }
