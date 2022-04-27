@@ -468,7 +468,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         }
 
         change_txt.setOnClickListener {
-            val intent = Intent(this, ChangeAddressActivity::class.java)
+            val intent = Intent(this, SavedAddressesActivity::class.java)
             startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
         }
 
