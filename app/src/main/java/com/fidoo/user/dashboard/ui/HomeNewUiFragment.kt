@@ -332,14 +332,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 										}
 									}
 								}
-								if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
-									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.location
-									SessionTwiclo(requireContext()).addressType = "Home"
-								}
-								else{
-									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-									SessionTwiclo(requireContext()).addressType = "Home"
-								}
+//								if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
+//									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.location
+//									SessionTwiclo(requireContext()).addressType = "Home"
+//								}
+//								else{
+//									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+//									SessionTwiclo(requireContext()).addressType = "Home"
+//								}
 								SessionTwiclo(requireContext()).userAddressId = addressList.id
 								address_id=addressList.id
 								SessionTwiclo(requireContext()).userLat = addressList.latitude
@@ -375,7 +375,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		deleteRoomDataBase()
 		if ((activity as MainActivity).isNetworkConnected) {
             try {
-
 				if (SessionTwiclo(context).isLoggedIn) {
 					viewmodel?.getCartCountApi(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
