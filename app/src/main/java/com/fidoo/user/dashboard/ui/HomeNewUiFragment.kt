@@ -402,6 +402,15 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			try {
 				if (it.addressList.size >= 1) {
 					if (!it.addressList.isNullOrEmpty()) {
+						if (it.addressList[0].addressType.equals("1")){
+							text_newDesh.text = "Home"
+						}
+						else if (it.addressList[0].addressType.equals("2")){
+							text_newDesh.text = "Office"
+						}
+						else if (it.addressList[0].addressType.equals("3")){
+							text_newDesh.text = "Other"
+						}
 						val flat = it.addressList[0].flatNo
 						val locality = it.addressList[0].location
 						val landmark = it.addressList[0].landmark
