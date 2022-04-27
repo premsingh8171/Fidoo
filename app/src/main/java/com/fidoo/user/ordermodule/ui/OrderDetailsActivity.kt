@@ -91,69 +91,84 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
                 user.orderStatus.equals("0") -> {
                     orderStatusValue.text = getString(R.string.failed)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
 
                 }
                 user.orderStatus.equals("1") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("2") -> {
                     orderStatusValue.text = getString(R.string.cancelled)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("11") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("3") -> {
                     orderStatusValue.text = getString(R.string.delivered)
                     tv_deliveryboy_name.text =
                         "Order delivered by " + mModelData.deliveryBoyName + " at " + mModelData.delivered_at
-
+                    orderOnValue.text = mModelData.delivered_at
                 }
                 user.orderStatus.equals("5") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
-
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("6") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("7") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("14") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("9") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
+
                 }user.orderStatus.equals("16") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
+                orderOnValue.text = ""
                 }
                 user.orderStatus.equals("10") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("8") -> {
                     orderStatusValue.text = getString(R.string.rejected)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("13") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("15") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("17") -> {
                     orderStatusValue.text = getString(R.string.cancelled)
                     tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
             }
 
@@ -191,7 +206,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             tv_order_id.text = "Order: #" + mModelData.orderId
             locText.text = mModelData.storeAddress
             //edit by shobha
-            orderOnValue.text = mModelData.delivered_at
+
 
             if (mModelData.discount == "" || mModelData.discount == "0") {
                 label_cart_discount.visibility = View.GONE
