@@ -256,8 +256,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
         ed_address.doAfterTextChanged {
             btn_continue.isEnabled = true
-            live_add_1.visibility = View.GONE
-            locationImage.visibility = View.GONE
+//            live_add_1.visibility = View.GONE
+//            locationImage.visibility = View.GONE
         }
 
         btn_continue.setOnClickListener {
