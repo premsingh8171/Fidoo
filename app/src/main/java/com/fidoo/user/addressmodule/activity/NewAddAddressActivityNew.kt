@@ -267,7 +267,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                 showToast(resources.getString(R.string.provide_internet))
             }
             else {
-                if (!lat.toString().equals("") && !lng.toString().equals("")) {
+//                if (!lat.toString().equals("0")||!lat.toString().equals("0") || !lat.toString().equals("0.0")|| !lat.toString().equals("0.00") &&
+//                    !lng.toString().equals("")||!lng.toString().equals("0")||!lng.toString().equals("0.0")||!lng.toString().equals("0.0.00")) {
                     if (where.equals("guest")) {
                         SessionTwiclo(this).userLat = lat.toString()
                         SessionTwiclo(this).userLng = lng.toString()
@@ -278,9 +279,11 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                         if (SavedAddressesActivity.addAddressOrNot.equals("new_add")) {
                             if (ed_address.text.toString().equals("")) {
                                 showToast("Please enter your house number")
-                            } else if (tv_Address.equals("")) {
+                            }
+                            else if (tv_Address.equals("")) {
                                 showToast("Location not available")
-                            } else {
+                            }
+                            else {
                                 if (MainActivity.addEditAdd == "SendPackage") {
 //                                if (ed_name.text.toString().equals("")) {
 //                                    showToast("Please add contact details")
@@ -487,10 +490,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                             }
                         }
                     }
-                }
-                else{
-                    Toast.makeText(this, "unable to get location", Toast.LENGTH_SHORT).show()
-                }
+//                else{
+//                    Toast.makeText(this, "unable to get location", Toast.LENGTH_SHORT).show()
+//                }
             }
         }
 
