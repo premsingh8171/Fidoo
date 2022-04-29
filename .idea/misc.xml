@@ -3,6 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_user22Relese/app/src/main/res/drawable-xhdpi/eta.xml" value="0.121" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_user22Relese/app/src/main/res/drawable-xhdpi/ic_component_203.xml" value="0.121" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_user22Relese/app/src/main/res/drawable-xhdpi/ic_inactivecall.xml" value="0.121" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_user22Relese/app/src/main/res/drawable-xhdpi/pullbar.xml" value="0.121" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_user22Relese/app/src/main/res/drawable/call_24.xml" value="0.146" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_user22Relese/app/src/main/res/layout/accept_reject_order_popup.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_user22Relese/app/src/main/res/layout/activity_track_order.xml" value="0.12158054711246201" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_user22Relese/app/src/main/res/layout/activity_track_order_new.xml" value="0.16077898550724637" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_user22Relese/app/src/main/res/layout/newordertrackitem.xml" value="0.16077898550724637" />
+        <entry key="..\:/Users/Sumit Rai/Desktop/project/fidoo_user22Relese/app/src/main/res/layout/order_items_adaptertrackscreen.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.176" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_edit_profile.xml" value="0.14764492753623187" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_grocery_new_ui.xml" value="0.22327898550724637" />
@@ -25,8 +35,6 @@
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/new_deliverycharges_layout.xml" value="0.14447463768115942" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/select_cat_restaurant_popup.xml" value="0.176" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.14764492753623187" />
-        <entry key="..\:/Users/nc110/Downloads/Fidoo User App/app/src/main/res/layout/activity_new_add_address_new.xml" value="0.25" />
-        <entry key="..\:/Users/nc110/Downloads/Fidoo User App/app/src/main/res/layout/manage_address_bottomsheet_dialogue.xml" value="0.22826086956521738" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/bottom_background.xml" value="0.240625" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/checkhome_active.xml" value="0.2026315789473684" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/dotted_vertical_line.xml" value="0.240625" />

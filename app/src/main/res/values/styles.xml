@@ -108,6 +108,10 @@
 <!--        <item name="android:minHeight">@dimen/margin_24dp</item>-->
 <!--        <item name="android:maxHeight">@dimen/margin_24dp</item>-->
 <!--    </style>-->
+    <style name="DialogIntertnet">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
 
     <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:textColorHint">@color/black</item>

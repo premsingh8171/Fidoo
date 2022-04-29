@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/margin_16dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/margin_16dp"
+
+    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:background="@color/white"
+        android:elevation="@dimen/margin_16dp"
+        android:fadingEdgeLength="@dimen/margin_8dp"
+        android:layout_marginEnd="@dimen/margin_12dp"
+        app:cardCornerRadius="50dp"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:visibility="gone"
+            android:layout_gravity="top"
+            android:id="@+id/ImgTrack"
+            android:padding="@dimen/margin_8dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:visibility="gone"
+        android:id="@+id/cardbotlayout"
+
+        android:layout_marginBottom="@dimen/margin_16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/margin_16dp"
+        >
+
+
+        <LinearLayout
+            android:background="@color/primary_color"
+            android:id="@+id/linear5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:visibility="gone"
+                android:paddingTop="@dimen/margin_16dp"
+                android:paddingLeft="@dimen/margin_16dp"
+                android:paddingRight="@dimen/margin_16dp"
+                android:id="@+id/TvTrackItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:textColor="#212121"
+                android:textFontWeight="400"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:paddingLeft="@dimen/margin_16dp"
+                android:paddingRight="@dimen/margin_16dp"
+                android:id="@+id/TvTrackItem1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_16dp"
+                android:layout_below="@id/TvTrackItem"
+                android:fontFamily="@font/proximanovo"
+                android:lineHeight="18dp"
+                android:textSize="14dp"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/TvTrackItem2"
+                android:paddingBottom="@dimen/margin_16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/TvTrackItem1"
+                android:layout_gravity="center"
+                android:drawableStart="@drawable/call_24"
+                android:drawablePadding="@dimen/margin_8dp"
+                android:visibility="visible"
+                android:text="Call Merchant"
+                android:textStyle="bold"
+                />
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>

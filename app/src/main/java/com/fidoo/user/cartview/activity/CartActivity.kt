@@ -68,7 +68,7 @@ import com.fidoo.user.grocerynewui.activity.GroceryNewUiActivity.Companion.produ
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
 import com.fidoo.user.newRestaurants.activity.NewStoreItemsActivity.Companion.handleRes
-import com.fidoo.user.ordermodule.ui.TrackOrderActivity
+import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
 import com.fidoo.user.profile.ui.EditProfileActivity
 import com.fidoo.user.restaurants.activity.StoreItemsActivity.Companion.handleresponce
@@ -2655,7 +2655,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 				OrderBackgroundgService.counter_timer = 30
 				handleTrackScreenOrderSuccess=0
 				startActivity(
-					Intent(this, TrackOrderActivity::class.java).putExtra(
+					Intent(this, NewTrackOrderActivity::class.java).putExtra(
 						"orderId",
 						finalOrderId
 					).putExtra(

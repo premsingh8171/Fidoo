@@ -5,4 +5,11 @@ object useconstants {
 //    var currentlyAddedAddress : String = ""
     var navigateFromCart = 0
     var navigateFromNewAddressActivity = 0
+    var isScroll = false
+    var pos = 0
+    var merchantName = ""
+    var dBoyName = ""
+    var orderStatusMain = ""
+    var callAllow = true
+    var changeCallcolour = true
 }

@@ -43,7 +43,7 @@ import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.fragments.SendPacketFragment
-import com.fidoo.user.ordermodule.ui.TrackOrderActivity
+import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity
 import com.fidoo.user.sendpackages.activity.SendPackageActivity
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.maps.model.GeocoderModel
@@ -292,7 +292,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         orderStatus_fm.setOnClickListener {
             startActivity(
-                Intent(this, TrackOrderActivity::class.java)
+                Intent(this, NewTrackOrderActivity::class.java)
                     .putExtra("orderId", orderId)
                     .putExtra("delivery_boy_name", "")
                     .putExtra(

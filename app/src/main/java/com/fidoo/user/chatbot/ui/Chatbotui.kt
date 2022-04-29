@@ -1,6 +1,7 @@
 package com.fidoo.user.chatbot.ui
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -22,16 +23,21 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.adapter.botlogocount
 import com.example.myapplication.adapter.orderStatusMsgAdapter.botlogoCountforreply
 import com.fidoo.user.R
+import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.chatbot.adapter.BtnYesNoAdapter.BtnYesNoAdapter
 import com.fidoo.user.chatbot.adapter.FeedbackAdapter.BotFeedbackAdapter
 import com.fidoo.user.chatbot.adapter.MainAdapter
 import com.fidoo.user.chatbot.adapter.cancelOrderWithoutRefundAdapter.CancelWithoutRefundAdapter
 import com.fidoo.user.chatbot.adapter.orderStatusMsgAdapter.orderStatusAdapter
 import com.fidoo.user.chatbot.viewmodel.*
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionNotNull
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.ordermodule.ui.OrdersFragment
+import com.fidoo.user.ordermodule.ui.ReviewOrderActivity
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
 import com.google.gson.Gson
+import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_chatbotui.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -126,6 +132,7 @@ class Chatbotui :AppCompatActivity() {
                 DateandTime2.text = dateTime1
             }
 
+
 //            if(it.orderStatus == "7" || it.orderStatus =="11"){
 //                cancel.visibility =View.GONE
 //            }else{
@@ -156,6 +163,8 @@ class Chatbotui :AppCompatActivity() {
             }
 
         }
+
+
 
 
 //feedback Layout
@@ -400,6 +409,7 @@ class Chatbotui :AppCompatActivity() {
 
 
         cancel.setOnClickListener {
+
             botlogo2.visibility = View.VISIBLE
             botlogolaysout.visibility = View.VISIBLE
             orderconfirmStatus.text = "Cancel my order"
@@ -412,10 +422,11 @@ class Chatbotui :AppCompatActivity() {
             CoroutineScope(Dispatchers.Main).launch {
                 delay(3000)
                 DateandTime4.visibility = View.VISIBLE
-                delay(100)
 
 
             }
+
+
             // LayoutFeedback.visibility  =View.VISIBLE
             calendar2 = Calendar.getInstance()
             simpleDateFormat2 = SimpleDateFormat("hh:mm aa")
@@ -470,11 +481,19 @@ class Chatbotui :AppCompatActivity() {
                     BtnYesReply.text = "No \uD83D\uDC4E"
                     LayoutFeedback.visibility = View.GONE
 
+
                     DateandTime5.visibility = View.VISIBLE
                     CoroutineScope(Dispatchers.Main).launch {
                         delay(1000)
                         DateandTime6.visibility = View.VISIBLE
                         tvlast.visibility = View.VISIBLE
+
+                        delay(2000)
+                        finish()
+                        AppUtils.startActivityRightToLeft(
+                            this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
+                                .putExtra("orderId", intent.getStringExtra("orderId")!!))
+
                     }
                     simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
                     dateTime1 = simpleDateFormat1.format(calendar.time).toString()
@@ -498,6 +517,7 @@ class Chatbotui :AppCompatActivity() {
                         FeedbackRecylerView()
 
                     }
+
                 }
                 BtnYes.setOnClickListener{
                     botlogo3 .visibility = View.VISIBLE
@@ -513,6 +533,11 @@ class Chatbotui :AppCompatActivity() {
                         DateandTime6.visibility = View.VISIBLE
                         delay(1000)
                         tvlast.visibility = View.VISIBLE
+                        delay(2000)
+                        finish()
+                        AppUtils.startActivityRightToLeft(
+                            this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
+                                .putExtra("orderId", intent.getStringExtra("orderId")!!))
                     }
                     simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
                     dateTime1 = simpleDateFormat1.format(calendar.time).toString()
@@ -537,6 +562,7 @@ class Chatbotui :AppCompatActivity() {
                         FeedbackRecylerView()
 
                     }
+
                 }
 
                 //////////////////////////////////////////cod order placed
@@ -601,6 +627,10 @@ class Chatbotui :AppCompatActivity() {
                         setRecyclercancelWithoutRefundmsgwithKey()
 
                     }
+                    finish()
+                    AppUtils.startActivityRightToLeft(
+                        this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
+                            .putExtra("orderId", intent.getStringExtra("orderId")!!))
                 }
                 BtnYes.setOnClickListener{
                     botlogo3 .visibility = View.VISIBLE
@@ -652,9 +682,16 @@ class Chatbotui :AppCompatActivity() {
                 }
 
             }
+            finish()
+            AppUtils.startActivityRightToLeft(
+                this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
+                    .putExtra("orderId", intent.getStringExtra("orderId")!!))
 
         }
         //----------------------------------
+
+
+
         DateandTime5.visibility = View.GONE
         DateandTime6.visibility = View.GONE
 
@@ -705,6 +742,9 @@ class Chatbotui :AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // botlogoCountforreply.botcount1 = 0
+
+
+
 
     }
 
