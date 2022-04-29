@@ -1491,8 +1491,13 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 							restHomePage()
 							userLat= addressList.latitude
 							userLong=addressList.longitude
-							select_address_or_add_layout.visibility = View.GONE
-							cart_payment_lay.visibility = View.VISIBLE
+							if (!userLat.isNullOrEmpty() && !userLong.isNullOrEmpty()) {
+								select_address_or_add_layout.visibility = View.GONE
+								cart_payment_lay.visibility = View.VISIBLE
+							}
+							else{
+								Toast.makeText(this@CartActivity, "Enter valid address", Toast.LENGTH_SHORT).show()
+							}
 							showIOSProgress()
 							viewmodel?.getCartDetails(
 								accountId,
