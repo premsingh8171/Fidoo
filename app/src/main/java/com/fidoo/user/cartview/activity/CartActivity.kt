@@ -1496,7 +1496,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 								cart_payment_lay.visibility = View.VISIBLE
 							}
 							else{
-								Toast.makeText(this@CartActivity, "Enter valid address", Toast.LENGTH_SHORT).show()
+								Toast.makeText(this@CartActivity, "Add valid address", Toast.LENGTH_SHORT).show()
 							}
 							showIOSProgress()
 							viewmodel?.getCartDetails(
