@@ -1583,8 +1583,10 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 		Log.d("address_id_____", "" + address_id)
 		tv_delivery_address_title.text = selectedAddressTitle
+		tv_landmark.text = selectedPreAddressName
 		if(NewAddAddressActivityNew.checkCount == 1){
 			        getAddress()
+
 			//		NewAddAddressActivityNew.checkCount = 0
 			//tv_delivery_address.text = currentlyAddedAddress
 		}
@@ -1594,7 +1596,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		else{
 			tv_delivery_address.text = selectedAddressName
 		}
-		tv_landmark.text = selectedPreAddressName
+
 
 		if (!isNetworkConnected) {
 			showInternetToast()
