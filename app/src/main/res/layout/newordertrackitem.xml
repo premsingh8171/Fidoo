@@ -29,7 +29,6 @@
     <androidx.cardview.widget.CardView
         android:visibility="gone"
         android:id="@+id/cardbotlayout"
-
         android:layout_marginBottom="@dimen/margin_16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,10 +52,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                android:textColor="#212121"
                 android:textFontWeight="400"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+               android:fontFamily="@font/proximanovasemibold" />
 
 
             <TextView

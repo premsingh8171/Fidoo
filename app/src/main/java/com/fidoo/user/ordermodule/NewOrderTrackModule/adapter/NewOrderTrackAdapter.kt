@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
-import com.fidoo.user.ordermodule.NewOrderTrackModule.adapter.NewOrderTrackViewHolder
 import com.fidoo.user.ordermodule.NewOrderTrackModule.NewTrackModel.Message
+import com.fidoo.user.ordermodule.NewOrderTrackModule.adapter.NewOrderTrackViewHolder
 
 
 class NewOrderTrackAdapter(val context: Context, var msgdatalist:List<Message>) : RecyclerView.Adapter<NewOrderTrackViewHolder>() {

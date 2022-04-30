@@ -488,7 +488,7 @@ class Chatbotui :AppCompatActivity() {
                         DateandTime6.visibility = View.VISIBLE
                         tvlast.visibility = View.VISIBLE
 
-                        delay(2000)
+                        delay(500)
                         finish()
                         AppUtils.startActivityRightToLeft(
                             this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
@@ -533,11 +533,16 @@ class Chatbotui :AppCompatActivity() {
                         DateandTime6.visibility = View.VISIBLE
                         delay(1000)
                         tvlast.visibility = View.VISIBLE
-                        delay(2000)
+                        delay(500)
                         finish()
                         AppUtils.startActivityRightToLeft(
                             this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
                                 .putExtra("orderId", intent.getStringExtra("orderId")!!))
+//                        delay(2000)
+//                        finish()
+//                        AppUtils.startActivityRightToLeft(
+//                            this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
+//                                .putExtra("orderId", intent.getStringExtra("orderId")!!))
                     }
                     simpleDateFormat1 = SimpleDateFormat(" hh:mm aa")
                     dateTime1 = simpleDateFormat1.format(calendar.time).toString()
@@ -627,10 +632,10 @@ class Chatbotui :AppCompatActivity() {
                         setRecyclercancelWithoutRefundmsgwithKey()
 
                     }
-                    finish()
-                    AppUtils.startActivityRightToLeft(
-                        this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
-                            .putExtra("orderId", intent.getStringExtra("orderId")!!))
+//                    finish()
+//                    AppUtils.startActivityRightToLeft(
+//                        this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
+//                            .putExtra("orderId", intent.getStringExtra("orderId")!!))
                 }
                 BtnYes.setOnClickListener{
                     botlogo3 .visibility = View.VISIBLE
@@ -682,10 +687,10 @@ class Chatbotui :AppCompatActivity() {
                 }
 
             }
-            finish()
-            AppUtils.startActivityRightToLeft(
-                this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
-                    .putExtra("orderId", intent.getStringExtra("orderId")!!))
+//            finish()
+//            AppUtils.startActivityRightToLeft(
+//                this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
+//                    .putExtra("orderId", intent.getStringExtra("orderId")!!))
 
         }
         //----------------------------------
