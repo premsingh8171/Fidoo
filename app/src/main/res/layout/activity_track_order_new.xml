@@ -235,74 +235,42 @@
                     android:background="@drawable/ic_component_203"
                     android:visibility="gone" />
 
-                <RelativeLayout
-                    android:id="@+id/eta_lay11"
+                </RelativeLayout>
+
+            <RelativeLayout
+
+                android:id="@+id/eta_lay11"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_below="@id/card1"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/watch_icon1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/watch_icon"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/estimated_time1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:id="@+id/watch_icon1"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="10dp"
-                        android:src="@drawable/watch_icon"
-                        app:tint="@color/black" />
-
-                    <TextView
-                        android:id="@+id/estimated_time1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@id/watch_icon1"
-                        android:text="ETA" />
-                </RelativeLayout>
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/watch_icon1"
+                    android:text="ETA" />
+            </RelativeLayout>
             </RelativeLayout>
 
 
             <!-- layout for map -->
 
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/ordstatus_lay_new"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="150dp"
-                android:layout_marginRight="20dp"
-                android:backgroundTint="@color/lightGray"
-                android:visibility="gone"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="10dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/margin_10"
-                        android:src="@drawable/icon_info"
-                        app:tint="@color/black" />
-
-                    <TextView
-                        android:id="@+id/order_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginStart="@dimen/margin_15dp"
-                        android:layout_marginEnd="@dimen/margin_10"
-                        android:layout_toEndOf="@id/icon"
-                        android:text="" />
-
-                </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
 
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -502,6 +470,6 @@
                 </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
-    </RelativeLayout>
+
 
 </layout>

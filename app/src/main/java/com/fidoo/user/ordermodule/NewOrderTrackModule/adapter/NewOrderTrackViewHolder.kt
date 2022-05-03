@@ -202,6 +202,7 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
 
                     }
                 } else {
+
                     cardbotlayout.visibility = View.VISIBLE
                     if (MainOrderStatus == "13") {
                         ImgTrack.visibility = View.VISIBLE
@@ -246,7 +247,11 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
                             TvTrackItem2.setTextColor(Color.parseColor("#FFFFFF"))
 //                    TvTrackItem1.text = message.desc
                             //  if(MainOrderStatus.equals("7") || MainOrderStatus.equals("11")) {
-                            TvTrackItem2.visibility = View.VISIBLE
+                            if(useconstants.orderStatusMain.equals("10")||useconstants.orderStatusMain.equals("16") || useconstants.orderStatusMain.equals("16") ){
+                                TvTrackItem2.visibility = View.GONE
+                            }else{
+                                TvTrackItem2.visibility = View.VISIBLE
+                            }
                             //}
 
                             TvTrackItem1.text = message.aDRDesc

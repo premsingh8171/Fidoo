@@ -482,6 +482,7 @@ class Chatbotui :AppCompatActivity() {
                     LayoutFeedback.visibility = View.GONE
 
 
+
                     DateandTime5.visibility = View.VISIBLE
                     CoroutineScope(Dispatchers.Main).launch {
                         delay(1000)
@@ -810,6 +811,10 @@ class Chatbotui :AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
+        AppUtils.startActivityRightToLeft(
+            this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
+                .putExtra("orderId", intent.getStringExtra("orderId")!!))
+
     }
 }
 

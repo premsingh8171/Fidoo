@@ -1,6 +1,7 @@
 package com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui
 
 import android.Manifest
+import android.R.array
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
@@ -63,7 +64,6 @@ import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.adapter.NewOrderTrackAd
 import com.fidoo.user.ordermodule.ui.OrderRejectedActivity
 import com.fidoo.user.ordermodule.ui.OrdersFragment
 import com.fidoo.user.ordermodule.ui.ReviewItemsActivity
-import com.fidoo.user.ordermodule.ui.ReviewOrderActivity
 import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
 import com.fidoo.user.services.OrderBackgroundgService
@@ -96,6 +96,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashSet
 import kotlin.math.roundToInt
 
 
@@ -246,7 +249,7 @@ var mPresImg: String = ""
             // Log.d("sddffsddsds", Gson().toJson(it)
             firstMsgListData = it.messages as ArrayList<Message>
 
-           useconstants.merchantName = it.merchantDetails.name
+            useconstants.merchantName = it.merchantDetails.name
             useconstants.dBoyName = it.riderDetails.name
             useconstants.orderStatusMain = it.orderStatus
             useconstants.callAllow = it.callToMerchant
@@ -263,24 +266,24 @@ var mPresImg: String = ""
                 // OrderplaceGif12.setAnimationFromUrl(it.gif)
 
             }
-          var url = it.riderBtmIcon
+            var url = it.riderBtmIcon
             GlideToVectorYou.init().with(this).load(Uri.parse(url), callStore)
             Glide.with(this)
                 .load(it.riderDetails.image)
                 .into(store_img_onOrder)
 
 
-            if (it.orderStatus == "14" ) {
+            if (it.orderStatus == "10" || it.orderStatus == "16") {
                 changegif.visibility = View.VISIBLE
             }
 
             if (it.orderStatus.equals("13") || it.orderStatus.equals("1")) {
                 cancelBtn1.visibility = View.VISIBLE
-            }else{
+            } else {
                 cancelBtn1.visibility = View.GONE
             }
 
-            if(it.orderStatus.equals("3")){
+            if (it.orderStatus.equals("3")) {
                 map12.visibility = View.GONE
             }
 
@@ -306,8 +309,28 @@ var mPresImg: String = ""
                         }
                     }
                 }
-//                callStore.setBackgroundColor(Color.parseColor()
 
+                callStore.setOnClickListener {
+
+                    onCallPopUp(1)
+
+                    if (sessionInstance.profileDetail != null) {
+                        viewmodel?.callCustomerApi(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            sessionInstance.profileDetail.account.userName,
+                            driverMobileNo!!
+                        )
+                    } else {
+                        viewmodel?.callCustomerApi(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            sessionInstance.loginDetail.phoneNumber,
+                            driverMobileNo!!
+                        )
+                    }
+                }
+//                callStore.setBackgroundColor(Color.parseColor()
 
 
             }
@@ -329,28 +352,34 @@ var mPresImg: String = ""
             }
 
 
-            if(((it.orderStatus.equals("14")) && (it.orderStatus.equals("9")) && (!it.orderStatus.equals("15")))){
-                changegif.visibility = View.GONE
-                eta_lay1.visibility = View.VISIBLE
+//            if(((it.orderStatus.equals("14")) && (it.orderStatus.equals("9")) && (!it.orderStatus.equals("15")))){
+//                changegif.visibility = View.GONE
+//                eta_lay1.visibility = View.VISIBLE
+//
+//                }
 
+            if (it.orderStatus.equals("3")) {
+                if (reviewpopup == 0) {
+                    buyPopup(it.orderId)
+                    reviewpopup = 1
                 }
 
-            if(it.orderStatus.equals("3")){
-                finish()
-                AppUtils.startActivityRightToLeft(this,Intent(this, ReviewOrderActivity::class.java)
-                    .putExtra("orderId", intent.getStringExtra("orderId")!!))
-
             }
-            if(it.orderStatus.equals("8")){
+            if (it.orderStatus.equals("8")) {
                 finish()
-                AppUtils.startActivityRightToLeft(this,Intent(this, OrderRejectedActivity::class.java)
-                    .putExtra("orderId", intent.getStringExtra("orderId")!!))
+                AppUtils.startActivityRightToLeft(
+                    this, Intent(this, OrderRejectedActivity::class.java)
+                        .putExtra("orderId", intent.getStringExtra("orderId")!!)
+                )
 
             }
 
+//            if(it.orderStatus == "7" || it.orderStatus == "11"){
+//                eta_lay1.visibility = View.VISIBLE
+//            }
 
 
-            if(!it.gif.isEmpty()) {
+            if (!it.gif.isEmpty()) {
                 ordrePlaceGif.setAnimationFromUrl(it.gif);
                 lottieAnimation2.setAnimationFromUrl(it.gif);
 
@@ -359,11 +388,11 @@ var mPresImg: String = ""
                 .load(it.riderDetails.image)
                 .into(store_img_onOrder)
 
-             if(it.orderStatus.equals("10") || it.orderStatus.equals("14") ){
-                 eta_lay1.visibility = View.VISIBLE
-             }
+//             if(it.orderStatus.equals("10") || it.orderStatus.equals("14") ){
+//                 eta_lay1.visibility = View.VISIBLE
+//             }
 
-            if(useconstants.orderStatusMain.equals("10")|| useconstants.orderStatusMain.equals("14")){
+            if (useconstants.orderStatusMain.equals("10") || useconstants.orderStatusMain.equals("14")) {
                 callStore.isEnabled = true
             }
 
@@ -375,128 +404,41 @@ var mPresImg: String = ""
 
 
             Log.d("sddffsddskgjgjds", Gson().toJson(firstMsgListData))
-           // SetRecyclerview()
+            // SetRecyclerview()
 
 
 
-          //lopp kaam nahi kr rha tha is liye ye lga diya
+//                val language = arrayOf(
+//                    it.riderBottomMsgADR[0], it.riderBottomMsgADR[1],
+//                    it.riderBottomMsgADR[2], it.riderBottomMsgADR[3]
+//                )
                 CoroutineScope(Dispatchers.Main).launch {
+                    for (item in it.riderBottomMsgADR) {
+                        delay(1000)
+                        store_name_txt_info1.text =
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                Html.fromHtml(item, Html.FROM_HTML_MODE_COMPACT)
+                            } else {
+                                Html.fromHtml(item)
+                            }
 
-                  var  DboyBold = " "
-                    if(it.orderStatus=="14") {
-                        var str2 = it.riderBottomMsg[0]
-                        var inputString2 = str2.replace("%DN", "<b>${useconstants.dBoyName}</b>")
-                        Log.d("mynamebold", "$inputString2")
-
-
-                        store_name_txt_info1.text = inputString2
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-                        store_name_txt_info1.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            Html.fromHtml(inputString2, Html.FROM_HTML_MODE_COMPACT)
-                        } else {
-                            Html.fromHtml(inputString2)
-                        }
-                    }else {
-
-
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-                        store_name_txt_info1.text = DboyBold
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[1]
-                        delay(2000)
-                        store_name_txt_info1.text = it.riderBottomMsg[2]
-
-
+                        
                     }
 
-            }
+
+
+
+
         }
+            //lopp kaam nahi kr rha tha is liye ye lga diya
+        }
+
+
+
+
+
+
+
 
 
 
@@ -731,17 +673,21 @@ var mPresImg: String = ""
             Log.d("callCustomerResponse", Gson().toJson(it))
         }
     }
-
+//for order details pop up
     private fun onpopup() {
         order_Dialog = Dialog(this)
-        //order_Dialog?.dismiss()
+        order_Dialog?.dismiss()
+
+
         order_Dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         order_Dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         order_Dialog?.setContentView(R.layout.accept_reject_order_popup)
         order_Dialog?.window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
+            WindowManager.LayoutParams.WRAP_CONTENT,
+
         )
+        order_Dialog?.getWindow()?.setGravity(Gravity.BOTTOM);
         order_Dialog?.window?.attributes?.windowAnimations = R.style.DialogIntertnet
         order_Dialog?.setCanceledOnTouchOutside(true)
         order_Dialog?.show()
@@ -753,6 +699,7 @@ var mPresImg: String = ""
         itemsRecyclerView1?.adapter = adapter
         itemQuantityPrice1?.text = finalprice
     }
+
 
 
 
@@ -1020,7 +967,7 @@ var mPresImg: String = ""
                     Log.e("hit___", "hit--" + OrderBackgroundgService.timer_count!!)
                     startService(Intent(applicationContext, OrderBackgroundgService::class.java))
                     // ordstatus_lay_new.visibility = View.VISIBLE
-                    order_status.text = "Please wait while we confirm your order"
+                    //order_status.text = "Please wait while we confirm your order"
 
                     	if (handleCounter==0) {
                     timerr = object : CountDownTimer(OrderBackgroundgService.timer_count!!, 1000) {
@@ -1036,7 +983,7 @@ var mPresImg: String = ""
                                // cancelBtn1.visibility = View.GONE
                                 customer_care_fmL.visibility = View.VISIBLE
                                 // ordstatus_lay_new.visibility = View.VISIBLE
-                                order_status.text =
+                               // order_status.text =
                                     "Please wait while we confirm your order"
                             }
                         }
@@ -1135,7 +1082,7 @@ var mPresImg: String = ""
                     when {
 
                         it.orderStatus.equals("0") -> {
-                            order_status.text = "Failed"
+                            //order_status.text = "Failed"
                             cancelBtn1.visibility = View.GONE
                         }
 
@@ -1144,7 +1091,7 @@ var mPresImg: String = ""
                             // holder.buttonValue.visibility = View.GONE
 
                             // order_status.text = "Please wait while we confirm your order"
-                            order_status.text = "Waiting for merchant to accept the order"
+                          //  order_status.text = "Waiting for merchant to accept the order"
                             //tv_delivery_boy_call.visibility = View.GONE
                             //driver_cardView.visibility = View.GONE
                            // cancelBtn1.visibility = View.GONE
@@ -1153,7 +1100,7 @@ var mPresImg: String = ""
 
                         it.orderStatus.equals("2") -> {
                             //holder.buttonValue.visibility = View.GONE
-                            order_status.text = "Your order is cancelled"
+                           // order_status.text = "Your order is cancelled"
                            // cancelBtn1.visibility = View.GONE
 
                             if (onBackpressHandle.equals("1")) {
@@ -1197,7 +1144,7 @@ var mPresImg: String = ""
                             //  holder.buttonValue.visibility = View.VISIBLE
                             //holder.buttonValue.visibility = View.GONE
 
-                            order_status.text = "Order is in progress"
+                           // order_status.text = "Order is in progress"
                             cancelBtn1.visibility = View.GONE
                             //tv_delivery_boy_call.visibility = View.VISIBLE
                            // driver_cardView.visibility = View.VISIBLE
@@ -1209,7 +1156,7 @@ var mPresImg: String = ""
                             //holder.buttonValue.visibility = View.GONE
                             //tv_delivery_boy.text =
                                 it.deliveryBoyName + " is on the way to deliver your order."
-                            order_status.text =
+                           // order_status.text =
                                 it.deliveryBoyName + " is on the way to deliver your order."
 
                            // cancelBtn1.visibility = View.GONE
@@ -1244,7 +1191,7 @@ var mPresImg: String = ""
                             //holder.buttonValue.visibility = View.VISIBLE
                             //tv_delivery_boy.text =
                                 it.deliveryBoyName + " is on the way to deliver your order."
-                            order_status.text =
+                            //order_status.text =
                                 it.deliveryBoyName + " is on the way to deliver your order."
                             //	order_status.text = "Your order is out for delivery"
 
@@ -1261,10 +1208,10 @@ var mPresImg: String = ""
                             handleClick = 1
 
                             if (it.paymentMode == "online") {
-                                order_status.text =
+                               // order_status.text =
                                     "Your order is rejected. Don't worry, we have processed your refund and same will be credited to your account within 3-5 business days"
                             } else {
-                                order_status.text = "Your order is rejected."
+                               // order_status.text = "Your order is rejected."
                             }
 
                             address_details_lay.visibility = View.GONE
@@ -1310,7 +1257,7 @@ var mPresImg: String = ""
                             storeCardID.visibility = View.GONE
                            // tv_delivery_boy.text =
                                 it.deliveryBoyName + " has reached to your location"
-                            order_status.text = it.deliveryBoyName + " has reached to your location"
+                            //order_status.text = it.deliveryBoyName + " has reached to your location"
                            // driver_cardView.visibility = View.VISIBLE
                            // tv_delivery_boy_call.visibility = View.VISIBLE
 
@@ -1779,11 +1726,12 @@ var mPresImg: String = ""
                     if (estimatedTime.isNotEmpty() || estimatedTime != "") {
                         if (useconstants.orderStatusMain.equals("11") || useconstants.orderStatusMain.equals(
                                 "15"
-                            ) || useconstants.orderStatusMain.equals("16")
+                            ) || useconstants.orderStatusMain.equals("10") || useconstants.orderStatusMain.equals("7") || useconstants.orderStatusMain.equals("16") || useconstants.orderStatusMain.equals("16")
                         ) {
-                            eta_lay1.visibility = View.VISIBLE
+                            eta_lay11.visibility = View.VISIBLE
+                         //   Log.d("ssssss", )
                             Log.e("estimated_time___", estimatedTime)
-                            estimated_time.text = estimatedTime
+                            estimated_time1.text = estimatedTime
                         }
                     }else {
 
@@ -1875,6 +1823,7 @@ var mPresImg: String = ""
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
         )
+
         order_cancel_Diolog?.setCanceledOnTouchOutside(true)
         order_cancel_Diolog?.show()
         val order_cancelImg = order_cancel_Diolog?.findViewById<ImageView>(R.id.order_cancelImg)
@@ -1908,6 +1857,14 @@ var mPresImg: String = ""
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }, 5000)
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_OUTSIDE) {
+            println("TOuch outside the dialog ******************** ")
+            call_Diolog?.setCancelable(true)
+        }
+        return false
     }
 
     //delete all
@@ -2105,5 +2062,7 @@ var mPresImg: String = ""
     fun getScreenHeight(): Int {
         return Resources.getSystem().displayMetrics.heightPixels
     }
+
+
 
 }
