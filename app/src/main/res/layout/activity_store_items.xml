@@ -274,7 +274,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </LinearLayout>
 
@@ -597,7 +597,7 @@
         android:background="@drawable/cart_bg"
         android:backgroundTint="@color/white_trans"
         android:elevation="@dimen/margin_10"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 

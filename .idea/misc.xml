@@ -3,11 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_grocery_items.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_new_product_search.xml" value="0.25" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_new_search.xml" value="0.10597826086956522" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_new_store_items.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.17" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/new_research_ll.xml" value="0.15572916666666667" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.25" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.176" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_edit_profile.xml" value="0.14764492753623187" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_grocery_new_ui.xml" value="0.22327898550724637" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_main.xml" value="0.14764492753623187" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_new_search.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_order_details.xml" value="0.176" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_order_details_sendpackages.xml" value="0.176" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_order_rejected.xml" value="0.20104166666666667" />
@@ -24,7 +30,6 @@
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/item_cat_new_ui.xml" value="0.14447463768115942" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/item_service_details_adapter.xml" value="0.14447463768115942" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/new_deliverycharges_layout.xml" value="0.14447463768115942" />
-        <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/new_search_item_layout.xml" value="0.4" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/select_cat_restaurant_popup.xml" value="0.176" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.14764492753623187" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/bottom_background.xml" value="0.240625" />
