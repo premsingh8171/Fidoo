@@ -432,6 +432,7 @@
                             <com.google.android.material.imageview.ShapeableImageView
                                 android:id="@+id/store_img_onOrder"
                                 android:layout_width="@dimen/margin_45dp"
+                                android:layout_marginStart="10dp"
                                 android:layout_height="@dimen/margin_45dp"
                                 android:layout_centerVertical="true"
                                 android:background="@color/white"
@@ -444,13 +445,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
-                                android:layout_marginStart="@dimen/dimen_60dp"
+                                android:layout_marginStart="45dp"
+                                android:layout_marginEnd="5dp"
                                 android:layout_toEndOf="@id/store_img_onOrder"
                                 android:fontFamily="@font/proxima"
                                 android:maxLines="1"
-
                                 android:textColor="@color/colorTitle"
-                                android:textSize="12sp"
+                                android:textSize="14dp"
                                 android:textStyle="bold" />
 
                             <ImageView

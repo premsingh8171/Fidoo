@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.text.Html
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -23,6 +24,7 @@ import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
+import kotlinx.android.synthetic.main.activity_track_order_new.*
 import kotlinx.android.synthetic.main.newordertrackitem.view.*
 import kotlinx.android.synthetic.main.newordertrackitem.view.cardbotlayout
 import kotlinx.coroutines.CoroutineScope
@@ -59,10 +61,9 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
                     if (message.status == 1) {
                         cardbotlayout.visibility = View.VISIBLE
                         if( MainOrderStatus.equals("1")){
-                            CoroutineScope(Dispatchers.Main).launch {
-                                delay(400)
+
                                 TvTrackItem2.visibility = View.VISIBLE
-                            }
+
 
                         }
 
@@ -126,6 +127,8 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
                                             sessionInstance.profileDetail.account.userName,
                                             store_phone!!
                                         )
+
+                                        store_phone?.let { it1 -> Log.d("calljgjgjgjg" , it1) }
                                     } else {
                                         viewmodel?.customerCallMerchantApi(
                                             SessionTwiclo(context).loggedInUserDetail.accountId,
@@ -273,6 +276,27 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
                         }
 
 
+                    }
+
+                    TvTrackItem2.setOnClickListener {
+                        if (!store_phone.equals("")) {
+                            onCallPopUp(0)
+                            if (sessionInstance.profileDetail != null) {
+                                viewmodel?.customerCallMerchantApi(
+                                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                                    SessionTwiclo(context).loggedInUserDetail.accessToken,
+                                    sessionInstance.profileDetail.account.userName,
+                                    store_phone!!
+                                )
+                            } else {
+                                viewmodel?.customerCallMerchantApi(
+                                    SessionTwiclo(context).loggedInUserDetail.accountId,
+                                    SessionTwiclo(context).loggedInUserDetail.accessToken,
+                                    sessionInstance.loginDetail.phoneNumber,
+                                    store_phone!!
+                                )
+                            }
+                        }
                     }
 
                     TvTrackItem2.setOnClickListener {

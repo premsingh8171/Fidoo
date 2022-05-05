@@ -1,7 +1,6 @@
 package com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui
 
 import android.Manifest
-import android.R.array
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
@@ -269,7 +268,7 @@ var mPresImg: String = ""
             var url = it.riderBtmIcon
             GlideToVectorYou.init().with(this).load(Uri.parse(url), callStore)
             Glide.with(this)
-                .load(it.riderDetails.image)
+                .load(it.riderDetails)
                 .into(store_img_onOrder)
 
 
@@ -385,7 +384,7 @@ var mPresImg: String = ""
 
             }
             Glide.with(this)
-                .load(it.riderDetails.image)
+                .load(it.riderImg)
                 .into(store_img_onOrder)
 
 //             if(it.orderStatus.equals("10") || it.orderStatus.equals("14") ){
@@ -414,7 +413,7 @@ var mPresImg: String = ""
 //                )
                 CoroutineScope(Dispatchers.Main).launch {
                     for (item in it.riderBottomMsgADR) {
-                        delay(1000)
+                        delay(2000)
                         store_name_txt_info1.text =
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 Html.fromHtml(item, Html.FROM_HTML_MODE_COMPACT)

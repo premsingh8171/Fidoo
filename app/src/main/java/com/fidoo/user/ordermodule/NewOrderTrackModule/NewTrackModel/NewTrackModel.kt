@@ -24,6 +24,8 @@ data class NewTrackModel(
     val merchantDetails: MerchantDetails,
     @SerializedName("messages")
     val messages: List<Message>,
+    @SerializedName("order_details")
+    val orderDetails: List<OrderDetail>,
     @SerializedName("orderId")
     val orderId: String,
     @SerializedName("order_status")
@@ -37,5 +39,9 @@ data class NewTrackModel(
     @SerializedName("riderBtnBgColor")
     val riderBtnBgColor: String,
     @SerializedName("rider_details")
-    val riderDetails: RiderDetails
+    val riderDetails: RiderDetails,
+    @SerializedName("rider_img")
+    val riderImg: String,
+    @SerializedName("total_payment_amt")
+    val totalPaymentAmt: String
 )

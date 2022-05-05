@@ -10,6 +10,8 @@ data class Message(
     val aDRMessage: String,
     @SerializedName("bg_color_dark")
     val bgColorDark: String,
+    @SerializedName("callToMerchant")
+    val callToMerchant: Boolean,
     @SerializedName("desc")
     val desc: String,
     @SerializedName("icon_img")
