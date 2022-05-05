@@ -441,12 +441,13 @@
                                 tools:srcCompat="@tools:sample/avatars" />
 
                             <TextView
+
                                 android:id="@+id/store_name_txt_info1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:layout_marginStart="45dp"
-                                android:layout_marginEnd="5dp"
+                                android:layout_marginEnd="20dp"
                                 android:layout_toEndOf="@id/store_img_onOrder"
                                 android:fontFamily="@font/proxima"
                                 android:maxLines="1"

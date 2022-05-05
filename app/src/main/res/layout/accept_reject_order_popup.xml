@@ -74,6 +74,12 @@
                         app:spanCount="1" />
 
                     <ImageView
+                        android:layout_below="@+id/itemsRecyclerView1"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/verticalline"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
                         android:id="@+id/vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -87,6 +93,7 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
+                        android:textColor="#000000"
                         android:id="@+id/total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -98,6 +105,7 @@
                         android:text="Total order amount :" />
 
                     <TextView
+
                         android:id="@+id/itemQuantityPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -105,7 +113,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="@dimen/margin_16dp"
                         android:layout_marginEnd="@dimen/margin_25dp"
-                        android:text=" ₹98" />
+                        android:text="98" />
 
                 </RelativeLayout>
 

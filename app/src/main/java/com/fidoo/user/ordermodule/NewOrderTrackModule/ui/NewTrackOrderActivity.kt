@@ -113,6 +113,8 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
     private var timer: CountDownTimer? = null
     private var timerr: CountDownTimer? = null
 
+
+
     var product_Update: Int? = 0 //api hit handle on resume
 
     //for map
@@ -696,7 +698,7 @@ var mPresImg: String = ""
         Log.d("ghdsfugfdsf", "$items")
         val adapter = ItemsAdapterTrackScreen(this,items as ArrayList)
         itemsRecyclerView1?.adapter = adapter
-        itemQuantityPrice1?.text = finalprice
+        itemQuantityPrice1?.text = "₹"+" "+ finalprice
     }
 
 

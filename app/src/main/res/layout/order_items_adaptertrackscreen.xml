@@ -19,7 +19,7 @@
         android:layout_marginTop="8dp"
         android:textStyle="bold"
         android:text=""
-        android:textColor="@android:color/black"
+        android:textColor="#818181"
         android:textSize="13sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/grandPrice"
