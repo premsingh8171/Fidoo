@@ -23,12 +23,15 @@ import com.fidoo.user.ordermodule.NewOrderTrackModule.adapter.NewOrderTrackViewH
 import com.fidoo.user.ordermodule.NewOrderTrackModule.adapter.viewmodel
 import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity.Companion.call_Diolog
 import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity.Companion.store_phone
+import com.fidoo.user.utils.BaseActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.newordertrackitem.view.*
 
 
 class NewOrderTrackAdapter(val context: Context, var msgdatalist:List<Message>) : RecyclerView.Adapter<NewOrderTrackViewHolder>() {
     var driverMobileNo: String? = ""
+    //  lateinit var baseActivity : BaseActivity
+
     val sessionInstance: SessionTwiclo
 
     get() = SessionTwiclo(context)
