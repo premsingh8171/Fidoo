@@ -254,7 +254,7 @@ class SavedAddressesActivityNew : BaseActivity() {
         current_locLL.setOnClickListener {
             addAddressOrNot = "current_location"
            // Search_key=""
-            lat_long=0
+            lat_long = 0
             startActivityForResult(
                 Intent(this, NewAddAddressActivityNew::class.java)
                     .putExtra("where", where), 1

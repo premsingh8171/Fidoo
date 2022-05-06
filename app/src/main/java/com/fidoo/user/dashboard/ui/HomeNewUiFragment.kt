@@ -416,11 +416,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						val landmark = it.addressList[0].landmark
 						if (!landmark.isNullOrEmpty()) {
 							userAddress_newDesh.text = "$flat" + ", " + "$landmark" + ", " + "$locality"
-		//					currentlyAddedAddress = userAddress_newDesh.text.toString()
 
 						} else {
 							userAddress_newDesh.text = "$flat" + ", " + "$locality"
-		//					currentlyAddedAddress = userAddress_newDesh.text.toString()
+
 						}
 					}
 				}

@@ -858,7 +858,8 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 						var adapterCharges=DeliveryChargesAdapter(this,user.deliveryChargesList as ArrayList)
 						rv_newchargesa.adapter=adapterCharges
-					} catch (e: Exception) {
+					}
+					catch (e: Exception) {
 						e.printStackTrace()
 					}
 
@@ -1045,7 +1046,8 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 					if (mModelData.totalTaxAndCharges.toString().equals("0.0")) {
 						tv_tax_charges_label.visibility = View.GONE
 						tv_tax_charges.visibility = View.GONE
-					} else {
+					}
+					else {
 						tv_tax_charges_label.visibility = View.VISIBLE
 						tv_tax_charges.visibility = View.VISIBLE
 					}
@@ -1486,11 +1488,16 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 							SessionTwiclo(this@CartActivity).userLng = addressList.longitude
 							//address_id = SessionTwiclo(this@CartActivity).userAddressId
 							dialog?.dismiss()
-							select_address_or_add_layout.visibility = View.GONE
-							cart_payment_lay.visibility = View.VISIBLE
 							restHomePage()
 							userLat= addressList.latitude
 							userLong=addressList.longitude
+							if (!userLat.isNullOrEmpty() && !userLong.isNullOrEmpty()) {
+								select_address_or_add_layout.visibility = View.GONE
+								cart_payment_lay.visibility = View.VISIBLE
+							}
+							else{
+								Toast.makeText(this@CartActivity, "Add valid address", Toast.LENGTH_SHORT).show()
+							}
 							showIOSProgress()
 							viewmodel?.getCartDetails(
 								accountId,
@@ -1576,8 +1583,10 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 		Log.d("address_id_____", "" + address_id)
 		tv_delivery_address_title.text = selectedAddressTitle
+		tv_landmark.text = selectedPreAddressName
 		if(NewAddAddressActivityNew.checkCount == 1){
 			        getAddress()
+
 			//		NewAddAddressActivityNew.checkCount = 0
 			//tv_delivery_address.text = currentlyAddedAddress
 		}
@@ -1587,7 +1596,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		else{
 			tv_delivery_address.text = selectedAddressName
 		}
-		tv_landmark.text = selectedPreAddressName
+
 
 		if (!isNetworkConnected) {
 			showInternetToast()

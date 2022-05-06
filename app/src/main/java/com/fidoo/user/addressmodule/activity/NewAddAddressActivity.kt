@@ -42,7 +42,6 @@ import com.fidoo.user.addressmodule.activity.SavedAddressesActivity.Companion.sa
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.sendpackages.activity.SendPackageActivity.Companion.forSendPackageAddCheck
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.BaseActivity
@@ -66,11 +65,8 @@ import com.google.gson.GsonBuilder
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.skyfishjy.library.RippleBackground
-import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.android.synthetic.main.activity_new_add_address.*
-import kotlinx.android.synthetic.main.activity_store_list.*
 import kotlinx.android.synthetic.main.content_map.*
-import kotlinx.android.synthetic.main.no_net_popup.*
 import java.util.*
 
 
@@ -468,7 +464,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         }
 
         change_txt.setOnClickListener {
-            val intent = Intent(this, ChangeAddressActivity::class.java)
+            val intent = Intent(this, SavedAddressesActivity::class.java)
             startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
         }
 
