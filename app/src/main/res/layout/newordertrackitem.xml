@@ -27,7 +27,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/cardbotlayout"
         android:layout_marginBottom="@dimen/margin_16dp"
         android:layout_width="match_parent"

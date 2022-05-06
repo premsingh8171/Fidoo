@@ -153,7 +153,7 @@ var mPresImg: String = ""
     var orderId: String? = ""
     var star: String? = "1"
     var improvement: String? = ""
-    var store_phone: String? = ""
+
     var rider_phone: String? = ""
     var improvementArray: ArrayList<String>? = null
     var checkStatusOfReview: Int = 0
@@ -165,7 +165,7 @@ var mPresImg: String = ""
     private var locationManager: LocationManager? = null
     private val REQUEST_CHECK_SETTINGS = 0x1
     var order_cancel_Diolog: Dialog? = null
-    var call_Diolog: Dialog? = null
+
     private lateinit var prescriptionDatabase: PrescriptionDatabase
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
     var hit: Long = 5
@@ -173,11 +173,14 @@ var mPresImg: String = ""
 
     companion object {
         var trackOrderContext: Context? = null
+
         val notiInterface = NewTrackOrderActivity()
         var trackOrderActivity: NewTrackOrderActivity? = null
         var order_status_for_track = ""
         var check_gMap2 = 0
         var check_gMap3 = 0
+        var store_phone: String? = ""
+        var call_Diolog: Dialog? = null
     }
 
     var check_gMap1 = 0
@@ -289,7 +292,7 @@ var mPresImg: String = ""
             }
 
 
-            if (it.callToRider) {
+           if (it.callToRider) {
                 callStore.setOnClickListener {
                     if (!store_phone.equals("")) {
                         onCallPopUp(0)
@@ -300,6 +303,7 @@ var mPresImg: String = ""
                                 sessionInstance.profileDetail.account.userName,
                                 store_phone!!
                             )
+                           // Log.d("sddffsddsds", Gson().toJson(it)
                         } else {
                             viewmodel?.customerCallMerchantApi(
                                 SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -311,17 +315,18 @@ var mPresImg: String = ""
                     }
                 }
 
-                callStore.setOnClickListener {
+               callStore.setOnClickListener {
 
                     onCallPopUp(1)
-
                     if (sessionInstance.profileDetail != null) {
                         viewmodel?.callCustomerApi(
                             SessionTwiclo(this).loggedInUserDetail.accountId,
                             SessionTwiclo(this).loggedInUserDetail.accessToken,
                             sessionInstance.profileDetail.account.userName,
                             driverMobileNo!!
+
                         )
+                        driverMobileNo?.let { it1 -> Log.d("dileryby", it1) }
                     } else {
                         viewmodel?.callCustomerApi(
                             SessionTwiclo(this).loggedInUserDetail.accountId,

@@ -20,6 +20,7 @@ import com.fidoo.user.R
 import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.ordermodule.NewOrderTrackModule.NewTrackModel.Message
+import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity
 import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
@@ -34,16 +35,18 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 
-var store_phone: String? = ""
+
 var viewmodel: TrackViewModel? = null
 var orderViewModel: OrderDetailsViewModel? = null
 var viewmodelusertrack: UserTrackerViewModel? = null
-var call_Diolog: Dialog? = null
-var driverMobileNo: String? = ""
+
+
+
+
+
 
 class NewOrderTrackViewHolder (val view : View, var context: Context) : RecyclerView.ViewHolder(view) {
-    val sessionInstance: SessionTwiclo
-        get() = SessionTwiclo(context)
+
 
     fun setdata(message: Message) {
         view.apply {
@@ -116,52 +119,7 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
 
 
 ///-----------------------------------------------------------------------------------------------------------------------------
-                            TvTrackItem2.setOnClickListener {
 
-                                if (!store_phone.equals("")) {
-                                    onCallPopUp(0)
-                                    if (sessionInstance.profileDetail != null) {
-                                        viewmodel?.customerCallMerchantApi(
-                                            SessionTwiclo(context).loggedInUserDetail.accountId,
-                                            SessionTwiclo(context).loggedInUserDetail.accessToken,
-                                            sessionInstance.profileDetail.account.userName,
-                                            store_phone!!
-                                        )
-
-                                        store_phone?.let { it1 -> Log.d("calljgjgjgjg" , it1) }
-                                    } else {
-                                        viewmodel?.customerCallMerchantApi(
-                                            SessionTwiclo(context).loggedInUserDetail.accountId,
-                                            SessionTwiclo(context).loggedInUserDetail.accessToken,
-                                            sessionInstance.loginDetail.phoneNumber,
-                                            store_phone!!
-                                        )
-                                    }
-                                }
-
-
-                                TvTrackItem2.setOnClickListener {
-
-                                    onCallPopUp(1)
-
-                                    if (sessionInstance.profileDetail != null) {
-                                        viewmodel?.callCustomerApi(
-                                            SessionTwiclo(context).loggedInUserDetail.accountId,
-                                            SessionTwiclo(context).loggedInUserDetail.accessToken,
-                                            sessionInstance.profileDetail.account.userName,
-                                            driverMobileNo!!
-                                        )
-                                    } else {
-                                        viewmodel?.callCustomerApi(
-                                            SessionTwiclo(context).loggedInUserDetail.accountId,
-                                            SessionTwiclo(context).loggedInUserDetail.accessToken,
-                                            sessionInstance.loginDetail.phoneNumber,
-                                            driverMobileNo!!
-                                        )
-                                    }
-                                }
-
-                            }
                             //-------------------------------------------------------------------------------
 
 
@@ -278,48 +236,6 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
 
                     }
 
-                    TvTrackItem2.setOnClickListener {
-                        if (!store_phone.equals("")) {
-                            onCallPopUp(0)
-                            if (sessionInstance.profileDetail != null) {
-                                viewmodel?.customerCallMerchantApi(
-                                    SessionTwiclo(context).loggedInUserDetail.accountId,
-                                    SessionTwiclo(context).loggedInUserDetail.accessToken,
-                                    sessionInstance.profileDetail.account.userName,
-                                    store_phone!!
-                                )
-                            } else {
-                                viewmodel?.customerCallMerchantApi(
-                                    SessionTwiclo(context).loggedInUserDetail.accountId,
-                                    SessionTwiclo(context).loggedInUserDetail.accessToken,
-                                    sessionInstance.loginDetail.phoneNumber,
-                                    store_phone!!
-                                )
-                            }
-                        }
-                    }
-
-                    TvTrackItem2.setOnClickListener {
-
-                        onCallPopUp(1)
-
-                        if (sessionInstance.profileDetail != null) {
-                            viewmodel?.callCustomerApi(
-                                SessionTwiclo(context).loggedInUserDetail.accountId,
-                                SessionTwiclo(context).loggedInUserDetail.accessToken,
-                                sessionInstance.profileDetail.account.userName,
-                                driverMobileNo!!
-                            )
-                        } else {
-                            viewmodel?.callCustomerApi(
-                                SessionTwiclo(context).loggedInUserDetail.accountId,
-                                SessionTwiclo(context).loggedInUserDetail.accessToken,
-                                sessionInstance.loginDetail.phoneNumber,
-                                driverMobileNo!!
-                            )
-                        }
-                    }
-
 
                 }
             }catch (e:Exception){
@@ -329,42 +245,7 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
 
     }
 
-    private fun onCallPopUp(type: Int) {
-        call_Diolog = Dialog(context)
-        call_Diolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        call_Diolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        call_Diolog?.setContentView(R.layout.call_popup)
-        call_Diolog?.window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        call_Diolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
-        call_Diolog?.setCanceledOnTouchOutside(true)
-        call_Diolog?.show()
 
-        val callTypeTxt = call_Diolog?.findViewById<TextView>(R.id.callTypeTxt)
-        val regImg = call_Diolog?.findViewById<ImageView>(R.id.regImg)
-        val cancelDialogConstL =
-            call_Diolog?.findViewById<ConstraintLayout>(R.id.cancelDialogConstL)
-
-        if (regImg != null) {
-            Glide.with(context)
-                .load(R.drawable.call_wait)
-                .fitCenter()
-                .error(R.drawable.default_item)
-                .into(regImg)
-        }
-
-        if (type == 0) {
-            callTypeTxt!!.setText("Just a minute, connecting with the merchant in a bit.")
-        } else {
-            callTypeTxt!!.setText("Just a minute, connecting with the rider in a bit.")
-        }
-
-        cancelDialogConstL?.setOnClickListener {
-            call_Diolog?.dismiss()
-        }
-    }
 }
 
 
