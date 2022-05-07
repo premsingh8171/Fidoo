@@ -7,9 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
 import com.fidoo.user.cartview.model.CartModel
-import com.fidoo.user.cartview.model.regionmodel.PpDiscount
-
-import com.fidoo.user.cartview.model.regionmodel.ResponseNewCart
 import com.fidoo.user.dashboard.model.CheckPaymentStatusModel
 import com.fidoo.user.data.model.*
 import com.fidoo.user.ordermodule.model.DeletePrescriptionModel
@@ -43,10 +40,8 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
     var getLocationResponse: MutableLiveData<LocationResponseModel>? = null
     var proceedToOrderResponse: MutableLiveData<ProceedToOrder>? = null
     var checkPaymentStatusRes: MutableLiveData<CheckPaymentStatusModel>? = null
-    var cartrespnewparamtr: MutableLiveData<ResponseNewCart>? = null
 
     init {
-        cartrespnewparamtr= MutableLiveData<ResponseNewCart>()
         addToCartResponse = MutableLiveData<AddToCartModel>()
         cancelOrderResponse = MutableLiveData<DeleteModel>()
         getCartDetailsResponse = MutableLiveData<CartModel>()
@@ -69,34 +64,13 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
 
     }
 
-    fun getnew_testcartResp(accountId: String, accessToken: String, userLat: String, userlong: String){
-
-        Log.d("getnewCar_tDetails",accountId+"\n"+accessToken+"\n"+userLat+"\n"+userlong)
-
-WebServiceClient.client.create(BackEndApi::class.java).getNew_testCartDetailsApi(
-    accountId = accountId, accessToken = accessToken, userLat= userLat, userLong = userlong,)
-    .enqueue(object : Callback<ResponseNewCart>{
-
-
-        override fun onResponse(call: Call<ResponseNewCart>, response: Response<ResponseNewCart>) {
-           // Log.d("fds_uyfgsdubfs",Gson().toJson( response.body()))
-            cartrespnewparamtr?.value= response.body()
-        }
-
-        override fun onFailure(call: Call<ResponseNewCart>, t: Throwable) {
-            failureResponse!!.value= "something wromg"
-        }
-
-    })
-    }
-
     fun getCartDetails(accountId: String, accessToken: String, userLat: String, userlong: String) {
     //    try {
             Log.d("getCar_tDetails",accountId+"\n"+accessToken+"\n"+userLat+"\n"+userlong)
     //    }catch (e:Exception){}
 
         WebServiceClient.client.create(BackEndApi::class.java).getCartDetailsApi(
-            accountId = accountId, accessToken = accessToken, userLat= userLat, userLong = userlong,
+            accountId = accountId, accessToken = accessToken, userLat= userLat, userLong = userlong
         ).enqueue(this)
     }
 
@@ -241,8 +215,8 @@ WebServiceClient.client.create(BackEndApi::class.java).getNew_testCartDetailsApi
             })
     }
     
-    fun paymentApi(accountId: String, accessToken: String, order_id: String, transaction_id: String, payment_bank: String, payment_mode: String, other_taxes_and_charges: String, pp_discount: String?) {
-        Log.d("paymentApi__",accountId+"\n"+accessToken+"\n"+order_id+"\n"+transaction_id+"\n"+payment_bank+"\n"+payment_mode+"\n"+other_taxes_and_charges+"\n"+pp_discount)
+    fun paymentApi(accountId: String, accessToken: String, order_id: String, transaction_id: String, payment_bank: String, payment_mode: String, other_taxes_and_charges: String) {
+        Log.d("paymentApi__",accountId+"\n"+accessToken+"\n"+order_id+"\n"+transaction_id+"\n"+payment_bank+"\n"+payment_mode+"\n"+other_taxes_and_charges)
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).paymentApi(
             accountId = accountId,
@@ -251,12 +225,10 @@ WebServiceClient.client.create(BackEndApi::class.java).getNew_testCartDetailsApi
             transaction_id = transaction_id,
             payment_bank = payment_bank,
             payment_mode = payment_mode,
-            other_taxes_and_charges = other_taxes_and_charges,
-            pp_discount = pp_discount
+            other_taxes_and_charges = other_taxes_and_charges
         ).enqueue(object : Callback<PaymentModel> {
             override fun onResponse(call: Call<PaymentModel>, response: Response<PaymentModel>) {
                 // progressDialog?.value = false
-
                 paymentResponse?.value = response.body()
             }
 

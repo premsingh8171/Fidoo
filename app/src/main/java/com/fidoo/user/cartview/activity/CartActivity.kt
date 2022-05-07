@@ -52,8 +52,6 @@ import com.fidoo.user.cartview.adapter.CartItemsAdapter
 import com.fidoo.user.cartview.adapter.DeliveryChargesAdapter
 import com.fidoo.user.cartview.adapter.PrescriptionAdapter
 import com.fidoo.user.cartview.model.CartModel
-import com.fidoo.user.cartview.model.regionmodel.PpDiscount
-
 import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
 import com.fidoo.user.cartview.roomdb.entity.PrescriptionViewEntity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
@@ -150,8 +148,6 @@ class CartActivity : BaseActivity(),
 	var distanceViewModel: TrackViewModel? = null
 	private val co = Checkout()
 	var storelocation: ArrayList<StoreDetailsModel>? = null
-	var new_ppdiscount: ArrayList<PpDiscount>? = null
-	var pp_paymentapi:String= ""
 	var storeCustomerDistance = ""
 	var isSelected: String = ""
 	var address_id: String = ""
@@ -221,16 +217,12 @@ class CartActivity : BaseActivity(),
 		deleteAllPrecription()
 		behavior = BottomSheetBehavior.from(bottom_sheet)
 		selectedAddressId = ""
-		new_ppdiscount= ArrayList()
 		selectedAddressName = SessionTwiclo(this).userAddress
 		tv_delivery_address_title.text = selectedAddressTitle
 		tv_delivery_address.text = selectedAddressName
 		tv_landmark.text = selectedPreAddressName
 		tv_delivery_address.text = selectedAddressName
 		tv_landmark.text = selectedPreAddressName
-
-
-
 		if (!tv_delivery_address.text.isNullOrEmpty()) {
 			addressViewModel?.getAddressesResponse?.observe(this@CartActivity, androidx.lifecycle.Observer { user ->
 				if(user.addressList.size == 0){
@@ -284,7 +276,6 @@ class CartActivity : BaseActivity(),
 		storeLat = ""
 		storeLong = ""
 		var deliveryOption = "contact"
-		new_ppdiscount = ArrayList<PpDiscount>()
 		customIdsList = ArrayList<String>()
 		customIdsListTemp = ArrayList<CustomCheckBoxModel>()
 		addCartTempList = ArrayList<AddCartInputModel>()
@@ -482,9 +473,6 @@ class CartActivity : BaseActivity(),
 				.start()
 		}
 
-
-
-
 		customAddBtn.setOnClickListener {
 			if (isNetworkConnected) {
 				var mCartId: String? = null
@@ -493,12 +481,9 @@ class CartActivity : BaseActivity(),
 					customIdsList!!.add(categoryy!!.get(i).id.toString())
 				}
 
-
-
 				viewmodel?.getCartDetailsResponse?.observe(this, Observer { user ->
 					val mCartModelData: CartModel = user
 					//	Log.d("gfhbdlfdf",Gson)
-
 
 					try {
 						if (user.cart.size != 0) {
@@ -836,8 +821,6 @@ class CartActivity : BaseActivity(),
 			}
 		}
 
-
-
 		viewmodel?.getCartDetailsResponse?.observe(this) { user ->
 			dismissIOSProgress()
 			main_lay.visibility = View.VISIBLE
@@ -854,7 +837,6 @@ class CartActivity : BaseActivity(),
 					// store lat long
 					storeLat = user.store_lat
 					storeLong = user.store_long
-
 
 					other_taxes_and_charges = user.totalTaxAndCharges.toString()
 
@@ -1008,13 +990,10 @@ class CartActivity : BaseActivity(),
 
 					val deliveryChargeWithTax = mModelData.deliveryCharge + mModelData.tax.toInt()
 
-					Log.d("check rate-->", "${mModelData.totalTaxAndCharges}")
-
 					// Item Total
 					val rounded1 = totalAmount.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 					tv_subtotal.text = resources.getString(R.string.ruppee) + rounded1
 
-					Log.d("totlamnt-->", "$totalAmount")
 
 					totalAmount = totalAmount + deliveryChargeWithTax
 					//showToast(totalAmount.toString())
@@ -1379,10 +1358,8 @@ class CartActivity : BaseActivity(),
 							"",
 							"",
 							"cash",
-							other_taxes_and_charges,
-							pp_paymentapi
+							other_taxes_and_charges
 						)
-						Log.d("newpp-->>", "$pp_paymentapi")
 					} else {
 						showInternetToast()
 					}
@@ -1437,26 +1414,6 @@ class CartActivity : BaseActivity(),
 		prescriptiontInsert(prescription_id!!, "null", "null", "null")
 
 		getPresciption()
-
-		viewmodel?.getnew_testcartResp(accountId, accessToken, userLat, userLong)
-
-		viewmodel?.cartrespnewparamtr?.observe(this, Observer { userpp->
-
-
-
-			new_ppdiscount= userpp.pp_discounts as ArrayList<PpDiscount>
-			pp_paymentapi= new_ppdiscount.toString()
-			var value=Gson().toJson(new_ppdiscount).toString()
-			Log.d("dudiii", value)
-
-			Handler().postDelayed({
-				Log.d("ppdist-->", "$new_ppdiscount")
-			},1000)
-
-
-		})
-
-
 
 	}
 
@@ -1617,9 +1574,7 @@ class CartActivity : BaseActivity(),
 		else {
 			tv_delivery_address?.text = SessionTwiclo(this@CartActivity).userAddress
 		}
-
 	}
-
 
 	private fun deleteRoomDataBase() {
 		try {
@@ -1723,8 +1678,6 @@ class CartActivity : BaseActivity(),
 				}
 			}
 		}catch (e:Exception){}
-
-
 
 	}
 
@@ -1893,8 +1846,7 @@ class CartActivity : BaseActivity(),
 				tempOrderId,
 				razorpayPaymentId!!,
 				"",
-				"online",other_taxes_and_charges,
-				pp_paymentapi
+				"online",other_taxes_and_charges
 			)
 
 			viewmodelusertrack?.customerActivityLog(

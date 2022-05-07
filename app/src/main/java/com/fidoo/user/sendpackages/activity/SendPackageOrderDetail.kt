@@ -26,7 +26,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.cartview.model.regionmodel.PpDiscount
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
@@ -73,8 +72,6 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
     companion object {
         var sendpackagerder_id: String = ""
         var finalOrderId: String = ""
-        var pp_discount: ArrayList<PpDiscount>? = null
-        var pp_paymentapi: String= ""
         var other_taxes_and_charges: String = ""
     }
 
@@ -226,10 +223,6 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             }
         } catch (e: Exception) {
         }
-        sendPackagesViewModel?.cartrespnewparamtr?.observe(this, Observer {
-            pp_discount= it.pp_discounts as ArrayList<PpDiscount>?
-            pp_paymentapi= Gson().toJson(pp_discount).toString()
-        })
 
         cash_lay.setOnClickListener {
             paymentMode = "cash"
@@ -405,7 +398,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                         sendpackagerder_id,
                         "",
                         "",
-                        paymentMode, other_taxes_and_charges, pp_paymentapi
+                        paymentMode, other_taxes_and_charges
                     )
                     paySuccessPopUp()
                 }
@@ -564,7 +557,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                 sendpackagerder_id,
                 razorpayPaymentId!!,
                 "",
-                "online", other_taxes_and_charges, pp_paymentapi
+                "online", other_taxes_and_charges
             )
 
             viewmodelusertrack?.customerActivityLog(
