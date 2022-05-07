@@ -6,6 +6,9 @@ import com.fidoo.user.addressmodule.model.DeleteAddressModel
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.model.RemoveAddressModel
 import com.fidoo.user.cartview.model.CartModel
+import com.fidoo.user.cartview.model.regionmodel.PpDiscount
+
+import com.fidoo.user.cartview.model.regionmodel.ResponseNewCart
 import com.fidoo.user.chatbot.model.feedBackModel.FeedbackModel
 import com.fidoo.user.chatbot.model.cancelWithoutRefundEmpty
 import com.fidoo.user.chatbot.model.cancelWithoutRefundWithSendkey
@@ -252,6 +255,15 @@ interface BackEndApi {
 
     @FormUrlEncoded
     @POST("cartdetail.inc.php")
+    fun getNew_testCartDetailsApi(
+        @Field("accountId") accountId: String?,
+        @Field("accessToken") accessToken: String?,
+        @Field("user_lat") userLat: String?,
+        @Field("user_long") userLong: String?
+    ): Call<ResponseNewCart>
+
+    @FormUrlEncoded
+    @POST("cartdetail.inc.php")
     fun getCartDetailsApi(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
@@ -300,7 +312,9 @@ interface BackEndApi {
         @Field("transaction_id") transaction_id: String?,
         @Field("payment_bank") payment_bank: String?,
         @Field("payment_mode") payment_mode: String?,
-        @Field("other_taxes_and_charges") other_taxes_and_charges: String?
+        @Field("other_taxes_and_charges") other_taxes_and_charges: String?,
+        @Body pp_discount: String?
+
     ): Call<PaymentModel>
 
     @FormUrlEncoded

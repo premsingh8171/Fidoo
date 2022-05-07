@@ -46,6 +46,54 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/black" />
 
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:id="@+id/search_cardvvname"
+                    android:visibility="gone"
+                    >
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="dsfgsjfg"
+                       android:layout_gravity="center"
+                       android:textColor="@color/black"
+                       android:textSize="20sp"
+
+                       android:id="@+id/tvResturnt_name"/>
+
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="@dimen/margin_15dp"
+                android:gravity="right"
+                android:visibility="gone"
+                android:id="@+id/search_ingrl"
+                >
+                <ImageView
+                    android:id="@+id/searchImg_changeAdd221"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:layout_gravity=""
+                    android:src="@drawable/places_ic_search"
+                    app:tint="@color/black" />
+
+            </LinearLayout>
+
+
+
+
+
+
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dimen_50dp"
@@ -88,7 +136,8 @@
                         android:maxLines="1"
                         android:paddingLeft="@dimen/margin_10dp"
                         android:singleLine="true"
-
+                        android:inputType="text"
+                        android:imeOptions="actionDone"
                         android:textColor="@android:color/black"
                         android:textSize="13sp" />
 
@@ -105,7 +154,10 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_20dp"
                 android:text="Cancel"
+                android:visibility="visible"
                 android:textColor="@color/colorTextGray" />
+
+
 
         </LinearLayout>
 
@@ -113,7 +165,11 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_3dp"
             android:layout_marginTop="@dimen/margin_10"
-            android:background="@color/background" />
+            android:background="@color/white" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightGray">
 
         <TextView
             android:id="@+id/showingResult"
@@ -121,8 +177,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_15dp"
             android:fontFamily="@font/proxima"
+
             android:text="Showing Result"
-            android:textColor="@color/colorTextGray" />
+            android:textSize="20sp"
+            android:textColor="@color/black" />
+    </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

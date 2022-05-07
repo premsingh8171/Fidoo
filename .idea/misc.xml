@@ -3,11 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.11458333333333333" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_grocery_items.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_login.xml" value="0.12135416666666667" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_new_product_search.xml" value="0.25" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_new_search.xml" value="0.10597826086956522" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_new_store_items.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.17" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.33" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_track_sendpackages_order.xml" value="0.11822916666666666" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/fragment_sign_in.xml" value="0.1" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/new_research_ll.xml" value="0.15572916666666667" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.25" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.176" />

@@ -18,6 +18,8 @@ import com.fidoo.user.BuildConfig
 import com.fidoo.user.R
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
+import com.fidoo.user.cartview.model.regionmodel.PpDiscount
+
 import com.fidoo.user.sendpackages.model.SendPackagesModel
 import com.fidoo.user.sendpackages.viewmodel.SendPackagesViewModel
 import com.google.gson.Gson
@@ -59,6 +61,8 @@ class SendPacketFragment : com.fidoo.user.utils.BaseFragment(),
         var toName: String = ""
         var toNumber: String = ""
         var other_taxes_and_charges: String = ""
+        var pp_discount: ArrayList<PpDiscount>? = null
+        var pp_newpayment: String= ""
 
     }
 
@@ -206,6 +210,15 @@ class SendPacketFragment : com.fidoo.user.utils.BaseFragment(),
                 .build()
             startActivityForResult(intent, REQUEST_PLACE_PICKER)*/
         }
+
+        viewmodel?.cartrespnewparamtr?.observe(this, Observer {
+
+            pp_discount= it.pp_discounts as ArrayList<PpDiscount>?
+            pp_newpayment= pp_discount.toString()
+
+
+
+        })
 
 
         viewmodel?.sendPackagesResponse?.observe(this, Observer { user ->
@@ -539,7 +552,8 @@ class SendPacketFragment : com.fidoo.user.utils.BaseFragment(),
                 sendPackagesModel!!.orderId,
                 razorpayPaymentId!!,
                 "",
-                "online",other_taxes_and_charges
+                "online",other_taxes_and_charges,
+                pp_newpayment
             )
 
 

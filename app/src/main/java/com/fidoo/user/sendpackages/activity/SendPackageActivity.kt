@@ -29,7 +29,9 @@ import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.cartview.model.regionmodel.PpDiscount
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.fragments.SendPacketFragment
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.sendpackages.model.SendPackagesModel
 import com.fidoo.user.sendpackages.roomdb.database.SendPackagesDb
@@ -77,6 +79,8 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         var fromNumber: String = ""
         var toName: String = ""
         var toNumber: String = ""
+        var pp_discount: ArrayList<PpDiscount>? = null
+        var pp_paymentapi: String=""
 
         //for send packages
         var start_Lat: Double? = 0.0
@@ -385,6 +389,15 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
 
         }
 
+        viewmodel?.cartrespnewparamtr?.observe(this, Observer {
+
+            SendPacketFragment.pp_discount = it.pp_discounts as ArrayList<PpDiscount>?
+            pp_paymentapi= Gson().toJson(pp_discount).toString()
+
+
+
+        })
+
 
         item_type_lay.setOnClickListener {
             if (selectedFromAddress.isNotEmpty()) {
@@ -681,7 +694,8 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                 sendPackagesModel!!.orderId,
                 razorpayPaymentId!!,
                 "",
-                "online", other_taxes_and_charges
+                "online", other_taxes_and_charges,
+                pp_paymentapi
             )
 
 

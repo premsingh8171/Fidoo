@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,6 +16,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.EditorInfo
 import android.widget.AbsListView
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -45,10 +45,12 @@ import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
 import com.fidoo.user.newRestaurants.model.Product
-
 import com.fidoo.user.newRestaurants.model.Subcategory
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
-import com.fidoo.user.restaurants.adapter.*
+import com.fidoo.user.restaurants.adapter.CategoryHeaderAdapter
+import com.fidoo.user.restaurants.adapter.NewDbRestaurantCategoryAdapter
+import com.fidoo.user.restaurants.adapter.StoreCustomItemsAdapter
+import com.fidoo.user.restaurants.adapter.new_storeItem_searchAdapter
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.listener.CustomCartPlusMinusClick
 import com.fidoo.user.restaurants.model.CustomCheckBoxModel
@@ -69,29 +71,17 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.activity_new_product_search.*
-import kotlinx.android.synthetic.main.activity_new_store_items.*
 import kotlinx.android.synthetic.main.activity_new_store_items.bottom_sheet
-import kotlinx.android.synthetic.main.activity_new_store_items.cartitemView_LLstore
 import kotlinx.android.synthetic.main.activity_new_store_items.category_header_
 import kotlinx.android.synthetic.main.activity_new_store_items.countValue
-import kotlinx.android.synthetic.main.activity_new_store_items.coupan_view_ll
 import kotlinx.android.synthetic.main.activity_new_store_items.customAddBtn
 import kotlinx.android.synthetic.main.activity_new_store_items.customItemsRecyclerview
-import kotlinx.android.synthetic.main.activity_new_store_items.itemQuantity_textstore
-
 import kotlinx.android.synthetic.main.activity_new_store_items.totalprice_txtstore
 import kotlinx.android.synthetic.main.activity_new_store_items.transLay
-import kotlinx.android.synthetic.main.activity_new_store_items.tv_coupon
-import kotlinx.android.synthetic.main.activity_store_items.*
-import kotlinx.android.synthetic.main.no_item_found.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.math.RoundingMode
-import kotlinx.android.synthetic.main.activity_new_product_search.category_header_ as category_header_1
+
 
 class New_storeitem_search :
     BaseActivity(),
@@ -227,7 +217,12 @@ class New_storeitem_search :
         //  store_preference_Rlay  for meat ui Gone
         mainlist!!.clear()
         sessionTwiclo = SessionTwiclo(this)
-        putdata_room()
+        showIOSProgress()
+//        GlobalScope.launch(Dispatchers.Main) {
+//            getBG_process()
+//        }
+
+        dismissIOSProgress()
 
         Thread {
             restaurantProductsDatabase = Room.databaseBuilder(
@@ -275,6 +270,31 @@ class New_storeitem_search :
             showKeyboard(searchKeyETxtAct)
         }
 
+        searchKeyETxtAct.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                tvResturnt_name.text= intent.getStringExtra("storeName")
+                search_cardvv.visibility= View.GONE
+                editTxtAct.visibility= View.GONE
+                search_cardvvname.visibility= View.VISIBLE
+                search_ingrl.visibility= View.VISIBLE
+                showingResult.text= " You Searched \"${searchKeyETxtAct.text}\" "
+                hideKeyboard(searchKeyETxtAct)
+            }
+            false
+        }
+
+        searchImg_changeAdd221.setOnClickListener {
+            search_cardvv.visibility= View.VISIBLE
+            editTxtAct.visibility= View.VISIBLE
+            search_cardvvname.visibility= View.GONE
+            search_ingrl.visibility= View.GONE
+            showingResult.text= "Showing Result "
+            searchKeyETxtAct.isCursorVisible = true
+            showKeyboard(searchKeyETxtAct)
+        }
+
+
+
 
 
 
@@ -297,6 +317,7 @@ class New_storeitem_search :
             }
 
             override fun afterTextChanged(p0: Editable?) {
+
 
             }
 
@@ -2139,10 +2160,162 @@ class New_storeitem_search :
         // getStoreDetailsApiCall()
 
     }
-    private fun putdata_room(){
+    suspend fun getBG_process() {
+
+        viewmodel?.newStoreDetailsRes?.observeForever(
+
+            Observer { storeData ->
+
+                val productList: ArrayList<Product> = ArrayList()
+                if (storeData.error_code == 200) {
+
+//                if (pagecount>0){
+////                    latestCatList =storeData.subcategory as ArrayList
+////                    catList.addAll(latestCatList)
+////                    val s: Set<Subcategory> =
+////                        LinkedHashSet<Subcategory>(catList)
+////                    catList!!.clear()
+////                    catList!!.addAll(s)
+//
+//                }else{
+//                    catList=storeData.subcategory as ArrayList
+//                    val s: Set<Subcategory> =
+//                        LinkedHashSet<Subcategory>(catList)
+//                    catList!!.clear()
+//                    catList!!.addAll(s)
+//                }
+
+
+                    if (storeData.subcategory.isNotEmpty()) {
+
+                        ExecutionModule_ExecutorFactory.executor().execute {
+                            for (i in storeData.subcategory.indices) {
+
+
+                                for (j in 0 until storeData.subcategory[i].product.size) {
+
+                                    val productData = storeData.subcategory[i].product[j]
+                                    productList.add(productData)
+
+                                    var customNamesList_: ArrayList<String>? = ArrayList()
+
+                                    if (productData.customize_item.size != 0) {
+                                        for (k in 0 until storeData.subcategory[i].product[j].customize_item.size) {
+                                            try {
+                                                val productData =
+                                                    storeData.subcategory[i].product[j].customize_item[k]
+                                                var lastCustomized = productData.sub_cat_name
+                                                customNamesList_!!.add(lastCustomized)
+                                                val s: Set<String> =
+                                                    LinkedHashSet<String>(customNamesList_)
+                                                customNamesList_.clear()
+                                                customNamesList_.addAll(s)
+                                            } catch (e: Exception) {
+                                                e.printStackTrace()
+                                            }
+                                        }
+                                        var lastCustomized: String = ""
+                                        lastCustomized = customNamesList_.toString()
+                                        val regex = "\\[|\\]"
+
+                                    }
+
+                                    //   Thread{
+
+
+                                    //Runnable {
+
+                                    restaurantProductsDatabase!!.resProductsDaoAccess()!!
+                                        .insertResProducts(
+                                            StoreItemProductsEntity(
+                                                headerActiveorNot,
+                                                productData.product_sub_category_id,
+                                                sub_cat_nameStr,
+                                                productData.cart_quantity,
+                                                productData.company_name,
+                                                productData.image,
+                                                productData.in_out_of_stock_status,
+                                                productData.is_customize,
+                                                productData.is_customize_quantity,
+                                                productData.is_nonveg,
+                                                productData.contains_egg,
+                                                productData.is_prescription,
+                                                productData.offer_price,
+                                                productData.price,
+                                                productData.product_id,
+                                                productData.product_name,
+                                                productData.weight,
+                                                productData.unit,
+                                                productData.cart_id,
+                                                NewDBStoreItemsActivity.lastCustomized_str,
+                                                NewDBStoreItemsActivity.product_customize_id,
+                                                productData.product_desc
+                                            )
+                                        )
 
 
 
+                                }
+
+
+
+
+                            }
+                        }
+                        pagecount = storeData.start_id
+
+
+                        //  rvHeaderCategory(catList)
+                        Log.e("Product_", productList.size.toString())
+
+
+
+                        //ratingValue.text = user.rating
+                        //  tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
+
+                        if (next_available == 0) {
+                            //	Handler(Looper.getMainLooper()).postDelayed({
+                            if (isNetworkConnected) {
+                                if (SessionTwiclo(this).isLoggedIn) {
+
+                                    viewmodel?.getStoreDetailsApiNew(
+                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                                        intent.getStringExtra("storeId"),
+                                        nonveg_str,
+                                        cat_id,
+                                        contains_egg, pagecount.toString()
+                                    )
+
+                                } else {
+                                    viewmodel?.getStoreDetailsApiNew(
+                                        "",
+                                        "",
+                                        intent.getStringExtra("storeId"),
+                                        nonveg_str,
+                                        cat_id,
+                                        contains_egg, pagecount.toString()
+                                    )
+                                }
+                            }
+
+                        }
+
+
+                        cat_visible = 1
+
+
+                    }
+
+                } else if (storeData.error_code == 101) {
+                    showAlertDialog(this)
+                } else {
+                    cat_visible = 0
+                    productList.clear()!!
+
+                }
+
+            })
 
     }
 

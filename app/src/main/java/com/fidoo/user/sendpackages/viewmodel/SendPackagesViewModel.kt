@@ -6,6 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
+import com.fidoo.user.cartview.model.regionmodel.PpDiscount
+import com.fidoo.user.cartview.model.regionmodel.ResponseNewCart
 import com.fidoo.user.data.model.PackageCatResponseModel
 import com.fidoo.user.data.model.PaymentModel
 import com.fidoo.user.sendpackages.model.*
@@ -27,8 +29,13 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
     var deleteSendPackagesResponse: MutableLiveData<DeleteSendPackagesImgModel>? = null
     var sendPackagePaymentModeResponse: MutableLiveData<SendPackagePaymentModeModel>? = null
     var failureResponse: MutableLiveData<String>? = null
+    var cartrespnewparamtr: MutableLiveData<ResponseNewCart>? = null
+
+
+
 
     init {
+        cartrespnewparamtr= MutableLiveData<ResponseNewCart>()
         uploadSendPackagesResponse = MutableLiveData<SendPackagesUploadImageModel>()
         getcatResponse = MutableLiveData<PackageCatResponseModel>()
         getPackageResponse = MutableLiveData<SendPackagesModel>()
@@ -38,6 +45,25 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
         deleteSendPackagesResponse = MutableLiveData<DeleteSendPackagesImgModel>()
         sendPackagePaymentModeResponse = MutableLiveData<SendPackagePaymentModeModel>()
         failureResponse = MutableLiveData<String>()
+    }
+
+    fun getnew_testcartResp(accountId: String, accessToken: String, userLat: String, userlong: String){
+
+
+        WebServiceClient.client.create(BackEndApi::class.java).getNew_testCartDetailsApi(
+            accountId = accountId, accessToken = accessToken, userLat= userLat, userLong = userlong,)
+            .enqueue(object : Callback<ResponseNewCart>{
+
+
+                override fun onResponse(call: Call<ResponseNewCart>, response: Response<ResponseNewCart>) {
+                    cartrespnewparamtr?.value= response.body()
+                }
+
+                override fun onFailure(call: Call<ResponseNewCart>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+            })
     }
 
     fun getPackageCatApi(accountId: String, accessToken: String) {
@@ -90,7 +116,8 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
         transaction_id: String,
         payment_bank: String,
         payment_mode: String,
-        other_taxes_and_charges: String
+        other_taxes_and_charges: String,
+        pp_discount:String
     ) {
         Log.d(
             "paymentApi___",
@@ -104,7 +131,8 @@ class SendPackagesViewModel(application: Application) : AndroidViewModel(applica
             transaction_id = transaction_id,
             payment_bank = payment_bank,
             payment_mode = payment_mode,
-            other_taxes_and_charges = other_taxes_and_charges
+            other_taxes_and_charges = other_taxes_and_charges,
+            pp_discount = pp_discount
         )
             .enqueue(object : Callback<PaymentModel> {
                 override fun onResponse(
