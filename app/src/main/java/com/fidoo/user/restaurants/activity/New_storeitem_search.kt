@@ -399,227 +399,228 @@ class New_storeitem_search :
         }
 
 
-//        viewmodel?.newStoreDetailsRes?.observe(this@New_storeitem_search, Observer { storeData ->
-//
-//            Log.d("getStoreDetailsApi__", Gson().toJson(storeData))
-//
-//            tempProductList!!.clear()
-//            addCartTempList!!.clear()
-//            next_available = storeData.next_available
-//            filterActive = storeData.next_available
-//            latestCatList.clear()
-//
-//            // if (next_available.toString().equals("1")){
-//
-//
-//
-//
-//
-//
-//            dismissIOSProgress()
-//            // }
-//
-////            if (cat_listShow == 0) {
-////                catList!!.clear()
-////            }
-//
-//            //fidooLoaderCancel()
-//
-//            val productList: ArrayList<Product> = ArrayList()
-//
-//            //  try {
-//
-//
-//            if(storeData.address.isNotEmpty()) {
-//                New_storeitem_search.restaurantAddress = storeData.address.toString()
-//                New_storeitem_search.fssai = "License no. " + storeData.fssai.toString()
-//                New_storeitem_search.restaurantName = storeData.store_name.toString()
+        viewmodel?.newStoreDetailsRes?.observe(this@New_storeitem_search, Observer { storeData ->
+
+            Log.d("getStoreDetailsApi__", Gson().toJson(storeData))
+
+            tempProductList!!.clear()
+            addCartTempList!!.clear()
+            next_available = storeData.next_available
+            filterActive = storeData.next_available
+            latestCatList.clear()
+
+            // if (next_available.toString().equals("1")){
+
+
+
+
+
+
+            dismissIOSProgress()
+            // }
+
+//            if (cat_listShow == 0) {
+//                catList!!.clear()
 //            }
-//
-//            Log.d("updateData__",
-//                New_storeitem_search.restaurantAddress +"-"+ New_storeitem_search.fssai +"-"+ New_storeitem_search.restaurantName
-//            )
-//
-//
-////            } catch (e: Exception) {
-////                e.printStackTrace()
-////            }
-//
-//            //   dismissIOSProgress()
-//
-//            if (storeData.error_code==200) {
-//
-////                if (pagecount>0){
-//////                    latestCatList =storeData.subcategory as ArrayList
-//////                    catList.addAll(latestCatList)
-//////                    val s: Set<Subcategory> =
-//////                        LinkedHashSet<Subcategory>(catList)
-//////                    catList!!.clear()
-//////                    catList!!.addAll(s)
-////
-////                }else{
-////                    catList=storeData.subcategory as ArrayList
+
+            //fidooLoaderCancel()
+
+            val productList: ArrayList<Product> = ArrayList()
+
+            //  try {
+
+
+            if(storeData.address.isNotEmpty()) {
+                New_storeitem_search.restaurantAddress = storeData.address.toString()
+                New_storeitem_search.fssai = "License no. " + storeData.fssai.toString()
+                New_storeitem_search.restaurantName = storeData.store_name.toString()
+            }
+
+            Log.d("updateData__",
+                New_storeitem_search.restaurantAddress +"-"+ New_storeitem_search.fssai +"-"+ New_storeitem_search.restaurantName
+            )
+
+
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+
+            //   dismissIOSProgress()
+
+            if (storeData.error_code==200) {
+
+//                if (pagecount>0){
+////                    latestCatList =storeData.subcategory as ArrayList
+////                    catList.addAll(latestCatList)
 ////                    val s: Set<Subcategory> =
 ////                        LinkedHashSet<Subcategory>(catList)
 ////                    catList!!.clear()
 ////                    catList!!.addAll(s)
-////                }
 //
-//
-//                if (storeData.subcategory.isNotEmpty()) {
-//
-//                    ExecutionModule_ExecutorFactory.executor().execute {
-//                        for (i in storeData.subcategory.indices) {
-//                            val categoryData = storeData.subcategory[i]
-//
-//                            for (j in 0 until storeData.subcategory[i].product.size) {
-//                                val productData = storeData.subcategory[i].product[j]
-//                                productList.add(productData)
-//                                if (storeData.subcategory[i].product[j].is_nonveg.equals("0")){
-//                                    new_veggielist.add(storeData.subcategory[i])
-//                                }
-//                                catList.add(storeData.subcategory[i])
-//                                NewDBStoreItemsActivity.lastCustomized_str = ""
-//                                NewDBStoreItemsActivity.product_customize_id = ""
-//                                var customNamesList_: ArrayList<String>? = ArrayList()
-//
-//                                if (productData.customize_item.size != 0) {
-//                                    for (k in 0 until storeData.subcategory[i].product[j].customize_item.size) {
-//                                        try {
-//                                            val productData =
-//                                                storeData.subcategory[i].product[j].customize_item[k]
-//                                            var lastCustomized = productData.sub_cat_name
-//                                            customNamesList_!!.add(lastCustomized)
-//                                            val s: Set<String> =
-//                                                LinkedHashSet<String>(customNamesList_)
-//                                            customNamesList_.clear()
-//                                            customNamesList_.addAll(s)
-//                                        } catch (e: Exception) {
-//                                            e.printStackTrace()
-//                                        }
-//                                    }
-//                                    var lastCustomized: String = ""
-//                                    lastCustomized = customNamesList_.toString()
-//                                    val regex = "\\[|\\]"
-//                                    New_storeitem_search.lastCustomized_str = lastCustomized.replace(regex.toRegex(), "")
-//                                    New_storeitem_search.product_customize_id = "1"
-//                                }
-//
-//                                //   Thread{
-//                                sub_cat_nameStr =
-//                                    storeData.subcategory[i].subcategory_name.toString()
-//
-//                                if (j == 0) {
-//                                    headerActiveorNot = "1"
-//                                } else {
-//                                    headerActiveorNot = "0"
-//                                }
-//
-//                                //Runnable {
-//
-//                                restaurantProductsDatabase!!.resProductsDaoAccess()!!
-//                                    .insertResProducts(
-//                                        StoreItemProductsEntity(
-//                                            headerActiveorNot, productData.product_sub_category_id,
-//                                            sub_cat_nameStr,
-//                                            productData.cart_quantity,
-//                                            productData.company_name,
-//                                            productData.image,
-//                                            productData.in_out_of_stock_status,
-//                                            productData.is_customize,
-//                                            productData.is_customize_quantity,
-//                                            productData.is_nonveg,
-//                                            productData.contains_egg,
-//                                            productData.is_prescription,
-//                                            productData.offer_price,
-//                                            productData.price,
-//                                            productData.product_id,
-//                                            productData.product_name,
-//                                            productData.weight,
-//                                            productData.unit,
-//                                            productData.cart_id,
-//                                            NewDBStoreItemsActivity.lastCustomized_str,
-//                                            NewDBStoreItemsActivity.product_customize_id,
-//                                            productData.product_desc
-//                                        )
-//                                    )
-//
-//                                // }
-//                                //    }.start()
-//
-//                                Log.e("headerActiveorNot__", headerActiveorNot!!)
-//                                Log.e("custom_catNamesList_api",
-//                                    New_storeitem_search.lastCustomized_str
-//                                )
-//
-//                            }
-//
-//                            if (cat_listShow == 0) {
-//                                //catList.add(categoryData)
-//                            }
-//
-//
-//                        }
-//                    }
-//                    pagecount = storeData.start_id
-//
-//
-//                    //  rvHeaderCategory(catList)
-//                    Log.e("Product_", productList.size.toString())
-//
-//
-//
-//                    //ratingValue.text = user.rating
-//                    //  tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
-//
-//                    if (next_available == 0) {
-//                        //	Handler(Looper.getMainLooper()).postDelayed({
-//                        if (isNetworkConnected) {
-//                            if (SessionTwiclo(this@New_storeitem_search).isLoggedIn) {
-//
-//                                viewmodel?.getStoreDetailsApiNew(
-//                                    SessionTwiclo(this@New_storeitem_search).loggedInUserDetail.accountId,
-//                                    SessionTwiclo(this@New_storeitem_search).loggedInUserDetail.accessToken,
-//                                    intent.getStringExtra("storeId"),
-//                                    nonveg_str,
-//                                    cat_id,
-//                                    contains_egg, pagecount.toString()
-//                                )
-//
-//                            } else {
-//                                viewmodel?.getStoreDetailsApiNew(
-//                                    "",
-//                                    "",
-//                                    intent.getStringExtra("storeId"),
-//                                    nonveg_str,
-//                                    cat_id,
-//                                    contains_egg, pagecount.toString()
-//                                )
-//                            }
-//                        }
-//
-//                    }
-//
-//
-//                    cat_visible = 1
-//
-//
+//                }else{
+//                    catList=storeData.subcategory as ArrayList
+//                    val s: Set<Subcategory> =
+//                        LinkedHashSet<Subcategory>(catList)
+//                    catList!!.clear()
+//                    catList!!.addAll(s)
 //                }
-//
-//            } else if (storeData.error_code == 101) {
-//                showAlertDialog(this@New_storeitem_search)
-//            } else {
-//                cat_visible = 0
-//
-//
-//                dismissIOSProgress()
-////                val toast =
-////                    Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
-////                toast.show()
-//
-//
-//            }
-//        })
+
+
+                if (storeData.subcategory.isNotEmpty()) {
+
+                    ExecutionModule_ExecutorFactory.executor().execute {
+                        for (i in storeData.subcategory.indices) {
+                            val categoryData = storeData.subcategory[i]
+
+                            for (j in 0 until storeData.subcategory[i].product.size) {
+                                val productData = storeData.subcategory[i].product[j]
+                                productList.add(productData)
+                                if (storeData.subcategory[i].product[j].is_nonveg.equals("0")){
+                                    new_veggielist.add(storeData.subcategory[i])
+                                }
+                                catList.add(storeData.subcategory[i])
+                                NewDBStoreItemsActivity.lastCustomized_str = ""
+                                NewDBStoreItemsActivity.product_customize_id = ""
+                                var customNamesList_: ArrayList<String>? = ArrayList()
+
+                                if (productData.customize_item.size != 0) {
+                                    for (k in 0 until storeData.subcategory[i].product[j].customize_item.size) {
+                                        try {
+                                            val productData =
+                                                storeData.subcategory[i].product[j].customize_item[k]
+                                            var lastCustomized = productData.sub_cat_name
+                                            customNamesList_!!.add(lastCustomized)
+                                            val s: Set<String> =
+                                                LinkedHashSet<String>(customNamesList_)
+                                            customNamesList_.clear()
+                                            customNamesList_.addAll(s)
+                                        } catch (e: Exception) {
+                                            e.printStackTrace()
+                                        }
+                                    }
+                                    var lastCustomized: String = ""
+                                    lastCustomized = customNamesList_.toString()
+                                    val regex = "\\[|\\]"
+                                    New_storeitem_search.lastCustomized_str = lastCustomized.replace(regex.toRegex(), "")
+                                    New_storeitem_search.product_customize_id = "1"
+                                }
+
+                                //   Thread{
+                                sub_cat_nameStr =
+                                    storeData.subcategory[i].subcategory_name.toString()
+
+                                if (j == 0) {
+                                    headerActiveorNot = "1"
+                                } else {
+                                    headerActiveorNot = "0"
+                                }
+
+                                //Runnable {
+
+                                restaurantProductsDatabase!!.resProductsDaoAccess()!!
+                                    .insertResProducts(
+                                        StoreItemProductsEntity(
+                                            headerActiveorNot, productData.product_sub_category_id,
+                                            sub_cat_nameStr,
+                                            productData.cart_quantity,
+                                            productData.company_name,
+                                            productData.image,
+                                            productData.in_out_of_stock_status,
+                                            productData.is_customize,
+                                            productData.is_customize_quantity,
+                                            productData.is_nonveg,
+                                            productData.contains_egg,
+                                            productData.is_prescription,
+                                            productData.offer_price,
+                                            productData.price,
+                                            productData.product_id,
+                                            productData.product_name,
+                                            productData.weight,
+                                            productData.unit,
+                                            productData.cart_id,
+                                            NewDBStoreItemsActivity.lastCustomized_str,
+                                            NewDBStoreItemsActivity.product_customize_id,
+                                            productData.product_desc
+                                        )
+                                    )
+
+                                // }
+                                //    }.start()
+
+                                Log.e("headerActiveorNot__", headerActiveorNot!!)
+                                Log.e("custom_catNamesList_api",
+                                    New_storeitem_search.lastCustomized_str
+                                )
+
+                            }
+
+                            if (cat_listShow == 0) {
+                                //catList.add(categoryData)
+                            }
+
+
+                        }
+                    }
+                    pagecount = storeData.start_id
+
+
+                    //  rvHeaderCategory(catList)
+                    Log.e("Product_", productList.size.toString())
+
+
+
+                    //ratingValue.text = user.rating
+                    //  tv_deliveryTime.text = intent.getStringExtra("delivery_time") + " minutes"
+
+                    if (next_available == 0) {
+                        //	Handler(Looper.getMainLooper()).postDelayed({
+                        if (isNetworkConnected) {
+                            if (SessionTwiclo(this@New_storeitem_search).isLoggedIn) {
+
+                                viewmodel?.getStoreDetailsApiNew(
+                                    SessionTwiclo(this@New_storeitem_search).loggedInUserDetail.accountId,
+                                    SessionTwiclo(this@New_storeitem_search).loggedInUserDetail.accessToken,
+                                    intent.getStringExtra("storeId"),
+                                    nonveg_str,
+                                    cat_id,
+                                    contains_egg, pagecount.toString()
+                                )
+
+                            } else {
+                                viewmodel?.getStoreDetailsApiNew(
+                                    "",
+                                    "",
+                                    intent.getStringExtra("storeId"),
+                                    nonveg_str,
+                                    cat_id,
+                                    contains_egg, pagecount.toString()
+                                )
+                            }
+                        }
+
+                    }
+
+
+                    cat_visible = 1
+
+
+                }
+
+            } else if (storeData.error_code == 101) {
+                showAlertDialog(this@New_storeitem_search)
+            } else {
+                cat_visible = 0
+
+
+                dismissIOSProgress()
+//                val toast =
+//                    Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
+//                toast.show()
+
+
+            }
+        })
+
 
 
 
