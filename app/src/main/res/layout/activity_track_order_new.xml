@@ -317,7 +317,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/margin_120dp"
-                                android:layout_marginTop="@dimen/margin_16dp"
+                                android:layout_marginTop="@dimen/margin_6dp"
                                 android:layout_marginEnd="@dimen/margin_120dp"
                                 android:background="@drawable/pullbar" />
 
@@ -354,12 +354,11 @@
                                         android:id="@+id/address_detail_lay"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="15dp">
+                                        android:layout_marginTop="10dp">
 
                                         <androidx.core.widget.NestedScrollView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content">
-
                                             <androidx.recyclerview.widget.RecyclerView
                                                 android:id="@+id/recyclerViewNewTrack"
                                                 android:layout_width="match_parent"
@@ -386,6 +385,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_marginBottom="2dp"
                 android:background="@drawable/et_round_new"
                 android:elevation="10dp">
 
@@ -394,15 +394,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:padding="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:orientation="vertical">
 
                     <RelativeLayout
                         android:id="@+id/allitemlistlayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/lastlayout"
-                        android:layout_marginBottom="2dp"
+
                         android:background="@drawable/et_round_new"
                         android:visibility="gone">
 
@@ -418,17 +419,14 @@
                     </RelativeLayout>
 
                     <androidx.cardview.widget.CardView
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:elevation="10dp"
-                        app:cardElevation="15dp">
+                       >
 
                         <RelativeLayout
 
                             android:id="@+id/storeDetailsViewContsl"
                             android:layout_width="match_parent"
-
                             android:layout_height="wrap_content"
                             android:visibility="visible">
 

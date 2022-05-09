@@ -53,7 +53,6 @@ import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
 import com.fidoo.user.chatbot.ui.Chatbotui
 import com.fidoo.user.constants.useconstants
-import com.fidoo.user.data.session.SessionNotNull
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterImageClick
 import com.fidoo.user.interfaces.NotiCheck
@@ -67,7 +66,6 @@ import com.fidoo.user.ordermodule.ui.OrdersFragment
 import com.fidoo.user.ordermodule.ui.ReviewItemsActivity
 import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
-import com.fidoo.user.profile.model.EditProfileModel
 import com.fidoo.user.services.OrderBackgroundgService
 import com.fidoo.user.services.OrderBackgroundgService.Companion.bgServicOrderId
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
@@ -92,6 +90,7 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.prudhvir3ddy.rideshare.utils.AnimationUtils
 import com.prudhvir3ddy.rideshare.utils.MapUtils
 import kotlinx.android.synthetic.main.activity_track_order_new.*
+import kotlinx.android.synthetic.main.activity_track_order_new.view.*
 import kotlinx.android.synthetic.main.review_popup.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -99,8 +98,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.LinkedHashSet
 import kotlin.math.roundToInt
 
 
@@ -232,15 +229,17 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
 
         heightImg = ((metrics.heightPixels) * (.65)).roundToInt()
 
+
+
         behavior = BottomSheetBehavior.from(bottomSheetBtn)
         bottomSheetBtn.requestLayout()
         behavior.peekHeight = heightBottomSheet
-
 
         val params: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT,
             heightImg
         )
+
         giflayout.layoutParams = params
 
 

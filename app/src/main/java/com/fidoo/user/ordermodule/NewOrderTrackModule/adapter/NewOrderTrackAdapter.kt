@@ -1,34 +1,19 @@
 package com.fidoo.user.ordermodule.ui.NewOrderTrackModule.adapter
 
-import android.R.attr.data
-import android.app.Dialog
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.util.Log
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.fidoo.user.R
-import com.fidoo.user.addressmodule.model.GetAddressModel
-import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterImageClick
 import com.fidoo.user.ordermodule.NewOrderTrackModule.NewTrackModel.Message
 import com.fidoo.user.ordermodule.NewOrderTrackModule.adapter.NewOrderTrackViewHolder
-import com.fidoo.user.ordermodule.NewOrderTrackModule.adapter.viewmodel
-import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity.Companion.call_Diolog
-import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity.Companion.store_phone
-import com.fidoo.user.profile.model.EditProfileModel
-import com.fidoo.user.utils.BaseActivity
-import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_track_order_new.*
+import kotlinx.android.synthetic.main.activity_track_order_new.view.*
 import kotlinx.android.synthetic.main.newordertrackitem.view.*
+import kotlin.math.roundToInt
 
 
 class NewOrderTrackAdapter(val context: Context, var msgdatalist:List<Message> , val adapterCallClick: AdapterImageClick) : RecyclerView.Adapter<NewOrderTrackViewHolder>() {
@@ -59,7 +44,4 @@ class NewOrderTrackAdapter(val context: Context, var msgdatalist:List<Message> ,
 
         notifyDataSetChanged()
     }
-
-
-
 }

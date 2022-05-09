@@ -4,7 +4,6 @@
     android:layout_marginStart="@dimen/margin_16dp"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/margin_16dp"
-
     android:orientation="horizontal"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -29,7 +28,7 @@
     <androidx.cardview.widget.CardView
         android:visibility="visible"
         android:id="@+id/cardbotlayout"
-        android:layout_marginBottom="@dimen/margin_16dp"
+        android:layout_marginBottom="@dimen/margin_10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/margin_16dp"
@@ -45,9 +44,9 @@
 
             <TextView
                 android:visibility="gone"
-                android:paddingTop="@dimen/margin_16dp"
-                android:paddingLeft="@dimen/margin_16dp"
-                android:paddingRight="@dimen/margin_16dp"
+                android:paddingTop="@dimen/margin_10dp"
+                android:paddingLeft="@dimen/margin_10dp"
+                android:paddingRight="@dimen/margin_10dp"
                 android:id="@+id/TvTrackItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,7 +72,7 @@
 
             <TextView
                 android:id="@+id/TvTrackItem2"
-                android:paddingBottom="@dimen/margin_16dp"
+                android:paddingBottom="@dimen/margin_10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/TvTrackItem1"
