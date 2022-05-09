@@ -80,7 +80,7 @@
                 android:layout_gravity="center"
                 android:drawableStart="@drawable/call_24"
                 android:drawablePadding="@dimen/margin_8dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:text="Call Merchant"
                 android:textStyle="bold"
                 />

@@ -418,14 +418,17 @@
                     </RelativeLayout>
 
                     <androidx.cardview.widget.CardView
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:elevation="10dp"
                         app:cardElevation="15dp">
 
                         <RelativeLayout
+
                             android:id="@+id/storeDetailsViewContsl"
                             android:layout_width="match_parent"
+
                             android:layout_height="wrap_content"
                             android:visibility="visible">
 
@@ -441,21 +444,19 @@
                                 tools:srcCompat="@tools:sample/avatars" />
 
                             <TextView
-
                                 android:id="@+id/store_name_txt_info1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
-                                android:layout_marginStart="45dp"
-                                android:layout_marginEnd="20dp"
-                                android:layout_toEndOf="@id/store_img_onOrder"
                                 android:fontFamily="@font/proxima"
+                                android:gravity="center"
                                 android:maxLines="1"
                                 android:textColor="@color/colorTitle"
                                 android:textSize="14dp"
                                 android:textStyle="bold" />
 
                             <ImageView
+                               android:layout_alignRight="@id/store_name_txt_info1"
                                 android:id="@+id/callStore"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
@@ -465,7 +466,6 @@
                                 android:clickable="false"
                                 android:src="@drawable/calinactive"
                                 app:cardCornerRadius="10dp">
-
                             </ImageView>
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>

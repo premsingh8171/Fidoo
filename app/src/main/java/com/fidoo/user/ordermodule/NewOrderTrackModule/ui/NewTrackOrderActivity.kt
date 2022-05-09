@@ -1483,6 +1483,7 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerViewNewTrack.layoutManager = linearLayoutManager
         recyclerViewNewTrack.adapter = mainAdapter
+        recyclerViewNewTrack.setHasFixedSize(true)
 
 
     }

@@ -32,12 +32,6 @@ import kotlinx.android.synthetic.main.newordertrackitem.view.*
 
 
 class NewOrderTrackAdapter(val context: Context, var msgdatalist:List<Message> , val adapterCallClick: AdapterImageClick) : RecyclerView.Adapter<NewOrderTrackViewHolder>() {
-    var driverMobileNo: String? = ""
-    //  lateinit var baseActivity : BaseActivity
-
-    val sessionInstance: SessionTwiclo
-    get() = SessionTwiclo(context)
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewOrderTrackViewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.newordertrackitem,parent,false)
         return NewOrderTrackViewHolder(view , context)
@@ -51,47 +45,10 @@ class NewOrderTrackAdapter(val context: Context, var msgdatalist:List<Message> ,
             adapterCallClick.onSelectedImageClick(position)
             // con.startActivity(Intent(con,SingleProductActivity::class.java))
         }
-//       holder.itemView.TvTrackItem2.setOnClickListener {
-//
-//
     }
 
-    private fun onCallPopUp(type: Int) {
-        call_Diolog = Dialog(context)
-        call_Diolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        call_Diolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        call_Diolog?.setContentView(R.layout.call_popup)
-        call_Diolog?.window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        call_Diolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
-        call_Diolog?.setCanceledOnTouchOutside(true)
-        call_Diolog?.show()
 
-        val callTypeTxt = call_Diolog?.findViewById<TextView>(R.id.callTypeTxt)
-        val regImg = call_Diolog?.findViewById<ImageView>(R.id.regImg)
-        val cancelDialogConstL =
-            call_Diolog?.findViewById<ConstraintLayout>(R.id.cancelDialogConstL)
 
-        if (regImg != null) {
-            Glide.with(context)
-                .load(R.drawable.call_wait)
-                .fitCenter()
-                .error(R.drawable.default_item)
-                .into(regImg)
-        }
-
-        if (type == 0) {
-            callTypeTxt!!.setText("Just a minute, connecting with the merchant in a bit.")
-        } else {
-            callTypeTxt!!.setText("Just a minute, connecting with the rider in a bit.")
-        }
-
-        cancelDialogConstL?.setOnClickListener {
-            call_Diolog?.dismiss()
-        }
-    }
 
     override fun getItemCount(): Int {
         return  msgdatalist.size
