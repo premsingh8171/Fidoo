@@ -2,6 +2,7 @@ package com.fidoo.user.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -15,13 +16,11 @@ import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
-import android.widget.AbsListView
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,6 +32,7 @@ import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
+import com.fidoo.user.data.CheckConnectivity
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
@@ -61,6 +61,7 @@ import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.hideKeyboard
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.utils.showKeyboard
+import com.fidoo.user.utils.showSoftKeyboard
 import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -69,6 +70,7 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.activity_new_product_search.*
+import kotlinx.android.synthetic.main.activity_new_product_search.view.*
 import kotlinx.android.synthetic.main.activity_new_store_items.*
 import kotlinx.android.synthetic.main.activity_new_store_items.bottom_sheet
 import kotlinx.android.synthetic.main.activity_new_store_items.countValue
@@ -92,8 +94,10 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     private var productListFilter: ArrayList<StoreItemProductsEntity>? = null
     private var filterdSearch_list: ArrayList<StoreItemProductsEntity>? = null
     private var mModelDataTemp: CustomizeProductResponseModel? = null
+    lateinit var pref: SessionTwiclo
     lateinit var behavior: BottomSheetBehavior<LinearLayout>
     var customIdsListTemp: ArrayList<CustomCheckBoxModel>? = null
+    private var _progressDlg: ProgressDialog? = null
     var cartViewModel: CartViewModel? = null //Un used
     var viewmodel: StoreDetailsViewModel? = null
     var distanceViewModel: TrackViewModel? = null//Un used
@@ -129,6 +133,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
     companion object {
+        var bundle: Bundle? = null
+
         lateinit var mView: View
         var lastCustomized_str: String = ""
         var product_customize_id: String = ""
@@ -197,9 +203,17 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
 
-        mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
-        distanceViewModel = ViewModelProvider(this).get(TrackViewModel::class.java)
+
+
+        return mView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mMixpanel = MixpanelAPI.getInstance(requireContext(), "defeff96423cfb1e8c66f8ba83ab87fd")
+        distanceViewModel = ViewModelProvider(requireActivity()).get(TrackViewModel::class.java)
         behavior = BottomSheetBehavior.from(bottom_sheet)
+        bundle= arguments
+
         MainActivity.tempProductList = ArrayList()
         MainActivity.addCartTempList = ArrayList()
         customIdsList = ArrayList()
@@ -207,22 +221,22 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         customIdsListTemp = ArrayList()
         mainlist = ArrayList()
         productListFilter = ArrayList()
-        storeID = intent.getStringExtra("storeId")!!
+        storeID = bundle!!.getString("storeId")!!
         New_storeitem_search.storeIDCheckOnCart = storeID
         Log.d("storeIDCheckOnCart___", New_storeitem_search.storeIDCheckOnCart)
-        manager = GridLayoutManager(this, 1)
-        manager1 = GridLayoutManager(this, 1)
+        manager = GridLayoutManager(requireContext(), 1)
+        manager1 = GridLayoutManager(requireContext(), 1)
 
         New_storeitem_search.customerLatitude = ""
         New_storeitem_search.customerLongitude = ""
         //  store_preference_Rlay  for meat ui Gone
         mainlist!!.clear()
-        sessionTwiclo = SessionTwiclo(this)
+        sessionTwiclo = SessionTwiclo(requireContext())
 
 
         Thread {
             restaurantProductsDatabase = Room.databaseBuilder(
-                applicationContext,
+                requireContext(),
                 RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
             )
                 .fallbackToDestructiveMigration()
@@ -232,17 +246,17 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
 
-        viewmodel = ViewModelProvider(this).get(StoreDetailsViewModel::class.java)
-        cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
-        viewmodelusertrack = ViewModelProvider(this).get(UserTrackerViewModel::class.java)
+        viewmodel = ViewModelProvider(requireActivity()).get(StoreDetailsViewModel::class.java)
+        cartViewModel = ViewModelProvider(requireActivity()).get(CartViewModel::class.java)
+        viewmodelusertrack = ViewModelProvider(requireActivity()).get(UserTrackerViewModel::class.java)
 
 
         cartitemView_LLstore1.setOnClickListener {
-            if (SessionTwiclo(this).isLoggedIn) {
+            if (SessionTwiclo(requireContext()).isLoggedIn) {
                 startActivity(
-                    Intent(this, CartActivity::class.java).putExtra(
+                    Intent(requireActivity(), CartActivity::class.java).putExtra(
                         "store_id",
-                        SessionTwiclo(this).storeId
+                        SessionTwiclo(requireContext()).storeId
                     )
                 )
             } else {
@@ -263,18 +277,18 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
         search_cardvv.setOnClickListener {
             searchKeyETxtAct.isCursorVisible = true
-            showKeyboard(searchKeyETxtAct)
+            showKeyboard()
         }
 
         searchKeyETxtAct.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                tvResturnt_name.text= intent.getStringExtra("storeName")
+                tvResturnt_name.text= bundle!!.getString("storeName")
                 search_cardvv.visibility= View.GONE
                 editTxtAct.visibility= View.GONE
                 search_cardvvname.visibility= View.VISIBLE
                 search_ingrl.visibility= View.VISIBLE
                 showingResult.text= " You Searched \"${searchKeyETxtAct.text}\" "
-                hideKeyboard(searchKeyETxtAct)
+                hideKeyboard()
             }
             false
         }
@@ -286,7 +300,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             search_ingrl.visibility= View.GONE
             showingResult.text= "Showing Result "
             searchKeyETxtAct.isCursorVisible = true
-            showKeyboard(searchKeyETxtAct)
+            showKeyboard()
         }
 
 
@@ -342,14 +356,14 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
 
-            if (SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || SessionTwiclo(
-                    this
+            if (SessionTwiclo(requireContext()).storeId.equals(bundle!!.getString("storeId")) || SessionTwiclo(
+                    requireContext()
                 ).storeId.equals("")
             ) {
 
                 showIOSProgress()
-                SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
-                SessionTwiclo(this).serviceId = MainActivity.service_idStr
+                SessionTwiclo(requireContext()).storeId = bundle!!.getString("storeId")
+                SessionTwiclo(requireContext()).serviceId = MainActivity.service_idStr
 
                 New_storeitem_search.handleresponce = 1
                 // product_customize_id
@@ -361,8 +375,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 )
 
                 viewmodel!!.addToCartApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
                     MainActivity.addCartTempList!!,
                     cartId
                 )
@@ -376,11 +390,11 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         //Default behaviour of Bottom Sheet
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-        storeName = intent.getStringExtra("storeName").toString()
+        storeName = bundle!!.getString("storeName").toString()
 
 
 
-        transLay.setOnClickListener {
+        mView.transLay.setOnClickListener {
             if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                 //searchLay.visibility = View.GONE
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
@@ -391,18 +405,18 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             }
         }
 
-        if (isNetworkConnected) {
+        if (isNetworkConnected()) {
             if (sessionTwiclo!!.isLoggedIn) {
                 getStoreDetailsApiCall()
 
-                if (SessionTwiclo(this).loggedInUserDetail.accountId != null) {
+                if (SessionTwiclo(requireContext()).loggedInUserDetail.accountId != null) {
                     viewmodelusertrack?.customerActivityLog(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).mobileno,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                        SessionTwiclo(requireContext()).mobileno,
                         "Restaurant Screen",
                         SplashActivity.appversion,
                         StoreListActivity.serive_id_,
-                        SessionTwiclo(this).deviceToken
+                        SessionTwiclo(requireContext()).deviceToken
                     )
                 }
             } else {
@@ -413,7 +427,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         }
 
 
-        viewmodel?.newStoreDetailsRes?.observe(this@New_storeitem_search, Observer { storeData ->
+        viewmodel?.newStoreDetailsRes?.observe(requireActivity(), Observer { storeData ->
 
             Log.d("getStoreDetailsApi__", Gson().toJson(storeData))
 
@@ -430,7 +444,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
 
-            dismissIOSProgress()
+            closeProgress()
             // }
 
 //            if (cat_listShow == 0) {
@@ -596,13 +610,13 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
                     if (next_available == 0) {
                         //	Handler(Looper.getMainLooper()).postDelayed({
-                        if (isNetworkConnected) {
-                            if (SessionTwiclo(this@New_storeitem_search).isLoggedIn) {
+                        if (isNetworkConnected()) {
+                            if (SessionTwiclo(requireContext()).isLoggedIn) {
 
                                 viewmodel?.getStoreDetailsApiNew(
-                                    SessionTwiclo(this@New_storeitem_search).loggedInUserDetail.accountId,
-                                    SessionTwiclo(this@New_storeitem_search).loggedInUserDetail.accessToken,
-                                    intent.getStringExtra("storeId"),
+                                    SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                                    SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
+                                    com.fidoo.user.fragments.newhotel_ProductSearch.Companion.bundle!!.getString("storeId"),
                                     nonveg_str,
                                     cat_id,
                                     contains_egg, pagecount.toString()
@@ -612,7 +626,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                                 viewmodel?.getStoreDetailsApiNew(
                                     "",
                                     "",
-                                    intent.getStringExtra("storeId"),
+                                    com.fidoo.user.fragments.newhotel_ProductSearch.Companion.bundle!!.getString("storeId"),
                                     nonveg_str,
                                     cat_id,
                                     contains_egg, pagecount.toString()
@@ -629,12 +643,12 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 }
 
             } else if (storeData.error_code == 101) {
-                showAlertDialog(this@New_storeitem_search)
+                showAlertDialog(requireContext())
             } else {
                 cat_visible = 0
 
 
-                dismissIOSProgress()
+                closeProgress()
 //                val toast =
 //                    Toast.makeText(applicationContext, "No Product found", Toast.LENGTH_SHORT)
 //                toast.show()
@@ -647,14 +661,14 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
         //cartcount responce
-        viewmodel?.cartCountResponse?.observe(this) { cartcount ->
+        viewmodel?.cartCountResponse?.observe(requireActivity()) { cartcount ->
             // dismissIOSProgress()
             MainActivity.addCartTempList!!.clear()
             MainActivity.tempProductList!!.clear()
             //Log.d("cartCountResponse___",cartcount.toString())
             var count = cartcount.count
             var price = cartcount.price
-            SessionTwiclo(this).storeId = cartcount.store_id
+            SessionTwiclo(requireContext()).storeId = cartcount.store_id
             if (!cartcount.error) {
                 if (!count.equals("0")) {
                     cart_count = 1
@@ -668,7 +682,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                     cartitemView_LLstore1.visibility = View.VISIBLE
                     if (total_cart_count == 0) {
                         total_cart_count = 1
-                        slide_ = AnimationUtils.loadAnimation(this, R.anim.rv_left_right_anim)
+                        slide_ = AnimationUtils.loadAnimation(requireContext(), R.anim.rv_left_right_anim)
                         cartitemView_LLstore1?.startAnimation(slide_)
                     }
                 } else {
@@ -679,9 +693,9 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                     //  cartIcon.setColorFilter(Color.argb(255, 199, 199, 199))
                     cartitemView_LLstore1.visibility = View.GONE
                     total_cart_count = 0
-                    slide_ = AnimationUtils.loadAnimation(this, R.anim.slide_out_left)
+                    slide_ = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left)
                     cartitemView_LLstore1?.startAnimation(slide_)
-                    SessionTwiclo(this).serviceId = ""
+                    SessionTwiclo(requireContext()).serviceId = ""
 
                 }
 
@@ -690,9 +704,9 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         }
 
 
-        viewmodel?.addRemoveCartResponse?.observe(this) { user ->
+        viewmodel?.addRemoveCartResponse?.observe(requireActivity()) { user ->
 
-            dismissIOSProgress()
+            closeProgress()
             Log.e("addRemoveCartRes____", Gson().toJson(user))
             if (user.errorCode == 200) {
                 New_storeitem_search.handleresponce = 1
@@ -713,30 +727,30 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 }
 
 
-                if (SessionTwiclo(this).isLoggedIn) {
+                if (SessionTwiclo(requireContext()).isLoggedIn) {
                     viewmodel?.getCartCountApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
                     )
                 }
             } else if (user.errorCode == 101) {
-                showAlertDialog(this)
+                showAlertDialog(requireContext())
 
             }
             //   getStoreDetailsApiCall()
         }
 
-        viewmodel?.failureResponse?.observe(this) { user ->
+        viewmodel?.failureResponse?.observe(requireActivity()) { user ->
 
-            dismissIOSProgress()
+            closeProgress()
             Log.e("cart response", Gson().toJson(user))
             //showToast(user)
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         }
 
-        viewmodel?.addToCartResponse?.observe(this, Observer { user ->
+        viewmodel?.addToCartResponse?.observe(requireActivity(), Observer { user ->
 
-            dismissIOSProgress()
+            closeProgress()
             if (user.errorCode == 200) {
                 New_storeitem_search.handleresponce = 1
                 Log.e("stores_addResponse____", Gson().toJson(user))
@@ -773,19 +787,19 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
                 viewmodel?.getCartCountApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
                 )
             } else if (user.errorCode == 101) {
-                showAlertDialog(this)
+                showAlertDialog(requireContext())
 
             }
             // getStoreDetailsApiCall()
         })
 
-        viewmodel?.customizeProductResponse?.observe(this, Observer { user ->
+        viewmodel?.customizeProductResponse?.observe(requireActivity(), Observer { user ->
 
-            dismissIOSProgress()
+            closeProgress()
             cartitemView_LLstore1.visibility = View.GONE
 
             Log.e("stores___esponse", Gson().toJson(user))
@@ -864,32 +878,32 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
                 val adapter = StoreCustomItemsAdapter(
-                    this,
+                    requireContext(),
                     mModelDataTemp?.category!!,
                     this,
                     categoryy,
                     this
                 )
-                customItemsRecyclerview.layoutManager = LinearLayoutManager(this)
+                customItemsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
                 customItemsRecyclerview.setHasFixedSize(true)
                 customItemsRecyclerview.adapter = adapter
                 // Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
             } else if (user.errorCode == 101) {
-                showAlertDialog(this)
+                showAlertDialog(requireContext())
 
             }
         })
 
-        viewmodel?.clearCartResponse?.observe(this, Observer { user ->
+        viewmodel?.clearCartResponse?.observe(requireActivity(), Observer { user ->
 
-            dismissIOSProgress()
+            closeProgress()
             if (user.errorCode == 200) {
                 Log.e("stores_response", Gson().toJson(user))
                 if (tempType.equals("custom")) {
 
                     viewmodel!!.addToCartApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
                         MainActivity.addCartTempList!!,
                         ""
                     )
@@ -905,8 +919,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                     MainActivity.addCartTempList!!.add(0, addCartInputModel)
 
                     viewmodel!!.addToCartApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
                         MainActivity.addCartTempList!!,
                         ""
 
@@ -914,24 +928,22 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 }
                 //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
             } else if (user.errorCode == 101) {
-                showAlertDialog(this)
+                showAlertDialog(requireContext())
 
             }
         })
-
-        return mView
     }
 
 
     private fun visibilityView() {
 
-        slide_ = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
+        slide_ = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_in_right)
         cartitemView_LL?.startAnimation(slide_)
     }
 
     private fun catPopUp() {
         clickevent == 1
-        selectCategoryDiolog = Dialog(this)
+        selectCategoryDiolog = Dialog(requireContext())
         selectCategoryDiolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         selectCategoryDiolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         selectCategoryDiolog?.setContentView(R.layout.select_cat_restaurant_popup)
@@ -1012,7 +1024,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     private fun rvCategory(catList: ArrayList<Subcategory>) {
         clickevent = 1
         restaurantCategoryAdapter = NewDbRestaurantCategoryAdapter(
-            this,
+            requireContext(),
             catList,
             active_or_not,
             object : NewDbRestaurantCategoryAdapter.CategoryItemClick {
@@ -1054,19 +1066,19 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     private fun rvStoreItemlisting(productList_: ArrayList<StoreItemProductsEntity>) {
 
         if (countRes == 0) {
-            store_SearchResult.layoutManager = LinearLayoutManager(this)
+            store_SearchResult.layoutManager = LinearLayoutManager(requireContext())
             store_SearchResult.setHasFixedSize(true)
 
             storeItemsAdapter = new_storeItem_searchAdapter(
-                this,
+                requireContext(),
                 this,
                 productList_,
                 New_storeitem_search.fssai!!,
-                intent.getStringExtra("storeName").toString(),
+                bundle!!.getString("storeName").toString(),
                 // restaurantName!!,
                 "3.5",
                 // restaurantAddress!!,
-                intent.getStringExtra("store_location").toString().replace(" ,", ", "),
+                bundle!!.getString("store_location").toString().replace(" ,", ", "),
                 this,
                 this,
                 table_count!!.toInt(),
@@ -1104,8 +1116,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                             .startsWith(" ")
                     ) {
                         try {
-                            category_header_.visibility = View.VISIBLE
-                            category_header_.text =
+                            mView.category_header_.visibility = View.VISIBLE
+                          mView.  category_header_.text =
                                 mainlist!!.get(scrollOutItems + 1)!!.subcategory_name.toString()
 
                             //Log.d("totalItem___", table_count.toString())
@@ -1113,7 +1125,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                             try {
                                 for (i in catList.indices) {
                                     if (catList[i].subcategory_name.equals(
-                                            category_header_.text.toString()
+                                           mView.category_header_.text.toString()
                                         )
                                     ) {
                                         Log.d("totalItem__gg_", "$i--${catList.size}")
@@ -1153,8 +1165,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
                     } else {
                         try {
-                            category_header_.visibility = View.VISIBLE
-                            category_header_.text =
+                            mView.category_header_.visibility = View.VISIBLE
+                            mView.category_header_.text =
                                 productListFilter!!.get(scrollOutItems + 1)!!.subcategory_name.toString()
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -1174,19 +1186,19 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     private fun vegStoreItemlisting(vegproductList_: ArrayList<StoreItemProductsEntity>) {
 
         if (countRes == 0) {
-            store_SearchResult.layoutManager = LinearLayoutManager(this)
+            store_SearchResult.layoutManager = LinearLayoutManager(requireContext())
             store_SearchResult.setHasFixedSize(true)
 
             storeItemsAdapter = new_storeItem_searchAdapter(
-                this,
+                requireContext(),
                 this,
                 vegproductList_,
                 New_storeitem_search.fssai!!,
-                intent.getStringExtra("storeName").toString(),
+                bundle!!.getString("storeName").toString(),
                 // restaurantName!!,
                 "3.5",
                 // restaurantAddress!!,
-                intent.getStringExtra("store_location").toString().replace(" ,", ", "),
+                bundle!!.getString("store_location").toString().replace(" ,", ", "),
                 this,
                 this,
                 table_count!!.toInt(),
@@ -1224,8 +1236,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                             .startsWith(" ")
                     ) {
                         try {
-                            category_header_.visibility = View.VISIBLE
-                            category_header_.text =
+                            mView.category_header_.visibility = View.VISIBLE
+                            mView.category_header_.text =
                                 veg_item_list!!.get(scrollOutItems + 1)!!.subcategory_name.toString()
 
                             //Log.d("totalItem___", table_count.toString())
@@ -1233,7 +1245,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                             try {
                                 for (i in new_veggielist.indices) {
                                     if (new_veggielist[i].subcategory_name.equals(
-                                            category_header_.getText().toString()
+                                            mView.category_header_.getText().toString()
                                         )
                                     ) {
                                         Log.d("totalItem__gg_", "$i--${catList.size}")
@@ -1273,8 +1285,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
                     } else {
                         try {
-                            category_header_.visibility = View.VISIBLE
-                            category_header_.text =
+                            mView.category_header_.visibility = View.VISIBLE
+                            mView.category_header_.text =
                                 productListFilter!!.get(scrollOutItems + 1)!!.subcategory_name.toString()
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -1308,20 +1320,20 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                             )
 
                             try {
-                                category_header_.text =
+                                mView.category_header_.text =
                                     productListFilter!!.get(0)!!.subcategory_name.toString()
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                category_header_.text = ""
+                                mView.category_header_.text = ""
                             }
 
                         } else {
                             try {
-                                category_header_.text =
+                                mView.category_header_.text =
                                     mainlist!!.get(0)!!.subcategory_name.toString()
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                category_header_.text = ""
+                                mView.category_header_.text = ""
                             }
                             storeItemsAdapter.updateData(mainlist!!, table_count!!)
                         }
@@ -1346,19 +1358,19 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
     private fun getstoreadapter(){
 
-        store_SearchResult.layoutManager = LinearLayoutManager(this)
+        store_SearchResult.layoutManager = LinearLayoutManager(requireContext())
         store_SearchResult.setHasFixedSize(true)
 
         storeItemsAdapter = new_storeItem_searchAdapter(
-            this,
+            requireContext(),
             this,
             productListFilter!!,
             New_storeitem_search.fssai!!,
-            intent.getStringExtra("storeName").toString(),
+            bundle!!.getString("storeName").toString(),
             // restaurantName!!,
             "3.5",
             // restaurantAddress!!,
-            intent.getStringExtra("store_location").toString().replace(" ,", ", "),
+            bundle!!.getString("store_location").toString().replace(" ,", ", "),
             this,
             this,
             table_count!!.toInt(),
@@ -1448,7 +1460,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     private fun updateProductS(count: Int, productId: String) {
         Thread {
             restaurantProductsDatabase = Room.databaseBuilder(
-                applicationContext,
+                requireContext(),
                 RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
             )
                 .fallbackToDestructiveMigration()
@@ -1467,7 +1479,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     ) {
         Thread {
             restaurantProductsDatabase = Room.databaseBuilder(
-                applicationContext,
+                requireContext(),
                 RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
             )
                 .fallbackToDestructiveMigration()
@@ -1492,7 +1504,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     ) {
         Thread {
             restaurantProductsDatabase = Room.databaseBuilder(
-                applicationContext,
+                requireContext(),
                 RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
             )
                 .fallbackToDestructiveMigration()
@@ -1513,7 +1525,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     private fun deleteRoomDataBase() {
         Thread {
             restaurantProductsDatabase = Room.databaseBuilder(
-                applicationContext,
+                requireContext(),
                 RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
             )
                 .fallbackToDestructiveMigration()
@@ -1525,24 +1537,24 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     }
 
     private fun getStoreDetailsApiCall() {
-        if (isNetworkConnected) {
+        if (isNetworkConnected()) {
 
             showIOSProgress()
 
             //fidooLoaderShow()
-            category_header_.visibility= View.VISIBLE
-            category_header_.text = ""
+            mView.category_header_.visibility= View.VISIBLE
+            mView.category_header_.text = ""
 
-            if (SessionTwiclo(this).isLoggedIn) {
+            if (SessionTwiclo(requireContext()).isLoggedIn) {
                 viewmodel?.getCartCountApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
                 )
 
                 viewmodel?.getStoreDetailsApiNew(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    intent.getStringExtra("storeId"),
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
+                    bundle!!.getString("storeId"),
                     nonveg_str,
                     cat_id,
                     contains_egg, pagecount.toString()
@@ -1551,33 +1563,33 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 viewmodel?.getStoreDetailsApiNew(
                     "",
                     "",
-                    intent.getStringExtra("storeId"),
+                    bundle!!.getString("storeId"),
                     nonveg_str,
                     cat_id,
                     contains_egg, pagecount.toString()
                 )
             }
         } else {
-            showInternetToast()
+            showToast("No Internet")
         }
     }
 
     override fun clearCart() {
         viewmodel?.clearCartApi(
-            SessionTwiclo(this).loggedInUserDetail.accountId,
-            SessionTwiclo(this).loggedInUserDetail.accessToken
+            SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+            SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
         )
     }
 
     private fun clearCartPopup() {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Replace cart item!")
         builder.setMessage("Do you want to discard the previous selection?")
         builder.setIcon(android.R.drawable.ic_dialog_alert)
         builder.setPositiveButton("Yes") { _, _ ->
             viewmodel?.clearCartApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken
+                SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
             )
             updateProductS(custom_itemCount.toInt(), cus_itemProductId)
 
@@ -1628,12 +1640,12 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 customNamesList!!.clear()
                 if (productId != null) {
                     viewmodel?.customizeProductApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken, productId
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken, productId
                     )
                 }
             } else {
-                val builder = AlertDialog.Builder(this)
+                val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle("Your previous customization")
                 builder.setMessage(tempCount)
                 // builder.setIcon(android.R.drawable.ic_dialog_alert)
@@ -1651,8 +1663,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                     //customIdsList!!.clear()
                     if (productId != null) {
                         viewmodel?.customizeProductApi(
-                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                            SessionTwiclo(this).loggedInUserDetail.accessToken, productId
+                            SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                            SessionTwiclo(requireContext()).loggedInUserDetail.accessToken, productId
                         )
                     }
                 }
@@ -1666,23 +1678,23 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
         } else {
 
-            if (SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || SessionTwiclo(
-                    this
+            if (SessionTwiclo(requireContext()).storeId.equals(bundle!!.getString("storeId")) || SessionTwiclo(
+                    requireContext()
                 ).storeId.equals("")
             ) {
-                Log.e("intent store id", intent.getStringExtra("storeId").toString())
-                SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
-                Log.e("  store id", SessionTwiclo(this).storeId.toString())
+                Log.e("intent store id", bundle!!.getString("storeId").toString())
+                SessionTwiclo(requireContext()).storeId = bundle!!.getString("storeId")
+                Log.e("  store id", SessionTwiclo(requireContext()).storeId.toString())
 
                 showIOSProgress()
 
                 viewmodel!!.addToCartApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
                     MainActivity.addCartTempList!!,
                     ""
                 )
-                SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
+                SessionTwiclo(requireContext()).storeId = bundle!!.getString("storeId")
                 // product_customize_id
                 updateProductCustomized(
                     custom_itemCount,
@@ -1855,8 +1867,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
                 if (cartId != null) {
                     viewmodel!!.addToCartApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
                         MainActivity.addCartTempList!!,
                         cartId
                     )
@@ -1907,8 +1919,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 }
 
                 viewmodel!!.addToCartApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
                     MainActivity.addCartTempList!!,
                     cartId!!.toString()
                 )
@@ -1940,8 +1952,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
                 if (cartId != null) {
                     viewmodel?.addRemoveCartDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
                         productId,
                         "remove",
                         "0",
@@ -1962,8 +1974,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
                 if (cartId != null) {
                     viewmodel?.addRemoveCartDetails(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
                         productId,
                         "remove",
                         "0",
@@ -2035,7 +2047,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
         Log.d("isCustomize__", isCustomize!! + "\n" + items + "---" + prodcustCustomizeId)
 
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Your previous customization")
         builder.setMessage(items)
         builder.setPositiveButton("I'LL CHOOSE") { _, which ->
@@ -2053,8 +2065,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             customIdsList!!.clear()
             customNamesList!!.clear()
             viewmodel?.customizeProductApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken, productId!!
+                SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                SessionTwiclo(requireContext()).loggedInUserDetail.accessToken, productId!!
             )
         }
 
@@ -2063,8 +2075,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
             showIOSProgress()
             viewmodel?.addRemoveCartDetails(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
                 productId!!,
                 "add",
                 isCustomize!!,
@@ -2089,13 +2101,13 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         cart_id: String?
     ) {
         New_storeitem_search.product_customize_id = prodcustCustomizeId!!
-        if (!isNetworkConnected) {
+        if (!isNetworkConnected()) {
             showToast(resources.getString(R.string.provide_internet))
         } else {
             if (cart_id != null) {
                 viewmodel?.addRemoveCartDetails(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
                     productId!!,
                     "remove",
                     isCustomize!!,
@@ -2119,14 +2131,14 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     }
 
     private fun showLoginDialog(message: String) {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Alert")
         builder.setMessage(message)
         builder.setPositiveButton("Login") { _, which ->
             sessionTwiclo!!.clearSession()
             startActivity(
                 Intent(
-                    this,
+                    requireActivity(),
                     SplashActivity::class.java
                 ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             )
@@ -2142,33 +2154,49 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     }
 
     override fun onResume() {
-        dismissIOSProgress()
+        closeProgress()
         super.onResume()
-        dismissIOSProgress()
-        storeID = intent.getStringExtra("storeId")!!
+        closeProgress()
+        storeID = bundle!!.getString("storeId")!!
         New_storeitem_search.storeIDCheckOnCart = storeID
 
 
 
-        Log.d("OnRESUME___", "RESUME" + intent.getStringExtra("delivery_time"))
+        Log.d("OnRESUME___", "RESUME" + bundle!!.getString("delivery_time"))
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
         if (New_storeitem_search.handleresponce == 1) {
             getRoomData()
-            if (SessionTwiclo(this).isLoggedIn) {
+            if (SessionTwiclo(requireContext()).isLoggedIn) {
                 viewmodel?.getCartCountApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                    SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
                 )
             }
         }
         // getStoreDetailsApiCall()
 
     }
-    private fun putdata_room(){
+    private fun showIOSProgress() {
+        closeProgress()
+        _progressDlg = ProgressDialog(requireContext(), R.style.TransparentProgressDialog)
+        _progressDlg!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        _progressDlg!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+        _progressDlg!!.setCancelable(false)
+        _progressDlg!!.show()
+    }
 
-
-
-
+    private fun closeProgress() {
+        if (_progressDlg == null) {
+            return
+        }
+        _progressDlg!!.dismiss()
+        _progressDlg = null
+    }
+    fun isNetworkConnected(): Boolean {
+        return CheckConnectivity(context).isNetworkAvailable
+    }
+    fun showToast(toast_string: String?) {
+        Toast.makeText(context, toast_string, Toast.LENGTH_SHORT).show()
     }
 
 }

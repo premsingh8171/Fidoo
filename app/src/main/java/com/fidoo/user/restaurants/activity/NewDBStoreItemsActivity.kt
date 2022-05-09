@@ -344,15 +344,18 @@ import kotlin.collections.LinkedHashSet
 //            slide_ = AnimationUtils.loadAnimation(this, R.anim.rv_left_right_anim)
             cartitemView_LL?.startAnimation(slide_)
 
+            newSearch_frag.visibility=View.VISIBLE
+
             val fragManager= supportFragmentManager
             val trasaction= fragManager.beginTransaction()
             val searchFrag= newhotel_ProductSearch()
 
-            val mBundle= Bundle()
+            var mBundle= Bundle()
             mBundle.putString("storeId", storeID)
             mBundle.putString("storeName", restaurantName)
             mBundle.putString("store_location", restaurantAddress)
             searchFrag.arguments= mBundle
+            trasaction.add(R.id.newSearch_frag, searchFrag).commit()
 
 
 
