@@ -1,20 +1,17 @@
-package com.fidoo.user.restaurants.activity
+package com.fidoo.user.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
@@ -23,9 +20,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -34,8 +30,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
-import com.fidoo.user.activity.MainActivity.Companion.addCartTempList
-import com.fidoo.user.activity.MainActivity.Companion.tempProductList
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
@@ -46,10 +40,14 @@ import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
 import com.fidoo.user.newRestaurants.model.Product
-
 import com.fidoo.user.newRestaurants.model.Subcategory
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
-import com.fidoo.user.restaurants.adapter.*
+import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
+import com.fidoo.user.restaurants.activity.New_storeitem_search
+import com.fidoo.user.restaurants.adapter.CategoryHeaderAdapter
+import com.fidoo.user.restaurants.adapter.NewDbRestaurantCategoryAdapter
+import com.fidoo.user.restaurants.adapter.StoreCustomItemsAdapter
+import com.fidoo.user.restaurants.adapter.new_storeItem_searchAdapter
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.listener.CustomCartPlusMinusClick
 import com.fidoo.user.restaurants.model.CustomCheckBoxModel
@@ -60,8 +58,9 @@ import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 import com.fidoo.user.restaurants.viewmodel.StoreDetailsViewModel
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
-import com.fidoo.user.utils.BaseActivity
+import com.fidoo.user.utils.hideKeyboard
 import com.fidoo.user.utils.showAlertDialog
+import com.fidoo.user.utils.showKeyboard
 import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -72,35 +71,21 @@ import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.activity_new_product_search.*
 import kotlinx.android.synthetic.main.activity_new_store_items.*
 import kotlinx.android.synthetic.main.activity_new_store_items.bottom_sheet
-import kotlinx.android.synthetic.main.activity_new_store_items.cartitemView_LLstore
-import kotlinx.android.synthetic.main.activity_new_store_items.category_header_
 import kotlinx.android.synthetic.main.activity_new_store_items.countValue
-import kotlinx.android.synthetic.main.activity_new_store_items.coupan_view_ll
 import kotlinx.android.synthetic.main.activity_new_store_items.customAddBtn
 import kotlinx.android.synthetic.main.activity_new_store_items.customItemsRecyclerview
-import kotlinx.android.synthetic.main.activity_new_store_items.itemQuantity_textstore
-
 import kotlinx.android.synthetic.main.activity_new_store_items.totalprice_txtstore
 import kotlinx.android.synthetic.main.activity_new_store_items.transLay
-import kotlinx.android.synthetic.main.activity_new_store_items.tv_coupon
-import kotlinx.android.synthetic.main.activity_store_items.*
-import kotlinx.android.synthetic.main.no_item_found.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.math.RoundingMode
-import kotlinx.android.synthetic.main.activity_new_product_search.category_header_ as category_header_1
 
-class New_storeitem_search :
-    BaseActivity(),
-    AdapterClick,
+class newhotel_ProductSearch():Fragment(), AdapterClick,
     CustomCartPlusMinusClick,
     AdapterCustomRadioClick,
     AdapterAddRemoveClick,
     AdapterCartAddRemoveClick {
+
     private var categoryy: ArrayList<CustomListModel>? = null
     private var mainlist: ArrayList<StoreItemProductsEntity>? = null
     private var veg_item_list: ArrayList<StoreItemProductsEntity>? = null
@@ -144,6 +129,7 @@ class New_storeitem_search :
 
 
     companion object {
+        lateinit var mView: View
         var lastCustomized_str: String = ""
         var product_customize_id: String = ""
         var customerLatitude: String = ""
@@ -201,31 +187,34 @@ class New_storeitem_search :
     var pagecount: Int = 0
     var next_available: Int = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val window: Window = this.window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
-        setContentView(R.layout.activity_new_product_search)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        mView= inflater.inflate(R.layout.activity_new_product_search, container, false)
+
+
 
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
         distanceViewModel = ViewModelProvider(this).get(TrackViewModel::class.java)
         behavior = BottomSheetBehavior.from(bottom_sheet)
-        tempProductList = ArrayList()
-        addCartTempList = ArrayList()
+        MainActivity.tempProductList = ArrayList()
+        MainActivity.addCartTempList = ArrayList()
         customIdsList = ArrayList()
         customNamesList = ArrayList()
         customIdsListTemp = ArrayList()
         mainlist = ArrayList()
         productListFilter = ArrayList()
         storeID = intent.getStringExtra("storeId")!!
-        storeIDCheckOnCart = storeID
-        Log.d("storeIDCheckOnCart___", storeIDCheckOnCart)
+        New_storeitem_search.storeIDCheckOnCart = storeID
+        Log.d("storeIDCheckOnCart___", New_storeitem_search.storeIDCheckOnCart)
         manager = GridLayoutManager(this, 1)
         manager1 = GridLayoutManager(this, 1)
 
-        customerLatitude = ""
-        customerLongitude = ""
+        New_storeitem_search.customerLatitude = ""
+        New_storeitem_search.customerLongitude = ""
         //  store_preference_Rlay  for meat ui Gone
         mainlist!!.clear()
         sessionTwiclo = SessionTwiclo(this)
@@ -266,8 +255,8 @@ class New_storeitem_search :
         backIcon_Btn.setOnClickListener {
             searchKeyETxtAct.text.clear()
             productListFilter!!.clear()
-            finish()
-            AppUtils.finishActivityLeftToRight(this)
+//            finish()
+//            AppUtils.finishActivityLeftToRight(this)
 
         }
 
@@ -304,7 +293,7 @@ class New_storeitem_search :
 
 
 
-        searchKeyETxtAct?.addTextChangedListener(object  : TextWatcher{
+        searchKeyETxtAct?.addTextChangedListener(object  : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
             }
@@ -338,18 +327,18 @@ class New_storeitem_search :
             var lastCustomized: String = ""
             lastCustomized = customNamesList.toString()
             val regex = "\\[|\\]"
-            lastCustomized_str = lastCustomized.replace(regex.toRegex(), "")
-            product_customize_id = "1"
+            New_storeitem_search.lastCustomized_str = lastCustomized.replace(regex.toRegex(), "")
+            New_storeitem_search.product_customize_id = "1"
             //Log.e("customIdsList", customIdsList.toString() + "\n" + lastCustomized_str)
 
-            addCartTempList!!.clear()
+            MainActivity.addCartTempList!!.clear()
             val addCartInputModel = AddCartInputModel()
             addCartInputModel.productId = tempProductId
             addCartInputModel.quantity = countValue.text.toString()
             addCartInputModel.message = "add product"
             addCartInputModel.customizeSubCatId = customIdsList!!
             addCartInputModel.isCustomize = "1"
-            addCartTempList!!.add(0, addCartInputModel)
+            MainActivity.addCartTempList!!.add(0, addCartInputModel)
 
 
 
@@ -362,19 +351,19 @@ class New_storeitem_search :
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
                 SessionTwiclo(this).serviceId = MainActivity.service_idStr
 
-                handleresponce = 1
+                New_storeitem_search.handleresponce = 1
                 // product_customize_id
                 updateProductCustomized(
                     custom_itemCount,
                     cus_itemProductId!!,
                     0,
-                    lastCustomized_str!!
+                    New_storeitem_search.lastCustomized_str!!
                 )
 
                 viewmodel!!.addToCartApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    addCartTempList!!,
+                    MainActivity.addCartTempList!!,
                     cartId
                 )
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -428,8 +417,8 @@ class New_storeitem_search :
 
             Log.d("getStoreDetailsApi__", Gson().toJson(storeData))
 
-            tempProductList!!.clear()
-            addCartTempList!!.clear()
+            MainActivity.tempProductList!!.clear()
+            MainActivity.addCartTempList!!.clear()
             next_available = storeData.next_available
             filterActive = storeData.next_available
             latestCatList.clear()
@@ -660,8 +649,8 @@ class New_storeitem_search :
         //cartcount responce
         viewmodel?.cartCountResponse?.observe(this) { cartcount ->
             // dismissIOSProgress()
-            addCartTempList!!.clear()
-            tempProductList!!.clear()
+            MainActivity.addCartTempList!!.clear()
+            MainActivity.tempProductList!!.clear()
             //Log.d("cartCountResponse___",cartcount.toString())
             var count = cartcount.count
             var price = cartcount.price
@@ -706,17 +695,17 @@ class New_storeitem_search :
             dismissIOSProgress()
             Log.e("addRemoveCartRes____", Gson().toJson(user))
             if (user.errorCode == 200) {
-                handleresponce = 1
+                New_storeitem_search.handleresponce = 1
                 try {
-                    product_customize_id = user.product_customize_id
+                    New_storeitem_search.product_customize_id = user.product_customize_id
                     Thread {
                         updateByCartIdProductCustomized(
                             user.cart_quantity!!.toInt(),
                             user.product_id!!,
                             user.is_customize_quantity!!.toInt(),
-                            lastCustomized_str!!,
+                            New_storeitem_search.lastCustomized_str!!,
                             user.cart_id!!,
-                            product_customize_id!!
+                            New_storeitem_search.product_customize_id!!
                         )
                     }.start()
 
@@ -749,7 +738,7 @@ class New_storeitem_search :
 
             dismissIOSProgress()
             if (user.errorCode == 200) {
-                handleresponce = 1
+                New_storeitem_search.handleresponce = 1
                 Log.e("stores_addResponse____", Gson().toJson(user))
                 if (tempType.equals("custom")) {
                     if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
@@ -761,11 +750,11 @@ class New_storeitem_search :
                     }
 
                 } else {
-                    tempProductList!!.clear()
-                    addCartTempList!!.clear()
+                    MainActivity.tempProductList!!.clear()
+                    MainActivity.addCartTempList!!.clear()
                 }
                 try {
-                    product_customize_id = user.product_customize_id
+                    New_storeitem_search.product_customize_id = user.product_customize_id
                     Thread {
                         if (user.cart_quantity.equals("0")) {
                         } else {
@@ -773,7 +762,7 @@ class New_storeitem_search :
                                 user.cart_quantity!!.toInt(),
                                 user.product_id!!,
                                 user.is_customize_quantity!!.toInt(),
-                                lastCustomized_str!!,
+                                New_storeitem_search.lastCustomized_str!!,
                                 user.cart_id!!,
                                 user.product_customize_id
                             )
@@ -901,24 +890,24 @@ class New_storeitem_search :
                     viewmodel!!.addToCartApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        addCartTempList!!,
+                        MainActivity.addCartTempList!!,
                         ""
                     )
                 } else {
 
-                    addCartTempList!!.clear()
+                    MainActivity.addCartTempList!!.clear()
                     val addCartInputModel = AddCartInputModel()
                     addCartInputModel.productId = cus_itemProductId
                     addCartInputModel.quantity = "1"
                     addCartInputModel.message = "add product"
                     addCartInputModel.customizeSubCatId = customIdsList!!
                     addCartInputModel.isCustomize = "0"
-                    addCartTempList!!.add(0, addCartInputModel)
+                    MainActivity.addCartTempList!!.add(0, addCartInputModel)
 
                     viewmodel!!.addToCartApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        addCartTempList!!,
+                        MainActivity.addCartTempList!!,
                         ""
 
                     )
@@ -930,7 +919,9 @@ class New_storeitem_search :
             }
         })
 
+        return mView
     }
+
 
     private fun visibilityView() {
 
@@ -1070,7 +1061,7 @@ class New_storeitem_search :
                 this,
                 this,
                 productList_,
-                fssai!!,
+                New_storeitem_search.fssai!!,
                 intent.getStringExtra("storeName").toString(),
                 // restaurantName!!,
                 "3.5",
@@ -1142,16 +1133,16 @@ class New_storeitem_search :
 
                         if (dy > 1) {
                             if (isScrolling && (currentItems + scrollOutItems) / 2 == totalItems / 2) {
-                                handleresponce = 1
+                                New_storeitem_search.handleresponce = 1
                                 Log.d(
                                     "isScrolling__",
                                     "$currentItems-$scrollOutItems-$totalItems"
                                 )
 
-                                if (table_count!! > productsListing_Count!!) {
+                                if (table_count!! > New_storeitem_search.productsListing_Count!!) {
                                     if (isScrolling == true) {
                                         totalItem = totalItem?.plus(100)
-                                        handleresponce = 1
+                                        New_storeitem_search.handleresponce = 1
                                         //showIOSProgress()
                                         getRoomData()
                                         isScrolling = false
@@ -1190,7 +1181,7 @@ class New_storeitem_search :
                 this,
                 this,
                 vegproductList_,
-                fssai!!,
+                New_storeitem_search.fssai!!,
                 intent.getStringExtra("storeName").toString(),
                 // restaurantName!!,
                 "3.5",
@@ -1262,16 +1253,16 @@ class New_storeitem_search :
 
                         if (dy > 1) {
                             if (isScrolling && (currentItems + scrollOutItems) / 2 == totalItems / 2) {
-                                handleresponce = 1
+                                New_storeitem_search.handleresponce = 1
                                 Log.d(
                                     "isScrolling__",
                                     "$currentItems-$scrollOutItems-$totalItems"
                                 )
 
-                                if (table_count!! > productsListing_Count!!) {
+                                if (table_count!! > New_storeitem_search.productsListing_Count!!) {
                                     if (isScrolling == true) {
                                         totalItem = totalItem?.plus(100)
-                                        handleresponce = 1
+                                        New_storeitem_search.handleresponce = 1
                                         //showIOSProgress()
 
                                         isScrolling = false
@@ -1362,7 +1353,7 @@ class New_storeitem_search :
             this,
             this,
             productListFilter!!,
-            fssai!!,
+            New_storeitem_search.fssai!!,
             intent.getStringExtra("storeName").toString(),
             // restaurantName!!,
             "3.5",
@@ -1407,10 +1398,10 @@ class New_storeitem_search :
                         .collect() {
                             Log.d(
                                 "restaurantPrdD",
-                                it.size.toString() + "--" + handleresponce
+                                it.size.toString() + "--" + New_storeitem_search.handleresponce
                             )
 
-                            if (handleresponce == 0) {
+                            if (New_storeitem_search.handleresponce == 0) {
 
                                 mainlist = it as ArrayList<StoreItemProductsEntity>?
                                 val s: Set<StoreItemProductsEntity> =
@@ -1419,7 +1410,7 @@ class New_storeitem_search :
 
                                 mainlist!!.addAll(s)
 
-                                productsListing_Count = mainlist!!.size
+                                New_storeitem_search.productsListing_Count = mainlist!!.size
 //                                if (isonlyveg) {
 //                                    Log.d("dudi", "Second: $productsListing_Count")
 //                                    rvStoreItemlisting(mainlist!!)
@@ -1434,7 +1425,7 @@ class New_storeitem_search :
                                 mainlist!!.clear()
                                 mainlist!!.addAll(s)
 
-                                productsListing_Count = mainlist!!.size
+                                New_storeitem_search.productsListing_Count = mainlist!!.size
 //                                if (isonlyveg) {
 //                                    storeItemsAdapter.updateData(mainlist!!, table_count!!)
 //                                }
@@ -1539,7 +1530,7 @@ class New_storeitem_search :
             showIOSProgress()
 
             //fidooLoaderShow()
-           category_header_.visibility= View.VISIBLE
+            category_header_.visibility= View.VISIBLE
             category_header_.text = ""
 
             if (SessionTwiclo(this).isLoggedIn) {
@@ -1688,7 +1679,7 @@ class New_storeitem_search :
                 viewmodel!!.addToCartApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    addCartTempList!!,
+                    MainActivity.addCartTempList!!,
                     ""
                 )
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
@@ -1697,7 +1688,7 @@ class New_storeitem_search :
                     custom_itemCount,
                     cus_itemProductId!!,
                     0,
-                    lastCustomized_str!!
+                    New_storeitem_search.lastCustomized_str!!
                 )
 
             } else {
@@ -1843,7 +1834,7 @@ class New_storeitem_search :
         if (type.equals("add")) {
             //  cartIcon.setImageResource(R.drawable.cart_icon)
 
-            if (tempProductList!!.size == 0) {
+            if (MainActivity.tempProductList!!.size == 0) {
                 //customAddBtn.text = resources.getString(R.string.ruppee) + tempPrice.toString()
 //                    val tempProductListModel = TempProductListModel()
 //                    tempProductListModel.productId = productId
@@ -1851,14 +1842,14 @@ class New_storeitem_search :
 //                    tempProductListModel.price = price
 //                    tempProductList!!.add(tempProductListModel)
 
-                addCartTempList!!.clear()
+                MainActivity.addCartTempList!!.clear()
                 val addCartInputModel = AddCartInputModel()
                 addCartInputModel.productId = productId
                 addCartInputModel.quantity = count
                 addCartInputModel.message = "add product"
                 addCartInputModel.customizeSubCatId = customIdsList!!
                 addCartInputModel.isCustomize = "0"
-                addCartTempList!!.add(0, addCartInputModel)
+                MainActivity.addCartTempList!!.add(0, addCartInputModel)
 
 
 
@@ -1866,19 +1857,19 @@ class New_storeitem_search :
                     viewmodel!!.addToCartApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        addCartTempList!!,
+                        MainActivity.addCartTempList!!,
                         cartId
                     )
                 }
-                tempProductList!!.clear()
+                MainActivity.tempProductList!!.clear()
             } else {
                 var check: String = ""
                 var tempPos: Int = 0
 
-                for (i in 0 until tempProductList!!.size) {
-                    Log.e("check1", tempProductList!!.get(i).productId)
+                for (i in 0 until MainActivity.tempProductList!!.size) {
+                    Log.e("check1", MainActivity.tempProductList!!.get(i).productId)
                     Log.e("check2", productId)
-                    if (tempProductList!![i].productId.equals(productId)) {
+                    if (MainActivity.tempProductList!![i].productId.equals(productId)) {
                         check = "edit"
                         tempPos = i
                         //tempProductList!!.get(i).quantity = count
@@ -1888,9 +1879,9 @@ class New_storeitem_search :
                 if (check == "edit") {
 
                     try {
-                        if (addCartTempList!!.size != 0) {
-                            tempProductList!![tempPos].quantity = count
-                            addCartTempList!![tempPos].quantity = count
+                        if (MainActivity.addCartTempList!!.size != 0) {
+                            MainActivity.tempProductList!![tempPos].quantity = count
+                            MainActivity.addCartTempList!![tempPos].quantity = count
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -1903,22 +1894,22 @@ class New_storeitem_search :
                     tempProductListModel.productId = productId
                     tempProductListModel.quantity = count
                     tempProductListModel.price = price
-                    tempProductList!!.add(tempProductListModel)
-                    addCartTempList!!.clear()
+                    MainActivity.tempProductList!!.add(tempProductListModel)
+                    MainActivity.addCartTempList!!.clear()
                     val addCartInputModel = AddCartInputModel()
                     addCartInputModel.productId = productId
                     addCartInputModel.quantity = count
                     addCartInputModel.message = "add product"
                     addCartInputModel.customizeSubCatId = customIdsList!!
                     addCartInputModel.isCustomize = "0"
-                    addCartTempList!!.add(0, addCartInputModel)
+                    MainActivity.addCartTempList!!.add(0, addCartInputModel)
 
                 }
 
                 viewmodel!!.addToCartApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    addCartTempList!!,
+                    MainActivity.addCartTempList!!,
                     cartId!!.toString()
                 )
             }
@@ -1928,9 +1919,9 @@ class New_storeitem_search :
             //  cartIcon.setImageResource(R.drawable.ic_cart)
             var check = "edit"
             var checkPos = 0
-            Log.e("check1", Gson().toJson(tempProductList!!))
-            for (i in 0 until tempProductList!!.size) {
-                if (tempProductList!![i].productId.equals(productId)) {
+            Log.e("check1", Gson().toJson(MainActivity.tempProductList!!))
+            for (i in 0 until MainActivity.tempProductList!!.size) {
+                if (MainActivity.tempProductList!![i].productId.equals(productId)) {
                     if (count == "0") {
                         check = "remove"
                         checkPos = i
@@ -1943,8 +1934,8 @@ class New_storeitem_search :
             if (check == "remove") {
                 //   cartIcon.setImageResource(R.drawable.ic_cart)
                 //ll_view_cart.visibility = View.GONE // to hide the bottom cart bar if non-customized item quantity becomes zero
-                addCartTempList!!.removeAt(checkPos)
-                tempProductList!!.removeAt(checkPos)
+                MainActivity.addCartTempList!!.removeAt(checkPos)
+                MainActivity.tempProductList!!.removeAt(checkPos)
                 customIdsList!!.clear()
 
                 if (cartId != null) {
@@ -1963,9 +1954,9 @@ class New_storeitem_search :
 
             } else {
 
-                if (tempProductList!!.size != 0) {
-                    tempProductList!![checkPos].quantity = count
-                    addCartTempList!![checkPos].quantity = count
+                if (MainActivity.tempProductList!!.size != 0) {
+                    MainActivity.tempProductList!![checkPos].quantity = count
+                    MainActivity.addCartTempList!![checkPos].quantity = count
                 }
                 customIdsList!!.clear()
 
@@ -1990,7 +1981,7 @@ class New_storeitem_search :
                     count!!.toInt(),
                     productId!!,
                     0,
-                    lastCustomized_str!!
+                    New_storeitem_search.lastCustomized_str!!
                 )
             } else {
                 updateProductS(count!!.toInt(), productId!!)
@@ -1998,15 +1989,15 @@ class New_storeitem_search :
         }
         //plusMinusPrice = 0.0
         tempPrice = 0.0
-        Log.d("check1", Gson().toJson(tempProductList!!))
+        Log.d("check1", Gson().toJson(MainActivity.tempProductList!!))
         var bottomPrice: Double? = 0.0
         var bottomCount: Int? = 0
-        for (i in 0 until tempProductList!!.size) {
+        for (i in 0 until MainActivity.tempProductList!!.size) {
             bottomPrice =
-                bottomPrice!! + (tempProductList!!.get(i).price.toDouble() * tempProductList!!.get(
+                bottomPrice!! + (MainActivity.tempProductList!!.get(i).price.toDouble() * MainActivity.tempProductList!!.get(
                     i
                 ).quantity.toInt())
-            bottomCount = bottomCount!! + tempProductList!!.get(i).quantity.toInt()
+            bottomCount = bottomCount!! + MainActivity.tempProductList!!.get(i).quantity.toInt()
         }
         //txt_price_.text = resources.getString(R.string.ruppee) + bottomPrice.toString()
         //cartCountTxt.text = bottomCount.toString()
@@ -2030,7 +2021,7 @@ class New_storeitem_search :
         prodcustCustomizeId: String?,
         cart_id: String?
     ) {
-        product_customize_id = prodcustCustomizeId!!
+        New_storeitem_search.product_customize_id = prodcustCustomizeId!!
         tempOfferPrice = offerPrice
         //plusMinusPrice = 0.0
         tempPrice = 0.0
@@ -2097,7 +2088,7 @@ class New_storeitem_search :
         prodcustCustomizeId: String?,
         cart_id: String?
     ) {
-        product_customize_id = prodcustCustomizeId!!
+        New_storeitem_search.product_customize_id = prodcustCustomizeId!!
         if (!isNetworkConnected) {
             showToast(resources.getString(R.string.provide_internet))
         } else {
@@ -2117,7 +2108,7 @@ class New_storeitem_search :
                         quantity!!.toInt(),
                         productId!!,
                         0,
-                        lastCustomized_str!!
+                        New_storeitem_search.lastCustomized_str!!
                     )
                 } else {
                     updateProductS(quantity!!.toInt(), productId!!)
@@ -2155,13 +2146,13 @@ class New_storeitem_search :
         super.onResume()
         dismissIOSProgress()
         storeID = intent.getStringExtra("storeId")!!
-        storeIDCheckOnCart = storeID
+        New_storeitem_search.storeIDCheckOnCart = storeID
 
 
 
         Log.d("OnRESUME___", "RESUME" + intent.getStringExtra("delivery_time"))
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        if (handleresponce == 1) {
+        if (New_storeitem_search.handleresponce == 1) {
             getRoomData()
             if (SessionTwiclo(this).isLoggedIn) {
                 viewmodel?.getCartCountApi(
@@ -2179,7 +2170,5 @@ class New_storeitem_search :
 
 
     }
-
-
 
 }

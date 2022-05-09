@@ -45,6 +45,7 @@ import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.fragments.newhotel_ProductSearch
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
@@ -343,13 +344,24 @@ import kotlin.collections.LinkedHashSet
 //            slide_ = AnimationUtils.loadAnimation(this, R.anim.rv_left_right_anim)
             cartitemView_LL?.startAnimation(slide_)
 
+            val fragManager= supportFragmentManager
+            val trasaction= fragManager.beginTransaction()
+            val searchFrag= newhotel_ProductSearch()
+
+            val mBundle= Bundle()
+            mBundle.putString("storeId", storeID)
+            mBundle.putString("storeName", restaurantName)
+            mBundle.putString("store_location", restaurantAddress)
+            searchFrag.arguments= mBundle
 
 
-            val intent= Intent(this, New_storeitem_search::class.java)
-            intent.putExtra("storeId", storeID)
-            intent.putExtra("storeName", restaurantName)
-            intent.putExtra("store_location", restaurantAddress)
-            startActivity(intent)
+
+
+//            val intent= Intent(this, New_storeitem_search::class.java)
+//            intent.putExtra("storeId", storeID)
+//            intent.putExtra("storeName", restaurantName)
+//            intent.putExtra("store_location", restaurantAddress)
+//            startActivity(intent)
         }
 
         searchEdt_ResPrd?.addTextChangedListener(object : TextWatcher {
