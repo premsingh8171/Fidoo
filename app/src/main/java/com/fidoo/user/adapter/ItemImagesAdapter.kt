@@ -11,9 +11,7 @@ import com.fidoo.user.R
 import com.fidoo.user.interfaces.AdapterImageClick
 import kotlinx.android.synthetic.main.item_images_adapter.view.*
 
-class ItemImagesAdapter(
-        val con: Context,val
-        images: MutableList<String>,val adapterImageClick: AdapterImageClick
+class ItemImagesAdapter(val con: Context,val images: MutableList<String>,val adapterImageClick: AdapterImageClick
 ) :
         RecyclerView.Adapter<ItemImagesAdapter.UserViewHolder>() {
 

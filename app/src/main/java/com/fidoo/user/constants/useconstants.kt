@@ -1,5 +1,8 @@
 package com.fidoo.user.constants
 
+import com.fidoo.user.data.session.SessionNotNull
+import com.fidoo.user.data.session.SessionTwiclo
+
 object useconstants {
     var user_dist = 0
 //    var currentlyAddedAddress : String = ""
@@ -12,4 +15,5 @@ object useconstants {
     var orderStatusMain = ""
     var callAllow = true
     var changeCallcolour = true
+
 }

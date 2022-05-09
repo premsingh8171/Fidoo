@@ -17,23 +17,25 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
+import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.interfaces.AdapterImageClick
 import com.fidoo.user.ordermodule.NewOrderTrackModule.NewTrackModel.Message
 import com.fidoo.user.ordermodule.NewOrderTrackModule.adapter.NewOrderTrackViewHolder
 import com.fidoo.user.ordermodule.NewOrderTrackModule.adapter.viewmodel
 import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity.Companion.call_Diolog
 import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity.Companion.store_phone
+import com.fidoo.user.profile.model.EditProfileModel
 import com.fidoo.user.utils.BaseActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.newordertrackitem.view.*
 
 
-class NewOrderTrackAdapter(val context: Context, var msgdatalist:List<Message>) : RecyclerView.Adapter<NewOrderTrackViewHolder>() {
+class NewOrderTrackAdapter(val context: Context, var msgdatalist:List<Message> , val adapterCallClick: AdapterImageClick) : RecyclerView.Adapter<NewOrderTrackViewHolder>() {
     var driverMobileNo: String? = ""
     //  lateinit var baseActivity : BaseActivity
 
     val sessionInstance: SessionTwiclo
-
     get() = SessionTwiclo(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewOrderTrackViewHolder {
@@ -45,54 +47,13 @@ class NewOrderTrackAdapter(val context: Context, var msgdatalist:List<Message>) 
         val model=msgdatalist[position]
         holder.setdata(model)
 
-        Log.d("fsdbdsdsjf", store_phone+"--"+"--"+SessionTwiclo(context).loggedInUserDetail.accountId)
-       holder.itemView.TvTrackItem2.setOnClickListener {
-
-           if (!store_phone.equals("")) {
-                onCallPopUp(0)
-                if (sessionInstance.profileDetail != null) {
-                    viewmodel?.customerCallMerchantApi(
-                        SessionTwiclo(context).loggedInUserDetail.accountId,
-                        SessionTwiclo(context).loggedInUserDetail.accessToken,
-                        sessionInstance.profileDetail.account.userName,
-                        store_phone!!
-                    )
-                    store_phone?.let { it1 -> Log.d("calljgjgjgjg" , it1) }
-                } else {
-                    viewmodel?.customerCallMerchantApi(
-                        SessionTwiclo(context).loggedInUserDetail.accountId,
-                        SessionTwiclo(context).loggedInUserDetail.accessToken,
-                        sessionInstance.loginDetail.phoneNumber,
-                        store_phone!!
-
-                    )
-                    Log.d("sddffsddsds", Gson().toJson(store_phone!!))
-                }
-            }
-
-
-           holder.itemView.TvTrackItem2.setOnClickListener {
-
-                onCallPopUp(1)
-
-                if (sessionInstance.profileDetail != null) {
-                    viewmodel?.callCustomerApi(
-                        SessionTwiclo(context).loggedInUserDetail.accountId,
-                        SessionTwiclo(context).loggedInUserDetail.accessToken,
-                        sessionInstance.profileDetail.account.userName,
-                        driverMobileNo!!
-                    )
-                } else {
-                    viewmodel?.callCustomerApi(
-                        SessionTwiclo(context).loggedInUserDetail.accountId,
-                        SessionTwiclo(context).loggedInUserDetail.accessToken,
-                        sessionInstance.loginDetail.phoneNumber,
-                        driverMobileNo!!
-                    )
-                }
-            }
-
+        holder.itemView.TvTrackItem2.setOnClickListener {
+            adapterCallClick.onSelectedImageClick(position)
+            // con.startActivity(Intent(con,SingleProductActivity::class.java))
         }
+//       holder.itemView.TvTrackItem2.setOnClickListener {
+//
+//
     }
 
     private fun onCallPopUp(type: Int) {
@@ -141,5 +102,7 @@ class NewOrderTrackAdapter(val context: Context, var msgdatalist:List<Message>) 
 
         notifyDataSetChanged()
     }
+
+
 
 }

@@ -53,7 +53,9 @@ import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
 import com.fidoo.user.chatbot.ui.Chatbotui
 import com.fidoo.user.constants.useconstants
+import com.fidoo.user.data.session.SessionNotNull
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.interfaces.AdapterImageClick
 import com.fidoo.user.interfaces.NotiCheck
 import com.fidoo.user.ordermodule.NewOrderTrackModule.NewTrackModel.Message
 import com.fidoo.user.ordermodule.model.Feedback
@@ -65,6 +67,7 @@ import com.fidoo.user.ordermodule.ui.OrdersFragment
 import com.fidoo.user.ordermodule.ui.ReviewItemsActivity
 import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
+import com.fidoo.user.profile.model.EditProfileModel
 import com.fidoo.user.services.OrderBackgroundgService
 import com.fidoo.user.services.OrderBackgroundgService.Companion.bgServicOrderId
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
@@ -103,16 +106,15 @@ import kotlin.math.roundToInt
 
 @Suppress("DEPRECATION")
 class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCallback,
-    OnCurveClickListener, NotiCheck,
+    OnCurveClickListener, NotiCheck, AdapterImageClick,
     LocationListener {
     //private var curveManager: CurveManager? = null
     private var mMap: GoogleMap? = null
     //private var timer: CountDownTimer? = null
-   // private var timerr: CountDownTimer? = null
+    // private var timerr: CountDownTimer? = null
 
     private var timer: CountDownTimer? = null
     private var timerr: CountDownTimer? = null
-
 
 
     var product_Update: Int? = 0 //api hit handle on resume
@@ -134,13 +136,14 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
     var viewmodel: TrackViewModel? = null
     var orderViewModel: OrderDetailsViewModel? = null
     var viewmodelusertrack: UserTrackerViewModel? = null
+
     //for new tracking Screen//
-    var newOrderViewModel : NewOrderViewModel? = null
+    var newOrderViewModel: NewOrderViewModel? = null
     lateinit var mainAdapter: NewOrderTrackAdapter
     var firstMsgListData = ArrayList<Message>()
 
-//for dialog
-var mPresImg: String = ""
+    //for dialog
+    var mPresImg: String = ""
     var items: MutableList<OrderDetailsModel.Item>? = null
     var callBack = 0
     var mContext: Context? = null
@@ -181,7 +184,10 @@ var mPresImg: String = ""
         var check_gMap3 = 0
         var store_phone: String? = ""
         var call_Diolog: Dialog? = null
+        var userMobile: String? = " "
+
     }
+
 
     var check_gMap1 = 0
 
@@ -199,8 +205,9 @@ var mPresImg: String = ""
     var check = 0
     var handleClick = 0
     var handleCounter = 0
-    var heightImg: Int=0
-    var heightBottomSheet: Int=0
+    var heightImg: Int = 0
+    var heightBottomSheet: Int = 0
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -221,9 +228,9 @@ var mPresImg: String = ""
 
         bottomSheetBtn.requestLayout();
         val metrics: DisplayMetrics = this.getResources().getDisplayMetrics()
-        heightBottomSheet = ((metrics.heightPixels)*(.4)).roundToInt()
+        heightBottomSheet = ((metrics.heightPixels) * (.4)).roundToInt()
 
-        heightImg = ((metrics.heightPixels)*(.65)).roundToInt()
+        heightImg = ((metrics.heightPixels) * (.65)).roundToInt()
 
         behavior = BottomSheetBehavior.from(bottomSheetBtn)
         bottomSheetBtn.requestLayout()
@@ -237,8 +244,7 @@ var mPresImg: String = ""
         giflayout.layoutParams = params
 
 
-   //     ordrePlaceGif.setLayoutParams(LayoutParams(500,gifsize ))
-
+        //     ordrePlaceGif.setLayoutParams(LayoutParams(500,gifsize ))
 
 
         //For new Order Track Screen api Call code by sumit rai (UC)
@@ -292,55 +298,62 @@ var mPresImg: String = ""
             }
 
 
-           if (it.callToRider) {
-                callStore.setOnClickListener {
-                    if (!store_phone.equals("")) {
-                        onCallPopUp(0)
-                        if (sessionInstance.profileDetail != null) {
-                            viewmodel?.customerCallMerchantApi(
-                                SessionTwiclo(this).loggedInUserDetail.accountId,
-                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                sessionInstance.profileDetail.account.userName,
-                                store_phone!!
-                            )
-                           // Log.d("sddffsddsds", Gson().toJson(it)
-                        } else {
-                            viewmodel?.customerCallMerchantApi(
-                                SessionTwiclo(this).loggedInUserDetail.accountId,
-                                SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                sessionInstance.loginDetail.phoneNumber,
-                                store_phone!!
-                            )
-                        }
-                    }
-                }
-
-               callStore.setOnClickListener {
-
-                    onCallPopUp(1)
+          if (it.callToRider) {
+            callStore.setOnClickListener {
+                Toast.makeText(
+                    this,
+                    "${sessionInstance.profileDetail.account.userName}",
+                    Toast.LENGTH_SHORT
+                ).show()
+                if (!store_phone.equals("")) {
+                    onCallPopUp(0)
                     if (sessionInstance.profileDetail != null) {
-                        viewmodel?.callCustomerApi(
+                        sessionInstance.loginDetail.phoneNumber = userMobile
+                        viewmodel?.customerCallMerchantApi(
+
                             SessionTwiclo(this).loggedInUserDetail.accountId,
                             SessionTwiclo(this).loggedInUserDetail.accessToken,
                             sessionInstance.profileDetail.account.userName,
-                            driverMobileNo!!
-
+                            store_phone!!
                         )
-                        driverMobileNo?.let { it1 -> Log.d("dileryby", it1) }
+
+                        // Log.d("sddffsddsds", Gson().toJson(it)
                     } else {
-                        viewmodel?.callCustomerApi(
+                        viewmodel?.customerCallMerchantApi(
                             SessionTwiclo(this).loggedInUserDetail.accountId,
                             SessionTwiclo(this).loggedInUserDetail.accessToken,
                             sessionInstance.loginDetail.phoneNumber,
-                            driverMobileNo!!
+                            store_phone!!
                         )
                     }
                 }
+            }
+
+            callStore.setOnClickListener {
+
+                onCallPopUp(1)
+                if (sessionInstance.profileDetail != null) {
+                    viewmodel?.callCustomerApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        sessionInstance.profileDetail.account.userName,
+                        driverMobileNo!!
+
+                    )
+                    driverMobileNo?.let { it1 -> Log.d("dileryby", it1) }
+                } else {
+                    viewmodel?.callCustomerApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        sessionInstance.loginDetail.phoneNumber,
+                        driverMobileNo!!
+                    )
+                }
+            }
 //                callStore.setBackgroundColor(Color.parseColor()
 
 
             }
-
 
 
             Log.d("sumitkumar", "onCreate:${it.riderBottomMsg[0]} ")
@@ -413,44 +426,32 @@ var mPresImg: String = ""
             // SetRecyclerview()
 
 
-
 //                val language = arrayOf(
 //                    it.riderBottomMsgADR[0], it.riderBottomMsgADR[1],
 //                    it.riderBottomMsgADR[2], it.riderBottomMsgADR[3]
 //                )
-                CoroutineScope(Dispatchers.Main).launch {
-                    for (item in it.riderBottomMsgADR) {
-                        delay(2000)
-                        store_name_txt_info1.text =
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                Html.fromHtml(item, Html.FROM_HTML_MODE_COMPACT)
-                            } else {
-                                Html.fromHtml(item)
-                            }
-
-                        
-                    }
+            CoroutineScope(Dispatchers.Main).launch {
+                for (item in it.riderBottomMsgADR) {
+                    delay(2000)
+                    store_name_txt_info1.text =
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            Html.fromHtml(item, Html.FROM_HTML_MODE_COMPACT)
+                        } else {
+                            Html.fromHtml(item)
+                        }
 
 
+                }
 
 
-
-        }
+            }
             //lopp kaam nahi kr rha tha is liye ye lga diya
         }
 
 
-
-
-
-
-
-
-
-
         ///---------------------------------------------------------------------------------
 
-        backBtnNew.setOnClickListener{
+        backBtnNew.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
@@ -459,21 +460,19 @@ var mPresImg: String = ""
 
         cardMap12.setOnClickListener {
 
-        giflayout.visibility = View.GONE
-        giflayout1.visibility = View.VISIBLE
-        lottieAnimation2.visibility = View.VISIBLE
-        changegif3.visibility = View.VISIBLE
+            giflayout.visibility = View.GONE
+            giflayout1.visibility = View.VISIBLE
+            lottieAnimation2.visibility = View.VISIBLE
+            changegif3.visibility = View.VISIBLE
 
-    }
+        }
 
-    cardMap123.setOnClickListener {
-        giflayout.visibility = View.VISIBLE
-        giflayout1.visibility = View.GONE
-        lottieAnimation2.visibility = View.GONE
-        changegif.visibility = View.VISIBLE
-    }
-
-
+        cardMap123.setOnClickListener {
+            giflayout.visibility = View.VISIBLE
+            giflayout1.visibility = View.GONE
+            lottieAnimation2.visibility = View.GONE
+            changegif.visibility = View.VISIBLE
+        }
 
 
 //        allitemlistlayout.animate()
@@ -489,7 +488,7 @@ var mPresImg: String = ""
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
         trackOrderContext = this
-        trackOrderActivity =this
+        trackOrderActivity = this
         //Log.e("Timer Status", timerStatus.toString())
         deleteAllPrecription()
 
@@ -507,11 +506,11 @@ var mPresImg: String = ""
 
 
 
-      displayLocationSettingsRequest(this)
+        displayLocationSettingsRequest(this)
 
         checkPermission()
 
-       getLocation()
+        getLocation()
 
 
 
@@ -530,8 +529,10 @@ var mPresImg: String = ""
 //            dialIntent.data = Uri.parse("tel:" + 9871322057)
 //            startActivity(dialIntent)
             // Log.d("hello", "hello")
-            AppUtils.startActivityRightToLeft(this,Intent(this, Chatbotui::class.java)
-                .putExtra("orderId", intent.getStringExtra("orderId")!!))
+            AppUtils.startActivityRightToLeft(
+                this, Intent(this, Chatbotui::class.java)
+                    .putExtra("orderId", intent.getStringExtra("orderId")!!)
+            )
         }
 
 
@@ -546,7 +547,6 @@ var mPresImg: String = ""
         observeGetLocationResponse()
         observeOrderDetailResponse()
         observeOrderFeedback()
-
 
 
 //        tv_delivery_boy_call.setOnClickListener {
@@ -672,14 +672,15 @@ var mPresImg: String = ""
         viewmodel?.proceedToOrderResponse?.observe(this) {
             //timerr?.cancel()
             showToast("Your order has been placed")
-           // waitingLay.visibility = View.GONE
+            // waitingLay.visibility = View.GONE
         }
 
         viewmodel?.callCustomerResponse?.observe(this) {
             Log.d("callCustomerResponse", Gson().toJson(it))
         }
     }
-//for order details pop up
+
+    //for order details pop up
     private fun onpopup() {
         order_Dialog = Dialog(this)
         order_Dialog?.dismiss()
@@ -692,7 +693,7 @@ var mPresImg: String = ""
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
 
-        )
+            )
         order_Dialog?.getWindow()?.setGravity(Gravity.BOTTOM);
         order_Dialog?.window?.attributes?.windowAnimations = R.style.DialogIntertnet
         order_Dialog?.setCanceledOnTouchOutside(true)
@@ -701,19 +702,17 @@ var mPresImg: String = ""
         var itemsRecyclerView1 = order_Dialog?.findViewById<RecyclerView>(R.id.itemsRecyclerView1)
         var itemQuantityPrice1 = order_Dialog?.findViewById<TextView>(R.id.itemQuantityPrice)
         Log.d("ghdsfugfdsf", "$items")
-        val adapter = ItemsAdapterTrackScreen(this,items as ArrayList)
+        val adapter = ItemsAdapterTrackScreen(this, items as ArrayList)
         itemsRecyclerView1?.adapter = adapter
-        itemQuantityPrice1?.text = "₹"+" "+ finalprice
+        itemQuantityPrice1?.text = "₹" + " " + finalprice
     }
-
-
 
 
     fun observeGetLocationResponse() {
         viewmodel?.getLocationResponse?.observe(this) { user ->
             try {
                 Log.e("getLocationResponse___", Gson().toJson(user))
-              //  Log.e("getLocationResponse___", timerStatus.toString())
+                //  Log.e("getLocationResponse___", timerStatus.toString())
                 Log.e("check_gMap1", "$check_gMap1--$check_gMap2--$check_gMap3")
                 userName = user.driver_name
                 driverMobileNo = user.driver_mobile
@@ -802,7 +801,7 @@ var mPresImg: String = ""
                 }
 
                 if (rider_LatLng != null) {
-                    var rotation=0.0f
+                    var rotation = 0.0f
 
                     if (previousLatLng == null) {
                         currentLatLng = rider_LatLng
@@ -824,17 +823,19 @@ var mPresImg: String = ""
                     )
 
                     try {
-                        if (latLngList.isNullOrEmpty()){
-                            var rider_LatLngNext=
+                        if (latLngList.isNullOrEmpty()) {
+                            var rider_LatLngNext =
                                 LatLng(latLngList[1].latitude, latLngList[1].longitude)
-                            rotation = MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
+                            rotation =
+                                MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
 
-                        }else {
-                            rotation = MapUtils.getRotation(rider_LatLng!!, nextLocation!!).toFloat()
+                        } else {
+                            rotation =
+                                MapUtils.getRotation(rider_LatLng!!, nextLocation!!).toFloat()
                         }
 
 
-                    }catch (e:Exception){
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
 
@@ -884,7 +885,7 @@ var mPresImg: String = ""
                 }
 
                 if (rider_LatLng != null) {
-                    var rotation=0.0f
+                    var rotation = 0.0f
 
                     if (previousLatLng == null) {
                         currentLatLng = rider_LatLng
@@ -900,17 +901,19 @@ var mPresImg: String = ""
                     )
 
                     try {
-                        if (latLngList.isNullOrEmpty()){
-                            var rider_LatLngNext=
+                        if (latLngList.isNullOrEmpty()) {
+                            var rider_LatLngNext =
                                 LatLng(latLngList[1].latitude, latLngList[1].longitude)
-                            rotation = MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
+                            rotation =
+                                MapUtils.getRotation(rider_LatLng!!, rider_LatLngNext).toFloat()
 
-                        }else {
-                            rotation = MapUtils.getRotation(rider_LatLng!!, nextLocation!!).toFloat()
+                        } else {
+                            rotation =
+                                MapUtils.getRotation(rider_LatLng!!, nextLocation!!).toFloat()
                         }
 
 
-                    }catch (e:Exception){
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
 
@@ -935,9 +938,9 @@ var mPresImg: String = ""
                     )
 
                     val angle = MapUtils.bearingBetweenLocations(previousLatLng!!, nextLocation!!)
-                   if (marker != null) {
+                    if (marker != null) {
                         MapUtils.rotateMarker(marker, angle)
-                   }
+                    }
                 }
 
                 if (user_LatLng != null) {
@@ -969,28 +972,28 @@ var mPresImg: String = ""
 
 
             if (it.orderStatus == "13") {
-                    //waitingLay.visibility = View.VISIBLE
-                    Log.e("hit___", "hit--" + OrderBackgroundgService.timer_count!!)
-                    startService(Intent(applicationContext, OrderBackgroundgService::class.java))
-                    // ordstatus_lay_new.visibility = View.VISIBLE
-                    //order_status.text = "Please wait while we confirm your order"
+                //waitingLay.visibility = View.VISIBLE
+                Log.e("hit___", "hit--" + OrderBackgroundgService.timer_count!!)
+                startService(Intent(applicationContext, OrderBackgroundgService::class.java))
+                // ordstatus_lay_new.visibility = View.VISIBLE
+                //order_status.text = "Please wait while we confirm your order"
 
-                    	if (handleCounter==0) {
+                if (handleCounter == 0) {
                     timerr = object : CountDownTimer(OrderBackgroundgService.timer_count!!, 1000) {
 
                         override fun onTick(millisUntilFinished: Long) {
-                           // cancelBtn1.visibility = View.VISIBLE
+                            // cancelBtn1.visibility = View.VISIBLE
                             customer_care_fmL.visibility = View.INVISIBLE
 //                            cancelBtn1.text =
 //                                "Cancel Order (" + (millisUntilFinished / 1000) + ")"
 
                             if ((millisUntilFinished / 1000) < 1) {
                                 //waitingLay.visibility = View.GONE
-                               // cancelBtn1.visibility = View.GONE
+                                // cancelBtn1.visibility = View.GONE
                                 customer_care_fmL.visibility = View.VISIBLE
                                 // ordstatus_lay_new.visibility = View.VISIBLE
-                               // order_status.text =
-                                    "Please wait while we confirm your order"
+                                // order_status.text =
+                                "Please wait while we confirm your order"
                             }
                         }
 
@@ -1007,25 +1010,25 @@ var mPresImg: String = ""
                                 )
                                 handleClick = 1
 
-                                	OrderBackgroundgService.timer_count=30000
+                                OrderBackgroundgService.timer_count = 30000
 
                             }
                         }
 
                     }.start()
                     handleCounter = 1
-                    	}
+                }
 
-					if (currentOrderId!!.isNotEmpty()) {
-						if (CartActivity.proceedClick == 0) {
-							CartActivity.proceedClick = 1
-							viewmodel?.proceedToOrder(
-								SessionTwiclo(trackOrderContext).loggedInUserDetail.accountId,
-								SessionTwiclo(trackOrderContext).loggedInUserDetail.accessToken,
-								currentOrderId.toString()
-							)
-						}
-					}
+                if (currentOrderId!!.isNotEmpty()) {
+                    if (CartActivity.proceedClick == 0) {
+                        CartActivity.proceedClick = 1
+                        viewmodel?.proceedToOrder(
+                            SessionTwiclo(trackOrderContext).loggedInUserDetail.accountId,
+                            SessionTwiclo(trackOrderContext).loggedInUserDetail.accessToken,
+                            currentOrderId.toString()
+                        )
+                    }
+                }
 
 
             }
@@ -1097,17 +1100,17 @@ var mPresImg: String = ""
                             // holder.buttonValue.visibility = View.GONE
 
                             // order_status.text = "Please wait while we confirm your order"
-                          //  order_status.text = "Waiting for merchant to accept the order"
+                            //  order_status.text = "Waiting for merchant to accept the order"
                             //tv_delivery_boy_call.visibility = View.GONE
                             //driver_cardView.visibility = View.GONE
-                           // cancelBtn1.visibility = View.GONE
+                            // cancelBtn1.visibility = View.GONE
                             // ordstatus_lay_new.visibility = View.VISIBLE
                         }
 
                         it.orderStatus.equals("2") -> {
                             //holder.buttonValue.visibility = View.GONE
-                           // order_status.text = "Your order is cancelled"
-                           // cancelBtn1.visibility = View.GONE
+                            // order_status.text = "Your order is cancelled"
+                            // cancelBtn1.visibility = View.GONE
 
                             if (onBackpressHandle.equals("1")) {
                                 startActivity(Intent(this, MainActivity::class.java))
@@ -1141,7 +1144,7 @@ var mPresImg: String = ""
                             cancelBtn1.visibility = View.GONE
                             order_status_for_track = "rider_assign"
                             //tv_delivery_boy_call.visibility = View.VISIBLE
-                           // driver_cardView.visibility = View.VISIBLE
+                            // driver_cardView.visibility = View.VISIBLE
                             //ordstatus_lay_new.visibility = View.VISIBLE
 
                         }
@@ -1150,10 +1153,10 @@ var mPresImg: String = ""
                             //  holder.buttonValue.visibility = View.VISIBLE
                             //holder.buttonValue.visibility = View.GONE
 
-                           // order_status.text = "Order is in progress"
+                            // order_status.text = "Order is in progress"
                             cancelBtn1.visibility = View.GONE
                             //tv_delivery_boy_call.visibility = View.VISIBLE
-                           // driver_cardView.visibility = View.VISIBLE
+                            // driver_cardView.visibility = View.VISIBLE
 
                         }
 
@@ -1161,11 +1164,11 @@ var mPresImg: String = ""
                             // holder.buttonValue.visibility = View.VISIBLE
                             //holder.buttonValue.visibility = View.GONE
                             //tv_delivery_boy.text =
-                                it.deliveryBoyName + " is on the way to deliver your order."
-                           // order_status.text =
-                                it.deliveryBoyName + " is on the way to deliver your order."
+                            it.deliveryBoyName + " is on the way to deliver your order."
+                            // order_status.text =
+                            it.deliveryBoyName + " is on the way to deliver your order."
 
-                           // cancelBtn1.visibility = View.GONE
+                            // cancelBtn1.visibility = View.GONE
                             //ordstatus_lay_new.visibility = View.VISIBLE
 
                         }
@@ -1196,15 +1199,15 @@ var mPresImg: String = ""
                         it.orderStatus.equals("10") -> {
                             //holder.buttonValue.visibility = View.VISIBLE
                             //tv_delivery_boy.text =
-                                it.deliveryBoyName + " is on the way to deliver your order."
+                            it.deliveryBoyName + " is on the way to deliver your order."
                             //order_status.text =
-                                it.deliveryBoyName + " is on the way to deliver your order."
+                            it.deliveryBoyName + " is on the way to deliver your order."
                             //	order_status.text = "Your order is out for delivery"
 
 
                             order_status_for_track = "order_picked"
                             storeCardID.visibility = View.GONE
-                           cancelBtn1.visibility = View.GONE
+                            cancelBtn1.visibility = View.GONE
                             // ordstatus_lay_new.visibility = View.VISIBLE
 
                         }
@@ -1214,21 +1217,21 @@ var mPresImg: String = ""
                             handleClick = 1
 
                             if (it.paymentMode == "online") {
-                               // order_status.text =
-                                    "Your order is rejected. Don't worry, we have processed your refund and same will be credited to your account within 3-5 business days"
+                                // order_status.text =
+                                "Your order is rejected. Don't worry, we have processed your refund and same will be credited to your account within 3-5 business days"
                             } else {
-                               // order_status.text = "Your order is rejected."
+                                // order_status.text = "Your order is rejected."
                             }
 
                             address_details_lay.visibility = View.GONE
 
-                           // driver_cardView.visibility = View.GONE
-                           // tv_delivery_boy_call.visibility = View.GONE
+                            // driver_cardView.visibility = View.GONE
+                            // tv_delivery_boy_call.visibility = View.GONE
                             tv_order_id.visibility = View.GONE
                             tv_order_id_label.visibility = View.GONE
                             map1.alpha = 0.0f
                             customer_care_fmL.visibility = View.GONE
-                           // cancelBtn1.visibility = View.GONE
+                            // cancelBtn1.visibility = View.GONE
 
                             if (onBackpressHandle.equals("1")) {
                                 startActivity(Intent(this, OrderRejectedActivity::class.java))
@@ -1261,11 +1264,11 @@ var mPresImg: String = ""
                         it.orderStatus.equals("16") -> {
                             order_status_for_track = "order_picked"
                             storeCardID.visibility = View.GONE
-                           // tv_delivery_boy.text =
-                                it.deliveryBoyName + " has reached to your location"
+                            // tv_delivery_boy.text =
+                            it.deliveryBoyName + " has reached to your location"
                             //order_status.text = it.deliveryBoyName + " has reached to your location"
-                           // driver_cardView.visibility = View.VISIBLE
-                           // tv_delivery_boy_call.visibility = View.VISIBLE
+                            // driver_cardView.visibility = View.VISIBLE
+                            // tv_delivery_boy_call.visibility = View.VISIBLE
 
                             //cancelBtn1.visibility = View.GONE
                             // ordstatus_lay_new.visibility = View.VISIBLE
@@ -1278,7 +1281,7 @@ var mPresImg: String = ""
             }
 
         }
-        }
+    }
 
 
     fun observeOrderFeedback() {
@@ -1407,7 +1410,7 @@ var mPresImg: String = ""
 
                     updateCarLocationNew(path)
 
-                    	//showPath(latLngList)
+                    //showPath(latLngList)
 
                 }
             }, Response.ErrorListener {
@@ -1450,7 +1453,7 @@ var mPresImg: String = ""
         super.onResume()
 ///-------------------------------------------------------
 
-        if((useconstants.orderStatusMain.equals("10")|| useconstants.orderStatusMain.equals("14"))){
+        if ((useconstants.orderStatusMain.equals("10") || useconstants.orderStatusMain.equals("14"))) {
             Glide.with(this)
                 .load(R.drawable.callactivite)
                 .into(callStore)
@@ -1472,18 +1475,17 @@ var mPresImg: String = ""
     }
 
 
-        private fun SetRecyclerview() {
-            ordrePlaceGif.playAnimation()
-            ordrePlaceGif.loop(true)
-            ordrePlaceGif.repeatCount = LottieDrawable.INFINITE;
-            mainAdapter = NewOrderTrackAdapter(this,firstMsgListData)
-            val linearLayoutManager= LinearLayoutManager(this)
-            recyclerViewNewTrack.layoutManager=linearLayoutManager
-            recyclerViewNewTrack.adapter= mainAdapter
+    private fun SetRecyclerview() {
+        ordrePlaceGif.playAnimation()
+        ordrePlaceGif.loop(true)
+        ordrePlaceGif.repeatCount = LottieDrawable.INFINITE;
+        mainAdapter = NewOrderTrackAdapter(this, firstMsgListData, this)
+        val linearLayoutManager = LinearLayoutManager(this)
+        recyclerViewNewTrack.layoutManager = linearLayoutManager
+        recyclerViewNewTrack.adapter = mainAdapter
 
 
-
-        }
+    }
 
     override fun onPause() {
         super.onPause()
@@ -1732,14 +1734,18 @@ var mPresImg: String = ""
                     if (estimatedTime.isNotEmpty() || estimatedTime != "") {
                         if (useconstants.orderStatusMain.equals("11") || useconstants.orderStatusMain.equals(
                                 "15"
-                            ) || useconstants.orderStatusMain.equals("10") || useconstants.orderStatusMain.equals("7") || useconstants.orderStatusMain.equals("16") || useconstants.orderStatusMain.equals("16")
+                            ) || useconstants.orderStatusMain.equals("10") || useconstants.orderStatusMain.equals(
+                                "7"
+                            ) || useconstants.orderStatusMain.equals("16") || useconstants.orderStatusMain.equals(
+                                "16"
+                            )
                         ) {
                             eta_lay11.visibility = View.VISIBLE
-                         //   Log.d("ssssss", )
+                            //   Log.d("ssssss", )
                             Log.e("estimated_time___", estimatedTime)
                             estimated_time1.text = estimatedTime
                         }
-                    }else {
+                    } else {
 
                     }
                 }
@@ -1935,17 +1941,23 @@ var mPresImg: String = ""
 
         val handler = Handler()
         handler.postDelayed(Runnable {
-            if (index<path.size-1){
+            if (index < path.size - 1) {
                 index++
-                next=index+1
+                next = index + 1
 
-            }else{
-                next=1
+            } else {
+                next = 1
             }
-            if (index<path.size-1){
-                rider_LatLng= LatLng( latLngList[index].latitude.toDouble(), latLngList[index].longitude.toDouble())
-                rider_LatLng2= LatLng( latLngList[next].latitude.toDouble(), latLngList[next].longitude.toDouble())
-                Log.d("fdsdds","$rider_LatLng--$rider_LatLng2")
+            if (index < path.size - 1) {
+                rider_LatLng = LatLng(
+                    latLngList[index].latitude.toDouble(),
+                    latLngList[index].longitude.toDouble()
+                )
+                rider_LatLng2 = LatLng(
+                    latLngList[next].latitude.toDouble(),
+                    latLngList[next].longitude.toDouble()
+                )
+                Log.d("fdsdds", "$rider_LatLng--$rider_LatLng2")
             }
 
             //movingBikeMarker = addCarMarkerAndGet(rider_LatLngOrg!!)
@@ -1955,19 +1967,21 @@ var mPresImg: String = ""
             val valueAnimator = AnimationUtils.cabAnimator()
             valueAnimator.addUpdateListener {
                 try {
-                    var v =valueAnimator.animatedFraction
-                    val Lng=v*rider_LatLng!!.longitude+(1-v)*rider_LatLng2!!.longitude
-                    var lat=v*rider_LatLng!!.latitude+(1-v)*rider_LatLng2!!.latitude
-                    var newPos=LatLng(lat,Lng)
+                    var v = valueAnimator.animatedFraction
+                    val Lng = v * rider_LatLng!!.longitude + (1 - v) * rider_LatLng2!!.longitude
+                    var lat = v * rider_LatLng!!.latitude + (1 - v) * rider_LatLng2!!.latitude
+                    var newPos = LatLng(lat, Lng)
 
-                    movingBikeMarker!!.position=rider_LatLngOrg
+                    movingBikeMarker!!.position = rider_LatLngOrg
 
                     val rotation = MapUtils.getRotation(rider_LatLng!!, newPos)
-                    Log.d("rotation_",rotation.toString())
+                    Log.d("rotation_", rotation.toString())
                     if (!rotation.isNaN()) {
                         movingBikeMarker?.rotation = rotation
                     }
-                }catch (e:Exception){e.printStackTrace()}
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
 
             }
             valueAnimator.start()
@@ -1976,7 +1990,6 @@ var mPresImg: String = ""
     }
 
     // slide the view from below itself to the current position
-
 
 
 //    private fun addCarMarkerAndGet(latLng: LatLng): Marker {
@@ -1990,8 +2003,8 @@ var mPresImg: String = ""
 
     }
 
-    private fun bottomSheetCallBack(){
-        val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback(){
+    private fun bottomSheetCallBack() {
+        val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 // Do something for new state.
                 //allitemlistlayout
@@ -2000,13 +2013,10 @@ var mPresImg: String = ""
                     BottomSheetBehavior.STATE_EXPANDED -> stateExpanddbm()
 
 
-
-
                     //BottomSheetBehavior.STATE_COLLAPSED->
 
 
-
-                  //  BottomSheetBehavior.STATE_DRAGGING -> Toast.makeText(
+                    //  BottomSheetBehavior.STATE_DRAGGING -> Toast.makeText(
 //                        this,
 //                        "STATE_DRAGGING",
 //                        Toast.LENGTH_SHORT
@@ -2021,9 +2031,9 @@ var mPresImg: String = ""
 //                        "STATE_HIDDEN",
 //                        Toast.LENGTH_SHORT
 //                    ).show()
-                   // else ->
+                    // else ->
 
-            }
+                }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -2036,39 +2046,68 @@ var mPresImg: String = ""
     }
 
 
+    private fun stateCollapseddbm() {
+        var fadeInAnimation =
+            android.view.animation.AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
-   private fun stateCollapseddbm(){
-       var  fadeInAnimation = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.fade_out);
-
-       allitemlistlayout.animation= fadeInAnimation
-       useconstants.pos = 0
-       allitemlistlayout?.visibility = View.GONE
-       useconstants.isScroll = false
-       SetRecyclerview()
+        allitemlistlayout.animation = fadeInAnimation
+        useconstants.pos = 0
+        allitemlistlayout?.visibility = View.GONE
+        useconstants.isScroll = false
+        SetRecyclerview()
 
     }
-    fun stateExpanddbm(){
+
+    fun stateExpanddbm() {
 
 
         allitemlistlayout?.visibility = View.VISIBLE
 
-        var  fadeInAnimation = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.fadein);
-        allitemlistlayout.animation= fadeInAnimation
+        var fadeInAnimation =
+            android.view.animation.AnimationUtils.loadAnimation(this, R.anim.fadein);
+        allitemlistlayout.animation = fadeInAnimation
 
-        useconstants.isScroll=true
+        useconstants.isScroll = true
         SetRecyclerview()
     }
 
     override fun onStart() {
 
         super.onStart()
-        useconstants.pos=0
+        useconstants.pos = 0
         useconstants.isScroll = false
     }
+
     fun getScreenHeight(): Int {
         return Resources.getSystem().displayMetrics.heightPixels
     }
 
+    override fun onSelectedImageClick(position: Int) {
+        if (!store_phone.equals("")) {
+            onCallPopUp(0)
+            if (sessionInstance.profileDetail != null) {
+                sessionInstance.loginDetail.phoneNumber = userMobile
+                viewmodel?.customerCallMerchantApi(
+
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    sessionInstance.profileDetail.account.userName,
+                    store_phone!!
+                )
+
+                // Log.d("sddffsddsds", Gson().toJson(it)
+            } else {
+                viewmodel?.customerCallMerchantApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    sessionInstance.loginDetail.phoneNumber,
+                    store_phone!!
+                )
+            }
+        }
+    }
 
 
-}
+    }
+
+
