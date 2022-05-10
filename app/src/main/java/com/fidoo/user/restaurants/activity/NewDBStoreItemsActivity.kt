@@ -59,6 +59,7 @@ import com.fidoo.user.restaurants.adapter.StoreCustomItemsAdapter
 import com.fidoo.user.restaurants.adapter.StoreItemsAdapter
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.listener.CustomCartPlusMinusClick
+import com.fidoo.user.restaurants.listener.search_fragListener
 import com.fidoo.user.restaurants.model.CustomCheckBoxModel
 import com.fidoo.user.restaurants.model.CustomListModel
 import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
@@ -132,7 +133,7 @@ import kotlin.collections.LinkedHashSet
     CustomCartPlusMinusClick,
     AdapterCustomRadioClick,
     AdapterAddRemoveClick,
-    AdapterCartAddRemoveClick {
+    AdapterCartAddRemoveClick, search_fragListener {
     private var categoryy: ArrayList<CustomListModel>? = null
     private var mainlist: ArrayList<StoreItemProductsEntity>? = null
     private var veg_item_list: ArrayList<StoreItemProductsEntity>? = null
@@ -226,7 +227,7 @@ import kotlin.collections.LinkedHashSet
     var viewmodelusertrack: UserTrackerViewModel? = null
 
     //roomdb
-    private lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
+    public lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
     private var barOffset = 0
     private var fabVisible = true
     var pagecount: Int = 0
@@ -425,6 +426,7 @@ import kotlin.collections.LinkedHashSet
                 }
 
             }
+            deleteRoomDataBase()
 
 
         }
@@ -1509,7 +1511,7 @@ import kotlin.collections.LinkedHashSet
                                         totalItem = totalItem?.plus(100)
                                         handleresponce = 1
                                         //showIOSProgress()
-                                        getRoomData()
+                                       // getRoomData()
                                         isScrolling = false
                                     }
                                 }
@@ -1621,7 +1623,7 @@ import kotlin.collections.LinkedHashSet
                                         totalItem = totalItem?.plus(100)
                                         handleresponce = 1
                                         //showIOSProgress()
-                                        getvegitems()
+                                      //  getvegitems()
                                         isScrolling = false
                                     }
                                 }
@@ -2765,6 +2767,42 @@ import kotlin.collections.LinkedHashSet
 
     }
 
+     override fun detach_searchFrah() {
+
+         val manan= supportFragmentManager
+         val trans= manan.beginTransaction()
+         val fragnew= newhotel_ProductSearch()
+         trans.remove(fragnew)
+         trans.commit()
+         manan.popBackStack()
+         newSearch_frag.visibility= View.GONE
+         mainlist!!.clear()
+         storeItemsAdapter.notifyDataSetChanged()
+         storeItemsRecyclerview.invalidate()
 
 
-}
+         storeItemsRecyclerview.visibility= View.INVISIBLE
+         shimmerFrameLayout.startShimmer()
+         shimmerFrameLayout.visibility= View.VISIBLE
+         handleresponce=0
+         getRoomData()
+
+         Handler().postDelayed({
+             //  storeItemsAdapter.putvegdata(veg_item_list!!)
+             storeItemsRecyclerview.visibility = View.VISIBLE
+
+             storeItemsAdapter.notifyDataSetChanged()
+
+             shimmerFrameLayout.visibility= View.GONE
+             handleresponce=1
+             shimmerFrameLayout.stopShimmer()
+
+
+         }, 1000)
+     }
+
+
+
+
+
+ }
