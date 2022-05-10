@@ -441,10 +441,7 @@ class Chatbotui :AppCompatActivity() {
                 BtnNo.text = "No \uD83D\uDC4E"
 
 
-                CoroutineScope(Dispatchers.Main).launch {
-                    delay(2500)
-                    LayoutFeedback.visibility = View.VISIBLE
-                }
+
 
                 viewModel = ViewModelProvider(this).get(ChatbotViewModel::class.java)
                 intent.getStringExtra("orderId")?.let { it1 ->
@@ -457,7 +454,15 @@ class Chatbotui :AppCompatActivity() {
 
 
                 }
+                finish()
+                AppUtils.startActivityRightToLeft(
+                    this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
+                        .putExtra("orderId", intent.getStringExtra("orderId")!!))
+                CoroutineScope(Dispatchers.Main).launch {
 
+                    delay(2500)
+                    LayoutFeedback.visibility = View.VISIBLE
+                }
                 // if (it.orderstatus)
                 botmsgViewModel = ViewModelProvider(this).get(BotmsgViewModel::class.java)
                 botmsgViewModel?.botmsgapi(

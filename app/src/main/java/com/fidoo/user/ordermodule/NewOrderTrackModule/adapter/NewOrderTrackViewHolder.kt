@@ -164,6 +164,7 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
                     }
                 } else {
 
+
                     cardbotlayout.visibility = View.VISIBLE
                     if (MainOrderStatus == "13") {
                         ImgTrack.visibility = View.VISIBLE
@@ -176,6 +177,7 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
                         }
                         TvTrackItem.setTextColor(Color.parseColor("#FFFFFF"))
                     } else {
+
                         TvTrackItem2.visibility = View.GONE
                         cardbotlayout.visibility = View.VISIBLE
                         TvTrackItem.text = message.aDRMessage
@@ -189,6 +191,7 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
                         ImgTrack.visibility = View.VISIBLE
 
                         if (!message.desc.isNullOrEmpty()) {
+
                             TvTrackItem1.visibility = View.VISIBLE
                             TvTrackItem1.text = message.aDRDesc
                             TvTrackItem1.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -208,7 +211,8 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
                             TvTrackItem2.setTextColor(Color.parseColor("#FFFFFF"))
 //                    TvTrackItem1.text = message.desc
                             //  if(MainOrderStatus.equals("7") || MainOrderStatus.equals("11")) {
-                            if(useconstants.orderStatusMain.equals("10")||useconstants.orderStatusMain.equals("16") || useconstants.orderStatusMain.equals("16") ){
+                            if(useconstants.orderStatusMain.equals("10")||useconstants.orderStatusMain.equals("16") || useconstants.orderStatusMain.equals("15")
+                                ||useconstants.orderStatusMain.equals("9") ){
                                 TvTrackItem2.visibility = View.GONE
                             }else{
                                 TvTrackItem2.visibility = View.VISIBLE

@@ -431,7 +431,7 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
 //                )
             CoroutineScope(Dispatchers.Main).launch {
                 for (item in it.riderBottomMsgADR) {
-                    delay(2000)
+
                     store_name_txt_info1.text =
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             Html.fromHtml(item, Html.FROM_HTML_MODE_COMPACT)
@@ -439,7 +439,7 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
                             Html.fromHtml(item)
                         }
 
-
+                    delay(3000)
                 }
 
 
