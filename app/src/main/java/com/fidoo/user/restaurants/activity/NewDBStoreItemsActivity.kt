@@ -1,5 +1,6 @@
 package com.fidoo.user.restaurants.activity
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -1297,7 +1298,8 @@ class NewDBStoreItemsActivity :
 
                                                 (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
 
-                                    }else{
+                                    }
+                                    else{
 
                                                 (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 675)
 
@@ -1319,7 +1321,7 @@ class NewDBStoreItemsActivity :
                 }
             })
 
-        catrecyclerView?.adapter = restaurantCategoryAdapter
+        catrecyclerView.adapter = restaurantCategoryAdapter
 
     }
 
@@ -1376,7 +1378,7 @@ class NewDBStoreItemsActivity :
                 }
             })
 
-        catrecyclerView?.adapter = restaurantCategoryAdapter
+        catrecyclerView.adapter = restaurantCategoryAdapter
 
     }
 
@@ -1414,6 +1416,7 @@ class NewDBStoreItemsActivity :
                     }
                 }
 
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     currentItems = manager!!.childCount
@@ -1526,6 +1529,7 @@ class NewDBStoreItemsActivity :
                     }
                 }
 
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     currentItems = manager1!!.childCount
@@ -1605,6 +1609,7 @@ class NewDBStoreItemsActivity :
     }
 
     //search query get data
+    @SuppressLint("NotifyDataSetChanged")
     private fun searchQuery(query: String?) {
         var search_key = "%$query%"
         Log.d("searchData_", search_key.toString())
@@ -1637,7 +1642,7 @@ class NewDBStoreItemsActivity :
                             }
                             storeItemsAdapter.updateData(mainlist!!, table_count!!)
                         }
-                        storeItemsAdapter?.notifyDataSetChanged()
+                        storeItemsAdapter.notifyDataSetChanged()
                         Log.d("searchdata_", search.toString())
 
                     })
@@ -1650,6 +1655,7 @@ class NewDBStoreItemsActivity :
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun new_search_query(query1: String?){
         var search_key = "%$query1%"
 
@@ -1696,7 +1702,7 @@ class NewDBStoreItemsActivity :
 //                          //  storeItemsAdapter.updateData(mainlist!!, table_count!!)
 //                        }
                         }
-                        storeItemsAdapter?.notifyDataSetChanged()
+                        storeItemsAdapter.notifyDataSetChanged()
                         Log.d("searchdata_", it.toString())
 
                 })
@@ -1813,7 +1819,7 @@ class NewDBStoreItemsActivity :
                 .build()
             restaurantProductsDatabase!!.resProductsDaoAccess()!!.updateCustomizeProducts(
                 count,
-                productId!!,
+                productId,
                 customize_quantity!!,
                 customizeItemName
             )
@@ -1949,7 +1955,7 @@ class NewDBStoreItemsActivity :
         tempOfferPrice = offerPrice
         countValue.text = tempCount
         cus_itemProductId = productId!!
-        custom_itemCount = count!!.toInt()
+        custom_itemCount = count.toInt()
 
         if (type == "custom") {
             if (mCustomizeCount == 0) {
