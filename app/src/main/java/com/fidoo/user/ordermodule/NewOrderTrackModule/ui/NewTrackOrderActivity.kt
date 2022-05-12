@@ -982,14 +982,14 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
 
                         override fun onTick(millisUntilFinished: Long) {
                             // cancelBtn1.visibility = View.VISIBLE
-                            customer_care_fmL.visibility = View.INVISIBLE
+                          //  customer_care_fmL.visibility = View.INVISIBLE
 //                            cancelBtn1.text =
 //                                "Cancel Order (" + (millisUntilFinished / 1000) + ")"
 
                             if ((millisUntilFinished / 1000) < 1) {
                                 //waitingLay.visibility = View.GONE
                                 // cancelBtn1.visibility = View.GONE
-                                customer_care_fmL.visibility = View.VISIBLE
+                               // customer_care_fmL.visibility = View.VISIBLE
                                 // ordstatus_lay_new.visibility = View.VISIBLE
                                 // order_status.text =
                                 "Please wait while we confirm your order"
@@ -1229,7 +1229,7 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
                             tv_order_id.visibility = View.GONE
                             tv_order_id_label.visibility = View.GONE
                             map1.alpha = 0.0f
-                            customer_care_fmL.visibility = View.GONE
+                            //customer_care_fmL.visibility = View.GONE
                             // cancelBtn1.visibility = View.GONE
 
                             if (onBackpressHandle.equals("1")) {

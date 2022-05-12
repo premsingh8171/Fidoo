@@ -493,8 +493,6 @@ class Chatbotui :AppCompatActivity() {
                         delay(1000)
                         DateandTime6.visibility = View.VISIBLE
                         tvlast.visibility = View.VISIBLE
-
-                        delay(500)
                         finish()
                         AppUtils.startActivityRightToLeft(
                             this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
@@ -539,7 +537,7 @@ class Chatbotui :AppCompatActivity() {
                         DateandTime6.visibility = View.VISIBLE
                         delay(1000)
                         tvlast.visibility = View.VISIBLE
-                        delay(500)
+
                         finish()
                         AppUtils.startActivityRightToLeft(
                             this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
@@ -816,10 +814,6 @@ class Chatbotui :AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
-        AppUtils.startActivityRightToLeft(
-            this@Chatbotui,Intent(this@Chatbotui, MainActivity::class.java)
-                .putExtra("orderId", intent.getStringExtra("orderId")!!))
-
     }
 }
 

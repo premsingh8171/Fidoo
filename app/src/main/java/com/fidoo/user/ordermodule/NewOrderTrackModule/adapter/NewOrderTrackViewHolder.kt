@@ -83,6 +83,15 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
                             ImgTrack.visibility = View.VISIBLE
                             TvTrackItem.visibility = View.VISIBLE
                             TvTrackItem.text = message.aDRMessage
+                            TvTrackItem1.text = message.aDRDesc
+                            TvTrackItem1.visibility = View.VISIBLE
+                            TvTrackItem1.setTextColor(Color.parseColor("#FFFFFF"))
+                            TvTrackItem1.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                Html.fromHtml(message.aDRDesc, Html.FROM_HTML_MODE_COMPACT)
+                            } else {
+                                Html.fromHtml(message.aDRDesc)
+                            }
+
                             TvTrackItem.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 Html.fromHtml(message.aDRMessage, Html.FROM_HTML_MODE_COMPACT)
                             } else {
@@ -170,6 +179,15 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
                         ImgTrack.visibility = View.VISIBLE
                         TvTrackItem.visibility = View.VISIBLE
                         TvTrackItem.text = message.aDRMessage
+                        TvTrackItem1.text = message.aDRDesc
+                        TvTrackItem1.visibility = View.VISIBLE
+                        TvTrackItem1.setTextColor(Color.parseColor("#FFFFFF"))
+                        TvTrackItem1.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            Html.fromHtml(message.aDRDesc, Html.FROM_HTML_MODE_COMPACT)
+                        } else {
+                            Html.fromHtml(message.aDRDesc)
+                        }
+
                         TvTrackItem.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             Html.fromHtml(message.aDRMessage, Html.FROM_HTML_MODE_COMPACT)
                         } else {
