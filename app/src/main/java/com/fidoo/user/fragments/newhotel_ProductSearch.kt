@@ -672,94 +672,94 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 //
 //
 //
-//        //cartcount responce
-//        viewmodel?.cartCountResponse?.observe(requireActivity()) { cartcount ->
-//            // dismissIOSProgress()
-//            MainActivity.addCartTempList!!.clear()
-//            MainActivity.tempProductList!!.clear()
-//            //Log.d("cartCountResponse___",cartcount.toString())
-//            var count = cartcount.count
-//            var price = cartcount.price
-//            SessionTwiclo(requireContext()).storeId = cartcount.store_id
-//            if (!cartcount.error) {
-//                if (!count.equals("0")) {
-//                    cart_count = 1
-//                    //  cartIcon.setImageResource(R.drawable.cart_icon)
-//                    //  cartIcon.setColorFilter(Color.argb(255, 53, 156, 71))
-//                    itemQuantity_textstore1.text= count
-//
-//                    val rounded = price.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
-//
-//                    totalprice_txtstore.text = "₹ " + rounded
-//                    cartitemView_LLstore1.visibility = View.VISIBLE
-//                    if (total_cart_count == 0) {
-//                        total_cart_count = 1
-//                        slide_ = AnimationUtils.loadAnimation(requireContext(), R.anim.rv_left_right_anim)
-//                        cartitemView_LLstore1?.startAnimation(slide_)
-//                    }
-//                } else {
-//                    cart_count = 0
-//                    itemQuantity_textstore1.text = "0"
-//                    totalprice_txtstore.text = ""
-//                    //   cartIcon.setImageResource(R.drawable.ic_cart)
-//                    //  cartIcon.setColorFilter(Color.argb(255, 199, 199, 199))
-//                    cartitemView_LLstore1.visibility = View.GONE
-//                    total_cart_count = 0
-//                    slide_ = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left)
-//                    cartitemView_LLstore1?.startAnimation(slide_)
-//                    SessionTwiclo(requireContext()).serviceId = ""
-//
-//                }
-//
-//            }
-//
-//        }
-//
-//
-//        viewmodel?.addRemoveCartResponse?.observe(requireActivity()) { user ->
-//
-//            closeProgress()
-//            Log.e("addRemoveCartRes____", Gson().toJson(user))
-//            if (user.errorCode == 200) {
-//                New_storeitem_search.handleresponce = 1
-//                try {
-//                    New_storeitem_search.product_customize_id = user.product_customize_id
-//                    Thread {
-//                        updateByCartIdProductCustomized(
-//                            user.cart_quantity!!.toInt(),
-//                            user.product_id!!,
-//                            user.is_customize_quantity!!.toInt(),
-//                            New_storeitem_search.lastCustomized_str!!,
-//                            user.cart_id!!,
-//                            New_storeitem_search.product_customize_id!!
-//                        )
-//                    }.start()
-//
-//                } catch (e: Exception) {
-//                }
-//
-//
-//                if (SessionTwiclo(requireContext()).isLoggedIn) {
-//                    viewmodel?.getCartCountApi(
-//                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
-//                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
-//                    )
-//                }
-//            } else if (user.errorCode == 101) {
-//                showAlertDialog(requireContext())
-//
-//            }
-//            //   getStoreDetailsApiCall()
-//        }
-//
-//        viewmodel?.failureResponse?.observe(requireActivity()) { user ->
-//
-//            closeProgress()
-//            Log.e("cart response", Gson().toJson(user))
-//            //showToast(user)
-//            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-//        }
-//
+        //cartcount responce
+        viewmodel?.cartCountResponse?.observe(requireActivity()) { cartcount ->
+            // dismissIOSProgress()
+            MainActivity.addCartTempList!!.clear()
+            MainActivity.tempProductList!!.clear()
+            //Log.d("cartCountResponse___",cartcount.toString())
+            var count = cartcount.count
+            var price = cartcount.price
+            SessionTwiclo(requireContext()).storeId = cartcount.store_id
+            if (!cartcount.error) {
+                if (!count.equals("0")) {
+                    cart_count = 1
+                    //  cartIcon.setImageResource(R.drawable.cart_icon)
+                    //  cartIcon.setColorFilter(Color.argb(255, 53, 156, 71))
+                    itemQuantity_textstore1.text= count
+
+                    val rounded = price.toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+
+                    totalprice_txtstore.text = "₹ " + rounded
+                    cartitemView_LLstore1.visibility = View.VISIBLE
+                    if (total_cart_count == 0) {
+                        total_cart_count = 1
+                        slide_ = AnimationUtils.loadAnimation(requireContext(), R.anim.rv_left_right_anim)
+                        cartitemView_LLstore1?.startAnimation(slide_)
+                    }
+                } else {
+                    cart_count = 0
+                    itemQuantity_textstore1.text = "0"
+                    totalprice_txtstore.text = ""
+                    //   cartIcon.setImageResource(R.drawable.ic_cart)
+                    //  cartIcon.setColorFilter(Color.argb(255, 199, 199, 199))
+                    cartitemView_LLstore1.visibility = View.GONE
+                    total_cart_count = 0
+                    slide_ = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left)
+                    cartitemView_LLstore1?.startAnimation(slide_)
+                    SessionTwiclo(requireContext()).serviceId = ""
+
+                }
+
+            }
+
+        }
+
+
+        viewmodel?.addRemoveCartResponse?.observe(requireActivity()) { user ->
+
+            closeProgress()
+            Log.e("addRemoveCartRes____", Gson().toJson(user))
+            if (user.errorCode == 200) {
+                New_storeitem_search.handleresponce = 1
+                try {
+                    New_storeitem_search.product_customize_id = user.product_customize_id
+                    Thread {
+                        updateByCartIdProductCustomized(
+                            user.cart_quantity!!.toInt(),
+                            user.product_id!!,
+                            user.is_customize_quantity!!.toInt(),
+                            New_storeitem_search.lastCustomized_str!!,
+                            user.cart_id!!,
+                            New_storeitem_search.product_customize_id!!
+                        )
+                    }.start()
+
+                } catch (e: Exception) {
+                }
+
+
+                if (SessionTwiclo(requireContext()).isLoggedIn) {
+                    viewmodel?.getCartCountApi(
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken
+                    )
+                }
+            } else if (user.errorCode == 101) {
+                showAlertDialog(requireContext())
+
+            }
+            //   getStoreDetailsApiCall()
+        }
+
+        viewmodel?.failureResponse?.observe(requireActivity()) { user ->
+
+            closeProgress()
+            Log.e("cart response", Gson().toJson(user))
+            //showToast(user)
+            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+        }
+
         viewmodel?.addToCartResponse?.observe(requireActivity(), Observer { user ->
 
             closeProgress()
@@ -905,45 +905,45 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
             }
         })
-//
-//        viewmodel?.clearCartResponse?.observe(requireActivity(), Observer { user ->
-//
-//            closeProgress()
-//            if (user.errorCode == 200) {
-//                Log.e("stores_response", Gson().toJson(user))
-//                if (tempType.equals("custom")) {
-//
-//                    viewmodel!!.addToCartApi(
-//                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
-//                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
-//                        MainActivity.addCartTempList!!,
-//                        ""
-//                    )
-//                } else {
-//
-//                    MainActivity.addCartTempList!!.clear()
-//                    val addCartInputModel = AddCartInputModel()
-//                    addCartInputModel.productId = cus_itemProductId
-//                    addCartInputModel.quantity = "1"
-//                    addCartInputModel.message = "add product"
-//                    addCartInputModel.customizeSubCatId = customIdsList!!
-//                    addCartInputModel.isCustomize = "0"
-//                    MainActivity.addCartTempList!!.add(0, addCartInputModel)
-//
-//                    viewmodel!!.addToCartApi(
-//                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
-//                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
-//                        MainActivity.addCartTempList!!,
-//                        ""
-//
-//                    )
-//                }
-//                //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-//            } else if (user.errorCode == 101) {
-//                showAlertDialog(requireContext())
-//
-//            }
-//        })
+
+        viewmodel?.clearCartResponse?.observe(requireActivity(), Observer { user ->
+
+            closeProgress()
+            if (user.errorCode == 200) {
+                Log.e("stores_response", Gson().toJson(user))
+                if (tempType.equals("custom")) {
+
+                    viewmodel!!.addToCartApi(
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
+                        MainActivity.addCartTempList!!,
+                        ""
+                    )
+                } else {
+
+                    MainActivity.addCartTempList!!.clear()
+                    val addCartInputModel = AddCartInputModel()
+                    addCartInputModel.productId = cus_itemProductId
+                    addCartInputModel.quantity = "1"
+                    addCartInputModel.message = "add product"
+                    addCartInputModel.customizeSubCatId = customIdsList!!
+                    addCartInputModel.isCustomize = "0"
+                    MainActivity.addCartTempList!!.add(0, addCartInputModel)
+
+                    viewmodel!!.addToCartApi(
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accessToken,
+                        MainActivity.addCartTempList!!,
+                        ""
+
+                    )
+                }
+                //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+            } else if (user.errorCode == 101) {
+                showAlertDialog(requireContext())
+
+            }
+        })
     }
 
 
