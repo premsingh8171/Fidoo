@@ -278,6 +278,7 @@ class New_storeitem_search :
         }
 
         searchKeyETxtAct.setOnEditorActionListener { v, actionId, event ->
+
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 tvResturnt_name.text= intent.getStringExtra("storeName")
                 search_cardvv.visibility= View.GONE

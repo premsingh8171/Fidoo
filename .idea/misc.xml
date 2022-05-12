@@ -5,10 +5,16 @@
       <map>
         <entry key="..\:/Fidoo New App/app/src/main/res/layout/activity_new_add_address_new.xml" value="0.25416666666666665" />
         <entry key="..\:/Fidoo New App/app/src/main/res/layout/content_map.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_new_product_search.xml" value="0.22" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_new_search.xml" value="0.12318840579710146" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_new_store_items.xml" value="0.12318840579710146" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.15" />
-        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/fragment_search.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/fragment_search.xml" value="0.21" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/fragment_search2.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/fragment_search_new.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/no_internet_connection.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/menu/bottom_navigation.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/drawable/background_splash.xml" value="0.1645" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/drawable/ic_splash_loader.xml" value="0.1845" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_cart.xml" value="0.176" />

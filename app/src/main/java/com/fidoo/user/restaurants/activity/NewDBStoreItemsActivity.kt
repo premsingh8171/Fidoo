@@ -838,7 +838,10 @@ import kotlin.collections.LinkedHashSet
                                 if (storeData.subcategory[i].product[j].is_nonveg.equals("0")){
                                     new_veggielist.add(storeData.subcategory[i])
                                 }
-                                catList.add(storeData.subcategory[i])
+
+                                if(!catList.contains(storeData.subcategory[i])) {
+                                    catList.add(storeData.subcategory[i])
+                                }
                                 lastCustomized_str = ""
                                 product_customize_id = ""
                                 var customNamesList_: ArrayList<String>? = ArrayList()
