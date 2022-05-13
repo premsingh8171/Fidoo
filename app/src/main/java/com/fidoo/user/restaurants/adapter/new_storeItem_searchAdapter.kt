@@ -39,18 +39,18 @@ class new_storeItem_searchAdapter(
     private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
     var total_item_count: Int,
     private val storeID: String
-) : RecyclerView.Adapter<StoreItemsAdapter.UserViewHolder>() {
+) : RecyclerView.Adapter<new_storeItem_searchAdapter.UserViewHolder>() {
 
     var arraylist: ArrayList<StoreDetailsModel.Product> = ArrayList()
     var count: Int = 0
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = StoreItemsAdapter.UserViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = new_storeItem_searchAdapter.UserViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.new_research_ll, parent, false)
     )
 
     @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: StoreItemsAdapter.UserViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: new_storeItem_searchAdapter.UserViewHolder, position: Int) {
         val index = productList[position]
 
         Log.d("indexindex", restaurantName + "--" + restaurantAddress)
@@ -221,6 +221,10 @@ class new_storeItem_searchAdapter(
                                 productList[position].cartId
                             )
 
+                            holder.countValue.text = count.toString()
+                            holder.add_new_lay.visibility = View.GONE
+                            holder.add_remove_lay.visibility = View.VISIBLE
+
                             //SessionTwiclo(con).storeId = storeID
                             SessionTwiclo(con).serviceId = MainActivity.service_idStr
                         } else {
@@ -306,6 +310,7 @@ class new_storeItem_searchAdapter(
                             productList[position].cartId
                         )
 
+                        holder.countValue.text = count.toString()
 
                     } else {
                         count++
@@ -336,6 +341,11 @@ class new_storeItem_searchAdapter(
                                 index.customizeItemId,
                                 productList[position].cartId
                             )
+                            holder.countValue.text = count.toString()
+                            if (count==0){
+                                holder.add_new_lay.visibility = View.VISIBLE
+                                holder.add_remove_lay.visibility = View.GONE
+                            }
                         }
                     } else {
                         if (count > 0) {
@@ -366,6 +376,7 @@ class new_storeItem_searchAdapter(
                         }
                     }
                 }
+
             }
 
         } else if (index.in_out_of_stock_status.equals("0")) {

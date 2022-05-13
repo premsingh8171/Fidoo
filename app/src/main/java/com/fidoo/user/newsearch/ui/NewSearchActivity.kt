@@ -10,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 
 import android.widget.AbsListView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -58,6 +59,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	var nonavailable_mainList: ArrayList<SuggestionX>? = null
 	var latestList: ArrayList<SuggestionX>? = null
 	var latestList2: ArrayList<SuggestionX>? = null
+	var latestList3: ArrayList<SuggestionX>? = null
+	var latestList4: ArrayList<SuggestionX>? = null
 	private lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +74,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 		nonavailable_mainList = ArrayList()
 		latestList = ArrayList()
 		latestList2 = ArrayList()
+		latestList3 = ArrayList()
+		latestList4 = ArrayList()
 		recentSearch = ArrayList()
 		try {
 			service_id = intent.getStringExtra("service_id")
@@ -90,6 +95,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 				search_value= binding.searchKeyETxtAct.text.toString()
 
+				new_response()
 
 
 				onResponse()
@@ -99,6 +105,23 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 		}
 
 
+	}
+
+	private fun new_response(){
+		viewModel!!.keywordBasedSearchSuggestionsRes!!.observe(this, Observer {
+
+			if (it.error_code==200){
+
+
+				for (i in it.suggestions.indices){
+					if (it.suggestions[i].available.equals("1")){
+						latestList3!!.add(it.suggestions[i])
+					}else{
+						latestList4!!.add(it.suggestions[i])
+					}
+				}
+			}
+		})
 	}
 
 	private fun onResponse() {

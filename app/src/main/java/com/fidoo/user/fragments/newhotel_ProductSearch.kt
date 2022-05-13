@@ -170,7 +170,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     var isCustomizeOpen: Int = 0
     var filterActive: Int = 0// for handle filter api call response
     var cart_count: Int = 0
-    lateinit var storeItemsAdapter: new_storeItem_searchAdapter
+    lateinit var storeItemsAdapter2: new_storeItem_searchAdapter
     lateinit var restaurantCategoryAdapter: NewDbRestaurantCategoryAdapter
     lateinit var categoryHeaderAdapter: CategoryHeaderAdapter
 
@@ -760,7 +760,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         }
 
-        viewmodel?.addToCartResponse?.observe(requireActivity(), Observer { user ->
+        viewmodel?.addToCartResponse_search?.observe(requireActivity(), Observer { user ->
 
             closeProgress()
             if (user.errorCode == 200) {
@@ -906,7 +906,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             }
         })
 
-        viewmodel?.clearCartResponse?.observe(requireActivity(), Observer { user ->
+        viewmodel?.clearCartResponse_search?.observe(requireActivity(), Observer { user ->
 
             closeProgress()
             if (user.errorCode == 200) {
@@ -1081,7 +1081,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             store_SearchResult.layoutManager = LinearLayoutManager(requireContext())
             store_SearchResult.setHasFixedSize(true)
 
-            storeItemsAdapter = new_storeItem_searchAdapter(
+            storeItemsAdapter2 = new_storeItem_searchAdapter(
                 requireContext(),
                 this,
                 productList_,
@@ -1097,7 +1097,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 storeID
             )
 
-            store_SearchResult.adapter = storeItemsAdapter
+            store_SearchResult.adapter = storeItemsAdapter2
             store_SearchResult.layoutManager = manager
             store_SearchResult?.addOnScrollListener(object :
                 RecyclerView.OnScrollListener() {
@@ -1189,7 +1189,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             })
 
         } else {
-            storeItemsAdapter.updateData(productList_, table_count!!)
+            storeItemsAdapter2.updateData(productList_, table_count!!)
 
         }
 
@@ -1201,7 +1201,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             store_SearchResult.layoutManager = LinearLayoutManager(requireContext())
             store_SearchResult.setHasFixedSize(true)
 
-            storeItemsAdapter = new_storeItem_searchAdapter(
+            storeItemsAdapter2 = new_storeItem_searchAdapter(
                 requireContext(),
                 this,
                 vegproductList_,
@@ -1217,7 +1217,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 storeID
             )
 
-            store_SearchResult.adapter = storeItemsAdapter
+            store_SearchResult.adapter = storeItemsAdapter2
             store_SearchResult.layoutManager = manager1
             store_SearchResult?.addOnScrollListener(object :
                 RecyclerView.OnScrollListener() {
@@ -1309,7 +1309,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             })
 
         } else {
-            storeItemsAdapter.updateData(vegproductList_, table_count!!)
+            storeItemsAdapter2.updateData(vegproductList_, table_count!!)
 
         }
 
@@ -1326,7 +1326,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                     .observe(this, Observer { search ->
                         if (!query.equals("")) {
                             productListFilter = search as ArrayList<StoreItemProductsEntity>
-                            storeItemsAdapter.updateData(
+                            storeItemsAdapter2.updateData(
                                 productListFilter!!,
                                 productListFilter!!.size.toInt()
                             )
@@ -1347,9 +1347,9 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                                 e.printStackTrace()
                                 mView.category_header_.text = ""
                             }
-                            storeItemsAdapter.updateData(mainlist_new!!, table_count!!)
+                            storeItemsAdapter2.updateData(mainlist_new!!, table_count!!)
                         }
-                        storeItemsAdapter?.notifyDataSetChanged()
+                        storeItemsAdapter2?.notifyDataSetChanged()
                         Log.d("searchdata_", search.toString())
 
 
@@ -1376,7 +1376,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         store_SearchResult.layoutManager = LinearLayoutManager(requireContext())
         store_SearchResult.setHasFixedSize(true)
 
-        storeItemsAdapter = new_storeItem_searchAdapter(
+        storeItemsAdapter2 = new_storeItem_searchAdapter(
             requireContext(),
             this,
             productListFilter!!,
@@ -1392,9 +1392,9 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             storeID
         )
 
-        store_SearchResult.adapter = storeItemsAdapter
+        store_SearchResult.adapter = storeItemsAdapter2
         store_SearchResult.layoutManager = manager1
-        storeItemsAdapter.updateData(productListFilter!!, productListFilter!!.size)
+        storeItemsAdapter2.updateData(productListFilter!!, productListFilter!!.size)
 
     }
 

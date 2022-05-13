@@ -42,6 +42,7 @@ import com.fidoo.user.activity.MyApplication.Companion.applicationContext
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
@@ -350,6 +351,7 @@ import kotlin.collections.LinkedHashSet
             val fragManager= supportFragmentManager
             val trasaction= fragManager.beginTransaction()
             val searchFrag= newhotel_ProductSearch()
+            useconstants.searchFrag_visible= true
 
             var mBundle= Bundle()
             mBundle.putString("storeId", storeID)
@@ -502,6 +504,7 @@ import kotlin.collections.LinkedHashSet
                 )
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
+
                 clearCartPopup()
             }
         }
@@ -2783,6 +2786,7 @@ import kotlin.collections.LinkedHashSet
          storeItemsAdapter.notifyDataSetChanged()
          storeItemsRecyclerview.invalidate()
 
+         useconstants.searchFrag_visible= false
 
          storeItemsRecyclerview.visibility= View.INVISIBLE
          shimmerFrameLayout.startShimmer()
