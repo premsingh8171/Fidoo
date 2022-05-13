@@ -1,15 +1,13 @@
-package com.fidoo.user.ordermodule.NewOrderTrackModule.NewTrackModel
+package com.fidoo.user.ordermodule.NewOrderTrackModule.sendPackageModule.SendPackageDataModel
 
 
 import com.google.gson.annotations.SerializedName
 
-data class NewTrackModel(
+data class sendPackageModel(
     @SerializedName("accessToken")
     val accessToken: String,
     @SerializedName("accountId")
     val accountId: String,
-    @SerializedName("callToMerchant")
-    val callToMerchant: Boolean,
     @SerializedName("callToRider")
     val callToRider: Boolean,
     @SerializedName("error")
@@ -18,14 +16,8 @@ data class NewTrackModel(
     val errorCode: Int,
     @SerializedName("gif")
     val gif: String,
-    @SerializedName("isAllowCancel")
-    val isAllowCancel: Boolean,
-    @SerializedName("merchant_details")
-    val merchantDetails: MerchantDetails,
     @SerializedName("messages")
     val messages: List<Message>,
-    @SerializedName("order_details")
-    val orderDetails: List<OrderDetail>,
     @SerializedName("orderId")
     val orderId: String,
     @SerializedName("order_status")
@@ -36,12 +28,6 @@ data class NewTrackModel(
     val riderBottomMsgADR: List<String>,
     @SerializedName("rider_btm_icon")
     val riderBtmIcon: String,
-    @SerializedName("riderBtnBgColor")
-    val riderBtnBgColor: String,
     @SerializedName("rider_details")
-    val riderDetails: RiderDetails,
-    @SerializedName("rider_img")
-    val riderImg: String,
-    @SerializedName("total_payment_amt")
-    val totalPaymentAmt: String
+    val riderDetails: RiderDetails
 )

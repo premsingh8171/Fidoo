@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
-import com.fidoo.user.ordermodule.NewOrderTrackModule.NewTrackModel.NewTrackModel
+import com.fidoo.user.ordermodule.NewOrderTrackModule.RestaurantsCase.NewTrackModel.NewTrackModel
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback

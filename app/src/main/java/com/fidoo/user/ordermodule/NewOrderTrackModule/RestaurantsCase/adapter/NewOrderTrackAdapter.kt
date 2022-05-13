@@ -1,19 +1,14 @@
 package com.fidoo.user.ordermodule.ui.NewOrderTrackModule.adapter
 
 import android.content.Context
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
 import com.fidoo.user.interfaces.AdapterImageClick
-import com.fidoo.user.ordermodule.NewOrderTrackModule.NewTrackModel.Message
-import com.fidoo.user.ordermodule.NewOrderTrackModule.adapter.NewOrderTrackViewHolder
-import kotlinx.android.synthetic.main.activity_track_order_new.*
-import kotlinx.android.synthetic.main.activity_track_order_new.view.*
+import com.fidoo.user.ordermodule.NewOrderTrackModule.RestaurantsCase.NewTrackModel.Message
+import com.fidoo.user.ordermodule.NewOrderTrackModule.RestaurantsCase.adapter.NewOrderTrackViewHolder
 import kotlinx.android.synthetic.main.newordertrackitem.view.*
-import kotlin.math.roundToInt
 
 
 class NewOrderTrackAdapter(val context: Context, var msgdatalist:List<Message> , val adapterCallClick: AdapterImageClick) : RecyclerView.Adapter<NewOrderTrackViewHolder>() {

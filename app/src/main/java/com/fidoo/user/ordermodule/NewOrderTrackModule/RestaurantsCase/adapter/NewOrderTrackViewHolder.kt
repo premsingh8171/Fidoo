@@ -1,37 +1,20 @@
-package com.fidoo.user.ordermodule.NewOrderTrackModule.adapter
+package com.fidoo.user.ordermodule.NewOrderTrackModule.RestaurantsCase.adapter
 
-import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.text.Html
-import android.util.Log
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.fidoo.user.R
 import com.fidoo.user.constants.useconstants
-import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.ordermodule.NewOrderTrackModule.NewTrackModel.Message
-import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity
+import com.fidoo.user.ordermodule.NewOrderTrackModule.RestaurantsCase.NewTrackModel.Message
 import com.fidoo.user.ordermodule.viewmodel.OrderDetailsViewModel
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
-import kotlinx.android.synthetic.main.activity_track_order_new.*
 import kotlinx.android.synthetic.main.newordertrackitem.view.*
 import kotlinx.android.synthetic.main.newordertrackitem.view.cardbotlayout
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.lang.Exception
 
 
@@ -85,6 +68,8 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
                             TvTrackItem.text = message.aDRMessage
                             TvTrackItem1.text = message.aDRDesc
                             TvTrackItem1.visibility = View.VISIBLE
+                            TvTrackItem2.visibility = View.VISIBLE
+                            TvTrackItem2.setTextColor(Color.parseColor("#FFFFFF"))
                             TvTrackItem1.setTextColor(Color.parseColor("#FFFFFF"))
                             TvTrackItem1.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 Html.fromHtml(message.aDRDesc, Html.FROM_HTML_MODE_COMPACT)
@@ -181,6 +166,8 @@ class NewOrderTrackViewHolder (val view : View, var context: Context) : Recycler
                         TvTrackItem.text = message.aDRMessage
                         TvTrackItem1.text = message.aDRDesc
                         TvTrackItem1.visibility = View.VISIBLE
+                        TvTrackItem2.visibility = View.VISIBLE
+                        TvTrackItem2.setTextColor(Color.parseColor("#FFFFFF"))
                         TvTrackItem1.setTextColor(Color.parseColor("#FFFFFF"))
                         TvTrackItem1.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             Html.fromHtml(message.aDRDesc, Html.FROM_HTML_MODE_COMPACT)

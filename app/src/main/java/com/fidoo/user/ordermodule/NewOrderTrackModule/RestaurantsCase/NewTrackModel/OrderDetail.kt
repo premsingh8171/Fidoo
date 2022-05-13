@@ -1,4 +1,4 @@
-package com.fidoo.user.ordermodule.NewOrderTrackModule.NewTrackModel
+package com.fidoo.user.ordermodule.NewOrderTrackModule.RestaurantsCase.NewTrackModel
 
 
 import com.google.gson.annotations.SerializedName

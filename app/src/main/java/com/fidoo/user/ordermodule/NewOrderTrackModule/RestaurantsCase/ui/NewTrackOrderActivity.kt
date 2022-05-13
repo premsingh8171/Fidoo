@@ -56,7 +56,7 @@ import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterImageClick
 import com.fidoo.user.interfaces.NotiCheck
-import com.fidoo.user.ordermodule.NewOrderTrackModule.NewTrackModel.Message
+import com.fidoo.user.ordermodule.NewOrderTrackModule.RestaurantsCase.NewTrackModel.Message
 import com.fidoo.user.ordermodule.model.Feedback
 import com.fidoo.user.ordermodule.model.OrderDetailsModel
 import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.NewTrackViewModel.NewOrderViewModel
@@ -90,7 +90,6 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.prudhvir3ddy.rideshare.utils.AnimationUtils
 import com.prudhvir3ddy.rideshare.utils.MapUtils
 import kotlinx.android.synthetic.main.activity_track_order_new.*
-import kotlinx.android.synthetic.main.activity_track_order_new.view.*
 import kotlinx.android.synthetic.main.review_popup.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -172,10 +171,10 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
     private var mMixpanel: MixpanelAPI? = null
 
     companion object {
-        var trackOrderContext: Context? = null
 
+        var trackOrderContext: Context? = null
         val notiInterface = NewTrackOrderActivity()
-        var trackOrderActivity: NewTrackOrderActivity? = null
+
         var order_status_for_track = ""
         var check_gMap2 = 0
         var check_gMap3 = 0
@@ -487,7 +486,7 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
 
         trackOrderContext = this
-        trackOrderActivity = this
+
         //Log.e("Timer Status", timerStatus.toString())
         deleteAllPrecription()
 

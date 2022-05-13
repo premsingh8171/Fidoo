@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
@@ -61,6 +62,7 @@ class ServiceDailyNeedActivity : BaseActivity(), ItemOnClickListener {
 	companion object {
 		var product_count: Int? = 0
 		var product_Id: String? = ""
+		var addtocartFrompet  : String? = ""
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -250,20 +252,22 @@ class ServiceDailyNeedActivity : BaseActivity(), ItemOnClickListener {
 		}
 
 		cartCountFm.setOnClickListener {
-
-			if (SessionTwiclo(this).isLoggedIn) {
-				AppUtils.startActivityForResultRightToLeft(
-					this, Intent(this, CartActivity::class.java)
-						.putExtra("storeId", SessionTwiclo(this).storeId), VIEWALL_RESULT_CODE
-				)
-//				startActivity(
-//					Intent(this, CartActivity::class.java).putExtra(
-//						"store_id", SessionTwiclo(this).storeId
-//					)
+			addtocartFrompet = "frompet"
+			//showLoginDialog("Service Not Available ")
+			Toast.makeText(this, "Service Not Available ", Toast.LENGTH_SHORT).show()
+//			if (SessionTwiclo(this).isLoggedIn) {
+//				AppUtils.startActivityForResultRightToLeft(
+//					this, Intent(this, CartActivity::class.java)
+//						.putExtra("storeId", SessionTwiclo(this).storeId), VIEWALL_RESULT_CODE
 //				)
-			} else {
-				showLoginDialog("Please login to proceed")
-			}
+////				startActivity(
+////					Intent(this, CartActivity::class.java).putExtra(
+////						"store_id", SessionTwiclo(this).storeId
+////					)
+////				)
+//			} else {
+//				showLoginDialog("Please login to proceed")
+//			}
 		}
 	}
 

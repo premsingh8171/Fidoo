@@ -1,4 +1,4 @@
-package com.fidoo.user.ordermodule.NewOrderTrackModule.NewTrackModel
+package com.fidoo.user.ordermodule.NewOrderTrackModule.sendPackageModule.SendPackageDataModel
 
 
 import com.google.gson.annotations.SerializedName
@@ -8,8 +8,6 @@ data class RiderDetails(
     val lat: String,
     @SerializedName("lng")
     val lng: String,
-    @SerializedName("msg")
-    val msg: String,
     @SerializedName("name")
     val name: String,
     @SerializedName("number")
