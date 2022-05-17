@@ -12,6 +12,5 @@ object useconstants {
     var orderStatusMain = ""
     var callAllow = true
     var changeCallcolour = true
-
     var searchFrag_visible:Boolean= false
 }
