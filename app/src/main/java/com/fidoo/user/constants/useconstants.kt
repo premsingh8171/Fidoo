@@ -5,4 +5,5 @@ object useconstants {
 //    var currentlyAddedAddress : String = ""
     var navigateFromCart = 0
     var navigateFromNewAddressActivity = 0
+    var searchFrag_visible:Boolean= false
 }

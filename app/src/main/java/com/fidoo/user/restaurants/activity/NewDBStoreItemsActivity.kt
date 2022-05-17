@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,9 +26,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
@@ -37,15 +37,20 @@ import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addCartTempList
 import com.fidoo.user.activity.MainActivity.Companion.tempProductList
+import com.fidoo.user.activity.MyApplication
+import com.fidoo.user.activity.MyApplication.Companion.applicationContext
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.fragments.newhotel_ProductSearch
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
+import com.fidoo.user.newRestaurants.model.NewStoreDetailsModel
 import com.fidoo.user.newRestaurants.model.Product
 import com.fidoo.user.newRestaurants.model.Subcategory
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
@@ -55,6 +60,7 @@ import com.fidoo.user.restaurants.adapter.StoreCustomItemsAdapter
 import com.fidoo.user.restaurants.adapter.StoreItemsAdapter
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.listener.CustomCartPlusMinusClick
+import com.fidoo.user.restaurants.listener.search_fragListener
 import com.fidoo.user.restaurants.model.CustomCheckBoxModel
 import com.fidoo.user.restaurants.model.CustomListModel
 import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
@@ -65,6 +71,7 @@ import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.showAlertDialog
+import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory
 import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory.executor
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.appbar.AppBarLayout
@@ -73,6 +80,7 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
+import kotlinx.android.synthetic.main.activity_new_store_items.*
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.activity_store_items.RestaurantPrdSearch
 import kotlinx.android.synthetic.main.activity_store_items.app_bar
@@ -112,24 +120,21 @@ import kotlinx.android.synthetic.main.activity_store_items.tv_store_name
 import kotlinx.android.synthetic.main.activity_store_items.veg_switch_img
 import kotlinx.android.synthetic.main.no_internet_connection.*
 import kotlinx.android.synthetic.main.no_item_found.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.math.RoundingMode
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashSet
 
-
-class NewDBStoreItemsActivity :
+ class NewDBStoreItemsActivity :
     BaseActivity(),
     AdapterClick,
     CustomCartPlusMinusClick,
     AdapterCustomRadioClick,
     AdapterAddRemoveClick,
-    AdapterCartAddRemoveClick {
+    AdapterCartAddRemoveClick, search_fragListener {
     private var categoryy: ArrayList<CustomListModel>? = null
     private var mainlist: ArrayList<StoreItemProductsEntity>? = null
     private var veg_item_list: ArrayList<StoreItemProductsEntity>? = null
@@ -169,6 +174,7 @@ class NewDBStoreItemsActivity :
     var storeName: String = ""
     private var mMixpanel: MixpanelAPI? = null
     lateinit var isVegApplied : Flow<List<StoreItemProductsEntity>>
+    lateinit var searchResult1 : LiveData<List<StoreItemProductsEntity>>
 
 
     companion object {
@@ -184,6 +190,9 @@ class NewDBStoreItemsActivity :
         var restaurantName: String? = ""
         var restaurantAddress: String? = ""
     }
+
+
+
     //for pagination
     var totalItem: Int? = 800
     var table_count: Int? = 0
@@ -219,7 +228,7 @@ class NewDBStoreItemsActivity :
     var viewmodelusertrack: UserTrackerViewModel? = null
 
     //roomdb
-    private lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
+    public lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
     private var barOffset = 0
     private var fabVisible = true
     var pagecount: Int = 0
@@ -274,8 +283,7 @@ class NewDBStoreItemsActivity :
 
         tv_location.text =intent.getStringExtra("store_location").toString().replace(" ,", ", ")
 
-
-
+//
         cartitemView_LLstore.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
                 startActivity(
@@ -314,6 +322,9 @@ class NewDBStoreItemsActivity :
         }
 
         search_backImg.setOnClickListener {
+            isonlyveg= true
+            handleresponce=1
+            getRoomData()
             hideKeyboard(searchEdt_ResPrd)
             visibilityView()
         }
@@ -327,13 +338,36 @@ class NewDBStoreItemsActivity :
         })
 
         RestaurantPrdSearch.setOnClickListener {
-            searchEdt_ResPrd.isCursorVisible = true
-            showKeyboard(searchEdt_ResPrd)
-            store_details_lay.visibility = View.VISIBLE
-            res_header_constL.visibility = View.GONE
-            search_visibility_card.visibility = View.VISIBLE
-            slide_ = AnimationUtils.loadAnimation(this, R.anim.rv_left_right_anim)
+//            searchEdt_ResPrd.isCursorVisible = true
+//            showKeyboard(searchEdt_ResPrd)
+//            store_details_lay.visibility = View.VISIBLE
+//            res_header_constL.visibility = View.GONE
+//            search_visibility_card.visibility = View.VISIBLE
+//            slide_ = AnimationUtils.loadAnimation(this, R.anim.rv_left_right_anim)
             cartitemView_LL?.startAnimation(slide_)
+
+            newSearch_frag.visibility=View.VISIBLE
+
+            val fragManager= supportFragmentManager
+            val trasaction= fragManager.beginTransaction()
+            val searchFrag= newhotel_ProductSearch()
+            useconstants.searchFrag_visible= true
+
+            var mBundle= Bundle()
+            mBundle.putString("storeId", storeID)
+            mBundle.putString("storeName", restaurantName)
+            mBundle.putString("store_location", restaurantAddress)
+            searchFrag.arguments= mBundle
+            trasaction.add(R.id.newSearch_frag, searchFrag).commit()
+
+
+
+
+//            val intent= Intent(this, New_storeitem_search::class.java)
+//            intent.putExtra("storeId", storeID)
+//            intent.putExtra("storeName", restaurantName)
+//            intent.putExtra("store_location", restaurantAddress)
+//            startActivity(intent)
         }
 
         searchEdt_ResPrd?.addTextChangedListener(object : TextWatcher {
@@ -350,19 +384,23 @@ class NewDBStoreItemsActivity :
             ) {
                 search_value = s.toString()
 
+
                 if (mainlist!!.isEmpty()) {
                     return
                 }
+                storeItemsRecyclerview.visibility= View.INVISIBLE
+                shimmerFrameLayout.startShimmer()
+                shimmerFrameLayout.visibility= View.VISIBLE
+
+
+                Handler().postDelayed({
+
+
+                    new_search_query(search_value)
 
 
 
-
-                searchQuery(search_value)
-
-
-
-
-
+                },500)
 
             }
         })
@@ -376,6 +414,8 @@ class NewDBStoreItemsActivity :
 //        }
 
         backIcon.setOnClickListener {
+
+
             if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                 AppUtils.finishActivityLeftToRight(this)
             } else {
@@ -386,7 +426,11 @@ class NewDBStoreItemsActivity :
                 } else {
                     cartitemView_LLstore.visibility = View.VISIBLE
                 }
+
             }
+            deleteRoomDataBase()
+
+
         }
 
         cat_FloatBtn.setOnTouchListener(object : View.OnTouchListener {
@@ -460,6 +504,7 @@ class NewDBStoreItemsActivity :
                 )
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
+
                 clearCartPopup()
             }
         }
@@ -786,6 +831,7 @@ class NewDBStoreItemsActivity :
 
                 if (storeData.subcategory.isNotEmpty()) {
 
+
                     executor().execute {
                         for (i in storeData.subcategory.indices) {
                             val categoryData = storeData.subcategory[i]
@@ -796,7 +842,10 @@ class NewDBStoreItemsActivity :
                                 if (storeData.subcategory[i].product[j].is_nonveg.equals("0")){
                                     new_veggielist.add(storeData.subcategory[i])
                                 }
-                                catList.add(storeData.subcategory[i])
+
+                                if(!catList.contains(storeData.subcategory[i])) {
+                                    catList.add(storeData.subcategory[i])
+                                }
                                 lastCustomized_str = ""
                                 product_customize_id = ""
                                 var customNamesList_: ArrayList<String>? = ArrayList()
@@ -917,9 +966,12 @@ class NewDBStoreItemsActivity :
                         }
 
                     }
+
+
                     cat_visible = 1
                     no_itemsFound_res.visibility = View.GONE
                     no_item_foundll.visibility = View.GONE
+
                 }
 
             } else if (storeData.error_code == 101) {
@@ -1298,8 +1350,7 @@ class NewDBStoreItemsActivity :
 
                                                 (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
 
-                                    }
-                                    else{
+                                    }else{
 
                                                 (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 675)
 
@@ -1321,7 +1372,7 @@ class NewDBStoreItemsActivity :
                 }
             })
 
-        catrecyclerView.adapter = restaurantCategoryAdapter
+        catrecyclerView?.adapter = restaurantCategoryAdapter
 
     }
 
@@ -1378,7 +1429,7 @@ class NewDBStoreItemsActivity :
                 }
             })
 
-        catrecyclerView.adapter = restaurantCategoryAdapter
+        catrecyclerView?.adapter = restaurantCategoryAdapter
 
     }
 
@@ -1416,7 +1467,6 @@ class NewDBStoreItemsActivity :
                     }
                 }
 
-                @SuppressLint("NotifyDataSetChanged")
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     currentItems = manager!!.childCount
@@ -1468,7 +1518,7 @@ class NewDBStoreItemsActivity :
                                         totalItem = totalItem?.plus(100)
                                         handleresponce = 1
                                         //showIOSProgress()
-                                        getRoomData()
+                                       // getRoomData()
                                         isScrolling = false
                                     }
                                 }
@@ -1529,7 +1579,6 @@ class NewDBStoreItemsActivity :
                     }
                 }
 
-                @SuppressLint("NotifyDataSetChanged")
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     currentItems = manager1!!.childCount
@@ -1581,7 +1630,7 @@ class NewDBStoreItemsActivity :
                                         totalItem = totalItem?.plus(100)
                                         handleresponce = 1
                                         //showIOSProgress()
-                                        getvegitems()
+                                      //  getvegitems()
                                         isScrolling = false
                                     }
                                 }
@@ -1609,7 +1658,6 @@ class NewDBStoreItemsActivity :
     }
 
     //search query get data
-    @SuppressLint("NotifyDataSetChanged")
     private fun searchQuery(query: String?) {
         var search_key = "%$query%"
         Log.d("searchData_", search_key.toString())
@@ -1642,7 +1690,7 @@ class NewDBStoreItemsActivity :
                             }
                             storeItemsAdapter.updateData(mainlist!!, table_count!!)
                         }
-                        storeItemsAdapter.notifyDataSetChanged()
+                        storeItemsAdapter?.notifyDataSetChanged()
                         Log.d("searchdata_", search.toString())
 
                     })
@@ -1655,7 +1703,6 @@ class NewDBStoreItemsActivity :
 
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun new_search_query(query1: String?){
         var search_key = "%$query1%"
 
@@ -1672,11 +1719,7 @@ class NewDBStoreItemsActivity :
                         if (!query1.equals("")) {
                             productListFilter = it as ArrayList<StoreItemProductsEntity>
 
-                            val s: Set<StoreItemProductsEntity> =
-                                LinkedHashSet<StoreItemProductsEntity>(veg_item_list)
-                            productListFilter!!.clear()
 
-                            productListFilter!!.addAll(s)
 
                             storeItemsAdapter.updateData(
                                 productListFilter!!,
@@ -1702,8 +1745,15 @@ class NewDBStoreItemsActivity :
 //                          //  storeItemsAdapter.updateData(mainlist!!, table_count!!)
 //                        }
                         }
-                        storeItemsAdapter.notifyDataSetChanged()
+                        storeItemsAdapter?.notifyDataSetChanged()
                         Log.d("searchdata_", it.toString())
+                        storeItemsRecyclerview.visibility = View.VISIBLE
+
+                        //   storeItemsAdapter.notifyDataSetChanged()
+
+                        shimmerFrameLayout.visibility= View.GONE
+
+                        shimmerFrameLayout.stopShimmer()
 
                 })
 
@@ -1711,13 +1761,7 @@ class NewDBStoreItemsActivity :
 
 
 
-        storeItemsRecyclerview.visibility = View.VISIBLE
 
-
-
-        shimmerFrameLayout.visibility= View.GONE
-
-        shimmerFrameLayout.stopShimmer()
 
     }
 
@@ -1729,12 +1773,12 @@ class NewDBStoreItemsActivity :
             ) {
 
                 restaurantProductsDatabase!!.resProductsDaoAccess()!!.getTableCount()
-                    .observe(this) { c ->
+                    .observe(this, { c ->
                         Log.d("table_count", c.toString())
                         table_count = c.toInt()
-                    }
+                    })
 
-                isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllProducts2(totalItem.toString())
+                    isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllProducts2(totalItem.toString())
 
 
 
@@ -1819,7 +1863,7 @@ class NewDBStoreItemsActivity :
                 .build()
             restaurantProductsDatabase!!.resProductsDaoAccess()!!.updateCustomizeProducts(
                 count,
-                productId,
+                productId!!,
                 customize_quantity!!,
                 customizeItemName
             )
@@ -1955,7 +1999,7 @@ class NewDBStoreItemsActivity :
         tempOfferPrice = offerPrice
         countValue.text = tempCount
         cus_itemProductId = productId!!
-        custom_itemCount = count.toInt()
+        custom_itemCount = count!!.toInt()
 
         if (type == "custom") {
             if (mCustomizeCount == 0) {
@@ -2583,14 +2627,21 @@ class NewDBStoreItemsActivity :
     private fun getvegitems(){
 
         restaurantProductsDatabase!!.resProductsDaoAccess()!!.getvegTableCount("0")
-            .observe(this@NewDBStoreItemsActivity) { c ->
+            .observe(this@NewDBStoreItemsActivity, { c ->
                 Log.d("table_count", c.toString())
                 table_count = c.toInt()
-            }
+            })
+
 
         CoroutineScope(Dispatchers.IO).launch {
+
+
+
             isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllVegProduct("0",totalItem.toString())
+
             lifecycleScope.launchWhenCreated {
+
+
                     isVegApplied
                         .collect(){
                             Log.d("restaurantPrdD", it.size.toString() + "--" + handleresponce)
@@ -2626,6 +2677,10 @@ class NewDBStoreItemsActivity :
                             }
                         }
                 }
+
+//                if (vegToggle .equals("On") || vegToggle.equals("Off")) {
+//                    dismissIOSProgress()
+//                }
 
         }
     }
@@ -2713,5 +2768,49 @@ class NewDBStoreItemsActivity :
         getRoomData()
 
         super.onRestart()
+
+
+
+
     }
-}
+
+     override fun detach_searchFrah() {
+
+         val manan= supportFragmentManager
+         val trans= manan.beginTransaction()
+         val fragnew= newhotel_ProductSearch()
+         trans.remove(fragnew)
+         trans.commit()
+         manan.popBackStack()
+         newSearch_frag.visibility= View.GONE
+         mainlist!!.clear()
+         storeItemsAdapter.notifyDataSetChanged()
+         storeItemsRecyclerview.invalidate()
+
+         useconstants.searchFrag_visible= false
+
+         storeItemsRecyclerview.visibility= View.INVISIBLE
+         shimmerFrameLayout.startShimmer()
+         shimmerFrameLayout.visibility= View.VISIBLE
+         handleresponce=0
+         getRoomData()
+
+         Handler().postDelayed({
+             //  storeItemsAdapter.putvegdata(veg_item_list!!)
+             storeItemsRecyclerview.visibility = View.VISIBLE
+
+             storeItemsAdapter.notifyDataSetChanged()
+
+             shimmerFrameLayout.visibility= View.GONE
+             handleresponce=1
+             shimmerFrameLayout.stopShimmer()
+
+
+         }, 1000)
+     }
+
+
+
+
+
+ }

@@ -29,6 +29,10 @@
         android:theme="@style/Theme.TwicloRedesigned"
         tools:replace="android:allowBackup,android:name,android:theme,android:icon">
 
+        <activity android:name=".restaurants.activity.New_storeitem_search"
+            android:screenOrientation="portrait"
+            android:exported="true"/>
+
 
         <activity
             android:name=".dailyneed.ui.ServiceDailyNeedActivity"

@@ -14,6 +14,8 @@
 
 
 
+
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -597,7 +599,7 @@
         android:background="@drawable/cart_bg"
         android:backgroundTint="@color/white_trans"
         android:elevation="@dimen/margin_10"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 
@@ -900,9 +902,20 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/newSearch_frag"
+        android:visibility="visible"
+
+        >
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
 

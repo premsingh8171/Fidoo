@@ -1,12 +1,18 @@
 package com.fidoo.user.newsearch.ui
 
+
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory.executor
 import android.widget.AbsListView
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,17 +23,16 @@ import com.fidoo.user.dashboard.listener.ClickEventOfDashboard
 import com.fidoo.user.dashboard.model.newmodel.*
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.ActivityNewSearchBinding
-import com.fidoo.user.newRestaurants.activity.NewStoreItemsActivity
 import com.fidoo.user.newsearch.adapter.SearchCategoryAdapter
 import com.fidoo.user.newsearch.model.SuggestionX
 import com.fidoo.user.newsearch.viewmodel.SearchNewViewModel
 import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
-import com.fidoo.user.restaurants.activity.StoreItemsActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.utils.BaseActivity
 import com.google.gson.Gson
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_search_new.view.*
+
 
 class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	private lateinit var binding: ActivityNewSearchBinding
@@ -53,8 +58,13 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	private var pagecount = 0
 
 	var mainList: ArrayList<SuggestionX>? = null
+	var nonavailable_mainList: ArrayList<SuggestionX>? = null
 	var latestList: ArrayList<SuggestionX>? = null
+	var latestList2: ArrayList<SuggestionX>? = null
+	var latestList3: ArrayList<SuggestionX>? = null
+	var latestList4: ArrayList<SuggestionX>? = null
 	private lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
+
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -64,7 +74,11 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 		viewModel = ViewModelProvider(this).get(SearchNewViewModel::class.java)
 		manager = GridLayoutManager(this, 1)
 		mainList = ArrayList()
+		nonavailable_mainList = ArrayList()
 		latestList = ArrayList()
+		latestList2 = ArrayList()
+		latestList3 = ArrayList()
+		latestList4 = ArrayList()
 		recentSearch = ArrayList()
 		try {
 			service_id = intent.getStringExtra("service_id")
@@ -73,14 +87,57 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			e.printStackTrace()
 		}
 
+
+		binding.searchKeyETxtAct.isCursorVisible= true
+		//showKeyboard(binding.searchKeyETxtAct)
 		onClick()
+
 		onResponse()
-		showKeyboard(binding.searchKeyETxtAct)
+
+
+		binding.searchKeyETxtAct.setOnEditorActionListener { v, actionId, event ->
+
+			if (actionId == EditorInfo.IME_ACTION_DONE-1){
+
+				search_value= binding.searchKeyETxtAct.text.toString()
+
+
+
+				hideKeyboard(binding.searchKeyETxtAct)
+			}
+			false
+		}
+
+
+
 
 	}
 
+	private fun new_responsee(){
+		viewModel!!.keywordBasedSearchSuggestionsRes!!.observe(this, Observer {
+			if (it.error_code==200){
+
+
+				executor().execute {
+					for (i in it.suggestions.indices) {
+						if (it.suggestions[i].available.equals("1")) {
+							latestList3!!.add(it.suggestions[i])
+						} else {
+							latestList4!!.add(it.suggestions[i])
+						}
+
+					}
+
+				}
+				latestList3!!.addAll(latestList4!!)
+
+			}
+		})
+	}
+
+
 	private fun onResponse() {
-		viewModel!!.keywordBasedSearchSuggestionsRes!!.observe(this, {
+		viewModel!!.keywordBasedSearchSuggestionsRes!!.observe(this) {
 
 			if (it.error_code == 200) {
 				hit = 0
@@ -88,34 +145,50 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				latestList!!.clear()
 				Log.d("keyword___", Gson().toJson(it))
 
-				if(search_value!!.isNotEmpty()) {
-					binding.rvSearchResult!!.visibility=View.VISIBLE
-					binding.showingResult.visibility=View.VISIBLE
+				if (search_value!!.isNotEmpty()) {
+					binding.rvSearchResult.visibility = View.VISIBLE
+					binding.showingResult.visibility = View.VISIBLE
 					if (pagecount > 0) {
 						latestList = it.suggestions as ArrayList
-						mainList!!.addAll(latestList!!)
+						for (i in 0 until latestList!!.size) {
+							if (latestList!![i].available.equals("1")) {
+								mainList!!.add(latestList!![i])
+							}
+						}
+
 						//here we remove duplicate item
 						val s: Set<SuggestionX> = LinkedHashSet<SuggestionX>(mainList)
+
 						mainList!!.clear()
 						mainList!!.addAll(s)
+
 						searchCategoryAdapter!!.updateData(mainList!!, isMore)
 						searchCategoryAdapter!!.notifyDataSetChanged()
 					} else {
-						mainList = it.suggestions as ArrayList
+						latestList2 = it.suggestions as ArrayList
+						for (i in 0 until latestList2!!.size) {
+							if (latestList2!![i].available.equals("1")) {
+								mainList!!.add(latestList2!![i])
+							}
+						}
+
 						//here we remove duplicate item
 						val s: Set<SuggestionX> = LinkedHashSet<SuggestionX>(mainList)
+
 						mainList!!.clear()
 						mainList!!.addAll(s)
+
 						rvCategoryList(mainList!!)
 					}
-					binding.showingResult.text = "Showing Results (" + mainList!!.size.toString() + ")"
+					binding.showingResult.text =
+						"Showing Results (" + mainList!!.size.toString() + ")"
 
-				}else{
-					binding.rvSearchResult!!.visibility=View.GONE
-					binding.showingResult!!.visibility=View.GONE
+				} else {
+					binding.rvSearchResult!!.visibility = View.GONE
+					binding.showingResult!!.visibility = View.GONE
 				}
 			}
-		})
+		}
 	}
 
 
@@ -230,6 +303,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 	private fun onClick() {
 
+
+
 		binding.searchKeyETxtAct.addTextChangedListener(object : TextWatcher {
 
 			override fun afterTextChanged(s: Editable) {}
@@ -329,6 +404,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			}
 		})
 
+
+
 		binding.editTxtAct.setOnClickListener {
 			try {
 				mainList!!.clear()
@@ -387,4 +464,6 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 		}.start()
 
 	}
+
+
 }
