@@ -2,14 +2,16 @@ package com.fidoo.user.newsearch.ui
 
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
-
+import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory.executor
 import android.widget.AbsListView
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -63,6 +65,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	var latestList4: ArrayList<SuggestionX>? = null
 	private lateinit var restaurantProductsDatabase: RestaurantProductsDatabase
 
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		binding = ActivityNewSearchBinding.inflate(layoutInflater)
@@ -84,10 +87,13 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			e.printStackTrace()
 		}
 
+
 		binding.searchKeyETxtAct.isCursorVisible= true
 		//showKeyboard(binding.searchKeyETxtAct)
 		onClick()
+
 		onResponse()
+
 
 		binding.searchKeyETxtAct.setOnEditorActionListener { v, actionId, event ->
 
@@ -95,34 +101,40 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 				search_value= binding.searchKeyETxtAct.text.toString()
 
-				new_response()
 
 
-				onResponse()
 				hideKeyboard(binding.searchKeyETxtAct)
 			}
 			false
 		}
 
 
+
+
 	}
 
-	private fun new_response(){
+	private fun new_responsee(){
 		viewModel!!.keywordBasedSearchSuggestionsRes!!.observe(this, Observer {
-
 			if (it.error_code==200){
 
 
-				for (i in it.suggestions.indices){
-					if (it.suggestions[i].available.equals("1")){
-						latestList3!!.add(it.suggestions[i])
-					}else{
-						latestList4!!.add(it.suggestions[i])
+				executor().execute {
+					for (i in it.suggestions.indices) {
+						if (it.suggestions[i].available.equals("1")) {
+							latestList3!!.add(it.suggestions[i])
+						} else {
+							latestList4!!.add(it.suggestions[i])
+						}
+
 					}
+
 				}
+				latestList3!!.addAll(latestList4!!)
+
 			}
 		})
 	}
+
 
 	private fun onResponse() {
 		viewModel!!.keywordBasedSearchSuggestionsRes!!.observe(this) {
@@ -134,24 +146,22 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				Log.d("keyword___", Gson().toJson(it))
 
 				if (search_value!!.isNotEmpty()) {
-					binding.rvSearchResult!!.visibility = View.VISIBLE
+					binding.rvSearchResult.visibility = View.VISIBLE
 					binding.showingResult.visibility = View.VISIBLE
 					if (pagecount > 0) {
 						latestList = it.suggestions as ArrayList
 						for (i in 0 until latestList!!.size) {
 							if (latestList!![i].available.equals("1")) {
 								mainList!!.add(latestList!![i])
-							} else {
-								nonavailable_mainList!!.add(latestList!![i])
 							}
 						}
 
 						//here we remove duplicate item
 						val s: Set<SuggestionX> = LinkedHashSet<SuggestionX>(mainList)
-						val s2: Set<SuggestionX> = LinkedHashSet<SuggestionX>(nonavailable_mainList)
+
 						mainList!!.clear()
 						mainList!!.addAll(s)
-						mainList!!.addAll(s2)
+
 						searchCategoryAdapter!!.updateData(mainList!!, isMore)
 						searchCategoryAdapter!!.notifyDataSetChanged()
 					} else {
@@ -159,17 +169,15 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 						for (i in 0 until latestList2!!.size) {
 							if (latestList2!![i].available.equals("1")) {
 								mainList!!.add(latestList2!![i])
-							} else {
-								nonavailable_mainList!!.add(latestList2!![i])
 							}
 						}
 
 						//here we remove duplicate item
 						val s: Set<SuggestionX> = LinkedHashSet<SuggestionX>(mainList)
-						val s2: Set<SuggestionX> = LinkedHashSet<SuggestionX>(nonavailable_mainList)
+
 						mainList!!.clear()
 						mainList!!.addAll(s)
-						mainList!!.addAll(s2)
+
 						rvCategoryList(mainList!!)
 					}
 					binding.showingResult.text =

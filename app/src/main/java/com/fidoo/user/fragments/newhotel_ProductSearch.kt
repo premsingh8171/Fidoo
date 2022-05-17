@@ -39,11 +39,8 @@ import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
-import com.fidoo.user.newRestaurants.model.Product
 import com.fidoo.user.newRestaurants.model.Subcategory
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
-import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
-import com.fidoo.user.restaurants.activity.New_storeitem_search
 import com.fidoo.user.restaurants.adapter.CategoryHeaderAdapter
 import com.fidoo.user.restaurants.adapter.NewDbRestaurantCategoryAdapter
 import com.fidoo.user.restaurants.adapter.StoreCustomItemsAdapter
@@ -57,18 +54,14 @@ import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 import com.fidoo.user.restaurants.viewmodel.StoreDetailsViewModel
-import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.hideKeyboard
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.utils.showKeyboard
-import com.fidoo.user.utils.showSoftKeyboard
-import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
-import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.activity_new_product_search.*
 import kotlinx.android.synthetic.main.activity_new_product_search.view.*
@@ -78,7 +71,6 @@ import kotlinx.android.synthetic.main.activity_new_store_items.countValue
 import kotlinx.android.synthetic.main.activity_new_store_items.customAddBtn
 import kotlinx.android.synthetic.main.activity_new_store_items.customItemsRecyclerview
 import kotlinx.android.synthetic.main.activity_new_store_items.totalprice_txtstore
-import kotlinx.android.synthetic.main.activity_new_store_items.transLay
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -225,13 +217,13 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         mainlist_new = ArrayList()
         productListFilter = ArrayList()
         storeID = bundle!!.getString("storeId")!!
-        New_storeitem_search.storeIDCheckOnCart = storeID
-        Log.d("storeIDCheckOnCart___", New_storeitem_search.storeIDCheckOnCart)
+        storeIDCheckOnCart = storeID
+        Log.d("storeIDCheckOnCart___", storeIDCheckOnCart)
         manager = GridLayoutManager(requireContext(), 1)
         manager1 = GridLayoutManager(requireContext(), 1)
 
-        New_storeitem_search.customerLatitude = ""
-        New_storeitem_search.customerLongitude = ""
+        customerLatitude = ""
+        customerLongitude = ""
         //  store_preference_Rlay  for meat ui Gone
         mainlist_new!!.clear()
         sessionTwiclo = SessionTwiclo(requireContext())
@@ -353,8 +345,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             var lastCustomized: String = ""
             lastCustomized = customNamesList.toString()
             val regex = "\\[|\\]"
-            New_storeitem_search.lastCustomized_str = lastCustomized.replace(regex.toRegex(), "")
-            New_storeitem_search.product_customize_id = "1"
+            lastCustomized_str = lastCustomized.replace(regex.toRegex(), "")
+            product_customize_id = "1"
             //Log.e("customIdsList", customIdsList.toString() + "\n" + lastCustomized_str)
 
             MainActivity.addCartTempList!!.clear()
@@ -377,13 +369,13 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 SessionTwiclo(requireContext()).storeId = bundle!!.getString("storeId")
                 SessionTwiclo(requireContext()).serviceId = MainActivity.service_idStr
 
-                New_storeitem_search.handleresponce = 1
+                handleresponce = 1
                 // product_customize_id
                 updateProductCustomized(
                     custom_itemCount,
                     cus_itemProductId!!,
                     0,
-                    New_storeitem_search.lastCustomized_str!!
+                   lastCustomized_str!!
                 )
 
                 viewmodel!!.addToCartApi(
@@ -721,17 +713,17 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             closeProgress()
             Log.e("addRemoveCartRes____", Gson().toJson(user))
             if (user.errorCode == 200) {
-                New_storeitem_search.handleresponce = 1
+                handleresponce = 1
                 try {
-                    New_storeitem_search.product_customize_id = user.product_customize_id
+                    product_customize_id = user.product_customize_id
                     Thread {
                         updateByCartIdProductCustomized(
                             user.cart_quantity!!.toInt(),
                             user.product_id!!,
                             user.is_customize_quantity!!.toInt(),
-                            New_storeitem_search.lastCustomized_str!!,
+                            lastCustomized_str!!,
                             user.cart_id!!,
-                            New_storeitem_search.product_customize_id!!
+                            product_customize_id!!
                         )
                     }.start()
 
@@ -764,7 +756,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
             closeProgress()
             if (user.errorCode == 200) {
-                New_storeitem_search.handleresponce = 1
+                handleresponce = 1
                 Log.e("stores_addResponse____", Gson().toJson(user))
                 if (tempType.equals("custom")) {
                     if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
@@ -780,7 +772,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                     MainActivity.addCartTempList!!.clear()
                 }
                 try {
-                    New_storeitem_search.product_customize_id = user.product_customize_id
+                    product_customize_id = user.product_customize_id
                     Thread {
                         if (user.cart_quantity.equals("0")) {
                         } else {
@@ -788,7 +780,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                                 user.cart_quantity!!.toInt(),
                                 user.product_id!!,
                                 user.is_customize_quantity!!.toInt(),
-                                New_storeitem_search.lastCustomized_str!!,
+                                lastCustomized_str!!,
                                 user.cart_id!!,
                                 user.product_customize_id
                             )
@@ -1085,7 +1077,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 requireContext(),
                 this,
                 productList_,
-                New_storeitem_search.fssai!!,
+                fssai!!,
                 bundle!!.getString("storeName").toString(),
                 // restaurantName!!,
                 "3.5",
@@ -1157,13 +1149,13 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
                         if (dy > 1) {
                             if (isScrolling && (currentItems + scrollOutItems) / 2 == totalItems / 2) {
-                                New_storeitem_search.handleresponce = 1
+                                handleresponce = 1
                                 Log.d(
                                     "isScrolling__",
                                     "$currentItems-$scrollOutItems-$totalItems"
                                 )
 
-                                if (table_count!! > New_storeitem_search.productsListing_Count!!) {
+                                if (table_count!! > productsListing_Count!!) {
                                     if (isScrolling == true) {
                                         totalItem = totalItem?.plus(100)
                                         handleresponce = 1
@@ -1205,7 +1197,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 requireContext(),
                 this,
                 vegproductList_,
-                New_storeitem_search.fssai!!,
+                fssai!!,
                 bundle!!.getString("storeName").toString(),
                 // restaurantName!!,
                 "3.5",
@@ -1277,16 +1269,16 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
                         if (dy > 1) {
                             if (isScrolling && (currentItems + scrollOutItems) / 2 == totalItems / 2) {
-                                New_storeitem_search.handleresponce = 1
+                                handleresponce = 1
                                 Log.d(
                                     "isScrolling__",
                                     "$currentItems-$scrollOutItems-$totalItems"
                                 )
 
-                                if (table_count!! > New_storeitem_search.productsListing_Count!!) {
+                                if (table_count!! > productsListing_Count!!) {
                                     if (isScrolling == true) {
                                         totalItem = totalItem?.plus(100)
-                                        New_storeitem_search.handleresponce = 1
+                                        handleresponce = 1
                                         //showIOSProgress()
 
                                         isScrolling = false
@@ -1380,7 +1372,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             requireContext(),
             this,
             productListFilter!!,
-            New_storeitem_search.fssai!!,
+            fssai!!,
             bundle!!.getString("storeName").toString(),
             // restaurantName!!,
             "3.5",
@@ -1425,10 +1417,10 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                         .collect() {
                             Log.d(
                                 "restaurantPrdD",
-                                it.size.toString() + "--" + New_storeitem_search.handleresponce
+                                it.size.toString() + "--" + handleresponce
                             )
 
-                            if (New_storeitem_search.handleresponce == 0) {
+                            if (handleresponce == 0) {
 
                                 mainlist_new = it as ArrayList<StoreItemProductsEntity>?
                                 val s: Set<StoreItemProductsEntity> =
@@ -1437,7 +1429,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
                                 mainlist_new!!.addAll(s)
 
-                                New_storeitem_search.productsListing_Count = mainlist_new!!.size
+                                productsListing_Count = mainlist_new!!.size
 //                                if (isonlyveg) {
 //                                    Log.d("dudi", "Second: $productsListing_Count")
 //                                    rvStoreItemlisting(mainlist!!)
@@ -1452,7 +1444,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                                 mainlist_new!!.clear()
                                 mainlist_new!!.addAll(s)
 
-                                New_storeitem_search.productsListing_Count = mainlist_new!!.size
+                                productsListing_Count = mainlist_new!!.size
 //                                if (isonlyveg) {
 //                                    storeItemsAdapter.updateData(mainlist!!, table_count!!)
 //                                }
@@ -1715,7 +1707,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                     custom_itemCount,
                     cus_itemProductId!!,
                     0,
-                    New_storeitem_search.lastCustomized_str!!
+                    lastCustomized_str!!
                 )
 
             } else {
@@ -2008,7 +2000,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                     count!!.toInt(),
                     productId!!,
                     0,
-                    New_storeitem_search.lastCustomized_str!!
+                    lastCustomized_str!!
                 )
             } else {
                 updateProductS(count!!.toInt(), productId!!)
@@ -2048,7 +2040,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         prodcustCustomizeId: String?,
         cart_id: String?
     ) {
-        New_storeitem_search.product_customize_id = prodcustCustomizeId!!
+        product_customize_id = prodcustCustomizeId!!
         tempOfferPrice = offerPrice
         //plusMinusPrice = 0.0
         tempPrice = 0.0
@@ -2115,7 +2107,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         prodcustCustomizeId: String?,
         cart_id: String?
     ) {
-        New_storeitem_search.product_customize_id = prodcustCustomizeId!!
+        product_customize_id = prodcustCustomizeId!!
         if (!isNetworkConnected()) {
             showToast(resources.getString(R.string.provide_internet))
         } else {
@@ -2135,7 +2127,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                         quantity!!.toInt(),
                         productId!!,
                         0,
-                        New_storeitem_search.lastCustomized_str!!
+                        lastCustomized_str!!
                     )
                 } else {
                     updateProductS(quantity!!.toInt(), productId!!)
@@ -2173,13 +2165,13 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         super.onResume()
         closeProgress()
         storeID = bundle!!.getString("storeId")!!
-        New_storeitem_search.storeIDCheckOnCart = storeID
+        storeIDCheckOnCart = storeID
 
 
 
         Log.d("OnRESUME___", "RESUME" + bundle!!.getString("delivery_time"))
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        if (New_storeitem_search.handleresponce == 1) {
+        if (handleresponce == 1) {
             getRoomData()
             if (SessionTwiclo(requireContext()).isLoggedIn) {
                 viewmodel?.getCartCountApi(
