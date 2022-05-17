@@ -245,7 +245,6 @@ class NewSearchStoreListingActivity : BaseActivity() {
             this
         )
     }
-
     override fun onResume() {
         super.onResume()
         deleteRoomDataBase()
