@@ -250,7 +250,6 @@ class NewSearchStoreListingActivity : BaseActivity() {
         deleteRoomDataBase()
     }
 
-    //delete room data
     private fun deleteRoomDataBase() {
         Thread {
             restaurantProductsDatabase = Room.databaseBuilder(
