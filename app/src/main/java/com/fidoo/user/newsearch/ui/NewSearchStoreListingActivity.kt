@@ -184,9 +184,9 @@ class NewSearchStoreListingActivity : BaseActivity() {
                 }
             })
 
-        binding.searchFilterRv!!.adapter = searchCategoryStoreAdapter
-        binding.searchFilterRv!!.layoutManager = manager
-        binding.searchFilterRv!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.searchFilterRv.adapter = searchCategoryStoreAdapter
+        binding.searchFilterRv.layoutManager = manager
+        binding.searchFilterRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
