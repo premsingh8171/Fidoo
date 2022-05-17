@@ -71,7 +71,6 @@ import com.prudhvir3ddy.rideshare.utils.AnimationUtils
 import com.prudhvir3ddy.rideshare.utils.MapUtils
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.activity_sendpackages_additem.*
-import kotlinx.android.synthetic.main.activity_track_order.*
 import kotlinx.android.synthetic.main.activity_track_sendpackages_order.*
 import kotlinx.android.synthetic.main.activity_track_sendpackages_order.customer_care_fmL
 import kotlinx.android.synthetic.main.activity_track_sendpackages_order.orderTrackBack_fmL

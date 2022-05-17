@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FCFAF6F6">
+
+        <RelativeLayout
+            android:id="@+id/bgcolor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-5dp"
+                android:elevation="@dimen/margin_15dp"
+                app:cardCornerRadius="@dimen/margin_15dp">
+
+                <LinearLayout
+                    android:id="@+id/card2"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/backBtnNew"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_12dp"
+                        android:layout_marginTop="@dimen/margin_16dp"
+                        android:padding="@dimen/margin_10dp"
+                        android:src="@drawable/ic_line_1" />
+
+                    <TextView
+                        android:id="@+id/tv_order_id_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_5dp"
+                        android:layout_marginTop="@dimen/margin_15dp"
+                        android:layout_weight=".5"
+                        android:fontFamily="@font/proximanovo"
+                        android:text="ORDER #"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/tv_order_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_order_id_label"
+                        android:layout_marginTop="@dimen/margin_15dp"
+                        android:layout_weight="9"
+                        android:fontFamily="@font/proxima"
+                        android:paddingTop="@dimen/margin_1dp"
+                        android:text="123456"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/customer_care_fmL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_order_id_label"
+                        android:layout_marginTop="@dimen/margin_15dp"
+                        android:layout_marginEnd="@dimen/margin_15dp"
+                        android:drawablePadding="@dimen/dimen_5dp"
+                        android:fontFamily="@font/proximanovasemibold"
+                        android:gravity="end"
+                        android:padding="@dimen/margin_10"
+                        android:text="Help"
+                        android:textColor="@color/primary_color"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <RelativeLayout
+                android:id="@+id/giflayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card1">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_alignParentTop="true"
+                    android:id="@+id/ordrePlaceGif"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_20dp"
+                    android:scaleType="fitXY" />
+
+                <ImageView
+                    android:id="@+id/cancelBtn1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="@dimen/margin_20dp"
+                    android:layout_marginBottom="@dimen/dimen_60dp"
+                    android:background="@drawable/ic_component_203"
+                    android:visibility="visible" />
+
+                <RelativeLayout
+                    android:id="@+id/eta_lay1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_16dp"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:background="@drawable/eta"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/watch_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/watch_icon"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/estimated_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@id/watch_icon" />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+            <!-- layout for map -->
+            <RelativeLayout
+                android:id="@+id/changegif"
+                android:layout_width="wrap_content"
+                android:layout_height="400dp"
+                android:layout_below="@+id/card1"
+                android:layout_marginBottom="@dimen/margin_60dp"
+                android:visibility="gone">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardMap12"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="60dp"
+                    app:cardCornerRadius="50dp">
+
+                    <ImageView
+                        android:id="@+id/map12"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/map_switch"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent" />
+
+
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+
+            <!-- layout for map -->
+
+
+            <RelativeLayout
+                android:id="@+id/giflayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card1"
+                android:visibility="gone">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/map1"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:context=".ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity" />
+
+                <RelativeLayout
+                    android:id="@+id/changegif3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="400dp"
+                    android:layout_marginBottom="60dp"
+                    android:visibility="gone">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardMap123"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="60dp"
+                        app:cardCornerRadius="50dp">
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/lottieAnimation2"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="visible"
+
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            tools:context=".ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity" />
+
+
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+
+
+                <ImageView
+                    android:id="@+id/cancelBtn11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="60dp"
+                    android:background="@drawable/ic_component_203"
+                    android:visibility="gone" />
+
+                </RelativeLayout>
+
+            <RelativeLayout
+
+                android:id="@+id/eta_lay11"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_below="@id/card1"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/watch_icon1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/watch_icon"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/estimated_time1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/watch_icon1"
+                    android:text="ETA" />
+            </RelativeLayout>
+            </RelativeLayout>
+
+
+            <!-- layout for map -->
+
+
+
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/coordinatl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="60dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <LinearLayout
+                    android:id="@+id/bottomSheetBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:isScrollContainer="true"
+                    android:orientation="vertical"
+                    app:behavior_hideable="false"
+                    app:behavior_peekHeight="200dp"
+                    app:layout_behavior="@string/bottom_sheet_behavior">
+
+                    <LinearLayout
+                        android:id="@+id/bottomLay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/top_corner_bg"
+                        android:backgroundTint="#F8F8F8"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_10"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/pullbar"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_120dp"
+                                android:layout_marginTop="@dimen/margin_6dp"
+                                android:layout_marginEnd="@dimen/margin_120dp"
+                                android:background="@drawable/pullbar" />
+
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/storeCardID"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_15dp"
+                                android:backgroundTint="@color/white"
+                                android:visibility="gone"
+                                app:cardCornerRadius="@dimen/margin_15dp"
+                                app:cardElevation="@dimen/dimen_5dp">
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <!-- old ui order details and cancel -->
+                                <RelativeLayout
+                                    android:id="@+id/address_details_lay"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="850dp"
+                                    android:background="#F8F8F8"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintHorizontal_bias="0.0"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+
+                                    <RelativeLayout
+                                        android:id="@+id/address_detail_lay"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp">
+
+                                        <androidx.core.widget.NestedScrollView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+                                            <androidx.recyclerview.widget.RecyclerView
+                                                android:id="@+id/recyclerViewNewTrack"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content" />
+                                        </androidx.core.widget.NestedScrollView>
+
+                                    </RelativeLayout>
+
+                                </RelativeLayout>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/relativelayoutbottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/et_round_new"
+                android:elevation="10dp">
+
+                <LinearLayout
+                    android:id="@+id/lastlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:padding="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/allitemlistlayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/lastlayout"
+
+                        android:background="@drawable/et_round_new"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/orderDetailsTxt1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/proximanovasemibold"
+                            android:padding="@dimen/margin_5dp"
+                            android:text="View All Order list"
+                            android:textColor="#359C47" />
+                    </RelativeLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                       >
+
+                        <RelativeLayout
+
+                            android:id="@+id/storeDetailsViewContsl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/store_img_onOrder"
+                                android:layout_width="@dimen/margin_45dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_height="@dimen/margin_45dp"
+                                android:layout_centerVertical="true"
+                                android:background="@color/white"
+                                android:scaleType="fitXY"
+                                app:shapeAppearanceOverlay="@style/RoundedSequare"
+                                tools:srcCompat="@tools:sample/avatars" />
+
+                            <TextView
+                                android:id="@+id/store_name_txt_info1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:fontFamily="@font/proxima"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:textColor="@color/colorTitle"
+                                android:textSize="14dp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                               android:layout_alignRight="@id/store_name_txt_info1"
+                                android:id="@+id/callStore"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginEnd="4dp"
+                                android:clickable="false"
+                                android:src="@drawable/calinactive"
+                                app:cardCornerRadius="10dp">
+                            </ImageView>
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+</layout>

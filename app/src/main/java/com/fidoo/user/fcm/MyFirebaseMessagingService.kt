@@ -33,7 +33,8 @@ import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.data.model.PushNotificationModel
 import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.ordermodule.ui.TrackOrderActivity
+import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity
+
 import com.fidoo.user.store.activity.StoreListActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -69,7 +70,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         sendNotificationTemp(dataPush?.title!!, dataPush.message!!, dataPush.orderid!!)
 
         if(MainActivity.check == "yes") {
-            TrackOrderActivity.notiInterface.notiStatus(dataPush.orderacceptreject)
+            NewTrackOrderActivity.notiInterface.notiStatus(dataPush.orderacceptreject)
         }
 
         // sendNotificationTemp(p0.data.get("title")!!, p0.data.get("message")!!, p0.data.get("orderid")!!)

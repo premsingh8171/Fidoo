@@ -13,6 +13,7 @@ import com.fidoo.user.R
 import com.fidoo.user.interfaces.AdapterReviewClick
 import com.fidoo.user.ordermodule.model.MyOrdersModel
 import com.fidoo.user.ordermodule.ui.*
+import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity
 import kotlinx.android.synthetic.main.orders_adapter.view.*
 
 
@@ -375,7 +376,7 @@ class OrdersAdapter(
 
                         } else {
                             context?.startActivity(
-                                Intent(context, TrackOrderActivity::class.java)
+                                Intent(context, NewTrackOrderActivity::class.java)
                                     .putExtra(ORDER_ID, orders[position].orderId)
                                     .putExtra(
                                         DELIVERY_BOY_NAME,
@@ -391,7 +392,7 @@ class OrdersAdapter(
                         }
                     } else {
                         context.startActivity(
-                            Intent(context, TrackOrderActivity::class.java)
+                            Intent(context, NewTrackOrderActivity::class.java)
                                 .putExtra(ORDER_ID, orders[position].orderId)
                                 .putExtra(DELIVERY_BOY_NAME, orders[position].delivery_boy_name)
                                 .putExtra(
