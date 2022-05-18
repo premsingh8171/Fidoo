@@ -272,7 +272,6 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
                 lottieAnimation2.setAnimationFromUrl(it.gif);
                 //OrderplaceGif1.setAnimationFromUrl(it.gif)
                 // OrderplaceGif12.setAnimationFromUrl(it.gif)
-
             }
             var url = it.riderBtmIcon
             GlideToVectorYou.init().with(this).load(Uri.parse(url), callStore)
