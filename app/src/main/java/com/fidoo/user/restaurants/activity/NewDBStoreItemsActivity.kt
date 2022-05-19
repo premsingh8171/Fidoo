@@ -352,6 +352,7 @@ import kotlin.collections.LinkedHashSet
             val trasaction= fragManager.beginTransaction()
             val searchFrag= newhotel_ProductSearch()
             useconstants.searchFrag_visible= true
+            cat_FloatBtn.visibility= View.GONE
 
             var mBundle= Bundle()
             mBundle.putString("storeId", storeID)
@@ -2793,6 +2794,7 @@ import kotlin.collections.LinkedHashSet
          shimmerFrameLayout.startShimmer()
          shimmerFrameLayout.visibility= View.VISIBLE
          handleresponce=0
+         cat_FloatBtn.visibility= View.VISIBLE
          getRoomData()
 
          Handler().postDelayed({

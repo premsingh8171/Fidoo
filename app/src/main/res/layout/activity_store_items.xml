@@ -729,6 +729,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent">
@@ -903,16 +904,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/newSearch_frag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/newSearch_frag"
         android:visibility="visible"
 
-        >
+        app:layout_anchor="@+id/coordinatorLayout"
+        app:layout_anchorGravity="center">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

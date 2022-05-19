@@ -1,6 +1,7 @@
 package com.fidoo.user.newsearch.ui
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -47,6 +48,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	//for pagination
 	var totalItem: Int? = 200
 	var table_count: Int? = 0
+	var text_count=0
 	private var manager: GridLayoutManager? = null
 	private var currentItems = 0
 	private var page_count = 0
@@ -80,6 +82,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 		latestList3 = ArrayList()
 		latestList4 = ArrayList()
 		recentSearch = ArrayList()
+
+
 		try {
 			service_id = intent.getStringExtra("service_id")
 			Log.d("service_id______", service_id!!)
@@ -100,9 +104,6 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			if (actionId == EditorInfo.IME_ACTION_DONE-1){
 
 				search_value= binding.searchKeyETxtAct.text.toString()
-
-
-
 				hideKeyboard(binding.searchKeyETxtAct)
 			}
 			false
@@ -113,27 +114,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 	}
 
-	private fun new_responsee(){
-		viewModel!!.keywordBasedSearchSuggestionsRes!!.observe(this, Observer {
-			if (it.error_code==200){
 
-
-				executor().execute {
-					for (i in it.suggestions.indices) {
-						if (it.suggestions[i].available.equals("1")) {
-							latestList3!!.add(it.suggestions[i])
-						} else {
-							latestList4!!.add(it.suggestions[i])
-						}
-
-					}
-
-				}
-				latestList3!!.addAll(latestList4!!)
-
-			}
-		})
-	}
 
 
 	private fun onResponse() {
@@ -143,6 +124,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				hit = 0
 				isMore = it.more_value
 				latestList!!.clear()
+//				mainList!!.clear()
+//				latestList2!!.clear()
 				Log.d("keyword___", Gson().toJson(it))
 
 				if (search_value!!.isNotEmpty()) {
@@ -150,22 +133,31 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 					binding.showingResult.visibility = View.VISIBLE
 					if (pagecount > 0) {
 						latestList = it.suggestions as ArrayList
+
+//
+						mainList!!.clear()
+
 						for (i in 0 until latestList!!.size) {
 							if (latestList!![i].available.equals("1")) {
 								mainList!!.add(latestList!![i])
 							}
+
 						}
 
 						//here we remove duplicate item
 						val s: Set<SuggestionX> = LinkedHashSet<SuggestionX>(mainList)
 
+
 						mainList!!.clear()
 						mainList!!.addAll(s)
+
 
 						searchCategoryAdapter!!.updateData(mainList!!, isMore)
 						searchCategoryAdapter!!.notifyDataSetChanged()
 					} else {
+
 						latestList2 = it.suggestions as ArrayList
+						mainList!!.clear()
 						for (i in 0 until latestList2!!.size) {
 							if (latestList2!![i].available.equals("1")) {
 								mainList!!.add(latestList2!![i])
@@ -178,7 +170,16 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 						mainList!!.clear()
 						mainList!!.addAll(s)
 
-						rvCategoryList(mainList!!)
+						if (text_count==0){
+							rvCategoryList(mainList!!)
+							text_count++
+						}else{
+							searchCategoryAdapter!!.updateData(mainList!!, isMore)
+							searchCategoryAdapter!!.notifyDataSetChanged()
+						}
+
+
+
 					}
 					binding.showingResult.text =
 						"Showing Results (" + mainList!!.size.toString() + ")"
@@ -313,6 +314,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
 			}
 
+			@SuppressLint("NotifyDataSetChanged")
 			override fun onTextChanged(
 				s: CharSequence, start: Int,
 				before: Int, count: Int
