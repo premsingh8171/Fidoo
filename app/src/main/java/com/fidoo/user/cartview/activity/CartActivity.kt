@@ -577,7 +577,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 			if (!isNetworkConnected) {
 				showToast(resources.getString(R.string.provide_internet))
 			} else {
-				if (MainActivity.orderProcess == 0) {
+				//if (MainActivity.orderProcess == 0) {
 					Log.d("userAddressId_", SessionTwiclo(this).userAddressId)
 					merchant_instructions = instruction_restaurantEt.getText().toString().trim()
 					if (address_id.equals("") && tv_delivery_address.text == "") {
@@ -623,11 +623,11 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 							isSelected, merchant_instructions
 						)
 					}
-				}
-				else{
+			//	}
+				/*else{
 					Toast.makeText(this,"One order is already in queue.",Toast.LENGTH_SHORT).show()
 					//	showToast("One order is already in queue.")
-				}
+				}*/
 			}
 		}
 
@@ -1193,11 +1193,11 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 			SessionTwiclo(this).storeId = ""
 			proceedClick = 0
 			finalOrderId = user.orderId
-//			viewmodel?.proceedToOrder(
-//				accountId,
-//				accessToken,
-//				finalOrderId
-//			)
+			viewmodel?.proceedToOrder(
+				accountId,
+				accessToken,
+				finalOrderId
+			)
 		}
 
 		viewmodel?.paymentFailureResponse?.observe(this) { user ->
@@ -1221,10 +1221,10 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 			}
 		}
 
-//		viewmodel?.proceedToOrderResponse?.observe(this, { orderProceed ->
-//			Log.e("proceedToOrderResponse", Gson().toJson(orderProceed))
-//			dismissIOSProgress()
-//		})
+		viewmodel?.proceedToOrderResponse?.observe(this, { orderProceed ->
+			Log.e("proceedToOrderResponse", Gson().toJson(orderProceed))
+			dismissIOSProgress()
+		})
 
 		viewmodel?.uploadPrescriptionResponse?.observe(this) { user ->
 			dismissIOSProgress()

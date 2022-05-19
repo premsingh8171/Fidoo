@@ -185,9 +185,11 @@
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
 
+<!--
         <activity
             android:name=".ordermodule.ui.TrackOrderActivity"
             android:screenOrientation="portrait" />
+-->
         <activity
             android:name=".ordermodule.ui.ReviewItemsActivity"
             android:screenOrientation="portrait" />

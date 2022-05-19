@@ -492,7 +492,7 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
         if (intent.getStringExtra("orderId") != "") {
             bgServicOrderId = intent.getStringExtra("orderId")!!
             tv_order_id.text = intent.getStringExtra("orderId")!!
-            startService(Intent(applicationContext, OrderBackgroundgService::class.java))
+           // startService(Intent(applicationContext, OrderBackgroundgService::class.java))
         }
 
         viewmodelusertrack?.customerActivityLog(
@@ -666,11 +666,11 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
             Log.e("cancelOrderResponse", Gson().toJson(user))
         }
 
-        viewmodel?.proceedToOrderResponse?.observe(this) {
+       /* viewmodel?.proceedToOrderResponse?.observe(this) {
             //timerr?.cancel()
             showToast("Your order has been placed")
             // waitingLay.visibility = View.GONE
-        }
+        }*/
 
         viewmodel?.callCustomerResponse?.observe(this) {
             Log.d("callCustomerResponse", Gson().toJson(it))
@@ -971,11 +971,11 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
             if (it.orderStatus == "13") {
                 //waitingLay.visibility = View.VISIBLE
                 Log.e("hit___", "hit--" + OrderBackgroundgService.timer_count!!)
-                startService(Intent(applicationContext, OrderBackgroundgService::class.java))
+               // startService(Intent(applicationContext, OrderBackgroundgService::class.java))
                 // ordstatus_lay_new.visibility = View.VISIBLE
                 //order_status.text = "Please wait while we confirm your order"
 
-                if (handleCounter == 0) {
+               /* if (handleCounter == 0) {
                     timerr = object : CountDownTimer(OrderBackgroundgService.timer_count!!, 1000) {
 
                         override fun onTick(millisUntilFinished: Long) {
@@ -1014,16 +1014,16 @@ class NewTrackOrderActivity : BaseActivity(), OnMapReadyCallback, OnCurveDrawnCa
 
                     }.start()
                     handleCounter = 1
-                }
+                }*/
 
                 if (currentOrderId!!.isNotEmpty()) {
                     if (CartActivity.proceedClick == 0) {
-                        CartActivity.proceedClick = 1
+                        /*CartActivity.proceedClick = 1
                         viewmodel?.proceedToOrder(
                             SessionTwiclo(trackOrderContext).loggedInUserDetail.accountId,
                             SessionTwiclo(trackOrderContext).loggedInUserDetail.accessToken,
                             currentOrderId.toString()
-                        )
+                        )*/
                     }
                 }
 
