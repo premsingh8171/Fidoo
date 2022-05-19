@@ -76,9 +76,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         onClick()
-
         swipeRefreshLaySearch.setOnRefreshListener {
             if (sessionInstance.isLoggedIn) {
                 viewModel!!.keywordBasedSearchResultsApi(
