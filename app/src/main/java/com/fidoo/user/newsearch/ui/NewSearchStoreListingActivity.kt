@@ -121,15 +121,13 @@ class NewSearchStoreListingActivity : BaseActivity() {
                 pagecount.toString()
             )
         }
-
         onResponse()
-
     }
 
     private fun onResponse() {
-        viewModel!!.keywordBasedSearchResultsRes!!.observe(this, {
+        viewModel!!.keywordBasedSearchResultsRes!!.observe(this) {
             dismissIOSProgress()
-            swipeRefreshLaySearch.isRefreshing=false
+            swipeRefreshLaySearch.isRefreshing = false
             Log.d("sdfdddfssd", Gson().toJson(it))
             if (it.error_code == 200) {
                 hit = 0
@@ -152,7 +150,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
 
             }
 
-        })
+        }
     }
 
     private fun rvCategoryList(arrayList: ArrayList<Store>) {
