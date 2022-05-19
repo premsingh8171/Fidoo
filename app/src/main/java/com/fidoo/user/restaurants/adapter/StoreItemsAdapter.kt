@@ -16,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
@@ -28,6 +29,7 @@ import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.model.StoreDetailsModel
+import com.fidoo.user.restaurants.model.vegDiffUtil
 import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 import kotlinx.android.synthetic.main.store_product.view.*
 import java.util.concurrent.Executors
@@ -79,11 +81,21 @@ class StoreItemsAdapter(
                 con.resources.getString(R.string.ruppee) + "" + index.offerPrice
             holder.priceTxt.visibility=View.VISIBLE
         } else {
-            holder.offerPrice.text =
-                con.resources.getString(R.string.ruppee) + "" + index.offerPrice
-            holder.priceTxt.visibility=View.INVISIBLE
+            if(index.offerPrice!!< 0.toString()){
+                holder.offerPrice.text =
+                    con.resources.getString(R.string.ruppee) + 0
+            }else{
+                holder.offerPrice.text =
+                    con.resources.getString(R.string.ruppee) + index.offerPrice!!
+            }
+
+//            holder.offerPrice.text =
+//                con.resources.getString(R.string.ruppee) + "" + index.offerPrice
+//            holder.priceTxt.visibility=View.INVISIBLE
 
         }
+
+
 //        }catch (e:Exception){
 //            e.printStackTrace()
 //        }
@@ -422,6 +434,15 @@ class StoreItemsAdapter(
         // Set other dialog properties
         alertDialog.setCancelable(true)
         alertDialog.show()
+    }
+
+    fun putvegdata(veglist:ArrayList<StoreItemProductsEntity>){
+        val diffutil= vegDiffUtil(productList, veglist)
+        val diffresult= DiffUtil.calculateDiff(diffutil)
+        productList.clear()
+        productList.addAll(veglist)
+        diffresult.dispatchUpdatesTo(this)
+
     }
 
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {

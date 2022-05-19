@@ -104,7 +104,7 @@
     <string name="when_your_friend_signed_up_they_get_1_free_delivery">When your friend signed up, they get 1 free delivery.</string>
     <string name="both_get_rewarded">Both get rewarded</string>
     <string name="referral_link">Referral Link</string>
-    <string name="you_get_free_deliveries_for_five_orders_when_your_friend_makes_the_first_order">You get free deliveries for five orders when your friend makes the first order</string>
+    <string name="you_get_free_deliveries_for_one_orders_when_your_friend_makes_the_first_order">You get free deliveries for five orders when your friend makes the first order</string>
     <string name="invite_now">Invite Now</string>
     <string name="grocery">Grocery</string>
     <string name="prescription">Prescription</string>
@@ -175,13 +175,14 @@
     <string name="no_details_found_for_failed_order">No details found for failed order</string>
     <string name="in_progress">In Progress</string>
     <string name="preparing">Preparing</string>
+    <string name="Delivery_boy_reached_to_your_loc">Delivery boy reached your location </string>
     <string name="out_for_delivery">Out for delivery</string>
     <string name="accepted">Accepted</string>
     <string name="everything_delivered">Everything\nDelivered<font color='#369c47'>.</font></string>
     <string name="delivery_ch1">
-
-Delivery charges applied as mentioned below :
-
+     <string name="button_allow">Allow</string>
+    <string name="button_deny">Deny</string>
 </string>
+
 
 </resources>

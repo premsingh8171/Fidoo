@@ -223,6 +223,7 @@ class SplashFragment : BaseFragment() {
                 if (response.body()!!.error_code == 300) {
                     updateAppDialog(response.body()!!.latest_version)
                 } else {
+                    fidooSplashLogo.setMaxProgress(1f)
                     fidooSplashLogo.playAnimation()
 
 //                    Glide.with(mmContext!!).load(R.drawable.splash_screen)
@@ -274,7 +275,7 @@ class SplashFragment : BaseFragment() {
                                 e.printStackTrace()
                             }
                         }
-                    }, 1500)
+                    }, 3000)
 
                 }
             }

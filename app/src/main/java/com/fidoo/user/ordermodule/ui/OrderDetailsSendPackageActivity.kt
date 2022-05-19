@@ -24,6 +24,8 @@ import com.fidoo.user.utils.CommonUtils
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import kotlinx.android.synthetic.main.activity_order_details_sendpackages.*
+import kotlinx.android.synthetic.main.buy_popup.*
+import kotlin.math.roundToInt
 
 @Suppress("DEPRECATION")
 class OrderDetailsSendPackageActivity : BaseActivity() {
@@ -46,9 +48,10 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
         viewmodelusertrack = ViewModelProviders.of(this).get(UserTrackerViewModel::class.java)
 
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
-
-        if (intent.getStringExtra("orderId")!=null){
-            orderId=intent.getStringExtra("orderId")
+//
+        if (intent.getStringExtra("orderId") != null) {
+            orderId = intent.getStringExtra("orderId")
+            sendPackageOrdTxt.text = "Order: #" + orderId
         }
 
         onClick()
@@ -56,29 +59,71 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
         if (isNetworkConnected) {
             viewmodel?.sendPackageOrderDetailsApi(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken, intent.getStringExtra("orderId")
+                SessionTwiclo(this).loggedInUserDetail.accessToken, orderId
             )
-            viewmodelusertrack?.customerActivityLog(SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).mobileno,"ReviewOrder Screen",
-                SplashActivity.appversion, "",SessionTwiclo(this).deviceToken
+            viewmodelusertrack?.customerActivityLog(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).mobileno, "ReviewOrder Screen",
+                SplashActivity.appversion, "", SessionTwiclo(this).deviceToken
             )
-        } else { }
+        } else {
+        }
 
         backIcon_reviewOrd.setOnClickListener {
             finish()
             // AppUtils.finishActivityLeftToRight(this)
         }
 
-        viewmodel?.sendPackageOrderDetailsRes?.observe(this, { user ->
+        viewmodel?.sendPackageOrderDetailsRes?.observe(this) { user ->
             dismissIOSProgress()
             Log.e("orders_details_ffResponse", Gson().toJson(user))
 
-            if (user!=null) {
-                visible_View_ReviewOrdLl.visibility=View.VISIBLE
-                try{
-                  //  order_delivered_time.text =user.deleivered_at
+            if (user != null) {
+                visible_View_ReviewOrdLl.visibility = View.VISIBLE
+                try {
+                    //  order_delivered_time.text =user.deleivered_at
 
-                }catch (e:Exception){
+
+                    if (user.order_status.equals("0")) {
+                        orderstatus_tv.text = "failed"
+                        orderStatusLabel.text = ""
+                        deliveredAtTxt.text = ""
+                        delivery_boyTxt.text = ""
+                    }else if (user.order_status.equals("2")) {
+                        orderstatus_tv.text = "Cancelled"
+                        orderStatusLabel.text = ""
+                        deliveredAtTxt.text = ""
+                        delivery_boyTxt.text = ""
+                    }else if (user.order_status.equals("17")) {
+                        orderstatus_tv.text = "Cancelled"
+                        orderStatusLabel.text = ""
+                        deliveredAtTxt.text = ""
+                        delivery_boyTxt.text = ""
+                    }else if (user.order_status.equals("3")) {
+                        orderstatus_tv.text = "Delivered"
+                        orderStatusLabel.text = "Time"
+                        deliveredAtTxt.text = user.deleivered_at
+                        delivery_boyTxt.text = "Order Delivered by " + user.delivery_boy_name
+                    }else if (user.order_status.equals("9")) {
+                        orderstatus_tv.text = "In Progress"
+                        orderStatusLabel.text = ""
+                        deliveredAtTxt.text = ""
+                        delivery_boyTxt.text = ""
+
+                    }else if (user.order_status.equals("16")){
+                        orderstatus_tv.text = "In Progress"
+                        orderStatusLabel.text = ""
+                        deliveredAtTxt.text = ""
+                        delivery_boyTxt.text = ""
+                    }else if (user.order_status.equals("17")){
+                        orderstatus_tv.text = "Cancelled"
+                        orderStatusLabel.text = ""
+                        deliveredAtTxt.text = ""
+                        delivery_boyTxt.text = ""
+                    }
+
+
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
 
@@ -100,29 +145,90 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
                     tv_toAddress_reviewOrd.text = user.to_address
                 }
 
+//                if (user.discount.toString() == "" || user.discount.toString() == "0") {
+//                    label_cart_discount.visibility = View.GONE
+//                    cart_discount.visibility = View.GONE
+//                } else {
+//                    cart_discount.text =
+//                        "-" + resources.getString(R.string.ruppee) + "" + user.discount
+//                    label_cart_discount.text = "Cart Discount (" + user.coupon_name + " )"
+//                }
 
-            }else{
-                visible_View_ReviewOrdLl.visibility=View.GONE
+                //  var deliveryChargeWithTax = user.delivery_charge.valuser.tax
+
+                if (user.tax.isNullOrEmpty()) {
+                    delivery_charge.text =
+                        resources.getString(R.string.ruppee) + "" + user.delivery_charge
+                } else {
+
+                    delivery_charge.text =
+                        resources.getString(R.string.ruppee) + "" + (user.delivery_charge.toInt() + user.tax.toInt()).toFloat()
+                }
+
+
+
+                label_delivery_charge.visibility = View.VISIBLE
+
+                if (user.coupon_name.equals("")) {
+                    delivery_coupon_label.text = "Delivery Discount"
+                } else {
+                    delivery_coupon_label.text =
+                        "Delivery Discount (" + user.coupon_name + ")"
+                }
+
+                if (user.discount.toFloat().toString() == "0.0" || user.discount.toString() == "0"
+                ) {
+                    delivery_coupon.visibility = View.GONE
+                    delivery_coupon_label.visibility = View.GONE
+                } else {
+                    delivery_coupon.visibility = View.VISIBLE
+                    delivery_coupon_label.visibility = View.VISIBLE
+                    delivery_coupon.text =
+                        "-" + resources.getString(R.string.ruppee) + "" + user.discount.toFloat()
+                }
+
+//                if (user.tax.toString()
+//                        .equals("") || user.tax.toString().equals("null")
+//                ) {
+//                    gstTxt.visibility = View.GONE
+//                    gstPriceTxt.visibility = View.GONE
+//                } else {
+//                    gstPriceTxt.text =
+//                        resources.getString(R.string.ruppee) + "" + user.tax
+//                    gstTxt.visibility = View.VISIBLE
+//                    gstPriceTxt.visibility = View.VISIBLE
+//                }
+
+                grand_price.text =
+                    resources.getString(R.string.ruppee) + "" + user.final_delivery_charge
+                sub_total.text =
+                    resources.getString(R.string.ruppee) + "" + user.final_delivery_charge
+                grand_price2.text =
+                    resources.getString(R.string.ruppee) + "" + user.final_delivery_charge
+                label_payMode1.text = "Payment Mode: " + user.payment_mode
+
+            } else {
+                visible_View_ReviewOrdLl.visibility = View.GONE
             }
-        })
 
+
+        }
 
         viewmodel?.reviewResponse?.observe(this, { user ->
             CommonUtils.dismissIOSProgress()
 
-                if (_progressDlg != null) {
-                    _progressDlg!!.dismiss()
-                    _progressDlg = null
-                }
-                handleApiResponse=1
+            if (_progressDlg != null) {
+                _progressDlg!!.dismiss()
+                _progressDlg = null
+            }
+            handleApiResponse = 1
 
-                val mModelData: ReviewModel = user
-                Log.e("reviewResponse_", Gson().toJson(mModelData))
-                Toast.makeText(this, user.message, Toast.LENGTH_SHORT).show()
-                finish()
+            val user: ReviewModel = user
+            Log.e("reviewResponse_", Gson().toJson(user))
+            Toast.makeText(this, user.message, Toast.LENGTH_SHORT).show()
+            finish()
 
         })
-
 
         viewmodel?.failureResponse?.observe(this, Observer { user ->
             if (_progressDlg != null) {
@@ -141,7 +247,12 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             driver_star4.setImageResource(R.drawable.start_off)
             driver_star5.setImageResource(R.drawable.start_off)
             driver_rating = "1"
-            review_submitSendPackage.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submitSendPackage.setBackgroundTintList(
+                ContextCompat.getColorStateList(
+                    this,
+                    R.color.primary_color
+                )
+            );
         }
 
         driver_star2.setOnClickListener {
@@ -151,7 +262,12 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             driver_star4.setImageResource(R.drawable.start_off)
             driver_star5.setImageResource(R.drawable.start_off)
             driver_rating = "2"
-            review_submitSendPackage.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submitSendPackage.setBackgroundTintList(
+                ContextCompat.getColorStateList(
+                    this,
+                    R.color.primary_color
+                )
+            );
         }
 
         driver_star3.setOnClickListener {
@@ -161,7 +277,12 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             driver_star4.setImageResource(R.drawable.start_off)
             driver_star5.setImageResource(R.drawable.start_off)
             driver_rating = "3"
-            review_submitSendPackage.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submitSendPackage.setBackgroundTintList(
+                ContextCompat.getColorStateList(
+                    this,
+                    R.color.primary_color
+                )
+            );
         }
 
         driver_star4.setOnClickListener {
@@ -171,7 +292,12 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             driver_star4.setImageResource(R.drawable.start_on)
             driver_star5.setImageResource(R.drawable.start_off)
             driver_rating = "4"
-            review_submitSendPackage.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submitSendPackage.setBackgroundTintList(
+                ContextCompat.getColorStateList(
+                    this,
+                    R.color.primary_color
+                )
+            );
         }
 
         driver_star5.setOnClickListener {
@@ -181,10 +307,20 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             driver_star4.setImageResource(R.drawable.start_on)
             driver_star5.setImageResource(R.drawable.start_on)
             driver_rating = "5"
-            review_submitSendPackage.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.primary_color));
+            review_submitSendPackage.setBackgroundTintList(
+                ContextCompat.getColorStateList(
+                    this,
+                    R.color.primary_color
+                )
+            );
         }
 
-        review_submitSendPackage.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorHint));
+        review_submitSendPackage.setBackgroundTintList(
+            ContextCompat.getColorStateList(
+                this,
+                R.color.colorHint
+            )
+        );
 
 
         review_submitSendPackage.setOnClickListener {
@@ -205,7 +341,7 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
         } catch (ex: Exception) {
             Log.wtf("IOS_error_starting", ex.cause!!)
         }
-       // checkStatusOfReview=1
+        // checkStatusOfReview=1
         viewmodel?.reviewSubmitApi(
             SessionTwiclo(this).loggedInUserDetail.accountId,
             SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -216,7 +352,6 @@ class OrderDetailsSendPackageActivity : BaseActivity() {
             ""
         )
     }
-
 
     override fun onBackPressed() {
         finish()

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/topLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:elevation="10dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:outlineSpotShadowColor="@color/background"
+                android:weightSum="10"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:elevation="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:outlineSpotShadowColor="@color/background"
+                    android:weightSum="10">
+
+                    <ImageView
+                        android:id="@+id/backIcon_saved_address"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight=".1"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="5dp"
+                        android:rotation="180"
+                        android:src="@drawable/ic_back_vector"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/headingaddItxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_5dp"
+                        android:fontFamily="@font/proxima"
+                        android:gravity="center_vertical"
+                        android:text="@string/saved_addresses"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:visibility="gone" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/searchAdd_cardView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/margin_40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_marginTop="2dp"
+
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="@dimen/margin_2dp"
+                        android:layout_weight="9"
+                        app:cardCornerRadius="@dimen/margin_12dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:weightSum="10">
+
+                            <EditText
+                                android:id="@+id/searchEdt_new_fgmt"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_weight="1.5"
+                                android:background="@null"
+                                android:drawablePadding="@dimen/margin_10dp"
+                                android:fontFamily="@font/proxima"
+                                android:gravity="center_vertical"
+                                android:hint="Search for area, street name.."
+                                android:imeOptions="actionSearch"
+                                android:maxLines="1"
+                                android:paddingLeft="@dimen/margin_10dp"
+                                android:singleLine="true"
+                                android:textColor="@android:color/black"
+                                android:textSize="13sp" />
+
+                            <ImageView
+                                android:id="@+id/clear_searchImg"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="8.5"
+                                android:padding="@dimen/margin_10"
+                                android:src="@drawable/ic_clear"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/search_iconImg"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="8.5"
+                                android:padding="@dimen/margin_10"
+                                android:src="@drawable/ic_search_new"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorHint"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/topLay" />
+
+                <LinearLayout
+                    android:id="@+id/locationViewll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/margin_10"
+                    android:weightSum="10">
+
+                    <LinearLayout
+                        android:id="@+id/current_locLL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/margin_40dp"
+                            android:layout_height="@dimen/margin_40dp"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/dimen_5dp"
+                            android:src="@drawable/ic_gps_new"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/worksans_semibold"
+                            android:gravity="center_vertical"
+                            android:paddingEnd="@dimen/margin_10dp"
+                            android:text="Use current location"
+                            android:textColor="@color/primary_color"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.2dp"
+                android:background="@color/colorHint"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topLay" />
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:id="@+id/addDividerLl"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+            <LinearLayout
+                android:id="@+id/tv_yourAddresses_New"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                android:layout_marginStart="6dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Delivery Address"
+                    android:padding="@dimen/margin_10"
+                    android:visibility="gone"
+                    android:fontFamily="@font/worksans_semibold"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/main_lay_saved_address"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:layout_marginEnd="@dimen/margin_16dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topLay">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/main_lay_saved_address">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/addressesRecyclerView"
+                        android:layout_width="match_parent"
+                        android:background="@color/white"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/search_add_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:layout_marginTop="@dimen/margin_20dp"
+                        android:layout_marginBottom="@dimen/margin_20dp"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:spanCount="1" />
+                </RelativeLayout>
+            </androidx.core.widget.NestedScrollView>
+            <LinearLayout
+                android:id="@+id/emptyScren_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/white"
+                android:visibility="gone"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/emptyTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:fontFamily="@font/proxima"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="You Have No Address Saved Yet"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+                <TextView
+                    android:id="@+id/emptyLastTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:fontFamily="@font/proxima"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="Tap the button below to add a location"
+                    android:textColor="@android:color/black"
+                    android:textSize="10sp"
+                    android:visibility="visible"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/emptyTxt" />
+            </LinearLayout>
+        </LinearLayout>
+        <FrameLayout
+            android:elevation="@dimen/dimen_5dp"
+            android:layout_marginRight="@dimen/margin_20dp"
+            android:layout_marginBottom="60dp"
+            android:background="@drawable/circular_border"
+            android:backgroundTint="@color/white"
+            android:id="@+id/add_addressfm"
+            android:layout_width="@dimen/margin_50dp"
+            android:layout_height="@dimen/margin_50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+            <ImageView
+                app:tint="@color/primary_color"
+                android:layout_gravity="center"
+                android:padding="@dimen/margin_15dp"
+                android:src="@drawable/ic_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

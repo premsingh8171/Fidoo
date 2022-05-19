@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.LatLng
 import java.io.IOException
 import java.util.*
 
-abstract class BaseFragment : Fragment(), Handler.Callback {
+abstract class BaseFragment : Fragment(), Handler.Callback{
     var _context: Context? = null
     var _handler: Handler? = null
     var uiHandlerMethod: UiHandleMethods? = null
@@ -137,11 +137,12 @@ abstract class BaseFragment : Fragment(), Handler.Callback {
         _progressDlg!!.show()
     }
 
-    fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String {
+    fun getGeoAddressFromLatLong(latitude: Double, longitude: Double,context:Context): String {
         val geocoder: Geocoder
         val addresses: List<Address>
-        geocoder = Geocoder(requireContext(), Locale.getDefault())
         return try {
+            geocoder = Geocoder(context, Locale.getDefault())
+
             addresses = geocoder.getFromLocation(
                 latitude,
                 longitude,

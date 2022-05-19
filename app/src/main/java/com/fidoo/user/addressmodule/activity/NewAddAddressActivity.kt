@@ -42,7 +42,6 @@ import com.fidoo.user.addressmodule.activity.SavedAddressesActivity.Companion.sa
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.sendpackages.activity.SendPackageActivity.Companion.forSendPackageAddCheck
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.BaseActivity
@@ -66,11 +65,8 @@ import com.google.gson.GsonBuilder
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.skyfishjy.library.RippleBackground
-import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.android.synthetic.main.activity_new_add_address.*
-import kotlinx.android.synthetic.main.activity_store_list.*
 import kotlinx.android.synthetic.main.content_map.*
-import kotlinx.android.synthetic.main.no_net_popup.*
 import java.util.*
 
 
@@ -259,61 +255,6 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 //                                if (ed_name.text.toString().equals("")) {
 //                                    showToast("Please add contact details")
 //                                } else {
-                                    showIOSProgress()
-                                    if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
-                                        addressType = "1"
-                                    } else
-                                        if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
-                                            addressType = "2"
-                                        } else
-                                            if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
-                                                addressType = "3"
-                                            }
-
-                                    defaultValue = if (defaultCheckBox.isChecked) {
-                                        "1"
-                                    } else {
-                                        "0"
-                                    }
-
-                                    if (intent.hasExtra("data")) {
-                                        viewmodel?.editAddressDetails(
-                                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                            ed_address.text.toString(),
-                                            ed_address.text.toString(),
-                                            tv_Address.text.toString(),
-                                            ed_landmark.text.toString(),
-                                            addressType,
-                                            lat.toString(),
-                                            lng.toString(),
-                                            ed_name.text.toString(),
-                                            "", defaultValue,
-                                            ed_phone.text.toString(),
-                                            tempAddressId, contact_type!!
-                                        )
-
-                                    } else {
-
-                                        viewmodel?.addAddressDetails(
-                                            SessionTwiclo(this).loggedInUserDetail.accountId,
-                                            SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                            ed_address.text.toString(),
-                                            ed_address.text.toString(),
-                                            tv_Address.text.toString(),
-                                            ed_landmark.text.toString(),
-                                            addressType,
-                                            lat.toString(),
-                                            lng.toString(),
-                                            ed_name.text.toString(),
-                                            "",
-                                            defaultValue,
-                                            ed_phone.text.toString(), contact_type!!
-                                        )
-
-                                    }
-                               // }
-                            } else {
                                 showIOSProgress()
                                 if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
                                     addressType = "1"
@@ -365,10 +306,66 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                         defaultValue,
                                         ed_phone.text.toString(), contact_type!!
                                     )
-
                                 }
-
+                                // }
                             }
+//                            else {
+//                                showIOSProgress()
+//                                if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
+//                                    addressType = "1"
+//                                } else
+//                                    if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
+//                                        addressType = "2"
+//                                    } else
+//                                        if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
+//                                            addressType = "3"
+//                                        }
+//
+//                                defaultValue = if (defaultCheckBox.isChecked) {
+//                                    "1"
+//                                } else {
+//                                    "0"
+//                                }
+//
+//                                if (intent.hasExtra("data")) {
+//                                    viewmodel?.editAddressDetails(
+//                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+//                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                                        ed_address.text.toString(),
+//                                        ed_address.text.toString(),
+//                                        tv_Address.text.toString(),
+//                                        ed_landmark.text.toString(),
+//                                        addressType,
+//                                        lat.toString(),
+//                                        lng.toString(),
+//                                        ed_name.text.toString(),
+//                                        "", defaultValue,
+//
+                        //                                        ,
+//                                        tempAddressId, contact_type!!
+//                                    )
+//
+//                                } else {
+//
+//                                    viewmodel?.addAddressDetails(
+//                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+//                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                                        ed_address.text.toString(),
+//                                        ed_address.text.toString(),
+//                                        tv_Address.text.toString(),
+//                                        ed_landmark.text.toString(),
+//                                        addressType,
+//                                        lat.toString(),
+//                                        lng.toString(),
+//                                        ed_name.text.toString(),
+//                                        "",
+//                                        defaultValue,
+//                                        ed_phone.text.toString(), contact_type!!
+//                                    )
+//
+//                                }
+//
+//                            }
                         }
 
                     } else {
@@ -467,7 +464,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         }
 
         change_txt.setOnClickListener {
-            val intent = Intent(this, ChangeAddressActivity::class.java)
+            val intent = Intent(this, SavedAddressesActivity::class.java)
             startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
         }
 
@@ -491,12 +488,12 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 //
 //            }
 //            else {
-                contact_name_txt.text =
-                    ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
-                contact_name_txt.setTextColor(getColor(R.color.black))
-                contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.BLACK));
-                contact_add_ll.visibility = View.GONE
-                add_new_add_ll.visibility = View.VISIBLE
+            contact_name_txt.text =
+                ed_name.getText().toString().trim() + "-" + ed_phone.getText().toString().trim()
+            contact_name_txt.setTextColor(getColor(R.color.black))
+            contact_name_txt.setCompoundDrawableTintList(ColorStateList.valueOf(Color.BLACK));
+            contact_add_ll.visibility = View.GONE
+            add_new_add_ll.visibility = View.VISIBLE
             if(ed_name.getText().toString().equals("")){
                 contact_name_txt.text="Add contact no."
             }else if(ed_phone.getText().toString().equals(""))
@@ -530,9 +527,9 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             }
         }
 
-        viewmodel?.failureResponse?.observe(this, {
+        viewmodel?.failureResponse?.observe(this) {
             showToast("Something is wrong, please try again")
-        })
+        }
 
     }
 
@@ -849,7 +846,6 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                             override fun onLocationResult(locationResult: LocationResult) {
                                 super.onLocationResult(locationResult)
                                 mLastKnownLocation = locationResult.lastLocation
-
                                 mMap!!.moveCamera(
                                     CameraUpdateFactory.newLatLngZoom(
                                         LatLng(
@@ -858,17 +854,12 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                         ), DEFAULT_ZOOM
                                     )
                                 )
-
-
-
                                 mFusedLocationProviderClient!!.removeLocationUpdates(
                                     locationCallback!!
                                 )
                             }
                         }*/
-                        if (ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.ACCESS_FINE_LOCATION
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION
                             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                                 this,
                                 Manifest.permission.ACCESS_COARSE_LOCATION
@@ -900,33 +891,36 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
             }
     }
 
-//    override fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String? {
-//        val geocoder: Geocoder
-//        val addresses: List<Address>
-//        geocoder = Geocoder(this, Locale.getDefault())
-//        return try {
-//            addresses = geocoder.getFromLocation(
-//                latitude,
-//                longitude,
-//                1
-//            ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-//            val address =
-//                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-////            val city = addresses[0].locality
-////            val state = addresses[0].adminArea
-////            val country = addresses[0].countryName
-////            val postalCode = addresses[0].postalCode
-//            //   String knownName = addresses.get(0).getFeatureName(); // Only if available else return
-//            address
-//        } catch (e: IndexOutOfBoundsException) {
-//            e.printStackTrace()
-//            ""
-//
-//        }
-//    }
+    override fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String? {
+        val geocoder: Geocoder
+        val addresses: List<Address>
+        geocoder = Geocoder(this, Locale.getDefault())
+        return try {
+            addresses = geocoder.getFromLocation(
+                latitude,
+                longitude,
+                1
+            ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            val address = addresses[0].getAddressLine(0)
+            val sub_locality = addresses[0].subLocality
+            val feature_Name = addresses[0].featureName
+            if(sub_locality != null) {
+                tv_Address_locality.text = "$feature_Name" + " " + "$sub_locality"
+            }
+            else{
+                tv_Address_locality.text = "$feature_Name"
+            }
+            address
+        } catch (e: IndexOutOfBoundsException) {
+            e.printStackTrace()
+            ""
+
+        }
+    }
 
     override fun onResume() {
         super.onResume()
+
     }
 
     private fun getGeoLocation(location: String?) {
@@ -1182,5 +1176,3 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
 
     }
 }
-
-

@@ -135,8 +135,8 @@ class EditProfileActivity : BaseActivity() {
         fab_image_camera.setOnClickListener {
             ImagePicker.with(this)
                 .crop()                    //Crop image(Optional), Check Customization for more option
-                //   .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                //  .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                   .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                  .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
                 .start()
 
         }
@@ -152,14 +152,11 @@ class EditProfileActivity : BaseActivity() {
             Log.e("addUpdateResponse_", Gson().toJson(user))
             dismissIOSProgress()
             if (user.errorCode==200) {
-                if (user.error == true) {
-                    // showToast(user.message)
-                } else {
+
                     sessionTwiclo!!.storeProfileDetail(user)
                     //  Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_LONG).show()
 //                startActivity(Intent(this, MainActivity::class.java))
 //                finishAffinity()
-                }
                 finish()
             }else{
                 showToast(user.message)

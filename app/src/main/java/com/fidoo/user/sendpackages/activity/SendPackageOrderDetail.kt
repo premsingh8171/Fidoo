@@ -25,7 +25,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
-import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.constants.useconstants
@@ -299,34 +298,30 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                                             if (notes != null) {
                                                 if (toAddress != null) {
                                                     if (paymentAmount != null) {
-                                                        if(!SendPackageActivity.start_Lat.toString().isNullOrEmpty()) {
-                                                            sendPackagesViewModel?.sendPackageApi(
-                                                                SessionTwiclo(
-                                                                    this
-                                                                ).loggedInUserDetail.accountId,
-                                                                SessionTwiclo(
-                                                                    this
-                                                                ).loggedInUserDetail.accessToken,
-                                                                fromAddress,
-                                                                notes,
-                                                                toAddress,
-                                                                fromName,
-                                                                fromNumber,
-                                                                toName,
-                                                                toNumber,
-                                                                paymentMode,
-                                                                distance,
-                                                                paymentAmount,
-                                                                deliveryTime,
-                                                                SendPackageActivity.start_Lat.toString()!!,
-                                                                SendPackageActivity.start_Lng.toString()!!,
-                                                                SendPackageActivity.end_Lat.toString()!!,
-                                                                SendPackageActivity.end_Lng.toString()!!,
-                                                                cat_Id!!, notes, images!!, tax!!
-                                                            )
-                                                        }else{
-
-                                                        }
+                                                        sendPackagesViewModel?.sendPackageApi(
+                                                            SessionTwiclo(
+                                                                this
+                                                            ).loggedInUserDetail.accountId,
+                                                            SessionTwiclo(
+                                                                this
+                                                            ).loggedInUserDetail.accessToken,
+                                                            fromAddress,
+                                                            notes,
+                                                            toAddress,
+                                                            fromName,
+                                                            fromNumber,
+                                                            toName,
+                                                            toNumber,
+                                                            paymentMode,
+                                                            distance,
+                                                            paymentAmount,
+                                                            deliveryTime,
+                                                            SendPackageActivity.start_Lat.toString()!!,
+                                                            SendPackageActivity.start_Lng.toString()!!,
+                                                            SendPackageActivity.end_Lat.toString()!!,
+                                                            SendPackageActivity.end_Lng.toString()!!,
+                                                            cat_Id!!, notes, images!!, tax!!
+                                                        )
                                                     } else {
                                                         showToast("There is some issue in payment, please try after sometime")
                                                     }
@@ -460,16 +455,13 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
 
         sendPackagesViewModel?.paymentResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
-            if (user.errorCode==200) {
-                Log.e("payment_response", Gson().toJson(user))
-                finalOrderId = user.orderId
-
-                viewmodel?.proceedToOrder(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    finalOrderId
-                )
-            }
+            Log.e("payment_response", Gson().toJson(user))
+            finalOrderId = user.orderId
+            viewmodel?.proceedToOrder(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken,
+                finalOrderId
+            )
         })
 
         viewmodel?.proceedToOrderResponse?.observe(this, { orderProceed ->
@@ -520,7 +512,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
                 prefill.put("email", SessionTwiclo(this).profileDetail.account.emailid)
                 prefill.put(
                     "contact",
-                    SessionTwiclo(this).profileDetail.account.country_code + SessionTwiclo(this).profileDetail.account.userName
+                    SessionTwiclo(this).profileDetail.account.countryCode + SessionTwiclo(this).profileDetail.account.userName
                 )
                 options.put("prefill", prefill)
             } else {
@@ -660,7 +652,7 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             })
             .placeholder(R.drawable.pay_suc)
             .error(R.drawable.pay_suc).into(payment_successImg!!)
-        MainActivity.onBackpressHandle = "1"
+
         Handler().postDelayed({
 //            startActivity(Intent(this, MainActivity::class.java))
             startActivity(

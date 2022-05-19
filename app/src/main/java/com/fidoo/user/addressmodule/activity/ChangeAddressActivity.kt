@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.fidoo.user.R
 import com.fidoo.user.addressmodule.adapter.AddressSearchAdapter
@@ -24,14 +23,15 @@ import com.premsinghdaksha.currentlocation_library.GetAddFromLatLong
 import com.premsinghdaksha.currentlocation_library.TrackGPSLocation
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_change_address.*
-import kotlinx.android.synthetic.main.activity_saved_addresses.*
+import kotlinx.android.synthetic.main.activity_saved_addresses_new.*
 import java.util.*
 import kotlin.collections.LinkedHashSet
 
 
 class ChangeAddressActivity : BaseActivity() {
     var search_value:String?=""
-    companion object{  public  var value_current_loc:String?=""
+    companion object{
+        var value_current_loc : String?=""
     }
     private var placesClient: PlacesClient? = null
     private var predictionList: List<AutocompletePrediction>? = null
@@ -67,6 +67,7 @@ class ChangeAddressActivity : BaseActivity() {
         current_loc_ChangeAdd.setOnClickListener {
             value_current_loc="Current_location"
             finish()
+            AppUtils.finishActivityLeftToRight(this)
         }
 
         searchEdt__ChangeAdd?.addTextChangedListener(object : TextWatcher {
@@ -154,12 +155,13 @@ class ChangeAddressActivity : BaseActivity() {
                 if (pos >= searchAddList!!.size) {
                     return
                 }
-                value_current_loc=""
+                value_current_loc = ""
                 hideKeyboard()
                 val resultIntent = Intent()
                 resultIntent.putExtra("location",value);
                 setResult(RESULT_OK, resultIntent)
                 finish()
+                AppUtils.finishActivityLeftToRight(this@ChangeAddressActivity)
 
             }
 

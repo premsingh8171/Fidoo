@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
@@ -16,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,6 +45,8 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_store_list.*
 import kotlinx.android.synthetic.main.activity_store_list.view.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 
 @Suppress("DEPRECATION")
 class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
@@ -110,7 +114,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 		storeListingViewModel = ViewModelProviders.of(this).get(StoreListingViewModel::class.java)
 		viewmodelusertrack = ViewModelProviders.of(this).get(UserTrackerViewModel::class.java)
 		analytics = FirebaseAnalytics.getInstance(this)
-		// Display size
+
 		val displayMetrics = DisplayMetrics()
 		this.windowManager.defaultDisplay.getMetrics(displayMetrics)
 		//  int height = displayMetrics.heightPixels;
@@ -346,7 +350,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 	}
 
 
-	private fun apicall(serive_id: String?) {
+	private  fun apicall(serive_id: String?) {
 
 		if (isNetworkConnected) {
 			if (loader==0){
@@ -356,6 +360,8 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			if (SessionTwiclo(this).isLoggedIn) {
 
 				if (serive_id != null) {
+
+
 					storeListingViewModel!!.getStores(
 						SessionTwiclo(this).loggedInUserDetail.accountId,
 						SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -455,6 +461,21 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			}
 		}
 
+//		CoroutineScope(Dispatchers.Main).launch {
+//			storeListingViewModel?.listData(SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accountId,
+//				SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accessToken,
+//				serive_id!!,
+//				SessionTwiclo(this@StoreListActivity).userLat,
+//				SessionTwiclo(this@StoreListActivity).userLng,
+//				"",
+//				"",
+//				selectedValue, cuisine_to_search,pagecount.toString())?.collect {
+//				storeList= it as ArrayList<StoreListingModel.StoreList>
+//			}
+//		}
+
+
+
 		storeListingViewModel?.getStoresApi?.observe(this, Observer { user ->
 			linear_progress_indicator.visibility = View.GONE
 			Log.e("stores_response", Gson().toJson(user))
@@ -470,50 +491,50 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 					hit=0
 
-					if (pagecount==0) {
-						curationList = mModelData.curations as ArrayList
-						if (curationList!!.isNotEmpty()) {
-
-							var curationsAdapter = RestaurantCurationsAdapter(
-								this,
-								curationList!!,
-								object : RestaurantCurationsAdapter.ItemClickService {
-									override fun onItemClick(
-										pos: Int,
-										model: StoreListingModel.Curation
-									) {
-										cuisine_to_search = model.cuisineId
-										val intent = Intent(
-											this@StoreListActivity,
-											StoreFilterListActivity::class.java
-										)
-											.putExtra("selectedValue", "rating")
-											.putExtra("serviceId", serive_id_)
-											.putExtra(
-												"serviceName",
-												intent.getStringExtra("serviceName")
-											)
-											.putExtra("cuisine_to_search", cuisine_to_search)
-											.putExtra("cusineName", model.cusineName)
-
-										startActivity(intent)
-										overridePendingTransition(R.anim.bottom_up, R.anim.nothing)
-									}
-								},
-								width
-							)
-
-							curation_RecyclerView.adapter = curationsAdapter
-							layoutManger = GridLayoutManager(this, 2)
-							layoutManger!!.orientation = LinearLayoutManager.HORIZONTAL
-							curation_RecyclerView?.layoutManager = layoutManger
-
-						} else {
-							restaurant_curationll.visibility = View.GONE
-							curation_RecyclerView.visibility = View.GONE
-							sortRl.visibility = View.GONE
-						}
-					}
+//					if (pagecount==0) {
+//						curationList = mModelData.curations as ArrayList
+////						if (curationList!!.isNotEmpty()) {
+////
+////							var curationsAdapter = RestaurantCurationsAdapter(
+////								this,
+////								curationList!!,
+////								object : RestaurantCurationsAdapter.ItemClickService {
+////									override fun onItemClick(
+////										pos: Int,
+////										model: StoreListingModel.Curation
+////									) {
+////										cuisine_to_search = model.cuisineId
+////										val intent = Intent(
+////											this@StoreListActivity,
+////											StoreFilterListActivity::class.java
+////										)
+////											.putExtra("selectedValue", "rating")
+////											.putExtra("serviceId", serive_id_)
+////											.putExtra(
+////												"serviceName",
+////												intent.getStringExtra("serviceName")
+////											)
+////											.putExtra("cuisine_to_search", cuisine_to_search)
+////											.putExtra("cusineName", model.cusineName)
+////
+////										startActivity(intent)
+////										overridePendingTransition(R.anim.bottom_up, R.anim.nothing)
+////									}
+////								},
+////								width
+////							)
+//
+//							curation_RecyclerView.adapter = curationsAdapter
+//							layoutManger = GridLayoutManager(this, 2)
+//							layoutManger!!.orientation = LinearLayoutManager.HORIZONTAL
+//							curation_RecyclerView?.layoutManager = layoutManger
+//
+//						} else {
+//							restaurant_curationll.visibility = View.GONE
+//							curation_RecyclerView.visibility = View.GONE
+//							sortRl.visibility = View.GONE
+//						}
+//					}
 
 					isMore = user.more_value
 

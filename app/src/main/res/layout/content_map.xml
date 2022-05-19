@@ -6,12 +6,11 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
     <fragment
         android:id="@+id/mapView2"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
     <com.skyfishjy.library.RippleBackground
         android:layout_width="match_parent"
@@ -25,55 +24,66 @@
 
         <FrameLayout
             android:id="@+id/visibleTopToBottom_fm"
-            android:translationY="-5dp"
+            android:translationY="-15dp"
             android:layout_above="@+id/markerLocation"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:backgroundTint="@color/white"
                 android:gravity="center"
+                android:visibility="visible"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_10"
                 android:background="@drawable/label_bg"
-                android:layout_width="240dp"
-                android:layout_height="80dp"
+                android:backgroundTint="#CCE6D1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
-
                 <TextView
-                    android:fontFamily="@font/proxima"
+                    android:id="@+id/tv_Address_locality"
+                    android:fontFamily="@font/metropolis_semi_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:maxLines="1"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
                     android:layout_marginLeft="@dimen/margin_10"
+                    android:scrollHorizontally="true"
                     android:layout_marginRight="@dimen/margin_10"
-                    android:text="Your item will be delivered here"
-                    android:textColor="@color/primary_color"
-                    android:textSize="@dimen/margin_12dp" />
+                    android:textColor="#3CC13B"
+                    android:textSize="12sp" />
 
-                <TextView
-                    android:fontFamily="@font/proxima"
-                    android:layout_marginTop="@dimen/margin_2dp"
-                    android:layout_marginBottom="@dimen/margin_20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_marginRight="@dimen/margin_10"
-                    android:text="Please place the pin accurately on the map"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/margin_10" />
-
-
+                <!--                <TextView-->
+                <!--                    android:fontFamily="@font/proxima"-->
+                <!--                    android:layout_marginTop="@dimen/margin_2dp"-->
+                <!--                    android:layout_marginBottom="@dimen/margin_20dp"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginLeft="@dimen/margin_10"-->
+                <!--                    android:layout_marginRight="@dimen/margin_10"-->
+                <!--                    android:text="Please place the pin accurately on the map"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="@dimen/margin_10" />-->
             </LinearLayout>
-
         </FrameLayout>
-
-        <ImageView
-            android:layout_width="@dimen/margin_24dp"
-            android:layout_height="@dimen/text_size_27sp"
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="24dp"
+            android:layout_height="56dp"
             android:layout_centerInParent="true"
-            android:translationY="-18dp"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/swingpin"
+            android:translationY="-18dp"/>
+        <ImageView
             android:id="@+id/markerLocation"
-            android:src="@drawable/home_locpin"/>
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:translationY="-18dp" />
     </com.skyfishjy.library.RippleBackground>
 
     <com.mancj.materialsearchbar.MaterialSearchBar
@@ -90,7 +100,6 @@
         android:visibility="gone"
         android:outlineProvider="bounds"
         app:mt_placeholder="Search a place"/>
-
     <Button
         android:id="@+id/btn_find"
         android:layout_width="match_parent"
@@ -102,6 +111,4 @@
         android:background="@color/colorPrimary"
         android:layout_margin="16dp"
         android:textStyle="bold"/>
-
-
 </RelativeLayout>

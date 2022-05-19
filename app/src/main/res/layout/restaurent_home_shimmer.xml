@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/res_header_constL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightGray"
+        android:visibility="visible"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/backIcon"
+            android:layout_width="@dimen/dimen_50dp"
+            android:layout_height="@dimen/dimen_50dp"
+            android:background="#D1D1D1"
+            android:padding="@dimen/margin_12dp"
+            android:rotation="180"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_store_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:capitalize="words"
+            android:fontFamily="@font/proxima"
+            android:gravity="center"
+            android:maxLength="35"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@+id/backIcon"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.512" />
+
+        <ImageView
+            android:id="@+id/RestaurantPrdSearch"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:padding="8dp"
+            android:background="#D1D1D1"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/black" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/store_details_lay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_170dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/lightGray"
+        android:gravity="center_vertical"
+
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/res_header_constL"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/store_nameTxt01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_3dp"
+            android:layout_marginTop="@dimen/margin_10"
+            android:background="#D1D1D1"
+            android:fontFamily="@font/proxima"
+            android:gravity="center"
+            android:maxLength="35"
+            android:paddingLeft="@dimen/margin_10"
+            android:text="                  "
+            android:textColor="@color/black"
+            android:textSize="@dimen/margin_20dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/addLabelRl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/store_nameTxt01"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/tv_cuisnes01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_weight="1.8"
+                android:fontFamily="@font/proxima"
+                android:maxLines="3"
+                android:background="#D1D1D1"
+                android:paddingLeft="@dimen/margin_4dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen_14dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_15dp"
+                android:layout_weight="1.2">
+
+                <TextView
+                    android:id="@+id/tv_location01"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_marginEnd="@dimen/margin_10"
+                    android:fontFamily="@font/proxima"
+                    android:gravity="end"
+                    android:background="#D1D1D1"
+                    android:maxLines="4"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_14dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/distance_viewll_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addLabelRl"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/margin_10"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/margin_10">
+
+            <ImageView
+                android:id="@+id/img_location"
+                android:layout_width="20dp"
+                android:layout_height="22dp"
+                android:layout_below="@id/tv_location"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_marginEnd="8dp"
+                android:padding="1dp"
+                android:background="#D1D1D1" />
+
+            <TextView
+                android:id="@+id/tv_distance01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_location"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@id/img_location"
+                android:background="@color/grey"
+                android:fontFamily="@font/proxima"
+                android:text=""
+                android:textSize="@dimen/dimen_14dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/timelL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addLabelRl"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/margin_10">
+
+            <ImageView
+                android:id="@+id/img_deliveryTime"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@id/tv_location"
+                android:layout_marginLeft="@dimen/margin_2dp"
+                android:layout_marginTop="@dimen/dimen_11dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/tv_deliveryTime"
+                android:background="#D1D1D1"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_deliveryTime01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_cuisnes"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:layout_marginEnd="@dimen/margin_7dp"
+                android:fontFamily="@font/proxima"
+                android:text=""
+                android:textSize="@dimen/dimen_14dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/coupan_view_ll"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_40dp"
+            android:layout_below="@+id/timelL"
+            android:layout_marginTop="@dimen/margin_10"
+            android:background="#D1D1D1"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="@dimen/margin_22dp"
+                android:layout_height="@dimen/margin_22dp"
+                android:layout_below="@id/tv_location"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_marginEnd="8dp"
+                android:paddingTop="@dimen/margin_2dp"
+                android:paddingBottom="@dimen/margin_2dp"
+
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:id="@+id/tv_coupon01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin_20dp"
+                android:fontFamily="@font/proxima"
+                android:paddingRight="@dimen/margin_10"
+                android:text=""
+                android:textColor="@color/primary_color"
+                android:textSize="@dimen/dimen_14dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/store_details_lay"
+        >
+        <include layout="@layout/restaurent_product_shimmer"/>
+        <include layout="@layout/restaurent_product_shimmer"/>
+        <include layout="@layout/restaurent_product_shimmer"/>
+        <include layout="@layout/restaurent_product_shimmer"/>
+        <include layout="@layout/restaurent_product_shimmer"/>
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

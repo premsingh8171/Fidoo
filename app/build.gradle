@@ -10,13 +10,11 @@ plugins {
 }
 
 android {
-
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdk 31
+   // buildToolsVersion "32.0.2"
 
     defaultConfig {
         applicationId "com.fidoo.user"
-
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 65
@@ -133,6 +131,9 @@ android {
         }
 
     }
+    compileSdk 32
+    buildToolsVersion '32.0.0'
+    compileSdk 32
 
 }
 
@@ -300,7 +301,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.32"
 
     //for httpclient
-    implementation 'org.apache.httpcomponents:httpcore:4.4.10'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.13'
     implementation 'org.apache.httpcomponents:httpclient:4.5.6'
 
     implementation 'com.mixpanel.android:mixpanel-android:5.9.5'
@@ -312,4 +313,11 @@ dependencies {
     //dialogFlow
     implementation 'com.google.cloud:google-cloud-dialogflow:2.1.0'
     implementation 'io.grpc:grpc-okhttp:1.30.0'
+
+    implementation "com.github.permissions-dispatcher:permissionsdispatcher:4.8.0"
+    kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:4.8.0"
+
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
+    implementation 'com.github.corouteam:GlideToVectorYou:v2.0.0'
 }

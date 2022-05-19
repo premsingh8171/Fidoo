@@ -355,10 +355,11 @@ class CategoryProductListActivity : BaseActivity(), ItemOnCatClickListener {
 		}
 
 		search_onDailyNeed_cat.setOnClickListener {
-			AppUtils.startActivityForResultRightToLeft(
-				this, Intent(this, NewSearchActivity::class.java)
-					.putExtra("storeId", "").putExtra("service_id", service_id), SEARCH_RESULT_CODE
-			)
+//			AppUtils.startActivityForResultRightToLeft(
+//				this, Intent(this, NewSearchActivity::class.java)
+//					.putExtra("storeId", "").putExtra("service_id", service_id), SEARCH_RESULT_CODE
+//			)
+			finish()
 		}
 
 		cartCountFm_.setOnClickListener {

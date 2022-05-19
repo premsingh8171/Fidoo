@@ -44,9 +44,7 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import kotlinx.android.synthetic.main.activity_send_package.*
-import kotlinx.android.synthetic.main.activity_sendpackages_additem.*
 import kotlinx.android.synthetic.main.buy_popup.view.*
-import kotlinx.android.synthetic.main.logout_popup.*
 import org.json.JSONObject
 
 
@@ -318,10 +316,14 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         })
 
         back_action.setOnClickListener {
-            SessionTwiclo(this).setetvalue("")
+           /* SessionTwiclo(this).setetvalue("")
             SessionTwiclo(this).setcatname("")
             finish()
-            AppUtils.finishActivityLeftToRight(this)
+            AppUtils.finishActivityLeftToRight(this)*/
+
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("itemid","0")
+            startActivity(intent)
         }
 
         info_im.setOnClickListener {
@@ -356,8 +358,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                         if (selectedfromLat.toString() != "0.0"
                             && selectedfromLng.toString() != "0.0"
                             && selectedtoLat.toString() != "0.0"
-                            && selectedtoLng.toString() != "0.0"
-                        ){
+                            && selectedtoLng.toString() != "0.0"){
 
                             calculateStoreCustomerDistance()
                             if (tv_address_to.text.isNotEmpty() && tv_address_from.text.isNotEmpty()) {
@@ -371,16 +372,13 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                                 showIOSProgress()
                                 sendPackageInfo()
                             }
-                        } else {
-                            showToast("please enter from/to address")
                         }
-
-
+                        else {
+                            showToast("should place order")
+                        }
                     }
                 }
             }
-            // buyPopup()
-
         }
 
 
@@ -499,7 +497,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                                 showToast("The distance between pickup and drop location must be less than 15 KM's to proceed")
                             }
                         } else {
-                            showToastLong("Service is available only Gurugram!")
+                            showToastLong("Service is available only in Gurugram!")
 
                         }
                     }
@@ -644,7 +642,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                 )
                 prefill.put(
                     "contact",
-                    SessionTwiclo(this).profileDetail.account.country_code + SessionTwiclo(
+                    SessionTwiclo(this).profileDetail.account.countryCode + SessionTwiclo(
                         this
                     ).profileDetail.account.userName
                 )
@@ -768,6 +766,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         SessionTwiclo(this).setetvalue("")
         SessionTwiclo(this).setcatname("")
         AppUtils.finishActivityLeftToRight(this)
+
     }
 
 }

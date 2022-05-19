@@ -7,12 +7,22 @@
     android:background="@color/lightGray"
     android:fitsSystemWindows="true">
 
+
+
+
+
+
+
+
+
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:background="@color/colorGray"
         android:fitsSystemWindows="true">
+
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -58,11 +68,35 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerFrameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <include layout="@layout/restaurent_product_shimmer" />
+                    <include layout="@layout/restaurent_product_shimmer" />
+                    <include layout="@layout/restaurent_product_shimmer" />
+                    <include layout="@layout/restaurent_product_shimmer" />
+                    <include layout="@layout/restaurent_product_shimmer" />
+                    <include layout="@layout/restaurent_product_shimmer" />
+                    <include layout="@layout/restaurent_product_shimmer" />
+                    <include layout="@layout/restaurent_product_shimmer" />
+                    <include layout="@layout/restaurent_product_shimmer" />
+                    <include layout="@layout/restaurent_product_shimmer" />
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/storeItemsRecyclerview"
                 android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_20dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/margin_15dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
@@ -70,9 +104,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
+
     <!-- header-->
     <LinearLayout
         android:layout_width="match_parent"
+        android:id="@+id/main_appbar_ll"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -245,7 +283,7 @@
         <RelativeLayout
             android:id="@+id/store_details_lay"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_150dp"
+            android:layout_height="@dimen/margin_170dp"
             android:background="@color/lightGray"
             android:gravity="center_vertical"
             android:visibility="visible">
@@ -265,6 +303,49 @@
                 android:textSize="@dimen/margin_20dp"
                 android:textStyle="bold" />
 
+            <LinearLayout
+                android:id="@+id/addLabelRl"
+                android:layout_below="@+id/store_nameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_marginStart="@dimen/margin_10"
+                    android:id="@+id/tv_cuisnes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:fontFamily="@font/proxima"
+                    android:maxLines="3"
+                    android:layout_weight="1.8"
+                    android:paddingLeft="@dimen/margin_4dp"
+                    android:text="#"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_14dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_15dp"
+                    android:layout_weight="1.2">
+
+                    <TextView
+                        android:gravity="end"
+                        android:id="@+id/tv_location"
+                        android:layout_width="match_parent"
+                        android:layout_marginEnd="@dimen/margin_10"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/dimen_5dp"
+                        android:fontFamily="@font/proxima"
+                        android:maxLines="4"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_14dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+<!--
             <RelativeLayout
                 android:paddingLeft="@dimen/margin_10"
                 android:paddingRight="@dimen/margin_10"
@@ -275,13 +356,10 @@
 
                 <TextView
                     android:id="@+id/tv_cuisnes"
-                    android:layout_width="130dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/dimen_5dp"
-                    android:layout_marginEnd="@dimen/dimen_5dp"
                     android:fontFamily="@font/proxima"
-                    android:gravity="end"
                     android:maxLines="3"
                     android:paddingLeft="@dimen/margin_4dp"
                     android:text="#"
@@ -290,7 +368,10 @@
 
                 <TextView
                     android:id="@+id/tv_location"
+                    android:gravity="end"
                     android:layout_width="200dp"
+                    android:layout_marginEnd="@dimen/dimen_5dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_5dp"
                     android:ellipsize="marquee"
@@ -300,12 +381,13 @@
                     android:fontFamily="@font/proxima"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:maxLines="3"
-                    android:paddingLeft="@dimen/dimen_5dp"
+
                     android:selectAllOnFocus="true"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen_14dp" />
             </RelativeLayout>
+-->
 
             <LinearLayout
                 android:paddingRight="@dimen/margin_10"
@@ -376,19 +458,19 @@
             <LinearLayout
                 android:id="@+id/coupan_view_ll"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_30dp"
+                android:layout_height="@dimen/margin_40dp"
                 android:layout_below="@+id/timelL"
                 android:layout_marginTop="@dimen/margin_10"
-                android:background="@color/colorGray"
+                android:background="@color/colorGra"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
                 <ImageView
-                    android:layout_marginStart="@dimen/margin_10"
-                    android:layout_width="@dimen/margin_24dp"
-                    android:layout_height="@dimen/margin_24dp"
+                    android:layout_width="@dimen/margin_22dp"
+                    android:layout_height="@dimen/margin_22dp"
                     android:layout_below="@id/tv_location"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_10"
                     android:layout_marginEnd="8dp"
                     android:paddingTop="@dimen/margin_2dp"
                     android:paddingBottom="@dimen/margin_2dp"
@@ -396,13 +478,13 @@
                     tools:ignore="UseAppTint" />
 
                 <TextView
-                    android:paddingRight="@dimen/margin_10"
                     android:id="@+id/tv_coupon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/margin_20dp"
                     android:fontFamily="@font/proxima"
+                    android:paddingRight="@dimen/margin_10"
                     android:text=""
                     android:textColor="@color/primary_color"
                     android:textSize="@dimen/dimen_14dp"
@@ -416,32 +498,21 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/lightGray"
-            android:padding="5dp"
             android:visibility="visible"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/store_details_lay">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="@dimen/margin_10">
+                android:layout_height="40dp">
 
                 <ImageView
                     android:id="@+id/veg_switch_img"
                     android:layout_width="@dimen/margin_50dp"
                     android:layout_height="@dimen/dimen_16sp"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dimen_5dp"
                     android:src="@drawable/filter_off" />
-
-                <TextView
-                    android:id="@+id/tv_vegOnly_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_5dp"
-                    android:layout_toEndOf="@id/veg_switch_img"
-                    android:fontFamily="@font/proxima"
-                    android:text="Veg Only" />
 
                 <ImageView
                     android:id="@+id/egg_switch_img"
@@ -454,6 +525,16 @@
                     android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/tv_vegOnly_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_5dp"
+                    android:layout_toEndOf="@id/veg_switch_img"
+                    android:fontFamily="@font/proxima"
+                    android:text="Veg Only" />
+
+                <TextView
                     android:id="@+id/tv_containsEgg_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -463,6 +544,7 @@
                     android:fontFamily="@font/proxima"
                     android:text="Contains Egg"
                     android:visibility="gone" />
+
             </RelativeLayout>
 
         </RelativeLayout>
@@ -476,14 +558,13 @@
                 android:id="@+id/category_header_"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_5dp"
+                android:layout_marginLeft="@dimen/margin_15dp"
                 android:layout_marginRight="@dimen/dimen_5dp"
                 android:fontFamily="@font/proxima"
-                android:padding="@dimen/margin_10"
                 android:text=""
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:visibility="visible" />
 
@@ -491,6 +572,22 @@
         </LinearLayout>
 
     </LinearLayout>
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerFrameLayout_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/restaurent_home_shimmer" />
+
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <FrameLayout
         android:id="@+id/cartitemView_LLstore"
@@ -502,7 +599,7 @@
         android:background="@drawable/cart_bg"
         android:backgroundTint="@color/white_trans"
         android:elevation="@dimen/margin_10"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 
@@ -632,6 +729,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent">
@@ -805,4 +903,19 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/newSearch_frag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+
+        app:layout_anchor="@+id/coordinatorLayout"
+        app:layout_anchorGravity="center">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+

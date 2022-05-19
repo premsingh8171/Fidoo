@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.model.*
 import com.fidoo.user.newRestaurants.model.NewStoreDetailsModel
 import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
@@ -25,7 +26,9 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
     var newStoreDetailsRes: MutableLiveData<NewStoreDetailsModel>? = null
     var getSearchResponse: MutableLiveData<StoreDetailsModel>? = null
     var addToCartResponse: MutableLiveData<AddToCartModel>? = null
+    var addToCartResponse_search: MutableLiveData<AddToCartModel>? = null
     var clearCartResponse: MutableLiveData<ClearCartModel>? = null
+    var clearCartResponse_search: MutableLiveData<ClearCartModel>? = null
     var customizeProductResponse: MutableLiveData<CustomizeProductResponseModel>? = null
     var cartCountResponse: MutableLiveData<CartCountModel>? = null
     var failureResponse: MutableLiveData<String>? = null
@@ -34,9 +37,11 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
     init {
         addRemoveCartResponse = MutableLiveData<AddRemoveCartModel>()
         addToCartResponse = MutableLiveData<AddToCartModel>()
+        addToCartResponse_search = MutableLiveData<AddToCartModel>()
         getStoreDetailsApi = MutableLiveData<StoreDetailsModel>()
         getSearchResponse = MutableLiveData<StoreDetailsModel>()
         clearCartResponse = MutableLiveData<ClearCartModel>()
+        clearCartResponse_search = MutableLiveData<ClearCartModel>()
         newStoreDetailsRes = MutableLiveData<NewStoreDetailsModel>()
         customizeProductResponse = MutableLiveData<CustomizeProductResponseModel>()
         cartCountResponse = MutableLiveData<CartCountModel>()
@@ -157,7 +162,11 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
                 ) {
                     products.clear()
                     addCartInputModelList.clear()
-                    addToCartResponse?.value = response.body()
+                    if (!useconstants.searchFrag_visible) {
+                        addToCartResponse?.value = response.body()
+                    }else{
+                        addToCartResponse_search?.value= response.body()
+                    }
                 }
 
                 override fun onFailure(call: Call<AddToCartModel>, t: Throwable) {
@@ -180,7 +189,11 @@ class StoreDetailsViewModel(application: Application) : AndroidViewModel(applica
                     response: Response<ClearCartModel>
                 ) {
 
-                    clearCartResponse?.value = response.body()
+                    if (!useconstants.searchFrag_visible) {
+                        clearCartResponse?.value = response.body()
+                    }else{
+                        clearCartResponse_search?.value= response.body()
+                    }
 
                 }
 

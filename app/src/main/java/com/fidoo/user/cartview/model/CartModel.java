@@ -156,6 +156,10 @@ public class CartModel {
     @Expose
     public Double totalTaxAndCharges;
 
+    @SerializedName("eligible_for_cart_coupon")
+    @Expose
+    public String eligible_for_cart_coupon;
+
     @SerializedName("charges_three")
     @Expose
     public String charges_three;

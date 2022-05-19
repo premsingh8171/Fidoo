@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -30,16 +31,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/routeIcon_newDesh"
-                    android:layout_width="@dimen/margin_20dp"
-                    android:layout_height="@dimen/margin_20dp"
-                    android:layout_marginLeft="@dimen/margin_12dp"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:src="@drawable/location"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_newDesh"
-                    app:tint="#339347" />
 
                 <TextView
                     android:id="@+id/text_newDesh"
@@ -49,7 +40,7 @@
                     android:layout_marginLeft="@dimen/margin_20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima"
-                    android:text="Home"
+                    android:text="Your location"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/dimen_14dp"
                     android:textStyle="bold"
@@ -65,22 +56,38 @@
                     app:layout_constraintTop_toTopOf="@+id/text_newDesh"
                     app:tint="@color/black" />
 
-                <TextView
-                    android:id="@+id/userAddress_newDesh"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:layout_marginEnd="@dimen/margin_12dp"
-                    android:fontFamily="@font/proxima"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="Select your location"
-                    android:textColor="@color/cart_icon_color"
-                    android:textSize="@dimen/text_size_14sp"
-                    app:layout_constraintLeft_toRightOf="@+id/routeIcon_newDesh"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_newDesh" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    app:layout_constraintTop_toBottomOf="@+id/text_newDesh">
+                    <ImageView
+                        android:id="@+id/routeIcon_newDesh"
+                        android:layout_width="@dimen/margin_20dp"
+                        android:layout_height="@dimen/margin_20dp"
+                        android:layout_marginLeft="@dimen/margin_12dp"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:src="@drawable/location"
+                        app:tint="#339347" />
+                    <TextView
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:id="@+id/userAddress_newDesh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_marginEnd="@dimen/margin_12dp"
+                        android:fontFamily="@font/proxima"
+                        android:text="Select your location"
+                        android:textColor="@color/cart_icon_color"
+                        android:textSize="@dimen/text_size_14sp"
+                        app:layout_constraintLeft_toRightOf="@+id/routeIcon_newDesh"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_newDesh" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/dotted_newDesh"
@@ -217,12 +224,9 @@
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:spanCount="1" />
-
                     </LinearLayout>
                     <!--end category view-->
-
                 </LinearLayout>
-
             </androidx.core.widget.NestedScrollView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -287,9 +291,6 @@
                     android:textSize="@dimen/margin_12dp" />
 
             </LinearLayout>
-
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

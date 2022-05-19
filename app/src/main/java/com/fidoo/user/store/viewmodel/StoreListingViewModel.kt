@@ -4,6 +4,11 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import androidx.paging.liveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
 import com.fidoo.user.data.model.CartCountModel
@@ -84,5 +89,22 @@ class StoreListingViewModel(application: Application) : AndroidViewModel(applica
     override fun onFailure(call: Call<StoreListingModel>?, t: Throwable?) {
         failureResponse?.value = t.toString()
     }
+
+//    fun listData(accountId: String,
+//    accessToken: String,
+//    service_id: String,
+//    latitude: String,
+//    longitude: String,
+//    distance_start: String?,
+//    distance_end: String?,
+//    sort_by: String?,
+//    cuisine_to_search: String?,
+//    page_count: String?)
+//    =
+//        Pager(PagingConfig(pageSize = 6)) {
+//            Store_dataSource(accountId, accessToken, service_id, latitude, longitude, distance_start, distance_end,
+//            sort_by, cuisine_to_search)
+//        }.flow.cachedIn(viewModelScope)
+
 
 }

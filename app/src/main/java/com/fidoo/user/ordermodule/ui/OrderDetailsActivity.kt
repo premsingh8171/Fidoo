@@ -76,50 +76,99 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
         }
 
         // Inflate the layout for this fragment
-        viewmodel?.OrderDetailsResponse?.observe(this, { user ->
+        viewmodel?.OrderDetailsResponse?.observe(this) { user ->
             Log.e("orderDetails__", Gson().toJson(user))
             dismissIOSProgress()
             val mModelData: OrderDetailsModel = user
             items = mModelData.items
             tv_address.text = mModelData.deliveryAddress
-            label_payMode.text = "Payment Mode: "+ mModelData.paymentMode
-            tv_deliveryboy_name.text="Order delivered by "+mModelData.deliveryBoyName+" at "+mModelData.delivered_at
+            label_payMode.text = "Payment Mode: " + mModelData.paymentMode
+
 
             Log.e("orders details Response", Gson().toJson(mModelData))
 
             when {
                 user.orderStatus.equals("0") -> {
                     orderStatusValue.text = getString(R.string.failed)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
+
                 }
                 user.orderStatus.equals("1") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("2") -> {
                     orderStatusValue.text = getString(R.string.cancelled)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("11") -> {
-                    orderStatusValue.text = getString(R.string.preparing)
+                    orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("3") -> {
                     orderStatusValue.text = getString(R.string.delivered)
+                    tv_deliveryboy_name.text =
+                        "Order delivered by " + mModelData.deliveryBoyName + " at " + mModelData.delivered_at
+                    orderOnValue.text = mModelData.delivered_at
                 }
                 user.orderStatus.equals("5") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("6") -> {
-                    orderStatusValue.text = getString(R.string.out_for_delivery)
+                    orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("7") -> {
-                    orderStatusValue.text = getString(R.string.accepted)
+                    orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
+                }
+                user.orderStatus.equals("14") -> {
+                    orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("9") -> {
                     orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
+
+                }user.orderStatus.equals("16") -> {
+                    orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                orderOnValue.text = ""
                 }
                 user.orderStatus.equals("10") -> {
-                    orderStatusValue.text = getString(R.string.out_for_delivery)
+                    orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
                 user.orderStatus.equals("8") -> {
                     orderStatusValue.text = getString(R.string.rejected)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
+                }
+                user.orderStatus.equals("13") -> {
+                    orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
+                }
+                user.orderStatus.equals("15") -> {
+                    orderStatusValue.text = getString(R.string.in_progress)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
+                }
+                user.orderStatus.equals("17") -> {
+                    orderStatusValue.text = getString(R.string.cancelled)
+                    tv_deliveryboy_name.text = ""
+                    orderOnValue.text = ""
                 }
             }
 
@@ -157,7 +206,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             tv_order_id.text = "Order: #" + mModelData.orderId
             locText.text = mModelData.storeAddress
             //edit by shobha
-            orderOnValue.text = mModelData.delivered_at
+
 
             if (mModelData.discount == "" || mModelData.discount == "0") {
                 label_cart_discount.visibility = View.GONE
@@ -207,7 +256,7 @@ class OrderDetailsActivity : com.fidoo.user.utils.BaseActivity() {
             sub_total.text = resources.getString(R.string.ruppee) + "" + mModelData.all_items_total
             grand_price2.text = resources.getString(R.string.ruppee) + "" + mModelData.totalPrice
             Log.e("delivery_discount", mModelData.delivery_discount.toString())
-        })
+        }
 
         viewmodel?.failureResponse?.observe(this, Observer { user ->
             dismissIOSProgress()

@@ -18,7 +18,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -26,9 +26,13 @@ import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.adapter.SliderAdapter
+import com.fidoo.user.addressmodule.activity.NewAddAddressActivityNew
 import com.fidoo.user.dashboard.adapter.SliderAdapterExample
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.cartview.activity.CartActivity
+import com.fidoo.user.cartview.activity.CartActivity.Companion.accessToken
+import com.fidoo.user.cartview.activity.CartActivity.Companion.accountId
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.SliderItem
 import com.fidoo.user.data.model.BannerModel
 import com.fidoo.user.data.model.CartCountModel
@@ -36,6 +40,7 @@ import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.databinding.FragmentHomeBinding
 import com.fidoo.user.dashboard.adapter.CategoryAdapter
 import com.fidoo.user.dashboard.model.HomeServicesModel
+import com.fidoo.user.dashboard.viewmodel.HomeFragmentNewViewModel
 import com.fidoo.user.dashboard.viewmodel.HomeFragmentViewModel
 import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.sendpackages.activity.SendPackageActivity
@@ -52,11 +57,12 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home_newui.*
 import java.util.*
 import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment() {
-
+    private var fixedAddressViewModel: HomeFragmentNewViewModel? = null
     lateinit var mView: View
     var viewmodel: HomeFragmentViewModel? = null
     var viewmodelusertrack: UserTrackerViewModel? = null
@@ -239,7 +245,7 @@ class HomeFragment : Fragment() {
 
         var sliderItem = SliderItem()
 
-        viewmodel?.failureResponse?.observe(requireActivity(), { user ->
+        viewmodel?.failureResponse?.observe(requireActivity()) { user ->
             //dismissIOSProgress()
             fragmentHomeBinding?.deshbordRefresh!!.isRefreshing = false
 
@@ -257,29 +263,29 @@ class HomeFragment : Fragment() {
 
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })
+        }
 
-        viewmodel?.bannersResponse?.observe(requireActivity(), { user ->
+        viewmodel?.bannersResponse?.observe(requireActivity()) { user ->
             // dismissIOSProgress()
-            fragmentHomeBinding?.mainViewNestedS?.visibility=View.VISIBLE
+            fragmentHomeBinding?.mainViewNestedS?.visibility = View.VISIBLE
             fragmentHomeBinding?.deshbordRefresh!!.isRefreshing = false
 
-            if (user!=null){
-            if (!user.error) {
-                val mModelData: BannerModel = user
-                Log.e("bannerResponse", Gson().toJson(mModelData))
-                val sliderItemList: ArrayList<com.fidoo.user.data.SliderItem> = ArrayList()
-                if (mModelData.banner != null) {
-                    for (i in 0 until mModelData.banner.size) {
-                        sliderItem = com.fidoo.user.data.SliderItem()
-                        sliderItem.imageUrl = mModelData.banner.get(i)
-                        sliderItemList.add(sliderItem)
-                    }
+            if (user != null) {
+                if (!user.error) {
+                    val mModelData: BannerModel = user
+                    Log.e("bannerResponse", Gson().toJson(mModelData))
+                    val sliderItemList: ArrayList<com.fidoo.user.data.SliderItem> = ArrayList()
+                    if (mModelData.banner != null) {
+                        for (i in 0 until mModelData.banner.size) {
+                            sliderItem = com.fidoo.user.data.SliderItem()
+                            sliderItem.imageUrl = mModelData.banner.get(i)
+                            sliderItemList.add(sliderItem)
+                        }
 
-                    val adapterr =
-                        SliderAdapterExample(
-                            activity
-                        ){ }
+                        val adapterr =
+                            SliderAdapterExample(
+                                activity
+                            ) { }
 
 //                    fragmentHomeBinding?.sliderView?.setSliderAdapter(adapterr)
 //
@@ -295,66 +301,68 @@ class HomeFragment : Fragment() {
 //                        sliderItemList.size - 1 //set scroll delay in seconds :
 //                    fragmentHomeBinding?.sliderView?.startAutoCycle()
 
-                    fragmentHomeBinding?.tabDotsHome?.setupWithViewPager(viewPagerBanner, true)
-                    adapterr.renewItems(sliderItemList)
-                    fragmentHomeBinding?.viewPagerBanner!!.adapter=adapterr
+                        fragmentHomeBinding?.tabDotsHome?.setupWithViewPager(viewPagerBanner, true)
+                        adapterr.renewItems(sliderItemList)
+                        fragmentHomeBinding?.viewPagerBanner!!.adapter = adapterr
 
-                    /*After setting the adapter use the timer */
-                    val handler = Handler()
-                    val Update = Runnable {
-                        Log.d(
-                            "currenftPage_g_",
-                            currentPage.toString() + "----" + (sliderItemList.size - 1)
-                        )
-                        if (currentPage == sliderItemList.size) {
-                           fragmentHomeBinding?.viewPagerBanner!!.setPadding(10,0,70,0)
-                            currentPage = 0
-                        } else {
-                            currentPage++
-                          //  if (currentPage==2){
-                                fragmentHomeBinding?.viewPagerBanner!!.setPadding(70,0,10,0)
+                        /*After setting the adapter use the timer */
+                        val handler = Handler()
+                        val Update = Runnable {
+                            Log.d(
+                                "currenftPage_g_",
+                                currentPage.toString() + "----" + (sliderItemList.size - 1)
+                            )
+                            if (currentPage == sliderItemList.size) {
+                                fragmentHomeBinding?.viewPagerBanner!!.setPadding(10, 0, 70, 0)
+                                currentPage = 0
+                            } else {
+                                currentPage++
+                                //  if (currentPage==2){
+                                fragmentHomeBinding?.viewPagerBanner!!.setPadding(70, 0, 10, 0)
 
-                           // }
+                                // }
+                            }
+                            fragmentHomeBinding?.viewPagerBanner!!.setCurrentItem(currentPage, true)
+                            Log.d("currenftPage__", currentPage.toString())
+
                         }
-                        fragmentHomeBinding?.viewPagerBanner!!.setCurrentItem(currentPage, true)
-                        Log.d("currenftPage__", currentPage.toString())
+                        timer = Timer() // This will create a new Thread
+
+                        timer!!.schedule(object : TimerTask() {
+                            // task to be scheduled
+                            override fun run() {
+                                handler.post(Update)
+                            }
+                        }, DELAY_MS, PERIOD_MS)
+
+
+                        try {
+                            if (user.show_slider.equals("1")) {
+                                fragmentHomeBinding?.bannerLL!!.visibility = View.VISIBLE
+                            } else {
+                                fragmentHomeBinding?.bannerLL!!.visibility = View.GONE
+
+                            }
+                        } catch (e: Exception) {
+                        }
+
+                        try {
+                            if (user.show_send_package.equals("1")) {
+                                standalone_section!!.visibility = View.VISIBLE
+                            } else {
+                                standalone_section!!.visibility = View.GONE
+                            }
+                        } catch (e: Exception) {
+                        }
+
 
                     }
-                    timer = Timer() // This will create a new Thread
-
-                    timer!!.schedule(object : TimerTask() {
-                        // task to be scheduled
-                        override fun run() {
-                            handler.post(Update)
-                        }
-                    }, DELAY_MS, PERIOD_MS)
-
-
-                   try {
-                       if (user.show_slider.equals("1")){
-                           fragmentHomeBinding?.bannerLL!!.visibility=View.VISIBLE
-                       }else{
-                           fragmentHomeBinding?.bannerLL!!.visibility=View.GONE
-
-                       }
-                   }catch (e:Exception){}
-
-                    try {
-                    if (user.show_send_package.equals("1")){
-                       standalone_section!!.visibility=View.VISIBLE
-                    }else{
-                       standalone_section!!.visibility=View.GONE
-                    }
-                    }catch (e:Exception){}
-
-
                 }
-            }
             }
             //   goForVerificationScreen(VerificationActivity::class.java,mModelData.accessToken,mModelData.account.id,mobileNoEdt.text.toString())
 
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
-        })
+        }
 
         viewmodel?.homeServicesResponse?.observe(requireActivity(), Observer { user ->
             fragmentHomeBinding?.deshbordRefresh!!.isRefreshing = false
@@ -406,14 +414,14 @@ class HomeFragment : Fragment() {
             }
         })
 
-        viewmodel?.cartCountResponse?.observe(requireActivity(), { user ->
+        viewmodel?.cartCountResponse?.observe(requireActivity()) { user ->
             // dismissIOSProgress()
             if (_progressDlg != null) {
                 _progressDlg!!.dismiss()
                 _progressDlg = null
             }
 
-            if (user!=null) {
+            if (user != null) {
                 if (!user.error) {
                     val mModelData: CartCountModel = user
                     Log.e("countResponse", Gson().toJson(mModelData))
@@ -423,7 +431,7 @@ class HomeFragment : Fragment() {
                     }
                     if (user.count != null) {
                         if (user.count.toInt() > 0) {
-                        //    fragmentHomeBinding?.cartIcon?.setImageResource(R.drawable.cart_icon)
+                            //    fragmentHomeBinding?.cartIcon?.setImageResource(R.drawable.cart_icon)
 //                            fragmentHomeBinding?.cartIcon?.setColorFilter(
 //                                Color.argb(
 //                                    255,
@@ -436,7 +444,7 @@ class HomeFragment : Fragment() {
                             fragmentHomeBinding?.cartCountTxt?.text = user.count.toString()
                         } else {
                             fragmentHomeBinding?.cartCountTxt?.visibility = View.GONE
-                           // fragmentHomeBinding?.cartIcon?.setImageResource(R.drawable.ic_cart)
+                            // fragmentHomeBinding?.cartIcon?.setImageResource(R.drawable.ic_cart)
 //                            fragmentHomeBinding?.cartIcon?.setColorFilter(
 //                                Color.argb(255, 199, 199, 199)
 //                            )
@@ -448,7 +456,7 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
-        })
+        }
 
         // Inflate the layout for this fragment
         fragmentHomeBinding?.cartIcon?.setOnClickListener {
@@ -489,7 +497,7 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding?.addressLay?.setOnClickListener {
             //if (SessionTwiclo(context).isLoggedIn){
             startActivityForResult(
-                Intent(context, SavedAddressesActivity::class.java)
+                Intent(context, SavedAddressesActivityNew::class.java)
                     .putExtra("type", "address")
                     .putExtra(
                         "where", where
@@ -641,6 +649,13 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
+            CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
+            CartActivity.accessToken = SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
+        } else {
+            CartActivity.accountId = SessionTwiclo(requireActivity()).loginDetail.accountId.toString()
+            CartActivity.accessToken = SessionTwiclo(requireActivity()).loginDetail.accessToken
+        }
         ProfileFragment.addManages=""
         if ((activity as MainActivity).isNetworkConnected) {
             if (SessionTwiclo(context).isLoggedIn) {
@@ -661,12 +676,25 @@ class HomeFragment : Fragment() {
 
             fragmentHomeBinding?.noInternetOnHomeLl!!.visibility=View.GONE
 
-        } else {
+        }
+        else {
 //            fragmentHomeBinding?.mainViewNestedS!!.visibility=View.GONE
 //            fragmentHomeBinding?.noInternetOnHomeLl!!.visibility=View.VISIBLE
 
         }
-
+//        if (HomeNewUiFragment.countButtonOn == 1) {
+//            fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")
+//                ?.observe(requireActivity()) {
+//                    if (it.addressList.size == 0) {
+//                        if (!it.addressList.isNullOrEmpty()) {
+//                            getCurrentLocation()
+//                        }
+//                    }
+////					else{
+////						getCurrentLocationAddress()
+////					}
+//                }
+//        }
 
 
     }

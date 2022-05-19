@@ -146,7 +146,7 @@ abstract class BaseActivity : AppCompatActivity(), Handler.Callback {
         _progressDlg!!.show()
     }
 
-    fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String? {
+    open fun getGeoAddressFromLatLong(latitude: Double, longitude: Double): String? {
         val geocoder = Geocoder(this, Locale.getDefault())
         try {
             val addressList = geocoder.getFromLocation(latitude, longitude, 1)
@@ -652,6 +652,7 @@ abstract class BaseActivity : AppCompatActivity(), Handler.Callback {
         Handler(Looper.getMainLooper()).postDelayed({
             fidooLoader!!.dismiss()
         }, 4000)
+
     }
 
 }

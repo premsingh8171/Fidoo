@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -33,24 +34,29 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".chatbot.ui.Chatbotui"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".dailyneed.ui.CategoryProductListActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".grocerynewui.activity.ViewAllProducts"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".grocerynewui.activity.GroceryNewUiActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".referral.activity.ReferralActivity"
             android:screenOrientation="portrait"
@@ -58,7 +64,10 @@
         <activity
             android:name=".activity.AuthActivity"
             android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme" />
+
+
         <activity
             android:name=".activity.SliderScreenActivity"
             android:screenOrientation="portrait" />
@@ -132,12 +141,16 @@
                app to run.
         -->
         <activity
-            android:name=".addressmodule.activity.NewAddAddressActivity"
+            android:name=".addressmodule.activity.NewAddAddressActivityNew"
             android:screenOrientation="portrait" /> <!-- <activity -->
         <!-- android:name=".addressmodule.activity.AddAddressActivity" -->
         <!-- android:screenOrientation="portrait" /> -->
         <activity
             android:name=".cartview.activity.CartActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -159,16 +172,24 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
+            android:name=".addressmodule.activity.SavedAddressesActivityNew"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".addressmodule.activity.SavedAddressesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".addressmodule.activity.NewAddAddressActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
 
+<!--
         <activity
             android:name=".ordermodule.ui.TrackOrderActivity"
             android:screenOrientation="portrait" />
+-->
         <activity
             android:name=".ordermodule.ui.ReviewItemsActivity"
             android:screenOrientation="portrait" />
@@ -191,22 +212,36 @@
             android:name=".newsearch.ui.NewSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
+<!--
+        <activity
+            android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+-->
+        <activity
+            android:name=".FidoPay.FidoPayQrTest"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".FidoPay.FidoPayDashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".FidoPay.FpayConversationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="https://fidoo.page.link"
                     android:scheme="https" />
@@ -257,7 +292,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_live_iceNLz5pb15jtP" />
+            android:value="rzp_test_17ihcfTIqBGF9R" />
 
         <service
             android:name=".fcm.MyFirebaseMessagingService"

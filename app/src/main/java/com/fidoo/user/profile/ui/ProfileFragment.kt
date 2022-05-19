@@ -20,7 +20,7 @@ import com.fidoo.user.R
 import com.fidoo.user.activity.AboutUsActivity
 import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.profile.viewmodel.EditProfileViewModel
 import com.fidoo.user.referral.activity.ReferralActivity
@@ -129,7 +129,7 @@ class ProfileFragment : Fragment() {
                 addManages = "add_manage"
                 AppUtils.startActivityRightToLeft(
                     requireActivity(),
-                    Intent(context, SavedAddressesActivity::class.java)
+                    Intent(context, SavedAddressesActivityNew::class.java)
                 )
             } else {
                 Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG)
@@ -137,7 +137,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-/*
+        /*
         mView.tv_manage_your_addresses.setOnClickListener {
             if (SessionTwiclo(requireContext()).isLoggedIn) {
                 addManages = "add_manage"
@@ -153,6 +153,8 @@ class ProfileFragment : Fragment() {
         }
 */
 
+        mView.profileMainClick.setOnClickListener {}
+
         mView.aboutUs_const.setOnClickListener {
             AppUtils.startActivityRightToLeft(
                 requireActivity(),
@@ -160,7 +162,7 @@ class ProfileFragment : Fragment() {
             )
         }
 
-/*
+        /*
         mView.tv_aboutUs.setOnClickListener {
             AppUtils.startActivityRightToLeft(
                 requireActivity(),
@@ -236,7 +238,7 @@ class ProfileFragment : Fragment() {
             )
         }
 
-        viewmodel?.getlogoutResponse?.observe(requireActivity(), { user ->
+        viewmodel?.getlogoutResponse?.observe(requireActivity()) { user ->
             try {
                 dismissIOSProgress()
                 Log.e("logout__response", Gson().toJson(user))
@@ -254,7 +256,7 @@ class ProfileFragment : Fragment() {
 //                startActivity(Intent(requireActivity(), SplashActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
 
             }
-        })
+        }
 
         return mView
     }
