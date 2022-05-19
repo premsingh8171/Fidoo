@@ -256,9 +256,8 @@ class NewSearchStoreListingActivity : BaseActivity() {
             )
                 .fallbackToDestructiveMigration()
                 .build()
-            restaurantProductsDatabase!!.resProductsDaoAccess()!!.deleteAll()
+            restaurantProductsDatabase.resProductsDaoAccess()!!.deleteAll()
 
         }.start()
     }
-
 }
