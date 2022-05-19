@@ -29,9 +29,6 @@
         android:theme="@style/Theme.TwicloRedesigned"
         tools:replace="android:allowBackup,android:name,android:theme,android:icon">
 
-
-
-
         <activity
             android:name=".dailyneed.ui.ServiceDailyNeedActivity"
             android:exported="true"
