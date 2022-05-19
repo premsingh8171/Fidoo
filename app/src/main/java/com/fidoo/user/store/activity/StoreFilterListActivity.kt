@@ -184,48 +184,48 @@ class StoreFilterListActivity : BaseActivity() {
     }
 
     private fun onObserveData() {
-        storeListingViewModel?.getStoresApi?.observe(this, { user ->
+        storeListingViewModel?.getStoresApi?.observe(this) { user ->
             dismissIOSProgress()
             linear_progress_indicator.visibility = View.GONE
             sortRlheader.visibility = View.VISIBLE
             Log.e("stores_response_h_", Gson().toJson(user))
-                if (!user.error) {
-                    dismissIOSProgress()
-                    storeList!!.clear()
-                    val mModelData: StoreListingModel = user
-                    storeList = mModelData.storeList as ArrayList
-                    hit=0
-                    isMore = user.more_value
+            if (!user.error) {
+                dismissIOSProgress()
+                storeList!!.clear()
+                val mModelData: StoreListingModel = user
+                storeList = mModelData.storeList as ArrayList
+                hit = 0
+                isMore = user.more_value
 
-                    if (pagecount > 0) {
-                        storeListUpdated = mModelData.storeList as ArrayList
-                        storeList!!.addAll(storeListUpdated!!)
-                        Log.d("ordersList__", storeList!!.size.toString())
-                        adapterStore!!.updateData(storeList!!, isMore)
-                        adapterStore!!.notifyDataSetChanged()
-                    } else {
-                        storeList = mModelData.storeList as ArrayList
-                        storeListRv(storeList!!)
-
-                    }
-                    if (storeList!!.size != 0) {
-                        no_shop_ll.visibility = View.GONE
-                    } else {
-                        no_shop_ll.visibility = View.VISIBLE
-                    }
-
+                if (pagecount > 0) {
+                    storeListUpdated = mModelData.storeList as ArrayList
+                    storeList!!.addAll(storeListUpdated!!)
+                    Log.d("ordersList__", storeList!!.size.toString())
+                    adapterStore!!.updateData(storeList!!, isMore)
+                    adapterStore!!.notifyDataSetChanged()
                 } else {
-                    if (user.errorCode == 101) {
-                        showAlertDialog(this)
-                    }
-            }
-        })
+                    storeList = mModelData.storeList as ArrayList
+                    storeListRv(storeList!!)
 
-        storeListingViewModel?.failureResponse?.observe(this, {
+                }
+                if (storeList!!.size != 0) {
+                    no_shop_ll.visibility = View.GONE
+                } else {
+                    no_shop_ll.visibility = View.VISIBLE
+                }
+
+            } else {
+                if (user.errorCode == 101) {
+                    showAlertDialog(this)
+                }
+            }
+        }
+
+        storeListingViewModel?.failureResponse?.observe(this) {
             dismissIOSProgress()
             linear_progress_indicator.visibility = View.GONE
             Log.d("failureResponse___", it.toString())
-        })
+        }
 
 
     }

@@ -20,6 +20,8 @@ import com.fidoo.user.newRestaurants.model.NewStoreDetailsModel
 import com.fidoo.user.newsearch.model.KeywordBasedSearchResultsModel
 import com.fidoo.user.newsearch.model.KeywordBasedSearchSuggestionsModel
 import com.fidoo.user.newsearch.model.SearchSuggestionsModel
+import com.fidoo.user.ordermodule.NewOrderTrackModule.RestaurantsCase.NewTrackModel.NewTrackModel
+import com.fidoo.user.ordermodule.NewOrderTrackModule.sendPackageModule.SendPackageDataModel.sendPackageModel
 import com.fidoo.user.ordermodule.model.*
 import com.fidoo.user.profile.model.EditProfileModel
 import com.fidoo.user.referral.model.ReferralModel
@@ -813,5 +815,22 @@ interface BackEndApi {
         @Field("res") res: Int
     ): Call<FeedbackModel>
 
+    @FormUrlEncoded
+    @POST("orderTrackingNewScreen.inc.php")
+    fun NewTrackScreenApi(
+        @Field("accessToken") accessToken: String,
+        @Field("accountId") accountId: String,
+        @Field("orderId") orderId: String
+    ): Call<NewTrackModel>
+
+    @FormUrlEncoded
+    @POST("orderTrackingSendPackage.inc.php")
+    fun SendPackageNewTrackScreenApi(
+        @Field("accessToken") accessToken: String,
+        @Field("accountId") accountId: String,
+        @Field("orderId") orderId: String
+    ): Call<sendPackageModel>
+
 }
+
 

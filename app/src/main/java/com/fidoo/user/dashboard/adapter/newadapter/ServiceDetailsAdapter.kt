@@ -79,6 +79,12 @@ class ServiceDetailsAdapter(
             holder.itemView.service_cat_staticView.visibility = View.VISIBLE
             holder.itemView.headerTxt.text = serviceList[position].service_heading
 
+            if (serviceList[position].services?.size!! < 3){
+                holder.itemView.dailyNeed_constView.visibility = View.GONE
+            }
+            else if (serviceList[position].services?.size!! >= 3){
+                holder.itemView.dailyNeed_constView.visibility = View.VISIBLE
+            }
             if (serviceList[position].service_text.toString().isNotEmpty()) {
                 holder.itemView.marque_txt.text = serviceList[position].service_text + "  |  " + serviceList[position].service_text
                 holder.itemView.marque_txt.isSelected = true
@@ -172,7 +178,6 @@ class ServiceDetailsAdapter(
                 var model: Service = serviceList[position].services!!.get(2)
                 clickEventOfDashboard.onExploreCatClick(0, 2, model)
             }
-
         }
 
         //popular curation view
@@ -490,9 +495,7 @@ class ServiceDetailsAdapter(
             //  height = Math.round(catIconWidth * 0.49).toInt()
 
             try {
-                upComingServiceAdapter = UpComingServiceAdapter(
-                    con,
-                    serviceList[position].upcoming_services as ArrayList,
+                upComingServiceAdapter = UpComingServiceAdapter(con, serviceList[position].upcoming_services as ArrayList,
                     object : UpComingServiceAdapter.ItemClickShop {
                         override fun onItemClick(pos: Int, model: UpcomingServices) {
                             clickEventOfDashboard.onUpcomingServicesClick(5, pos, model)
@@ -516,7 +519,6 @@ class ServiceDetailsAdapter(
         } else {
             holder.itemView.bottomview_ll.visibility = View.GONE
         }
-
     }
 
     private fun loadImg(imageUrl: String, view: ImageView) {
@@ -531,7 +533,6 @@ class ServiceDetailsAdapter(
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     }
-
 
     interface ItemClick {
         fun onItemClick(pos: Int, serviceList: Service)

@@ -30,7 +30,8 @@ import kotlin.collections.LinkedHashSet
 
 class ChangeAddressActivity : BaseActivity() {
     var search_value:String?=""
-    companion object{  public  var value_current_loc:String?=""
+    companion object{
+        var value_current_loc : String?=""
     }
     private var placesClient: PlacesClient? = null
     private var predictionList: List<AutocompletePrediction>? = null
@@ -154,7 +155,7 @@ class ChangeAddressActivity : BaseActivity() {
                 if (pos >= searchAddList!!.size) {
                     return
                 }
-                value_current_loc=""
+                value_current_loc = ""
                 hideKeyboard()
                 val resultIntent = Intent()
                 resultIntent.putExtra("location",value);

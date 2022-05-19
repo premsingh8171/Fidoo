@@ -43,7 +43,7 @@ import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.fragments.SendPacketFragment
-import com.fidoo.user.ordermodule.ui.TrackOrderActivity
+import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity
 import com.fidoo.user.sendpackages.activity.SendPackageActivity
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.maps.model.GeocoderModel
@@ -62,7 +62,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_newui.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : BaseActivity(), android.location.LocationListener, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -293,7 +292,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         orderStatus_fm.setOnClickListener {
             startActivity(
-                Intent(this, TrackOrderActivity::class.java)
+                Intent(this, NewTrackOrderActivity::class.java)
                     .putExtra("orderId", orderId)
                     .putExtra("delivery_boy_name", "")
                     .putExtra(
@@ -453,22 +452,35 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             }
 
             override fun getLocation(location: Location) {
-                Log.e(
-                    "Location_lat_lng",
-                    " latitude ${location.latitude} longitude ${location.longitude}"
-                )
+                try {
+                    Log.e(
+                       "Location_lat_lng",
+                         " latitude ${location.latitude} longitude ${location.longitude}"
+                    )
+                    var address = getGeoAddressFromLatLong(location.latitude, location.longitude)
 
-                var address = getGeoAddressFromLatLong(location.latitude, location.longitude)
-
-                if (address!!.isNotEmpty()) {
-                    SessionTwiclo(this@MainActivity).userAddress =
-                        getGeoAddressFromLatLong(location.latitude, location.longitude)
-                    SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
-                    SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
-                    userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
-                } else {
-                    geocoderAddress(location.latitude.toString(), location.longitude.toString())
+                    if (address!!.isNotEmpty()) {
+                        val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
+                        val addresses: List<Address> =
+                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                        val fulladdress = addresses[0].getAddressLine(0)
+                        val city = addresses[0].locality
+//                    val state = addresses[0].adminArea
+//                    val zip = addresses[0].postalCode
+//                    val country = addresses[0].countryName
+                        SessionTwiclo(this@MainActivity).userAddress = fulladdress
+                        //getGeoAddressFromLatLong(location.latitude, location.longitude)
+                        SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
+                        SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
+                        Log.d("fromcurrentadd___", fulladdress)
+                        userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
+                    } else {
+                        geocoderAddress(location.latitude.toString(), location.longitude.toString())
+                    }
+                }catch (e:Exception){
+                    e.printStackTrace()
                 }
+
             }
         })
     }

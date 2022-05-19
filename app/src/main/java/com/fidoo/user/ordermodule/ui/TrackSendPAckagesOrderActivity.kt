@@ -71,7 +71,6 @@ import com.prudhvir3ddy.rideshare.utils.AnimationUtils
 import com.prudhvir3ddy.rideshare.utils.MapUtils
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.activity_sendpackages_additem.*
-import kotlinx.android.synthetic.main.activity_track_order.*
 import kotlinx.android.synthetic.main.activity_track_sendpackages_order.*
 import kotlinx.android.synthetic.main.activity_track_sendpackages_order.customer_care_fmL
 import kotlinx.android.synthetic.main.activity_track_sendpackages_order.orderTrackBack_fmL
@@ -279,7 +278,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
             .findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
 
-        viewmodel?.getLocationResponse?.observe(this, { user ->
+        viewmodel?.getLocationResponse?.observe(this) { user ->
             try {
                 Log.e("getLocationResponse___", Gson().toJson(user))
                 Log.e("getLocationResponse___", timerStatus.toString())
@@ -296,8 +295,10 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
 
             try {
                 if (user.driverLatitude.isNotEmpty()) {
-                    rider_LatLng = LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
-                    rider_LatLngOrg = LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
+                    rider_LatLng =
+                        LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
+                    rider_LatLngOrg =
+                        LatLng(user.driverLatitude.toDouble(), user.driverLongitude.toDouble())
                     rider_LatLngStr = user.driverLatitude + "," + user.driverLongitude
                     Log.e("rider_LatLngStr", rider_LatLngStr.toString())
                 }
@@ -515,7 +516,7 @@ class TrackSendPAckagesOrderActivity : BaseActivity(), OnMapReadyCallback, OnCur
             }
 
 
-        })
+        }
 
         viewmodel?.trackPackageOrderModelRes?.observe(this) {
             Log.e("trackPackageOrder_", Gson().toJson(it))

@@ -5,14 +5,26 @@
     android:layout_width="match_parent"
     android:background="@android:color/white"
     android:layout_height="match_parent">
-
+    <ImageView
+        android:id="@+id/iv_emptyMap"
+        android:src="@drawable/empty_map"
+        android:visibility="gone"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_below="@id/add_address_frmLL"
+        android:layout_above="@id/btn_proceed"
+        android:layout_height="match_parent"/>
     <FrameLayout
-        android:layout_margin="@dimen/margin_12dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="14dp"
         android:elevation="@dimen/dimen_5dp"
         android:backgroundTint="@color/white"
         android:id="@+id/add_address_frmLL"
         android:layout_width="@dimen/margin_40dp"
         android:layout_height="@dimen/margin_40dp">
+
         <ImageView
             android:rotation="180"
             android:background="@color/white"
@@ -21,6 +33,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             app:tint="@color/black" />
+
     </FrameLayout>
 
     <TextView
@@ -45,20 +58,10 @@
         android:textSize="16sp"
         android:textColor="@color/black"
         android:layout_height="wrap_content"/>
-    <ImageView
-        android:id="@+id/iv_emptyMap"
-        android:src="@drawable/empty_map"
-        android:visibility="gone"
-        android:scaleType="fitXY"
-        android:layout_width="match_parent"
-        android:layout_below="@id/add_address_frmLL"
-        android:layout_above="@id/btn_proceed"
-        android:layout_height="match_parent"/>
-    <LinearLayout
+
+    <RelativeLayout
         android:id="@+id/iv_mapSlider"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:weightSum="10"
         android:layout_below="@id/add_address_frmLL"
         android:layout_above="@id/btn_proceed"
         android:layout_height="match_parent">
@@ -67,16 +70,16 @@
             android:id="@+id/linear_progress_indicator_map"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:indeterminate="true"
-            app:layout_constraintBottom_toBottomOf="@id/topLay" />
+            android:indeterminate="true"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_weight="5"
             android:id="@+id/mapLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <include
                 android:id="@+id/mapView2"
                 layout="@layout/content_map"
@@ -89,13 +92,39 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/live_add_1"
+            android:layout_width="match_parent"
+            android:elevation="@dimen/dimen_50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="@dimen/margin_15dp"
+            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:padding="@dimen/margin_15dp"
+                android:textColor="@color/black"
+                android:drawablePadding="@dimen/margin_10"
+                android:id="@+id/tv_Address_1"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima"
+                android:textSize="14sp"
+                app:drawableStartCompat="@drawable/ic_icon_for_user_app_marker" />
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressindicatorAdd"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@+id/add_new_add_ll"
         android:indeterminate="true" />
+
     <LinearLayout
         android:layout_alignParentBottom="true"
         android:background="@drawable/feedback_bg"
@@ -104,361 +133,315 @@
         android:id="@+id/add_new_add_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ScrollView
+
+        <!--        <com.fidoo.user.addressmodule.activity.MaxHeightScrollView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            app:maxHeight="500dp"-->
+        <!--            android:layout_height="0dp">-->
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
-                android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/live_add"
+                app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/live_add"
-                    app:layout_constraintTop_toTopOf="parent"
+                <ImageView
+                    android:id="@+id/locationImage"
+                    android:layout_width="@dimen/margin_24dp"
+                    android:layout_height="@dimen/margin_24dp"
+                    android:layout_marginStart="15dp"
+                    android:src="@drawable/ic_icon_for_user_app_marker"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_address_title"
+                    android:layout_width="wrap_content"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/proxima"
+                    android:text="fff"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@+id/locationImage"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:padding="@dimen/dimen_5dp"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="@dimen/margin_70dp"
+                    android:id="@+id/tv_Address"
+                    android:background="@color/white"
+                    android:singleLine="true"
+                    android:scrollHorizontally="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                   android:layout_marginTop="12dp"
+                    android:layout_marginStart="@dimen/margin_40dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/worksans_semibold"
+                    android:textSize="14sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/locationImage"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_address_title" />
+
+                <TextView
+                    android:id="@+id/change_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/_textview_bg_rounded"
+                    android:fontFamily="@font/proxima"
+                    android:textStyle="bold"
+                    android:padding="7dp"
+                    android:text="Change"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-                    <ImageView
-                        android:id="@+id/locationImage"
-                        android:layout_width="@dimen/margin_24dp"
-                        android:layout_height="@dimen/margin_24dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="4dp"
-                        android:src="@drawable/ic_icon_for_user_app_marker"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_address_title"
+                    android:visibility="visible" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/tv_address_title"
-                        android:layout_width="wrap_content"
-                        android:visibility="gone"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="@font/proxima"
-                        android:text="fff"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toEndOf="@+id/locationImage"
-                        app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="10dp"
+                android:id="@+id/tl_address"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:endIconMode="clear_text"
+                app:errorEnabled="true"
+                android:importantForAutofill="no"
+                app:hintTextColor="@color/black"
+                app:boxStrokeColor="@color/backGround_et"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_phone">
 
-                    <TextView
-                        android:layout_marginTop="@dimen/dimen_5dp"
-                        android:padding="@dimen/dimen_5dp"
-                        android:textColor="@color/black"
-                        android:layout_marginEnd="@dimen/margin_70dp"
-                        android:id="@+id/tv_Address"
-                        android:background="@color/white"
-                        android:singleLine="true"
-                        android:scrollHorizontally="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_40dp"
-                        android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/worksans_semibold"
-                        android:textSize="14sp"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/locationImage"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_address_title" />
-
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:id="@+id/change_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/_textview_bg_rounded"
-                        android:fontFamily="@font/proxima"
-                        android:textStyle="bold"
-                        android:padding="7dp"
-                        android:text="Change"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorPrimary"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_address_title"
-                        android:visibility="visible" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <View
-                    android:visibility="gone"
-                    android:id="@+id/view"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="no"
+                    android:textColor="@color/black"
+                    android:id="@+id/ed_address"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/worksans_semibold"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
-                    android:background="@color/colorGray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/live_add" />
+                    android:layout_height="50dp"
+                    android:hint="@string/house_flat_block"
+                    android:inputType="text|textNoSuggestions" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_landmark"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:endIconMode="clear_text"
+                app:errorEnabled="true"
+                app:boxStrokeColor="@color/backGround_et"
+                app:hintTextColor="@color/black"
+                android:importantForAutofill="no"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_phone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:textColor="@color/black"
+                    android:id="@+id/ed_landmark"
+                    android:textSize="14sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/worksans_semibold"
+                    android:hint="Landmark(Optional)"
+                    android:importantForAutofill="no"
+                    android:inputType="text|textNoSuggestions" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RadioGroup
+                android:layout_marginTop="@dimen/margin_10"
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:layout_marginEnd="@dimen/margin_10"
+                    android:id="@+id/homeRadioBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/worksans_semibold"
+                    android:layout_weight="1"
+                    android:padding="6dp"
+                    android:checked="true"
+                    android:background="@drawable/radio_selector_button"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:text="Home" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/officeRadioBtn"
+                    android:layout_width="wrap_content"
+                    android:padding="6dp"
+                    android:layout_height="34dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="14sp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/worksans_semibold"
+                    android:background="@drawable/radio_selector_button"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:text="Office" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/otherRadioBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:padding="6dp"
+                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:background="@drawable/radio_selector_button"
+                    android:fontFamily="@font/worksans_semibold"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:text="Other" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/other_add_contact_details"
+                android:layout_marginTop="12dp"
+                android:visibility="gone"
+                android:background="@drawable/feedback_bg"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tl_phone"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_name"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="65dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        app:boxCornerRadiusBottomEnd="15dp"
+                        app:boxCornerRadiusBottomStart="15dp"
+                        app:boxCornerRadiusTopEnd="15dp"
+                        app:boxCornerRadiusTopStart="15dp"
+                        app:errorEnabled="true"
+                        android:importantForAutofill="no"
+                        app:hintTextColor="@color/colorHint"
+                        app:boxStrokeColor="@color/backGround_et"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:textColor="@color/black"
+                            android:hint="Name"
+                            android:textSize="12sp"
+                            android:id="@+id/ed_name"
+                            android:importantForAutofill="no"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:inputType="text|textNoSuggestions" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <ImageView
+                        android:id="@+id/ivPickContact"
+                        android:layout_width="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:padding="16dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_phonebook"/>
+                </RelativeLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/tl_address"
+                    android:id="@+id/tl_phone"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    app:boxCornerRadiusBottomEnd="16dp"
-                    app:boxCornerRadiusBottomStart="16dp"
-                    app:boxCornerRadiusTopEnd="16dp"
-                    app:boxCornerRadiusTopStart="16dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusBottomStart="15dp"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:boxCornerRadiusTopStart="15dp"
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     android:importantForAutofill="no"
-                    app:hintTextColor="@color/black"
+                    app:hintTextColor="@color/colorHint"
                     app:boxStrokeColor="@color/backGround_et"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tl_phone">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:importantForAutofill="no"
                         android:textColor="@color/black"
-                        android:id="@+id/ed_address"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/worksans_semibold"
+                        android:hint="Phone Number"
+                        android:textSize="12sp"
+                        android:id="@+id/ed_phone"
+                        android:digits="0123456789"
+                        android:importantForAutofill="no"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:hint="@string/house_flat_block"
-                        android:inputType="text|textNoSuggestions" />
+                        android:inputType="phone" />
+
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_landmark"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="16dp"
-                    app:boxCornerRadiusBottomEnd="16dp"
-                    app:boxCornerRadiusBottomStart="16dp"
-                    app:boxCornerRadiusTopEnd="16dp"
-                    app:boxCornerRadiusTopStart="16dp"
-                    app:endIconMode="clear_text"
-                    app:errorEnabled="true"
-                    app:boxStrokeColor="@color/backGround_et"
-                    app:hintTextColor="@color/black"
-                    android:importantForAutofill="no"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_phone">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:textColor="@color/black"
-                        android:id="@+id/ed_landmark"
-                        android:textSize="14sp"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:fontFamily="@font/worksans_semibold"
-                        android:hint="Landmark(Optional)"
-                        android:importantForAutofill="no"
-                        android:inputType="text|textNoSuggestions" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <RadioGroup
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:id="@+id/radioGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="15dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view">
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:layout_marginRight="@dimen/margin_10"
-                        android:id="@+id/homeRadioBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="34dp"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/worksans_semibold"
-                        android:layout_weight="1"
-                        android:padding="6dp"
-                        android:checked="true"
-                        android:background="@drawable/radio_selector_button"
-                        android:button="@android:color/transparent"
-                        android:gravity="center"
-                        android:text="Home" />
-
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/officeRadioBtn"
-                        android:layout_width="wrap_content"
-                        android:padding="6dp"
-                        android:layout_height="34dp"
-                        android:layout_marginRight="10dp"
-                        android:textSize="14sp"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/worksans_semibold"
-                        android:background="@drawable/radio_selector_button"
-                        android:button="@android:color/transparent"
-                        android:gravity="center"
-                        android:text="Office" />
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/otherRadioBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="34dp"
-                        android:padding="6dp"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
-                        android:background="@drawable/radio_selector_button"
-                        android:fontFamily="@font/worksans_semibold"
-                        android:button="@android:color/transparent"
-                        android:gravity="center"
-                        android:text="Other" />
-                </RadioGroup>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_continue"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="17dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="@dimen/margin_20dp"
-                        android:enabled="false"
-                        android:letterSpacing="0"
-                        android:padding="15dp"
-                        android:text="Save"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        app:cornerRadius="10dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-                </RelativeLayout>
             </LinearLayout>
-        </ScrollView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_continue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:enabled="false"
+                android:letterSpacing="0"
+                android:padding="15dp"
+                android:text="Save"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:cornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
+        <!--        </com.fidoo.user.addressmodule.activity.MaxHeightScrollView>-->
     </LinearLayout>
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/contact_add_ll"-->
-    <!--        android:background="@drawable/feedback_bg"-->
-    <!--        android:layout_alignParentBottom="true"-->
-    <!--        android:visibility="gone"-->
-    <!--        android:orientation="vertical"-->
-    <!--        android:layout_above="@id/btn_proceed"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="280dp">-->
-    <!--        <TextView-->
-    <!--            android:layout_margin="@dimen/dimen_5dp"-->
-    <!--            android:padding="@dimen/margin_10"-->
-    <!--            android:textColor="@color/black"-->
-    <!--            android:text="Add contact details"-->
-    <!--            android:textSize="@dimen/dimen_16sp"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content" />-->
-    <!--        <com.google.android.material.textfield.TextInputLayout-->
-    <!--            android:id="@+id/tl_phone"-->
-    <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="65dp"-->
-    <!--            android:layout_marginStart="15dp"-->
-    <!--            android:layout_marginEnd="15dp"-->
-    <!--            app:boxCornerRadiusBottomEnd="15dp"-->
-    <!--            app:boxCornerRadiusBottomStart="15dp"-->
-    <!--            app:boxCornerRadiusTopEnd="15dp"-->
-    <!--            app:boxCornerRadiusTopStart="15dp"-->
-    <!--            app:endIconMode="clear_text"-->
-    <!--            app:errorEnabled="true"-->
-    <!--            android:importantForAutofill="no"-->
-    <!--            app:hintTextColor="@color/colorHint"-->
-    <!--            app:boxStrokeColor="@color/backGround_et"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/tl_phone">-->
 
-    <!--            <com.google.android.material.textfield.TextInputEditText-->
-    <!--                android:textColor="@color/black"-->
-    <!--                android:hint="Contact number"-->
-    <!--                android:textSize="12sp"-->
-    <!--                android:id="@+id/ed_phone"-->
-    <!--                android:digits="0123456789"-->
-    <!--                android:maxLength="10"-->
-    <!--                android:importantForAutofill="no"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="50dp"-->
-    <!--                android:inputType="phone" />-->
-    <!--        </com.google.android.material.textfield.TextInputLayout>-->
-    <!--        <com.google.android.material.textfield.TextInputLayout-->
-    <!--            android:id="@+id/tl_name"-->
-    <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="65dp"-->
-    <!--            android:layout_marginStart="15dp"-->
-    <!--            android:layout_marginEnd="15dp"-->
-    <!--            app:boxCornerRadiusBottomEnd="15dp"-->
-    <!--            app:boxCornerRadiusBottomStart="15dp"-->
-    <!--            app:boxCornerRadiusTopEnd="15dp"-->
-    <!--            app:boxCornerRadiusTopStart="15dp"-->
-    <!--            app:endIconMode="clear_text"-->
-    <!--            app:errorEnabled="true"-->
-    <!--            android:importantForAutofill="no"-->
-    <!--            app:hintTextColor="@color/colorHint"-->
-    <!--            app:boxStrokeColor="@color/backGround_et"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/tl_phone">-->
-    <!--            <com.google.android.material.textfield.TextInputEditText-->
-    <!--                android:textColor="@color/black"-->
-    <!--                android:hint="Contact Name"-->
-    <!--                android:textSize="12sp"-->
-    <!--                android:id="@+id/ed_name"-->
-    <!--                android:importantForAutofill="no"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="50dp"-->
-    <!--                android:inputType="text|textNoSuggestions" />-->
-    <!--        </com.google.android.material.textfield.TextInputLayout>-->
-    <!--        <com.google.android.material.button.MaterialButton-->
-    <!--            android:id="@+id/add_contactBtn"-->
-    <!--            android:text="Add Contact"-->
-    <!--            app:layout_constraintTop_toBottomOf="parent"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_alignParentBottom="true"-->
-    <!--            android:layout_marginStart="30dp"-->
-    <!--            android:layout_marginTop="10dp"-->
-    <!--            android:layout_marginEnd="30dp"-->
-    <!--            android:layout_marginBottom="@dimen/margin_15dp"-->
-    <!--            android:letterSpacing="0"-->
-    <!--            android:padding="15dp"-->
-    <!--            android:textAllCaps="false"-->
-    <!--            android:textColor="@color/white"-->
-    <!--            android:textSize="16sp"-->
-    <!--            app:backgroundTint="@color/colorPrimary"-->
-    <!--            app:cornerRadius="10dp"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent" />-->
-    <!--    </LinearLayout>-->
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/live_add_1"
-        android:layout_width="match_parent"
-        android:layout_above="@id/btn_proceed"
-        android:elevation="@dimen/dimen_50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:cardCornerRadius="@dimen/margin_15dp"
-        android:layout_marginBottom="24dp"
-        android:layout_height="wrap_content">
-        <androidx.appcompat.widget.AppCompatCheckedTextView
-            android:padding="@dimen/margin_15dp"
-            android:textColor="@color/black"
-            android:drawableStart="@drawable/ic_icon_for_user_app_marker"
-            android:drawablePadding="@dimen/margin_10"
-            android:id="@+id/tv_Address_1"
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/proxima"
-            android:textSize="14sp"/>
-    </androidx.cardview.widget.CardView>
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_proceed"
         android:layout_width="match_parent"

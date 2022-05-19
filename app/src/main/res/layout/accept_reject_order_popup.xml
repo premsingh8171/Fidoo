@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_gravity="bottom"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/dismisspopUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/top_round_corner_bg"
+        android:backgroundTint="#359C47"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <LinearLayout
+            android:id="@+id/layout_catPopup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:fontFamily="@font/proximanovo"
+                android:padding="@dimen/margin_16dp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All Item Details"
+                android:layout_gravity="center"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+
+                <RelativeLayout
+                    android:id="@+id/orderItem_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@color/lightGray"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/shop_and_add_ll">
+
+                    <!--                <TextView-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:layout_gravity="center_horizontal"-->
+                    <!--                    android:layout_marginTop="10dp"-->
+                    <!--                    android:fontFamily="@font/proxima"-->
+                    <!--                    android:paddingLeft="@dimen/margin_20dp"-->
+                    <!--                    android:paddingTop="@dimen/margin_10"-->
+                    <!--                    android:paddingBottom="@dimen/margin_10"-->
+                    <!--                    android:text="Order Items"-->
+                    <!--                    android:textColor="@android:color/black"-->
+                    <!--                    android:textSize="15sp"-->
+                    <!--                    android:visibility="visible" />-->
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/itemsRecyclerView1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_marginRight="@dimen/margin_10"
+                        android:layout_marginBottom="@dimen/margin_20dp"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="1" />
+
+                    <ImageView
+                        android:layout_below="@+id/itemsRecyclerView1"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/verticalline"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_16dp"
+                        android:layout_marginEnd="@dimen/margin_16dp"
+                        android:layout_below="@id/itemsRecyclerView1"
+                        android:gravity="bottom" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:textColor="#000000"
+                        android:id="@+id/total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/vertical"
+                        android:layout_marginStart="@dimen/margin_16dp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/margin_16dp"
+                        android:layout_marginBottom="@dimen/margin_16dp"
+                        android:text="Total order amount :" />
+
+                    <TextView
+
+                        android:id="@+id/itemQuantityPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/vertical"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="#000000"
+                        android:layout_marginTop="@dimen/margin_16dp"
+                        android:layout_marginEnd="@dimen/margin_25dp"
+                        android:text="98" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

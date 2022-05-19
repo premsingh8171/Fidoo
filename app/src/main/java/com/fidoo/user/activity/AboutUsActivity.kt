@@ -23,7 +23,6 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_about_us.*
 
-
 class AboutUsActivity : BaseActivity() {
 
     private var mMixpanel: MixpanelAPI? = null
@@ -64,7 +63,35 @@ class AboutUsActivity : BaseActivity() {
         // if you want to enable zoom feature
         aboutUsWebView.settings.setSupportZoom(true)
 
+
+
+        aboutUsWebView.webViewClient = object : WebViewClient() {
+            @Deprecated("Deprecated in Java")
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+//                if (url.startsWith("tel:")) {
+//                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse(url))
+//                    startActivity(intent)
+//                    return true
+//                }
+//                return false
+//            }
+                if (url.startsWith("tel:")) {
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse(url))
+                    startActivity(intent);
+                    return true;
+                } else if (url.contains("mailto:")) {
+                    val intent = Intent(Intent.ACTION_SENDTO, Uri.parse(url))
+                    startActivity(intent);
+                    return true;
+
+                } else {
+                    view.loadUrl(url);
+                    return true;
+                }
+            }
+        }
     }
+
 
     fun loadUrOnWebView(coverUrl: String?) {
         aboutUsWebView.getSettings().setJavaScriptEnabled(true)
@@ -181,6 +208,7 @@ class AboutUsActivity : BaseActivity() {
         }
     }
 
+
     // Custom method to handle html tel: link
     protected fun handleTelLink(url: String?) {
         // Initialize an intent to open dialer app with specified phone number
@@ -198,5 +226,4 @@ class AboutUsActivity : BaseActivity() {
     override fun onBackPressed() {
         AppUtils.finishActivityLeftToRight(this)
     }
-
 }

@@ -76,9 +76,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         onClick()
-
         swipeRefreshLaySearch.setOnRefreshListener {
             if (sessionInstance.isLoggedIn) {
                 viewModel!!.keywordBasedSearchResultsApi(
@@ -121,15 +119,13 @@ class NewSearchStoreListingActivity : BaseActivity() {
                 pagecount.toString()
             )
         }
-
         onResponse()
-
     }
 
     private fun onResponse() {
-        viewModel!!.keywordBasedSearchResultsRes!!.observe(this, {
+        viewModel!!.keywordBasedSearchResultsRes!!.observe(this) {
             dismissIOSProgress()
-            swipeRefreshLaySearch.isRefreshing=false
+            swipeRefreshLaySearch.isRefreshing = false
             Log.d("sdfdddfssd", Gson().toJson(it))
             if (it.error_code == 200) {
                 hit = 0
@@ -152,7 +148,7 @@ class NewSearchStoreListingActivity : BaseActivity() {
 
             }
 
-        })
+        }
     }
 
     private fun rvCategoryList(arrayList: ArrayList<Store>) {
@@ -184,9 +180,9 @@ class NewSearchStoreListingActivity : BaseActivity() {
                 }
             })
 
-        binding.searchFilterRv!!.adapter = searchCategoryStoreAdapter
-        binding.searchFilterRv!!.layoutManager = manager
-        binding.searchFilterRv!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.searchFilterRv.adapter = searchCategoryStoreAdapter
+        binding.searchFilterRv.layoutManager = manager
+        binding.searchFilterRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -245,13 +241,11 @@ class NewSearchStoreListingActivity : BaseActivity() {
             this
         )
     }
-
     override fun onResume() {
         super.onResume()
         deleteRoomDataBase()
     }
 
-    //delete room data
     private fun deleteRoomDataBase() {
         Thread {
             restaurantProductsDatabase = Room.databaseBuilder(
@@ -260,9 +254,8 @@ class NewSearchStoreListingActivity : BaseActivity() {
             )
                 .fallbackToDestructiveMigration()
                 .build()
-            restaurantProductsDatabase!!.resProductsDaoAccess()!!.deleteAll()
+            restaurantProductsDatabase.resProductsDaoAccess()!!.deleteAll()
 
         }.start()
     }
-
 }

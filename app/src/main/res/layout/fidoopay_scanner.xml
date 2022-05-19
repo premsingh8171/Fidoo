@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+
+        <com.budiyev.android.codescanner.CodeScannerView
+            android:id="@+id/qrCodeScanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:autoFocusButtonColor="@color/white"
+            app:autoFocusButtonVisible="false"
+            app:flashButtonColor="@color/white"
+            app:flashButtonVisible="false"/>
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qrCodeScanner"
+            android:layout_centerInParent="true"
+            android:textSize="14sp"
+            android:layout_marginTop="-40dp"
+            android:text="Show QR Code"
+            android:textColor="@color/primary_color" />
+    </RelativeLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -42,7 +42,6 @@ import com.fidoo.user.addressmodule.activity.SavedAddressesActivity.Companion.sa
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.data.session.SessionTwiclo
-import com.fidoo.user.sendpackages.activity.SendPackageActivity.Companion.forSendPackageAddCheck
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.BaseActivity
@@ -66,11 +65,8 @@ import com.google.gson.GsonBuilder
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.skyfishjy.library.RippleBackground
-import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.android.synthetic.main.activity_new_add_address.*
-import kotlinx.android.synthetic.main.activity_store_list.*
 import kotlinx.android.synthetic.main.content_map.*
-import kotlinx.android.synthetic.main.no_net_popup.*
 import java.util.*
 
 
@@ -310,65 +306,66 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
                                         defaultValue,
                                         ed_phone.text.toString(), contact_type!!
                                     )
-
                                 }
                                 // }
-                            } else {
-                                showIOSProgress()
-                                if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
-                                    addressType = "1"
-                                } else
-                                    if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
-                                        addressType = "2"
-                                    } else
-                                        if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
-                                            addressType = "3"
-                                        }
-
-                                defaultValue = if (defaultCheckBox.isChecked) {
-                                    "1"
-                                } else {
-                                    "0"
-                                }
-
-                                if (intent.hasExtra("data")) {
-                                    viewmodel?.editAddressDetails(
-                                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                        ed_address.text.toString(),
-                                        ed_address.text.toString(),
-                                        tv_Address.text.toString(),
-                                        ed_landmark.text.toString(),
-                                        addressType,
-                                        lat.toString(),
-                                        lng.toString(),
-                                        ed_name.text.toString(),
-                                        "", defaultValue,
-                                        ed_phone.text.toString(),
-                                        tempAddressId, contact_type!!
-                                    )
-
-                                } else {
-
-                                    viewmodel?.addAddressDetails(
-                                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                                        ed_address.text.toString(),
-                                        ed_address.text.toString(),
-                                        tv_Address.text.toString(),
-                                        ed_landmark.text.toString(),
-                                        addressType,
-                                        lat.toString(),
-                                        lng.toString(),
-                                        ed_name.text.toString(),
-                                        "",
-                                        defaultValue,
-                                        ed_phone.text.toString(), contact_type!!
-                                    )
-
-                                }
-
                             }
+//                            else {
+//                                showIOSProgress()
+//                                if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
+//                                    addressType = "1"
+//                                } else
+//                                    if (radioGroup.checkedRadioButtonId.equals(R.id.officeRadioBtn)) {
+//                                        addressType = "2"
+//                                    } else
+//                                        if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
+//                                            addressType = "3"
+//                                        }
+//
+//                                defaultValue = if (defaultCheckBox.isChecked) {
+//                                    "1"
+//                                } else {
+//                                    "0"
+//                                }
+//
+//                                if (intent.hasExtra("data")) {
+//                                    viewmodel?.editAddressDetails(
+//                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+//                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                                        ed_address.text.toString(),
+//                                        ed_address.text.toString(),
+//                                        tv_Address.text.toString(),
+//                                        ed_landmark.text.toString(),
+//                                        addressType,
+//                                        lat.toString(),
+//                                        lng.toString(),
+//                                        ed_name.text.toString(),
+//                                        "", defaultValue,
+//
+                        //                                        ,
+//                                        tempAddressId, contact_type!!
+//                                    )
+//
+//                                } else {
+//
+//                                    viewmodel?.addAddressDetails(
+//                                        SessionTwiclo(this).loggedInUserDetail.accountId,
+//                                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                                        ed_address.text.toString(),
+//                                        ed_address.text.toString(),
+//                                        tv_Address.text.toString(),
+//                                        ed_landmark.text.toString(),
+//                                        addressType,
+//                                        lat.toString(),
+//                                        lng.toString(),
+//                                        ed_name.text.toString(),
+//                                        "",
+//                                        defaultValue,
+//                                        ed_phone.text.toString(), contact_type!!
+//                                    )
+//
+//                                }
+//
+//                            }
                         }
 
                     } else {
@@ -467,7 +464,7 @@ open class NewAddAddressActivity : BaseActivity(), OnMapReadyCallback, LocationL
         }
 
         change_txt.setOnClickListener {
-            val intent = Intent(this, ChangeAddressActivity::class.java)
+            val intent = Intent(this, SavedAddressesActivity::class.java)
             startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
         }
 

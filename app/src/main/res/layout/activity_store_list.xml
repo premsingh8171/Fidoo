@@ -363,16 +363,18 @@
                 android:src="@drawable/no_shop" />
 
             <TextView
+                android:id="@+id/checklocation_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima"
                 android:gravity="center"
                 android:src="@drawable/cart_empty"
-                android:text="Please try again or change the location"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="@dimen/margin_14dp" />
 
             <TextView
+                android:id="@+id/checklocation_tv1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_5dp"
@@ -382,7 +384,7 @@
                 android:paddingLeft="60dp"
                 android:paddingRight="60dp"
                 android:src="@drawable/cart_empty"
-                android:text="Sorry, our services is not available for this location at this moment."
+                android:text=""
                 android:textColor="@color/colorTextGray"
                 android:textSize="@dimen/margin_12dp" />
 

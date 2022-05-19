@@ -316,7 +316,7 @@
                                         app:layout_constraintBottom_toBottomOf="parent"
                                         app:layout_constraintLeft_toRightOf="@+id/store_img_onOrder"
                                         app:layout_constraintTop_toTopOf="parent" />
-<!--                                    is preparing your order-->
+                                    <!--                                    is preparing your order-->
                                     <TextView
                                         android:layout_marginRight="@dimen/margin_30dp"
                                         android:id="@+id/status_store_txt"

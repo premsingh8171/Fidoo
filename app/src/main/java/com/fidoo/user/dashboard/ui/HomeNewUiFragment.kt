@@ -59,7 +59,7 @@ import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
-import com.fidoo.user.constants.useconstants.currentlyAddedAddress
+
 import com.fidoo.user.constants.useconstants.navigateFromNewAddressActivity
 import com.fidoo.user.dailyneed.ui.ServiceDailyNeedActivity
 import com.fidoo.user.dashboard.adapter.SliderAdapterExample
@@ -134,7 +134,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		var service_id: String? = ""
 		var service_name: String? = ""
 		var itemPosition: Int? = 0
-//		var countButtonOn:Int?= 0
 	}
 	var sliderItem = SliderItem()
 	var mmContext: Context? = null
@@ -204,8 +203,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				}
 			}
 		}
-		catch (e: Exception) {
-		}
+		catch (e: Exception) { }
 		apiCall("1")
 		getObserveResponse()
 		onClickEvent()
@@ -261,10 +259,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		val lvCheckLocation = dialog?.findViewById<LinearLayout>(R.id.manage_location_Off_or_On)
 		val rvManageAddress = dialog?.findViewById<RecyclerView>(R.id.rvManageSavedAddress)
 		val mBtnToTurnOnLocation = dialog?.findViewById<Button>(R.id.btnToTurnLocationOn)
-//		if (countButtonOn == 0) {
 			mBtnToTurnOnLocation?.setOnClickListener {
-//				countButtonOn = 1
-//				getCurrentLocationAddress()
 				val permList = arrayOf(
 					Manifest.permission.ACCESS_FINE_LOCATION,
 					Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -275,7 +270,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				startActivity(intent)
                 dialog?.dismiss()
 			}
-//		}
 		lvAddNewAdd?.setOnClickListener {
 			startActivityForResult(
 				Intent(context, SavedAddressesActivityNew::class.java)
@@ -292,10 +286,6 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			if (it.errorCode==200) {
 				if (it.addressList.size == 0) {
 					bottomSheetAddress?.visibility = View.GONE
-					/**
-					 * ***************************************************************************************************************************************ISSUE
-					 */
-//					getCurrentLocationAddress()
 				}
 				if (!it.addressList.isNullOrEmpty()) {
 					bottomSheetAddress?.visibility = VISIBLE
@@ -342,14 +332,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 										}
 									}
 								}
-								if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
-									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.location
-									SessionTwiclo(requireContext()).addressType = "Home"
-								}
-								else{
-									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
-									SessionTwiclo(requireContext()).addressType = "Home"
-								}
+//								if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
+//									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.location
+//									SessionTwiclo(requireContext()).addressType = "Home"
+//								}
+//								else{
+//									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+//									SessionTwiclo(requireContext()).addressType = "Home"
+//								}
 								SessionTwiclo(requireContext()).userAddressId = addressList.id
 								address_id=addressList.id
 								SessionTwiclo(requireContext()).userLat = addressList.latitude
@@ -375,7 +365,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		dialog?.show()
 		dialog?.window!!.setLayout(
 			ViewGroup.LayoutParams.MATCH_PARENT,
-			1400
+			ViewGroup.LayoutParams.WRAP_CONTENT
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)
@@ -384,44 +374,56 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	private fun restHomePage() {
 		deleteRoomDataBase()
 		if ((activity as MainActivity).isNetworkConnected) {
-			if (SessionTwiclo(context).isLoggedIn) {
-				viewmodel?.getCartCountApi(
-					SessionTwiclo(context).loggedInUserDetail.accountId,
-					SessionTwiclo(context).loggedInUserDetail.accessToken
-				)
-				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+            try {
+				if (SessionTwiclo(context).isLoggedIn) {
+					viewmodel?.getCartCountApi(
+						SessionTwiclo(context).loggedInUserDetail.accountId,
+						SessionTwiclo(context).loggedInUserDetail.accessToken
+					)
+					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 
-				if (SessionTwiclo(context).addressType.equals("")) {
-					text_newDesh.text = "Your Location"
-				}
-				else {
+					if (SessionTwiclo(context).addressType.equals("")) {
+						text_newDesh.text = "Your Location"
+					} else {
+						text_newDesh.text = SessionTwiclo(context).addressType
+					}
+				} else {
+					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 					text_newDesh.text = SessionTwiclo(context).addressType
 				}
 			}
-			else {
-				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
-				text_newDesh.text = SessionTwiclo(context).addressType
-			}
+			catch (e : Exception){}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}
 	}
 
 	private fun getAddress(){
 		fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
-			if(it.addressList.size >=1) {
-				if (!it.addressList.isNullOrEmpty()) {
-					val flat = it.addressList[0].flatNo
-					val locality = it.addressList[0].location
-					val landmark = it.addressList[0].landmark
-					if (!landmark.isNullOrEmpty()) {
-						userAddress_newDesh.text = "$flat" + ", " + "$landmark" + ", " + "$locality"
-						currentlyAddedAddress = userAddress_newDesh.text.toString()
-					} else {
-						userAddress_newDesh.text = "$flat" + ", " + "$locality"
-						currentlyAddedAddress = userAddress_newDesh.text.toString()
+			try {
+				if (it.addressList.size >= 1) {
+					if (!it.addressList.isNullOrEmpty()) {
+						if (it.addressList[0].addressType.equals("1")){
+							text_newDesh.text = "Home"
+						}
+						else if (it.addressList[0].addressType.equals("2")){
+							text_newDesh.text = "Office"
+						}
+						else if (it.addressList[0].addressType.equals("3")){
+							text_newDesh.text = "Other"
+						}
+						val flat = it.addressList[0].flatNo
+						val locality = it.addressList[0].location
+						val landmark = it.addressList[0].landmark
+						if (!landmark.isNullOrEmpty()) {
+							userAddress_newDesh.text = "$flat" + ", " + "$landmark" + ", " + "$locality"
+
+						} else {
+							userAddress_newDesh.text = "$flat" + ", " + "$locality"
+
+						}
 					}
 				}
-			}
+			} catch (e : Exception){}
 		}
 	}
 
@@ -544,7 +546,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						if (user.count.toInt() > 0) {
 							fragmentHomeBinding?.cartCountTxtNewDesh?.visibility = View.VISIBLE
 							fragmentHomeBinding?.cartCountTxtNewDesh?.text = user.count.toString()
-						} else {
+						}
+						else {
 							fragmentHomeBinding?.cartCountTxtNewDesh?.visibility = View.GONE
 						}
 					}
@@ -593,7 +596,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 							if (currentPage == sliderItemList.size) {
 								//  fragmentHomeBinding?.viewPagerBannerNewDesh!!.setPadding(10,0,70,0)
 								currentPage = 0
-							} else {
+							}
+							else {
 								currentPage++
 								// fragmentHomeBinding?.viewPagerBannerNewDesh!!.setPadding(70,0,10,0)
 							}
@@ -612,15 +616,17 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						try {
 							if (user.show_slider.equals("1")) {
 								fragmentHomeBinding?.bannerLLNewDesh!!.visibility = View.VISIBLE
-							} else {
+							}
+							else {
 								fragmentHomeBinding?.bannerLLNewDesh!!.visibility = View.GONE
 							}
-						} catch (e: Exception) {
 						}
+						catch (e: Exception) { }
 					}
 				}
 			}
 		}
+
 		viewmodel?.homeDataResponse?.observe(requireActivity()) {
 			Log.e("homeDataResponse__", Gson().toJson(it))
 			fragmentHomeBinding?.mainViewNestedSNewDesh!!.visibility = View.VISIBLE
@@ -695,7 +701,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					SessionTwiclo(requireContext()).mobileno, "Home Screen",
 					SplashActivity.appversion, "", SessionTwiclo(requireContext()).deviceToken
 				)
-			} else {
+			}
+			else {
 				viewmodel?.getBanners(
 					"",
 					"",
@@ -738,7 +745,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
 			CartActivity.accessToken =
 				SessionTwiclo(requireActivity()).loggedInUserDetail.accessToken
-		} else {
+		}
+		else {
 			CartActivity.accountId =
 				SessionTwiclo(requireActivity()).loginDetail.accountId.toString()
 			CartActivity.accessToken = SessionTwiclo(requireActivity()).loginDetail.accessToken
@@ -747,37 +755,26 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		ProfileFragment.addManages = ""
 		deleteRoomDataBase()
 		if ((activity as MainActivity).isNetworkConnected) {
-			if (SessionTwiclo(context).isLoggedIn) {
-				viewmodel?.getCartCountApi(
-					SessionTwiclo(context).loggedInUserDetail.accountId,
-					SessionTwiclo(context).loggedInUserDetail.accessToken
-				)
-				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+			try {
+				if (SessionTwiclo(context).isLoggedIn) {
+					viewmodel?.getCartCountApi(
+						SessionTwiclo(context).loggedInUserDetail.accountId,
+						SessionTwiclo(context).loggedInUserDetail.accessToken
+					)
+					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 
-				if (SessionTwiclo(context).addressType.equals("")) {
-					text_newDesh.text = "Your Location"
+					if (SessionTwiclo(context).addressType.equals("")) {
+						text_newDesh.text = "Your Location"
+					} else {
+						text_newDesh.text = SessionTwiclo(context).addressType
+					}
 				} else {
+					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 					text_newDesh.text = SessionTwiclo(context).addressType
 				}
-			} else {
-				userAddress_newDesh?.text = SessionTwiclo(context).userAddress
-				text_newDesh.text = SessionTwiclo(context).addressType
-//				getCurrentLocationAddress()
-			}
+			} catch (e : Exception){}
 			fragmentHomeBinding?.noInternetOnHomeLlNewDesh!!.visibility = View.GONE
 		}
-
-//		if (countButtonOn == 1) {
-			fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")
-				?.observe(requireActivity()) {
-					if (it.errorCode==200) {
-						if (it.addressList.size == 0) {
-//							getCurrentLocationAddress()
-						}
-					}
-				}
-//			countButtonOn = 0
-//		}
 	}
 
 	override fun provideYourFragmentView(
@@ -798,8 +795,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				Intent(activity, AuthActivity::class.java)
 			)
 		}
-		builder.setNegativeButton("Cancel") { _, _ ->
-		}
+		builder.setNegativeButton("Cancel") { _, _ -> }
 		val alertDialog: androidx.appcompat.app.AlertDialog = builder.create()
 		alertDialog.setCancelable(true)
 		alertDialog.show()
@@ -835,9 +831,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 	override fun onStart() {
 		deleteRoomDataBase()
-		Log.d("Nishant", "onStart: ")
 		if(NewAddAddressActivityNew.checkCount == 1){
-			userAddress_newDesh.text = ""
 			getAddress()
 		}
 		super.onStart()
@@ -946,7 +940,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				restaurantProductsDatabase.resProductsDaoAccess()!!.deleteAll()
 
 			}.start()
-		} catch (e: java.lang.Exception) {
+		}
+		catch (e: java.lang.Exception) {
 			e.printStackTrace()
 		}
 	}
@@ -1009,7 +1004,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					),
 					MainActivity.MY_PERMISSIONS_REQUEST_CODE
 				)
-			} else {
+			}
+			else {
 				ActivityCompat.requestPermissions(
 					requireActivity(), arrayOf(
 						Manifest.permission.ACCESS_FINE_LOCATION
@@ -1020,114 +1016,93 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		}
 	}
 
-	override fun onDetach() {
-		Log.d("Home", "onDetach: ")
-		super.onDetach()
-	}
+//	private fun getCurrentLocationAddress() {
+//		Log.e("Locationcall", "call")
+//		try {
+//			if (_context != null)
+//			EasyLocation(_context as Activity, object : EasyLocation.EasyLocationCallBack {
+//				override fun permissionDenied() {
+//					Log.e("Location", "permission  denied")
+//				}
+//				override fun locationSettingFailed() {
+//					Log.e("Location", "setting failed")
+//				}
+//				override fun getLocation(location: Location) {
+//					Log.e("Location_lat_lng", " latitude ${location.latitude} longitude ${location.longitude}")
+//						if (requireActivity()!=null) {
+//							SessionTwiclo(requireActivity()).userAddress = getGeoAddressFromLatLong1(
+//								location.latitude,
+//								location.longitude,
+//								requireActivity()
+//							)
+//							SessionTwiclo(requireActivity()).userLat = location.latitude.toString()
+//							SessionTwiclo(requireActivity()).userLng = location.longitude.toString()
+//							userAddress?.text = SessionTwiclo(requireActivity()).userAddress
+//
+//					}
+//					else {
+//						geocoderAddress(location.latitude.toString(),location.longitude.toString())
+//					}
+//				}
+//			})
+//		}
+//		catch (e: Exception){ }
+//	}
 
-	override fun onDestroyView() {
-		Log.d("Home", "onDestroyView: ")
-		super.onDestroyView()
-	}
+//	fun geocoderAddress(lat:String,lng:String) {
+//		val geocodeUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
+//		Log.e("geocodeUrl", geocodeUrl)
+//		val geocodeRequest = object :
+//			StringRequest(Request.Method.GET, geocodeUrl, Response.Listener<String> { response ->
+//				dismissIOSProgress()
+//				Log.e("geocoderes_", "gson- $response")
+//				val gsonBuilder = GsonBuilder();
+//				val gson = gsonBuilder.create()
+//				var model =gson.fromJson(response.toString(), GeocoderModel::class.java)
+//				if(model.status.equals("OK")) {
+//					if (model.results.size!=0) {
+//						SessionTwiclo(requireActivity()).userAddress = model.results[0].formattedAddress
+//						SessionTwiclo(requireActivity()).userLat =lat
+//						SessionTwiclo(requireActivity()).userLng = lng
+//						if(SessionTwiclo(requireActivity()).userAddress.isNotEmpty()) {
+//							userAddress?.text = SessionTwiclo(requireActivity()).userAddress
+//						}
+//						else{
+//							userAddress?.text= model.results[0].formattedAddress
+//						}
+//					}
+//				}
+//			}, Response.ErrorListener { dismissIOSProgress()}) {
+//		}
+//		val requestQueue = Volley.newRequestQueue(requireActivity())
+//		requestQueue.add(geocodeRequest)
+//	}
 
-	override fun onDestroy() {
-		Log.d("Home", "onDestroy: ")
-		super.onDestroy()
-	}
-	private fun getCurrentLocationAddress() {
-		Log.e("Locationcall", "call")
-		try {
-			if (_context != null)
-			EasyLocation(_context as Activity, object : EasyLocation.EasyLocationCallBack {
-				override fun permissionDenied() {
-					Log.e("Location", "permission  denied")
-				}
-				override fun locationSettingFailed() {
-					Log.e("Location", "setting failed")
-				}
-				override fun getLocation(location: Location) {
-					Log.e("Location_lat_lng", " latitude ${location.latitude} longitude ${location.longitude}")
-						if (requireActivity()!=null) {
-							SessionTwiclo(requireActivity()).userAddress = getGeoAddressFromLatLong1(
-								location.latitude,
-								location.longitude,
-								requireActivity()
-							)
-							SessionTwiclo(requireActivity()).userLat = location.latitude.toString()
-							SessionTwiclo(requireActivity()).userLng = location.longitude.toString()
-							userAddress?.text = SessionTwiclo(requireActivity()).userAddress
-
-					}
-					else{
-						geocoderAddress(location.latitude.toString(),location.longitude.toString())
-					}
-				}
-			})
-		}
-		catch (e: Exception){
-
-		}
-
-	}
-
-	fun geocoderAddress(lat:String,lng:String) {
-		val geocodeUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyBB7qiqrzaHv09qpdJ9erY8oZXscyA7TEY"
-		Log.e("geocodeUrl", geocodeUrl)
-		val geocodeRequest = object :
-			StringRequest(Request.Method.GET, geocodeUrl, Response.Listener<String> { response ->
-				dismissIOSProgress()
-				Log.e("geocoderes_", "gson- $response")
-				val gsonBuilder = GsonBuilder();
-				val gson = gsonBuilder.create()
-				var model =gson.fromJson(response.toString(), GeocoderModel::class.java)
-				if(model.status.equals("OK")) {
-					if (model.results.size!=0) {
-						SessionTwiclo(requireActivity()).userAddress = model.results[0].formattedAddress
-						SessionTwiclo(requireActivity()).userLat =lat
-						SessionTwiclo(requireActivity()).userLng = lng
-						if(SessionTwiclo(requireActivity()).userAddress.isNotEmpty()) {
-							userAddress?.text = SessionTwiclo(requireActivity()).userAddress
-						}else{
-							userAddress?.text= model.results[0].formattedAddress
-						}
-					}
-				}
-
-			}, Response.ErrorListener { dismissIOSProgress()}) {
-		}
-		val requestQueue = Volley.newRequestQueue(requireActivity())
-		requestQueue.add(geocodeRequest)
-	}
-
-
-
-	private fun getGeoAddressFromLatLong1(latitude: Double, longitude: Double,context:Context): String {
-		val geocoder: Geocoder
-		val addresses: List<Address>
-		var address=""
-		return try {
-			if (context!=null) {
-				geocoder = Geocoder(context, Locale.getDefault())
-
-				addresses = geocoder.getFromLocation(
-					latitude,
-					longitude,
-					1
-				) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-				 address =
-					addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-				val city = addresses[0].locality
-				val state = addresses[0].adminArea
-				val country = addresses[0].countryName
-				val postalCode = addresses[0].postalCode
-				//   String knownName = addresses.get(0).getFeatureName(); // Only if available else return
-
-			}
-			address
-		} catch (e: IOException) {
-			e.printStackTrace()
-			""
-		}
-	}
-
+//	private fun getGeoAddressFromLatLong1(latitude: Double, longitude: Double,context:Context): String {
+//		val geocoder: Geocoder
+//		val addresses: List<Address>
+//		var address=""
+//		return try {
+//			if (context!=null) {
+//				geocoder = Geocoder(context, Locale.getDefault())
+//				addresses = geocoder.getFromLocation(
+//					latitude,
+//					longitude,
+//					1
+//				) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+//				 address =
+//					addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+//				val city = addresses[0].locality
+//				val state = addresses[0].adminArea
+//				val country = addresses[0].countryName
+//				val postalCode = addresses[0].postalCode
+//				//   String knownName = addresses.get(0).getFeatureName(); // Only if available else return
+//			}
+//			address
+//		}
+//		catch (e: IOException) {
+//			e.printStackTrace()
+//			""
+//		}
+//	}
 }
