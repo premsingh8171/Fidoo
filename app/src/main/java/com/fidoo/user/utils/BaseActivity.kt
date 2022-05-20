@@ -649,9 +649,9 @@ abstract class BaseActivity : AppCompatActivity(), Handler.Callback {
     }
 
     fun fidooLoaderCancel() {
-        Handler(Looper.getMainLooper()).postDelayed({
+
             fidooLoader!!.dismiss()
-        }, 4000)
+
 
     }
 

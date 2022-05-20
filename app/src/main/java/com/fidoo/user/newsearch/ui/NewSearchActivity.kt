@@ -33,6 +33,7 @@ import com.fidoo.user.utils.BaseActivity
 import com.google.gson.Gson
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fragment_search_new.view.*
+import kotlin.math.log
 
 
 class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
@@ -49,6 +50,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	var totalItem: Int? = 200
 	var table_count: Int? = 0
 	var text_count=0
+	var textchane= false
 	private var manager: GridLayoutManager? = null
 	private var currentItems = 0
 	private var page_count = 0
@@ -108,10 +110,6 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			}
 			false
 		}
-
-
-
-
 	}
 
 
@@ -124,6 +122,11 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				hit = 0
 				isMore = it.more_value
 				latestList!!.clear()
+//				latestList4= it.suggestions as ArrayList<SuggestionX>
+//				latestList4!!.forEach {
+//					Log.d("checkresp", "${it.name + it.available}")
+//				}
+
 //				mainList!!.clear()
 //				latestList2!!.clear()
 				Log.d("keyword___", Gson().toJson(it))
@@ -132,10 +135,14 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 					binding.rvSearchResult.visibility = View.VISIBLE
 					binding.showingResult.visibility = View.VISIBLE
 					if (pagecount > 0) {
+
 						latestList = it.suggestions as ArrayList
 
 //
-						mainList!!.clear()
+						if (textchane) {
+							mainList!!.clear()
+							textchane= false
+						}
 
 						for (i in 0 until latestList!!.size) {
 							if (latestList!![i].available.equals("1")) {
@@ -177,9 +184,6 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 							searchCategoryAdapter!!.updateData(mainList!!, isMore)
 							searchCategoryAdapter!!.notifyDataSetChanged()
 						}
-
-
-
 					}
 					binding.showingResult.text =
 						"Showing Results (" + mainList!!.size.toString() + ")"
@@ -319,6 +323,9 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				s: CharSequence, start: Int,
 				before: Int, count: Int
 			) {
+
+				textchane= true
+
 				search_value = s.toString()
 				//binding.editTxtAct.setTextColor(resources.getColor(R.color.black))
 				//  recentSearch!!.add(search_value!!)

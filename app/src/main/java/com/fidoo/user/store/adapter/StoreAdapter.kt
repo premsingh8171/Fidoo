@@ -1,5 +1,6 @@
 package com.fidoo.user.store.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,8 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
@@ -29,7 +32,7 @@ import java.util.*
 class StoreAdapter(
 	val context: Context,
 	private var storeList: ArrayList<StoreListingModel.StoreList>
-) : RecyclerView.Adapter<StoreAdapter.UserViewHolder>() {
+) : PagingDataAdapter<StoreListingModel.StoreList, StoreAdapter.UserViewHolder>(DataDifferntiator) {
 
 	var check: Int = 0
 	private var isMore = false
@@ -52,6 +55,25 @@ class StoreAdapter(
 		//var comingSoon = view.coming_soon_text
 		var closingTimeText = view.closing_time
 		var cuisine: TextView? = view.cuisine_types
+	}
+
+	object DataDifferntiator : DiffUtil.ItemCallback<StoreListingModel.StoreList>() {
+		override fun areItemsTheSame(
+			oldItem: StoreListingModel.StoreList,
+			newItem: StoreListingModel.StoreList
+		): Boolean {
+			return oldItem.id.toInt()== newItem.id.toInt()
+		}
+
+		@SuppressLint("DiffUtilEquals")
+		override fun areContentsTheSame(
+			oldItem: StoreListingModel.StoreList,
+			newItem: StoreListingModel.StoreList
+		): Boolean {
+			return oldItem==newItem
+		}
+
+
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = UserViewHolder(

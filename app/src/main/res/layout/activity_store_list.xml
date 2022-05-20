@@ -221,7 +221,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima"
-                android:text="All Restaurant Partner Dudii"
+                android:text="All Restaurant Partner"
                 android:textColor="@color/store_sort_color"
                 android:textSize="@dimen/text_size_14sp" />
 

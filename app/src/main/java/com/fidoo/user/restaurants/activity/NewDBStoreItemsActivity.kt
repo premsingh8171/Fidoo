@@ -814,7 +814,10 @@ import kotlin.collections.LinkedHashSet
             if (storeData.error_code==200) {
 
 //                if (pagecount>0){
-////                    latestCatList =storeData.subcategory as ArrayList
+//                    latestCatList =storeData.subcategory as ArrayList
+//                latestCatList!!.forEach {
+//					Log.d("oldSub-cat", "${it}")
+//				}
 ////                    catList.addAll(latestCatList)
 ////                    val s: Set<Subcategory> =
 ////                        LinkedHashSet<Subcategory>(catList)
@@ -837,11 +840,13 @@ import kotlin.collections.LinkedHashSet
                         for (i in storeData.subcategory.indices) {
                             val categoryData = storeData.subcategory[i]
 
+                  //          Log.d("newSub-cat", "${storeData.subcategory[i].subcategory_name}")
                             for (j in 0 until storeData.subcategory[i].product.size) {
                                 val productData = storeData.subcategory[i].product[j]
                                 productList.add(productData)
                                 if (storeData.subcategory[i].product[j].is_nonveg.equals("0")){
                                     new_veggielist.add(storeData.subcategory[i])
+
                                 }
 
                                 if(!catList.contains(storeData.subcategory[i])) {
