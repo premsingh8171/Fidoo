@@ -1170,13 +1170,15 @@ import kotlin.collections.LinkedHashSet
 
                 //	Log.e("tempPriceTotal_", mModelDataTemp?.category!![0].subCat.size.toString())
                 try {
-
-                        if (mModelDataTemp?.category!![0].subCat.size == 0) {
+                    for (i in 0 until mModelDataTemp?.category?.size!!) {
+                        if (mModelDataTemp?.category!![i].subCat.size == 0) {
                             customAddBtn.visibility = View.GONE
                         } else {
                             customAddBtn.visibility = View.VISIBLE
-                        }
+                            break
 
+                        }
+                        }
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
                 }
