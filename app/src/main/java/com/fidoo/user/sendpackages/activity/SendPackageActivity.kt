@@ -374,7 +374,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
                             }
                         }
                         else {
-                            showToast("should place order")
+                            showToast("please select a valid address")
                         }
                     }
                 }
