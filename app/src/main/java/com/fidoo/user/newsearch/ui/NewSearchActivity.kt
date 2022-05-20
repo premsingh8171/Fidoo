@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -32,6 +33,7 @@ import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDataba
 import com.fidoo.user.utils.BaseActivity
 import com.google.gson.Gson
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
+import kotlinx.android.synthetic.main.activity_new_search.*
 import kotlinx.android.synthetic.main.fragment_search_new.view.*
 import kotlin.math.log
 
@@ -51,6 +53,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	var table_count: Int? = 0
 	var text_count=0
 	var textchane= false
+	private var timer: CountDownTimer? = null
 	private var manager: GridLayoutManager? = null
 	private var currentItems = 0
 	private var page_count = 0
@@ -60,6 +63,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	private var isMore = false
 	private var hit = 0
 	private var pagecount = 0
+	var changeLable1: Long = 2
+	var changeLable2: Long = 4
 
 	var mainList: ArrayList<SuggestionX>? = null
 	var nonavailable_mainList: ArrayList<SuggestionX>? = null
@@ -93,9 +98,28 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			e.printStackTrace()
 		}
 
+		timer = object : CountDownTimer(6000, 1000) {
+			override fun onTick(millisUntilFinished: Long) {
+				Log.e("_Timer", "seconds remaining: " + millisUntilFinished / 1000)
+				if (changeLable1 == (millisUntilFinished / 1000)) {
+					binding.searchKeyETxtAct.hint = "Search Products"
+				} else if (changeLable2 == (millisUntilFinished / 1000)) {
+					binding.searchKeyETxtAct.hint = "Search Restaurants"
+				} else {
+					binding.searchKeyETxtAct.hint = "Search Dishes"
+				}
+			}
+
+			override fun onFinish() {
+				timer!!.start()
+			}
+		}
+
+		timer!!.start()
+
 
 		binding.searchKeyETxtAct.isCursorVisible= true
-		//showKeyboard(binding.searchKeyETxtAct)
+		showKeyboard(binding.searchKeyETxtAct)
 		onClick()
 
 		onResponse()
@@ -106,6 +130,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			if (actionId == EditorInfo.IME_ACTION_DONE-1){
 
 				search_value= binding.searchKeyETxtAct.text.toString()
+				textchane= false
+				searchCategoryAdapter!!.updateData(mainList!!, isMore)
 				hideKeyboard(binding.searchKeyETxtAct)
 			}
 			false

@@ -54,6 +54,7 @@ import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 import com.fidoo.user.restaurants.viewmodel.StoreDetailsViewModel
+import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.hideKeyboard
 import com.fidoo.user.utils.showAlertDialog
@@ -72,6 +73,7 @@ import kotlinx.android.synthetic.main.activity_new_store_items.customAddBtn
 import kotlinx.android.synthetic.main.activity_new_store_items.customItemsRecyclerview
 import kotlinx.android.synthetic.main.activity_new_store_items.totalprice_txtstore
 import kotlinx.android.synthetic.main.activity_store_items.*
+import kotlinx.android.synthetic.main.no_internet_connection.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import java.math.RoundingMode
@@ -403,6 +405,30 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
                 behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
 
             }
+        }
+
+        if (isNetworkConnected()) {
+            if (sessionTwiclo!!.isLoggedIn) {
+                getStoreDetailsApiCall()
+
+
+              //  no_internet_Ll.visibility = View.GONE
+                if (SessionTwiclo(requireContext()).loggedInUserDetail.accountId != null) {
+                    viewmodelusertrack?.customerActivityLog(
+                        SessionTwiclo(requireContext()).loggedInUserDetail.accountId,
+                        SessionTwiclo(requireContext()).mobileno,
+                        "Restaurant Screen",
+                        SplashActivity.appversion,
+                        StoreListActivity.serive_id_,
+                        SessionTwiclo(requireContext()).deviceToken
+                    )
+                }
+            } else {
+                getStoreDetailsApiCall()
+            }
+        } else {
+
+          //  no_internet_Ll.visibility = View.VISIBLE
         }
 
 

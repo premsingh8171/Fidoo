@@ -2326,6 +2326,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		if (!isNetworkConnected) {
 			showToast(resources.getString(R.string.provide_internet))
 		} else {
+			place_order_lay.visibility= View.GONE
 
 			if (!items.equals("") || isCustomize.equals("1")) {
 				tempOfferPrice = offerPrice

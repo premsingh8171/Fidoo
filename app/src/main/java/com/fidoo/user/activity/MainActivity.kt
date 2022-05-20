@@ -43,6 +43,7 @@ import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.fragments.SendPacketFragment
+import com.fidoo.user.newsearch.ui.NewSearchActivity
 import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity
 import com.fidoo.user.sendpackages.activity.SendPackageActivity
 import com.fidoo.user.utils.BaseActivity
@@ -147,6 +148,11 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     .putExtra("cat_id", "")
                     .putExtra("cat_name", "")
             )
+
+            return@setOnMenuItemClickListener true
+        }
+        bottomNavigationView.menu.findItem(R.id.searchFragment).setOnMenuItemClickListener {
+            startActivity(Intent(this, NewSearchActivity::class.java).putExtra("service_id", ""))
 
             return@setOnMenuItemClickListener true
         }
