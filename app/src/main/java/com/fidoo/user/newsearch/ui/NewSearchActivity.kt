@@ -181,7 +181,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 						val s: Set<SuggestionX> = LinkedHashSet<SuggestionX>(mainList)
 
 
-						mainList!!.clear()
+					//	mainList!!.clear()
 						mainList!!.addAll(s)
 
 
@@ -288,6 +288,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				super.onScrollStateChanged(recyclerView, newState)
 				if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
 					isScrolling = true
+					textchane= false
 					// StoreItemsActivity.handleresponce = 0
 				}
 			}
