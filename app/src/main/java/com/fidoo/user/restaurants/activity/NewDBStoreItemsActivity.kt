@@ -397,7 +397,7 @@ import kotlin.collections.LinkedHashSet
                 Handler().postDelayed({
 
 
-                    new_search_query(search_value)
+                 //   new_search_query(search_value)
 
 
 
@@ -1667,74 +1667,20 @@ import kotlin.collections.LinkedHashSet
     }
 
     //search query get data
-    private fun searchQuery(query: String?) {
-        var search_key = "%$query%"
-        Log.d("searchData_", search_key.toString())
-        Handler(Looper.getMainLooper()).postDelayed(
-            {
-                restaurantProductsDatabase!!.resProductsDaoAccess()!!.searchQuery(search_key)
-                    .observe(this, Observer { search ->
-                        if (!query.equals("")) {
-                            productListFilter = search as ArrayList<StoreItemProductsEntity>
-                            storeItemsAdapter.updateData(
-                                productListFilter!!,
-                                productListFilter!!.size.toInt()
-                            )
-
-                            try {
-                                category_header_.text =
-                                    productListFilter!!.get(0)!!.subcategory_name.toString()
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                category_header_.text = ""
-                            }
-
-                        } else {
-                            try {
-                                category_header_.text =
-                                    mainlist!!.get(0)!!.subcategory_name.toString()
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                category_header_.text = ""
-                            }
-                            storeItemsAdapter.updateData(mainlist!!, table_count!!)
-                        }
-                        storeItemsAdapter?.notifyDataSetChanged()
-                        Log.d("searchdata_", search.toString())
-
-                    })
-
-            },
-            10
-        )
-
-
-
-    }
-
-    private fun new_search_query(query1: String?){
-        var search_key = "%$query1%"
-
-
-
-
-                restaurantProductsDatabase!!.resProductsDaoAccess()!!.searchQuery(search_key)
-
-                    .observe(this@NewDBStoreItemsActivity, Observer {
-
-
-
-
-                        if (!query1.equals("")) {
-                            productListFilter = it as ArrayList<StoreItemProductsEntity>
-
-
-
-                            storeItemsAdapter.updateData(
-                                productListFilter!!,
-                                productListFilter!!.size.toInt()
-                            )
-
+//    private fun searchQuery(query: String?) {
+//        var search_key = "%$query%"
+//        Log.d("searchData_", search_key.toString())
+//        Handler(Looper.getMainLooper()).postDelayed(
+//            {
+//                restaurantProductsDatabase!!.resProductsDaoAccess()!!.searchQuery(search_key)
+//                    .observe(this, Observer { search ->
+//                        if (!query.equals("")) {
+//                            productListFilter = search as ArrayList<StoreItemProductsEntity>
+//                            storeItemsAdapter.updateData(
+//                                productListFilter!!,
+//                                productListFilter!!.size.toInt()
+//                            )
+//
 //                            try {
 //                                category_header_.text =
 //                                    productListFilter!!.get(0)!!.subcategory_name.toString()
@@ -1751,28 +1697,82 @@ import kotlin.collections.LinkedHashSet
 //                                e.printStackTrace()
 //                                category_header_.text = ""
 //                            }
-//                          //  storeItemsAdapter.updateData(mainlist!!, table_count!!)
+//                            storeItemsAdapter.updateData(mainlist!!, table_count!!)
 //                        }
-                        }
-                        storeItemsAdapter?.notifyDataSetChanged()
-                        Log.d("searchdata_", it.toString())
-                        storeItemsRecyclerview.visibility = View.VISIBLE
-
-                        //   storeItemsAdapter.notifyDataSetChanged()
-
-                        shimmerFrameLayout.visibility= View.GONE
-
-                        shimmerFrameLayout.stopShimmer()
-
-                })
-
-
-
-
-
-
-
-    }
+//                        storeItemsAdapter?.notifyDataSetChanged()
+//                        Log.d("searchdata_", search.toString())
+//
+//                    })
+//
+//            },
+//            10
+//        )
+//
+//
+//
+//    }
+//
+//    private fun new_search_query(query1: String?){
+//        var search_key = "%$query1%"
+//
+//
+//
+//
+//                restaurantProductsDatabase!!.resProductsDaoAccess()!!.searchQuery(search_key)
+//
+//                    .observe(this@NewDBStoreItemsActivity, Observer {
+//
+//
+//
+//
+//                        if (!query1.equals("")) {
+//                            productListFilter = it as ArrayList<StoreItemProductsEntity>
+//
+//
+//
+//                            storeItemsAdapter.updateData(
+//                                productListFilter!!,
+//                                productListFilter!!.size.toInt()
+//                            )
+//
+////                            try {
+////                                category_header_.text =
+////                                    productListFilter!!.get(0)!!.subcategory_name.toString()
+////                            } catch (e: Exception) {
+////                                e.printStackTrace()
+////                                category_header_.text = ""
+////                            }
+////
+////                        } else {
+////                            try {
+////                                category_header_.text =
+////                                    mainlist!!.get(0)!!.subcategory_name.toString()
+////                            } catch (e: Exception) {
+////                                e.printStackTrace()
+////                                category_header_.text = ""
+////                            }
+////                          //  storeItemsAdapter.updateData(mainlist!!, table_count!!)
+////                        }
+//                        }
+//                        storeItemsAdapter?.notifyDataSetChanged()
+//                        Log.d("searchdata_", it.toString())
+//                        storeItemsRecyclerview.visibility = View.VISIBLE
+//
+//                        //   storeItemsAdapter.notifyDataSetChanged()
+//
+//                        shimmerFrameLayout.visibility= View.GONE
+//
+//                        shimmerFrameLayout.stopShimmer()
+//
+//                })
+//
+//
+//
+//
+//
+//
+//
+//    }
 
     //get data from room
     private fun getRoomData() {
@@ -1834,7 +1834,7 @@ import kotlin.collections.LinkedHashSet
 //                    dismissIOSProgress()
 //                }
             } else {
-                searchQuery(search_value)
+                //searchQuery(search_value)
             }
         }, 1)
 
