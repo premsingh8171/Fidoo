@@ -169,12 +169,21 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 							mainList!!.clear()
 							textchane= false
 						}
+						if (intent.getStringExtra("type").equals("Restaurent")){
+							for (i in 0 until latestList!!.size) {
+								if (latestList!![i].available.equals("1") && latestList!![i].type.equals("Restaurants")) {
+									mainList!!.add(latestList!![i])
+								}
 
-						for (i in 0 until latestList!!.size) {
-							if (latestList!![i].available.equals("1")) {
-								mainList!!.add(latestList!![i])
 							}
+						}else {
 
+							for (i in 0 until latestList!!.size) {
+								if (latestList!![i].available.equals("1")) {
+									mainList!!.add(latestList!![i])
+								}
+
+							}
 						}
 
 						//here we remove duplicate item
@@ -191,9 +200,20 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 						latestList2 = it.suggestions as ArrayList
 						mainList!!.clear()
-						for (i in 0 until latestList2!!.size) {
-							if (latestList2!![i].available.equals("1")) {
-								mainList!!.add(latestList2!![i])
+						if (intent.getStringExtra("type").equals("Restaurent")){
+							for (i in 0 until latestList2!!.size) {
+								if (latestList2!![i].available.equals("1") && latestList2!![i].type.equals("Restaurants")) {
+									mainList!!.add(latestList2!![i])
+								}
+
+							}
+						}else {
+
+							for (i in 0 until latestList2!!.size) {
+								if (latestList2!![i].available.equals("1")) {
+									mainList!!.add(latestList2!![i])
+								}
+
 							}
 						}
 

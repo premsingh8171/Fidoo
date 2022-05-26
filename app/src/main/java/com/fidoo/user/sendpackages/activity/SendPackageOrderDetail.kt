@@ -29,6 +29,7 @@ import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.ordermodule.NewOrderTrackModule.sendPackageModule.ui.NewTrackSendPAckagesOrderActivity
 import com.fidoo.user.ordermodule.ui.TrackSendPAckagesOrderActivity
 import com.fidoo.user.sendpackages.adapter.DeliveryChargesSendAdapter
 import com.fidoo.user.sendpackages.model.SendPackagesModel
@@ -654,9 +655,9 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
             .error(R.drawable.pay_suc).into(payment_successImg!!)
 
         Handler().postDelayed({
-//            startActivity(Intent(this, MainActivity::class.java))
+//            startActivity(Intent(this, MainActivity::class.java))  TrackSendPAckagesOrderActivity::class.java
             startActivity(
-                Intent(this@SendPackageOrderDetail, TrackSendPAckagesOrderActivity::class.java)
+                Intent(this@SendPackageOrderDetail,NewTrackSendPAckagesOrderActivity::class.java )
                     .putExtra("orderId", finalOrderId)
                     .putExtra("delivery_boy_name", "orders[position].delivery_boy_name")
                     .putExtra("delivery_boy_mobile", "")

@@ -13,4 +13,5 @@ object useconstants {
     var callAllow = true
     var changeCallcolour = true
     var searchFrag_visible:Boolean= false
+    var package_trackRiderName:String = ""
 }

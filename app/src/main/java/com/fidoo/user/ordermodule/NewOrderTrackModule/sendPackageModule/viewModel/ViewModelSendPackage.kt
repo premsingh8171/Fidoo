@@ -26,6 +26,7 @@ class ViewModelSendPackage (application: Application) : AndroidViewModel(applica
 
 
     fun sendpackageNewTrackScreenApiCall(accountId: String, accessToken: String, orderId: String) {
+        Log.d("trackReapp", "accid-${accountId}   acctkn-${accessToken}   ordrid-${orderId}")
 
         WebServiceClient.client.create(BackEndApi::class.java).SendPackageNewTrackScreenApi(
             accountId = accountId,

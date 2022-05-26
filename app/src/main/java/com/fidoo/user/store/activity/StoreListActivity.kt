@@ -320,7 +320,8 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			if (serive_id_!!.isNotEmpty()) {
 				AppUtils.startActivityForResultRightToLeft(
 					this, Intent(this, NewSearchActivity::class.java)
-						.putExtra("storeId", "").putExtra("service_id", serive_id_),
+						.putExtra("storeId", "").putExtra("service_id", serive_id_)
+						.putExtra("type","Restaurent"),
 					GroceryNewUiActivity.SEARCH_RESULT_CODE
 				)
 			}

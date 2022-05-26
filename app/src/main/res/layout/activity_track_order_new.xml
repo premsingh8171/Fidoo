@@ -88,10 +88,10 @@
                 android:layout_below="@+id/card1">
 
                 <com.airbnb.lottie.LottieAnimationView
-                    android:layout_alignParentTop="true"
                     android:id="@+id/ordrePlaceGif"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
                     android:layout_marginTop="@dimen/margin_20dp"
                     android:scaleType="fitXY" />
 
@@ -359,6 +359,7 @@
                                         <androidx.core.widget.NestedScrollView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content">
+
                                             <androidx.recyclerview.widget.RecyclerView
                                                 android:id="@+id/recyclerViewNewTrack"
                                                 android:layout_width="match_parent"

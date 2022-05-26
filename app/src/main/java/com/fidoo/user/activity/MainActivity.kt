@@ -152,7 +152,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             return@setOnMenuItemClickListener true
         }
         bottomNavigationView.menu.findItem(R.id.searchFragment).setOnMenuItemClickListener {
-            startActivity(Intent(this, NewSearchActivity::class.java).putExtra("service_id", ""))
+            startActivity(Intent(this, NewSearchActivity::class.java).putExtra("service_id", "").putExtra("type",""))
 
             return@setOnMenuItemClickListener true
         }

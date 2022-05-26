@@ -16,6 +16,8 @@ data class sendPackageModel(
     val errorCode: Int,
     @SerializedName("gif")
     val gif: String,
+    @SerializedName("customer_phone")
+    val customer_phone: String,
     @SerializedName("messages")
     val messages: List<Message>,
     @SerializedName("orderId")

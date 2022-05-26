@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
 import com.fidoo.user.interfaces.AdapterReviewClick
+import com.fidoo.user.ordermodule.NewOrderTrackModule.sendPackageModule.ui.NewTrackSendPAckagesOrderActivity
 import com.fidoo.user.ordermodule.model.MyOrdersModel
 import com.fidoo.user.ordermodule.ui.*
 import com.fidoo.user.ordermodule.ui.NewOrderTrackModule.ui.NewTrackOrderActivity
@@ -321,7 +322,7 @@ class OrdersAdapter(
                 if (holder.itemLay.buttonValue.text.equals(TRACK_ORDER)) {
                     if (context != null) {
                         context.startActivity(
-                            Intent(context, TrackSendPAckagesOrderActivity::class.java)
+                            Intent(context, NewTrackSendPAckagesOrderActivity::class.java)
                                 .putExtra(ORDER_ID, orders[position].orderId)
                                 .putExtra(
                                     DELIVERY_BOY_NAME,

@@ -111,6 +111,10 @@
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.  -->
+        <activity
+            android:name=".ordermodule.NewOrderTrackModule.sendPackageModule.ui.NewTrackSendPAckagesOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".search.ui.SearchItemActivity"
