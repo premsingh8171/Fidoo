@@ -4,12 +4,14 @@ import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.location.LocationManager
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
@@ -18,7 +20,9 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
@@ -48,8 +52,10 @@ import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
+import com.fidoo.user.cartview.CustomBottomSheetDialog
 import com.fidoo.user.cartview.adapter.CartItemsAdapter
 import com.fidoo.user.cartview.adapter.DeliveryChargesAdapter
+import com.fidoo.user.cartview.adapter.OutstandingOrdersAdapter
 import com.fidoo.user.cartview.adapter.PrescriptionAdapter
 import com.fidoo.user.cartview.model.CartModel
 import com.fidoo.user.cartview.roomdb.database.PrescriptionDatabase
@@ -89,6 +95,7 @@ import com.fidoo.user.utils.FORADDRESS_REQUEST_CODE
 import com.fidoo.user.utils.showAlertDialog
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
@@ -105,18 +112,30 @@ import kotlinx.android.synthetic.main.activity_cart.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_cart.tv_coupon
 import kotlinx.android.synthetic.main.new_deliverycharges_layout.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
 import java.io.File
+import java.lang.NumberFormatException
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import kotlinx.android.synthetic.main.activity_cart.new_delivery_popup as new_delivery_popup1
 
 @Suppress("DEPRECATION")
 class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick, AdapterClick, CustomCartPlusMinusClick, AdapterCustomRadioClick, PaymentResultListener, PaymentResultWithDataListener {
 	private var fixedAddressViewModel: HomeFragmentNewViewModel? = null
+    var payment_type: String = ""
+	lateinit var bottomSheetOutstandingPayment: CustomBottomSheetDialog
+    var due_payment_id: String = ""
+	var due_order_id: String = ""
+
 	var viewmodel: CartViewModel? = null
 	var totalAmount: Double = 0.0
 	var storeViewModel: StoreDetailsViewModel? = null
@@ -211,6 +230,15 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		viewmodelusertrack = ViewModelProviders.of(this).get(UserTrackerViewModel::class.java)
 		deleteAllPrecription()
 		behavior = BottomSheetBehavior.from(bottom_sheet)
+
+		bottomSheetOutstandingPayment = CustomBottomSheetDialog(
+			this@CartActivity,
+			R.style.CustomBottomSheetDialog)
+		bottomSheetOutstandingPayment.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		bottomSheetOutstandingPayment.setContentView(R.layout.bottomsheet_outstanding_payment)
+		bottomSheetOutstandingPayment.setCanceledOnTouchOutside(false)
+		bottomSheetOutstandingPayment.setCancelable(false)
+
 		selectedAddressId = ""
 		selectedAddressName = SessionTwiclo(this).userAddress
 		tv_delivery_address_title.text = selectedAddressTitle
@@ -812,6 +840,14 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 			isPrescriptionRequire = "0"
 			linear_progress_indicator.visibility = View.GONE
 
+			if(user.have_standing_balance == "1") {
+				Log.d("testing orders", user.balance_order.order_id)
+				payment_type = "1"
+				due_order_id = user.balance_order.order_id
+//				tempOrderId = user.balance_order.order_id
+				showBottomSheetOutstandingPayment(user)
+			}
+
 			if (!user.error) {
 				if (user.cart != null) {
 					val cartIndex = user.cart
@@ -1239,6 +1275,31 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 			cart_payment_lay.alpha = 1.0f
 		}
 
+		viewmodel?.initiateDuePaymentProcessResponse?.observe(this@CartActivity){
+
+			Log.i("Testing", "Initiate payment")
+			if (!it.error){
+				if(it.error_code == 200) {
+					if (it.razorPayOrderId != null){
+						due_payment_id = it.payment_id
+						startPayment(it.razorPayOrderId)
+						//viewmodel?.checkPaymentStatusApi(user.accountId, user.accessToken)
+						Log.i("Testing", "Initiate payment ${it.razorPayOrderId}")
+					}
+				}
+			}
+		}
+
+        viewmodel?.updateDuePaymentStatusResponse?.observe(this) { user ->
+            Log.e("paymentFailureResponse_", Gson().toJson(user))
+            dismissIOSProgress()
+            if (user.error_code==100){
+                payment_failed_Diolog()
+            }else if (user.error_code==200){
+                paySuccessPopUp()
+			}
+        }
+
 		viewmodel?.deletePrescriptionResponse?.observe(this) { prescription ->
 			Log.e("prescription__", Gson().toJson(prescription))
 			dismissIOSProgress()
@@ -1386,6 +1447,132 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		}
 		prescriptiontInsert(prescription_id!!, "null", "null", "null")
 		getPresciption()
+	}
+
+	private fun showBottomSheetOutstandingPayment(user: CartModel) {
+		val ruppee = resources.getString(R.string.ruppee)
+		val balanceOrder = user.balance_order
+		val date1 = balanceOrder.placed_at
+		var month = date1.substring(5,7)
+		var day = date1.substring(8,10)
+		var hr = date1.substring(11, 13).toInt()
+		var min = date1.substring(14, 16)
+		var year = date1.substring(0,4)
+		var datewithtime = ""
+
+		when(month) {
+			"01" -> month = "Jan"
+			"02" -> month = "Feb"
+			"03" -> month = "Mar"
+			"04" -> month = "Apr"
+			"05" -> month = "May"
+			"06" -> month = "Jun"
+			"07" -> month = "Jul"
+			"08" -> month = "Aug"
+			"09" -> month = "Sep"
+			"10" -> month = "Oct"
+			"11" -> month = "Nov"
+			"12" -> month = "Dec"
+		}
+
+		datewithtime = day + " " + month + " " + year + " at "
+
+		if(hr > 12) {
+			hr %= 12
+			datewithtime = datewithtime + hr.toString() +":"+min +" pm"
+		} else {
+			datewithtime = datewithtime + hr.toString() +":"+min +" am"
+		}
+
+
+		val tv_balance_order_id = bottomSheetOutstandingPayment
+            .findViewById<TextView>(R.id.tv_outstanding_order_title)
+		val tv_balance_payment_title = bottomSheetOutstandingPayment
+            .findViewById<TextView>(R.id.tv_outstanding_payment_title)
+
+        val outstandingOrdersAdapter = OutstandingOrdersAdapter(this, balanceOrder.items,
+			ruppee
+		)
+
+        val rvOutstandingOrders = bottomSheetOutstandingPayment
+            .findViewById<RecyclerView>(R.id.rv_outstanding_orders)
+
+		tv_balance_order_id!!.text = "Order Id: " + balanceOrder.order_id
+
+		 val btnPayBalance = bottomSheetOutstandingPayment
+			 .findViewById<ConstraintLayout>(R.id.btn_pay_balance)
+
+
+		val tvPayBalance = bottomSheetOutstandingPayment
+			.findViewById<TextView>(R.id.tv_pay_balance)
+		tvPayBalance?.text = "Pay Due "+ resources.getString(R.string.ruppee)+balanceOrder.payment_amount
+
+		val tvOrderPlacedAt = bottomSheetOutstandingPayment
+			.findViewById<TextView>(R.id.tv_outstanding_order_time)
+
+		tvOrderPlacedAt?.text = datewithtime
+
+		val due_sub_total = bottomSheetOutstandingPayment.findViewById<TextView>(R.id.tv_due_amount_sub_total)
+		due_sub_total?.text = ruppee + balanceOrder.subtotal
+		val due_del_charges = bottomSheetOutstandingPayment.findViewById<TextView>(R.id.tv_due_amount_delivery_charges)
+		due_del_charges?.text = ruppee + balanceOrder.delivery_charges_with_tax
+
+		val due_discount = bottomSheetOutstandingPayment.findViewById<TextView>(R.id.tv_due_amount_discount)
+
+		if(balanceOrder.delivery_discount != null){
+			due_discount?.text = "-" + ruppee + balanceOrder.delivery_discount
+		 } else {
+		 	due_discount?.text = "-${ruppee}0"
+		 }
+
+		val due_restaurant_taxes = bottomSheetOutstandingPayment.findViewById<TextView>(R.id.tv_due_amount_restaurant_taxes)
+		due_restaurant_taxes?.text = ruppee + balanceOrder.restaurent_taxes
+		val due_cart_discount = bottomSheetOutstandingPayment.findViewById<TextView>(R.id.tv_due_amount_cart_discount)
+		due_cart_discount?.text = "-" + ruppee + balanceOrder.cart_discount
+
+		val due_grand_total = bottomSheetOutstandingPayment.findViewById<TextView>(R.id.tv_due_amount_grand_total)
+		due_grand_total?.text = ruppee + balanceOrder.payment_amount?.toString()
+
+		btnPayBalance?.setOnClickListener {
+			Log.d("Testing", "Initiate payment")
+
+			viewmodel?.initiateDuePaymentProcess(user.accountId,
+				user.accessToken,
+				balanceOrder.order_id,
+			balanceOrder.payment_amount
+            )
+		}
+
+		tv_balance_payment_title!!.text = "Complete payment of " + resources.getString(R.string.ruppee) + balanceOrder.payment_amount+" for your previous order."
+		rvOutstandingOrders!!.adapter = outstandingOrdersAdapter
+        rvOutstandingOrders.layoutManager = LinearLayoutManager(this)
+
+		val tv_due_details = bottomSheetOutstandingPayment
+			.findViewById<TextView>(R.id.tv_due_details)
+
+		val layout_due_detail = bottomSheetOutstandingPayment
+			.findViewById<ConstraintLayout>(R.id.layout_more_details)
+
+		var is_due_details_visible = false
+
+
+
+		tv_due_details?.setOnClickListener {
+			if (!is_due_details_visible){
+				layout_due_detail?.visibility = View.VISIBLE
+				is_due_details_visible = true
+				tv_due_details?.text = "less details"
+			} else {
+				layout_due_detail?.visibility = View.GONE
+				is_due_details_visible = false
+				tv_due_details?.text = "more details"
+			}
+		}
+
+		bottomSheetOutstandingPayment.show()
+		bottomSheetOutstandingPayment.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+		bottomSheetOutstandingPayment.window?.setGravity(Gravity.BOTTOM)
+
 	}
 
 //	private fun showDialogBottom() {
@@ -1805,25 +1992,34 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		try {
 			proceedClick = 0
 			//  Log.d("tempOrderId___",tempOrderId)
-			viewmodel?.paymentApi(
-				accountId,
-				accessToken,
-				tempOrderId,
-				razorpayPaymentId!!,
-				"",
-				"online",other_taxes_and_charges
-			)
+            if (payment_type == "1") {
+                viewmodel?.updateDuePaymentStatus(
+                    accountId,
+                    accessToken,
+                    due_payment_id,
+                    razorpayPaymentId!!, "1")
+            } else {
+                viewmodel?.paymentApi(
+                    accountId,
+                    accessToken,
+                    tempOrderId,
+                    razorpayPaymentId!!,
+                    "",
+                    "online", other_taxes_and_charges
+				)
 
-			viewmodelusertrack?.customerActivityLog(
-				accountId,
-				SessionTwiclo(this).mobileno,
-				"CartView Screen On Payment Successfull",
-				SplashActivity.appversion,
-				StoreListActivity.serive_id_,
-				SessionTwiclo(this).deviceToken
-			)
+                viewmodelusertrack?.customerActivityLog(
+                    accountId,
+                    SessionTwiclo(this).mobileno,
+                    "CartView Screen On Payment Successfull",
+                    SplashActivity.appversion,
+                    StoreListActivity.serive_id_,
+                    SessionTwiclo(this).deviceToken
+                )
+
 
 			paySuccessPopUp()
+            }
 		} catch (e: java.lang.Exception) {
 			Log.e("onSuccess", "Exception in onPaymentSuccess", e)
 		}
@@ -2606,7 +2802,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 	}
 
 	fun paySuccessPopUp() {
-		payment_suc_Diolog = Dialog(this)
+		payment_suc_Diolog = Dialog(this@CartActivity)
 		payment_suc_Diolog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
 		payment_suc_Diolog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		payment_suc_Diolog?.setContentView(R.layout.payment_success_popup)
@@ -2616,7 +2812,17 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		)
 		// payment_suc_Diolog?.window?.attributes?.windowAnimations = R.style.diologIntertnet
 		payment_suc_Diolog?.setCanceledOnTouchOutside(true)
-		payment_suc_Diolog?.show()
+        payment_suc_Diolog?.setCancelable(true)
+
+		val tv_suc_title = payment_suc_Diolog?.findViewById<TextView>(R.id.tv_success_dialog_title)
+		val tv_suc_subtitle = payment_suc_Diolog?.findViewById<TextView>(R.id.tv_success_dialog_subtitle)
+
+		if (payment_type == "1") {
+			tv_suc_title?.text =  "Due payment of previous order is successful"
+			tv_suc_subtitle?.text = "Press back button to continue"
+		}
+		if(payment_suc_Diolog?.isShowing != true)
+			payment_suc_Diolog?.show()
 		val payment_successImg =
 			payment_suc_Diolog?.findViewById<ImageView>(R.id.payment_successImg)
 
@@ -2644,37 +2850,48 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 			.placeholder(R.drawable.pay_suc)
 			.error(R.drawable.pay_suc).into(payment_successImg!!)
 
-		Handler().postDelayed({
-			if (!finalOrderId.equals("")) {
-				SessionTwiclo(this).storeImg = store_imgStr
-				SessionTwiclo(this).orderId = finalOrderId
-				SessionTwiclo(this).storeName = store_nameStr
-				onBackpressHandle = "1"
-				stopService(Intent(applicationContext, OrderBackgroundgService::class.java))
-				OrderBackgroundgService.timer_count = 30000
-				OrderBackgroundgService.counter_timer = 30
-				handleTrackScreenOrderSuccess=0
-				startActivity(
-					Intent(this, NewTrackOrderActivity::class.java).putExtra(
-						"orderId",
-						finalOrderId
-					).putExtra(
-						"delivery_boy_name",
-						""
-					).putExtra(
-						"delivery_boy_mobile",
-						""
-					).putExtra(
-						"type",
-						""
-					).putExtra(
-						"serviceTypeId",
-						SessionTwiclo(this).serviceId
-					)
-				)
-				finishAffinity()
+		if (payment_type == "1") {
+				CoroutineScope(Dispatchers.Main).launch {
+					delay(5000)
+					Log.e("testing", "payment type $payment_type")
+					payment_suc_Diolog?.dismiss()
+					bottomSheetOutstandingPayment.dismiss()
+					payment_type = ""
+					Log.e("testing", "payment type $payment_type")
 			}
-		}, 5000)
+		} else {
+			Handler().postDelayed({
+				if (!finalOrderId.equals("")) {
+					SessionTwiclo(this).storeImg = store_imgStr
+					SessionTwiclo(this).orderId = finalOrderId
+					SessionTwiclo(this).storeName = store_nameStr
+					onBackpressHandle = "1"
+					stopService(Intent(applicationContext, OrderBackgroundgService::class.java))
+					OrderBackgroundgService.timer_count = 30000
+					OrderBackgroundgService.counter_timer = 30
+					handleTrackScreenOrderSuccess=0
+					startActivity(
+						Intent(this, NewTrackOrderActivity::class.java).putExtra(
+							"orderId",
+							finalOrderId
+						).putExtra(
+							"delivery_boy_name",
+							""
+						).putExtra(
+							"delivery_boy_mobile",
+							""
+						).putExtra(
+							"type",
+							""
+						).putExtra(
+							"serviceTypeId",
+							SessionTwiclo(this).serviceId
+						)
+					)
+					finishAffinity()
+				}
+			}, 5000)
+		}
 	}
 
 	override fun onPaymentSuccess(p0: String?, p1: PaymentData?){}

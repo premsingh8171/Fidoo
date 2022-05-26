@@ -9,8 +9,17 @@
         <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
         <item name="colorAccent">@color/primary_color</item>
         <item name="fontFamily">@font/proxima</item>
+        <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
+    </style>
+    <style name="CustomBottomSheetDialog"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_balance_header</item>
+    </style>
     <style name="ButtonStyle">
         <item name="android:background">@drawable/ic_login_next_selector</item>
         <item name="android:textAllCaps">false</item>
