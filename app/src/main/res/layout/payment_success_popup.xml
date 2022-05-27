@@ -33,6 +33,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tv_success_dialog_title"
                 android:gravity="center"
                 android:fontFamily="@font/proxima"
                 android:textSize="@dimen/text_size_18sp"
@@ -45,6 +46,7 @@
                 android:layout_marginTop="@dimen/margin_20dp"
                 android:textColor="@color/black"/>
             <TextView
+                android:id="@+id/tv_success_dialog_subtitle"
                 android:gravity="center"
                 android:fontFamily="@font/proxima"
                 android:textSize="@dimen/text_size_14sp"

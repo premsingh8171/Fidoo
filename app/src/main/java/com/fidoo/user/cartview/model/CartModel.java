@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import kotlin.jvm.JvmSuppressWildcards;
+
 public class CartModel {
 
     @SerializedName("message")
@@ -89,6 +91,83 @@ public class CartModel {
     @SerializedName("taxes")
     @Expose
     public List<Tax> taxes;
+
+    //outstanding balance
+    @SerializedName("have_standing_balance")
+    @Expose
+    public String have_standing_balance;
+
+    @SerializedName("balance_order")
+    @Expose
+    public BalanceOrder balance_order;
+
+    public class BalanceOrder {
+        @SerializedName("order_id")
+        @Expose
+        public String order_id;
+
+        @SerializedName("placed_at")
+        @Expose
+        public String placed_at;
+
+        @SerializedName("payment_amount")
+        @Expose
+        public String payment_amount;
+
+        @SerializedName("subtotal")
+        @Expose
+        public String subtotal;
+
+        @SerializedName("cart_discount")
+        @Expose
+        public String cart_discount;
+
+        @SerializedName("delivery_charges_with_tax")
+        @Expose
+        public String delivery_charges_with_tax;
+
+        @SerializedName("delivery_discount")
+        @Expose
+        public String delivery_discount;
+
+        @SerializedName("res_tax_and_charges")
+        @Expose
+        public String restaurent_taxes;
+
+        @SerializedName("items")
+        @Expose
+        public List<BalanceItem> items;
+
+        public class BalanceItem {
+            @SerializedName("product_name")
+            @Expose
+            public String product_name;
+
+            @SerializedName("quantity")
+            @Expose
+            public String quantity;
+
+            @SerializedName("price")
+            @Expose
+            public String price;
+
+            @SerializedName("offer_price")
+            @Expose
+            public String offer_price;
+
+            @SerializedName("date_time")
+            @Expose
+            public String date_time;
+
+            @SerializedName("customize-item")
+            @Expose
+            public List<CustomizeItem> customize_item;
+
+            @SerializedName("price_with_customization")
+            @Expose
+            public String price_with_customization;
+        }
+    }
 
     public class Tax {
 

@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
 import com.fidoo.user.cartview.model.CartModel
+import com.fidoo.user.cartview.model.DuePaymentProcessModel
+import com.fidoo.user.cartview.model.DuePaymentStatusModel
 import com.fidoo.user.dashboard.model.CheckPaymentStatusModel
 import com.fidoo.user.data.model.*
 import com.fidoo.user.ordermodule.model.DeletePrescriptionModel
@@ -25,6 +27,8 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
     var cartCountResponse: MutableLiveData<CartCountModel>? = null
     var cancelOrderResponse: MutableLiveData<DeleteModel>? = null
     var getCartDetailsResponse: MutableLiveData<CartModel>? = null
+    var initiateDuePaymentProcessResponse: MutableLiveData<DuePaymentProcessModel>? = null
+    var updateDuePaymentStatusResponse: MutableLiveData<DuePaymentStatusModel>? = null
     var failureResponse: MutableLiveData<String>? = null
     var addRemoveCartResponse: MutableLiveData<AddRemoveCartModel>? = null
     var appplyPromoResponse: MutableLiveData<ApplyPromoModel>? = null
@@ -45,6 +49,8 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
         addToCartResponse = MutableLiveData<AddToCartModel>()
         cancelOrderResponse = MutableLiveData<DeleteModel>()
         getCartDetailsResponse = MutableLiveData<CartModel>()
+        initiateDuePaymentProcessResponse = MutableLiveData<DuePaymentProcessModel>()
+        updateDuePaymentStatusResponse = MutableLiveData<DuePaymentStatusModel>()
         failureResponse = MutableLiveData<String>()
         addRemoveCartResponse = MutableLiveData<AddRemoveCartModel>()
         appplyPromoResponse = MutableLiveData<ApplyPromoModel>()
@@ -419,6 +425,43 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
     override fun onFailure(call: Call<CartModel>?, t: Throwable?) {
         failureResponse?.value="Something went wrong with Cart"
         Log.e("CART ERROR",t.toString())
+    }
+
+
+    fun initiateDuePaymentProcess(accountId: String, accessToken: String, order_id: String, payment_amount: String){
+        Log.e("initiateDuePaymentProcess", "$accountId, $accessToken, $order_id, $payment_amount")
+        WebServiceClient.client.create(BackEndApi::class.java).initiateDuePaymentProcess(
+            accountId = accountId, accessToken = accessToken, order_id = order_id, payment_amount = payment_amount
+        ).enqueue(object : Callback<DuePaymentProcessModel>{
+            override fun onResponse(
+                call: Call<DuePaymentProcessModel>,
+                response: Response<DuePaymentProcessModel>
+            ) {
+                initiateDuePaymentProcessResponse?.value = response.body()
+            }
+
+            override fun onFailure(call: Call<DuePaymentProcessModel>, t: Throwable) {
+                failureResponse?.value = "something went wrong"
+            }
+
+        })
+    }
+
+    fun updateDuePaymentStatus(accountId: String, accessToken: String, payment_id: String, txn_id: String, payment_status: String){
+        Log.e("initiateDuePaymentProcess", "$accountId, $accessToken, $payment_id, $txn_id")
+        WebServiceClient.client.create(BackEndApi::class.java).updateDuePaymentStatus(
+            accountId = accountId, accessToken = accessToken, payment_id = payment_id, txn_id = txn_id, payment_status = payment_status).enqueue(object : Callback<DuePaymentStatusModel>{
+            override fun onResponse(
+                call: Call<DuePaymentStatusModel>,
+                response: Response<DuePaymentStatusModel>
+            ) {
+                updateDuePaymentStatusResponse?.value = response.body()
+            }
+
+            override fun onFailure(call: Call<DuePaymentStatusModel>, t: Throwable) {
+                failureResponse?.value = "something went wrong"
+            }
+        })
     }
 
     fun checkPaymentStatusApi(accountId: String, accessToken: String) {
