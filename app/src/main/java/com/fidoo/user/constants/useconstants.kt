@@ -11,7 +11,8 @@ object useconstants {
     var dBoyName = ""
     var orderStatusMain = ""
     var callAllow = true
-    var changeCallcolour = true
+    var track_sendpackage = false
+    var movetoOrderFrag= false
     var searchFrag_visible:Boolean= false
     var package_trackRiderName:String = ""
 }

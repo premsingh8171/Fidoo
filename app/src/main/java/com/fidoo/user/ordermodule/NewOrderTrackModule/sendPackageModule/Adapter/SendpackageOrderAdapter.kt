@@ -40,7 +40,12 @@ class sendpackageOrderAdapter (
 
             try {
 
-               holder.itemView.textView7.text= replaceDriver_name(index.aDRMessage)
+                if (useconstants.package_trackRiderName.equals("")){
+                    holder.itemView.textView7.text = index.aDRMessage
+
+                }else {
+                    holder.itemView.textView7.text = replaceDriver_name(index.aDRMessage)
+                }
                 holder.itemView.textView8.text=index.aDRDesc
 
                 if (index.status==0){
