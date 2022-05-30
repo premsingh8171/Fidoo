@@ -136,23 +136,24 @@ class StoreItemsAdapter(
 
         if (index.product_desc?.length!! > 50){
             holder.itemView.product_desc_txt.text= Html.fromHtml(index.product_desc!!.substring(0, 50)
-            +" "+ "<font color='blue'>More</u></font>")
+            +"..."+ "<font color='black'>More</u></font>")
         }else {
 
             holder.itemView.product_desc_txt.text = index.product_desc
         }
 
         holder.itemView.product_desc_txt.setOnClickListener {
-            if (holder.itemView.product_desc_txt.toString().endsWith("More")){
-                holder.itemView.product_desc_txt.text= index.product_desc
-            }else{
-                if (index.product_desc!!.length>50){
-                    holder.itemView.product_desc_txt.text= Html.fromHtml(index.product_desc!!.substring(0, 50)
-                            +"..."+ "<font color='blue'> <u> More</u></font>")
-                }else{
-                    holder.itemView.product_desc_txt.text= index.product_desc
-                }
+
+            if (holder.itemView.product_desc_txt.text.toString().endsWith("Less")){
+                holder.itemView.product_desc_txt.text= Html.fromHtml(index.product_desc!!.substring(0, 50)
+                        +"..."+ "<font color='black'>More</u></font>")
             }
+            else{
+                holder.itemView.product_desc_txt.text= Html.fromHtml(index.product_desc
+                        +" "+ "<font color='black'>Less</u></font>")
+            }
+
+
         }
 
         if (index.image!!.isNotEmpty()) {
