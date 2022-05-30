@@ -67,7 +67,7 @@
                     android:id="@+id/productImage"
                     android:layout_width="@dimen/margin_80dp"
                     android:layout_height="@dimen/margin_80dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="12dp"
                     android:background="@color/white"
                     android:scaleType="fitXY"
                     android:visibility="visible"
@@ -123,16 +123,17 @@
                     android:id="@+id/product_desc_txt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="10dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/proxima"
                     android:paddingEnd="@dimen/margin_50dp"
-                    android:paddingRight="@dimen/margin_10"
 
+                    android:paddingRight="@dimen/margin_10"
                     android:text=""
                     android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline5"
-                    app:layout_constraintStart_toEndOf="@+id/productImage"
+                    app:layout_constraintStart_toStartOf="@+id/productName"
                     app:layout_constraintTop_toBottomOf="@+id/offerPrice" />
 
 

@@ -136,7 +136,7 @@ class StoreItemsAdapter(
 
         if (index.product_desc?.length!! > 50){
             holder.itemView.product_desc_txt.text= Html.fromHtml(index.product_desc!!.substring(0, 50)
-            +"..."+ "<font color='black'>More</u></font>")
+            +"..."+ "<font color='black'><b>More</b></font>")
         }else {
 
             holder.itemView.product_desc_txt.text = index.product_desc
@@ -144,13 +144,20 @@ class StoreItemsAdapter(
 
         holder.itemView.product_desc_txt.setOnClickListener {
 
-            if (holder.itemView.product_desc_txt.text.toString().endsWith("Less")){
-                holder.itemView.product_desc_txt.text= Html.fromHtml(index.product_desc!!.substring(0, 50)
-                        +"..."+ "<font color='black'>More</u></font>")
-            }
-            else{
-                holder.itemView.product_desc_txt.text= Html.fromHtml(index.product_desc
-                        +" "+ "<font color='black'>Less</u></font>")
+
+            if (index.product_desc?.length!! > 50) {
+
+                if (holder.itemView.product_desc_txt.text.toString().endsWith("Less")) {
+                    holder.itemView.product_desc_txt.text = Html.fromHtml(
+                        index.product_desc!!.substring(0, 50)
+                                + "..." + "<font color='black'><b>More </b></font>"
+                    )
+                } else {
+                    holder.itemView.product_desc_txt.text = Html.fromHtml(
+                        index.product_desc
+                                + " " + "<font color='black'><b>Less</b></font>"
+                    )
+                }
             }
 
 
