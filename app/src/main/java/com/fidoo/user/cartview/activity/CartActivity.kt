@@ -1016,27 +1016,27 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 					if (mModelData.distance<=3000){
 						upto_3kms_.text= "upto 3kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"18"
+						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[0].deliveryCharges}"
 					}
 
 					if (mModelData.distance>3000 && mModelData.distance<=6000){
 						upto_3kms_.text= "above 3kms-6kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"36"
+						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[1].deliveryCharges}"
 					}
 
 					if (mModelData.distance>6000 && mModelData.distance<=9000){
 						upto_3kms_.text= "above 6kms-9kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"54"
+						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[2].deliveryCharges}"
 					}
 
 					if (mModelData.distance > 9000 && mModelData.distance<=12000){
 						upto_3kms_.text= "above 9kms-12kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"72"
+						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[3].deliveryCharges}"
 					}
 
 					if (mModelData.distance>12000){
 						upto_3kms_.text= "above 12kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"90"
+						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[4].deliveryCharges}"
 					}
 
 					tv_delivery_charges.text =

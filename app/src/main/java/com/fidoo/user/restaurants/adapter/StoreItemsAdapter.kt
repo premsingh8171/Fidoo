@@ -11,6 +11,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -133,7 +134,26 @@ class StoreItemsAdapter(
 
         holder.itemName.text = index.productName
 
-        holder.itemView.product_desc_txt.text = index.product_desc
+        if (index.product_desc?.length!! > 50){
+            holder.itemView.product_desc_txt.text= Html.fromHtml(index.product_desc!!.substring(0, 50)
+            +" "+ "<font color='blue'>More</u></font>")
+        }else {
+
+            holder.itemView.product_desc_txt.text = index.product_desc
+        }
+
+        holder.itemView.product_desc_txt.setOnClickListener {
+            if (holder.itemView.product_desc_txt.toString().endsWith("More")){
+                holder.itemView.product_desc_txt.text= index.product_desc
+            }else{
+                if (index.product_desc!!.length>50){
+                    holder.itemView.product_desc_txt.text= Html.fromHtml(index.product_desc!!.substring(0, 50)
+                            +"..."+ "<font color='blue'> <u> More</u></font>")
+                }else{
+                    holder.itemView.product_desc_txt.text= index.product_desc
+                }
+            }
+        }
 
         if (index.image!!.isNotEmpty()) {
 //            if (index.image!!.startsWith("http")){
