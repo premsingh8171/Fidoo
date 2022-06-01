@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
 import com.fidoo.user.restaurants.listener.CustomCartPlusMinusClick
@@ -127,6 +128,7 @@ class StoreSubCustomItemsAdapter(
                 if (subCat[position].subCatName.toLowerCase().endsWith("gms")
                     || subCat[position].subCatName.toLowerCase().endsWith("kg")
                     || subCat[position].subCatName.toLowerCase().endsWith("pcs")
+                    ||useconstants.offerPrice.equals("0")
                 ) {
                     holder.radioBtn_.text =
                         subCat[position].subCatName + " (" + con.resources.getString(R.string.ruppee) + subCat[position].price + ")" ////setting text of second radio button

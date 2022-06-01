@@ -25,6 +25,7 @@ import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.tempProductList
 import com.fidoo.user.activity.SplashActivity
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
@@ -102,6 +103,7 @@ class StoreItemsAdapter(
 //        }
 
         if (index.offerPrice.equals("0")){
+
             holder.offerPrice.visibility=View.GONE
         }else{
             holder.offerPrice.visibility=View.VISIBLE
@@ -247,6 +249,7 @@ class StoreItemsAdapter(
                             count++
                             holder.countValue.text = count.toString()
 
+                            useconstants.offerPrice= index.offerPrice!!
                             adapterClick.onItemClick(
                                 index.productId,
                                 "custom",
@@ -261,6 +264,7 @@ class StoreItemsAdapter(
                             SessionTwiclo(con).serviceId = MainActivity.service_idStr
                         } else {
                             count++
+                            useconstants.offerPrice= index.offerPrice!!
                             //Log.d("countcountcountcot",count.toString())
                             holder.countValue.text = count.toString()
                             holder.add_new_lay.visibility = View.GONE

@@ -14,4 +14,5 @@ object useconstants {
     var changeCallcolour = true
     var searchFrag_visible:Boolean= false
     var package_trackRiderName:String = ""
+    var offerPrice:String=""
 }
