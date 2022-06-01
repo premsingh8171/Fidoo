@@ -103,7 +103,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginStart="16dp"
                     android:gravity="top"
-                    android:hint="  Write Feedback(optional)"
+                    android:hint="  Write Feedback(Optional)"
                     android:textSize="14sp"/>
         </LinearLayout>
 
