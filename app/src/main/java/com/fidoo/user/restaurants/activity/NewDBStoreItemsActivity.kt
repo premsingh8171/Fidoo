@@ -2034,6 +2034,8 @@ import kotlin.collections.LinkedHashSet
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken, productId
                     )
+                    Log.d("customizeitems", SessionTwiclo(this).loggedInUserDetail.accountId+",,"+SessionTwiclo(this).loggedInUserDetail.accessToken+" ,,"
+                    +productId)
                 }
             } else {
                 val builder = AlertDialog.Builder(this)
