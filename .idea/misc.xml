@@ -21,6 +21,7 @@
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_new_store_items.xml" value="0.12318840579710146" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_new_track_send_packages_order.xml" value="0.22" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_review_items.xml" value="0.22" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_review_order.xml" value="0.14" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_review_order_sendpackages.xml" value="0.17572463768115942" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_send_package_order_detail.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_store_filter_list.xml" value="0.21" />
@@ -48,7 +49,7 @@
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/no_internet_connection.xml" value="0.12318840579710146" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/orders_adapter.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/relevance_popup.xml" value="0.12318840579710146" />
-        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/sendpackageitem.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/sendpackageitem.xml" value="0.16" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/store_customization_adapter.xml" value="0.25" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.12" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/menu/bottom_navigation.xml" value="0.18854166666666666" />
