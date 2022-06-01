@@ -110,6 +110,7 @@ import kotlinx.android.synthetic.main.activity_cart.customAddBtn
 import kotlinx.android.synthetic.main.activity_cart.customItemsRecyclerview
 import kotlinx.android.synthetic.main.activity_cart.linear_progress_indicator
 import kotlinx.android.synthetic.main.activity_cart.tv_coupon
+import kotlinx.android.synthetic.main.bottomsheet_outstanding_payment.*
 import kotlinx.android.synthetic.main.new_deliverycharges_layout.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
 import kotlinx.coroutines.CoroutineScope
@@ -1485,55 +1486,39 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		}
 
 
-		val tv_balance_order_id = bottomSheetOutstandingPayment
-            .findViewById<TextView>(R.id.tv_outstanding_order_title)
-		val tv_balance_payment_title = bottomSheetOutstandingPayment
-            .findViewById<TextView>(R.id.tv_outstanding_payment_title)
+        val outstandingOrdersAdapter = OutstandingOrdersAdapter(this, balanceOrder.items, ruppee)
 
-        val outstandingOrdersAdapter = OutstandingOrdersAdapter(this, balanceOrder.items,
-			ruppee
-		)
-
-        val rvOutstandingOrders = bottomSheetOutstandingPayment
-            .findViewById<RecyclerView>(R.id.rv_outstanding_orders)
-
-		tv_balance_order_id!!.text = "Order Id: " + balanceOrder.order_id
-
-		 val btnPayBalance = bottomSheetOutstandingPayment
-			 .findViewById<ConstraintLayout>(R.id.btn_pay_balance)
+		bottomSheetOutstandingPayment.tv_outstanding_order_title?.text = "Order Id: " + balanceOrder.order_id
 
 
-		val tvPayBalance = bottomSheetOutstandingPayment
-			.findViewById<TextView>(R.id.tv_pay_balance)
-		tvPayBalance?.text = "Pay Due "+ resources.getString(R.string.ruppee)+balanceOrder.payment_amount
+		bottomSheetOutstandingPayment.tv_pay_balance?.text = "Pay Due "+ resources.getString(R.string.ruppee)+balanceOrder.payment_amount
 
-		val tvOrderPlacedAt = bottomSheetOutstandingPayment
-			.findViewById<TextView>(R.id.tv_outstanding_order_time)
 
-		tvOrderPlacedAt?.text = datewithtime
+		bottomSheetOutstandingPayment.tv_outstanding_order_time?.text = datewithtime
 
-		val due_sub_total = bottomSheetOutstandingPayment.findViewById<TextView>(R.id.tv_due_amount_sub_total)
-		due_sub_total?.text = ruppee + balanceOrder.subtotal
-		val due_del_charges = bottomSheetOutstandingPayment.findViewById<TextView>(R.id.tv_due_amount_delivery_charges)
-		due_del_charges?.text = ruppee + balanceOrder.delivery_charges_with_tax
+		bottomSheetOutstandingPayment.tv_due_amount_sub_total?.text = ruppee + balanceOrder.subtotal
+		bottomSheetOutstandingPayment.tv_due_amount_delivery_charges?.text = ruppee + balanceOrder.delivery_charges_with_tax
 
-		val due_discount = bottomSheetOutstandingPayment.findViewById<TextView>(R.id.tv_due_amount_discount)
-
-		if(balanceOrder.delivery_discount != null){
-			due_discount?.text = "-" + ruppee + balanceOrder.delivery_discount
+		if(balanceOrder.delivery_discount != ""){
+			bottomSheetOutstandingPayment.tv_due_amount_discount?.text = "-" + ruppee + balanceOrder.delivery_discount
+			bottomSheetOutstandingPayment.tv_due_discount?.text = "Delivery Discount " + "(" + balanceOrder.delivery_coupon_name + ")"
 		 } else {
-		 	due_discount?.text = "-${ruppee}0"
+			bottomSheetOutstandingPayment.tv_due_amount_discount?.text = "-${ruppee}0"
 		 }
 
-		val due_restaurant_taxes = bottomSheetOutstandingPayment.findViewById<TextView>(R.id.tv_due_amount_restaurant_taxes)
-		due_restaurant_taxes?.text = ruppee + balanceOrder.restaurent_taxes
-		val due_cart_discount = bottomSheetOutstandingPayment.findViewById<TextView>(R.id.tv_due_amount_cart_discount)
-		due_cart_discount?.text = "-" + ruppee + balanceOrder.cart_discount
+		bottomSheetOutstandingPayment.tv_due_amount_restaurant_taxes?.text = ruppee + balanceOrder.restaurent_taxes
 
-		val due_grand_total = bottomSheetOutstandingPayment.findViewById<TextView>(R.id.tv_due_amount_grand_total)
-		due_grand_total?.text = ruppee + balanceOrder.payment_amount?.toString()
+		if (balanceOrder.cart_discount != "") {
 
-		btnPayBalance?.setOnClickListener {
+			bottomSheetOutstandingPayment.tv_due_amount_cart_discount?.text = "-" + ruppee + balanceOrder.cart_discount
+			bottomSheetOutstandingPayment.tv_due_cart_discount?.text = "Cart Discount " + "(" + balanceOrder.cart_coupon_name + ")"
+		} else {
+			bottomSheetOutstandingPayment.tv_cart_discount_label?.text = "-${ruppee}0"
+		}
+
+		bottomSheetOutstandingPayment.tv_due_amount_grand_total?.text = ruppee + balanceOrder.payment_amount?.toString()
+
+		bottomSheetOutstandingPayment.btn_pay_balance?.setOnClickListener {
 			Log.d("Testing", "Initiate payment")
 
 			viewmodel?.initiateDuePaymentProcess(user.accountId,
@@ -1543,29 +1528,23 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
             )
 		}
 
-		tv_balance_payment_title!!.text = "Complete payment of " + resources.getString(R.string.ruppee) + balanceOrder.payment_amount+" for your previous order."
-		rvOutstandingOrders!!.adapter = outstandingOrdersAdapter
-        rvOutstandingOrders.layoutManager = LinearLayoutManager(this)
-
-		val tv_due_details = bottomSheetOutstandingPayment
-			.findViewById<TextView>(R.id.tv_due_details)
-
-		val layout_due_detail = bottomSheetOutstandingPayment
-			.findViewById<ConstraintLayout>(R.id.layout_more_details)
+		bottomSheetOutstandingPayment.tv_outstanding_payment_title?.text = "Complete payment of " + resources.getString(R.string.ruppee) + balanceOrder.payment_amount+" for your previous order."
+		bottomSheetOutstandingPayment.rv_outstanding_orders?.adapter = outstandingOrdersAdapter
+		bottomSheetOutstandingPayment.rv_outstanding_orders?.layoutManager = LinearLayoutManager(this)
 
 		var is_due_details_visible = false
 
 
 
-		tv_due_details?.setOnClickListener {
+		bottomSheetOutstandingPayment.tv_due_details?.setOnClickListener {
 			if (!is_due_details_visible){
-				layout_due_detail?.visibility = View.VISIBLE
+				bottomSheetOutstandingPayment.layout_more_details?.visibility = View.VISIBLE
 				is_due_details_visible = true
-				tv_due_details?.text = "less details"
+				bottomSheetOutstandingPayment.tv_due_details?.text = "less details"
 			} else {
-				layout_due_detail?.visibility = View.GONE
+				bottomSheetOutstandingPayment.layout_more_details?.visibility = View.GONE
 				is_due_details_visible = false
-				tv_due_details?.text = "more details"
+				bottomSheetOutstandingPayment.tv_due_details?.text = "more details"
 			}
 		}
 
@@ -2820,7 +2799,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 		if (payment_type == "1") {
 			tv_suc_title?.text =  "Due payment of previous order is successful"
-			tv_suc_subtitle?.text = "Press back button to continue"
+			tv_suc_subtitle?.text = "Now you can place new orders"
 		}
 		if(payment_suc_Diolog?.isShowing != true)
 			payment_suc_Diolog?.show()

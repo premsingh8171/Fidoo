@@ -106,6 +106,14 @@ public class CartModel {
         @Expose
         public String order_id;
 
+        @SerializedName("cart_coupon_name")
+        @Expose
+        public String cart_coupon_name;
+
+        @SerializedName("delivery_coupon_name")
+        @Expose
+        public String delivery_coupon_name;
+
         @SerializedName("placed_at")
         @Expose
         public String placed_at;
