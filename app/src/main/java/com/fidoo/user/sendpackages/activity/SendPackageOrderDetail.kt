@@ -149,26 +149,35 @@ class SendPackageOrderDetail : com.fidoo.user.utils.BaseActivity(), PaymentResul
 //            chargesSendPackageTxt2.text = "      ₹ " + value[1]
 //        }
 
-        if (dist<=3){
-            upto_3kms_.text= "upto 3kms"
-            rate_id1.text= resources.getString(R.string.ruppee)+"${deliveryChargesList!![0].deliveryCharges}"
+        if (!delivery_charges.isNullOrEmpty()){
+            for (i in 0..deliveryChargesList!!.size-1){
+                if (baseCharges.equals(deliveryChargesList!![i].deliveryCharges)){
+                    upto_3kms_.text= "${deliveryChargesList!![i].distanceRange}"
+                    rate_id1.text= resources.getString(R.string.ruppee)+"${deliveryChargesList!![i].deliveryCharges}"
+                }
+            }
         }
-        if (dist>3 && dist<=6){
-            upto_3kms_.text= "above 3kms-6kms"
-            rate_id1.text= resources.getString(R.string.ruppee)+"${deliveryChargesList!![1].deliveryCharges}"
-        }
-        if (dist>6 && dist<=9){
-            upto_3kms_.text= "above 6kms-9kms"
-            rate_id1.text= resources.getString(R.string.ruppee)+"${deliveryChargesList!![2].deliveryCharges}"
-        }
-        if (dist>9 && dist<=12){
-            upto_3kms_.text= "above 9kms-12kms"
-            rate_id1.text= resources.getString(R.string.ruppee)+"${deliveryChargesList!![3].deliveryCharges}"
-        }
-        if (dist>12){
-            upto_3kms_.text= "above 12kms"
-            rate_id1.text= resources.getString(R.string.ruppee)+"${deliveryChargesList!![4].deliveryCharges}"
-        }
+
+//        if (dist<=3){
+//            upto_3kms_.text= "${deliveryChargesList!![0].distanceRange}"
+//            rate_id1.text= resources.getString(R.string.ruppee)+"${deliveryChargesList!![0].deliveryCharges}"
+//        }
+//        if (dist>3 && dist<=6){
+//            upto_3kms_.text= "${deliveryChargesList!![1].distanceRange}"
+//            rate_id1.text= resources.getString(R.string.ruppee)+"${deliveryChargesList!![1].deliveryCharges}"
+//        }
+//        if (dist>6 && dist<=9){
+//            upto_3kms_.text= "${deliveryChargesList!![2].distanceRange}"
+//            rate_id1.text= resources.getString(R.string.ruppee)+"${deliveryChargesList!![2].deliveryCharges}"
+//        }
+//        if (dist>9 && dist<=12){
+//            upto_3kms_.text= "${deliveryChargesList!![3].distanceRange}"
+//            rate_id1.text= resources.getString(R.string.ruppee)+"${deliveryChargesList!![3].deliveryCharges}"
+//        }
+//        if (dist>12){
+//            upto_3kms_.text= "${deliveryChargesList!![4].distanceRange}"
+//            rate_id1.text= resources.getString(R.string.ruppee)+"${deliveryChargesList!![4].deliveryCharges}"
+//        }
 
 
         if (charges_one!!.isNotEmpty()) {

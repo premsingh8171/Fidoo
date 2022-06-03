@@ -11,6 +11,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.tempProductList
 import com.fidoo.user.activity.SplashActivity
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
@@ -101,6 +103,7 @@ class StoreItemsAdapter(
 //        }
 
         if (index.offerPrice.equals("0")){
+
             holder.offerPrice.visibility=View.GONE
         }else{
             holder.offerPrice.visibility=View.VISIBLE
@@ -133,7 +136,34 @@ class StoreItemsAdapter(
 
         holder.itemName.text = index.productName
 
-        holder.itemView.product_desc_txt.text = index.product_desc
+        if (index.product_desc?.length!! > 50){
+            holder.itemView.product_desc_txt.text= Html.fromHtml(index.product_desc!!.substring(0, 50)
+            +"..."+ "<font color='black'><b>More</b></font>")
+        }else {
+
+            holder.itemView.product_desc_txt.text = index.product_desc
+        }
+
+        holder.itemView.product_desc_txt.setOnClickListener {
+
+
+            if (index.product_desc?.length!! > 50) {
+
+                if (holder.itemView.product_desc_txt.text.toString().endsWith("Less")) {
+                    holder.itemView.product_desc_txt.text = Html.fromHtml(
+                        index.product_desc!!.substring(0, 50)
+                                + "..." + "<font color='black'><b>More </b></font>"
+                    )
+                } else {
+                    holder.itemView.product_desc_txt.text = Html.fromHtml(
+                        index.product_desc
+                                + " " + "<font color='black'><b>Less</b></font>"
+                    )
+                }
+            }
+
+
+        }
 
         if (index.image!!.isNotEmpty()) {
 //            if (index.image!!.startsWith("http")){
@@ -219,6 +249,7 @@ class StoreItemsAdapter(
                             count++
                             holder.countValue.text = count.toString()
 
+                            useconstants.offerPrice= index.offerPrice!!
                             adapterClick.onItemClick(
                                 index.productId,
                                 "custom",
@@ -233,6 +264,7 @@ class StoreItemsAdapter(
                             SessionTwiclo(con).serviceId = MainActivity.service_idStr
                         } else {
                             count++
+                            useconstants.offerPrice= index.offerPrice!!
                             //Log.d("countcountcountcot",count.toString())
                             holder.countValue.text = count.toString()
                             holder.add_new_lay.visibility = View.GONE
