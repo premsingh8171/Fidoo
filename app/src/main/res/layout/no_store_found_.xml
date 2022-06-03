@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:id="@+id/maincard_nostore">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+    <ImageView
+        android:layout_width="216dp"
+        android:layout_height="171dp"
+        android:src="@drawable/new_nostore_img"
+        android:layout_centerInParent="true"
+        android:id="@+id/no_storeimg"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/no_storeimg"
+        android:text="Oops our bad!☹"
+        android:textColor="@color/black"
+        android:textFontWeight="600"
+
+        android:fontFamily="@font/proximanovasemibold"
+        android:layout_centerInParent="true"
+        android:id="@+id/oops_store"
+        android:textSize="14sp"
+        android:lineHeight="18dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="232dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textcard"
+        android:layout_centerHorizontal="true"
+        app:cardElevation="0dp"
+        android:layout_below="@+id/oops_store">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="15dp"
+            android:text="No store found with this name, please try some other stores."
+            android:gravity="center"
+            android:id="@+id/finaltext"
+            android:textSize="12sp"
+            android:lineHeight="16dp"/>
+    </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+</RelativeLayout>

@@ -101,6 +101,37 @@
                 android:layout_marginTop="@dimen/margin_10"
                 android:background="@color/background" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/relatell"
+
+                >
+
+                <include
+                    android:id="@+id/xyz"
+                    layout="@layout/no_item_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_centerInParent="true"
+
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/xyz2"
+                    layout="@layout/no_store_found_"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_centerInParent="true"
+
+                    android:visibility="gone" />
+
+
+
+
+
             <TextView
                 android:id="@+id/showingResult"
                 android:layout_width="wrap_content"
@@ -110,15 +141,20 @@
                 android:text="Showing Result"
                 android:textColor="@color/colorTextGray" />
 
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSearchResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_below="@+id/showingResult"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:spanCount="1" />
+            </RelativeLayout>
 
         </LinearLayout>
+
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
