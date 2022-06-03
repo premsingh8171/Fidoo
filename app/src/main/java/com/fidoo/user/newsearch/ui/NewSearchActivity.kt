@@ -193,17 +193,17 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 					//	mainList!!.clear()
 						mainList!!.addAll(s)
 
-//						if (mainList!!.size==0 && !(intent.getStringExtra("type").equals("Restaurent"))){
-//							binding.xyz.noItemFoundll.visibility= View.VISIBLE
-//							binding!!.xyz!!.root.visibility= View.VISIBLE
-//							binding.showingResult.visibility= View.GONE
-//							binding.rvSearchResult.visibility= View.GONE
-//						}else if (mainList!!.size==0 && (intent.getStringExtra("type").equals("Restaurent"))){
-//
-//							binding!!.xyz2!!.root.visibility= View.VISIBLE
-//							binding.showingResult.visibility= View.GONE
-//							binding.rvSearchResult.visibility= View.GONE
-//						}
+						if (mainList!!.size==0 && !(intent.getStringExtra("type").equals("Restaurent"))){
+							binding.xyz.noItemFoundll.visibility= View.VISIBLE
+							binding!!.xyz!!.root.visibility= View.VISIBLE
+							binding.showingResult.visibility= View.GONE
+							binding.rvSearchResult.visibility= View.GONE
+						}else if (mainList!!.size==0 && (intent.getStringExtra("type").equals("Restaurent"))){
+
+							binding!!.xyz2!!.root.visibility= View.VISIBLE
+							binding.showingResult.visibility= View.GONE
+							binding.rvSearchResult.visibility= View.GONE
+						}
 
 
 						searchCategoryAdapter!!.updateData(mainList!!, isMore)
@@ -234,17 +234,17 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 						mainList!!.clear()
 						mainList!!.addAll(s)
-//						if (mainList!!.size==0 && !(intent.getStringExtra("type").equals("Restaurent"))){
-//							binding.xyz.noItemFoundll.visibility= View.VISIBLE
-//							binding!!.xyz!!.root.visibility= View.VISIBLE
-//							binding.showingResult.visibility= View.GONE
-//							binding.rvSearchResult.visibility= View.GONE
-//						}else if (mainList!!.size==0 && (intent.getStringExtra("type").equals("Restaurent"))){
-//
-//							binding!!.xyz2!!.root.visibility= View.VISIBLE
-//							binding.showingResult.visibility= View.GONE
-//							binding.rvSearchResult.visibility= View.GONE
-//						}
+						if (mainList!!.size==0 && !(intent.getStringExtra("type").equals("Restaurent"))){
+							binding.xyz.noItemFoundll.visibility= View.VISIBLE
+							binding!!.xyz!!.root.visibility= View.VISIBLE
+							binding.showingResult.visibility= View.GONE
+							binding.rvSearchResult.visibility= View.GONE
+						}else if (mainList!!.size==0 && (intent.getStringExtra("type").equals("Restaurent"))){
+
+							binding!!.xyz2!!.root.visibility= View.VISIBLE
+							binding.showingResult.visibility= View.GONE
+							binding.rvSearchResult.visibility= View.GONE
+						}
 
 						if (text_count==0){
 							rvCategoryList(mainList!!)
@@ -388,11 +388,11 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
 
 
-//				binding!!.xyz2!!.root.visibility= View.GONE
-//					binding.xyz.noItemFoundll.visibility= View.GONE
-//					binding!!.xyz!!.root.visibility= View.GONE
-//				binding.showingResult.visibility= View.VISIBLE
-//				binding.rvSearchResult.visibility= View.VISIBLE
+				binding!!.xyz2!!.root.visibility= View.GONE
+					binding.xyz.noItemFoundll.visibility= View.GONE
+					binding!!.xyz!!.root.visibility= View.GONE
+				binding.showingResult.visibility= View.VISIBLE
+				binding.rvSearchResult.visibility= View.VISIBLE
 			}
 
 			@SuppressLint("NotifyDataSetChanged")
