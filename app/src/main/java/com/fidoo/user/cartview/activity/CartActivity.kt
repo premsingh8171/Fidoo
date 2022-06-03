@@ -1051,30 +1051,39 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 					tv_delivery_charges_label.text= "Delivery charges | ${net_dist}kms"
 					useconstants.user_dist = mModelData.distance
 
-					if (mModelData.distance<=3000){
-						upto_3kms_.text= "upto 3kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[0].deliveryCharges}"
+					if (!mModelData.discount_amount.isNullOrEmpty()){
+						for (i in 0..mModelData.deliveryChargesList!!.size-1){
+							if (mModelData.deliveryCharge==(mModelData.deliveryChargesList[i].deliveryCharges).toInt()){
+								upto_3kms_.text= "${mModelData.deliveryChargesList[i].distanceRange}"
+								rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[i].deliveryCharges}"
+							}
+						}
 					}
 
-					if (mModelData.distance>3000 && mModelData.distance<=6000){
-						upto_3kms_.text= "above 3kms-6kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[1].deliveryCharges}"
-					}
-
-					if (mModelData.distance>6000 && mModelData.distance<=9000){
-						upto_3kms_.text= "above 6kms-9kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[2].deliveryCharges}"
-					}
-
-					if (mModelData.distance > 9000 && mModelData.distance<=12000){
-						upto_3kms_.text= "above 9kms-12kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[3].deliveryCharges}"
-					}
-
-					if (mModelData.distance>12000){
-						upto_3kms_.text= "above 12kms"
-						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[4].deliveryCharges}"
-					}
+//					if (mModelData.distance<=3000){
+//						upto_3kms_.text= "upto 3kms"
+//						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[0].deliveryCharges}"
+//					}
+//
+//					if (mModelData.distance>3000 && mModelData.distance<=6000){
+//						upto_3kms_.text= "above 3kms-6kms"
+//						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[1].deliveryCharges}"
+//					}
+//
+//					if (mModelData.distance>6000 && mModelData.distance<=9000){
+//						upto_3kms_.text= "above 6kms-9kms"
+//						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[2].deliveryCharges}"
+//					}
+//
+//					if (mModelData.distance > 9000 && mModelData.distance<=12000){
+//						upto_3kms_.text= "above 9kms-12kms"
+//						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[3].deliveryCharges}"
+//					}
+//
+//					if (mModelData.distance>12000){
+//						upto_3kms_.text= "above 12kms"
+//						rate_id1.text= resources.getString(R.string.ruppee)+"${mModelData.deliveryChargesList[4].deliveryCharges}"
+//					}
 
 					tv_delivery_charges.text =
 						resources.getString(R.string.ruppee) + deliveryChargeWithTax
