@@ -286,6 +286,9 @@
             android:name=".profile.ui.EditProfileActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".activity.MaintenanceActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ordermodule.ui.OrderDetailsSendPackageActivity"
             android:screenOrientation="portrait" />
@@ -296,7 +299,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_17ihcfTIqBGF9R" />
+            android:value="rzp_live_iceNLz5pb15jtP" />
 
         <service
             android:name=".fcm.MyFirebaseMessagingService"

@@ -209,8 +209,9 @@ class SplashFragment : BaseFragment() {
     private fun custAppVerCheck(app_version: String) {
         Log.d("app_version", "$app_version")
 
+        Log.d("check", "$app_version, $account_id, $device_type, ${SessionTwiclo(mmContext).deviceToken}")
         WebServiceClient.client.create(BackEndApi::class.java).updateApp(
-            app_version = app_version,
+            app_version,
             account_id,
             SessionTwiclo(mmContext).deviceToken,
             device_type
@@ -223,10 +224,13 @@ class SplashFragment : BaseFragment() {
 
                 Log.d("splash_screen", Gson().toJson(response.body()))
 
-                if (response.body()!!.is_under_maintenance == "1"){
-                    startActivity(Intent(activity, MaintenanceActivity::class.java))
-                } else{
-                if (response.body()!!.error_code == 300) {
+                if (response.body()?.is_under_maintenance.equals("1")){
+
+                        val intent = Intent(activity, MaintenanceActivity::class.java)
+                        startActivity(intent)
+
+                } else if (response.body()?.is_under_maintenance == "0"){
+                if (response.body()?.error_code == 300) {
                     updateAppDialog(response.body()!!.latest_version)
                 } else {
                     fidooSplashLogo.setMaxProgress(1f)
