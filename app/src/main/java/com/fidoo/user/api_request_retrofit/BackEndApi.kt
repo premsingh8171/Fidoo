@@ -729,7 +729,8 @@ interface BackEndApi {
     fun updateApp(
         @Field("app_version") app_version: String?,
         @Field("accountId") accountId: String?,
-        @Field("deviceId") deviceId: String?
+        @Field("deviceId") deviceId: String?,
+        @Field("device_type") device_type: String?
     ): Call<UpdateAppModel>
 
 

@@ -24,6 +24,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
+import com.fidoo.user.activity.MaintenanceActivity
 import com.fidoo.user.activity.SliderScreenActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.api_request_retrofit.BackEndApi
@@ -55,6 +56,7 @@ class SplashFragment : BaseFragment() {
     lateinit var mSessionTwiclo: SessionTwiclo
     var updateApp_dialog: Dialog? = null
     var mmContext: Context? = null
+    val device_type = "android"
     private var mediaController: MediaController? = null
     var account_id: String? = ""
 
@@ -210,7 +212,8 @@ class SplashFragment : BaseFragment() {
         WebServiceClient.client.create(BackEndApi::class.java).updateApp(
             app_version = app_version,
             account_id,
-            SessionTwiclo(mmContext).deviceToken
+            SessionTwiclo(mmContext).deviceToken,
+            device_type
         ).enqueue(object : Callback<UpdateAppModel> {
 
             override fun onResponse(
@@ -220,6 +223,9 @@ class SplashFragment : BaseFragment() {
 
                 Log.d("splash_screen", Gson().toJson(response.body()))
 
+                if (response.body()!!.is_under_maintenance == "1"){
+                    startActivity(Intent(activity, MaintenanceActivity::class.java))
+                } else{
                 if (response.body()!!.error_code == 300) {
                     updateAppDialog(response.body()!!.latest_version)
                 } else {
@@ -277,6 +283,7 @@ class SplashFragment : BaseFragment() {
                         }
                     }, 3000)
 
+                }
                 }
             }
 
