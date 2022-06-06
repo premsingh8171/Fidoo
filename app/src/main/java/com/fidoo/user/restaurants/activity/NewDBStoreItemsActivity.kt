@@ -118,6 +118,7 @@ import kotlinx.android.synthetic.main.activity_store_items.tv_distance
 import kotlinx.android.synthetic.main.activity_store_items.tv_location
 import kotlinx.android.synthetic.main.activity_store_items.tv_store_name
 import kotlinx.android.synthetic.main.activity_store_items.veg_switch_img
+import kotlinx.android.synthetic.main.new_storeproduct_ll.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
 import kotlinx.android.synthetic.main.no_item_found.*
 import kotlinx.coroutines.*
@@ -239,7 +240,7 @@ import kotlin.collections.LinkedHashSet
         val window: Window = this.getWindow()
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
-        setContentView(R.layout.activity_store_items)
+        setContentView(R.layout.new_storeproduct_ll)
 
         mMixpanel = MixpanelAPI.getInstance(this, "defeff96423cfb1e8c66f8ba83ab87fd")
         distanceViewModel = ViewModelProvider(this).get(TrackViewModel::class.java)
