@@ -9,6 +9,7 @@ import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory.executor
@@ -133,6 +134,19 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				textchane= false
 				searchCategoryAdapter!!.updateData(mainList!!, isMore)
 				hideKeyboard(binding.searchKeyETxtAct)
+			}
+			if (actionId== KeyEvent.KEYCODE_BACK){
+				if (!(intent.getStringExtra("type").equals("Restaurent"))){
+
+					binding!!.xyz!!.root.visibility= View.GONE
+					binding.showingResult.visibility= View.VISIBLE
+					binding.rvSearchResult.visibility= View.VISIBLE
+				}else if ((intent.getStringExtra("type").equals("Restaurent"))){
+
+					binding!!.xyz2!!.root.visibility= View.GONE
+					binding.showingResult.visibility= View.VISIBLE
+					binding.rvSearchResult.visibility= View.VISIBLE
+				}
 			}
 			false
 		}

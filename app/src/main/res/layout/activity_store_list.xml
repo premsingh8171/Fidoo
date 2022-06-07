@@ -358,9 +358,9 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="171dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/no_shop" />
+                android:src="@drawable/img_no_store_loc" />
 
             <TextView
                 android:id="@+id/checklocation_tv"
@@ -369,7 +369,7 @@
                 android:fontFamily="@font/proxima"
                 android:gravity="center"
                 android:src="@drawable/cart_empty"
-                android:text=""
+                android:text="Oops our bad!"
                 android:textColor="@color/black"
                 android:textSize="@dimen/margin_14dp" />
 
@@ -384,7 +384,7 @@
                 android:paddingLeft="60dp"
                 android:paddingRight="60dp"
                 android:src="@drawable/cart_empty"
-                android:text=""
+                android:text="Our services are not available at this location yet."
                 android:textColor="@color/colorTextGray"
                 android:textSize="@dimen/margin_12dp" />
 
