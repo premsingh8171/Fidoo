@@ -226,9 +226,9 @@ class SplashFragment : BaseFragment() {
 
                 if (response.body()?.is_under_maintenance.equals("1")){
 
-                        val intent = Intent(activity, MaintenanceActivity::class.java)
-                        startActivity(intent)
-
+                    val intent = Intent(activity, MaintenanceActivity::class.java)
+                    startActivity(intent)
+                    activity?.finish()
                 } else if (response.body()?.is_under_maintenance == "0"){
                 if (response.body()?.error_code == 300) {
                     updateAppDialog(response.body()!!.latest_version)
