@@ -36,6 +36,10 @@ import com.google.gson.Gson
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_new_search.*
 import kotlinx.android.synthetic.main.fragment_search_new.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.log
 
 
@@ -136,6 +140,9 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				hideKeyboard(binding.searchKeyETxtAct)
 			}
 			if (actionId== KeyEvent.KEYCODE_BACK){
+
+				binding.mainSearchll.isClickable=false
+
 				if (!(intent.getStringExtra("type").equals("Restaurent"))){
 					binding.xyz.noItemFoundll.visibility= View.GONE
 					binding!!.xyz!!.root.visibility= View.GONE
@@ -147,6 +154,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 					binding.showingResult.visibility= View.VISIBLE
 					binding.rvSearchResult.visibility= View.VISIBLE
 				}
+
 			}
 			false
 		}
@@ -207,17 +215,21 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 					//	mainList!!.clear()
 						mainList!!.addAll(s)
 
-						if (mainList.isNullOrEmpty() && !(intent.getStringExtra("type").equals("Restaurent"))){
-							binding.xyz.noItemFoundll.visibility= View.VISIBLE
-							binding!!.xyz!!.root.visibility= View.VISIBLE
-							binding.showingResult.visibility= View.GONE
-							binding.rvSearchResult.visibility= View.GONE
-						}else if (mainList.isNullOrEmpty() && (intent.getStringExtra("type").equals("Restaurent"))){
 
-							binding!!.xyz2!!.root.visibility= View.VISIBLE
-							binding.showingResult.visibility= View.GONE
-							binding.rvSearchResult.visibility= View.GONE
-						}
+							if (mainList.isNullOrEmpty() && !(intent.getStringExtra("type").equals("Restaurent"))){
+								binding.xyz.noItemFoundll.visibility= View.VISIBLE
+								binding!!.xyz!!.root.visibility= View.VISIBLE
+								binding.showingResult.visibility= View.GONE
+								binding.rvSearchResult.visibility= View.GONE
+							}else if (mainList.isNullOrEmpty() && (intent.getStringExtra("type").equals("Restaurent"))){
+
+								binding!!.xyz2!!.root.visibility= View.VISIBLE
+								binding.showingResult.visibility= View.GONE
+								binding.rvSearchResult.visibility= View.GONE
+							}
+
+
+
 
 
 						searchCategoryAdapter!!.updateData(mainList!!, isMore)
@@ -401,12 +413,13 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 				binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
 
+				binding!!.xyz2!!.root.visibility = View.GONE
+				binding.xyz.noItemFoundll.visibility = View.GONE
+				binding!!.xyz!!.root.visibility = View.GONE
+				binding.showingResult.visibility = View.VISIBLE
+				binding.rvSearchResult.visibility = View.VISIBLE
 
-				binding!!.xyz2!!.root.visibility= View.GONE
-					binding.xyz.noItemFoundll.visibility= View.GONE
-					binding!!.xyz!!.root.visibility= View.GONE
-				binding.showingResult.visibility= View.VISIBLE
-				binding.rvSearchResult.visibility= View.VISIBLE
+
 			}
 
 			@SuppressLint("NotifyDataSetChanged")
@@ -433,6 +446,14 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 					binding.showingResult.text = "Showing Results"
 					searchCategoryAdapter!!.updateData(mainList!!, isMore)
 					searchCategoryAdapter!!.notifyDataSetChanged()
+
+					if (mainList.isNullOrEmpty()) {
+						binding!!.xyz2!!.root.visibility = View.GONE
+						binding.xyz.noItemFoundll.visibility = View.GONE
+						binding!!.xyz!!.root.visibility = View.GONE
+						binding.showingResult.visibility = View.VISIBLE
+						binding.rvSearchResult.visibility = View.VISIBLE
+					}
 				}
 
 
