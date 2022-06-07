@@ -9,6 +9,7 @@ import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory.executor
@@ -134,6 +135,19 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				searchCategoryAdapter!!.updateData(mainList!!, isMore)
 				hideKeyboard(binding.searchKeyETxtAct)
 			}
+			if (actionId== KeyEvent.KEYCODE_BACK){
+				if (!(intent.getStringExtra("type").equals("Restaurent"))){
+					binding.xyz.noItemFoundll.visibility= View.GONE
+					binding!!.xyz!!.root.visibility= View.GONE
+					binding.showingResult.visibility= View.VISIBLE
+					binding.rvSearchResult.visibility= View.VISIBLE
+				}else if ((intent.getStringExtra("type").equals("Restaurent"))){
+
+					binding!!.xyz2!!.root.visibility= View.GONE
+					binding.showingResult.visibility= View.VISIBLE
+					binding.rvSearchResult.visibility= View.VISIBLE
+				}
+			}
 			false
 		}
 	}
@@ -193,12 +207,12 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 					//	mainList!!.clear()
 						mainList!!.addAll(s)
 
-						if (mainList!!.size==0 && !(intent.getStringExtra("type").equals("Restaurent"))){
+						if (mainList.isNullOrEmpty() && !(intent.getStringExtra("type").equals("Restaurent"))){
 							binding.xyz.noItemFoundll.visibility= View.VISIBLE
 							binding!!.xyz!!.root.visibility= View.VISIBLE
 							binding.showingResult.visibility= View.GONE
 							binding.rvSearchResult.visibility= View.GONE
-						}else if (mainList!!.size==0 && (intent.getStringExtra("type").equals("Restaurent"))){
+						}else if (mainList.isNullOrEmpty() && (intent.getStringExtra("type").equals("Restaurent"))){
 
 							binding!!.xyz2!!.root.visibility= View.VISIBLE
 							binding.showingResult.visibility= View.GONE
@@ -234,12 +248,12 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 						mainList!!.clear()
 						mainList!!.addAll(s)
-						if (mainList!!.size==0 && !(intent.getStringExtra("type").equals("Restaurent"))){
+						if (mainList.isNullOrEmpty() && !(intent.getStringExtra("type").equals("Restaurent"))){
 							binding.xyz.noItemFoundll.visibility= View.VISIBLE
 							binding!!.xyz!!.root.visibility= View.VISIBLE
 							binding.showingResult.visibility= View.GONE
 							binding.rvSearchResult.visibility= View.GONE
-						}else if (mainList!!.size==0 && (intent.getStringExtra("type").equals("Restaurent"))){
+						}else if (mainList.isNullOrEmpty() && (intent.getStringExtra("type").equals("Restaurent"))){
 
 							binding!!.xyz2!!.root.visibility= View.VISIBLE
 							binding.showingResult.visibility= View.GONE
