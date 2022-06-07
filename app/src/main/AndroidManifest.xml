@@ -286,6 +286,9 @@
             android:name=".profile.ui.EditProfileActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".activity.MaintenanceActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ordermodule.ui.OrderDetailsSendPackageActivity"
             android:screenOrientation="portrait" />

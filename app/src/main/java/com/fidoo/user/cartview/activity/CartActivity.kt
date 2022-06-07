@@ -1508,7 +1508,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		bottomSheetOutstandingPayment.tv_due_amount_sub_total?.text = ruppee + balanceOrder.subtotal
 		bottomSheetOutstandingPayment.tv_due_amount_delivery_charges?.text = ruppee + balanceOrder.delivery_charges_with_tax
 
-		if(balanceOrder.delivery_discount != ""){
+		if(balanceOrder.delivery_discount != "0"){
 			bottomSheetOutstandingPayment.tv_due_amount_discount?.text = "-" + ruppee + balanceOrder.delivery_discount
 			bottomSheetOutstandingPayment.tv_due_discount?.text = "Delivery Discount " + "(" + balanceOrder.delivery_coupon_name + ")"
 		 } else {
@@ -1517,12 +1517,12 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 		bottomSheetOutstandingPayment.tv_due_amount_restaurant_taxes?.text = ruppee + balanceOrder.restaurent_taxes
 
-		if (balanceOrder.cart_discount != "") {
+		if (balanceOrder.cart_discount != "0") {
 
 			bottomSheetOutstandingPayment.tv_due_amount_cart_discount?.text = "-" + ruppee + balanceOrder.cart_discount
 			bottomSheetOutstandingPayment.tv_due_cart_discount?.text = "Cart Discount " + "(" + balanceOrder.cart_coupon_name + ")"
 		} else {
-			bottomSheetOutstandingPayment.tv_cart_discount_label?.text = "-${ruppee}0"
+			bottomSheetOutstandingPayment.tv_due_amount_cart_discount?.text = "-${ruppee}0"
 		}
 
 		bottomSheetOutstandingPayment.tv_due_amount_grand_total?.text = ruppee + balanceOrder.payment_amount?.toString()
