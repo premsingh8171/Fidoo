@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -15,6 +16,7 @@ import android.view.inputmethod.EditorInfo
 import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory.executor
 import android.widget.AbsListView
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -67,6 +69,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	private var isScrolling = false
 	private var isMore = false
 	private var hit = 0
+	private var textclear= false
 	private var pagecount = 0
 	var changeLable1: Long = 2
 	var changeLable2: Long = 4
@@ -129,8 +132,50 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 		onResponse()
 
+//		binding.searchKeyETxtAct.setOnKeyListener( object :View.OnKeyListener{
+//			override fun onKey(p0: View?, p1: Int, keyEvent: KeyEvent?): Boolean {
+//				if (p1 == KeyEvent.ACTION_DOWN ) {
+//
+//
+//					textclear = true
+//
+//					if (!(intent.getStringExtra("type").equals("Restaurent"))){
+//						binding.xyz.noItemFoundll.visibility= View.GONE
+//						binding!!.xyz!!.root.visibility= View.GONE
+//						binding.showingResult.visibility= View.VISIBLE
+//						binding.rvSearchResult.visibility= View.VISIBLE
+//					}else if ((intent.getStringExtra("type").equals("Restaurent"))){
+//
+//						binding!!.xyz2!!.root.visibility= View.GONE
+//						binding.showingResult.visibility= View.VISIBLE
+//						binding.rvSearchResult.visibility= View.VISIBLE
+//					}
+//
+//
+//				}
+//				return false
+//			}
+//
+//
+//		})
+
+
+//		binding.searchKeyETxtAct.setOnKeyListener { v, i, keyEvent ->
+//
+//			if (i == KeyEvent.KEYCODE_DEL){
+//
+//			}
+//
+//
+//			true
+//		}
+
+
+
 
 		binding.searchKeyETxtAct.setOnEditorActionListener { v, actionId, event ->
+
+			Log.d("actoon","${actionId}")
 
 			if (actionId == EditorInfo.IME_ACTION_DONE-1){
 
@@ -139,23 +184,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				searchCategoryAdapter!!.updateData(mainList!!, isMore)
 				hideKeyboard(binding.searchKeyETxtAct)
 			}
-			if (actionId== KeyEvent.KEYCODE_BACK){
 
-				binding.mainSearchll.isClickable=false
-
-				if (!(intent.getStringExtra("type").equals("Restaurent"))){
-					binding.xyz.noItemFoundll.visibility= View.GONE
-					binding!!.xyz!!.root.visibility= View.GONE
-					binding.showingResult.visibility= View.VISIBLE
-					binding.rvSearchResult.visibility= View.VISIBLE
-				}else if ((intent.getStringExtra("type").equals("Restaurent"))){
-
-					binding!!.xyz2!!.root.visibility= View.GONE
-					binding.showingResult.visibility= View.VISIBLE
-					binding.rvSearchResult.visibility= View.VISIBLE
-				}
-
-			}
 			false
 		}
 	}
@@ -216,21 +245,25 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 						mainList!!.addAll(s)
 
 
-							if (mainList.isNullOrEmpty() && !(intent.getStringExtra("type").equals("Restaurent"))){
-								binding.xyz.noItemFoundll.visibility= View.VISIBLE
-								binding!!.xyz!!.root.visibility= View.VISIBLE
-								binding.showingResult.visibility= View.GONE
-								binding.rvSearchResult.visibility= View.GONE
-							}else if (mainList.isNullOrEmpty() && (intent.getStringExtra("type").equals("Restaurent"))){
+							if (mainList.isNullOrEmpty()){
 
-								binding!!.xyz2!!.root.visibility= View.VISIBLE
-								binding.showingResult.visibility= View.GONE
-								binding.rvSearchResult.visibility= View.GONE
+								   if((intent.getStringExtra("type").equals("Restaurent"))){
+
+									   binding!!.xyz2!!.root.visibility= View.VISIBLE
+									   binding.showingResult.visibility= View.GONE
+									   binding.rvSearchResult.visibility= View.GONE
+								   }else {
+									   binding.xyz.noItemFoundll.visibility = View.VISIBLE
+									   binding!!.xyz!!.root.visibility = View.VISIBLE
+									   binding.showingResult.visibility = View.GONE
+									   binding.rvSearchResult.visibility = View.GONE
+								   }
+
+							}else {
+								binding.xyz.root.visibility = View.GONE
+								binding.xyz.noItemFoundll.visibility = View.GONE
+								binding.xyz2.root.visibility = View.GONE
 							}
-
-
-
-
 
 						searchCategoryAdapter!!.updateData(mainList!!, isMore)
 						searchCategoryAdapter!!.notifyDataSetChanged()
@@ -260,16 +293,24 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 						mainList!!.clear()
 						mainList!!.addAll(s)
-						if (mainList.isNullOrEmpty() && !(intent.getStringExtra("type").equals("Restaurent"))){
-							binding.xyz.noItemFoundll.visibility= View.VISIBLE
-							binding!!.xyz!!.root.visibility= View.VISIBLE
-							binding.showingResult.visibility= View.GONE
-							binding.rvSearchResult.visibility= View.GONE
-						}else if (mainList.isNullOrEmpty() && (intent.getStringExtra("type").equals("Restaurent"))){
+						if (mainList.isNullOrEmpty()){
 
-							binding!!.xyz2!!.root.visibility= View.VISIBLE
-							binding.showingResult.visibility= View.GONE
-							binding.rvSearchResult.visibility= View.GONE
+							if((intent.getStringExtra("type").equals("Restaurent"))){
+
+								binding!!.xyz2!!.root.visibility= View.VISIBLE
+								binding.showingResult.visibility= View.GONE
+								binding.rvSearchResult.visibility= View.GONE
+							}else {
+								binding.xyz.noItemFoundll.visibility = View.VISIBLE
+								binding!!.xyz!!.root.visibility = View.VISIBLE
+								binding.showingResult.visibility = View.GONE
+								binding.rvSearchResult.visibility = View.GONE
+							}
+
+						}else {
+							binding.xyz.root.visibility = View.GONE
+							binding.xyz.noItemFoundll.visibility = View.GONE
+							binding.xyz2.root.visibility = View.GONE
 						}
 
 						if (text_count==0){
@@ -413,11 +454,38 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 				binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
 
+				if (after<count){
+					if (after%3==0) {
+						textclear = true
+					}
+				}else{
+					textclear= true
+				}
+
 				binding!!.xyz2!!.root.visibility = View.GONE
 				binding.xyz.noItemFoundll.visibility = View.GONE
 				binding!!.xyz!!.root.visibility = View.GONE
-				binding.showingResult.visibility = View.VISIBLE
-				binding.rvSearchResult.visibility = View.VISIBLE
+
+				if (!(intent.getStringExtra("type").equals("Restaurent"))) {
+
+					if (!(binding.xyz2.root.isVisible)) {
+						binding.showingResult.visibility = View.VISIBLE
+						binding.rvSearchResult.visibility = View.VISIBLE
+					}else{
+						binding!!.xyz2!!.root.visibility = View.GONE
+						binding.xyz.noItemFoundll.visibility = View.GONE
+						binding!!.xyz!!.root.visibility = View.GONE
+					}
+				}else{
+					if (!(binding.xyz.root.isVisible)) {
+						binding.showingResult.visibility = View.VISIBLE
+						binding.rvSearchResult.visibility = View.VISIBLE
+					}else{
+						binding!!.xyz2!!.root.visibility = View.GONE
+						binding.xyz.noItemFoundll.visibility = View.GONE
+						binding!!.xyz!!.root.visibility = View.GONE
+					}
+				}
 
 
 			}
@@ -428,99 +496,196 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				before: Int, count: Int
 			) {
 
-				textchane= true
-
-				search_value = s.toString()
-				//binding.editTxtAct.setTextColor(resources.getColor(R.color.black))
-				//  recentSearch!!.add(search_value!!)
-				//   Log.d("dsscountfff", "$start$count")
-
-				if (count==0){
-					binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
-				}else{
-					binding.editTxtAct.setTextColor(resources.getColor(R.color.black))
-				}
-				if (count < 1) {
-					page_count = 0
-					mainList!!.clear()
-					binding.showingResult.text = "Showing Results"
-					searchCategoryAdapter!!.updateData(mainList!!, isMore)
-					searchCategoryAdapter!!.notifyDataSetChanged()
-
-					if (mainList.isNullOrEmpty()) {
-						binding!!.xyz2!!.root.visibility = View.GONE
-						binding.xyz.noItemFoundll.visibility = View.GONE
-						binding!!.xyz!!.root.visibility = View.GONE
-						binding.showingResult.visibility = View.VISIBLE
-						binding.rvSearchResult.visibility = View.VISIBLE
-					}
-				}
 
 
+				if (textclear){
 
-				if (search_value!!.isNotEmpty()) {
-					binding.rvSearchResult!!.visibility=View.VISIBLE
-					if (sessionTwiclo!!.isLoggedIn) {
-						viewModel!!.keywordBasedSearchSuggestionsApi(
-							sessionTwiclo!!.loggedInUserDetail.accountId,
-							sessionTwiclo!!.loggedInUserDetail.accessToken,
-							search_value!!,
-							sessionTwiclo!!.userLat,
-							sessionTwiclo!!.userLng,
-							page_count.toString(), service_id!!
-						)
-					} else {
-						if (sessionTwiclo!!.userLat.isNotEmpty()) {
+
+						textchane= true
+
+						search_value = s.toString()
+						//binding.editTxtAct.setTextColor(resources.getColor(R.color.black))
+						//  recentSearch!!.add(search_value!!)
+						//   Log.d("dsscountfff", "$start$count")
+
+						if (count==0){
+							binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
+						}else{
+							binding.editTxtAct.setTextColor(resources.getColor(R.color.black))
+						}
+						if (count < 1) {
 							page_count = 0
 							mainList!!.clear()
 							binding.showingResult.text = "Showing Results"
+							searchCategoryAdapter!!.updateData(mainList!!, isMore)
+							searchCategoryAdapter!!.notifyDataSetChanged()
+
+
+						}
+
+
+
+						if (search_value!!.isNotEmpty()) {
+							binding.rvSearchResult!!.visibility=View.VISIBLE
+							if (sessionTwiclo!!.isLoggedIn) {
+								viewModel!!.keywordBasedSearchSuggestionsApi(
+									sessionTwiclo!!.loggedInUserDetail.accountId,
+									sessionTwiclo!!.loggedInUserDetail.accessToken,
+									search_value!!,
+									sessionTwiclo!!.userLat,
+									sessionTwiclo!!.userLng,
+									page_count.toString(), service_id!!
+								)
+							} else {
+								if (sessionTwiclo!!.userLat.isNotEmpty()) {
+									page_count = 0
+									mainList!!.clear()
+									binding.showingResult.text = "Showing Results"
 //                            searchCategoryAdapter!!.updateData(mainList!!, isMore)
 //                            searchCategoryAdapter!!.notifyDataSetChanged()
 //
-							viewModel!!.keywordBasedSearchSuggestionsApi(
-								"",
-								"",
-								search_value!!,
-								sessionTwiclo!!.userLat,
-								sessionTwiclo!!.userLng,
-								page_count.toString(), service_id!!
-							)
-						}
-					}
-				} else {
-					binding.rvSearchResult!!.visibility=View.GONE
+									viewModel!!.keywordBasedSearchSuggestionsApi(
+										"",
+										"",
+										search_value!!,
+										sessionTwiclo!!.userLat,
+										sessionTwiclo!!.userLng,
+										page_count.toString(), service_id!!
+									)
+								}
+							}
+						} else {
+							binding.rvSearchResult!!.visibility=View.GONE
 
-					if (sessionTwiclo!!.isLoggedIn) {
-						viewModel!!.keywordBasedSearchSuggestionsApi(
-							sessionTwiclo!!.loggedInUserDetail.accountId,
-							sessionTwiclo!!.loggedInUserDetail.accessToken,
-							search_value!!,
-							sessionTwiclo!!.userLat,
-							sessionTwiclo!!.userLng,
-							page_count.toString(), service_id!!
-						)
-					} else {
-						if (sessionTwiclo!!.userLat.isNotEmpty()) {
-							page_count = 0
-							mainList!!.clear()
-							binding.showingResult.text = "Showing Results"
+							if (sessionTwiclo!!.isLoggedIn) {
+								viewModel!!.keywordBasedSearchSuggestionsApi(
+									sessionTwiclo!!.loggedInUserDetail.accountId,
+									sessionTwiclo!!.loggedInUserDetail.accessToken,
+									search_value!!,
+									sessionTwiclo!!.userLat,
+									sessionTwiclo!!.userLng,
+									page_count.toString(), service_id!!
+								)
+							} else {
+								if (sessionTwiclo!!.userLat.isNotEmpty()) {
+									page_count = 0
+									mainList!!.clear()
+									binding.showingResult.text = "Showing Results"
 //                            searchCategoryAdapter!!.updateData(mainList!!, isMore)
 //                            searchCategoryAdapter!!.notifyDataSetChanged()
 //
-							viewModel!!.keywordBasedSearchSuggestionsApi(
-								"",
-								"",
-								search_value!!,
-								sessionTwiclo!!.userLat,
-								sessionTwiclo!!.userLng,
-								page_count.toString(), service_id!!
-							)
-						}
+									viewModel!!.keywordBasedSearchSuggestionsApi(
+										"",
+										"",
+										search_value!!,
+										sessionTwiclo!!.userLat,
+										sessionTwiclo!!.userLng,
+										page_count.toString(), service_id!!
+									)
+								}
 
-					}
+							}
+						}
+						
+						textclear=false
+
+						Log.d("search_value___", search_value.toString())
+
+
+
+
 				}
 
-				Log.d("search_value___", search_value.toString())
+//				else if () {
+//
+//					textchane = true
+//
+//					search_value = s.toString()
+//					//binding.editTxtAct.setTextColor(resources.getColor(R.color.black))
+//					//  recentSearch!!.add(search_value!!)
+//					//   Log.d("dsscountfff", "$start$count")
+//
+//					if (count == 0) {
+//						binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
+//					} else {
+//						binding.editTxtAct.setTextColor(resources.getColor(R.color.black))
+//					}
+//					if (count < 1) {
+//						page_count = 0
+//						mainList!!.clear()
+//						binding.showingResult.text = "Showing Results"
+//						searchCategoryAdapter!!.updateData(mainList!!, isMore)
+//						searchCategoryAdapter!!.notifyDataSetChanged()
+//
+//
+//					}
+//
+//
+//
+//					if (search_value!!.isNotEmpty()) {
+//						binding.rvSearchResult!!.visibility = View.VISIBLE
+//						if (sessionTwiclo!!.isLoggedIn) {
+//							viewModel!!.keywordBasedSearchSuggestionsApi(
+//								sessionTwiclo!!.loggedInUserDetail.accountId,
+//								sessionTwiclo!!.loggedInUserDetail.accessToken,
+//								search_value!!,
+//								sessionTwiclo!!.userLat,
+//								sessionTwiclo!!.userLng,
+//								page_count.toString(), service_id!!
+//							)
+//						} else {
+//							if (sessionTwiclo!!.userLat.isNotEmpty()) {
+//								page_count = 0
+//								mainList!!.clear()
+//								binding.showingResult.text = "Showing Results"
+////                            searchCategoryAdapter!!.updateData(mainList!!, isMore)
+////                            searchCategoryAdapter!!.notifyDataSetChanged()
+////
+//								viewModel!!.keywordBasedSearchSuggestionsApi(
+//									"",
+//									"",
+//									search_value!!,
+//									sessionTwiclo!!.userLat,
+//									sessionTwiclo!!.userLng,
+//									page_count.toString(), service_id!!
+//								)
+//							}
+//						}
+//					} else {
+//						binding.rvSearchResult!!.visibility = View.GONE
+//
+//						if (sessionTwiclo!!.isLoggedIn) {
+//							viewModel!!.keywordBasedSearchSuggestionsApi(
+//								sessionTwiclo!!.loggedInUserDetail.accountId,
+//								sessionTwiclo!!.loggedInUserDetail.accessToken,
+//								search_value!!,
+//								sessionTwiclo!!.userLat,
+//								sessionTwiclo!!.userLng,
+//								page_count.toString(), service_id!!
+//							)
+//						} else {
+//							if (sessionTwiclo!!.userLat.isNotEmpty()) {
+//								page_count = 0
+//								mainList!!.clear()
+//								binding.showingResult.text = "Showing Results"
+////                            searchCategoryAdapter!!.updateData(mainList!!, isMore)
+////                            searchCategoryAdapter!!.notifyDataSetChanged()
+////
+//								viewModel!!.keywordBasedSearchSuggestionsApi(
+//									"",
+//									"",
+//									search_value!!,
+//									sessionTwiclo!!.userLat,
+//									sessionTwiclo!!.userLng,
+//									page_count.toString(), service_id!!
+//								)
+//							}
+//
+//						}
+//					}
+//
+//					Log.d("search_value___", search_value.toString())
+//				}
 
 			}
 		})
