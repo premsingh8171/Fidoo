@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.item_search_child.view.*
 class SearchCategoryStoreChildAdapter(
     var context: Context,
     var list: ArrayList<Product>,
+    var click: CategoryProductItemClick
 ) : RecyclerView.Adapter<SearchCategoryStoreChildAdapter.ViewHolder>() {
     var index: Int? = -1
     var isMore = false
@@ -30,6 +31,9 @@ class SearchCategoryStoreChildAdapter(
 
         holder.itemView.categoryTypeTxtChild.text = list.get(position).product_name
         holder.itemView.productPriceTxt.text = "₹ " + list.get(position).offer_price
+        holder.itemView.add_item_lay_child.setOnClickListener {
+            click.onProductItemClick(position, list[position], "add", 1)
+        }
 
 
 
@@ -84,8 +88,13 @@ class SearchCategoryStoreChildAdapter(
         return list.size
     }
 
-    interface CategoryItemClick {
-        fun onItemClick(pos: Int, model: Store)
+    interface CategoryProductItemClick {
+        fun onProductItemClick(
+            pos: Int,
+           model: Product,
+           type: String,
+           count:Int
+        )
     }
 
 //    fun updateData(listData_: ArrayList<Store>, isMore1: Boolean) {

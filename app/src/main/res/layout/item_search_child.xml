@@ -77,6 +77,94 @@
                 app:layout_constraintStart_toEndOf="@+id/vegOrNonVeg"
                 app:layout_constraintTop_toBottomOf="@+id/categoryTypeTxtChild" />
 
+            <LinearLayout
+                android:id="@+id/add_item_lay_child"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_weight=".01"
+                android:background="@drawable/black_rounded_solid"
+                android:gravity="end"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/dimen_5dp"
+                    android:layout_marginEnd="@dimen/dimen_7dp"
+                    android:fontFamily="@font/proxima"
+                    android:padding="@dimen/margin_5dp"
+                    android:text="Add To Cart"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_12sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/add_remove_lay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_10dp"
+                android:layout_weight=".01"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/btn_minus"
+                    android:layout_width="@dimen/margin_24dp"
+                    android:layout_height="@dimen/margin_24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_2dp"
+                    android:background="@drawable/active_dot"
+                    android:contentDescription="@string/todo"
+                    android:padding="@dimen/text_size_7sp"
+                    android:src="@drawable/minus_sign"
+                    app:tint="@color/white" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_count"
+                    android:layout_width="@dimen/margin_24dp"
+                    android:layout_height="@dimen/margin_24dp"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/proxima"
+                    android:gravity="center"
+                    android:text="@string/_0"
+                    android:textSize="@dimen/text_size_14sp" />
+
+                <ImageView
+                    android:id="@+id/btn_plus"
+                    android:layout_width="@dimen/margin_24dp"
+                    android:layout_height="@dimen/margin_24dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/active_dot"
+                    android:contentDescription="@string/todo"
+                    android:padding="@dimen/text_size_7sp"
+                    android:src="@drawable/ic_add"
+                    app:tint="@color/white" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_stock_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/proxima"
+                android:text="@string/out_of_stock"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

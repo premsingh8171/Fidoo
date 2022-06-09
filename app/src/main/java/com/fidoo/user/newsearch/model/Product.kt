@@ -6,5 +6,8 @@ data class Product(
     val offer_price: String,
     val product_id: String,
     val product_image: String,
-    val product_name: String
+    val product_name: String,
+    val is_customize : String,
+    val in_stock : String,
+    val active : String
 )

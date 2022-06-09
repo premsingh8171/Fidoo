@@ -1,5 +1,6 @@
 package com.fidoo.user.newsearch.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
+import com.fidoo.user.newsearch.model.Product
 import com.fidoo.user.newsearch.model.Store
 import kotlinx.android.synthetic.main.item_search_parent.view.*
 
@@ -28,7 +30,7 @@ class SearchCategoryStoreAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
 
         holder.itemView.categoryTypeTxt.text = list.get(position)?.store_name
         holder.itemView.distanceTxt.text =
@@ -72,7 +74,17 @@ class SearchCategoryStoreAdapter(
 
         try {
             searchCategoryStoreChildAdapter =
-                SearchCategoryStoreChildAdapter(context, list[position].products as ArrayList)
+                SearchCategoryStoreChildAdapter(context, list[position].products as ArrayList, object:SearchCategoryStoreChildAdapter.CategoryProductItemClick{
+                    override fun onProductItemClick
+                                (pos: Int,
+                                model: Product,
+                                type: String,
+                                count:Int
+                    ) {
+                        categoryItemClick.onProductItemClick(position, list[position],pos,model,type,count)
+                    }
+
+                })
             holder.itemView.searchStoreChildRv.adapter = searchCategoryStoreChildAdapter
 
         } catch (e: Exception) {
@@ -105,6 +117,14 @@ class SearchCategoryStoreAdapter(
 
     interface CategoryItemClick {
         fun onItemClick(pos: Int, model: Store)
+        fun onProductItemClick(
+            mainPos: Int,
+            modelStore: Store,
+            pos: Int,
+            model: Product,
+            type: String,
+            count:Int
+        )
     }
 
     fun updateData(listData_: ArrayList<Store>, isMore1: Boolean) {

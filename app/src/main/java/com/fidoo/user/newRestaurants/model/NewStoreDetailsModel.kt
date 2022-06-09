@@ -1,5 +1,7 @@
 package com.fidoo.user.newRestaurants.model
 
+import com.fidoo.user.cartview.model.CartModel
+
 data class NewStoreDetailsModel(
     val accessToken: String,
     val accountId: String,
@@ -21,5 +23,6 @@ data class NewStoreDetailsModel(
     val store_latitude: String,
     val store_longitude: String,
     val store_name: String,
-    val subcategory: List<Subcategory>
+    val subcategory: List<Subcategory>,
+    val cart: List<CartModel.Cart>
 )
