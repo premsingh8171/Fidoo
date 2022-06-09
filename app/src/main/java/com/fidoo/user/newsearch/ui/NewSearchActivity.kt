@@ -386,8 +386,6 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 				binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
-
-
 				binding!!.xyz2!!.root.visibility= View.GONE
 					binding.xyz.noItemFoundll.visibility= View.GONE
 					binding!!.xyz!!.root.visibility= View.GONE

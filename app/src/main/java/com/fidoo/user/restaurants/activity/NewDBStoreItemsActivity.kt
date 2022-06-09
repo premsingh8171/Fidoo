@@ -54,9 +54,7 @@ import com.fidoo.user.newRestaurants.model.NewStoreDetailsModel
 import com.fidoo.user.newRestaurants.model.Product
 import com.fidoo.user.newRestaurants.model.Subcategory
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
-import com.fidoo.user.restaurants.adapter.CategoryHeaderAdapter
-import com.fidoo.user.restaurants.adapter.NewDbRestaurantCategoryAdapter
-import com.fidoo.user.restaurants.adapter.StoreCustomItemsAdapter
+import com.fidoo.user.restaurants.adapter.*
 import com.fidoo.user.restaurants.adapter.StoreItemsAdapter
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.listener.CustomCartPlusMinusClick
@@ -1467,6 +1465,14 @@ import kotlin.collections.LinkedHashSet
 
             storeItemsRecyclerview.adapter = storeItemsAdapter
             storeItemsRecyclerview.layoutManager = manager
+            if (!productList_.isNullOrEmpty()) {
+                storeItemsRecyclerview.addItemDecoration(
+                    RecyclerSectionItemDeco(
+                        storeItemsRecyclerview,
+                        storeItemsAdapter as StoreItemsAdapter
+                    )
+                )
+            }
             storeItemsRecyclerview?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
