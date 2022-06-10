@@ -73,6 +73,8 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
     private var mModelDataTemp: CustomizeProductResponseModel? = null
     lateinit var storeID: String
 
+    var searchStoreId: String? = ""
+
     private var mMixpanel: MixpanelAPI? = null
     var distanceViewModel: TrackViewModel? = null
     var viewmodelusertrack: UserTrackerViewModel? = null
@@ -243,7 +245,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
 
             Log.d("fdgdgd", intent.getStringExtra("storeId").toString() + "\n" + SessionTwiclo(this).storeId)
 
-            if (SessionTwiclo(this).storeId.equals(intent.getStringExtra("storeId")) || SessionTwiclo(this).storeId.equals("")) {
+            if (SessionTwiclo(this).storeId.equals(searchStoreId) || SessionTwiclo(this).storeId.equals("")) {
                 //  showIOSProgress()
                 SessionTwiclo(this).storeId = intent.getStringExtra("storeId")
                 SessionTwiclo(this).serviceId = MainActivity.service_idStr
@@ -623,13 +625,14 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                 {
                     //addDishFromCart = 1
                     checkProductInRes = 1
+                    searchStoreId = modelStore.store_id
                     store_Name = modelStore.store_name
                     cusins_type = modelStore.cuisines.joinToString(separator = ", ")
                     checkSearchDish = 1
                     Log.d("onPrdItemClick__", "$mainPos--${Gson().toJson(modelStore)}--$pos--${Gson().toJson(model)}--$type-$count")
                     cus_itemProductId = model.product_id
                     Log.d("count__addID",model.product_id)
-                    if (model.is_customize.equals("1")){
+                    if (model.is_customize == "1"){
                         customIdsListTemp?.clear()
                         if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
                             behavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -648,11 +651,12 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                             SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken,model.product_id
                         )
                     }
-                    if (model.is_customize.equals("0")){
+
+                    if (model.is_customize == "0"){
                         if (SessionTwiclo(this@NewSearchStoreListingActivity).storeId.equals(modelStore.store_id)
                             ||SessionTwiclo(this@NewSearchStoreListingActivity).storeId.equals("")) {
 
-                            //MainActivity.addCartTempList!!.clear()
+                            MainActivity.addCartTempList!!.clear()
                             val addCartInputModel = AddCartInputModel()
                             addCartInputModel.productId = model.product_id
                             addCartInputModel.quantity = count.toString()
@@ -667,7 +671,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                                 MainActivity.addCartTempList!!,
                                 cartId
                             )
-                            //MainActivity.tempProductList!!.clear()
+                            MainActivity.tempProductList!!.clear()
 
                             updateProductS(count, model.product_id)
 

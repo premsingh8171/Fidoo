@@ -41,6 +41,7 @@ import com.fidoo.user.activity.MyApplication
 import com.fidoo.user.activity.MyApplication.Companion.applicationContext
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.activity.CartActivity
+import com.fidoo.user.cartview.model.CartModel
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.model.AddCartInputModel
@@ -54,10 +55,7 @@ import com.fidoo.user.newRestaurants.model.NewStoreDetailsModel
 import com.fidoo.user.newRestaurants.model.Product
 import com.fidoo.user.newRestaurants.model.Subcategory
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
-import com.fidoo.user.restaurants.adapter.CategoryHeaderAdapter
-import com.fidoo.user.restaurants.adapter.NewDbRestaurantCategoryAdapter
-import com.fidoo.user.restaurants.adapter.StoreCustomItemsAdapter
-import com.fidoo.user.restaurants.adapter.StoreItemsAdapter
+import com.fidoo.user.restaurants.adapter.*
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.listener.CustomCartPlusMinusClick
 import com.fidoo.user.restaurants.listener.search_fragListener
@@ -116,6 +114,7 @@ import kotlinx.android.synthetic.main.activity_store_items.tv_cuisnes
 import kotlinx.android.synthetic.main.activity_store_items.tv_deliveryTime
 import kotlinx.android.synthetic.main.activity_store_items.tv_distance
 import kotlinx.android.synthetic.main.activity_store_items.tv_location
+import kotlinx.android.synthetic.main.activity_store_items.addedItemsRecyclerViewFromSearch
 import kotlinx.android.synthetic.main.activity_store_items.tv_store_name
 import kotlinx.android.synthetic.main.activity_store_items.veg_switch_img
 import kotlinx.android.synthetic.main.no_internet_connection.*
@@ -137,6 +136,8 @@ import kotlin.collections.LinkedHashSet
     AdapterCartAddRemoveClick, search_fragListener {
     private var categoryy: ArrayList<CustomListModel>? = null
     private var mainlist: ArrayList<StoreItemProductsEntity>? = null
+     private var addedproductslist: List<CartModel.Cart>? = null
+
     private var veg_item_list: ArrayList<StoreItemProductsEntity>? = null
     private var productListFilter: ArrayList<StoreItemProductsEntity>? = null
     private var filterdSearch_list: ArrayList<StoreItemProductsEntity>? = null
@@ -187,6 +188,7 @@ import kotlin.collections.LinkedHashSet
         var storeIDCheckOnCart: String = ""
         //for bottom view of restaurant license
         var fssai: String? = ""
+        var from_search: String? = ""
         var restaurantName: String? = ""
         var restaurantAddress: String? = ""
     }
@@ -194,6 +196,7 @@ import kotlin.collections.LinkedHashSet
 
 
     //for pagination
+    var product_id: String? = ""
     var totalItem: Int? = 800
     var table_count: Int? = 0
     private var manager: GridLayoutManager? = null
@@ -210,6 +213,7 @@ import kotlin.collections.LinkedHashSet
     var filterActive: Int = 0// for handle filter api call response
     var cart_count: Int = 0
     lateinit var storeItemsAdapter: StoreItemsAdapter
+    lateinit var storeItemsAdapter2: StoreItemAdapter2
     lateinit var restaurantCategoryAdapter: NewDbRestaurantCategoryAdapter
     lateinit var categoryHeaderAdapter: CategoryHeaderAdapter
 
@@ -250,6 +254,7 @@ import kotlin.collections.LinkedHashSet
         customNamesList = ArrayList()
         customIdsListTemp = ArrayList()
         mainlist = ArrayList()
+        addedproductslist = ArrayList()
         productListFilter = ArrayList()
         storeID = intent.getStringExtra("storeId")!!
         storeIDCheckOnCart = storeID
@@ -273,6 +278,7 @@ import kotlin.collections.LinkedHashSet
 
         }.start()
 
+        rvAddedStoreItemlisting(addedproductslist!! as ArrayList<CartModel.Cart> /* = java.util.ArrayList<com.fidoo.user.cartview.model.CartModel.Cart> */, 1)
         rvStoreItemlisting(mainlist!!)
 
         getRoomData()
@@ -770,6 +776,7 @@ import kotlin.collections.LinkedHashSet
 
 
 
+            addedproductslist = storeData.cart
 
 
           //  dismissIOSProgress()
@@ -1244,7 +1251,163 @@ import kotlin.collections.LinkedHashSet
 
     }
 
-    private fun visibilityView() {
+     private fun rvAddedStoreItemlisting(addedproductslist: ArrayList<CartModel.Cart>, is_product_added: Int) {
+         val rvAddedFromSearch = addedItemsRecyclerViewFromSearch
+         if (addedproductslist.isNotEmpty()){
+             rvAddedFromSearch.visibility = View.VISIBLE
+             storeItemsAdapter2 = StoreItemAdapter2(
+                 this@NewDBStoreItemsActivity,
+                 addedproductslist,
+                 object:StoreItemAdapter2.AdapterCartAddRemoveClick2{
+                     override fun onAddItemClick(
+                         productId: String?,
+                         items: String?,
+                         offerPrice: String?,
+                         isCustomize: String?,
+                         prodcustCustomizeId: String?,
+                         cart_id: String?,
+                         cart_quan: String?
+                     )
+                     {
+
+                         product_id = productId
+                         Log.d("onAddItemClick__", "$product_id$items$offerPrice$isCustomize$prodcustCustomizeId$cart_id$cart_quan")
+                         if (!isNetworkConnected) {
+                             showToast(resources.getString(R.string.provide_internet))
+                         }
+                         else {
+                             if (!items.equals("") || isCustomize.equals("1")) {
+                                 tempOfferPrice = offerPrice
+                                 tempProductId = productId
+                                 val builder = AlertDialog.Builder(this@NewDBStoreItemsActivity)
+                                 builder.setTitle("Your previous customization")
+                                 builder.setMessage(items)
+                                 // builder.setIcon(android.R.drawable.ic_dialog_alert)
+                                 builder.setPositiveButton("I'LL CHOOSE") { dialogInterface, which ->
+                                     if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                                         behavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+                                     } else {
+                                         behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+                                     }
+
+                                     //  tempProductId = productId
+                                     // showIOSProgress()
+                                     customIdsList!!.clear()
+
+                                     if (productId != null) {
+                                         viewmodel?.customizeProductApi(
+                                             SessionTwiclo(this@NewDBStoreItemsActivity).loggedInUserDetail.accountId,
+                                             SessionTwiclo(this@NewDBStoreItemsActivity).loggedInUserDetail.accessToken,
+                                             productId
+                                         )
+                                     }
+                                 }
+
+                                 builder.setNegativeButton("REPEAT") { _, _ ->
+                                     //showIOSProgress()
+                                     updateProductS(cart_quan!!.toInt(), productId!!)
+                                     updateProductRestaurant(cart_quan!!.toInt(), productId!!)
+
+                                     viewmodel?.addRemoveCartDetails(
+                                         SessionTwiclo(this@NewDBStoreItemsActivity).loggedInUserDetail.accountId,
+                                         SessionTwiclo(this@NewDBStoreItemsActivity).loggedInUserDetail.accessToken,
+                                         productId,
+                                         "add",
+                                         isCustomize!!,
+                                         prodcustCustomizeId!!,
+                                         cart_id!!,
+                                         customIdsList!!
+                                     )
+                                 }
+
+                                 val alertDialog: AlertDialog = builder.create()
+                                 alertDialog.setCancelable(true)
+                                 alertDialog.show()
+                             }
+                             else {
+                                 //showIOSProgress()
+                                 updateProductS(cart_quan!!.toInt(), productId!!)
+                                 updateProductRestaurant(cart_quan!!.toInt(), productId!!)
+//                                    GroceryItemsActivity.onresumeHandle = 1
+//                                    GroceryNewUiActivity.product_valueUpdate = 1
+
+                                 viewmodel?.addRemoveCartDetails(
+                                     SessionTwiclo(this@NewDBStoreItemsActivity).loggedInUserDetail.accountId,
+                                     SessionTwiclo(this@NewDBStoreItemsActivity).loggedInUserDetail.accessToken,
+                                     productId,
+                                     "add",
+                                     isCustomize!!,
+                                     prodcustCustomizeId!!,
+                                     cart_id!!,
+                                     customIdsList!!
+                                 )
+                             }
+                         }
+                     }
+
+                     override fun onRemoveItemClick(
+                         productId: String?,
+                         quantity: String?,
+                         isCustomize: String?,
+                         prodcustCustomizeId: String?,
+                         cart_id: String?,
+                         cart_quan: String?
+                     )
+                     {
+                         product_id = productId
+                         if (!isNetworkConnected) {
+                             showToast(resources.getString(R.string.provide_internet))
+
+                         } else {
+                             Log.d("isCustomize__", isCustomize!!)
+                             // showIOSProgress()
+                             updateProductS(cart_quan!!.toInt(), productId!!)
+                             if (!isCustomize.equals("1")) {
+                                 updateProductRestaurant(cart_quan.toInt(),productId)
+                             }
+//                                GroceryItemsActivity.onresumeHandle = 1
+//                                GroceryNewUiActivity.product_valueUpdate = 1
+
+                             viewmodel?.addRemoveCartDetails(
+                                 SessionTwiclo(this@NewDBStoreItemsActivity).loggedInUserDetail.accountId,
+                                 SessionTwiclo(this@NewDBStoreItemsActivity).loggedInUserDetail.accessToken,
+                                 productId,
+                                 "remove",
+                                 isCustomize!!,
+                                 prodcustCustomizeId!!,
+                                 cart_id!!,
+                                 customIdsList!!
+                             )
+                         }
+                     }
+
+                 },
+             this)
+
+             rvAddedFromSearch.adapter = storeItemsAdapter2
+         }
+     }
+
+     private fun updateProductRestaurant(count: Int, productId: String) {
+         Thread {
+             try {
+                 restaurantProductsDatabase = Room.databaseBuilder(
+                     applicationContext,
+                     RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
+                 )
+                     .fallbackToDestructiveMigration()
+                     .build()
+                 restaurantProductsDatabase!!.resProductsDaoAccess()!!
+                     .updateProducts(count.toInt(), productId!!)
+             } catch (e: Exception) {
+                 e.printStackTrace()
+             }
+
+         }.start()
+     }
+
+
+     private fun visibilityView() {
         store_details_lay.visibility = View.VISIBLE
         res_header_constL.visibility = View.VISIBLE
         search_visibility_card.visibility = View.GONE

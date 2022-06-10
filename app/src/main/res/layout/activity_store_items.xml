@@ -93,6 +93,13 @@
             </com.facebook.shimmer.ShimmerFrameLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/addedItemsRecyclerViewFromSearch"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_20dp"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/storeItemsRecyclerview"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/margin_20dp"

@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/searchAddDish"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:elevation="40dp"
+    app:cardElevation="@dimen/margin_40dp"
+    android:background="@color/lightGray"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/productImage"
+                android:visibility="visible"
+                android:layout_width="@dimen/margin_80dp"
+                android:layout_height="@dimen/margin_80dp"
+                android:background="@color/white"
+                android:scaleType="fitXY"
+                android:layout_marginStart="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="@dimen/margin_10"
+                android:fontFamily="@font/proxima"
+                android:text=""
+                android:textColor="@color/colorTitle"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/productImage"
+                app:layout_constraintStart_toEndOf="@+id/productImage"
+                app:layout_constraintTop_toTopOf="@+id/productImage"
+                app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/productPrice"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:fontFamily="@font/proxima"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/colorTitle"
+                android:textSize="14sp"
+                android:textStyle="bold"
+
+                app:layout_constraintStart_toStartOf="@+id/productName"
+                app:layout_constraintTop_toBottomOf="@+id/productName" />
+
+            <TextView
+                android:id="@+id/product_desc_txt"
+
+                android:layout_marginStart="@dimen/margin_10"
+                android:ellipsize="end"
+                android:paddingEnd="@dimen/margin_50dp"
+                android:fontFamily="@font/proxima"
+                android:layout_width="0dp"
+                android:layout_marginTop="2dp"
+                android:layout_height="wrap_content"
+                android:maxLines="4"
+                android:text=""
+                android:textSize="12sp"
+
+                app:layout_constraintRight_toLeftOf="@+id/addItemLay"
+                app:layout_constraintTop_toBottomOf="@+id/productPrice"
+                app:layout_constraintLeft_toRightOf="@+id/productImage"/>
+
+
+            <ImageButton
+                android:visibility="gone"
+                android:id="@+id/dltBtn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_baseline_delete_24"
+                android:backgroundTint="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="TODO"
+                tools:ignore="ContentDescription" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_marginTop="@dimen/margin_20dp"
+                android:id="@+id/addItemLay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_marginEnd="@dimen/margin_10"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/add_item_lay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/dimen_5dp"
+                    android:layout_weight=".01"
+                    android:background="@drawable/black_rounded_solid"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/btn_plus_add_item"
+                        android:layout_width="@dimen/margin_10"
+                        android:layout_height="@dimen/margin_12dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:src="@drawable/ic_add"
+                        app:tint="@color/colorPrimary" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_5dp"
+                        android:layout_marginEnd="@dimen/dimen_5dp"
+                        android:padding="@dimen/margin_5dp"
+                        android:text="Add "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/margin_12dp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/add_remove_lay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+                    android:layout_marginLeft="@dimen/margin_10dp"
+                    android:layout_weight=".01"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/btn_minus"
+                        android:layout_width="@dimen/margin_24dp"
+                        android:layout_height="@dimen/margin_24dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/margin_10dp"
+                        android:background="@drawable/active_dot"
+                        android:padding="@dimen/text_size_7sp"
+                        android:src="@drawable/minus_sign"
+                        app:tint="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:fontFamily="@font/proxima"
+                        android:id="@+id/tv_count"
+                        android:layout_width="@dimen/margin_24dp"
+                        android:layout_height="@dimen/margin_24dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                    <ImageView
+                        android:id="@+id/btn_plus"
+                        android:layout_width="@dimen/margin_24dp"
+                        android:layout_height="@dimen/margin_24dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/margin_15dp"
+                        android:background="@drawable/active_dot"
+                        android:padding="@dimen/text_size_7sp"
+                        android:src="@drawable/ic_add"
+                        app:tint="@color/white" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:fontFamily="@font/proxima"
+                    android:id="@+id/tv_stock_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="Out of stock"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone"/>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--            <TextView-->
+            <!--                android:layout_marginBottom="@dimen/margin_20dp"-->
+            <!--                android:layout_marginRight="@dimen/margin_20dp"-->
+            <!--                app:layout_constraintRight_toRightOf="parent"-->
+            <!--                android:id="@+id/customitemName"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="10dp"-->
+            <!--                android:fontFamily="@font/proxima"-->
+            <!--                android:text="customize items"-->
+            <!--                android:textColor="@color/black"-->
+            <!--                android:textStyle="bold"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/addItemLay" />-->
+            <TextView
+                android:id="@+id/iscustomizedOrnot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:fontFamily="@font/proxima"
+                android:text="@string/customizable"
+                android:textSize="14sp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="5dp"
+
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addItemLay" />
+            <!--            <TextView-->
+            <!--                android:fontFamily="@font/proxima"-->
+            <!--                android:layout_width="250dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="5dp"-->
+            <!--                android:textColor="@color/txt_color"-->
+            <!--                android:textSize="@dimen/dimen_14dp"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/productName"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/productName" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
