@@ -19,6 +19,7 @@ import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.activity.CartActivity
+import com.fidoo.user.cartview.model.CartModel
 import com.fidoo.user.cartview.viewmodel.CartViewModel
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.session.SessionTwiclo
@@ -72,6 +73,8 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
     private var productListFilter: ArrayList<StoreItemProductsEntity>? = null
     private var mModelDataTemp: CustomizeProductResponseModel? = null
     lateinit var storeID: String
+    var searchStoreModel: Store? = null
+    var localSearchList: List<CartModel.Cart>? = null
 
     var searchStoreId: String? = ""
 
@@ -138,6 +141,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
         manager = GridLayoutManager(this, 1)
         mainList = ArrayList()
         latestList = ArrayList()
+        localSearchList = ArrayList()
 
         try {
             search_value = intent.getStringExtra("search_value").toString()
@@ -257,14 +261,25 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                     0,
                     lastCustomized_str
                 )
+
+                viewmodel!!.addToCartApi(
+                    SessionTwiclo(this).loggedInUserDetail.accountId,
+                    SessionTwiclo(this).loggedInUserDetail.accessToken,
+                    MainActivity.addCartTempList!!,
+                    cartId
+                )
+                Log.d("cust_sec_test", "${SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId}"+
+                        " ${SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken} "+
+                        "${Gson().toJson(MainActivity.addCartTempList!!)} $cartId")
+
                 AppUtils.startActivityRightToLeft(
                     this@NewSearchStoreListingActivity,
 //                         Intent(this@NewSearchStoreListingActivity, StoreItemsActivity::class.java)
 //                          Intent(this@NewSearchStoreListingActivity, NewStoreItemsActivity::class.java)
                     Intent(this@NewSearchStoreListingActivity, NewDBStoreItemsActivity::class.java)
-                        .putExtra("storeId", storeID)
+                        .putExtra("storeId", searchStoreId)
                         .putExtra("search_value", search_value)
-                        .putExtra("storeName", store_Name)
+                        .putExtra("storeName", searchStoreModel!!.store_id)
                         .putExtra("store_location", store_location)
                         .putExtra("delivery_time", delivery_time)
                         .putExtra("cuisine_types",cusins_type)
@@ -272,13 +287,9 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                         .putExtra("coupon_desc", "")
                         .putExtra("distance",distance)
                         .putExtra("product_id", tempProductId)
+                        .putExtra("from_search", "1")
                 )
-                viewmodel!!.addToCartApi(
-                    SessionTwiclo(this).loggedInUserDetail.accountId,
-                    SessionTwiclo(this).loggedInUserDetail.accessToken,
-                    MainActivity.addCartTempList!!,
-                    cartId
-                )
+
                 cartitemView_LLstore.visibility = View.VISIBLE
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
@@ -610,6 +621,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                             .putExtra("cuisine_types", model.cuisines.joinToString(separator = ", "))
                             .putExtra("coupon_desc", "")
                             .putExtra("distance", model.distance)
+                            .putExtra("from_search", "1")
                     )
                 }
 
@@ -626,6 +638,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                     //addDishFromCart = 1
                     checkProductInRes = 1
                     searchStoreId = modelStore.store_id
+                    searchStoreModel = modelStore
                     store_Name = modelStore.store_name
                     cusins_type = modelStore.cuisines.joinToString(separator = ", ")
                     checkSearchDish = 1
@@ -650,9 +663,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                             SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId,
                             SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken,model.product_id
                         )
-                    }
-
-                    if (model.is_customize == "0"){
+                    } else if (model.is_customize == "0"){
                         if (SessionTwiclo(this@NewSearchStoreListingActivity).storeId.equals(modelStore.store_id)
                             ||SessionTwiclo(this@NewSearchStoreListingActivity).storeId.equals("")) {
 
@@ -671,6 +682,9 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                                 MainActivity.addCartTempList!!,
                                 cartId
                             )
+                            Log.d("sec_test", "${SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId}"+
+                                    " ${SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken} "+
+                                    "${Gson().toJson(MainActivity.addCartTempList!!)} $cartId")
                             MainActivity.tempProductList!!.clear()
 
                             updateProductS(count, model.product_id)
@@ -691,6 +705,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                                     .putExtra("is_custom", model.is_customize)
                                     .putExtra("distance", modelStore.distance)
                                     .putExtra("product_id", model.product_id)
+                                    .putExtra("from_search", "1")
                             )
                             SessionTwiclo(this@NewSearchStoreListingActivity).storeId = modelStore.store_id
                         }
@@ -719,6 +734,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                                         .putExtra("is_custom",model.is_customize)
                                         .putExtra("distance", modelStore.distance)
                                         .putExtra("product_id", model.product_id)
+                                        .putExtra("from_search", "1")
                                 )
                             }
                             builder.setNegativeButton("No") { _, _ -> }

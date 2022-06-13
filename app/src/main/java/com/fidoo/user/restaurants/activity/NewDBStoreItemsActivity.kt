@@ -288,6 +288,7 @@ import kotlin.collections.LinkedHashSet
 
         tv_location.text =intent.getStringExtra("store_location").toString().replace(" ,", ", ")
 
+
 //
         cartitemView_LLstore.setOnClickListener {
             if (SessionTwiclo(this).isLoggedIn) {
@@ -776,6 +777,7 @@ import kotlin.collections.LinkedHashSet
 
 
             addedproductslist = storeData.cart
+            Log.d("cart_test", "${storeData.cart}")
             rvAddedStoreItemlisting(addedproductslist!! as ArrayList<CartModel.Cart> /* = java.util.ArrayList<com.fidoo.user.cartview.model.CartModel.Cart> */, 1)
 
 
@@ -1254,7 +1256,7 @@ import kotlin.collections.LinkedHashSet
 
      private fun rvAddedStoreItemlisting(addedproductslist: ArrayList<CartModel.Cart>, is_product_added: Int) {
          val rvAddedFromSearch = addedItemsRecyclerViewFromSearch
-         if (addedproductslist.isNotEmpty()){
+         if (addedproductslist.isNotEmpty() && intent.getStringExtra("from_search") == "1") {
              rvAddedFromSearch.layoutManager = LinearLayoutManager(this)
              rvAddedFromSearch.visibility = View.VISIBLE
              storeItemsAdapter2 = StoreItemAdapter2(
