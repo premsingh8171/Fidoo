@@ -1,0 +1,55 @@
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_01-06-2022_13_06_[Default_Changelist]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_01-06-2022_13_06_[Default_Changelist]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Checkout_at_01-06-2022_13_06_[Default_Changelist]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_01-06-2022_13_06_[Default_Changelist]/shelved.patch	(revision 1646e0f0de2934465ba04e128ac65de3bc7754c4)
++++ /dev/null	(revision 1646e0f0de2934465ba04e128ac65de3bc7754c4)
+@@ -1,18 +0,0 @@
+-Index: .idea/gradle.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"GRADLE\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+---- a/.idea/gradle.xml	(revision d1aa9d94e70eb86cb9f3b6707eec7a8b0898ce5c)
+-+++ b/.idea/gradle.xml	(date 1653990749430)
+-@@ -13,7 +13,6 @@
+-             <option value="$PROJECT_DIR$/app" />
+-           </set>
+-         </option>
+--        <option name="resolveModulePerSourceSet" value="false" />
+-       </GradleProjectSettings>
+-     </option>
+-   </component>
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_01-06-2022_13_06__Default_Changelist_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_01-06-2022_13_06__Default_Changelist_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_01-06-2022_13_06__Default_Changelist_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_01-06-2022_13_06__Default_Changelist_.xml	(revision 1646e0f0de2934465ba04e128ac65de3bc7754c4)
++++ /dev/null	(revision 1646e0f0de2934465ba04e128ac65de3bc7754c4)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_01-06-2022_13_06_[Default_Changelist]" date="1654069006067" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_01-06-2022_13_06_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 01-06-2022 13:06 [Default Changelist]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"GRADLE\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleHome\" value=\"/opt/gradle/gradle-7.2\" />\r\n        <option name=\"gradleJvm\" value=\"11\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--- a/.idea/gradle.xml	(revision 1646e0f0de2934465ba04e128ac65de3bc7754c4)
++++ b/.idea/gradle.xml	(date 1654797886799)
+@@ -15,6 +15,7 @@
+             <option value="$PROJECT_DIR$/app" />
+           </set>
+         </option>
++        <option name="resolveModulePerSourceSet" value="false" />
+       </GradleProjectSettings>
+     </option>
+   </component>

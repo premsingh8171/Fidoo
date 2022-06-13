@@ -47,7 +47,6 @@
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/new_search_item_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/newordertrackitem.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/no_internet_connection.xml" value="0.12318840579710146" />
-        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/no_item_found.xml" value="0.14460562103354488" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/orders_adapter.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/relevance_popup.xml" value="0.12318840579710146" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/sendpackageitem.xml" value="0.16" />
@@ -82,15 +81,8 @@
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/new_deliverycharges_layout.xml" value="0.14447463768115942" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/select_cat_restaurant_popup.xml" value="0.176" />
         <entry key="..\:/Users/Twicl/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/store_product.xml" value="0.14764492753623187" />
-        <entry key="..\:/Users/Twiclo/Desktop/fidoo_user/app/src/main/res/layout/activity_main.xml" value="0.2604166666666667" />
-        <entry key="..\:/Users/Twiclo/Desktop/fidoo_user/app/src/main/res/layout/activity_new_search.xml" value="0.3546875" />
-        <entry key="..\:/Users/Twiclo/Desktop/fidoo_user/app/src/main/res/layout/activity_new_search_storelisting.xml" value="0.24270833333333333" />
-        <entry key="..\:/Users/Twiclo/Desktop/fidoo_user/app/src/main/res/layout/activity_new_store_items.xml" value="0.1" />
-        <entry key="..\:/Users/Twiclo/Desktop/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.3546875" />
-        <entry key="..\:/Users/Twiclo/Desktop/fidoo_user/app/src/main/res/layout/activity_store_list.xml" value="0.32760416666666664" />
-        <entry key="..\:/Users/Twiclo/Desktop/fidoo_user/app/src/main/res/layout/bottomsheet_outstanding_payment.xml" value="0.2682291666666667" />
         <entry key="..\:/Users/Twiclo/Desktop/fidoo_user/app/src/main/res/layout/maintinence_activity.xml" value="0.3546875" />
-        <entry key="..\:/Users/Twiclo/Desktop/fidoo_user/app/src/main/res/layout/new_store_item_layout.xml" value="0.3546875" />
+        <entry key="..\:/Users/TwicloR/AndroidStudioProjects/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.25416666666666665" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/bottom_background.xml" value="0.240625" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/checkhome_active.xml" value="0.2026315789473684" />
         <entry key="..\:/twiclo apps/fidoo_user/app/src/main/res/drawable/dotted_vertical_line.xml" value="0.240625" />

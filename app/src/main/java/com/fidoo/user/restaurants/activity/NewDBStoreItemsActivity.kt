@@ -278,7 +278,6 @@ import kotlin.collections.LinkedHashSet
 
         }.start()
 
-        rvAddedStoreItemlisting(addedproductslist!! as ArrayList<CartModel.Cart> /* = java.util.ArrayList<com.fidoo.user.cartview.model.CartModel.Cart> */, 1)
         rvStoreItemlisting(mainlist!!)
 
         getRoomData()
@@ -777,6 +776,8 @@ import kotlin.collections.LinkedHashSet
 
 
             addedproductslist = storeData.cart
+            rvAddedStoreItemlisting(addedproductslist!! as ArrayList<CartModel.Cart> /* = java.util.ArrayList<com.fidoo.user.cartview.model.CartModel.Cart> */, 1)
+
 
 
           //  dismissIOSProgress()
@@ -1254,6 +1255,7 @@ import kotlin.collections.LinkedHashSet
      private fun rvAddedStoreItemlisting(addedproductslist: ArrayList<CartModel.Cart>, is_product_added: Int) {
          val rvAddedFromSearch = addedItemsRecyclerViewFromSearch
          if (addedproductslist.isNotEmpty()){
+             rvAddedFromSearch.layoutManager = LinearLayoutManager(this)
              rvAddedFromSearch.visibility = View.VISIBLE
              storeItemsAdapter2 = StoreItemAdapter2(
                  this@NewDBStoreItemsActivity,
