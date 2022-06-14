@@ -242,7 +242,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
             val addCartInputModel = AddCartInputModel()
             addCartInputModel.productId = tempProductId
             addCartInputModel.quantity = countValue.text.toString()
-            addCartInputModel.message = "add product"
+            addCartInputModel.message = "addviasearch"
             addCartInputModel.customizeSubCatId = customIdsList!!
             addCartInputModel.isCustomize = "1"
             MainActivity.addCartTempList!!.add(0, addCartInputModel)
@@ -671,7 +671,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                             val addCartInputModel = AddCartInputModel()
                             addCartInputModel.productId = model.product_id
                             addCartInputModel.quantity = count.toString()
-                            addCartInputModel.message = "add product"
+                            addCartInputModel.message = "addviasearch"
                             addCartInputModel.customizeSubCatId = customIdsList!!
                             addCartInputModel.isCustomize = "0"
                             MainActivity.addCartTempList!!.add(addCartInputModel)

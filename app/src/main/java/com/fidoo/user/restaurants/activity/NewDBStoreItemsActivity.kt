@@ -1954,7 +1954,7 @@ import kotlin.collections.LinkedHashSet
                         table_count = c.toInt()
                     })
 
-                    isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllProducts2(totalItem.toString())
+                isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllProducts2(totalItem.toString())
 
 
 
