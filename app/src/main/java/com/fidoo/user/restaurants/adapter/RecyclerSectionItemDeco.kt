@@ -1,7 +1,5 @@
+
 package com.fidoo.user.restaurants.adapter
-
-
-
 
 import android.graphics.Canvas
 import android.view.LayoutInflater
@@ -10,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 
- class RecyclerSectionItemDeco(recyclerView: RecyclerView, private val mListener: StickyHeaderInterface) : RecyclerView.ItemDecoration() {
+class RecyclerSectionItemDeco(recyclerView: RecyclerView, private val mListener: StickyHeaderInterface) : RecyclerView.ItemDecoration() {
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(c, parent, state)
@@ -29,10 +27,12 @@ import androidx.recyclerview.widget.RecyclerView
 
         if (mListener.isHeader(parent.getChildAdapterPosition(childInContact))) {
             moveHeader(c, currentHeader, childInContact)
-            return
-        }
 
+
+            // return
+        }
         drawHeader(c, currentHeader)
+
     }
 
     private fun getHeaderViewForItem(itemPosition: Int, parent: RecyclerView): View {
@@ -45,14 +45,14 @@ import androidx.recyclerview.widget.RecyclerView
 
     private fun drawHeader(c: Canvas, header: View) {
         c.save()
-        c.translate(0f, 10f)
+        c.translate(0f, 20f)
         header.draw(c)
         c.restore()
     }
 
     private fun moveHeader(c: Canvas, currentHeader: View, nextHeader: View) {
         c.save()
-        c.translate(0f, (nextHeader.top - currentHeader.height).toFloat())
+        c.translate(0f, 15+(nextHeader.top - currentHeader.height).toFloat())
         currentHeader.draw(c)
         c.restore()
     }

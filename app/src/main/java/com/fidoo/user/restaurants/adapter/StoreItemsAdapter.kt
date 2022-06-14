@@ -1,17 +1,15 @@
 package com.fidoo.user.restaurants.adapter
 
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+
 import android.graphics.Paint
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
-import android.text.Html
+
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,15 +18,16 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+
 import com.bumptech.glide.Glide
 import com.example.myapplication.adapter.userViewHolder
 import com.fidoo.user.R
 import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.tempProductList
-import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.constants.useconstants
+
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
@@ -36,6 +35,8 @@ import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.model.StoreDetailsModel
 import com.fidoo.user.restaurants.model.vegDiffUtil
 import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
+
+
 import kotlinx.android.synthetic.main.grocery_adapter.view.*
 import kotlinx.android.synthetic.main.new_headeritems_store.view.*
 import kotlinx.android.synthetic.main.store_product.view.*
@@ -49,7 +50,7 @@ const val TYPE_ITEM = 1
 class StoreItemsAdapter(
     val con: Context,
     private val adapterClick: AdapterClick,
-    private var productList: ArrayList<StoreItemProductsEntity>,
+     var productList: ArrayList<StoreItemProductsEntity>,
     var fssai: String,
     var restaurantName: String,
     var service_id: String,
@@ -58,24 +59,24 @@ class StoreItemsAdapter(
     private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
     var total_item_count: Int,
     private val storeID: String
-    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), RecyclerSectionItemDeco.StickyHeaderInterface {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     var arraylist: ArrayList<StoreDetailsModel.Product> = ArrayList()
     var count: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): RecyclerView.ViewHolder{
-      //  LayoutInflater.from(parent.context).inflate(R.layout.store_product, parent, false)
+        //  LayoutInflater.from(parent.context).inflate(R.layout.store_product, parent, false)
 
-    return if(p1 == TYPE_HEADER) {
-        headerViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.new_headeritems_store, parent, false))
-    } else {
-        UserViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.store_product, parent, false))
+        return if(p1 == TYPE_HEADER) {
+            headerViewHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.new_headeritems_store, parent, false))
+        } else {
+            UserViewHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.store_product, parent, false))
+        }
+
+
     }
-
-
-  }
 
     override fun getItemCount()  = productList.size
 
@@ -84,8 +85,10 @@ class StoreItemsAdapter(
 
 
 
+
         if (holder is headerViewHolder){
             holder.header.text= productList[position].subcategory_name
+
         }else if (holder is UserViewHolder) {
 
             val index = productList[position]
@@ -140,12 +143,12 @@ class StoreItemsAdapter(
                     if (position == 0) {
                         holder.devider_catLL.visibility = View.GONE
                         holder.category_nameheader.visibility = View.GONE
-                        holder.category_nameheader.text = index.subcategory_name.toString()
+                        //      holder.category_nameheader.text = index.subcategory_name.toString()
 
                     } else {
                         holder.devider_catLL.visibility = View.VISIBLE
                         holder.category_nameheader.visibility = View.GONE
-                        holder.category_nameheader.text = index.subcategory_name.toString()
+                        //     holder.category_nameheader.text = index.subcategory_name.toString()
                     }
                 } else {
                     if (position == 0) {
@@ -451,7 +454,7 @@ class StoreItemsAdapter(
 
         //performing positive action
         builder.setPositiveButton("Login") { _, which ->
-         //   con.startActivity(Intent(con, LoginActivity::class.java))
+            //   con.startActivity(Intent(con, LoginActivity::class.java))
             con.startActivity(Intent( con, AuthActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
 
 
@@ -501,9 +504,12 @@ class StoreItemsAdapter(
         var restaurant_nametxt = view.restaurant_nametxt
         var restaurant_addtxt = view.restaurant_addtxt
     }
-    class headerViewHolder(view: View): RecyclerView.ViewHolder(view){
+     class headerViewHolder(view: View): RecyclerView.ViewHolder(view){
         var header= view.category_nameheadernew
         var constll= view.mainconstraint
+
+
+
     }
 
     fun updateData(listData_: ArrayList<StoreItemProductsEntity>,total_item: Int) {
@@ -514,41 +520,48 @@ class StoreItemsAdapter(
         notifyDataSetChanged()
     }
 
-    override fun getHeaderPositionForItem(itemPosition: Int): Int {
-        var headerPosition = 0
-        var position = itemPosition
-        do {
-            if (this.isHeader(position)) {
-                headerPosition = position
-                break
-            }
-            position -= 1
-        } while (position >= 0)
-        return headerPosition
-    }
-
-    override fun getHeaderLayout(headerPosition: Int): Int {
-        return R.layout.new_headeritems_store
-    }
-
-    override fun bindHeaderData(header: View, headerPosition: Int) {
-
-
-        var constlayout= header.findViewById<TextView>(R.id.category_nameheadernew)
-           constlayout.text= productList[headerPosition].subcategory_name
-    }
-
-    override fun isHeader(itemPosition: Int): Boolean {
-
-        if (itemPosition<productList.size-1) {
-
-             if (itemPosition == 0 ||!(productList[itemPosition].subcategory_name.equals(productList[itemPosition].subcategory_name))){
-               return true
-            }
-            return false
-        }
-        return false
-    }
+//    override fun getHeaderPositionForItem(itemPosition: Int): Int {
+//        var headerPosition = 0
+//        var position = itemPosition
+//        do {
+//            if (this.isHeader(position)) {
+//                headerPosition = position
+//                break
+//            }
+//            position -= 1
+//        }
+//        while (position >= 0)
+//
+//        return headerPosition
+//    }
+//
+//    override fun getHeaderLayout(headerPosition: Int): Int {
+//        return R.layout.new_headeritems_store
+//    }
+//
+//    override fun bindHeaderData(header: View, headerPosition: Int) {
+//
+//
+//        if (headerPosition<productList.size) {
+//            if (headerPosition==0 || productList[headerPosition-1].subcategory_name.equals(productList[headerPosition].subcategory_name)) {
+//                val const = header.findViewById<TextView>(R.id.category_nameheadernew)
+//                const.text = productList[headerPosition].subcategory_name
+//            }
+//        }
+//
+//    }
+//
+//    override fun isHeader(itemPosition: Int): Boolean {
+//
+//        if (itemPosition<productList.size-1) {
+//
+//            if (itemPosition == 0 ||!(productList[itemPosition].subcategory_name.equals(productList[itemPosition].subcategory_name))){
+//                return true
+//            }
+//            return false
+//        }
+//        return false
+//    }
 
     override fun getItemViewType(position: Int): Int {
 
@@ -562,7 +575,11 @@ class StoreItemsAdapter(
                 TYPE_ITEM
             }
         }
-       return TYPE_ITEM
+        return TYPE_ITEM
     }
+
+//    override fun getAdapterData(): MutableList<*> {
+//        return adapterData
+//    }
 
 }
