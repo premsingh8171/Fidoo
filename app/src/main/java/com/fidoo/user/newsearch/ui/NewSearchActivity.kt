@@ -132,46 +132,6 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 		onResponse()
 
-//		binding.searchKeyETxtAct.setOnKeyListener( object :View.OnKeyListener{
-//			override fun onKey(p0: View?, p1: Int, keyEvent: KeyEvent?): Boolean {
-//				if (p1 == KeyEvent.ACTION_DOWN ) {
-//
-//
-//					textclear = true
-//
-//					if (!(intent.getStringExtra("type").equals("Restaurent"))){
-//						binding.xyz.noItemFoundll.visibility= View.GONE
-//						binding!!.xyz!!.root.visibility= View.GONE
-//						binding.showingResult.visibility= View.VISIBLE
-//						binding.rvSearchResult.visibility= View.VISIBLE
-//					}else if ((intent.getStringExtra("type").equals("Restaurent"))){
-//
-//						binding!!.xyz2!!.root.visibility= View.GONE
-//						binding.showingResult.visibility= View.VISIBLE
-//						binding.rvSearchResult.visibility= View.VISIBLE
-//					}
-//
-//
-//				}
-//				return false
-//			}
-//
-//
-//		})
-
-
-//		binding.searchKeyETxtAct.setOnKeyListener { v, i, keyEvent ->
-//
-//			if (i == KeyEvent.KEYCODE_DEL){
-//
-//			}
-//
-//
-//			true
-//		}
-
-
-
 
 		binding.searchKeyETxtAct.setOnEditorActionListener { v, actionId, event ->
 
@@ -184,7 +144,6 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 				searchCategoryAdapter!!.updateData(mainList!!, isMore)
 				hideKeyboard(binding.searchKeyETxtAct)
 			}
-
 			false
 		}
 	}
@@ -586,7 +545,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 							}
 						}
-						
+
 						textclear=false
 
 						Log.d("search_value___", search_value.toString())

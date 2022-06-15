@@ -1,11 +1,10 @@
 package com.fidoo.user.restaurants.activity
 
-import android.annotation.SuppressLint
+
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -28,17 +27,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import androidx.room.Room
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addCartTempList
 import com.fidoo.user.activity.MainActivity.Companion.tempProductList
-import com.fidoo.user.activity.MyApplication
-import com.fidoo.user.activity.MyApplication.Companion.applicationContext
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.viewmodel.CartViewModel
@@ -50,13 +44,11 @@ import com.fidoo.user.fragments.newhotel_ProductSearch
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
-import com.fidoo.user.newRestaurants.model.NewStoreDetailsModel
 import com.fidoo.user.newRestaurants.model.Product
 import com.fidoo.user.newRestaurants.model.Subcategory
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
-import com.fidoo.user.restaurants.adapter.CategoryHeaderAdapter
-import com.fidoo.user.restaurants.adapter.NewDbRestaurantCategoryAdapter
-import com.fidoo.user.restaurants.adapter.StoreCustomItemsAdapter
+import com.fidoo.user.restaurants.adapter.*
+
 import com.fidoo.user.restaurants.adapter.StoreItemsAdapter
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.listener.CustomCartPlusMinusClick
@@ -71,12 +63,12 @@ import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.BaseActivity
 import com.fidoo.user.utils.showAlertDialog
-import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory
 import com.google.android.datatransport.runtime.ExecutionModule_ExecutorFactory.executor
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
+
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
@@ -119,6 +111,7 @@ import kotlinx.android.synthetic.main.activity_store_items.tv_distance
 import kotlinx.android.synthetic.main.activity_store_items.tv_location
 import kotlinx.android.synthetic.main.activity_store_items.tv_store_name
 import kotlinx.android.synthetic.main.activity_store_items.veg_switch_img
+import kotlinx.android.synthetic.main.new_storeproduct_ll.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
 import kotlinx.android.synthetic.main.no_item_found.*
 import kotlinx.coroutines.*
@@ -126,10 +119,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import java.math.RoundingMode
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.LinkedHashSet
 
- class NewDBStoreItemsActivity :
+
+class NewDBStoreItemsActivity :
     BaseActivity(),
     AdapterClick,
     CustomCartPlusMinusClick,
@@ -184,6 +176,7 @@ import kotlin.collections.LinkedHashSet
         var customerLatitude: String = ""
         var customerLongitude: String = ""
         var handleresponce: Int = 0
+
         var productsListing_Count: Int? = 0
         var storeIDCheckOnCart: String = ""
         var back_listener: search_fragListener? =null
@@ -211,6 +204,7 @@ import kotlin.collections.LinkedHashSet
     var isCustomizeOpen: Int = 0
     var filterActive: Int = 0// for handle filter api call response
     var cart_count: Int = 0
+  //  private lateinit var kmHeaderdeco: KmHeaderItemDecoration
     lateinit var storeItemsAdapter: StoreItemsAdapter
     lateinit var restaurantCategoryAdapter: NewDbRestaurantCategoryAdapter
     lateinit var categoryHeaderAdapter: CategoryHeaderAdapter
@@ -306,7 +300,7 @@ import kotlin.collections.LinkedHashSet
                 // scrolling up
                 fabVisible = false
                 Log.e("fabVisible", "up")
-                store_details_lay.visibility = View.GONE
+                store_details_lay.visibility = View.VISIBLE                    //Gone
                 tv_store_name.visibility = View.VISIBLE
                 category_header_TXt.visibility = View.GONE
             } else if (dy < 0 && !fabVisible) {
@@ -318,6 +312,9 @@ import kotlin.collections.LinkedHashSet
                 category_header_TXt.visibility = View.GONE
             }
         })
+
+
+
 
         search_ClearTxt.setOnClickListener {
             searchEdt_ResPrd.getText().clear()
@@ -799,7 +796,7 @@ import kotlin.collections.LinkedHashSet
                 if (storeData.service_id.equals("7")) {
                     store_preference_Rlay.visibility = View.GONE
                 } else {
-                    store_preference_Rlay.visibility = View.VISIBLE
+                    store_preference_Rlay.visibility = View.VISIBLE                       //visible
                 }
 
             if(storeData.address.isNotEmpty()) {
@@ -1369,11 +1366,13 @@ import kotlin.collections.LinkedHashSet
 
 
 
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
+                                              //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,-80)
 
                                     }else{
 
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 675)
+                                              //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 675)
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i ,-80)
 
                                     }
 
@@ -1424,11 +1423,13 @@ import kotlin.collections.LinkedHashSet
 
 
 
-                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 ,450)
+                                      //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 ,450)
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,0)
 
                                     }else{
 
-                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 , 630)
+                                       // (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 , 630)
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,0)
 
                                     }
                                     //storeItemsRecyclerview?.layoutManager?.scrollToPosition(i)
@@ -1460,24 +1461,35 @@ import kotlin.collections.LinkedHashSet
             storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)
             storeItemsRecyclerview.setHasFixedSize(true)
 
-            storeItemsAdapter = StoreItemsAdapter(
-                this,
+            storeItemsAdapter = StoreItemsAdapter(this,
                 this,
                 productList_,
                 fssai!!,
                 intent.getStringExtra("storeName").toString(),
-               // restaurantName!!,
+                // restaurantName!!,
                 "3.5",
-               // restaurantAddress!!,
+                // restaurantAddress!!,
                 intent.getStringExtra("store_location").toString().replace(" ,", ", "),
                 this,
                 this,
                 table_count!!.toInt(),
-                storeID
-            )
+                storeID)
+
+
+
+
+
+
+
+
 
             storeItemsRecyclerview.adapter = storeItemsAdapter
             storeItemsRecyclerview.layoutManager = manager
+          //  storeItemsRecyclerview.addItemDecoration(RecyclerSectionItemDeco(storeItemsRecyclerview,storeItemsAdapter))
+
+           // storeItemsRecyclerview.layoutManager = manager
+
+
             storeItemsRecyclerview?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -1501,9 +1513,9 @@ import kotlin.collections.LinkedHashSet
                             .equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
                     ) {
                         try {
-                            category_header_.visibility = View.VISIBLE
+                            category_header_.visibility = View.VISIBLE                //visible
                             category_header_.text =
-                                mainlist!!.get(scrollOutItems+1)!!.subcategory_name.toString()
+                                mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
                             category_header_TXt.text =
                                 mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
                             //Log.d("totalItem___", table_count.toString())
@@ -1548,9 +1560,9 @@ import kotlin.collections.LinkedHashSet
 
                     } else {
                         try {
-                            category_header_.visibility = View.VISIBLE
+                            category_header_.visibility = View.VISIBLE        //visible
                             category_header_.text =
-                                productListFilter!!.get(scrollOutItems+1)!!.subcategory_name.toString()
+                                productListFilter!!.get(scrollOutItems)!!.subcategory_name.toString()
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -1613,9 +1625,9 @@ import kotlin.collections.LinkedHashSet
                             .equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
                     ) {
                         try {
-                            category_header_.visibility = View.VISIBLE
+                            category_header_.visibility = View.VISIBLE               //visible
                             category_header_.text =
-                                veg_item_list!!.get(scrollOutItems+1)!!.subcategory_name.toString()
+                                veg_item_list!!.get(scrollOutItems)!!.subcategory_name.toString()
                             category_header_TXt.text =
                                 veg_item_list!!.get(scrollOutItems)!!.subcategory_name.toString()
                             //Log.d("totalItem___", table_count.toString())
@@ -1660,9 +1672,9 @@ import kotlin.collections.LinkedHashSet
 
                     } else {
                         try {
-                            category_header_.visibility = View.VISIBLE
+                            category_header_.visibility = View.VISIBLE                         //visible
                             category_header_.text =
-                                productListFilter!!.get(scrollOutItems+1)!!.subcategory_name.toString()
+                                productListFilter!!.get(scrollOutItems)!!.subcategory_name.toString()
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -2842,6 +2854,9 @@ import kotlin.collections.LinkedHashSet
 
          }, 1000)
      }
+
+
+
 
 
 
