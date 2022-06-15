@@ -6,6 +6,8 @@ import com.fidoo.user.addressmodule.model.DeleteAddressModel
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.model.RemoveAddressModel
 import com.fidoo.user.cartview.model.CartModel
+import com.fidoo.user.cartview.model.DuePaymentProcessModel
+import com.fidoo.user.cartview.model.DuePaymentStatusModel
 import com.fidoo.user.chatbot.model.feedBackModel.FeedbackModel
 import com.fidoo.user.chatbot.model.cancelWithoutRefundEmpty
 import com.fidoo.user.chatbot.model.cancelWithoutRefundWithSendkey
@@ -41,6 +43,24 @@ import retrofit2.http.*
 
 interface BackEndApi {
 
+    @FormUrlEncoded
+    @POST("initiateDuePaymentProcess.inc.php")
+    fun initiateDuePaymentProcess(
+        @Field("accountId") accountId: String?,
+        @Field("accessToken") accessToken: String?,
+        @Field("order_id") order_id: String?,
+        @Field("payment_amount") payment_amount: String?
+    ): Call<DuePaymentProcessModel>
+
+    @FormUrlEncoded
+    @POST("updateDuePaymentStatus.inc.php")
+    fun updateDuePaymentStatus(
+        @Field("accountId") accountId: String?,
+        @Field("accessToken") accessToken: String?,
+        @Field("payment_id") payment_id: String?,
+        @Field("txn_id") txn_id: String?,
+        @Field("payment_status") payment_status: String
+    ): Call<DuePaymentStatusModel>
 
     @FormUrlEncoded
     @POST("login.inc.php")
@@ -709,7 +729,8 @@ interface BackEndApi {
     fun updateApp(
         @Field("app_version") app_version: String?,
         @Field("accountId") accountId: String?,
-        @Field("deviceId") deviceId: String?
+        @Field("deviceId") deviceId: String?,
+        @Field("device_type") device_type: String?
     ): Call<UpdateAppModel>
 
 

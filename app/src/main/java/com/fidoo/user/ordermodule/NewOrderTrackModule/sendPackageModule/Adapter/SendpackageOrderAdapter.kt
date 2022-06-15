@@ -12,11 +12,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.fidoo.user.R
 import com.fidoo.user.constants.useconstants
 import com.fidoo.user.ordermodule.NewOrderTrackModule.sendPackageModule.SendPackageDataModel.Message
 import com.fidoo.user.ordermodule.NewOrderTrackModule.sendPackageModule.SendPackageDataModel.sendPackageModel
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
+import kotlinx.android.synthetic.main.activity_new_track_send_packages_order.*
 import kotlinx.android.synthetic.main.orders_item_list.view.*
 import kotlinx.android.synthetic.main.sendpackageitem.view.*
 
@@ -36,11 +38,16 @@ class sendpackageOrderAdapter (
             val index = arraylist[position]
 
             var url_icon= index.iconImg
-            GlideToVectorYou.init().with(con).load(Uri.parse(url_icon), holder.itemView.imageView4)
+            Glide.with(con).load(index.iconImg).into(holder.itemView.imageView4)
 
             try {
 
-               holder.itemView.textView7.text= replaceDriver_name(index.aDRMessage)
+                if (useconstants.package_trackRiderName.equals("")){
+                    holder.itemView.textView7.text = index.aDRMessage
+
+                }else {
+                    holder.itemView.textView7.text = replaceDriver_name(index.aDRMessage)
+                }
                 holder.itemView.textView8.text=index.aDRDesc
 
                 if (index.status==0){

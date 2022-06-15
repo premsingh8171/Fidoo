@@ -1,5 +1,6 @@
 package com.fidoo.user.ordermodule.NewOrderTrackModule.sendPackageModule.ui
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -50,6 +51,8 @@ class NewTrackSendPAckagesOrderActivity : BaseActivity() {
     lateinit var mainAdapter: sendpackageOrderAdapter
     var firstMsgListData = ArrayList<Message>()
     var rider_infoText= ArrayList<String>()
+    var rider_infoText2= ArrayList<String>()
+    private var rider_infoText2count=0
     private var rider_count = 0
     var viewmodel: TrackViewModel? = null
 
@@ -59,6 +62,7 @@ class NewTrackSendPAckagesOrderActivity : BaseActivity() {
     var call_Diolog: Dialog? = null
     var timer: CountDownTimer?= null
     var timer2: CountDownTimer?= null
+
     private var main_status: String= ""
     private var selection_msg = ""
     private var totalarray =0
@@ -67,6 +71,7 @@ class NewTrackSendPAckagesOrderActivity : BaseActivity() {
     var rider_name: String= ""
     var order_id=""
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_track_send_packages_order)
@@ -87,15 +92,23 @@ class NewTrackSendPAckagesOrderActivity : BaseActivity() {
                 Log.e("_Timer", "seconds remaining: " + millisUntilFinished / 1000)
                 if (!main_status.equals("3")) {
 
-                    tv_rider_language.text = rider_infoText[rider_count]
-                    rider_count++
-                    if (rider_count >= rider_infoText.size) {
-                        rider_count = 0
+                    if (rider_infoText2.isEmpty()) {
+                        tv_rider_language.text = rider_infoText[rider_count]
+                        rider_count++
+                        if (rider_count >= rider_infoText.size) {
+                            rider_count = 0
+                        }
+                    }else{
+
+                        tv_rider_language.text = rider_infoText2[rider_count]
+                        rider_count++
+                        if (rider_count >= rider_infoText2.size) {
+                            rider_count = 0
+                        }
+
                     }
+
                 }
-
-
-
             }
 
             override fun onFinish() {
@@ -129,6 +142,7 @@ class NewTrackSendPAckagesOrderActivity : BaseActivity() {
         }.start()
 
         imageView6.setOnClickListener {
+            useconstants.track_sendpackage= true
             val intent= Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -136,35 +150,44 @@ class NewTrackSendPAckagesOrderActivity : BaseActivity() {
 
         imageView5.setOnClickListener {
 
-            if (user_mobNo!!.isNotEmpty()) {
-                CallPopUp(1)
+            if (rider_mobNo.equals("")){
 
-                if (sessionInstance.profileDetail != null) {
-                    viewmodel?.callCustomerApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        user_mobNo!!,
-                        rider_mobNo!!
-                    )
-                } else {
-                    viewmodel?.callCustomerApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        user_mobNo!!,
-                        rider_mobNo!!
-                    )
+            }else {
+
+                if (user_mobNo!!.isNotEmpty()) {
+                    CallPopUp(1)
+
+                    if (sessionInstance.profileDetail != null) {
+                        viewmodel?.callCustomerApi(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            user_mobNo!!,
+                            rider_mobNo!!
+                        )
+                    } else {
+                        viewmodel?.callCustomerApi(
+                            SessionTwiclo(this).loggedInUserDetail.accountId,
+                            SessionTwiclo(this).loggedInUserDetail.accessToken,
+                            user_mobNo!!,
+                            rider_mobNo!!
+                        )
+                    }
                 }
             }
         }
 
         home_btntv.setOnClickListener {
-            AppUtils.finishActivityLeftToRight(this)
+            useconstants.track_sendpackage= true
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
         button2.setOnClickListener {
             deliveryCard.visibility= View.GONE
             feedback_popup()
         }
+
+
 
 
 
@@ -185,18 +208,32 @@ class NewTrackSendPAckagesOrderActivity : BaseActivity() {
                         totalarray++
                         rider_infoText = it.riderBottomMsgADR as ArrayList<String>
                     }
+                    if (!it.riderDetails.name.equals("") && rider_infoText2count==0 ){
+
+                        rider_infoText2count++
+                        rider_infoText2 = it.riderBottomMsgADR as ArrayList<String>
+                    }
 
                     useconstants.package_trackRiderName = it.riderDetails.name
+                    tv_track_order_id.text= "Order ID"+" "+order_id
                     SetRecyclerview()
                     timer!!.start()
                     rider_mobNo = it.riderDetails.number
                     user_mobNo = it.customer_phone
 
+                    if (!it.rider_img.isNullOrEmpty()) {
+                        Glide.with(this)
+                            .load(it.rider_img)
+                            .into(iv_rider_image)
+                    }
+
 
                     var img_url = trackModel.gif
                     Glide.with(this).load(it.gif).into(imageView2)
                     Glide.with(this).load(it.riderBtmIcon).into(imageView5)
-                    Glide.with(this).load(it.riderDetails.img).into(iv_rider_image)
+                    if (!it.riderDetails.img.isNullOrEmpty()) {
+                        Glide.with(this).load(it.riderDetails.img).into(iv_rider_image)
+                    }
 
 
                     if (it.orderStatus.equals("3")) {
@@ -266,6 +303,7 @@ class NewTrackSendPAckagesOrderActivity : BaseActivity() {
         )
         feedbacl_dialog?.window?.attributes?.windowAnimations = R.style.diologIntertnet1
         feedbacl_dialog?.setCanceledOnTouchOutside(true)
+        feedbacl_dialog?.setCancelable(false)
         feedbacl_dialog?.show()
 
         val star1= feedbacl_dialog?.findViewById<ImageView>(R.id.fb_star1)
@@ -333,18 +371,41 @@ class NewTrackSendPAckagesOrderActivity : BaseActivity() {
             star5.setImageResource(R.drawable.ic_star_blue)
         }
 
-        submit?.setOnClickListener {
 
-            selection_msg= msg?.text.toString()
-            viewmodel!!.addfeedbackApi(SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken, order_id, total_rate.toString(),"",
-            selection_msg,"add")
 
-           // Toast.makeText(this, "$total_rate  $selection_msg", Toast.LENGTH_LONG).show()
+            submit?.setOnClickListener {
+                useconstants.movetoOrderFrag= true
 
-           val intent= Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
+                if (total_rate==0){
+
+
+                }else {
+
+                    Toast.makeText(this,"Thanks for Your valuable feedback", Toast.LENGTH_SHORT).show()
+
+
+                    showIOSProgress()
+
+                    deliveryCard.visibility= View.VISIBLE
+                    selection_msg = msg?.text.toString()
+                    viewmodel!!.addfeedbackApi(
+                        SessionTwiclo(this).loggedInUserDetail.accountId,
+                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+                        order_id,
+                        total_rate.toString(),
+                        "",
+                        selection_msg,
+                        "add"
+                    )
+
+                    // Toast.makeText(this, "$total_rate  $selection_msg", Toast.LENGTH_LONG).show()
+
+                   // feedbacl_dialog!!.dismiss()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+
 
 
 
@@ -352,8 +413,12 @@ class NewTrackSendPAckagesOrderActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        val intent= Intent(this, MainActivity::class.java)
-        startActivity(intent)
+
+
+            useconstants.track_sendpackage=true
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+
     }
 
 

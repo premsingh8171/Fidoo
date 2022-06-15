@@ -13,6 +13,8 @@ object useconstants {
     var callAllow = true
     var adapterPosition=0
     var changeCallcolour = true
+    var track_sendpackage = false
+    var movetoOrderFrag= false
     var searchFrag_visible:Boolean= false
     var package_trackRiderName:String = ""
     var offerPrice:String=""

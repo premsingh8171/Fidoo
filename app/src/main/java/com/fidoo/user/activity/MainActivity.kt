@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.android.volley.Request
 import com.android.volley.Response
@@ -38,6 +39,7 @@ import com.bumptech.glide.request.target.Target
 import com.fidoo.user.R
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.dashboard.viewmodel.HomeFragmentViewModel
 import com.fidoo.user.data.model.AddCartInputModel
 import com.fidoo.user.data.model.TempProductListModel
@@ -600,16 +602,39 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     }
 
     override fun onResume() {
+
         super.onResume()
-        getAddress()
-        //checkPermission()
-        if (SessionTwiclo(this).orderId.isNotEmpty()) {
-            orderId = SessionTwiclo(this).orderId
-            viewmodel?.getOrderStatusApi(
-                SessionTwiclo(this@MainActivity).loggedInUserDetail.accountId,
-                SessionTwiclo(this@MainActivity).loggedInUserDetail.accessToken, orderId!!
-            )
+
+        if (useconstants.track_sendpackage){
+          //  val navHostFragment = (supportFragmentManager.findFragmentById(R.id.homeFragment) as NavHostFragment)
+
+
+            val navController = findNavController(R.id.fragment4)
+            bottomNavigationView.setupWithNavController(navController)
+            navController.navigate(R.id.ordersFragment)
+            navController.navigate(R.id.homeFragment)
+            dismissIOSProgress()
         }
+
+        if (useconstants.movetoOrderFrag){
+            //  val navHostFragment = (supportFragmentManager.findFragmentById(R.id.homeFragment) as NavHostFragment)
+
+            dismissIOSProgress()
+            val navController = findNavController(R.id.fragment4)
+            bottomNavigationView.setupWithNavController(navController)
+            navController.navigate(R.id.ordersFragment)
+        }
+
+            getAddress()
+            //checkPermission()
+            if (SessionTwiclo(this).orderId.isNotEmpty()) {
+                orderId = SessionTwiclo(this).orderId
+                viewmodel?.getOrderStatusApi(
+                    SessionTwiclo(this@MainActivity).loggedInUserDetail.accountId,
+                    SessionTwiclo(this@MainActivity).loggedInUserDetail.accessToken, orderId!!
+                )
+            }
+
     }
 
     @SuppressLint("MissingPermission")
@@ -966,5 +991,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         id.findItem(R.id.ordersFragment).title = "Order"
         id.findItem(R.id.profileFragment).title = "Profile"
     }
+
+
 
 }

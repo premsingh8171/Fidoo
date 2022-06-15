@@ -18,6 +18,8 @@ data class sendPackageModel(
     val gif: String,
     @SerializedName("customer_phone")
     val customer_phone: String,
+    @SerializedName("rider_img")
+    val rider_img: String,
     @SerializedName("messages")
     val messages: List<Message>,
     @SerializedName("orderId")
