@@ -88,6 +88,16 @@ class StoreItemsAdapter(
 
         if (holder is headerViewHolder){
             holder.header.text= productList[position].subcategory_name
+            val index = productList[position]
+            if (index.headerActiveornot.equals("1")) {
+                if (position == 0) {
+
+                    holder.header.visibility = View.GONE
+                    //      holder.category_nameheader.text = index.subcategory_name.toString()
+                }else{
+                    holder.header.visibility = View.VISIBLE
+                }
+            }
 
         }else if (holder is UserViewHolder) {
 
