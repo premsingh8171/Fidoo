@@ -59,6 +59,7 @@ import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.hideKeyboard
 import com.fidoo.user.utils.showAlertDialog
 import com.fidoo.user.utils.showKeyboard
+import com.fidoo.user.utils.showSoftKeyboard
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
@@ -248,6 +249,13 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         cartViewModel = ViewModelProvider(requireActivity()).get(CartViewModel::class.java)
         viewmodelusertrack = ViewModelProvider(requireActivity()).get(UserTrackerViewModel::class.java)
 
+        searchKeyETxtAct.isCursorVisible = true
+
+        searchKeyETxtAct.let {
+            requireActivity().showSoftKeyboard(it)
+        }
+
+
 
         cartitemView_LLstore1.setOnClickListener {
             if (SessionTwiclo(requireContext()).isLoggedIn) {
@@ -278,9 +286,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
         search_cardvv.setOnClickListener {
-            searchKeyETxtAct.isCursorVisible = true
 
-            showKeyboard()
 
         }
 
@@ -322,6 +328,11 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
 
+
+                if (p2<1){
+                    mainlist_new!!.clear()
+                    storeItemsAdapter2.notifyDataSetChanged()
+                }
 
                 showIOSProgress()
                 searchQuery(search_value)
@@ -2207,6 +2218,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     fun showToast(toast_string: String?) {
         Toast.makeText(context, toast_string, Toast.LENGTH_SHORT).show()
     }
+
+
 
     override fun onDetach() {
         super.onDetach()

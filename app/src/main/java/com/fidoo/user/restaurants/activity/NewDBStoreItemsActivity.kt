@@ -72,6 +72,7 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
+import kotlinx.android.synthetic.main.activity_new_product_search.*
 import kotlinx.android.synthetic.main.activity_new_store_items.*
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.activity_store_items.RestaurantPrdSearch
@@ -178,6 +179,7 @@ class NewDBStoreItemsActivity :
 
         var productsListing_Count: Int? = 0
         var storeIDCheckOnCart: String = ""
+        var back_listener: search_fragListener? =null
         //for bottom view of restaurant license
         var fssai: String? = ""
         var restaurantName: String? = ""
@@ -418,7 +420,9 @@ class NewDBStoreItemsActivity :
                 AppUtils.finishActivityLeftToRight(this)
             } else {
                 behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-                cat_FloatBtn.visibility = View.VISIBLE
+                if (!useconstants.searchFrag_visible) {
+                    cat_FloatBtn.visibility = View.VISIBLE
+                }
                 if (cart_count == 0) {
                     cartitemView_LLstore.visibility = View.GONE
                 } else {
@@ -636,14 +640,18 @@ class NewDBStoreItemsActivity :
                     cartitemView_LLstore.visibility = View.VISIBLE
 
                 }
-                cat_FloatBtn.visibility = View.VISIBLE
+                if (!useconstants.searchFrag_visible) {
+                    cat_FloatBtn.visibility = View.VISIBLE
+                }
             }
         }
 
         if (isNetworkConnected) {
             if (sessionTwiclo!!.isLoggedIn) {
                 getStoreDetailsApiCall()
-                cat_FloatBtn.visibility = View.VISIBLE
+                if (!useconstants.searchFrag_visible) {
+                    cat_FloatBtn.visibility = View.VISIBLE
+                }
                 main_restatuarant_const.visibility = View.VISIBLE
                 linear_progress_indicator.visibility = View.GONE
                 no_internet_store.visibility = View.GONE
@@ -676,7 +684,9 @@ class NewDBStoreItemsActivity :
                 if (sessionTwiclo!!.isLoggedIn) {
                     deleteRoomDataBase()
                     getStoreDetailsApiCall()
-                    cat_FloatBtn.visibility = View.VISIBLE
+                    if (!useconstants.searchFrag_visible) {
+                        cat_FloatBtn.visibility = View.VISIBLE
+                    }
                     main_restatuarant_const.visibility = View.VISIBLE
                     linear_progress_indicator.visibility = View.VISIBLE
                     no_internet_store.visibility = View.GONE
@@ -744,7 +754,9 @@ class NewDBStoreItemsActivity :
                     SessionTwiclo(this).serviceId = ""
 
                 }
-                cat_FloatBtn.visibility = View.VISIBLE
+                if (!useconstants.searchFrag_visible) {
+                    cat_FloatBtn.visibility = View.VISIBLE
+                }
             }
 
         }
@@ -1102,7 +1114,7 @@ class NewDBStoreItemsActivity :
             shimmerFrameLayout.stopShimmer()
           //  dismissIOSProgress()
             cartitemView_LLstore.visibility = View.GONE
-            cat_FloatBtn.visibility = View.GONE
+
             Log.e("stores___esponse", Gson().toJson(user))
 
             if (user.errorCode == 200) {
@@ -2039,6 +2051,7 @@ class NewDBStoreItemsActivity :
                 storeItemsRecyclerview.visibility= View.GONE
                 shimmerFrameLayout.startShimmer()
                // showIOSProgress()
+                cat_FloatBtn.visibility = View.GONE
                 customIdsList!!.clear()
                 customNamesList!!.clear()
                 if (productId != null) {
@@ -2469,6 +2482,7 @@ class NewDBStoreItemsActivity :
             storeItemsRecyclerview.visibility= View.GONE
             shimmerFrameLayout.startShimmer()
           //  showIOSProgress()
+            cat_FloatBtn.visibility = View.GONE
             customIdsList!!.clear()
             customNamesList!!.clear()
             viewmodel?.customizeProductApi(
@@ -2602,6 +2616,14 @@ class NewDBStoreItemsActivity :
     }
 
     override fun onBackPressed() {
+
+        if (useconstants.searchFrag_visible){
+            searchKeyETxtAct.text.clear()
+            back_listener= this as search_fragListener
+            back_listener!!.detach_searchFrah()
+        }else
+
+
         if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
             AppUtils.finishActivityLeftToRight(this)
         } else {
