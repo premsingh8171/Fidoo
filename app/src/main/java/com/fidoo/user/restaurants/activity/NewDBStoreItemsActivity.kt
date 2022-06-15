@@ -473,7 +473,12 @@ import kotlin.collections.LinkedHashSet
             val addCartInputModel = AddCartInputModel()
             addCartInputModel.productId = tempProductId
             addCartInputModel.quantity = countValue.text.toString()
-            addCartInputModel.message = "add product"
+
+            if(tempProductId == intent.getStringExtra("product_id")) {
+                addCartInputModel.message = "addviasearch"
+            } else {
+                addCartInputModel.message = "add product"
+            }
             addCartInputModel.customizeSubCatId = customIdsList!!
             addCartInputModel.isCustomize = "1"
             addCartTempList!!.add(0, addCartInputModel)
@@ -509,6 +514,8 @@ import kotlin.collections.LinkedHashSet
                     addCartTempList!!,
                     cartId
                 )
+
+                Log.d("test_add_api", "add to cart")
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
 
@@ -777,7 +784,7 @@ import kotlin.collections.LinkedHashSet
 
 
             addedproductslist = storeData.cart
-            Log.d("cart_test", "${storeData.cart}")
+            Log.d("cart_test", "${Gson().toJson(storeData.cart)}")
             rvAddedStoreItemlisting(addedproductslist!! as ArrayList<CartModel.Cart> /* = java.util.ArrayList<com.fidoo.user.cartview.model.CartModel.Cart> */, 1)
 
 
@@ -1262,7 +1269,8 @@ import kotlin.collections.LinkedHashSet
              storeItemsAdapter2 = StoreItemAdapter2(
                  this@NewDBStoreItemsActivity,
                  addedproductslist,
-                 object:StoreItemAdapter2.AdapterCartAddRemoveClick2{
+                 this
+                 /*object:StoreItemAdapter2.AdapterCartAddRemoveClick2{
                      override fun onAddItemClick(
                          productId: String?,
                          items: String?,
@@ -1385,8 +1393,8 @@ import kotlin.collections.LinkedHashSet
                          }
                      }
 
-                 },
-             this)
+                 }*/,
+             this, this)
 
              rvAddedFromSearch.adapter = storeItemsAdapter2
          }
@@ -2679,6 +2687,10 @@ import kotlin.collections.LinkedHashSet
                     cart_id,
                     customIdsList!!
                 )
+
+                Log.d("test_rem", "${Gson().toJson(customIdsList)}")
+
+                Log.d("test_remove", "prodcustCustomizedId: $prodcustCustomizeId, customIdsList: $customIdsList, isCustomize: $isCustomize, productId: $productId, $cart_id")
                 if (isCustomize.equals("1")) {
                     updateProductCustomized(
                         quantity!!.toInt(),

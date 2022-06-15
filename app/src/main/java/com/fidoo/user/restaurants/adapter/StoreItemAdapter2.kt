@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fidoo.user.R
 import com.fidoo.user.cartview.model.CartModel
+import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
+import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import kotlinx.android.synthetic.main.cart_item.view.*
 import kotlinx.android.synthetic.main.new_store_item_layout.view.*
 import kotlinx.android.synthetic.main.new_store_item_layout.view.btn_minus
@@ -32,8 +34,9 @@ import kotlinx.android.synthetic.main.review_popup.view.*
 class StoreItemAdapter2(
     val con: Context,
     val cart: MutableList<CartModel.Cart>,
-    private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick2,
-    private val adapterClick: AdapterClick
+    private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
+    private val adapterClick: AdapterClick,
+    private val adapterAddRemoveClick: AdapterAddRemoveClick
 ) : RecyclerView.Adapter<StoreItemAdapter2.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
@@ -136,19 +139,23 @@ class StoreItemAdapter2(
             .fitCenter()
             .error(R.drawable.default_item)
             .into(holder.itemView.productImage)
+
+
+
         holder.plusLay.setOnClickListener {
             if (checkForInternet(con)) {
                 var count: Int = holder.countValue.text.toString().toInt()
                 count++
-                if (cart[position].customizeItem != null) {
+                if (cart[position].is_customize.equals("1")) {
                     if (cart[position].customizeItem.size != 0) {
                         adapterCartAddRemoveClick.onAddItemClick(
+                            count.toString(),
                             cart[position].productId,
                             items,
                             cart[position].offerPrice,
                             cart[position].is_customize,
                             cart[position].customizeItem[0].productCustomizeId,
-                            cart[position].cart_id, count.toString()
+                            cart[position].cart_id
                         )
                     } else {
                         adapterCartAddRemoveClick.onAddItemClick(
@@ -161,6 +168,15 @@ class StoreItemAdapter2(
                             count.toString()
                         )
                     }
+                } else {
+                    holder.countValue.text = count.toString()
+                    adapterAddRemoveClick.onItemAddRemoveClick(
+                        cart[position].productId,
+                        count.toString(),
+                        "add",
+                        cart[position].offerPrice, "",
+                        cart[position].cart_id, 0
+                    )
                 }
             }
 
@@ -174,47 +190,34 @@ class StoreItemAdapter2(
         holder.minusLay.setOnClickListener {
             if (checkForInternet(con)) {
 
-                if (holder.countValue.text.toString().toInt() > 0) {
-                    var count: Int = holder.countValue.text.toString().toInt()
-                    count--
-
-                    if (cart.get(position).customizeItem != null) {
-
-                        if (cart.get(position).customizeItem.size != 0) {
-                            adapterCartAddRemoveClick.onRemoveItemClick(
-                                cart[position].productId,
-                                cart[position].quantity,
-                                cart[position].is_customize,
-                                cart[position].customizeItem.get(0).productCustomizeId,
-                                cart[position].cart_id,
-                                count.toString()
-                            )
-                        } else {
-                            adapterCartAddRemoveClick.onRemoveItemClick(
-                                cart[position].productId,
-                                cart[position].quantity,
-                                cart[position].is_customize,
-                                "",
-                                cart[position].cart_id, count.toString()
-                            )
-                        }
+                var count: Int = holder.countValue.text.toString().toInt()
+                if (cart[position].is_customize.equals("1")) {
+                    if (holder.countValue.text.toString().toInt() > 0) {
+                        count--
+                        holder.countValue.text = count.toString()
+                        adapterCartAddRemoveClick.onRemoveItemClick(
+                            cart[position].productId,
+                            count.toString(),
+                            cart[position].is_customize,
+                            cart[position].customizeItem[0].id,
+                            cart[position].cart_id
+                        )
                     }
-
-                    holder.countValue.text = count.toString()
-
-                    if (count == 0) {
-                        cart.removeAt(position)
-                        notifyDataSetChanged()
-                    }
-
+                } else {
                     if (count > 0) {
-                        var itemPrice: Float = count.toString().toInt() * cart.get(position).offerPrice.toString().toFloat()
-                        holder.priceTxt.text = con.resources.getString(R.string.ruppee) + itemPrice.toString()
+                        count--
+                        holder.countValue.text = count.toString()
+                        adapterAddRemoveClick.onItemAddRemoveClick(
+                            cart[position].productId,
+                            count.toString(),
+                            "remove",
+                            cart[position].offerPrice,
+                            "",
+                            cart[position].cart_id, 0
+                        )
                     }
-
                 }
             }
-
         }
     }
 
