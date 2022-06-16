@@ -347,12 +347,15 @@ class NewDBStoreItemsActivity :
 
             newSearch_frag.visibility=View.VISIBLE
 
+
+            useconstants.searchFrag_visible= true
+            cat_FloatBtn.visibility= View.GONE
+            app_bar.visibility=View.GONE
+            main_restatuarant_const.visibility=View.GONE
+
             val fragManager= supportFragmentManager
             val trasaction= fragManager.beginTransaction()
             val searchFrag= newhotel_ProductSearch()
-            useconstants.searchFrag_visible= true
-            cat_FloatBtn.visibility= View.GONE
-
             var mBundle= Bundle()
             mBundle.putString("storeId", storeID)
             mBundle.putString("storeName", restaurantName)
@@ -775,6 +778,8 @@ class NewDBStoreItemsActivity :
             shimmerFrameLayout_main.visibility= View.GONE
                 main_appbar_ll.visibility=View.VISIBLE
                 storeItemsRecyclerview.visibility= View.VISIBLE
+            res_header_constL.visibility= View.VISIBLE
+            store_preference_Rlay.visibility= View.VISIBLE
                 shimmerFrameLayout_main.stopShimmer()
 
 
@@ -1951,6 +1956,8 @@ class NewDBStoreItemsActivity :
             shimmerFrameLayout_main.visibility= View.VISIBLE
             main_appbar_ll.visibility=View.GONE
             storeItemsRecyclerview.visibility=View.GONE
+            res_header_constL.visibility= View.GONE
+            store_preference_Rlay.visibility= View.GONE
             shimmerFrameLayout_main.startShimmer()
           //  showIOSProgress()
 
@@ -2839,6 +2846,8 @@ class NewDBStoreItemsActivity :
          shimmerFrameLayout.visibility= View.VISIBLE
          handleresponce=0
          cat_FloatBtn.visibility= View.VISIBLE
+         app_bar.visibility= View.VISIBLE
+         main_restatuarant_const.visibility=View.VISIBLE
          getRoomData()
 
          Handler().postDelayed({

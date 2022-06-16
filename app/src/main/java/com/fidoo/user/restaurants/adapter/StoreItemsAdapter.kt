@@ -9,6 +9,7 @@ import android.graphics.Paint
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.text.Html
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -175,7 +176,34 @@ class StoreItemsAdapter(
 
             holder.itemName.text = index.productName
 
-            holder.itemView.product_desc_txt.text = index.product_desc
+            if (index.product_desc?.length!! > 50){
+                holder.itemView.product_desc_txt.text= Html.fromHtml(index.product_desc!!.substring(0, 50)
+                        +"..."+ "<font color='black'><b>More</b></font>")
+            }else {
+
+                holder.itemView.product_desc_txt.text = index.product_desc
+            }
+
+            holder.itemView.product_desc_txt.setOnClickListener {
+
+
+                if (index.product_desc?.length!! > 50) {
+
+                    if (holder.itemView.product_desc_txt.text.toString().endsWith("Less")) {
+                        holder.itemView.product_desc_txt.text = Html.fromHtml(
+                            index.product_desc!!.substring(0, 50)
+                                    + "..." + "<font color='black'><b>More </b></font>"
+                        )
+                    } else {
+                        holder.itemView.product_desc_txt.text = Html.fromHtml(
+                            index.product_desc
+                                    + " " + "<font color='black'><b>Less</b></font>"
+                        )
+                    }
+                }
+
+
+            }
 
             if (index.image!!.isNotEmpty()) {
 //            if (index.image!!.startsWith("http")){

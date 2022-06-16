@@ -274,6 +274,9 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
         backIcon_Btn.setOnClickListener {
             searchKeyETxtAct.text.clear()
+            searchKeyETxtAct.let {
+                requireActivity().hideKeyboard(it)
+            }
 
 
             back_listener= activity as search_fragListener
@@ -285,34 +288,43 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         }
 
 
-        search_cardvv.setOnClickListener {
-
-
-        }
+//        searchKeyETxtAct.setOnClickListener {
+//
+//
+//
+//
+//            searchKeyETxtAct.isCursorVisible = true
+//
+//            searchKeyETxtAct.let {
+//                requireActivity().showSoftKeyboard(it)
+//            }
+//
+//        }
 
         searchKeyETxtAct.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                tvResturnt_name.text= bundle!!.getString("storeName")
-                search_cardvv.visibility= View.GONE
-                editTxtAct.visibility= View.GONE
+                //tvResturnt_name.text= bundle!!.getString("storeName")
+//                search_cardvv.visibility= View.GONE
+//                editTxtAct.visibility= View.GONE
                 showres_ll.visibility= View.VISIBLE
-                search_cardvvname.visibility= View.VISIBLE
-                search_ingrl.visibility= View.VISIBLE
+                //search_cardvvname.visibility= View.VISIBLE
+                //search_ingrl.visibility= View.VISIBLE
                 showingResult.text= " You Searched \"${searchKeyETxtAct.text}\" "
+                searchKeyETxtAct.isCursorVisible = false
                 hideKeyboard()
             }
             false
         }
 
-        searchImg_changeAdd221.setOnClickListener {
-            search_cardvv.visibility= View.VISIBLE
-            editTxtAct.visibility= View.VISIBLE
-            search_cardvvname.visibility= View.GONE
-            search_ingrl.visibility= View.GONE
-            showingResult.text= "Showing Result "
-            searchKeyETxtAct.isCursorVisible = true
-            showKeyboard()
-        }
+//        searchImg_changeAdd221.setOnClickListener {
+//            search_cardvv.visibility= View.VISIBLE
+//            editTxtAct.visibility= View.VISIBLE
+//            search_cardvvname.visibility= View.GONE
+//            search_ingrl.visibility= View.GONE
+//            showingResult.text= "Showing Result "
+//            searchKeyETxtAct.isCursorVisible = true
+//            showKeyboard()
+//        }
 
 
 
@@ -328,15 +340,17 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
 
+                if (!search_value.isNullOrBlank()) {
 
-                if (p2<1){
-                    mainlist_new!!.clear()
-                    storeItemsAdapter2.notifyDataSetChanged()
+                    if (p2 < 1) {
+                        mainlist_new!!.clear()
+                        storeItemsAdapter2.notifyDataSetChanged()
+                    }
+
+                    showIOSProgress()
+                    searchQuery(search_value)
+                    rvStoreItemlisting(productListFilter!!)
                 }
-
-                showIOSProgress()
-                searchQuery(search_value)
-                rvStoreItemlisting(productListFilter!!)
 
 
             }

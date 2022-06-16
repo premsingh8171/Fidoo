@@ -1098,6 +1098,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 						tv_tax_charges.visibility = View.VISIBLE
 					}
 
+
 					tv_tax_charges.text = resources.getString(R.string.ruppee) + mModelData.totalTaxAndCharges
 					charges_value.text = resources.getString(R.string.ruppee) + mModelData.allItemChargeTotal
 					//tax_value.text = resources.getString(R.string.ruppee) + mModelData.allItemTaxTotal
@@ -1175,7 +1176,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 							totalAmount = (totalAmount - mModelData.discount_amount.toDouble())
 						} else {
 							totalAmount =
-								(totalAmount - mModelData.discount_amount.toDouble()) + mModelData.totalTaxAndCharges
+								(totalAmount - mModelData.discount_amount.toDouble())
 						}
 
 						//update by prem

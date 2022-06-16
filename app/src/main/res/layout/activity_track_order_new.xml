@@ -177,7 +177,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/card1"
-                android:visibility="gone">
+                android:visibility="gone">                <!--gone-->
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/map1"
@@ -194,7 +194,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="400dp"
                     android:layout_marginBottom="60dp"
-                    android:visibility="gone">
+                    android:visibility="gone">                  <!--gone-->
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardMap123"
@@ -203,6 +203,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginEnd="16dp"
+
                         android:layout_marginBottom="60dp"
                         app:cardCornerRadius="50dp">
 
@@ -220,20 +221,21 @@
 
 
                     </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:id="@+id/cancelBtn11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="90dp"
+                        android:background="@drawable/ic_component_203"
+                        android:visibility="gone" />                  <!--gone-->
                 </RelativeLayout>
 
 
-                <ImageView
-                    android:id="@+id/cancelBtn11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="60dp"
-                    android:background="@drawable/ic_component_203"
-                    android:visibility="gone" />
+
 
                 </RelativeLayout>
 
