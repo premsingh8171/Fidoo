@@ -109,7 +109,7 @@
                     android:layout_marginEnd="@dimen/margin_10"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:id="@+id/add_item_lay"
+                    android:id="@+id/add_item_lay1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -147,7 +147,7 @@
                 <LinearLayout
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:id="@+id/add_remove_lay"
+                    android:id="@+id/add_remove_lay1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|bottom"

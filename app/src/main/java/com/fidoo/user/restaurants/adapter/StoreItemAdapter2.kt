@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.review_popup.view.*
 
 class StoreItemAdapter2(
     val con: Context,
-    val cart: MutableList<CartModel.Cart>,
+    var cart: MutableList<CartModel.Cart>,
     private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
     private val adapterClick: AdapterClick,
     private val adapterAddRemoveClick: AdapterAddRemoveClick
@@ -207,18 +207,18 @@ class StoreItemAdapter2(
                     if (count > 0) {
                         count--
                         holder.countValue.text = count.toString()
-                        adapterAddRemoveClick.onItemAddRemoveClick(
-                            cart[position].productId,
-                            count.toString(),
-                            "remove",
-                            cart[position].offerPrice,
-                            "",
-                            cart[position].cart_id, 0
-                        )
+                            adapterAddRemoveClick.onItemAddRemoveClick(
+                                cart[position].productId,
+                                count.toString(),
+                                "remove",
+                                cart[position].offerPrice,
+                                "",
+                                cart[position].cart_id, 0
+                            )
+                        }
                     }
                 }
             }
-        }
     }
 
     private fun checkForInternet(context: Context): Boolean {
