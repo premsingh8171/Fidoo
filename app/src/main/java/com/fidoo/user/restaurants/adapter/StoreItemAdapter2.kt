@@ -173,7 +173,7 @@ class StoreItemAdapter2(
                     adapterAddRemoveClick.onItemAddRemoveClick(
                         cart[position].productId,
                         count.toString(),
-                        "add",
+                        "addviasearch",
                         cart[position].offerPrice, "",
                         cart[position].cart_id, 0
                     )
@@ -207,6 +207,10 @@ class StoreItemAdapter2(
                     if (count > 0) {
                         count--
                         holder.countValue.text = count.toString()
+                        if(count == 0) {
+                            holder.additemLay.visibility = View.VISIBLE
+                            holder.addremoveLay.visibility = View.GONE
+                        }
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                 cart[position].productId,
                                 count.toString(),
@@ -244,6 +248,8 @@ class StoreItemAdapter2(
         //var storeName = view.storeName
         var itemName = view.productName
         var customitemName = view.customitemName
+        var additemLay = view.add_item_lay1
+        var addremoveLay = view.add_remove_lay1
         var priceTxt = view.productPrice
         var productImg = view.productImage
         var countValue = view.tv_count

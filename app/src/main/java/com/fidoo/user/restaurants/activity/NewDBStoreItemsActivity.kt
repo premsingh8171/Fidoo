@@ -2415,7 +2415,7 @@ import kotlin.collections.LinkedHashSet
         Log.d("count__addID", productId!!)
         // showIOSProgress()
 
-        if (type.equals("add")) {
+        if (type.equals("add") || type == "addviasearch") {
             //  cartIcon.setImageResource(R.drawable.cart_icon)
 
             if (tempProductList!!.size == 0) {
@@ -2430,7 +2430,11 @@ import kotlin.collections.LinkedHashSet
                 val addCartInputModel = AddCartInputModel()
                 addCartInputModel.productId = productId
                 addCartInputModel.quantity = count
+                if(type == "addviasearch") {
+                    addCartInputModel.message = "addviasearch"
+                } else{
                 addCartInputModel.message = "add product"
+                }
                 addCartInputModel.customizeSubCatId = customIdsList!!
                 addCartInputModel.isCustomize = "0"
                 addCartTempList!!.add(0, addCartInputModel)
@@ -2483,7 +2487,12 @@ import kotlin.collections.LinkedHashSet
                     val addCartInputModel = AddCartInputModel()
                     addCartInputModel.productId = productId
                     addCartInputModel.quantity = count
+
+                    if (type == "addviasearch"){
+                        addCartInputModel.message = "addviasearch"
+                    } else {
                     addCartInputModel.message = "add product"
+                    }
                     addCartInputModel.customizeSubCatId = customIdsList!!
                     addCartInputModel.isCustomize = "0"
                     addCartTempList!!.add(0, addCartInputModel)
