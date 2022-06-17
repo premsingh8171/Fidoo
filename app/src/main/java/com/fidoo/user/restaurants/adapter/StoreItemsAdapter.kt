@@ -29,6 +29,7 @@ import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
+import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.model.StoreDetailsModel
 import com.fidoo.user.restaurants.model.vegDiffUtil
@@ -369,6 +370,8 @@ class StoreItemsAdapter(
                         if (holder.countValue.text.toString().toInt() > 0) {
                             count--
                             holder.countValue.text = count.toString()
+                            NewDBStoreItemsActivity.is_deleting_search = "0"
+                            NewDBStoreItemsActivity.is_adding_search = "0"
                             adapterCartAddRemoveClick.onRemoveItemClick(
                                 index.productId,
                                 count.toString(),

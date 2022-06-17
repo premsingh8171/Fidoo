@@ -17,6 +17,7 @@ import com.fidoo.user.R
 import com.fidoo.user.cartview.model.CartModel
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
+import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import kotlinx.android.synthetic.main.cart_item.view.*
 import kotlinx.android.synthetic.main.new_store_item_layout.view.*
@@ -147,6 +148,7 @@ class StoreItemAdapter2(
                 var count: Int = holder.countValue.text.toString().toInt()
                 count++
                 if (cart[position].is_customize.equals("1")) {
+                    NewDBStoreItemsActivity.is_deleting_search = "1"
                     if (cart[position].customizeItem.size != 0) {
                         adapterCartAddRemoveClick.onAddItemClick(
                             count.toString(),
@@ -157,6 +159,7 @@ class StoreItemAdapter2(
                             cart[position].customizeItem[0].productCustomizeId,
                             cart[position].cart_id
                         )
+                        holder.countValue.text = count.toString()
                     } else {
                         adapterCartAddRemoveClick.onAddItemClick(
                             cart[position].productId,
@@ -192,14 +195,22 @@ class StoreItemAdapter2(
 
                 var count: Int = holder.countValue.text.toString().toInt()
                 if (cart[position].is_customize.equals("1")) {
-                    if (holder.countValue.text.toString().toInt() > 0) {
+                    if (count > 0) {
                         count--
                         holder.countValue.text = count.toString()
+                        if(count == 0) {
+                            //holder.itemView.visibility = View.GONE
+                           holder.addremoveLay.visibility = View.GONE
+                            //holder.additemLay.visibility = View.VISIBLE
+
+                        }
+                        NewDBStoreItemsActivity.searchItemPosition = position
+                        NewDBStoreItemsActivity.is_deleting_search = "1"
                         adapterCartAddRemoveClick.onRemoveItemClick(
                             cart[position].productId,
                             count.toString(),
                             cart[position].is_customize,
-                            cart[position].customizeItem[0].id,
+                            cart[position].customizeItem[0].productCustomizeId,
                             cart[position].cart_id
                         )
                     }
@@ -208,8 +219,9 @@ class StoreItemAdapter2(
                         count--
                         holder.countValue.text = count.toString()
                         if(count == 0) {
-                            holder.additemLay.visibility = View.VISIBLE
-                            holder.addremoveLay.visibility = View.GONE
+                            holder.itemView.visibility = View.INVISIBLE
+                            //holder.additemLay.visibility = View.VISIBLE
+
                         }
                             adapterAddRemoveClick.onItemAddRemoveClick(
                                 cart[position].productId,

@@ -173,16 +173,20 @@ import kotlin.collections.LinkedHashSet
     var total_cart_count: Int = 0
     var search_value: String? = ""
     var storeName: String = ""
+     var searchItemCartId: String = ""
     private var mMixpanel: MixpanelAPI? = null
     lateinit var isVegApplied : Flow<List<StoreItemProductsEntity>>
     lateinit var searchResult1 : LiveData<List<StoreItemProductsEntity>>
 
 
     companion object {
+        var is_adding_search: String = ""
+        var is_deleting_search: String = ""
         var lastCustomized_str: String = ""
         var product_customize_id: String = ""
         var customerLatitude: String = ""
         var customerLongitude: String = ""
+        var searchItemPosition: Int = 0
         var handleresponce: Int = 0
         var productsListing_Count: Int? = 0
         var storeIDCheckOnCart: String = ""
@@ -1027,6 +1031,7 @@ import kotlin.collections.LinkedHashSet
                 handleresponce = 1
                 try {
                     product_customize_id = user.product_customize_id
+                    searchItemCartId = user.cart_id
                     Thread {
                         updateByCartIdProductCustomized(
                             user.cart_quantity!!.toInt(),
@@ -2665,6 +2670,7 @@ import kotlin.collections.LinkedHashSet
                 cart_id!!,
                 customIdsList!!
             )
+
             updateProductS(quantity.toInt(), productId)
         }
         // Create the AlertDialog
@@ -2696,6 +2702,15 @@ import kotlin.collections.LinkedHashSet
                     cart_id,
                     customIdsList!!
                 )
+                if (is_deleting_search == "1"){
+                    viewmodel?.addRemoveCartResponse?.observe(this){
+                        if (it.cart_quantity != "0") {
+                            addedproductslist!![searchItemPosition].cart_id = it.cart_id
+                            addedproductslist!![searchItemPosition].quantity = it.cart_quantity
+                            storeItemsAdapter2.notifyDataSetChanged()
+                        }
+                    }
+                }
 
                 Log.d("test_rem", "${Gson().toJson(customIdsList)}")
 
