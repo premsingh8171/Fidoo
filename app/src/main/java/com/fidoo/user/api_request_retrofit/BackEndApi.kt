@@ -32,6 +32,7 @@ import com.fidoo.user.restaurants.model.StoreDetailsModel
 import com.fidoo.user.search.model.SearchListModel
 import com.fidoo.user.sendpackages.model.*
 import com.fidoo.user.store.model.StoreListingModel
+import com.fidoo.user.store.model2.StoreListingModel2
 import com.fidoo.user.user_tracker.model.UserTrackerModel
 import com.fidoo.user.viewmodels.UpdateAppModel
 import okhttp3.MultipartBody
@@ -116,7 +117,7 @@ interface BackEndApi {
     ): Call<StoreCategoriesModel>
 
     @FormUrlEncoded
-    @POST("storeList.inc.php")
+    @POST("storeListPage.inc.php")
     fun getStoresApi(
         @Field("accountId") accountId: String?,
         @Field("accessToken") accessToken: String?,
@@ -128,7 +129,7 @@ interface BackEndApi {
         @Field("sort_by") sort_by: String?,
         @Field("cuisine_to_search") cuisine_to_search: String?,
         @Field("page_count") page_count: String?
-    ): Call<StoreListingModel>
+    ): Call<StoreListingModel2>
 
     @FormUrlEncoded
     @POST("storeDetails.inc.php")

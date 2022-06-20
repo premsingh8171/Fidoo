@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
@@ -15,9 +14,9 @@ import android.widget.AbsListView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,9 +30,9 @@ import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 import com.fidoo.user.grocerynewui.activity.GroceryNewUiActivity
 import com.fidoo.user.newsearch.ui.NewSearchActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
-import com.fidoo.user.store.adapter.RestaurantCurationsAdapter
 import com.fidoo.user.store.adapter.StoreAdapter
 import com.fidoo.user.store.model.StoreListingModel
+import com.fidoo.user.store.model2.StoreListingModel2
 import com.fidoo.user.store.viewmodel.StoreListingViewModel
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.showAlertDialog
@@ -43,18 +42,15 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_store_list.*
-import kotlinx.android.synthetic.main.activity_store_list.view.*
 import kotlinx.android.synthetic.main.no_internet_connection.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 
 @Suppress("DEPRECATION")
 class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 	var storeListingViewModel: StoreListingViewModel? = null
 	var viewmodelusertrack: UserTrackerViewModel? = null
-	var storeList: ArrayList<StoreListingModel.StoreList>? = null
-	var storeListUpdated: ArrayList<StoreListingModel.StoreList>? = null
+	var storeList: ArrayList<StoreListingModel2.Store>? = null
+	var storeListUpdated: ArrayList<StoreListingModel2.Store>? = null
 	var curationList: ArrayList<StoreListingModel.Curation>? = null
 	var filterVisibility: Int = 0
 	var selectionDistance: Int = 0
@@ -126,6 +122,26 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			finish()
 			AppUtils.finishActivityLeftToRight(this)
 		}
+
+		storesNestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+			// on scroll change we are checking when users scroll as bottom.
+
+			if (scrollY == (v.getChildAt(0).measuredHeight - v.measuredHeight)) {
+				// in this method we are incrementing page number,
+				// making progress bar visible and calling get data method.
+				pagecount++
+				storeListingViewModel!!.getStores(
+					SessionTwiclo(this).loggedInUserDetail.accountId,
+					SessionTwiclo(this).loggedInUserDetail.accessToken,
+					serive_id_!!,
+					SessionTwiclo(this).userLat,
+					SessionTwiclo(this).userLng,
+					"",
+					"",
+					selectedValue, cuisine_to_search, pagecount.toString()
+				)
+			}
+		})
 
 		try {
 			val serive_id = intent.getStringExtra("serviceId")
@@ -373,6 +389,8 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 						"",
 						selectedValue, cuisine_to_search, pagecount.toString()
 					)
+
+					Log.d("test_payload", "${SessionTwiclo(this).loggedInUserDetail.accountId},${SessionTwiclo(this).loggedInUserDetail.accessToken}, $serive_id, ${SessionTwiclo(this).userLat}, ${SessionTwiclo(this).userLng}, $selectedValue, $cuisine_to_search, $pagecount")
 				}
 
 				viewmodelusertrack?.customerActivityLog(
@@ -393,6 +411,8 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 						"",
 						selectedValue, cuisine_to_search, pagecount.toString()
 					)
+					Log.d("test_payload", "$serive_id, ${SessionTwiclo(this).userLat}, ${SessionTwiclo(this).userLng}, $selectedValue, $cuisine_to_search, $pagecount")
+
 				}
 			}
 
@@ -423,6 +443,8 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 							"",
 							selectedValue, cuisine_to_search, pagecount.toString()
 						)
+						Log.d("test_payload", "$serive_id, ${SessionTwiclo(this).userLat}, ${SessionTwiclo(this).userLng}, $selectedValue, $cuisine_to_search, $pagecount")
+
 					}
 					viewmodelusertrack?.customerActivityLog(
 						SessionTwiclo(this).loggedInUserDetail.accountId,
@@ -445,6 +467,8 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 							"",
 							selectedValue, cuisine_to_search, pagecount.toString()
 						)
+						Log.d("test_payload", "$serive_id, ${SessionTwiclo(this).userLat}, ${SessionTwiclo(this).userLng}, $selectedValue, $cuisine_to_search, $pagecount")
+
 					}
 				}
 
@@ -478,6 +502,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 
 		storeListingViewModel?.getStoresApi?.observe(this, Observer { user ->
+			Log.d("test_page", "${Gson().toJson(user)}")
 			linear_progress_indicator.visibility = View.GONE
 			Log.e("stores_response", Gson().toJson(user))
 			fidooLoaderCancel()
@@ -487,7 +512,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 				if (!user.error) {
 
-					val mModelData: StoreListingModel = user
+					val mModelData: StoreListingModel2 = user
 					storeListUpdated!!.clear()
 
 					hit=0
@@ -540,13 +565,13 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 					isMore = user.more_value
 
 					if (pagecount > 0) {
-						storeListUpdated = mModelData.storeList as ArrayList
+						storeListUpdated = mModelData.store_list as ArrayList
 						storeList!!.addAll(storeListUpdated!!)
 						Log.d("ordersList__", storeList!!.size.toString())
 						adapterStore!!.updateData(storeList!!, isMore)
 						adapterStore!!.notifyDataSetChanged()
 					} else {
-						storeList = mModelData.storeList as ArrayList
+						storeList = mModelData.store_list as ArrayList
 						storeListRv(storeList!!)
 
 					}
@@ -558,7 +583,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 					}
 
 				} else {
-					if (user.errorCode == 101) {
+					if (user.error_code == 101) {
 						showAlertDialog(this)
 					}
 				}
@@ -574,7 +599,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 	}
 
-	private fun storeListRv(storeList: ArrayList<StoreListingModel.StoreList>) {
+	private fun storeListRv(storeList: ArrayList<StoreListingModel2.Store>) {
 		adapterStore = StoreAdapter(this, storeList!!)
 		storesRecyclerView.layoutManager = LinearLayoutManager(this)
 		storesRecyclerView.setHasFixedSize(true)
@@ -600,7 +625,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 				if (dy > 1) {
 					if (isScrolling && currentItems + scrollOutItems == totalItems) {
-						if (isScrolling == true) {
+						if (isScrolling) {
 							if (isMore) {
 								if (hit == 0) {
 									pagecount++

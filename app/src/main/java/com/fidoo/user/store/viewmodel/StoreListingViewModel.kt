@@ -13,18 +13,19 @@ import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
 import com.fidoo.user.data.model.CartCountModel
 import com.fidoo.user.store.model.StoreListingModel
+import com.fidoo.user.store.model2.StoreListingModel2
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class StoreListingViewModel(application: Application) : AndroidViewModel(application), Callback<StoreListingModel> {
-    var getStoresApi: MutableLiveData<StoreListingModel>? = null
+class StoreListingViewModel(application: Application) : AndroidViewModel(application), Callback<StoreListingModel2> {
+    var getStoresApi: MutableLiveData<StoreListingModel2>? = null
     var cartCountResponse: MutableLiveData<CartCountModel>? = null
     var failureResponse: MutableLiveData<String>? = null
 
     init {
-        getStoresApi = MutableLiveData<StoreListingModel>()
+        getStoresApi = MutableLiveData<StoreListingModel2>()
         cartCountResponse = MutableLiveData<CartCountModel>()
         failureResponse = MutableLiveData<String>()
     }
@@ -80,13 +81,13 @@ class StoreListingViewModel(application: Application) : AndroidViewModel(applica
             .enqueue(this)
     }
 
-    override fun onResponse(call: Call<StoreListingModel>?, response: Response<StoreListingModel>?) {
+    override fun onResponse(call: Call<StoreListingModel2>?, response: Response<StoreListingModel2>?) {
         getStoresApi?.value = response?.body()
-      //  Log.d("getStoresApi__",response?.body().toString())
+        Log.d("getStoresApi__",response?.body().toString())
 
     }
 
-    override fun onFailure(call: Call<StoreListingModel>?, t: Throwable?) {
+    override fun onFailure(call: Call<StoreListingModel2>?, t: Throwable?) {
         failureResponse?.value = t.toString()
     }
 

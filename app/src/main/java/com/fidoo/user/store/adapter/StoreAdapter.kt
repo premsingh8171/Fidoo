@@ -23,6 +23,7 @@ import com.fidoo.user.newRestaurants.activity.NewStoreItemsActivity
 import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.activity.StoreItemsActivity
 import com.fidoo.user.store.model.StoreListingModel
+import com.fidoo.user.store.model2.StoreListingModel2
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.fav_store_item.view.*
 import java.lang.StringBuilder
@@ -31,8 +32,8 @@ import java.util.*
 
 class StoreAdapter(
 	val context: Context,
-	private var storeList: ArrayList<StoreListingModel.StoreList>
-) : PagingDataAdapter<StoreListingModel.StoreList, StoreAdapter.UserViewHolder>(DataDifferntiator) {
+	private var storeList: ArrayList<StoreListingModel2.Store>
+) : PagingDataAdapter<StoreListingModel2.Store, StoreAdapter.UserViewHolder>(DataDifferntiator) {
 
 	var check: Int = 0
 	private var isMore = false
@@ -57,18 +58,18 @@ class StoreAdapter(
 		var cuisine: TextView? = view.cuisine_types
 	}
 
-	object DataDifferntiator : DiffUtil.ItemCallback<StoreListingModel.StoreList>() {
+	object DataDifferntiator : DiffUtil.ItemCallback<StoreListingModel2.Store>() {
 		override fun areItemsTheSame(
-			oldItem: StoreListingModel.StoreList,
-			newItem: StoreListingModel.StoreList
+			oldItem: StoreListingModel2.Store,
+			newItem: StoreListingModel2.Store
 		): Boolean {
 			return oldItem.id.toInt()== newItem.id.toInt()
 		}
 
 		@SuppressLint("DiffUtilEquals")
 		override fun areContentsTheSame(
-			oldItem: StoreListingModel.StoreList,
-			newItem: StoreListingModel.StoreList
+			oldItem: StoreListingModel2.Store,
+			newItem: StoreListingModel2.Store
 		): Boolean {
 			return oldItem==newItem
 		}
@@ -138,15 +139,15 @@ class StoreAdapter(
 
 		try {
 
-			if (storeList[position].storeClosingTime.equals("")) {
+			if (storeList[position].store_closing_time.equals("")) {
 				holder.closingTimeText.visibility = View.GONE
 				holder.closingTimeText.text = " "
 			} else {
-				holder.closingTimeText.text = storeList[position].storeClosingTime
+				holder.closingTimeText.text = storeList[position].store_closing_time
 				holder.closingTimeText?.setTextColor(Color.rgb(240, 0, 0))
 				holder.closingTimeText.visibility = View.VISIBLE
 			}
-			holder.itemView.opening_timetxt.text = storeList[position].storeOpeningTime
+			holder.itemView.opening_timetxt.text = storeList[position].store_opening_time
 
 		} catch (e: ParseException) {
 			e.printStackTrace()
@@ -257,7 +258,7 @@ class StoreAdapter(
 
 		holder.star_ratingtxt?.text = storeList[position].rating.toString()
 		holder.deliveryTimeTxt?.text = storeList[position].delivery_time.toString() + " minutes"
-		holder.location?.text = " " + storeList[position].distance.toString() + "km"
+		holder.location?.text = " " + storeList[position].delivery_distance.toString() + "km"
 
 		try {
 			var retStr2 = storeList[position].locality.toString().toLowerCase().substring(0, 1)
@@ -283,7 +284,7 @@ class StoreAdapter(
 					try {
 						if (storeList[position].couponsAvailable.size > 0) {
 							coupanStr =
-								storeList[position].couponsAvailable[0].couponDesc.toString()
+								storeList[position].couponsAvailable[0].coupon_desc.toString()
 						} else {
 							coupanStr = ""
 						}
@@ -306,7 +307,7 @@ class StoreAdapter(
 									storeList[position].cuisines.joinToString(separator = ", ")
 								)
 								.putExtra("coupon_desc", coupanStr)
-								.putExtra("distance", storeList[position].distance.toString())
+								.putExtra("distance", storeList[position].delivery_distance.toString())
 						)
 					} else {
 						AppUtils.startActivityRightToLeft(
@@ -325,7 +326,7 @@ class StoreAdapter(
 									storeList[position].cuisines.joinToString(separator = ", ")
 								)
 								.putExtra("coupon_desc", coupanStr)
-								.putExtra("distance", storeList[position].distance.toString())
+								.putExtra("distance", storeList[position].delivery_distance.toString())
 						)
 					}
 				} else if (storeList[position].open_close_status.equals("0")) {
@@ -352,14 +353,14 @@ class StoreAdapter(
 
 	override fun getItemCount() = storeList.size
 
-	fun setFilter(listData_: List<StoreListingModel.StoreList>) {
-		storeList = java.util.ArrayList<StoreListingModel.StoreList>()
+	fun setFilter(listData_: List<StoreListingModel2.Store>) {
+		storeList = java.util.ArrayList<StoreListingModel2.Store>()
 		storeList.addAll(listData_)
 		notifyDataSetChanged()
 	}
 
-	fun updateData(listData_: List<StoreListingModel.StoreList>, isMore1: Boolean) {
-		storeList = java.util.ArrayList<StoreListingModel.StoreList>()
+	fun updateData(listData_: List<StoreListingModel2.Store>, isMore1: Boolean) {
+		storeList = java.util.ArrayList<StoreListingModel2.Store>()
 		storeList.addAll(listData_)
 		isMore = isMore1
 		notifyDataSetChanged()

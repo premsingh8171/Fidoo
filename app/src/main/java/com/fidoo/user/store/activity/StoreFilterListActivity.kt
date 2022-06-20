@@ -31,6 +31,7 @@ import com.fidoo.user.store.activity.StoreListActivity.Companion.check_
 import com.fidoo.user.store.activity.StoreListActivity.Companion.onBackPressHandle
 import com.fidoo.user.store.adapter.StoreAdapter
 import com.fidoo.user.store.model.StoreListingModel
+import com.fidoo.user.store.model2.StoreListingModel2
 import com.fidoo.user.store.viewmodel.StoreListingViewModel
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.BaseActivity
@@ -56,8 +57,8 @@ class StoreFilterListActivity : BaseActivity() {
 
     var storeListingViewModel: StoreListingViewModel? = null
     var viewmodelusertrack: UserTrackerViewModel? = null
-    var storeList: ArrayList<StoreListingModel.StoreList>? = null
-    var storeListUpdated: ArrayList<StoreListingModel.StoreList>? = null
+    var storeList: ArrayList<StoreListingModel2.Store>? = null
+    var storeListUpdated: ArrayList<StoreListingModel2.Store>? = null
     var curationList: ArrayList<StoreListingModel.Curation>? = null
     var selectedValue: String? = ""
     var distanceStr: String? = ""
@@ -192,19 +193,19 @@ class StoreFilterListActivity : BaseActivity() {
             if (!user.error) {
                 dismissIOSProgress()
                 storeList!!.clear()
-                val mModelData: StoreListingModel = user
-                storeList = mModelData.storeList as ArrayList
+                val mModelData: StoreListingModel2 = user
+                storeList = mModelData.store_list as ArrayList
                 hit = 0
                 isMore = user.more_value
 
                 if (pagecount > 0) {
-                    storeListUpdated = mModelData.storeList as ArrayList
+                    storeListUpdated = mModelData.store_list as ArrayList
                     storeList!!.addAll(storeListUpdated!!)
                     Log.d("ordersList__", storeList!!.size.toString())
                     adapterStore!!.updateData(storeList!!, isMore)
                     adapterStore!!.notifyDataSetChanged()
                 } else {
-                    storeList = mModelData.storeList as ArrayList
+                    storeList = mModelData.store_list as ArrayList
                     storeListRv(storeList!!)
 
                 }
@@ -215,7 +216,7 @@ class StoreFilterListActivity : BaseActivity() {
                 }
 
             } else {
-                if (user.errorCode == 101) {
+                if (user.error_code == 101) {
                     showAlertDialog(this)
                 }
             }
@@ -230,7 +231,7 @@ class StoreFilterListActivity : BaseActivity() {
 
     }
 
-    private fun storeListRv(storeList: ArrayList<StoreListingModel.StoreList>) {
+    private fun storeListRv(storeList: ArrayList<StoreListingModel2.Store>) {
         adapterStore = StoreAdapter(this, storeList!!)
         storesRecyclerView.layoutManager = LinearLayoutManager(this)
         storesRecyclerView.setHasFixedSize(true)
