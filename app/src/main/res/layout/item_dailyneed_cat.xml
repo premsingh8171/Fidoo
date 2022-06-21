@@ -55,11 +55,12 @@
                         android:id="@+id/dailyNeedItem_Txt"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:fontFamily="@font/proximanovo"
                         android:gravity="center"
                         android:padding="@dimen/dimen_8dp"
-                        android:textStyle="bold"
                         android:text="@string/todo"
                         android:textColor="@color/black"
+                        android:textFontWeight="600"
                         android:textSize="@dimen/dimen_13dp" />
 
                 </RelativeLayout>

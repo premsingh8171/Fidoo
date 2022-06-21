@@ -126,7 +126,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 		storesNestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
 			// on scroll change we are checking when users scroll as bottom.
 
-			if (scrollY == (v.getChildAt(0).measuredHeight - v.measuredHeight)) {
+			if ((scrollY == (v.getChildAt(0).measuredHeight - v.measuredHeight))&& isMore) {
 				// in this method we are incrementing page number,
 				// making progress bar visible and calling get data method.
 				pagecount++
@@ -592,10 +592,10 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 		})
 
-		storeListingViewModel?.failureResponse?.observe(this, {
+		storeListingViewModel?.failureResponse?.observe(this) {
 			linear_progress_indicator.visibility = View.GONE
 			Log.d("failureResponse___", it.toString())
-		})
+		}
 
 	}
 
@@ -605,7 +605,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 		storesRecyclerView.setHasFixedSize(true)
 		storesRecyclerView.adapter = adapterStore
 		storesRecyclerView.layoutManager = manager
-		storesRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+		/*storesRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
 			override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
 				super.onScrollStateChanged(recyclerView, newState)
@@ -660,7 +660,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 			}
 
-		})
+		})*/
 
 	}
 
