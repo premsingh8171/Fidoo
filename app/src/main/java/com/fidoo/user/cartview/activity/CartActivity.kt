@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
+
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -39,7 +40,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.fidoo.user.BuildConfig
+
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addCartTempList
@@ -153,6 +154,9 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 	var tempProductId: String? = ""
 	var product_id: String? = ""
 	var storeId: String? = ""
+	var coupanId:String=""
+	var restaurant_tax:String=""
+	var hotel_dist:String=""
 	var tempOfferPrice: String? = ""
 	var filePathTemp: String = ""
 	var fileUri: Uri? = null
@@ -336,7 +340,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		}
 		catch (e:Exception){}
 
-		var paykey = BuildConfig.pay_key.toString()
+		var paykey = com.fidoo.user.BuildConfig.pay_key.toString()
 		co.setKeyID(paykey)
 
 		if (isNetworkConnected) {
@@ -503,6 +507,10 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 				viewmodel?.getCartDetailsResponse?.observe(this, Observer { user ->
 					val mCartModelData: CartModel = user
 					//	Log.d("gfhbdlfdf",Gson)
+
+
+
+
 					try {
 						if (user.cart.size != 0) {
 							for (i in 0 until user.cart.size) {
@@ -631,7 +639,8 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 									address_id,
 									"",
 									ed_delivery_instructions.text.toString(),
-									isSelected, merchant_instructions
+									isSelected, merchant_instructions,
+									hotel_dist, coupanId,restaurant_tax
 								)
 							}
 							else {
@@ -649,7 +658,8 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 							address_id,
 							"",
 							ed_delivery_instructions.text.toString(),
-							isSelected, merchant_instructions
+							isSelected, merchant_instructions,
+							hotel_dist, coupanId, restaurant_tax
 						)
 					}
 			//	}
@@ -663,6 +673,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		viewmodel?.addToCartResponse?.observe(this) { user ->
 			linear_progress_indicator.visibility = View.GONE
 			dismissIOSProgress()
+
 			Log.e("addToCartRes_cart", Gson().toJson(user))
 			if (user.errorCode == 200) {
 				val mModelData: AddToCartModel = user
@@ -841,6 +852,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 			isPrescriptionRequire = "0"
 			linear_progress_indicator.visibility = View.GONE
 
+
 			if(user.have_standing_balance == "1") {
 				Log.d("testing orders", user.balance_order.order_id)
 				payment_type = "1"
@@ -856,6 +868,14 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 					// store lat long
 					storeLat = user.store_lat
 					storeLong = user.store_long
+
+
+
+
+					restaurant_tax= user.totalTaxAndCharges.toString()
+					coupanId=user.coupon_id
+					hotel_dist= user.discount_amount
+					Log.d("idanddist", "${user.coupon_id} ----${user.discount_amount}")
 
 					other_taxes_and_charges = user.totalTaxAndCharges.toString()
 
@@ -1588,7 +1608,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		}
 
 		})
-}
+	}
 
 	private fun showDialogBottom() {
 		dialog = this@CartActivity?.let { Dialog(it) }!!
@@ -1706,7 +1726,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 	}
 
 	private fun restHomePage() {
-		deleteRoomDataBase()
+	//	deleteRoomDataBase()
 		if (SessionTwiclo(this@CartActivity).isLoggedIn) {
 			viewmodel?.getCartCountApi(
 				SessionTwiclo(this@CartActivity).loggedInUserDetail.accountId,
@@ -2163,7 +2183,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 			{
 				try {
 					dismissIOSProgress()
-					prescriptionDatabase!!.prescriptionDao()!!.getPrescriptionView().observe(this, {
+					prescriptionDatabase!!.prescriptionDao()!!.getPrescriptionView().observe(this) {
 						arraylist = it as ArrayList
 						Log.e("presasb_", arraylist!!.size.toString())
 
@@ -2198,7 +2218,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 							})
 						prescription_rv?.adapter = prescriptionAdapter
 
-					})
+					}
 
 
 				} catch (e: Exception) {

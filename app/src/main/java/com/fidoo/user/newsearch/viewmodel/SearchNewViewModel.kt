@@ -54,11 +54,12 @@ class SearchNewViewModel(application: Application) : AndroidViewModel(applicatio
         user_lat: String,
         user_long: String,
         page_count: String,
-        service_id: String
+        service_id: String,
+        search_type:String
     ) {
         Log.d(
             "searchSuggestionsApi",
-            "$accountId--$accessToken$keyword--$user_lat$user_long--$page_count--$service_id"
+            "$accountId--$accessToken$keyword--$user_lat$user_long--$page_count--$service_id--$search_type"
         )
 
         WebServiceClient.client.create(BackEndApi::class.java)
@@ -69,7 +70,8 @@ class SearchNewViewModel(application: Application) : AndroidViewModel(applicatio
                 user_lat = user_lat,
                 user_long = user_long,
                 page_count = page_count,
-                service_id = service_id
+                service_id = service_id,
+                search_type = search_type
             )
             .enqueue(object : Callback<KeywordBasedSearchSuggestionsModel> {
                 override fun onResponse(

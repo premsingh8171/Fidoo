@@ -338,6 +338,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                     when {
                         it.order_status.equals("0") -> {
                             showOrderStatusTxt.text = "Failed"
+                            orderStatus_fm.visibility = View.GONE
                         }
 
                         it.order_status.equals("1") -> {

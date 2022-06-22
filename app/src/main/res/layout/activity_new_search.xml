@@ -73,7 +73,7 @@
                             android:drawablePadding="@dimen/margin_10dp"
                             android:fontFamily="@font/proxima"
                             android:gravity="center_vertical"
-                            android:hint="Search Products"
+                            android:hint="Search Restaurants"
                             android:maxLines="1"
                             android:paddingLeft="@dimen/margin_10dp"
                             android:singleLine="true"

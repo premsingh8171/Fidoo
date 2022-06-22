@@ -1,3 +1,5 @@
+
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,12 +11,13 @@
 
 
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
 
         >
 
@@ -46,6 +49,53 @@
                     app:tint="@color/black" />
 
 
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:id="@+id/search_cardvvname"
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="dsfgsjfg"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+
+                        android:id="@+id/tvResturnt_name"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="@dimen/margin_15dp"
+                    android:gravity="right"
+                    android:visibility="gone"
+                    android:id="@+id/search_ingrl"
+                    >
+                    <ImageView
+                        android:id="@+id/searchImg_changeAdd221"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        android:layout_gravity=""
+                        android:src="@drawable/places_ic_search"
+                        app:tint="@color/black" />
+
+                </LinearLayout>
+
+
+
+
+
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dimen_50dp"
@@ -75,7 +125,7 @@
                         <!--   android:imeOptions="actionSearch"-->
 
                         <EditText
-                            android:id="@+id/searchKeyETxtAct"
+                            android:id="@+id/searchKeyETxtAct_new"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_horizontal"
@@ -84,8 +134,9 @@
                             android:drawablePadding="@dimen/margin_10dp"
                             android:fontFamily="@font/proxima"
                             android:gravity="center_vertical"
-                            android:hint="Search Products"
+                            android:hint="Search Dishes"
                             android:maxLines="1"
+                           
                             android:paddingLeft="@dimen/margin_10dp"
                             android:singleLine="true"
                             android:inputType="text"
@@ -268,13 +319,16 @@
 
         </FrameLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
         android:background="@color/transparent">
 
         <LinearLayout

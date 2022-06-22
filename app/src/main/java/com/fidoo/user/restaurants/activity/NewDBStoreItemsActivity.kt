@@ -73,6 +73,7 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
 import kotlinx.android.synthetic.main.activity_new_product_search.*
+import kotlinx.android.synthetic.main.activity_new_search.*
 import kotlinx.android.synthetic.main.activity_new_store_items.*
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.activity_store_items.RestaurantPrdSearch
@@ -119,6 +120,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import java.math.RoundingMode
 import java.util.*
+import kotlinx.android.synthetic.main.activity_store_items.store_items_screen_header as store_items_screen_header1
 
 
 class NewDBStoreItemsActivity :
@@ -269,6 +271,8 @@ class NewDBStoreItemsActivity :
 
         }.start()
 
+
+
         rvStoreItemlisting(mainlist!!)
 
         getRoomData()
@@ -351,7 +355,13 @@ class NewDBStoreItemsActivity :
             useconstants.searchFrag_visible= true
             cat_FloatBtn.visibility= View.GONE
             app_bar.visibility=View.GONE
-            main_restatuarant_const.visibility=View.GONE
+            toolbar.visibility= View.GONE
+            store_items_screen_header.visibility= View.GONE
+            main_appbar_ll.visibility= View.GONE
+            store_preference_Rlay.visibility= View.GONE
+
+
+
 
             val fragManager= supportFragmentManager
             val trasaction= fragManager.beginTransaction()
@@ -1372,12 +1382,12 @@ class NewDBStoreItemsActivity :
 
 
                                               //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,-80)
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,-30)
 
                                     }else{
 
                                               //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 675)
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i ,-80)
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i ,-30)
 
                                     }
 
@@ -1429,12 +1439,12 @@ class NewDBStoreItemsActivity :
 
 
                                       //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 ,450)
-                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,0)
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,-30)
 
                                     }else{
 
                                        // (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 , 630)
-                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,0)
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,-30)
 
                                     }
                                     //storeItemsRecyclerview?.layoutManager?.scrollToPosition(i)
@@ -2584,7 +2594,23 @@ class NewDBStoreItemsActivity :
     }
 
     override fun onResume() {
+
+//        if (mainlist.isNullOrEmpty()){
+//            restaurantProductsDatabase = Room.databaseBuilder(
+//                applicationContext,
+//                RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
+//            )
+//                .fallbackToDestructiveMigration()
+//                .build()
+//
+//
+//            getRoomData()
+//        }
+
         super.onResume()
+
+
+
         storeID = intent.getStringExtra("storeId")!!
         storeIDCheckOnCart = storeID
 
@@ -2625,7 +2651,7 @@ class NewDBStoreItemsActivity :
     override fun onBackPressed() {
 
         if (useconstants.searchFrag_visible){
-            searchKeyETxtAct.text.clear()
+        //    searchKeyETxtAct.text.clear()
             back_listener= this as search_fragListener
             back_listener!!.detach_searchFrah()
         }else
@@ -2846,8 +2872,11 @@ class NewDBStoreItemsActivity :
          shimmerFrameLayout.visibility= View.VISIBLE
          handleresponce=0
          cat_FloatBtn.visibility= View.VISIBLE
-         app_bar.visibility= View.VISIBLE
-         main_restatuarant_const.visibility=View.VISIBLE
+         toolbar.visibility= View.VISIBLE
+         store_items_screen_header.visibility= View.VISIBLE
+         app_bar.visibility=View.VISIBLE
+         main_appbar_ll.visibility= View.VISIBLE
+
          getRoomData()
 
          Handler().postDelayed({
@@ -2858,17 +2887,16 @@ class NewDBStoreItemsActivity :
 
              shimmerFrameLayout.visibility= View.GONE
              handleresponce=1
+             store_preference_Rlay.visibility= View.VISIBLE
              shimmerFrameLayout.stopShimmer()
 
 
          }, 1000)
      }
 
-
-
-
-
-
-
+    override fun onDestroy() {
+        super.onDestroy()
+        deleteRoomDataBase()
+    }
 
  }

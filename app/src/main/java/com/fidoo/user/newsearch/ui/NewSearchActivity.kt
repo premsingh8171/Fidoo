@@ -55,9 +55,10 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	var searchCategoryAdapter: SearchCategoryAdapter? = null
 	var recentSearch: ArrayList<String>? = null
 
-	//for pagination
+
 	var totalItem: Int? = 200
 	var table_count: Int? = 0
+	var searchType:String=""
 	var text_count=0
 	var textchane= false
 	private var timer: CountDownTimer? = null
@@ -123,7 +124,15 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			}
 		}
 
-		timer!!.start()
+		if (!intent.getStringExtra("type").equals("Restaurent")) {
+			timer!!.start()
+		}
+
+		if (intent.getStringExtra("type").equals("Restaurent")){
+			searchType= "store_specific"
+		}else{
+			searchType= "global"
+		}
 
 
 		binding.searchKeyETxtAct.isCursorVisible= true
@@ -141,8 +150,11 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 				search_value= binding.searchKeyETxtAct.text.toString()
 				textchane= false
-				searchCategoryAdapter!!.updateData(mainList!!, isMore)
+
+				onResponse()
+				rvCategoryList(mainList!!)
 				hideKeyboard(binding.searchKeyETxtAct)
+				binding.searchKeyETxtAct.isCursorVisible= false
 			}
 			false
 		}
@@ -157,50 +169,28 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			if (it.error_code == 200) {
 				hit = 0
 				isMore = it.more_value
-				latestList!!.clear()
-//				latestList4= it.suggestions as ArrayList<SuggestionX>
-//				latestList4!!.forEach {
-//					Log.d("checkresp", "${it.name + it.available}")
-//				}
+			//	latestList!!.clear()
 
-//				mainList!!.clear()
-//				latestList2!!.clear()
 				Log.d("keyword___", Gson().toJson(it))
 
 				if (search_value!!.isNotEmpty()) {
+
 					binding.rvSearchResult.visibility = View.VISIBLE
 					binding.showingResult.visibility = View.VISIBLE
 					if (pagecount > 0) {
 
 						latestList = it.suggestions as ArrayList
 
-//
-						if (textchane) {
-							mainList!!.clear()
-							textchane= false
-						}
-						if (intent.getStringExtra("type").equals("Restaurent")){
-							for (i in 0 until latestList!!.size) {
-								if (latestList!![i].available.equals("1") && latestList!![i].type.equals("Restaurants")) {
-									mainList!!.add(latestList!![i])
-								}
+						mainList!!.addAll(latestList!!)
 
-							}
-						}else {
 
-							for (i in 0 until latestList!!.size) {
-								if (latestList!![i].available.equals("1")) {
-									mainList!!.add(latestList!![i])
-								}
 
-							}
-						}
 
 						//here we remove duplicate item
 						val s: Set<SuggestionX> = LinkedHashSet<SuggestionX>(mainList)
 
 
-					//	mainList!!.clear()
+						mainList!!.clear()
 						mainList!!.addAll(s)
 
 
@@ -230,22 +220,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 						latestList2 = it.suggestions as ArrayList
 						mainList!!.clear()
-						if (intent.getStringExtra("type").equals("Restaurent")){
-							for (i in 0 until latestList2!!.size) {
-								if (latestList2!![i].available.equals("1") && latestList2!![i].type.equals("Restaurants")) {
-									mainList!!.add(latestList2!![i])
-								}
-
-							}
-						}else {
-
-							for (i in 0 until latestList2!!.size) {
-								if (latestList2!![i].available.equals("1")) {
-									mainList!!.add(latestList2!![i])
-								}
-
-							}
-						}
+						mainList!!.addAll(latestList2!!)
 
 						//here we remove duplicate item
 						val s: Set<SuggestionX> = LinkedHashSet<SuggestionX>(mainList)
@@ -385,7 +360,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 											search_value!!,
 											sessionTwiclo!!.userLat,
 											sessionTwiclo!!.userLng,
-											pagecount.toString(), service_id!!
+											pagecount.toString(), service_id!!,
+											searchType
 										)
 										hit = 1
 									}
@@ -413,13 +389,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 				binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
 
-				if (after<count){
-					if (after%3==0) {
-						textclear = true
-					}
-				}else{
-					textclear= true
-				}
+
 
 				binding!!.xyz2!!.root.visibility = View.GONE
 				binding.xyz.noItemFoundll.visibility = View.GONE
@@ -456,16 +426,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			) {
 
 
-
-				if (textclear){
-
-
-						textchane= true
-
 						search_value = s.toString()
-						//binding.editTxtAct.setTextColor(resources.getColor(R.color.black))
-						//  recentSearch!!.add(search_value!!)
-						//   Log.d("dsscountfff", "$start$count")
+
 
 						if (count==0){
 							binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
@@ -474,6 +436,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 						}
 						if (count < 1) {
 							page_count = 0
+							pagecount=0
 							mainList!!.clear()
 							binding.showingResult.text = "Showing Results"
 							searchCategoryAdapter!!.updateData(mainList!!, isMore)
@@ -493,23 +456,21 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 									search_value!!,
 									sessionTwiclo!!.userLat,
 									sessionTwiclo!!.userLng,
-									page_count.toString(), service_id!!
+									page_count.toString(), service_id!!, searchType
 								)
 							} else {
 								if (sessionTwiclo!!.userLat.isNotEmpty()) {
 									page_count = 0
 									mainList!!.clear()
 									binding.showingResult.text = "Showing Results"
-//                            searchCategoryAdapter!!.updateData(mainList!!, isMore)
-//                            searchCategoryAdapter!!.notifyDataSetChanged()
-//
+
 									viewModel!!.keywordBasedSearchSuggestionsApi(
 										"",
 										"",
 										search_value!!,
 										sessionTwiclo!!.userLat,
 										sessionTwiclo!!.userLng,
-										page_count.toString(), service_id!!
+										page_count.toString(), service_id!!, searchType
 									)
 								}
 							}
@@ -523,7 +484,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 									search_value!!,
 									sessionTwiclo!!.userLat,
 									sessionTwiclo!!.userLng,
-									page_count.toString(), service_id!!
+									page_count.toString(), service_id!!, searchType
 								)
 							} else {
 								if (sessionTwiclo!!.userLat.isNotEmpty()) {
@@ -539,113 +500,13 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 										search_value!!,
 										sessionTwiclo!!.userLat,
 										sessionTwiclo!!.userLng,
-										page_count.toString(), service_id!!
+										page_count.toString(), service_id!!, searchType
 									)
 								}
 
 							}
 						}
-
-						textclear=false
-
 						Log.d("search_value___", search_value.toString())
-
-
-
-
-				}
-
-//				else if () {
-//
-//					textchane = true
-//
-//					search_value = s.toString()
-//					//binding.editTxtAct.setTextColor(resources.getColor(R.color.black))
-//					//  recentSearch!!.add(search_value!!)
-//					//   Log.d("dsscountfff", "$start$count")
-//
-//					if (count == 0) {
-//						binding.editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
-//					} else {
-//						binding.editTxtAct.setTextColor(resources.getColor(R.color.black))
-//					}
-//					if (count < 1) {
-//						page_count = 0
-//						mainList!!.clear()
-//						binding.showingResult.text = "Showing Results"
-//						searchCategoryAdapter!!.updateData(mainList!!, isMore)
-//						searchCategoryAdapter!!.notifyDataSetChanged()
-//
-//
-//					}
-//
-//
-//
-//					if (search_value!!.isNotEmpty()) {
-//						binding.rvSearchResult!!.visibility = View.VISIBLE
-//						if (sessionTwiclo!!.isLoggedIn) {
-//							viewModel!!.keywordBasedSearchSuggestionsApi(
-//								sessionTwiclo!!.loggedInUserDetail.accountId,
-//								sessionTwiclo!!.loggedInUserDetail.accessToken,
-//								search_value!!,
-//								sessionTwiclo!!.userLat,
-//								sessionTwiclo!!.userLng,
-//								page_count.toString(), service_id!!
-//							)
-//						} else {
-//							if (sessionTwiclo!!.userLat.isNotEmpty()) {
-//								page_count = 0
-//								mainList!!.clear()
-//								binding.showingResult.text = "Showing Results"
-////                            searchCategoryAdapter!!.updateData(mainList!!, isMore)
-////                            searchCategoryAdapter!!.notifyDataSetChanged()
-////
-//								viewModel!!.keywordBasedSearchSuggestionsApi(
-//									"",
-//									"",
-//									search_value!!,
-//									sessionTwiclo!!.userLat,
-//									sessionTwiclo!!.userLng,
-//									page_count.toString(), service_id!!
-//								)
-//							}
-//						}
-//					} else {
-//						binding.rvSearchResult!!.visibility = View.GONE
-//
-//						if (sessionTwiclo!!.isLoggedIn) {
-//							viewModel!!.keywordBasedSearchSuggestionsApi(
-//								sessionTwiclo!!.loggedInUserDetail.accountId,
-//								sessionTwiclo!!.loggedInUserDetail.accessToken,
-//								search_value!!,
-//								sessionTwiclo!!.userLat,
-//								sessionTwiclo!!.userLng,
-//								page_count.toString(), service_id!!
-//							)
-//						} else {
-//							if (sessionTwiclo!!.userLat.isNotEmpty()) {
-//								page_count = 0
-//								mainList!!.clear()
-//								binding.showingResult.text = "Showing Results"
-////                            searchCategoryAdapter!!.updateData(mainList!!, isMore)
-////                            searchCategoryAdapter!!.notifyDataSetChanged()
-////
-//								viewModel!!.keywordBasedSearchSuggestionsApi(
-//									"",
-//									"",
-//									search_value!!,
-//									sessionTwiclo!!.userLat,
-//									sessionTwiclo!!.userLng,
-//									page_count.toString(), service_id!!
-//								)
-//							}
-//
-//						}
-//					}
-//
-//					Log.d("search_value___", search_value.toString())
-//				}
-
 			}
 		})
 

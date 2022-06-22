@@ -588,6 +588,11 @@
 
 
     <!-- header-->
+
+
+
+
+
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmerFrameLayout_main"
         android:layout_width="match_parent"
@@ -925,7 +930,7 @@
         android:layout_height="match_parent"
         android:visibility="visible"
 
-        app:layout_anchor="@+id/coordinatorLayout"
+
         app:layout_anchorGravity="center">
 
     </androidx.constraintlayout.widget.ConstraintLayout>

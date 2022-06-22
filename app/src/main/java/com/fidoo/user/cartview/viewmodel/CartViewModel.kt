@@ -287,9 +287,10 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
     }
     */
 
-    fun orderPlaceApi(accountId: String, accessToken: String, payment_amt: String, delivery_option: String, address_id: String, promo_id: String, delivery_instructions: String, payment_mode: String,merchant_instructions: String) {
+    fun orderPlaceApi(accountId: String, accessToken: String, payment_amt: String, delivery_option: String, address_id: String, promo_id: String,
+                      delivery_instructions: String, payment_mode: String,merchant_instructions: String, cart_discount:String, coupon_id:String, other_taxes_and_charges:String) {
         try {
-            Log.d("orderPlaceApi__",accountId+"\n"+accessToken+"\n"+payment_amt+"\n"+delivery_option+"\n"+address_id+"\n"+promo_id+"\n"+delivery_instructions+"\n"+payment_mode+"\n"+merchant_instructions)
+            Log.d("orderPlaceApi__",accountId+"\n"+accessToken+"\n"+payment_amt+"\n"+delivery_option+"\n"+address_id+"\n"+promo_id+"\n"+delivery_instructions+"\n"+payment_mode+"\n"+merchant_instructions+"\n"+cart_discount+"\n"+coupon_id)
         }catch (e:Exception){}
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).orderPlaceApi(
@@ -301,7 +302,10 @@ class CartViewModel(application: Application) : AndroidViewModel(application), C
             promo_id = promo_id,
             delivery_instructions = delivery_instructions,
             payment_mode = payment_mode,
-            merchant_instructions = merchant_instructions
+            merchant_instructions = merchant_instructions,
+            cart_discount = cart_discount,
+            coupon_id = coupon_id,
+            other_taxes_and_charges = other_taxes_and_charges
         )
             .enqueue(object : Callback<OrderPlaceModel> {
 
