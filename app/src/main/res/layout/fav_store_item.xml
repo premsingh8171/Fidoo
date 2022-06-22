@@ -129,6 +129,7 @@
                     android:paddingBottom="@dimen/margin_2dp">
 
                     <LinearLayout
+                        android:id="@+id/lay_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

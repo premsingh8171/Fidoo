@@ -256,7 +256,12 @@ class StoreAdapter(
 			holder.storeName?.setTextColor(Color.parseColor("#000000"))
 		}
 
-		holder.star_ratingtxt?.text = storeList[position].rating.toString()
+		if (storeList[position].rating == 0){
+			holder.itemView.lay_rating.visibility = View.GONE
+		} else {
+			holder.star_ratingtxt?.text = storeList[position].rating.toString()
+		}
+
 		holder.deliveryTimeTxt?.text = storeList[position].delivery_time.toString() + " minutes"
 		holder.location?.text = " " + storeList[position].delivery_distance.toString() + "km"
 

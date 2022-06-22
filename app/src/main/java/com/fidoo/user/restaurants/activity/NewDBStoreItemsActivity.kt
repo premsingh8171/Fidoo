@@ -789,7 +789,7 @@ import kotlin.collections.LinkedHashSet
 
             addedproductslist = storeData.cart
             Log.d("cart_test", "${Gson().toJson(storeData.cart)}")
-            rvAddedStoreItemlisting(addedproductslist!! as ArrayList<CartModel.Cart> /* = java.util.ArrayList<com.fidoo.user.cartview.model.CartModel.Cart> */, 1)
+            rvAddedStoreItemlisting(addedproductslist!! as ArrayList<CartModel.Cart> /* = java.util.ArrayList<com.fidoo.user.cartview.model.CartModel.Cart> */ , 1)
 
 
 

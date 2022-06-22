@@ -123,7 +123,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			AppUtils.finishActivityLeftToRight(this)
 		}
 
-		storesNestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+		/*storesNestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
 			// on scroll change we are checking when users scroll as bottom.
 
 			if ((scrollY == (v.getChildAt(0).measuredHeight - v.measuredHeight))&& isMore) {
@@ -141,6 +141,63 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 					selectedValue, cuisine_to_search, pagecount.toString()
 				)
 			}
+		})*/
+
+		storesRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+			override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+				super.onScrollStateChanged(recyclerView, newState)
+				if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+					isScrolling = true
+				}
+			}
+
+			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+				super.onScrolled(recyclerView, dx, dy)
+				currentItems = manager!!.childCount
+				totalItems = manager!!.itemCount
+				scrollOutItems = manager!!.findFirstVisibleItemPosition()
+				var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
+
+				Log.d("value_g_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem")
+
+				if (dy > 1) {
+					if (isScrolling && currentItems + scrollOutItems == totalItems) {
+						if (isScrolling) {
+							if (isMore) {
+								if (hit == 0) {
+									pagecount++
+									//call api here
+									if (SessionTwiclo(this@StoreListActivity).isLoggedIn) {
+										Log.d("totalItem___", "aaya--+"+serive_id_)
+
+										if (serive_id_ != null) {
+											storeListingViewModel!!.getStores(
+												SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accountId,
+												SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accessToken,
+												serive_id_!!,
+												SessionTwiclo(this@StoreListActivity).userLat,
+												SessionTwiclo(this@StoreListActivity).userLng,
+												"",
+												"",
+												selectedValue,
+												cuisine_to_search,
+												pagecount.toString()
+											)
+										}
+									}
+									hit = 1
+								}
+								isScrolling = false
+								isMore = false
+							}
+
+						}
+					}
+				}
+
+			}
+
 		})
 
 		try {
@@ -605,62 +662,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 		storesRecyclerView.setHasFixedSize(true)
 		storesRecyclerView.adapter = adapterStore
 		storesRecyclerView.layoutManager = manager
-		/*storesRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-			override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-				super.onScrollStateChanged(recyclerView, newState)
-				if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-					isScrolling = true
-				}
-			}
-
-			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-				super.onScrolled(recyclerView, dx, dy)
-				currentItems = manager!!.childCount
-				totalItems = manager!!.itemCount
-				scrollOutItems = manager!!.findFirstVisibleItemPosition()
-				var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
-
-				Log.d("value_g_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem")
-
-				if (dy > 1) {
-					if (isScrolling && currentItems + scrollOutItems == totalItems) {
-						if (isScrolling) {
-							if (isMore) {
-								if (hit == 0) {
-									pagecount++
-									//call api here
-									if (SessionTwiclo(this@StoreListActivity).isLoggedIn) {
-										Log.d("totalItem___", "aaya--+"+serive_id_)
-
-										if (serive_id_ != null) {
-											storeListingViewModel!!.getStores(
-												SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accountId,
-												SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accessToken,
-												serive_id_!!,
-												SessionTwiclo(this@StoreListActivity).userLat,
-												SessionTwiclo(this@StoreListActivity).userLng,
-												"",
-												"",
-												selectedValue,
-												cuisine_to_search,
-												pagecount.toString()
-											)
-										}
-									}
-									hit = 1
-								}
-								isScrolling = false
-								isMore = false
-							}
-
-						}
-					}
-				}
-
-			}
-
-		})*/
 
 	}
 
