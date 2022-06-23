@@ -9,5 +9,6 @@ data class Product(
     val product_name: String,
     val is_customize : String,
     val in_stock : String,
-    val active : String
+    val active : String,
+    var cart_quantity: String
 )

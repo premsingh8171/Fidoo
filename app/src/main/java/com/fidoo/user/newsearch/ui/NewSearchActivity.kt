@@ -50,6 +50,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	var search_value: String? = ""
 	var key_value: String? = ""
 	var service_id: String? = ""
+	var searchType: String = ""
 	var sessionTwiclo: SessionTwiclo? = null
 	var viewModel: SearchNewViewModel? = null
 	var searchCategoryAdapter: SearchCategoryAdapter? = null
@@ -104,6 +105,12 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 			Log.d("service_id______", service_id!!)
 		} catch (e: Exception) {
 			e.printStackTrace()
+		}
+
+		searchType = if (intent.getStringExtra("type") == "Restaurant") {
+			"store_specific"
+		} else {
+			"global"
 		}
 
 		timer = object : CountDownTimer(6000, 1000) {
@@ -426,7 +433,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 											search_value!!,
 											sessionTwiclo!!.userLat,
 											sessionTwiclo!!.userLng,
-											pagecount.toString(), service_id!!
+											pagecount.toString(), service_id!!,
+											searchType
 										)
 										hit = 1
 									}
@@ -534,7 +542,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 									search_value!!,
 									sessionTwiclo!!.userLat,
 									sessionTwiclo!!.userLng,
-									page_count.toString(), service_id!!
+									page_count.toString(), service_id!!,
+									searchType
 								)
 							} else {
 								if (sessionTwiclo!!.userLat.isNotEmpty()) {
@@ -550,7 +559,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 										search_value!!,
 										sessionTwiclo!!.userLat,
 										sessionTwiclo!!.userLng,
-										page_count.toString(), service_id!!
+										page_count.toString(), service_id!!,
+										searchType
 									)
 								}
 							}
@@ -564,7 +574,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 									search_value!!,
 									sessionTwiclo!!.userLat,
 									sessionTwiclo!!.userLng,
-									page_count.toString(), service_id!!
+									page_count.toString(), service_id!!,
+									searchType
 								)
 							} else {
 								if (sessionTwiclo!!.userLat.isNotEmpty()) {
@@ -580,7 +591,8 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 										search_value!!,
 										sessionTwiclo!!.userLat,
 										sessionTwiclo!!.userLng,
-										page_count.toString(), service_id!!
+										page_count.toString(), service_id!!,
+										searchType
 									)
 								}
 

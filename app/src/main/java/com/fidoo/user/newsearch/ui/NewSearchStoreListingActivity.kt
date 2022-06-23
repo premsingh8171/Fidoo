@@ -585,6 +585,17 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
         }
     }
 
+
+    override fun onRestart() {
+        super.onRestart()
+        viewModel!!.keywordBasedSearchResultsApi(
+            SessionTwiclo(this).loggedInUserDetail.accountId,
+        SessionTwiclo(this).loggedInUserDetail.accessToken,
+        key_value!!,
+        SessionTwiclo(this).userLat,
+        SessionTwiclo(this).userLng,
+        pagecount.toString())
+    }
     override fun onResume() {
         super.onResume()
         deleteRoomDataBase()

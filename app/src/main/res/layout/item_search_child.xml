@@ -138,7 +138,7 @@
                     android:fontFamily="@font/proxima"
                     android:gravity="center"
                     android:text="@string/_0"
-                    android:textSize="@dimen/text_size_14sp" />
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/btn_plus"

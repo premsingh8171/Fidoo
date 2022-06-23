@@ -772,7 +772,8 @@ interface BackEndApi {
         @Field("user_lat") user_lat: String?,
         @Field("user_long") user_long: String?,
         @Field("page_count") page_count: String?,
-        @Field("service_id") service_id: String?
+        @Field("service_id") service_id: String?,
+        @Field("search_type") search_type: String?
     ): Call<KeywordBasedSearchSuggestionsModel>
 
     @FormUrlEncoded

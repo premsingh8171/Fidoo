@@ -1,6 +1,7 @@
 package com.fidoo.user.newsearch.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,13 @@ class SearchCategoryStoreChildAdapter(
         holder.itemView.productPriceTxt.text = "₹ " + list.get(position).offer_price
         holder.itemView.add_item_lay_child.setOnClickListener {
             click.onProductItemClick(position, list[position], "add", 1)
+        }
+
+        if (list[position].cart_quantity != "") {
+            holder.itemView.add_item_lay_child.visibility = View.GONE
+            Log.d("test_quantity", "${list[position].cart_quantity}, ${list[position].product_id}")
+            holder.itemView.tv_count.text = list[position].cart_quantity
+            holder.itemView.add_remove_lay.visibility = View.VISIBLE
         }
 
 
@@ -94,6 +102,20 @@ class SearchCategoryStoreChildAdapter(
            model: Product,
            type: String,
            count:Int
+        )
+
+        fun onAddProductItemClick(
+            pos: Int,
+            model: Product,
+            type: String,
+            count: Int
+        )
+
+        fun onRemoveProductItemClick(
+            pos: Int,
+            model: Product,
+            type: String,
+            count: Int
         )
     }
 
