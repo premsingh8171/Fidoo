@@ -84,6 +84,24 @@ class SearchCategoryStoreAdapter(
                         categoryItemClick.onProductItemClick(position, list[position],pos,model,type,count)
                     }
 
+                    override fun onAddProductItemClick(
+                        pos: Int,
+                        model: Product,
+                        type: String,
+                        count: Int
+                    ) {
+                        categoryItemClick.onAddProductItemClick(position, list[position], model, pos, type, model.cart_id.toInt(), count)
+                    }
+
+                    override fun onRemoveProductItemClick(
+                        pos: Int,
+                        model: Product,
+                        type: String,
+                        count: Int
+                    ) {
+                        categoryItemClick.onRemoveProductItemClick(position, list[position], model, pos, type, model.cart_id.toInt(), count)
+                    }
+
                 })
             holder.itemView.searchStoreChildRv.adapter = searchCategoryStoreChildAdapter
 
@@ -124,6 +142,26 @@ class SearchCategoryStoreAdapter(
             model: Product,
             type: String,
             count:Int
+        )
+
+        fun onAddProductItemClick(
+            mainPos: Int,
+            modelStore: Store,
+            model: Product,
+            pos: Int,
+            type: String,
+            cart_id: Int,
+            count: Int
+        )
+
+         fun onRemoveProductItemClick(
+             mainPos: Int,
+             modelStore: Store,
+             model: Product,
+             pos: Int,
+             type: String,
+             cart_id: Int,
+             count: Int
         )
     }
 

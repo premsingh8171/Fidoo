@@ -48,7 +48,6 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_new_search_storelisting.*
-import kotlinx.android.synthetic.main.item_search_parent.*
 import java.math.RoundingMode
 import kotlin.collections.ArrayList
 
@@ -756,6 +755,160 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                         }
                     }
                     //addDishFromSearch = 1
+                }
+
+                override fun onAddProductItemClick(
+                    mainPos: Int,
+                    modelStore: Store,
+                    model: Product,
+                    pos: Int,
+                    type: String,
+                    cart_id: Int,
+                    count: Int
+                ) {
+                    customIdsList!!.clear()
+                    //addDishFromCart = 1
+                    checkProductInRes = 1
+                    searchStoreId = modelStore.store_id
+                    searchStoreModel = modelStore
+                    store_Name = modelStore.store_name
+                    cusins_type = modelStore.cuisines.joinToString(separator = ", ")
+                    checkSearchDish = 1
+                    Log.d("onPrdItemClick__", "$mainPos--${Gson().toJson(modelStore)}--$pos--${Gson().toJson(model)}--$type-$count")
+                    cus_itemProductId = model.product_id
+                    Log.d("count__addID",model.product_id)
+                    if (model.is_customize == "1"){
+                        customIdsListTemp?.clear()
+                        if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                            //searchLay.visibility = View.GONE
+                        } else {
+                            //searchLay.visibility = View.VISIBLE
+                            behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+                        }
+                        tempProductId = cus_itemProductId
+                        // showIOSProgress()
+                        customIdsList!!.clear()
+                        customNamesList!!.clear()
+                        tempOfferPrice = model.offer_price
+                        viewmodel?.customizeProductApi(
+                            SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId,
+                            SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken,model.product_id
+                        )
+                    } else if (model.is_customize == "0"){
+                        if (SessionTwiclo(this@NewSearchStoreListingActivity).storeId.equals(modelStore.store_id)
+                            ||SessionTwiclo(this@NewSearchStoreListingActivity).storeId.equals("")) {
+
+                            MainActivity.addCartTempList!!.clear()
+                            val addCartInputModel = AddCartInputModel()
+                            addCartInputModel.productId = model.product_id
+                            addCartInputModel.quantity = count.toString()
+                            addCartInputModel.message = "addviasearch"
+                            addCartInputModel.customizeSubCatId = customIdsList!!
+                            addCartInputModel.isCustomize = "0"
+                            MainActivity.addCartTempList!!.add(addCartInputModel)
+
+                            viewmodel!!.addToCartApi(
+                                SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId,
+                                SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken,
+                                MainActivity.addCartTempList!!,
+                                cartId
+                            )
+                            Log.d("sec_test", "${SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId}"+
+                                    " ${SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken} "+
+                                    "${Gson().toJson(MainActivity.addCartTempList!!)} $cartId")
+                            MainActivity.tempProductList!!.clear()
+
+                            updateProductS(count, model.product_id)
+
+                            val delivery_time = modelStore.delivery_time.toString()
+
+                            AppUtils.startActivityRightToLeft(
+                                this@NewSearchStoreListingActivity,
+                                Intent(this@NewSearchStoreListingActivity, NewDBStoreItemsActivity::class.java)
+                                    .putExtra("storeId", modelStore.store_id)
+                                    .putExtra("search_value", search_value)
+                                    .putExtra("storeName", modelStore.store_name)
+                                    .putExtra("store_location", store_location)
+                                    .putExtra("delivery_time", delivery_time)
+                                    .putExtra("cuisine_types", modelStore.cuisines.joinToString(separator = ", "))
+                                    .putExtra("search_type", searchType)
+                                    .putExtra("coupon_desc", "")
+                                    .putExtra("is_custom", model.is_customize)
+                                    .putExtra("distance", modelStore.distance)
+                                    .putExtra("product_id", model.product_id)
+                                    .putExtra("from_search", "1")
+                            )
+                            SessionTwiclo(this@NewSearchStoreListingActivity).storeId = modelStore.store_id
+                        }
+                        else {
+                            val builder = AlertDialog.Builder(this@NewSearchStoreListingActivity)
+                            builder.setTitle("Replace cart item!")
+                            builder.setMessage("Do you want to discard the previous selection?")
+                            builder.setIcon(android.R.drawable.ic_dialog_alert)
+                            builder.setPositiveButton("Yes") { _, _ ->
+                                viewmodel?.clearCartApi(
+                                    SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId,
+                                    SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken
+                                )
+                                updateProductS(count, model.product_id)
+                                val delivery_time = modelStore.delivery_time.toString()
+
+                                AppUtils.startActivityRightToLeft(this@NewSearchStoreListingActivity,
+                                    Intent(this@NewSearchStoreListingActivity, NewDBStoreItemsActivity::class.java)
+                                        .putExtra("storeId", modelStore.store_id)
+                                        .putExtra("search_value", search_value)
+                                        .putExtra("storeName", modelStore.store_name)
+                                        .putExtra("store_location", store_location)
+                                        .putExtra("delivery_time", delivery_time)
+                                        .putExtra("cuisine_types", modelStore.cuisines.joinToString(separator = ", "))
+                                        .putExtra("coupon_desc", "")
+                                        .putExtra("is_custom",model.is_customize)
+                                        .putExtra("distance", modelStore.distance)
+                                        .putExtra("product_id", model.product_id)
+                                        .putExtra("from_search", "1")
+                                )
+                            }
+                            builder.setNegativeButton("No") { _, _ -> }
+                            val alertDialog: AlertDialog = builder.create()
+                            alertDialog.setCancelable(false)
+                            alertDialog.show()
+                            cartitemView_LLstore.visibility = View.VISIBLE
+                        }
+                    }
+                    //addDishFromSearch = 1
+
+                }
+
+                override fun onRemoveProductItemClick(
+                    mainPos: Int,
+                    modelStore: Store,
+                    model: Product,
+                    pos: Int,
+                    type: String,
+                    cart_id: Int,
+                    count: Int
+                ) {
+                    customIdsList!!.clear()
+                    viewmodel?.addRemoveCartDetails(
+                        SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId,
+                        SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken,
+                        model.product_id,
+                        "remove",
+                        model.is_customize,
+                        "",
+                        cart_id.toString(),
+                        customIdsList!!
+                    )
+
+                    viewModel?.keywordBasedSearchResultsApi(
+                        SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId,
+                        SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken,
+                        key_value!!,
+                        SessionTwiclo(this@NewSearchStoreListingActivity).userLat,
+                        SessionTwiclo(this@NewSearchStoreListingActivity).userLng,
+                        pagecount.toString()
+                    )
                 }
 
 

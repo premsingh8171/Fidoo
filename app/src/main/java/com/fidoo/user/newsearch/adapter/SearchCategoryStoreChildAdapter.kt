@@ -90,6 +90,14 @@ class SearchCategoryStoreChildAdapter(
 //            holder.itemView.progressRl.visibility = View.GONE
 //        }
 
+        holder.itemView.btn_plus.setOnClickListener {
+            click.onAddProductItemClick(position, list[position], "add", list[position].cart_quantity.toInt())
+        }
+
+        holder.itemView.btn_minus.setOnClickListener {
+            click.onRemoveProductItemClick(position, list[position], "remove", list[position].cart_quantity.toInt())
+        }
+
     }
 
     override fun getItemCount(): Int {
