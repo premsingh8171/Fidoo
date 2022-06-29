@@ -162,13 +162,14 @@ class StoreItemAdapter2(
                         holder.countValue.text = count.toString()
                     } else {
                         adapterCartAddRemoveClick.onAddItemClick(
+                            count.toString(),
                             cart[position].productId,
                             items,
                             cart[position].offerPrice,
                             cart[position].is_customize,
                             "",
                             cart[position].cart_id,
-                            count.toString()
+
                         )
                     }
                 } else {
