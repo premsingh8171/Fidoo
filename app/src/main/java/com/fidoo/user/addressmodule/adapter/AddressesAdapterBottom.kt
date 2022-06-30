@@ -32,8 +32,17 @@ class AddressesAdapterBottom(
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         //holder.tv_address_title.text = "House No.: " + addressList.get(position).flatNo + "\nBuilding: " + addressList[position].building + "\nLandmark: " + addressList.get(position).landmark + "\n" + "Location: " + addressList.get(position).location
 
-        holder.tv_address_title.text = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
-
+        if (addressList[position].landmark.isNullOrBlank()){
+            holder.tv_address_title.text =
+                addressList.get(position).flatNo  + ", " + addressList.get(
+                    position
+                ).location
+        }else {
+            holder.tv_address_title.text =
+                addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(
+                    position
+                ).location
+        }
         if (addressList[position].inDeliveryRange == "0"){
             holder.mainLay.alpha = 0.5f
         }
