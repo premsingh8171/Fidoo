@@ -59,6 +59,7 @@ import com.fidoo.user.addressmodule.adapter.AddressesAdapterBottom
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
+import com.fidoo.user.constants.useconstants
 
 import com.fidoo.user.constants.useconstants.navigateFromNewAddressActivity
 import com.fidoo.user.dailyneed.ui.ServiceDailyNeedActivity
@@ -300,6 +301,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 							}
 							override fun onClick(addressList: GetAddressModel.AddressList) {
 								NewAddAddressActivityNew.checkCount = 0
+								useconstants.addressTypeuser= true
 								when {
 									addressList.addressType.equals("1") -> {
 										if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
@@ -468,7 +470,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 					viewmodel?.getHomeDataApi(
 						SessionTwiclo(context).loggedInUserDetail.accountId,
 						SessionTwiclo(context).loggedInUserDetail.accessToken,
-						SessionTwiclo(context).userLat,
+						SessionTwiclo(requireContext()).userLat,
 						SessionTwiclo(context).userLng
 					)
 					viewmodel?.getBanners(
@@ -761,7 +763,13 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						SessionTwiclo(context).loggedInUserDetail.accountId,
 						SessionTwiclo(context).loggedInUserDetail.accessToken
 					)
-					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+					if(useconstants.addressTypeuser && !(SessionTwiclo(context).userAddress.equals(""))){
+						fragmentHomeBinding?.userAddressNewDesh?.text = SessionTwiclo(context).userAddress
+					}else{
+						fragmentHomeBinding?.userAddressNewDesh?.text = SessionTwiclo(context).currentlyAddress
+						SessionTwiclo(context).userLat= SessionTwiclo(context).currentLat
+						SessionTwiclo(context).userLng= SessionTwiclo(context).currentLng
+					}
 
 					if (SessionTwiclo(context).addressType.equals("")) {
 						text_newDesh.text = "Your Location"
@@ -769,7 +777,13 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						text_newDesh.text = SessionTwiclo(context).addressType
 					}
 				} else {
-					userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+					if (useconstants.addressTypeuser) {
+						userAddress_newDesh?.text = SessionTwiclo(context).userAddress
+					}else{
+						userAddress_newDesh?.text = SessionTwiclo(context).currentlyAddress
+						SessionTwiclo(context).userLat= SessionTwiclo(context).currentLat
+						SessionTwiclo(context).userLng= SessionTwiclo(context).currentLng
+					}
 					text_newDesh.text = SessionTwiclo(context).addressType
 				}
 			} catch (e : Exception){}
@@ -831,8 +845,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 	override fun onStart() {
 		deleteRoomDataBase()
-		if(NewAddAddressActivityNew.checkCount == 1){
-			getAddress()
+		if(useconstants.addressTypeuser && !(SessionTwiclo(context).userAddress.equals(""))){
+			fragmentHomeBinding?.userAddressNewDesh?.text = SessionTwiclo(context).userAddress
+		}else{
+			fragmentHomeBinding?.userAddressNewDesh?.text = SessionTwiclo(context).currentlyAddress
 		}
 		super.onStart()
 	}

@@ -31,15 +31,13 @@ import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.activity.CartActivity.Companion.storeLat
 import com.fidoo.user.cartview.activity.CartActivity.Companion.storeLong
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.constants.useconstants.navigateFromCart
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
-import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
-import com.fidoo.user.utils.BaseActivity
-import com.fidoo.user.utils.hideKeyboard
-import com.fidoo.user.utils.showAlertDialog
+import com.fidoo.user.utils.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
@@ -259,6 +257,11 @@ class SavedAddressesActivityNew : BaseActivity() {
                 Intent(this, NewAddAddressActivityNew::class.java)
                     .putExtra("where", where), 1
             )
+        }
+
+        searchEdt_new_fgmt.setOnClickListener {
+            searchEdt_new_fgmt.isCursorVisible= true
+            showSoftKeyboard(searchEdt_new_fgmt)
         }
 
 

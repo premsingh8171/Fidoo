@@ -14,6 +14,7 @@ import com.fidoo.user.addressmodule.activity.NewAddAddressActivityNew
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.cartview.activity.CartActivity
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.sendpackages.activity.SendPackageActivity
@@ -43,8 +44,7 @@ class AddressesAdapter(
             holder.itemView.editAdd.visibility = View.VISIBLE
             holder.itemView.tv_yourAddresses.visibility = View.GONE
 
-            holder.itemView.setassDefaultTxt.visibility = View.VISIBLE
-            holder.itemView.selectedadd_img.visibility = View.VISIBLE
+
 
             holder.itemView.deleteAdd.setOnClickListener {
                 setOnDeteleAddListener.onDelete(
@@ -53,22 +53,12 @@ class AddressesAdapter(
                 )
             }
 
-            if (SessionTwiclo(con).userAddressId.equals(addressList[position].id)) {
-                holder.itemView.setassDefaultTxt.visibility = View.VISIBLE
-                holder.itemView.selectedadd_img.visibility = View.VISIBLE
-                holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
 
-            } else {
-                holder.itemView.setassDefaultTxt.visibility = View.GONE
-                holder.itemView.selectedadd_img.visibility = View.VISIBLE
-            }
 
         }else {
-            holder.itemView.deleteAdd.visibility = View.GONE
-            holder.itemView.editAdd.visibility = View.GONE
-            holder.itemView.setassDefaultTxt.visibility = View.GONE
-            holder.itemView.setassDefaultTxt.visibility = View.GONE
-            holder.itemView.selectedadd_img.visibility = View.GONE
+//            holder.itemView.deleteAdd.visibility = View.GONE
+//            holder.itemView.editAdd.visibility = View.GONE
+
 
 //            if (position == 0) {
 //                holder.itemView.tv_yourAddresses.visibility = View.VISIBLE
@@ -124,6 +114,7 @@ class AddressesAdapter(
 
         holder.mainLay.setOnClickListener {
             Log.e("clicked", "clicked")
+            useconstants.addressTypeuser= true
             if (addressList[position].inDeliveryRange == "0"){
                 Toast.makeText(con, "Store doesn't deliver to this location", Toast.LENGTH_LONG).show()
             }
@@ -251,9 +242,7 @@ class AddressesAdapter(
                         }
                     }
 
-                    holder.itemView.setassDefaultTxt.visibility=View.VISIBLE
-                    holder.itemView.selectedadd_img.visibility=View.VISIBLE
-                    holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
+
 
                     SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
                     SessionTwiclo(con).userAddressId = addressList[position].id

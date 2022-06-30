@@ -184,6 +184,9 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 	private var end_Lng: Double? = 0.0
 	var start_point: String = ""
 	var end_point: String = ""
+	var building_no:String=""
+	var landmark_user:String = ""
+	var map_location: String =""
 	var lastCustomized_str: String = ""
 	var check: Int = 0
 	var prescription_id: Int = 0
@@ -244,8 +247,19 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		bottomSheetOutstandingPayment.setCanceledOnTouchOutside(false)
 		bottomSheetOutstandingPayment.setCancelable(false)
 
+		addressViewModel?.getAddressesApi(
+			accountId,
+			accessToken,
+			"",
+			""
+		)
+
 		selectedAddressId = ""
-		selectedAddressName = SessionTwiclo(this).userAddress
+		if(useconstants.addressTypeuser && !(SessionTwiclo(this).userAddress.equals(""))){
+			selectedAddressName = SessionTwiclo(this).userAddress
+		}else{
+			selectedAddressName = SessionTwiclo(this).currentlyAddress
+		}
 		tv_delivery_address_title.text = selectedAddressTitle
 		tv_delivery_address.text = selectedAddressName
 		tv_landmark.text = selectedPreAddressName
@@ -257,14 +271,13 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 					tv_select_address.text = "Add Address"
 					select_address_or_add_layout.visibility = View.VISIBLE
 				}
-//				else if (navigateFromCart == 1){
-//					cart_payment_lay.visibility = View.VISIBLE
-//					select_address_or_add_layout.visibility = View.GONE
-//				}
-				else if(user.errorCode == 200){
+
+				else
+					if(!useconstants.addressTypeuser) {
 					tv_select_address.text = "Select Address"
 					select_address_or_add_layout.visibility = View.VISIBLE
 					cart_payment_lay.visibility = View.GONE
+
 				}
 //				else if (!user.addressList.isNullOrEmpty()) {
 //						user.addressList.forEach { list ->
@@ -279,6 +292,10 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 					cart_payment_lay.visibility = View.GONE
 				}
 			})
+
+
+
+
 		}
 		else if(tv_delivery_address.text.isNullOrEmpty()){
 			tv_select_address.text = "Add Address"
@@ -1660,6 +1677,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 							addressList: GetAddressModel.AddressList
 						) {}
 						override fun onClick(addressList: GetAddressModel.AddressList) {
+							useconstants.addressTypeuser= true
 							NewAddAddressActivityNew.checkCount = 0
 							when {
 								addressList.addressType.equals("1") -> {
