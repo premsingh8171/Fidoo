@@ -179,18 +179,36 @@ class AddressesAdapter(
                 else if (stringExtra.equals("address")) {
                     when {
                         addressList[position].addressType.equals("1") -> {
-                            SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
+                            if (addressList[position].landmark.isNullOrBlank()){
+                                SessionTwiclo(con).userAddress = addressList.get(position).flatNo +  ", " + addressList.get(position).location
+
+                            }else{
+                                SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
+
+                            }
                             SessionTwiclo(con).addressType= "Home"
                         }
 
                         addressList[position].addressType.equals("2") -> {
-                            SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
+                            if (addressList[position].landmark.isNullOrBlank()){
+                                SessionTwiclo(con).userAddress = addressList.get(position).flatNo +  ", " + addressList.get(position).location
+
+                            }else{
+                                SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
+
+                            }
                             SessionTwiclo(con).addressType = "Office"
 
                         }
 
                         else -> {
-                            SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
+                            if (addressList[position].landmark.isNullOrBlank()){
+                                SessionTwiclo(con).userAddress = addressList.get(position).flatNo +  ", " + addressList.get(position).location
+
+                            }else{
+                                SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
+
+                            }
                             SessionTwiclo(con).addressType = "Other"
 
                         }
@@ -199,7 +217,13 @@ class AddressesAdapter(
                     //  holder.itemView.selectedadd_img.visibility=View.VISIBLE
                     // holder.itemView.selectedadd_img.setImageResource(R.drawable.filter_on)
 
-                    SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
+                    if (addressList[position].landmark.isNullOrBlank()){
+                        SessionTwiclo(con).userAddress = addressList.get(position).flatNo +  ", " + addressList.get(position).location
+
+                    }else{
+                        SessionTwiclo(con).userAddress = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
+
+                    }
                     SessionTwiclo(con).userAddressId = addressList[position].id
                     SessionTwiclo(con).userLat = addressList[position].latitude
                     SessionTwiclo(con).userLng = addressList[position].longitude
@@ -306,7 +330,7 @@ class AddressesAdapter(
 
             // Log.d("ewwewew",addressList[position].phone_no.toString())
             // if (stringExtra.equals("address")||stringExtra.equals("from")||stringExtra.equals("to")) {
-            con.startActivity(Intent(con, NewAddAddressActivityNew::class.java).putExtra("data", Gson().toJson(addressList[position])))
+            con.startActivity(Intent(con, NewAddAddressActivityNew::class.java).putExtra("data", Gson().toJson(addressList[position])).putExtra("Id",addressList[position].id))
             //    }
 
             //   true

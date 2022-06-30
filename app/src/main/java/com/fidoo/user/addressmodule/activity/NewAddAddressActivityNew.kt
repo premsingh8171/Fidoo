@@ -70,6 +70,7 @@ import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.material.textfield.TextInputEditText
+import com.google.api.client.json.Json
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mixpanel.android.mpmetrics.MixpanelAPI
@@ -77,6 +78,7 @@ import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import com.skyfishjy.library.RippleBackground
 import kotlinx.android.synthetic.main.activity_new_add_address_new.*
 import kotlinx.android.synthetic.main.content_map.*
+import org.json.JSONObject
 import java.util.*
 
 @Suppress("DEPRECATION")
@@ -105,6 +107,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
     var addressType: String = "1"
     var defaultValue: String = "0"
 
+    var AddressId:String= ""
     var tempAddressId: String = ""
     var where: String? = ""
     var contact_type: String? = ""
@@ -193,6 +196,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             iv_emptyMap.visibility = View.VISIBLE
             useconstants.editAddress= false
         }
+        AddressId= intent.getStringExtra("Id").toString()
+
 
         // where = intent.getStringExtra("where")
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
@@ -265,6 +270,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
         ivPickContact.setOnClickListener {
             var i = Intent(Intent.ACTION_PICK)
+            SavedAddressesActivityNew.lat_long=1
             i.type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
             startActivityForResult(i,111)
         }
@@ -545,6 +551,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                             Toast.makeText(this, "unable to get location", Toast.LENGTH_SHORT).show()
                         }
                     }
+
+
             }
             if (addressType.equals("1")) {
                 SessionTwiclo(this).addressType = "Home"
@@ -557,8 +565,18 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         }
 
         change_txt.setOnClickListener {
+
+            useconstants.editAddress= false
+            ProfileFragment.addManages= " "
+            useconstants.addressListShow= false
+            viewmodel?.removeAddressApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken, AddressId
+            )
             val intent = Intent(this,SavedAddressesActivityNew::class.java)
-            startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
+            startActivity(intent)
+            AppUtils.finishActivityLeftToRight(this)
+            finish()
         }
 
         viewmodel?.editAddressResponse?.observe(this) {
@@ -788,7 +806,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                 ed_name.setText(rs.getString(1))
             }
         }
-        if (requestCode == 51) {
+        if (requestCode == 111) {
             if (resultCode == RESULT_OK) {
                 if (intent.hasExtra("data")) {
                     getDeviceLocation()

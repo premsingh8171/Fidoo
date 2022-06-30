@@ -10,6 +10,7 @@
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/drawable/custom_cursor.xml" value="0.1825" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/drawable/fbblue_star.xml" value="0.1625" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/drawable/feedback_submit.xml" value="0.18" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/drawable/ic_clear.xml" value="0.1495" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/drawable/ic_home_new.xml" value="0.1825" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/drawable/ic_location.xml" value="0.1825" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/drawable/ic_star_4.xml" value="0.18" />
@@ -31,7 +32,7 @@
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_review_order.xml" value="0.14" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_review_order_sendpackages.xml" value="0.17572463768115942" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_saved_addresses.xml" value="0.1675929884566054" />
-        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_saved_addresses_new.xml" value="0.1675929884566054" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_saved_addresses_new.xml" value="0.25" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_send_package_order_detail.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_store_filter_list.xml" value="0.21" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/activity_store_items.xml" value="0.1" />
@@ -49,7 +50,7 @@
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/fragment_home.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/fragment_home_newui.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/fragment_orders.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/fragment_profile.xml" value="0.14505893019038985" />
+        <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/fragment_search_new.xml" value="0.12318840579710146" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/grocery_adapter.xml" value="0.11757161179991449" />
         <entry key="..\:/Users/Dell/StudioProjects/fidoo_user/app/src/main/res/layout/grocery_cat_header_layout.xml" value="0.25" />

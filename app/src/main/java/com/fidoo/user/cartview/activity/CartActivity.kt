@@ -323,7 +323,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 			maxdistll.visibility= View.GONE
 			if(tv_select_address.text.equals("Add Address")){
-				useconstants.showSavedActivity= false
+
 				val intent = Intent(this@CartActivity,SavedAddressesActivityNew::class.java)
 				startActivity(intent)
 			}
@@ -588,7 +588,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		}
 
 		delivery_addressCard.setOnClickListener {
-			useconstants.showSavedActivity= false
+
 
 			if (!isNetworkConnected) {
 				showToast(resources.getString(R.string.provide_internet))
@@ -1744,21 +1744,45 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 							NewAddAddressActivityNew.checkCount = 0
 							when {
 								addressList.addressType.equals("1") -> {
-									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									if (addressList.landmark.isNullOrBlank()){
+										SessionTwiclo(this@CartActivity).userAddress =
+											addressList.flatNo + ", " + addressList.location
+									}else {
+										SessionTwiclo(this@CartActivity).userAddress =
+											addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									}
 									SessionTwiclo(this@CartActivity).addressType= "Home"
 								}
 								addressList.addressType.equals("2") -> {
-									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									if (addressList.landmark.isNullOrBlank()){
+										SessionTwiclo(this@CartActivity).userAddress =
+											addressList.flatNo + ", " + addressList.location
+									}else {
+										SessionTwiclo(this@CartActivity).userAddress =
+											addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									}
 									SessionTwiclo(this@CartActivity).addressType = "Office"
 								}
 
 								else -> {
-									SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									if (addressList.landmark.isNullOrBlank()){
+										SessionTwiclo(this@CartActivity).userAddress =
+											addressList.flatNo + ", " + addressList.location
+									}else {
+										SessionTwiclo(this@CartActivity).userAddress =
+											addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+									}
 									SessionTwiclo(this@CartActivity).addressType = "Other"
 								}
 							}
 
-							SessionTwiclo(this@CartActivity).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+							if (addressList.landmark.isNullOrBlank()){
+								SessionTwiclo(this@CartActivity).userAddress =
+									addressList.flatNo + ", " + addressList.location
+							}else {
+								SessionTwiclo(this@CartActivity).userAddress =
+									addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
+							}
 							SessionTwiclo(this@CartActivity).userAddressId = addressList.id
 							address_id=addressList.id
 							SessionTwiclo(this@CartActivity).userLat = addressList.latitude
@@ -1853,7 +1877,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 	override fun onResume() {
 
-		if(useconstants.addressTypeuser){
+		if(useconstants.addressTypeuser && !(SessionTwiclo(this).userAddress.equals(""))){
 			selectedAddressName = SessionTwiclo(this).userAddress
 			userLat = SessionTwiclo(this).userLat
 			userLong = SessionTwiclo(this).userLng

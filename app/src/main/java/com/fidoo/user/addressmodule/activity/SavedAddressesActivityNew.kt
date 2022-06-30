@@ -50,6 +50,7 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_saved_addresses_new.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
+import okhttp3.internal.notify
 import java.util.*
 import kotlin.collections.LinkedHashSet
 
@@ -148,6 +149,9 @@ class SavedAddressesActivityNew : BaseActivity() {
             }
         }
 
+
+
+
         if (ProfileFragment.addManages.equals("add_manage")) {
             tv_yourAddresses_New.visibility = View.GONE
             locationViewll.visibility = View.GONE
@@ -172,8 +176,7 @@ class SavedAddressesActivityNew : BaseActivity() {
 
         add_addressfm.setOnClickListener {
             useconstants.showeditdelete= false
-
-            useconstants.showSavedActivity= false
+            useconstants.fromprofile=true
 
             tv_yourAddresses_New.visibility = View.GONE
             add_addressfm.visibility= View.GONE
@@ -214,7 +217,7 @@ class SavedAddressesActivityNew : BaseActivity() {
                      emptyScren_ll.visibility = View.GONE
                 }
 
-                if (!user.addressList.isNullOrEmpty()) {
+
                     val adapter = AddressesAdapter(this, user.addressList, object : AddressesAdapter.SetOnDeteleAddListener {
                             override fun onDelete(
                                 add_id: String,
@@ -223,6 +226,7 @@ class SavedAddressesActivityNew : BaseActivity() {
                                 //hit api
                                 // Log.e("adadd_id", add_id)
                                 deleteAddDialog(add_id)
+
                             }
                         },
                         intent.getStringExtra("type")
@@ -230,7 +234,8 @@ class SavedAddressesActivityNew : BaseActivity() {
                     addressesRecyclerView?.layoutManager = GridLayoutManager(this, 1)
                     addressesRecyclerView?.setHasFixedSize(true)
                     addressesRecyclerView?.adapter = adapter
-                }
+
+
             }
             else if (user.errorCode==101){
                 showAlertDialog(this)
@@ -331,7 +336,7 @@ class SavedAddressesActivityNew : BaseActivity() {
             searchEdt_new_fgmt.getText().clear()
             search_add_rv.visibility = View.GONE
             search_iconImg.visibility = View.GONE
-            clear_searchImg.visibility = View.VISIBLE
+            clear_searchImg.visibility = View.GONE
             addressesRecyclerView.visibility = View.VISIBLE
             searchAdd("", token)
         }
@@ -410,21 +415,29 @@ class SavedAddressesActivityNew : BaseActivity() {
             }
         }
 
-    override fun onRestart() {
 
-        super.onRestart()
-    }
 
     override fun onResume() {
 
         super.onResume()
 
         if (!useconstants.showSavedActivity){
-            useconstants.showSavedActivity= true
-            AppUtils.finishActivityLeftToRight(this)
 
+            if (useconstants.fromprofile){
+                useconstants.fromprofile= false
+                tv_yourAddresses_New.visibility = View.GONE
+                locationViewll.visibility = View.GONE
+                searchAdd_cardView.visibility = View.GONE
+                addDividerLl.visibility = View.GONE
+                headingaddItxt.visibility = View.VISIBLE
+                add_addressfm.visibility = View.VISIBLE
+                addressesRecyclerView.visibility= View.VISIBLE
 
-            finish()
+            }else {
+                useconstants.showSavedActivity = true
+                AppUtils.finishActivityLeftToRight(this)
+                finish()
+            }
         }
         Log.d("editAdd___", editAdd.toString())
         if (editAdd == 1) {

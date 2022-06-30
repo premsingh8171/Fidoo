@@ -16,7 +16,7 @@ object useconstants {
     var addressTypeuser = false
     var editAddress= false
     var adapterPosition=0
-    var changeCallcolour = true
+    var fromprofile = false
     var track_sendpackage = false
     var movetoOrderFrag= false
     var showSavedActivity= true

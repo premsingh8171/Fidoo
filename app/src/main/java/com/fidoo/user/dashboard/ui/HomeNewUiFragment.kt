@@ -754,6 +754,15 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	override fun onResume() {
 		Log.d("Home", "onResume: ")
 		super.onResume()
+
+		val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			dialog?.setCanceledOnTouchOutside(false)
+			cancelabledialog= true
+			showDialogUi()
+		}
+
+
 		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
 			CartActivity.accountId = SessionTwiclo(requireActivity()).loggedInUserDetail.accountId
 			CartActivity.accessToken =
