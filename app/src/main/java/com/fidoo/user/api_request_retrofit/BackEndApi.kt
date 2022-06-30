@@ -398,10 +398,11 @@ interface BackEndApi {
     ): Call<AboutUsModel>
 
     @FormUrlEncoded
-    @POST("orderList.inc.php")
+    @POST("orderListPage.inc.php")
     fun getMyOrdersApi(
         @Field("accountId") accountId: String?,
-        @Field("accessToken") accessToken: String?
+        @Field("accessToken") accessToken: String?,
+        @Field("page_count") page_count: String?
     ): Call<MyOrdersModel>
 
     @FormUrlEncoded

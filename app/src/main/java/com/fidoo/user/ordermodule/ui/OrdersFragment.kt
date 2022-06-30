@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.*
+import android.widget.AbsListView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.handleTrackScreenOrderSuccess
@@ -58,6 +60,15 @@ class OrdersFragment : Fragment(),
 	var fragmentOrdersBinding: FragmentOrdersBinding? = null
 	var checkStatusOfReview: Int = 0
 	var ordersList: ArrayList<MyOrdersModel.Order>?=null
+	var pageCount: Int = 0
+	var isScrolling = false
+	private var manager: GridLayoutManager? = null
+	private var currentItems = 0
+	private var totalItems: Int = 0
+	private var scrollOutItems: Int = 0
+	private var isMore = false
+	var adapter: OrdersAdapter? = null
+
 
 	companion object {
 		var handleApiResponse: Int = 0
@@ -71,6 +82,8 @@ class OrdersFragment : Fragment(),
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
+
+		manager = GridLayoutManager(mmContext, 1)
 		fragmentOrdersBinding =
 			DataBindingUtil.inflate(inflater, R.layout.fragment_orders, container, false)
 
@@ -99,6 +112,45 @@ class OrdersFragment : Fragment(),
 
 		ApiCall()
 
+		fragmentOrdersBinding?.ordersRecyclerView?.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+			override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+				super.onScrollStateChanged(recyclerView, newState)
+				if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+					isScrolling = true
+				}
+			}
+
+			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+				super.onScrolled(recyclerView, dx, dy)
+				currentItems = manager!!.childCount
+				totalItems = manager!!.itemCount
+				scrollOutItems = manager!!.findFirstVisibleItemPosition()
+				//var firstvisibleItem = manager!!.findFirstCompletelyVisibleItemPosition()
+
+				//Log.d("value_g_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem")
+
+				if (dy > 1) {
+					if (isScrolling && currentItems + scrollOutItems == totalItems) {
+						if (isScrolling) {
+							if (isMore) {
+									pageCount++
+									//call api here
+									if (SessionTwiclo(mmContext).isLoggedIn) {
+										viewmodel!!.getMyOrders(
+											SessionTwiclo(mmContext).loggedInUserDetail.accountId,
+											SessionTwiclo(mmContext).loggedInUserDetail.accessToken,
+											pageCount.toString()
+										)
+									}
+								isScrolling = false
+							}
+
+						}
+					}
+				}
+			}
+		})
+
 
 		fragmentOrdersBinding?.noInternetLlInclude!!.retryOnRefresh.setOnClickListener {
 			if ((activity as MainActivity).isNetworkConnected) {
@@ -116,7 +168,8 @@ class OrdersFragment : Fragment(),
 				if (SessionTwiclo(requireContext()).isLoggedIn) {
 					viewmodel?.getMyOrders(
 						SessionTwiclo(activity).loggedInUserDetail.accountId,
-						SessionTwiclo(activity).loggedInUserDetail.accessToken
+						SessionTwiclo(activity).loggedInUserDetail.accessToken,
+						"0"
 					)
 				} else {
 					_progressDlg!!.dismiss()
@@ -169,6 +222,7 @@ class OrdersFragment : Fragment(),
 				if (!user.error) {
 					try {
 						val mModelData: MyOrdersModel = user
+						isMore = user.more_value
 						Log.e("ordersResponse", Gson().toJson(mModelData))
 						ordersList = mModelData.orders as ArrayList
 						if (mModelData.orders.isNotEmpty()) {
@@ -193,7 +247,7 @@ class OrdersFragment : Fragment(),
 			}
 		})
 
-		viewmodel?.reviewResponse?.observe(requireActivity(), { user ->
+		viewmodel?.reviewResponse?.observe(requireActivity()) { user ->
 			if (checkStatusOfReview == 1) {
 				dismissIOSProgress()
 				if (_progressDlg != null) {
@@ -208,13 +262,14 @@ class OrdersFragment : Fragment(),
 				// Toast.makeText(requireContext(), user.message, Toast.LENGTH_SHORT).show()
 				viewmodel?.getMyOrders(
 					SessionTwiclo(activity).loggedInUserDetail.accountId,
-					SessionTwiclo(activity).loggedInUserDetail.accessToken
+					SessionTwiclo(activity).loggedInUserDetail.accessToken,
+					"0"
 				)
 			}
 
-		})
+		}
 
-		viewmodel?.orderFeedback?.observe(requireActivity(), { feedback ->
+		viewmodel?.orderFeedback?.observe(requireActivity()) { feedback ->
 			if (checkStatusOfReview == 1) {
 				dismissIOSProgress()
 				if (_progressDlg != null) {
@@ -228,12 +283,13 @@ class OrdersFragment : Fragment(),
 				Toast.makeText(context, model.message, Toast.LENGTH_SHORT).show()
 				viewmodel?.getMyOrders(
 					SessionTwiclo(activity).loggedInUserDetail.accountId,
-					SessionTwiclo(activity).loggedInUserDetail.accessToken
+					SessionTwiclo(activity).loggedInUserDetail.accessToken,
+					"0"
 				)
 			}
-		})
+		}
 
-		viewmodel?.uploadPrescriptionResponse?.observe(requireActivity(), { user ->
+		viewmodel?.uploadPrescriptionResponse?.observe(requireActivity()) { user ->
 			dismissIOSProgress()
 			if (_progressDlg != null) {
 
@@ -244,26 +300,27 @@ class OrdersFragment : Fragment(),
 
 			Log.e("uploadResponse", Gson().toJson(mModelData))
 
-		})
+		}
 
 //        viewmodel?.cancelOrderResponse?.observe(requireActivity(), { user ->
 //
 //        })
 
-		viewmodel?.repeatOrderResponse?.observe(requireActivity(), { response ->
+		viewmodel?.repeatOrderResponse?.observe(requireActivity()) { response ->
 			Log.e("repeatOrderResponse", Gson().toJson(response))
 			dismissProgressBar()
 			if (response.error_code == 200) {
-				try{
+				try {
 					AppUtils.startActivityRightToLeft(
 						requireActivity(), Intent(mmContext, CartActivity::class.java).putExtra(
 							"storeId", SessionTwiclo(context).storeId
 						)
 					)
-				}catch (e:Exception){}
+				} catch (e: Exception) {
+				}
 
 			}
-		})
+		}
 
 		return fragmentOrdersBinding?.root
 	}
@@ -273,7 +330,8 @@ class OrdersFragment : Fragment(),
 			if (SessionTwiclo(requireContext()).isLoggedIn) {
 				viewmodel?.getMyOrders(
 					SessionTwiclo(activity).loggedInUserDetail.accountId,
-					SessionTwiclo(activity).loggedInUserDetail.accessToken
+					SessionTwiclo(activity).loggedInUserDetail.accessToken,
+					"0"
 				)
 				viewmodelusertrack?.customerActivityLog(
 					SessionTwiclo(activity).loggedInUserDetail.accountId,
@@ -296,7 +354,7 @@ class OrdersFragment : Fragment(),
 	}
 
 	private fun orderRv(orders: MutableList<MyOrdersModel.Order>) {
-		val adapter =
+		adapter =
 			OrdersAdapter(mmContext, orders, this, object : OrdersAdapter.OnOrderItemClick {
 				override fun onCancelOrder(orders: MyOrdersModel.Order, pos: Int) {
 //                if (orders.orderId!=null){
@@ -317,8 +375,8 @@ class OrdersFragment : Fragment(),
 
 				}
 			})
-		fragmentOrdersBinding?.ordersRecyclerView?.layoutManager = GridLayoutManager(context, 1)
-		fragmentOrdersBinding?.ordersRecyclerView?.setHasFixedSize(true)
+		fragmentOrdersBinding?.ordersRecyclerView?.layoutManager = manager
+		//fragmentOrdersBinding?.ordersRecyclerView?.setHasFixedSize(true)
 		fragmentOrdersBinding?.ordersRecyclerView?.adapter = adapter
 	}
 
@@ -498,7 +556,8 @@ class OrdersFragment : Fragment(),
 				if (handleApiResponse == 1 || handleApiResponseForSendPackage == 1) {
 					viewmodel?.getMyOrders(
 						SessionTwiclo(activity).loggedInUserDetail.accountId,
-						SessionTwiclo(activity).loggedInUserDetail.accessToken
+						SessionTwiclo(activity).loggedInUserDetail.accessToken,
+						pageCount.toString()
 					)
 				}
 			} else {

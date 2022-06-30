@@ -106,11 +106,11 @@ class MyOrdersFragmentViewModel(application: Application) : AndroidViewModel(app
 
 
 
-    fun getMyOrders(accountId: String, accessToken: String) {
+    fun getMyOrders(accountId: String, accessToken: String, page_count: String) {
 
         // progressDialog?.value = true
         WebServiceClient.client.create(BackEndApi::class.java).getMyOrdersApi(
-            accountId = accountId, accessToken = accessToken
+            accountId = accountId, accessToken = accessToken, page_count = page_count
         )
             .enqueue(this)
 

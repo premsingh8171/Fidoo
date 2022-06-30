@@ -19,6 +19,15 @@ public class MyOrdersModel {
     @SerializedName("accountId")
     @Expose
     public String accountId;
+
+    @SerializedName("more_value")
+    @Expose
+    public Boolean more_value;
+
+    @SerializedName("page_count")
+    @Expose
+    public String page_count;
+
     @SerializedName("orders")
     @Expose
     public List<Order> orders = null;

@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.orders_adapter.view.*
 
 class OrdersAdapter(
     val context: Context?,
-    val orders: MutableList<MyOrdersModel.Order>,
+    var orders: MutableList<MyOrdersModel.Order>,
     val adapterReviewClick: AdapterReviewClick,
     val onOrderItemClick: OnOrderItemClick
 ) : RecyclerView.Adapter<OrdersAdapter.UserViewHolder>() {
