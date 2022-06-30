@@ -56,6 +56,8 @@ public class SessionTwiclo {
         editor.commit();
     }
 
+
+
     public void setCurrentlyAddress(String currentAdd){
         editor.putString("curr_add", currentAdd);
         editor.commit();
@@ -96,6 +98,24 @@ public class SessionTwiclo {
 
     public void setUserLng(String lng) {
         editor.putString("user_lng", lng);
+        editor.commit();
+    }
+
+    public String getCurrentLat() {
+        return pref.getString("current_lat", "");
+    }
+
+    public void setCurrentLat(String lat) {
+        editor.putString("current_lat", lat);
+        editor.commit();
+    }
+
+    public String getCurrentLng() {
+        return pref.getString("current_lng", "");
+    }
+
+    public void setCurrentLng(String lng) {
+        editor.putString("current_lng", lng);
         editor.commit();
     }
 

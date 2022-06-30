@@ -11,10 +11,15 @@ object useconstants {
     var dBoyName = ""
     var orderStatusMain = ""
     var callAllow = true
+    var addressListShow= true
+    var showeditdelete= false
+    var addressTypeuser = false
+    var editAddress= false
     var adapterPosition=0
     var changeCallcolour = true
     var track_sendpackage = false
     var movetoOrderFrag= false
+    var showSavedActivity= true
     var searchFrag_visible:Boolean= false
     var package_trackRiderName:String = ""
     var offerPrice:String=""

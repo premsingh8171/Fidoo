@@ -100,6 +100,12 @@ class SavedAddressesActivityNew : BaseActivity() {
 //        if (navigateFromCart == 1){
 //            addressesRecyclerView.visibility = View.GONE
 //        }
+
+
+
+        if (!useconstants.addressListShow){
+            addressesRecyclerView.visibility= View.GONE
+        }
         if (CartActivity.addNewAddressFromCart == 1){
             addressesRecyclerView.visibility = View.GONE
             CartActivity.addNewAddressFromCart = 0
@@ -158,16 +164,35 @@ class SavedAddressesActivityNew : BaseActivity() {
             }
             headingaddItxt.visibility = View.GONE
             add_addressfm.visibility = View.GONE
+            if (ProfileFragment.addManages.equals("  ")){
+                addressesRecyclerView.visibility= View.GONE
+            }
+
         }
 
         add_addressfm.setOnClickListener {
-            addAddressOrNot = "new_add"
-            startActivityForResult(
-                Intent(this, NewAddAddressActivityNew::class.java)
-                    .putExtra("where", where), 1
-            )
+            useconstants.showeditdelete= false
+
+            useconstants.showSavedActivity= false
+
+            tv_yourAddresses_New.visibility = View.GONE
+            add_addressfm.visibility= View.GONE
+            headingaddItxt.visibility = View.GONE
+            addDividerLl.visibility = View.VISIBLE
+            addressesRecyclerView.visibility= View.GONE
+            searchAdd_cardView.visibility = View.VISIBLE
+            locationViewll.visibility = View.VISIBLE
+
+
+
+//            addAddressOrNot = "new_add"
+//            startActivityForResult(
+//                Intent(this, NewAddAddressActivityNew::class.java)
+//                    .putExtra("where", where), 1
+//            )
         }
         backIcon_saved_address.setOnClickListener {
+            useconstants.showeditdelete= false
             finish()
             AppUtils.finishActivityLeftToRight(this)
         }
@@ -385,8 +410,22 @@ class SavedAddressesActivityNew : BaseActivity() {
             }
         }
 
+    override fun onRestart() {
+
+        super.onRestart()
+    }
+
     override fun onResume() {
+
         super.onResume()
+
+        if (!useconstants.showSavedActivity){
+            useconstants.showSavedActivity= true
+            AppUtils.finishActivityLeftToRight(this)
+
+
+            finish()
+        }
         Log.d("editAdd___", editAdd.toString())
         if (editAdd == 1) {
             if (isNetworkConnected) {

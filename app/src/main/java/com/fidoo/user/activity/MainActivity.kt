@@ -242,18 +242,24 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 
         if (isNetworkConnected) {
             if (SessionTwiclo(this).isLoggedIn) {
-                try {
-                    viewmodel?.getAddressesApi(
-                        SessionTwiclo(this).loggedInUserDetail.accountId,
-                        SessionTwiclo(this).loggedInUserDetail.accessToken,
-                        "",
-                        ""
-                    )
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+//                try {
+//                    viewmodel?.getAddressesApi(
+//                        SessionTwiclo(this).loggedInUserDetail.accountId,
+//                        SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                        "",
+//                        ""
+//                    )
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+
+               if (!useconstants.addressTypeuser) {
+                   getCurrentLocation()
+               }
             } else {
-                getCurrentLocation()
+                if (!useconstants.addressTypeuser) {
+                    getCurrentLocation()
+                }
             }
 
         } else {
@@ -411,40 +417,44 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             }
         }
 
-        viewmodel?.getAddressesResponse?.observe(this) { user ->
-            Log.e("homeaddRes_", Gson().toJson(user))
+//        viewmodel?.getAddressesResponse?.observe(this) { user ->
+//            Log.e("homeaddRes_", Gson().toJson(user))
+//
+//            if (user.addressList != null) {
+//                val addressList: MutableList<GetAddressModel.AddressList> = user.addressList
+//                if (addressList != null) {
+//                    try {
+//                        for (i in addressList.indices) {
+//                            if (i == 0) {
+//                                if (SessionTwiclo(this).userAddress != "") {
+//                                    Log.d("default_add___", "=" + SessionTwiclo(this).userAddress)
+//                                } else {
+//                                    SessionTwiclo(this).userAddress = addressList.get(0).location
+//                                    SessionTwiclo(this).userLat = addressList.get(0).latitude
+//                                    SessionTwiclo(this).userLng = addressList.get(0).longitude
+//                                    userAddress?.text = SessionTwiclo(this).userAddress
+//                                    userAddress_newDesh?.text = SessionTwiclo(this).userAddress
+//                                    SessionTwiclo(this).userAddressId = addressList.get(0).id
+//                                }
+//                            }
+//                        }
+//
+//                        if (addressList.size == 0) {
+//                            Log.d("addressList__size", "message")
+//                            getCurrentLocation()
+//                        }
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                    }
+//
+//                }
+//            } else {
+//                getCurrentLocation()
+//            }
+//        }
 
-            if (user.addressList != null) {
-                val addressList: MutableList<GetAddressModel.AddressList> = user.addressList
-                if (addressList != null) {
-                    try {
-                        for (i in addressList.indices) {
-                            if (i == 0) {
-                                if (SessionTwiclo(this).userAddress != "") {
-                                    Log.d("default_add___", "=" + SessionTwiclo(this).userAddress)
-                                } else {
-                                    SessionTwiclo(this).userAddress = addressList.get(0).location
-                                    SessionTwiclo(this).userLat = addressList.get(0).latitude
-                                    SessionTwiclo(this).userLng = addressList.get(0).longitude
-                                    userAddress?.text = SessionTwiclo(this).userAddress
-                                    userAddress_newDesh?.text = SessionTwiclo(this).userAddress
-                                    SessionTwiclo(this).userAddressId = addressList.get(0).id
-                                }
-                            }
-                        }
-
-                        if (addressList.size == 0) {
-                            Log.d("addressList__size", "message")
-                            getCurrentLocation()
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-
-                }
-            } else {
-                getCurrentLocation()
-            }
+        if (!useconstants.addressTypeuser) {
+            getCurrentLocation()
         }
     }
 
@@ -477,12 +487,12 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
 //                    val state = addresses[0].adminArea
 //                    val zip = addresses[0].postalCode
 //                    val country = addresses[0].countryName
-                        SessionTwiclo(this@MainActivity).userAddress = fulladdress
+                        SessionTwiclo(this@MainActivity).currentlyAddress = fulladdress
                         //getGeoAddressFromLatLong(location.latitude, location.longitude)
-                        SessionTwiclo(this@MainActivity).userLat = location.latitude.toString()
-                        SessionTwiclo(this@MainActivity).userLng = location.longitude.toString()
+                        SessionTwiclo(this@MainActivity).currentLat = location.latitude.toString()
+                        SessionTwiclo(this@MainActivity).currentLng = location.longitude.toString()
                         Log.d("fromcurrentadd___", fulladdress)
-                        userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
+                        userAddress?.text = SessionTwiclo(this@MainActivity).currentlyAddress
                     } else {
                         geocoderAddress(location.latitude.toString(), location.longitude.toString())
                     }
@@ -626,7 +636,7 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             navController.navigate(R.id.ordersFragment)
         }
 
-            getAddress()
+           // getAddress()
             //checkPermission()
             if (SessionTwiclo(this).orderId.isNotEmpty()) {
                 orderId = SessionTwiclo(this).orderId
@@ -647,26 +657,26 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
             MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (SessionTwiclo(this).userAddress != null || !SessionTwiclo(this).userAddress.isEmpty()) {
+                    if (SessionTwiclo(this).currentlyAddress != null || !SessionTwiclo(this).currentlyAddress.isEmpty()) {
                         try {
                             fusedLocationClient.lastLocation
                                 .addOnSuccessListener {
                                     // Got last known location. In some rare situations this can be null.
                                     Log.e("ll", ll.toString())
-                                    SessionTwiclo(this).userAddress =
+                                    SessionTwiclo(this).currentlyAddress =
                                         getGeoAddressFromLatLong(ll!!.latitude, ll!!.longitude)
-                                    userAddress?.text = SessionTwiclo(this).userAddress
+                                    userAddress?.text = SessionTwiclo(this).currentlyAddress
                                 }
                             ll = LocationServices.FusedLocationApi.getLastLocation(gac!!)
                             if (ll != null) {
                                 Log.e("ll", ll.toString())
-                                SessionTwiclo(this).userAddress = getGeoAddressFromLatLong(
+                                SessionTwiclo(this).currentlyAddress = getGeoAddressFromLatLong(
                                     ll!!.latitude,
                                     ll!!.longitude
                                 )
                                 userAddress?.text = SessionTwiclo(
                                     this
-                                ).userAddress
+                                ).currentlyAddress
                                 //updateUI(ll!!)
                             } else {
                                 LocationServices.FusedLocationApi.requestLocationUpdates(
@@ -826,13 +836,13 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                 TAG, "LastLocation: " + (ll?.toString() ?: "NO LastLocation")
             )
             if (ll != null) {
-                SessionTwiclo(this).userAddress = getGeoAddressFromLatLong(
+                SessionTwiclo(this).currentlyAddress = getGeoAddressFromLatLong(
                     ll!!.latitude,
                     ll!!.longitude
                 )
-                SessionTwiclo(this).userLat = ll!!.latitude.toString()
-                SessionTwiclo(this).userLng = ll!!.longitude.toString()
-                userAddress?.text = SessionTwiclo(this).userAddress
+                SessionTwiclo(this).currentLat = ll!!.latitude.toString()
+                SessionTwiclo(this).currentLng = ll!!.longitude.toString()
+                userAddress?.text = SessionTwiclo(this).currentlyAddress
 
 
                 //  updateUI(ll!!)
@@ -929,12 +939,12 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
                 var model = gson.fromJson(response.toString(), GeocoderModel::class.java)
                 if (model.status.equals("OK")) {
                     if (model.results.size != 0) {
-                        SessionTwiclo(this@MainActivity).userAddress =
+                        SessionTwiclo(this@MainActivity).currentlyAddress =
                             model.results[0].formattedAddress
-                        SessionTwiclo(this@MainActivity).userLat = lat
-                        SessionTwiclo(this@MainActivity).userLng = lng
-                        if (SessionTwiclo(this@MainActivity).userAddress.isNotEmpty()) {
-                            userAddress?.text = SessionTwiclo(this@MainActivity).userAddress
+                        SessionTwiclo(this@MainActivity).currentLat = lat
+                        SessionTwiclo(this@MainActivity).currentLng = lng
+                        if (SessionTwiclo(this@MainActivity).currentlyAddress.isNotEmpty()) {
+                            userAddress?.text = SessionTwiclo(this@MainActivity).currentlyAddress
                         } else {
                             userAddress?.text = model.results[0].formattedAddress
                         }

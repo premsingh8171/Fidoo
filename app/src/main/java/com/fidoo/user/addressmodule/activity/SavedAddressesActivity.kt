@@ -30,6 +30,7 @@ import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity.Companion.storeLat
 import com.fidoo.user.cartview.activity.CartActivity.Companion.storeLong
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.store.activity.StoreListActivity
@@ -137,25 +138,30 @@ class SavedAddressesActivity : BaseActivity() {
         }
 
         if (ProfileFragment.addManages.equals("add_manage")) {
+
+
+        } else {
+
             locationViewll.visibility = View.GONE
             searchAdd_cardView.visibility = View.GONE
             addDividerLl.visibility = View.GONE
             headingaddItxt.visibility = View.VISIBLE
             add_addressfm.visibility = View.VISIBLE
 
-        } else {
-            locationViewll.visibility = View.VISIBLE
-            searchAdd_cardView.visibility = View.VISIBLE
-            addDividerLl.visibility = View.VISIBLE
-            headingaddItxt.visibility = View.GONE
-            add_addressfm.visibility = View.GONE
+
+//            locationViewll.visibility = View.VISIBLE
+//            searchAdd_cardView.visibility = View.VISIBLE
+//            addDividerLl.visibility = View.VISIBLE
+//            headingaddItxt.visibility = View.GONE
+//            add_addressfm.visibility = View.GONE
         }
 
         add_addressfm.setOnClickListener {
             addAddressOrNot = "new_add"
-            startActivityForResult(
-                Intent(this, NewAddAddressActivity::class.java)
-                    .putExtra("where", where), 1
+            useconstants.addressListShow= false
+            startActivity(
+                Intent(this, SavedAddressesActivityNew::class.java)
+                    .putExtra("where", where)
             )
         }
 

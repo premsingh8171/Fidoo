@@ -37,8 +37,21 @@ class AddressesAdapter(
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         //holder.tv_address_title.text = "House No.: " + addressList.get(position).flatNo + "\nBuilding: " + addressList[position].building + "\nLandmark: " + addressList.get(position).landmark + "\n" + "Location: " + addressList.get(position).location
 
-        holder.tv_address_title.text = addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(position).location
+        if (addressList[position].landmark.isNullOrBlank()){
+            holder.tv_address_title.text =
+                addressList.get(position).flatNo  + ", " + addressList.get(
+                    position
+                ).location
+        }else {
+            holder.tv_address_title.text =
+                addressList.get(position).flatNo + ", " + addressList.get(position).landmark + ", " + addressList.get(
+                    position
+                ).location
+        }
 
+        if (useconstants.showeditdelete){
+            holder.itemView.editdeletell.visibility= View.VISIBLE
+        }
         if (ProfileFragment.addManages.equals("add_manage")) {
             holder.itemView.deleteAdd.visibility = View.VISIBLE
             holder.itemView.editAdd.visibility = View.VISIBLE
@@ -51,6 +64,9 @@ class AddressesAdapter(
                     addressList.get(position).id,
                     addressList.get(position)
                 )
+                if (position==addressList.size-1){
+                    useconstants.addressTypeuser= false
+                }
             }
 
 
@@ -286,6 +302,7 @@ class AddressesAdapter(
             }else{
                 SavedAddressesActivityNew.addAddressOrNot ="new_add"
             }
+            useconstants.editAddress= true
 
             // Log.d("ewwewew",addressList[position].phone_no.toString())
             // if (stringExtra.equals("address")||stringExtra.equals("from")||stringExtra.equals("to")) {

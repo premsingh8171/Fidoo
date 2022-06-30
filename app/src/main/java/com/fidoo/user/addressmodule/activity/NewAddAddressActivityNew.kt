@@ -32,6 +32,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.android.volley.Request
@@ -49,6 +50,7 @@ import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.constants.useconstants
 import com.fidoo.user.constants.useconstants.navigateFromCart
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.BaseActivity
@@ -179,6 +181,19 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             )
         }
 
+        if (useconstants.editAddress){
+            ProfileFragment.addManages= "  "
+            tv_SelectDeliveryAddress.visibility = View.GONE
+            live_add_1.visibility = View.GONE
+            btn_proceed.visibility = View.GONE
+            tv_AddAddress.visibility = View.VISIBLE
+            add_new_add_ll.visibility = View.VISIBLE
+            btn_continue.visibility = View.VISIBLE
+            iv_mapSlider.visibility  = View.GONE
+            iv_emptyMap.visibility = View.VISIBLE
+            useconstants.editAddress= false
+        }
+
         // where = intent.getStringExtra("where")
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
@@ -254,19 +269,57 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             startActivityForResult(i,111)
         }
 
-        ed_address.doAfterTextChanged {
-            btn_continue.isEnabled = true
-//            live_add_1.visibility = View.GONE
-//            locationImage.visibility = View.GONE
-        }
+        ed_address.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                var search_value = s.toString()
+
+
+                if (search_value.length<1){
+                    btn_continue.isEnabled = false
+                }else {
+                    btn_continue.isEnabled = true
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+
+
+            }
+
+        })
+
+//        ed_address.doAfterTextChanged {
+//            btn_continue.isEnabled = true
+////            live_add_1.visibility = View.GONE
+////            locationImage.visibility = View.GONE
+//        }
 
         btn_continue.setOnClickListener {
             checkCount = 1
             checkAddressSavedFromWhichActivity = "fromNewAddressActivity"
+            useconstants.addressTypeuser= true
+            useconstants.showSavedActivity= false
+            useconstants.addressListShow= true
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
             }
             else {
+                if (!ed_landmark.text.isNullOrBlank()) {
+                    SessionTwiclo(this).userAddress =
+                        ed_address.text.toString() + ", " + ed_landmark.text.toString() + ", " + tv_Address_1.text.toString()
+                }else{
+                    SessionTwiclo(this).userAddress =
+                        ed_address.text.toString() + ", " + tv_Address_1.text.toString()
+                }
+                SessionTwiclo(this).userLat= lat.toString()
+                SessionTwiclo(this).userLng= lng.toString()
+
                     if (where.equals("guest")) {
                         SessionTwiclo(this).userLat = lat.toString()
                         SessionTwiclo(this).userLng = lng.toString()
@@ -493,6 +546,14 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                         }
                     }
             }
+            if (addressType.equals("1")) {
+                SessionTwiclo(this).addressType = "Home"
+            }else if(addressType.equals("2")){
+                SessionTwiclo(this).addressType = "Office"
+            }else if(addressType.equals("3")){
+                SessionTwiclo(this).addressType = "Other"
+            }
+
         }
 
         change_txt.setOnClickListener {
@@ -526,8 +587,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                     startActivity(intent)
                 }
                else if(navigateFromCart == 1){
-                    val intent = Intent(this, CartActivity::class.java)
-                    startActivity(intent)
+//                    val intent = Intent(this, CartActivity::class.java)
+//                    startActivity(intent)
                 }
             } else if (it.errorCode == 101) {
                 showAlertDialog(this)

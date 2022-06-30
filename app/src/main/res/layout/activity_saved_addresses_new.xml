@@ -4,6 +4,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:background="@color/white"
+
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
@@ -219,8 +220,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/addressesRecyclerView"
                         android:layout_width="match_parent"
-                        android:background="@color/white"
                         android:layout_height="wrap_content"
+                        android:background="@color/white"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"

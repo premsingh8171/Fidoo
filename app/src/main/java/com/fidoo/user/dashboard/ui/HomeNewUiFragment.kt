@@ -129,6 +129,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	private val props = JSONObject()
 	var accessToken: String = ""
 	var accountId: String = ""
+	var cancelabledialog= false
 	private var dialog: Dialog? = null
 
 	companion object {
@@ -171,6 +172,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
         val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             dialog?.setCanceledOnTouchOutside(false)
+            cancelabledialog= true
             showDialogUi()
         }
 
@@ -237,8 +239,13 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				}
 			}
 		})
-		fragmentHomeBinding?.userAddressNewDesh?.text = SessionTwiclo(context).userAddress
-		fragmentHomeBinding?.textNewDesh?.text = SessionTwiclo(context).addressType
+		fragmentHomeBinding?.userAddressNewDesh?.text = SessionTwiclo(context).currentlyAddress
+
+		if (!useconstants.addressTypeuser) {
+			SessionTwiclo(requireContext()).userLat = SessionTwiclo(requireContext()).currentLat
+			SessionTwiclo(requireContext()).userLng = SessionTwiclo(requireContext()).currentLng
+		}
+//		fragmentHomeBinding?.textNewDesh?.text = SessionTwiclo(context).addressType
 		return fragmentHomeBinding?.root
 	}
 
@@ -254,6 +261,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		dialog = context?.let { Dialog(it) }!!
 		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
 		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
+		if (cancelabledialog) {
+			dialog?.setCancelable(false)
+			cancelabledialog= false
+		}
 		val lvAddNewAdd = dialog?.findViewById<LinearLayout>(R.id.lv_add_new_address)
 		val notToSee = dialog?.findViewById<LinearLayout>(R.id.cart_select_layout)
 		val bottomSheetAddress = dialog?.findViewById<LinearLayout>(R.id.ll_bottomSheetAddress)
