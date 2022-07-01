@@ -629,7 +629,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 						adapterStore!!.notifyDataSetChanged()
 					} else {
 						storeList = mModelData.store_list as ArrayList
-						storeListRv(storeList!!)
+						storeListRv(storeList!!, isMore)
 
 					}
 
@@ -656,8 +656,8 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 	}
 
-	private fun storeListRv(storeList: ArrayList<StoreListingModel2.Store>) {
-		adapterStore = StoreAdapter(this, storeList!!)
+	private fun storeListRv(storeList: ArrayList<StoreListingModel2.Store>, isMore: Boolean) {
+		adapterStore = StoreAdapter(this, storeList!!, isMore)
 		storesRecyclerView.layoutManager = LinearLayoutManager(this)
 		storesRecyclerView.setHasFixedSize(true)
 		storesRecyclerView.adapter = adapterStore

@@ -32,11 +32,12 @@ import java.util.*
 
 class StoreAdapter(
 	val context: Context,
-	private var storeList: ArrayList<StoreListingModel2.Store>
+	private var storeList: ArrayList<StoreListingModel2.Store>,
+	isMore: Boolean
 ) : PagingDataAdapter<StoreListingModel2.Store, StoreAdapter.UserViewHolder>(DataDifferntiator) {
 
 	var check: Int = 0
-	private var isMore = false
+	private var isMore = isMore
 
 	class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 

@@ -232,7 +232,7 @@ class StoreFilterListActivity : BaseActivity() {
     }
 
     private fun storeListRv(storeList: ArrayList<StoreListingModel2.Store>) {
-        adapterStore = StoreAdapter(this, storeList!!)
+        adapterStore = StoreAdapter(this, storeList!!, isMore)
         storesRecyclerView.layoutManager = LinearLayoutManager(this)
         storesRecyclerView.setHasFixedSize(true)
         storesRecyclerView.adapter = adapterStore

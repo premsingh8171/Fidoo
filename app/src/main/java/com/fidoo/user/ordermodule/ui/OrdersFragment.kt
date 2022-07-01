@@ -216,7 +216,7 @@ class OrdersFragment : Fragment(),
 			Log.e("orderusersResponse", Gson().toJson(user))
 
 			fragmentOrdersBinding?.swipeRefreshLayOrd!!.isRefreshing=false
-			ordersList!!.clear()
+			//ordersList!!.clear()
 
 			if(user.errorCode==200) {
 				if (!user.error) {
@@ -224,14 +224,23 @@ class OrdersFragment : Fragment(),
 						val mModelData: MyOrdersModel = user
 						isMore = user.more_value
 						Log.e("ordersResponse", Gson().toJson(mModelData))
-						ordersList = mModelData.orders as ArrayList
-						if (mModelData.orders.isNotEmpty()) {
+
+						if (pageCount > 0) {
+							ordersList!!.addAll(mModelData.orders as ArrayList)
+							adapter!!.updateData(ordersList!!, isMore)
+							adapter!!.notifyDataSetChanged()
+						} else {
+							ordersList = mModelData.orders as ArrayList
+							orderRv(ordersList!!, isMore)
+							fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
+						}
+						/*if (mModelData.orders.isNotEmpty()) {
 							orderRv(ordersList!!)
 							fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
 						} else {
 							fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
 							// Toast.makeText(context,"No Orders", Toast.LENGTH_SHORT).show()
-						}
+						}*/
 						handleApiResponse = 0
 					}catch (e:Exception){
 						e.printStackTrace()
@@ -353,9 +362,8 @@ class OrdersFragment : Fragment(),
 		}
 	}
 
-	private fun orderRv(orders: MutableList<MyOrdersModel.Order>) {
-		adapter =
-			OrdersAdapter(mmContext, orders, this, object : OrdersAdapter.OnOrderItemClick {
+	private fun orderRv(orders: MutableList<MyOrdersModel.Order>, isMore: Boolean) {
+		adapter = OrdersAdapter(mmContext, orders, this, object : OrdersAdapter.OnOrderItemClick {
 				override fun onCancelOrder(orders: MyOrdersModel.Order, pos: Int) {
 //                if (orders.orderId!=null){
 //                    cancelOrderDialog(orders.orderId)
@@ -374,10 +382,10 @@ class OrdersFragment : Fragment(),
 					)
 
 				}
-			})
-		fragmentOrdersBinding?.ordersRecyclerView?.layoutManager = manager
-		//fragmentOrdersBinding?.ordersRecyclerView?.setHasFixedSize(true)
+			}, isMore)
+		fragmentOrdersBinding?.ordersRecyclerView?.setHasFixedSize(true)
 		fragmentOrdersBinding?.ordersRecyclerView?.adapter = adapter
+		fragmentOrdersBinding?.ordersRecyclerView?.layoutManager = manager
 	}
 
 

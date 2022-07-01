@@ -22,9 +22,11 @@ class OrdersAdapter(
     val context: Context?,
     var orders: MutableList<MyOrdersModel.Order>,
     val adapterReviewClick: AdapterReviewClick,
-    val onOrderItemClick: OnOrderItemClick
+    val onOrderItemClick: OnOrderItemClick,
+    isMore: Boolean
 ) : RecyclerView.Adapter<OrdersAdapter.UserViewHolder>() {
     var orderItemAdapter: OrderItemAdapter? = null
+    private var isMore = isMore
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.orders_adapter, parent, false)
@@ -431,6 +433,23 @@ class OrdersAdapter(
                     .show()
             }
         }
+
+        if (orders.size - 1 == position) {
+            //holder.storeSpace_bottomLl!!.visibility = View.VISIBLE
+            if (isMore) {
+                holder.itemView.orderProgressRl.visibility = View.VISIBLE
+            } else {
+                holder.itemView.orderProgressRl.visibility = View.GONE
+            }
+        } else {
+            //holder.storeSpace_bottomLl!!.visibility = View.GONE
+            holder.itemView.orderProgressRl.visibility = View.GONE
+        }
+    }
+
+    fun updateData(ordersList: ArrayList<MyOrdersModel.Order>, is_more: Boolean) {
+        orders = ordersList
+        isMore = is_more
     }
 
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
