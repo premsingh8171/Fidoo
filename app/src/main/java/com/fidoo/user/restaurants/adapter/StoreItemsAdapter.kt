@@ -34,6 +34,7 @@ import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.model.StoreDetailsModel
 import com.fidoo.user.restaurants.model.vegDiffUtil
 import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.store_product.view.*
 import java.util.concurrent.Executors
 
@@ -417,7 +418,7 @@ class StoreItemsAdapter(
             holder.stock_status.visibility = View.VISIBLE
         }
 
-        if (total_item_count - 1 == position) {
+        if (productList.size - 1 == position) {
             holder.store_bottom_ll.visibility = View.VISIBLE
         } else {
             holder.store_bottom_ll.visibility = View.GONE

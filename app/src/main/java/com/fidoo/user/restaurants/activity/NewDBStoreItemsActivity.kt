@@ -114,7 +114,6 @@ import kotlinx.android.synthetic.main.activity_store_items.tv_cuisnes
 import kotlinx.android.synthetic.main.activity_store_items.tv_deliveryTime
 import kotlinx.android.synthetic.main.activity_store_items.tv_distance
 import kotlinx.android.synthetic.main.activity_store_items.tv_location
-import kotlinx.android.synthetic.main.activity_store_items.addedItemsRecyclerViewFromSearch
 import kotlinx.android.synthetic.main.activity_store_items.tv_store_name
 import kotlinx.android.synthetic.main.activity_store_items.veg_switch_img
 import kotlinx.android.synthetic.main.no_internet_connection.*
@@ -151,6 +150,7 @@ import kotlin.collections.LinkedHashSet
     var customNamesList: ArrayList<String>? = null
     var tempProductId: String? = ""
     var mCustomizeCount: Int? = 0
+    var is_search_poroduct_included = "0"
     var tempOfferPrice: String? = ""
     var tempPrice: Double? = 0.0
     var tempType: String? = ""
@@ -180,6 +180,7 @@ import kotlin.collections.LinkedHashSet
 
 
     companion object {
+        var addedSearchCount: Int = 0
         var is_adding_search: String = ""
         var is_deleting_search: String = ""
         var lastCustomized_str: String = ""
@@ -788,8 +789,9 @@ import kotlin.collections.LinkedHashSet
 
 
             addedproductslist = storeData.cart
+            addedSearchCount = addedproductslist!!.size
             Log.d("cart_test", "${Gson().toJson(storeData.cart)}")
-            rvAddedStoreItemlisting(addedproductslist!! as ArrayList<CartModel.Cart> /* = java.util.ArrayList<com.fidoo.user.cartview.model.CartModel.Cart> */ , 1)
+            //rvAddedStoreItemlisting(addedproductslist!! as ArrayList<CartModel.Cart> /* = java.util.ArrayList<com.fidoo.user.cartview.model.CartModel.Cart> */ , 1)
 
 
 
@@ -854,6 +856,8 @@ import kotlin.collections.LinkedHashSet
 //                }
 
 
+
+
                 if (storeData.subcategory.isNotEmpty()) {
 
 
@@ -910,6 +914,7 @@ import kotlin.collections.LinkedHashSet
                                 }
 
                                 //Runnable {
+
 
                                 restaurantProductsDatabase!!.resProductsDaoAccess()!!
                                     .insertResProducts(
@@ -1266,7 +1271,7 @@ import kotlin.collections.LinkedHashSet
 
     }
 
-     private fun rvAddedStoreItemlisting(addedproductslist: ArrayList<CartModel.Cart>, is_product_added: Int) {
+/*     private fun rvAddedStoreItemlisting(addedproductslist: ArrayList<CartModel.Cart>, is_product_added: Int) {
          val rvAddedFromSearch = addedItemsRecyclerViewFromSearch
          if (addedproductslist.isNotEmpty() && intent.getStringExtra("from_search") == "1") {
              rvAddedFromSearch.layoutManager = LinearLayoutManager(this)
@@ -1275,7 +1280,7 @@ import kotlin.collections.LinkedHashSet
                  this@NewDBStoreItemsActivity,
                  addedproductslist,
                  this
-                 /*object:StoreItemAdapter2.AdapterCartAddRemoveClick2{
+                 *//*object:StoreItemAdapter2.AdapterCartAddRemoveClick2{
                      override fun onAddItemClick(
                          productId: String?,
                          items: String?,
@@ -1398,12 +1403,12 @@ import kotlin.collections.LinkedHashSet
                          }
                      }
 
-                 }*/,
+                 }*//*,
              this, this)
 
              rvAddedFromSearch.adapter = storeItemsAdapter2
          }
-     }
+     }*/
 
      private fun updateProductRestaurant(count: Int, productId: String) {
          Thread {
@@ -1622,11 +1627,37 @@ import kotlin.collections.LinkedHashSet
 
     }
 
+     private fun convertModel(item: CartModel.Cart): StoreItemProductsEntity {
+         val convertedModel = StoreItemProductsEntity()
+
+         convertedModel.cartId = item.cart_id
+         convertedModel.cartQuantity = item.quantity.toInt()
+         convertedModel.contains_egg = item.contains_egg
+         if(item.customizeItem.size != 0) {
+            convertedModel.customizeItemId = item.customizeItem[0].productCustomizeId
+         }
+         convertedModel.isCustomize = item.is_customize
+         convertedModel.is_customize_quantity = item.customizeItem.size
+         convertedModel.companyName = item.companyName
+         convertedModel.image = item.productImage
+         convertedModel.offerPrice = item.offerPrice
+         convertedModel.price = item.price
+         convertedModel.productId = item.productId
+         convertedModel.productName = item.productName
+         convertedModel.isPrescription = item.isPrescription
+         convertedModel.isNonveg = item.is_nonveg
+         return convertedModel
+     }
+
     private fun rvStoreItemlisting(productList_: ArrayList<StoreItemProductsEntity>) {
+
+        /*for(item in addedproductslist!!) {
+            productList_.add(0,convertModel(item))
+        }*/
 
         if (countRes == 0) {
             storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)
-            storeItemsRecyclerview.setHasFixedSize(true)
+            storeItemsRecyclerview.setHasFixedSize(false)
 
             storeItemsAdapter = StoreItemsAdapter(
                 this,
@@ -1985,11 +2016,21 @@ import kotlin.collections.LinkedHashSet
                                     LinkedHashSet<StoreItemProductsEntity>(mainlist)
                                 mainlist!!.clear()
 
+                                if (is_search_poroduct_included != "1"){
+                                    for(item in addedproductslist!!) {
+                                        mainlist!!.add(0,convertModel(item))
+                                    }
+                                    is_search_poroduct_included = "1"
+                                }
+
                                 mainlist!!.addAll(s)
 
                                 productsListing_Count = mainlist!!.size
                                 if (isonlyveg) {
                                     Log.d("dudi", "Second: $productsListing_Count")
+                                    for(item in addedproductslist!!) {
+                                        mainlist!!.add(0,convertModel(item))
+                                    }
                                     rvStoreItemlisting(mainlist!!)
                                 }
                             } else {
@@ -2004,6 +2045,9 @@ import kotlin.collections.LinkedHashSet
 
                                 productsListing_Count = mainlist!!.size
                                 if (isonlyveg) {
+                                    for(item in addedproductslist!!) {
+                                        mainlist!!.add(0,convertModel(item))
+                                    }
                                     storeItemsAdapter.updateData(mainlist!!, table_count!!)
                                 }
                             }
@@ -2416,7 +2460,7 @@ import kotlin.collections.LinkedHashSet
         position: Int
     ) {
         cus_itemProductId = productId.toString()
-        Log.d("count__add", count!! + "=" + cartId + "=" + type)
+        Log.d("count__add", count!! + "=" + cartId + "=" + type +", "+ cartId+ ", " + position+ ", "+ productId)
         Log.d("count__addID", productId!!)
         // showIOSProgress()
 
@@ -2447,6 +2491,7 @@ import kotlin.collections.LinkedHashSet
 
 
                 if (cartId != null) {
+                    Log.d("test_add", "${Gson().toJson(addCartTempList)}, $cartId")
                     viewmodel!!.addToCartApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -2886,6 +2931,9 @@ import kotlin.collections.LinkedHashSet
 
                                 productsListing_Count = veg_item_list!!.size
                                 if (!isonlyveg) {
+                                    for(item in addedproductslist!!) {
+                                        veg_item_list!!.add(0,convertModel(item))
+                                    }
                                     storeItemsAdapter.updateData(veg_item_list!!, table_count!!)
                                 }
                             }
