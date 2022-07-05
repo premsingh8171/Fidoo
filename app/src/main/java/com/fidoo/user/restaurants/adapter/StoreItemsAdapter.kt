@@ -28,6 +28,7 @@ import com.fidoo.user.R
 import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.tempProductList
+import com.fidoo.user.constants.useconstants
 
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
