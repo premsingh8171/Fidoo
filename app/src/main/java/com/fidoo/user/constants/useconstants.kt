@@ -18,6 +18,9 @@ object useconstants {
     var adapterPosition=0
     var fromprofile = false
     var track_sendpackage = false
+    var sendpackage =false
+    var tofromsendpackage= ""
+    var addressEdit= false
     var movetoOrderFrag= false
     var showSavedActivity= true
     var searchFrag_visible:Boolean= false

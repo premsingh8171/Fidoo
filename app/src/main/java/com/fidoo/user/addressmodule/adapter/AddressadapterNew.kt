@@ -21,15 +21,13 @@ import com.fidoo.user.sendpackages.activity.SendPackageActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.saved_address_items.view.*
 
-
-class AddressesAdapter(
-    val con: Context,
-    val addressList: MutableList<GetAddressModel.AddressList>,
-    val setOnDeteleAddListener: SetOnDeteleAddListener,
-    val stringExtra: String?
-) : RecyclerView.Adapter<AddressesAdapter.UserViewHolder>(){
+class AddressadapterNew(val con: Context,
+                        val addressList: MutableList<GetAddressModel.AddressList>,
+                        val setOnDeteleAddListener: SetOnDeteleAddListener,
+                        val stringExtra: String?
+) : RecyclerView.Adapter<AddressadapterNew.UserViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = UserViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.saved_address_items, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.saved_address_itemsnew, parent, false)
     )
 
     override fun getItemCount() = addressList.size
@@ -48,18 +46,7 @@ class AddressesAdapter(
                     position
                 ).location
         }
-
-
-
-
-        if (ProfileFragment.addManages.equals("add_manage")) {
-            holder.itemView.deleteAdd.visibility = View.VISIBLE
-            holder.itemView.editAdd.visibility = View.VISIBLE
-            holder.itemView.tv_yourAddresses.visibility = View.GONE
-
-
-
-            holder.itemView.deleteAdd.setOnClickListener {
+        holder.itemView.deleteAdd.setOnClickListener {
                 setOnDeteleAddListener.onDelete(
                     addressList.get(position).id,
                     addressList.get(position)
@@ -67,21 +54,11 @@ class AddressesAdapter(
                 if (position==addressList.size-1){
                     useconstants.addressTypeuser= false
                 }
-            }
-
-
-
-        }else {
-//            holder.itemView.deleteAdd.visibility = View.GONE
-//            holder.itemView.editAdd.visibility = View.GONE
-//
-//
-//            if (position == 0) {
-//                holder.itemView.tv_yourAddresses.visibility = View.VISIBLE
-//            } else {
-//                holder.itemView.tv_yourAddresses.visibility = View.GONE
-//            }
         }
+
+
+
+
 
 //        if (position==0){
 //           holder.itemView.tv_yourAddresses.visibility=View.VISIBLE
@@ -323,7 +300,7 @@ class AddressesAdapter(
         // Log.d("ewwewew",stringExtra.equals("address").toString())
 
         holder.itemView.editAdd.setOnClickListener {
-            useconstants.editAddress= true
+
             if (addressList[position].phone_no.toString().equals("")||addressList[position].name.toString().equals("")){
                 SavedAddressesActivityNew.addAddressOrNot ="current_location"
             }else{

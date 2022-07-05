@@ -103,10 +103,14 @@ class SavedAddressesActivityNew : BaseActivity() {
 //        }
 
 
-
-        if (!useconstants.addressListShow){
+        var listshow= intent.getStringExtra("list_show")
+        if (listshow!!.equals("no")){
             addressesRecyclerView.visibility= View.GONE
+        }else if (listshow!!.equals("yes")){
+            addressesRecyclerView.visibility= View.VISIBLE
         }
+
+
         if (CartActivity.addNewAddressFromCart == 1){
             addressesRecyclerView.visibility = View.GONE
             CartActivity.addNewAddressFromCart = 0
@@ -152,15 +156,17 @@ class SavedAddressesActivityNew : BaseActivity() {
 
 
 
-        if (ProfileFragment.addManages.equals("add_manage")) {
-            tv_yourAddresses_New.visibility = View.GONE
-            locationViewll.visibility = View.GONE
-            searchAdd_cardView.visibility = View.GONE
-            addDividerLl.visibility = View.GONE
-            headingaddItxt.visibility = View.VISIBLE
-            add_addressfm.visibility = View.VISIBLE
-        }
-        else {
+
+
+//        if (ProfileFragment.addManages.equals("add_manage")) {
+//            tv_yourAddresses_New.visibility = View.GONE
+//            locationViewll.visibility = View.GONE
+//            searchAdd_cardView.visibility = View.GONE
+//            addDividerLl.visibility = View.GONE
+//            headingaddItxt.visibility = View.VISIBLE
+//            add_addressfm.visibility = View.VISIBLE
+//        }
+//        else {
             locationViewll.visibility = View.VISIBLE
             searchAdd_cardView.visibility = View.VISIBLE
             searchAdd_cardView.setOnClickListener {
@@ -168,14 +174,24 @@ class SavedAddressesActivityNew : BaseActivity() {
             }
             headingaddItxt.visibility = View.GONE
             add_addressfm.visibility = View.GONE
-            if (ProfileFragment.addManages.equals("  ")){
-                addressesRecyclerView.visibility= View.GONE
-            }
 
+
+  //      }
+
+        if (useconstants.sendpackage){
+            tv_yourAddresses_New.visibility = View.GONE
+            addressesRecyclerView.visibility= View.VISIBLE
+            topLay.visibility= View.VISIBLE
+            searchAdd_cardView.visibility= View.VISIBLE
+            searchEdt_new_fgmt.visibility= View.VISIBLE
+            locationViewll.visibility= View.VISIBLE
+            current_locLL.visibility= View.VISIBLE
+            headingaddItxt.visibility=View.GONE
+            add_addressfm.visibility=View.GONE
         }
 
         add_addressfm.setOnClickListener {
-            useconstants.showeditdelete= false
+
             useconstants.fromprofile=true
 
             tv_yourAddresses_New.visibility = View.GONE
@@ -196,6 +212,7 @@ class SavedAddressesActivityNew : BaseActivity() {
         }
         backIcon_saved_address.setOnClickListener {
             useconstants.showeditdelete= false
+            useconstants.sendpackage= false
             finish()
             AppUtils.finishActivityLeftToRight(this)
         }
@@ -423,21 +440,11 @@ class SavedAddressesActivityNew : BaseActivity() {
 
         if (!useconstants.showSavedActivity){
 
-            if (useconstants.fromprofile){
-                useconstants.fromprofile= false
-                tv_yourAddresses_New.visibility = View.GONE
-                locationViewll.visibility = View.GONE
-                searchAdd_cardView.visibility = View.GONE
-                addDividerLl.visibility = View.GONE
-                headingaddItxt.visibility = View.VISIBLE
-                add_addressfm.visibility = View.VISIBLE
-                addressesRecyclerView.visibility= View.VISIBLE
 
-            }else {
                 useconstants.showSavedActivity = true
                 AppUtils.finishActivityLeftToRight(this)
                 finish()
-            }
+
         }
         Log.d("editAdd___", editAdd.toString())
         if (editAdd == 1) {
@@ -561,6 +568,11 @@ class SavedAddressesActivityNew : BaseActivity() {
 
     override fun onBackPressed() {
         AppUtils.finishActivityLeftToRight(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        useconstants.editAddress= false
     }
 
 //     val builder = AlertDialog.Builder(this@SavedAddressesActivity)

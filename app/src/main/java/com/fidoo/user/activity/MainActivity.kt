@@ -612,6 +612,11 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        useconstants.addressTypeuser= false
+    }
+
     override fun onResume() {
 
         super.onResume()

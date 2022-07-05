@@ -28,7 +28,8 @@ import com.fidoo.user.BuildConfig
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.SplashActivity
-import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.sendpackages.model.SendPackagesModel
@@ -49,7 +50,7 @@ import org.json.JSONObject
 
 
 class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
-    AdapterClick, PaymentResultListener {
+    AdapterClick, PaymentResultListener{
     private val SECOND_ACTIVITY_REQUEST_CODE = 10
     var sendPackagesDiolog: Dialog? = null
     var viewmodel: SendPackagesViewModel? = null
@@ -59,6 +60,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     var where: String = ""
     var catId: String = ""
     var start_point: String = ""
+
 
     var end_point: String = ""
     private val co = Checkout()
@@ -219,9 +221,14 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
 
         from_address_lay.setOnClickListener {
             addressType = "from"
+            useconstants.showeditdelete= false
+            useconstants.addressListShow= true
+            useconstants.tofromsendpackage= "from"
             forSendPackageAddCheck = "1"
+
+            useconstants.sendpackage= true
             startActivity(
-                Intent(this, SavedAddressesActivity::class.java)
+                Intent(this, SavedAddressesActivityNew::class.java).putExtra("list_show", "yes")
                     .putExtra("type", "from")
                     .putExtra("where", where)
             )
@@ -231,10 +238,14 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
 
         to_address_lay.setOnClickListener {
             addressType = "to"
+            useconstants.tofromsendpackage= "to"
+            useconstants.showeditdelete= false
+            useconstants.addressListShow= true
             forSendPackageAddCheck = "1"
+            useconstants.sendpackage= true
 
             startActivity(
-                Intent(this, SavedAddressesActivity::class.java)
+                Intent(this, SavedAddressesActivityNew::class.java).putExtra("list_show", "yes")
                     .putExtra("type", "to")
                     .putExtra("where", where)
             )
@@ -404,6 +415,18 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         }
 
 
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        useconstants.sendpackage=false
+        useconstants.tofromsendpackage=""
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -689,6 +712,8 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
     override fun onResume() {
         super.onResume()
 
+
+
         try {
             catnameeee = SessionTwiclo(this).getcatname()
             etvalue = SessionTwiclo(this).getetvalue()
@@ -768,6 +793,8 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
         AppUtils.finishActivityLeftToRight(this)
 
     }
+
+
 
 }
 

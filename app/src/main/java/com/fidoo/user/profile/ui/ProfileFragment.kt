@@ -20,6 +20,7 @@ import com.fidoo.user.R
 import com.fidoo.user.activity.AboutUsActivity
 import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.SplashActivity
+import com.fidoo.user.addressmodule.activity.SavedAddressesActivity
 import com.fidoo.user.addressmodule.activity.SavedAddressesActivityNew
 import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
@@ -131,7 +132,7 @@ class ProfileFragment : Fragment() {
                 addManages = "add_manage"
                 AppUtils.startActivityRightToLeft(
                     requireActivity(),
-                    Intent(context, SavedAddressesActivityNew::class.java)
+                    Intent(context, SavedAddressesActivity::class.java).putExtra("showlist", "true")
                 )
             } else {
                 Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG)

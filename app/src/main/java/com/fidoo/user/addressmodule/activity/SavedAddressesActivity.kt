@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.fidoo.user.R
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.adapter.AddressSearchAdapter
+import com.fidoo.user.addressmodule.adapter.AddressadapterNew
 import com.fidoo.user.addressmodule.adapter.AddressesAdapter
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
@@ -118,9 +119,7 @@ class SavedAddressesActivity : BaseActivity() {
 
 
 
-        if (!useconstants.addressListShow){
-            addressesRecyclerView.visibility= View.GONE
-        }
+
         if (CartActivity.addNewAddressFromCart == 1){
             addressesRecyclerView.visibility = View.GONE
             CartActivity.addNewAddressFromCart = 0
@@ -199,7 +198,7 @@ class SavedAddressesActivity : BaseActivity() {
 
             AppUtils.startActivityRightToLeft(
                 this,
-                Intent(this, SavedAddressesActivity::class.java)
+                Intent(this, SavedAddressesActivityNew::class.java).putExtra("list_show", "no")
             )
 
 //            addAddressOrNot = "new_add"
@@ -209,7 +208,7 @@ class SavedAddressesActivity : BaseActivity() {
 //            )
         }
         backIcon_saved_address.setOnClickListener {
-            useconstants.showeditdelete= false
+
             finish()
             AppUtils.finishActivityLeftToRight(this)
         }
@@ -223,16 +222,16 @@ class SavedAddressesActivity : BaseActivity() {
                     SessionTwiclo(this).userAddress = ""
 //                emptyTxt.visibility = View.VISIBLE
 //                emptyTxt.visibility = View.VISIBLE
-                    emptyScren_ll.visibility = View.GONE
+
                 }
                 else {
-                    emptyTxt.visibility = View.GONE
-                    emptyLastTxt.visibility = View.GONE
-                    emptyScren_ll.visibility = View.GONE
+//                    emptyTxt.visibility = View.GONE
+//                    emptyLastTxt.visibility = View.GONE
+//                    emptyScren_ll.visibility = View.GONE
                 }
 
 
-                val adapter = AddressesAdapter(this, user.addressList, object : AddressesAdapter.SetOnDeteleAddListener {
+                val adapter = AddressadapterNew(this, user.addressList, object : AddressadapterNew.SetOnDeteleAddListener {
                     override fun onDelete(
                         add_id: String,
                         addressList: GetAddressModel.AddressList
@@ -309,51 +308,8 @@ class SavedAddressesActivity : BaseActivity() {
         }
 
 
-        searchEdt_new_fgmt?.addTextChangedListener(object : TextWatcher {
 
-            override fun afterTextChanged(s: Editable) {}
 
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-                tv_yourAddresses_New.visibility = View.GONE
-                search_value = s.toString()
-                if (search_value!!.length > 0) {
-                    tv_yourAddresses_New.visibility = View.GONE
-                    emptyScren_ll.visibility = View.GONE
-                    addressesRecyclerView.visibility = View.GONE
-                    search_iconImg.visibility = View.GONE
-                    clear_searchImg.visibility = View.VISIBLE
-                    search_add_rv.visibility = View.VISIBLE
-                    searchAdd(search_value!!, token)
-                }
-                else {
-                    search_add_rv.visibility = View.GONE
-                    tv_yourAddresses_New.visibility = View.VISIBLE
-                    clear_searchImg.visibility = View.GONE
-                    search_iconImg.visibility = View.VISIBLE
-                    addressesRecyclerView.visibility = View.VISIBLE
-                    searchAddList.clear()
-                }
-            }
-        })
-
-        clear_searchImg.setOnClickListener {
-            searchAddList.clear()
-            searchEdt_new_fgmt.getText().clear()
-            search_add_rv.visibility = View.GONE
-            search_iconImg.visibility = View.GONE
-            clear_searchImg.visibility = View.GONE
-            addressesRecyclerView.visibility = View.VISIBLE
-            searchAdd("", token)
-        }
     }
 
     private fun searchAdd(searchValue: String, token: AutocompleteSessionToken) {
@@ -429,20 +385,19 @@ class SavedAddressesActivity : BaseActivity() {
             }
         }
 
-    override fun onRestart() {
 
-        super.onRestart()
-    }
 
     override fun onResume() {
 
         super.onResume()
+        viewmodel?.getAddressesApi(
+            SessionTwiclo(this).loggedInUserDetail.accountId,
+            SessionTwiclo(this).loggedInUserDetail.accessToken,
+            "",
+            ""
+        )
 
-        if (!useconstants.showSavedActivity){
-            useconstants.showSavedActivity= true
-            AppUtils.finishActivityLeftToRight(this)
-            finish()
-        }
+
         Log.d("editAdd___", SavedAddressesActivityNew.editAdd.toString())
         if (SavedAddressesActivityNew.editAdd == 1) {
             if (isNetworkConnected) {

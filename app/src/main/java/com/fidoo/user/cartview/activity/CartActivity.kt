@@ -296,6 +296,13 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 							if (completelocation.equals(SessionTwiclo(this).userAddress)) {
 								address_id = user.addressList[i].id
+								select_address_or_add_layout.visibility = View.GONE
+								cart_payment_lay.visibility = View.VISIBLE
+								break
+							}else{
+								tv_select_address.text = "Select Address"
+								select_address_or_add_layout.visibility = View.VISIBLE
+								cart_payment_lay.visibility = View.GONE
 							}
 						} else {
 							var completelocation =
@@ -303,9 +310,17 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 							if (completelocation.equals(SessionTwiclo(this).userAddress)) {
 								address_id = user.addressList[i].id
+								select_address_or_add_layout.visibility = View.GONE
+								cart_payment_lay.visibility = View.VISIBLE
+								break
 
+							}else{
+								tv_select_address.text = "Select Address"
+								select_address_or_add_layout.visibility = View.VISIBLE
+								cart_payment_lay.visibility = View.GONE
 							}
 						}
+
 					}
 				}
 			})
@@ -587,19 +602,19 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 			}
 		}
 
-		delivery_addressCard.setOnClickListener {
-
-
-			if (!isNetworkConnected) {
-				showToast(resources.getString(R.string.provide_internet))
-			}
-			else {
-				startActivityForResult(
-					Intent(this, SavedAddressesActivityNew::class.java)
-						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
-				)
-			}
-		}
+//		delivery_addressCard.setOnClickListener {
+//
+//
+//			if (!isNetworkConnected) {
+//				showToast(resources.getString(R.string.provide_internet))
+//			}
+//			else {
+//				startActivityForResult(
+//					Intent(this, SavedAddressesActivityNew::class.java)
+//						.putExtra("type", "order"), FORADDRESS_REQUEST_CODE
+//				)
+//			}
+//		}
 
 		cash_lay.setOnClickListener {
 			isSelected = "cash"
@@ -1715,7 +1730,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 			addNewAddressFromCart = 1
 			navigateFromNewAddressActivity = 0
 			startActivityForResult(
-				Intent(this, SavedAddressesActivityNew::class.java)
+				Intent(this, SavedAddressesActivityNew::class.java).putExtra("list_show", "no")
 					.putExtra("type", "address")
 					.putExtra("where", where
 					), AUTOCOMPLETE_REQUEST_CODE

@@ -12,9 +12,6 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
@@ -37,15 +34,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.facebook.FacebookSdk.getApplicationContext
 import com.fidoo.user.R
 import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
@@ -60,7 +54,6 @@ import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.constants.useconstants
-
 import com.fidoo.user.constants.useconstants.navigateFromNewAddressActivity
 import com.fidoo.user.dailyneed.ui.ServiceDailyNeedActivity
 import com.fidoo.user.dashboard.adapter.SliderAdapterExample
@@ -84,19 +77,15 @@ import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
 import com.fidoo.user.utils.BaseFragment
 import com.fidoo.user.utils.CardSliderLayoutManager
-import com.fidoo.user.utils.maps.model.GeocoderModel
 import com.fidoo.user.utils.showAlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
-import com.robin.locationgetter.EasyLocation
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_newui.*
 import org.json.JSONObject
-import java.io.IOException
 import java.util.*
 
 @Suppress("DEPRECATION")
@@ -130,6 +119,8 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	var accessToken: String = ""
 	var accountId: String = ""
 	var cancelabledialog= false
+	var showdialogaddressAndlocationoff= false
+	var dialogcount= 0
 	private var dialog: Dialog? = null
 
 	companion object {
@@ -170,11 +161,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		fragmentHomeBinding?.viewPagerBannerNewDesh!!.clipToPadding = false
 
         val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            dialog?.setCanceledOnTouchOutside(false)
-            cancelabledialog= true
-            showDialogUi()
-        }
+//        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//  //          dialog?.setCanceledOnTouchOutside(false)
+//            cancelabledialog= true
+//            showDialogUi()
+//        }
 
 //	fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
 //		if(it.addressList.size == 0) {
@@ -244,10 +235,18 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		if (!useconstants.addressTypeuser) {
 			SessionTwiclo(requireContext()).userLat = SessionTwiclo(requireContext()).currentLat
 			SessionTwiclo(requireContext()).userLng = SessionTwiclo(requireContext()).currentLng
+
 		}
 //		fragmentHomeBinding?.textNewDesh?.text = SessionTwiclo(context).addressType
 		return fragmentHomeBinding?.root
 	}
+
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+
+
+	}
+
 
 	private fun showDialogUi() {
 		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
@@ -258,13 +257,23 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			CartActivity.accountId = SessionTwiclo(requireActivity()).loginDetail.accountId.toString()
 			CartActivity.accessToken = SessionTwiclo(requireActivity()).loginDetail.accessToken
 		}
+
 		dialog = context?.let { Dialog(it) }!!
 		dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
 		dialog?.setContentView(R.layout.manage_address_bottomsheet_dialogue)
-		if (cancelabledialog) {
-			dialog?.setCancelable(false)
-			cancelabledialog= false
-		}
+
+
+
+			var manager1 = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+			if (!manager1.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+
+				dialog?.setCancelable(false)
+			}else{
+				dialog?.setCancelable(true)
+			}
+
+
+
 		val lvAddNewAdd = dialog?.findViewById<LinearLayout>(R.id.lv_add_new_address)
 		val notToSee = dialog?.findViewById<LinearLayout>(R.id.cart_select_layout)
 		val bottomSheetAddress = dialog?.findViewById<LinearLayout>(R.id.ll_bottomSheetAddress)
@@ -280,18 +289,18 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				requestPermissions(permList, 123)
 				val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
 				startActivity(intent)
-                dialog?.dismiss()
+             //   dialog?.dismiss()
 			}
 		lvAddNewAdd?.setOnClickListener {
 			startActivityForResult(
-				Intent(context, SavedAddressesActivityNew::class.java)
+				Intent(context, SavedAddressesActivityNew::class.java).putExtra("list_show", "yes")
 					.putExtra("type", "address")
 					.putExtra("where", where
 					), AUTOCOMPLETE_REQUEST_CODE
 			)
 			addEditAdd = "Dashboard"
 			navigateFromNewAddressActivity = 1
-			dialog?.dismiss()
+			//dialog?.dismiss()
 		}
 
 		fixedAddressViewModel?.getAddressesApi(accountId, accessToken, "", "")?.observe(requireActivity()) {
@@ -312,12 +321,21 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 							}
 							override fun onClick(addressList: GetAddressModel.AddressList) {
 								NewAddAddressActivityNew.checkCount = 0
+								val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+								if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+									showdialogaddressAndlocationoff= true
+								}else{
+									showdialogaddressAndlocationoff= false
+								}
+
 								useconstants.addressTypeuser= true
 								when {
 									addressList.addressType.equals("1") -> {
 										if(addressList.landmark.isNullOrEmpty() || addressList.landmark.equals("")) {
 											SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.location
 											SessionTwiclo(requireContext()).addressType = "Home"
+
+
 										}
 										else{
 											SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
@@ -353,11 +371,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 //									SessionTwiclo(requireContext()).userAddress = addressList.flatNo + ", " + addressList.landmark + ", " + addressList.location
 //									SessionTwiclo(requireContext()).addressType = "Home"
 //								}
-								SessionTwiclo(requireContext()).userAddressId = addressList.id
+
 								address_id=addressList.id
 								SessionTwiclo(requireContext()).userLat = addressList.latitude
 								SessionTwiclo(requireContext()).userLng = addressList.longitude
+
+
 								dialog?.dismiss()
+
 								restHomePage()
 							}
 						},
@@ -382,6 +403,10 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		)
 		dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		dialog?.window!!.setGravity(Gravity.BOTTOM)
+
+		if (cancelabledialog){
+			cancelabledialog= false
+		}
 	}
 
 	private fun restHomePage() {
@@ -530,6 +555,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			}
 		}
 		fragmentHomeBinding?.addressLayNewDesh?.setOnClickListener {
+			useconstants.showeditdelete= false
 			showDialogUi()
 			/**
 			 * First Method to pop up BottomSheetDialogue
@@ -753,14 +779,33 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 	override fun onResume() {
 		Log.d("Home", "onResume: ")
+		if (!useconstants.addressTypeuser){
+			val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+			if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//			dialog?.setCanceledOnTouchOutside(false)
+
+
+				cancelabledialog= true
+
+					if (dialogcount==0) {
+						showDialogUi()
+						dialogcount++
+					}
+
+
+
+
+			}else{
+				cancelabledialog= false
+				dialog?.dismiss()
+			}
+		}else{
+			dialog?.dismiss()
+		}
 		super.onResume()
 
-		val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			dialog?.setCanceledOnTouchOutside(false)
-			cancelabledialog= true
-			showDialogUi()
-		}
+
+
 
 
 		if (SessionTwiclo(requireActivity()).loggedInUserDetail != null) {
@@ -797,7 +842,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 						text_newDesh.text = SessionTwiclo(context).addressType
 					}
 				} else {
-					if (useconstants.addressTypeuser) {
+					if (useconstants.addressTypeuser && !(SessionTwiclo(context).userAddress.equals(""))) {
 						userAddress_newDesh?.text = SessionTwiclo(context).userAddress
 					}else{
 						userAddress_newDesh?.text = SessionTwiclo(context).currentlyAddress
@@ -877,6 +922,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		super.onStop()
 		Log.d("Home", "onStop: ")
 		dialog?.dismiss()
+		dialogcount=0
+
+
+	}
+
+	override fun onDestroy() {
+		super.onDestroy()
+
 	}
 
 	override fun onCurationCatClick(outerPosition: Int?, innerPosition: Int?, model: Curation) {
