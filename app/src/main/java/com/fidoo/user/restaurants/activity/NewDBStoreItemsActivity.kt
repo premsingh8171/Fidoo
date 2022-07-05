@@ -219,7 +219,7 @@ class NewDBStoreItemsActivity :
     var isCustomizeOpen: Int = 0
     var filterActive: Int = 0// for handle filter api call response
     var cart_count: Int = 0
-    lateinit var storeItemsAdapter: StoreItemsAdapter
+    lateinit var storeItemsAdapter: com.fidoo.user.restaurants.adapter.StoreItemsAdapter
     lateinit var storeItemsAdapter2: StoreItemAdapter2
     lateinit var restaurantCategoryAdapter: NewDbRestaurantCategoryAdapter
     lateinit var categoryHeaderAdapter: CategoryHeaderAdapter
@@ -2108,7 +2108,8 @@ class NewDBStoreItemsActivity :
                                     LinkedHashSet<StoreItemProductsEntity>(mainlist)
                                 mainlist!!.clear()
 
-                                if (is_search_poroduct_included != "1"){
+                                if (is_search_poroduct_included != "1" && intent.getStringExtra("from_search") == "1"){
+                                    Log.d("test_cart", Gson().toJson(addedproductslist))
                                     for(item in addedproductslist!!) {
                                         mainlist!!.add(0,convertModel(item))
                                     }
@@ -2120,8 +2121,12 @@ class NewDBStoreItemsActivity :
                                 productsListing_Count = mainlist!!.size
                                 if (isonlyveg) {
                                     Log.d("dudi", "Second: $productsListing_Count")
-                                    for(item in addedproductslist!!) {
-                                        mainlist!!.add(0,convertModel(item))
+                                    if (/*is_search_poroduct_included != "1" &&*/ intent.getStringExtra("from_search") == "1"){
+                                        Log.d("test_cart", Gson().toJson(addedproductslist))
+                                        for(item in addedproductslist!!) {
+                                            mainlist!!.add(0,convertModel(item))
+                                        }
+                                        //is_search_poroduct_included = "1"
                                     }
                                     rvStoreItemlisting(mainlist!!)
                                 }
@@ -2137,8 +2142,12 @@ class NewDBStoreItemsActivity :
 
                                 productsListing_Count = mainlist!!.size
                                 if (isonlyveg) {
-                                    for(item in addedproductslist!!) {
-                                        mainlist!!.add(0,convertModel(item))
+                                    if (/*is_search_poroduct_included != "1" &&*/ intent.getStringExtra("from_search") == "1"){
+                                        Log.d("test_cart", Gson().toJson(addedproductslist))
+                                        for(item in addedproductslist!!) {
+                                            mainlist!!.add(0,convertModel(item))
+                                        }
+                                        //is_search_poroduct_included = "1"
                                     }
                                     storeItemsAdapter.updateData(mainlist!!, table_count!!)
                                 }
@@ -3053,8 +3062,12 @@ class NewDBStoreItemsActivity :
 
                                 productsListing_Count = veg_item_list!!.size
                                 if (!isonlyveg) {
-                                    for(item in addedproductslist!!) {
-                                        veg_item_list!!.add(0,convertModel(item))
+                                    if (/*is_search_poroduct_included != "1" &&*/ intent.getStringExtra("from_search") == "1"){
+                                        Log.d("test_cart", Gson().toJson(addedproductslist))
+                                        for(item in addedproductslist!!) {
+                                            mainlist!!.add(0,convertModel(item))
+                                        }
+                                        //is_search_poroduct_included = "1"
                                     }
                                     storeItemsAdapter.updateData(veg_item_list!!, table_count!!)
                                 }

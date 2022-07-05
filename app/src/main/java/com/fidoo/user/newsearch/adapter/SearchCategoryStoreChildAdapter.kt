@@ -91,7 +91,11 @@ class SearchCategoryStoreChildAdapter(
 //        }
 
         holder.itemView.btn_plus.setOnClickListener {
-            click.onAddProductItemClick(position, list[position], "add", list[position].cart_quantity.toInt())
+
+            var count = holder.itemView.tv_count.text.toString().toInt()
+
+            count++
+            click.onAddProductItemClick(position, list[position], "add", count)
         }
 
         holder.itemView.btn_minus.setOnClickListener {

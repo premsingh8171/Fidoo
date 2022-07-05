@@ -692,7 +692,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                                 MainActivity.addCartTempList!!,
                                 cartId
                             )
-                            Log.d("sec_test", "${SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId}"+
+                            Log.d("sec_test2", "${SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId}"+
                                     " ${SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken} "+
                                     "${Gson().toJson(MainActivity.addCartTempList!!)} $cartId")
                             MainActivity.tempProductList!!.clear()
@@ -812,7 +812,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                                 SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId,
                                 SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken,
                                 MainActivity.addCartTempList!!,
-                                cartId
+                                cart_id.toString()
                             )
                             Log.d("sec_test", "${SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accountId}"+
                                     " ${SessionTwiclo(this@NewSearchStoreListingActivity).loggedInUserDetail.accessToken} "+
