@@ -28,17 +28,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import androidx.room.Room
 import com.fidoo.user.R
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.addCartTempList
 import com.fidoo.user.activity.MainActivity.Companion.tempProductList
-import com.fidoo.user.activity.MyApplication
-import com.fidoo.user.activity.MyApplication.Companion.applicationContext
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.model.CartModel
@@ -51,7 +46,6 @@ import com.fidoo.user.fragments.newhotel_ProductSearch
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
 import com.fidoo.user.interfaces.AdapterCustomRadioClick
-import com.fidoo.user.newRestaurants.model.NewStoreDetailsModel
 import com.fidoo.user.newRestaurants.model.Product
 import com.fidoo.user.newRestaurants.model.Subcategory
 import com.fidoo.user.ordermodule.viewmodel.TrackViewModel
@@ -75,9 +69,12 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
+
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_grocery_items.*
+import kotlinx.android.synthetic.main.activity_new_product_search.*
+import kotlinx.android.synthetic.main.activity_new_search.*
 import kotlinx.android.synthetic.main.activity_new_store_items.*
 import kotlinx.android.synthetic.main.activity_store_items.*
 import kotlinx.android.synthetic.main.activity_store_items.RestaurantPrdSearch
@@ -123,11 +120,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import java.math.RoundingMode
 import java.util.*
+import kotlinx.android.synthetic.main.activity_store_items.store_items_screen_header as store_items_screen_header1
+
 import java.util.concurrent.Executor
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashSet
 
- class NewDBStoreItemsActivity :
+class NewDBStoreItemsActivity :
     BaseActivity(),
     AdapterClick,
     CustomCartPlusMinusClick,
@@ -190,8 +189,10 @@ import kotlin.collections.LinkedHashSet
         var customerLongitude: String = ""
         var searchItemPosition: Int = 0
         var handleresponce: Int = 0
+
         var productsListing_Count: Int? = 0
         var storeIDCheckOnCart: String = ""
+        var back_listener: search_fragListener? =null
         //for bottom view of restaurant license
         var fssai: String? = ""
         var from_search: String? = ""
@@ -284,6 +285,8 @@ import kotlin.collections.LinkedHashSet
 
         }.start()
 
+
+
         rvStoreItemlisting(mainlist!!)
 
         getRoomData()
@@ -316,7 +319,7 @@ import kotlin.collections.LinkedHashSet
                 // scrolling up
                 fabVisible = false
                 Log.e("fabVisible", "up")
-                store_details_lay.visibility = View.GONE
+                store_details_lay.visibility = View.VISIBLE                    //Gone
                 tv_store_name.visibility = View.VISIBLE
                 category_header_TXt.visibility = View.GONE
             } else if (dy < 0 && !fabVisible) {
@@ -328,6 +331,9 @@ import kotlin.collections.LinkedHashSet
                 category_header_TXt.visibility = View.GONE
             }
         })
+
+
+
 
         search_ClearTxt.setOnClickListener {
             searchEdt_ResPrd.getText().clear()
@@ -360,12 +366,21 @@ import kotlin.collections.LinkedHashSet
 
             newSearch_frag.visibility=View.VISIBLE
 
+
+            useconstants.searchFrag_visible= true
+            cat_FloatBtn.visibility= View.GONE
+            app_bar.visibility=View.GONE
+            toolbar.visibility= View.GONE
+            store_items_screen_header.visibility= View.GONE
+            main_appbar_ll.visibility= View.GONE
+            store_preference_Rlay.visibility= View.GONE
+
+
+
+
             val fragManager= supportFragmentManager
             val trasaction= fragManager.beginTransaction()
             val searchFrag= newhotel_ProductSearch()
-            useconstants.searchFrag_visible= true
-            cat_FloatBtn.visibility= View.GONE
-
             var mBundle= Bundle()
             mBundle.putString("storeId", storeID)
             mBundle.putString("storeName", restaurantName)
@@ -433,7 +448,9 @@ import kotlin.collections.LinkedHashSet
                 AppUtils.finishActivityLeftToRight(this)
             } else {
                 behavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-                cat_FloatBtn.visibility = View.VISIBLE
+                if (!useconstants.searchFrag_visible) {
+                    cat_FloatBtn.visibility = View.VISIBLE
+                }
                 if (cart_count == 0) {
                     cartitemView_LLstore.visibility = View.GONE
                 } else {
@@ -658,14 +675,18 @@ import kotlin.collections.LinkedHashSet
                     cartitemView_LLstore.visibility = View.VISIBLE
 
                 }
-                cat_FloatBtn.visibility = View.VISIBLE
+                if (!useconstants.searchFrag_visible) {
+                    cat_FloatBtn.visibility = View.VISIBLE
+                }
             }
         }
 
         if (isNetworkConnected) {
             if (sessionTwiclo!!.isLoggedIn) {
                 getStoreDetailsApiCall()
-                cat_FloatBtn.visibility = View.VISIBLE
+                if (!useconstants.searchFrag_visible) {
+                    cat_FloatBtn.visibility = View.VISIBLE
+                }
                 main_restatuarant_const.visibility = View.VISIBLE
                 linear_progress_indicator.visibility = View.GONE
                 no_internet_store.visibility = View.GONE
@@ -698,7 +719,9 @@ import kotlin.collections.LinkedHashSet
                 if (sessionTwiclo!!.isLoggedIn) {
                     deleteRoomDataBase()
                     getStoreDetailsApiCall()
-                    cat_FloatBtn.visibility = View.VISIBLE
+                    if (!useconstants.searchFrag_visible) {
+                        cat_FloatBtn.visibility = View.VISIBLE
+                    }
                     main_restatuarant_const.visibility = View.VISIBLE
                     linear_progress_indicator.visibility = View.VISIBLE
                     no_internet_store.visibility = View.GONE
@@ -766,7 +789,9 @@ import kotlin.collections.LinkedHashSet
                     SessionTwiclo(this).serviceId = ""
 
                 }
-                cat_FloatBtn.visibility = View.VISIBLE
+                if (!useconstants.searchFrag_visible) {
+                    cat_FloatBtn.visibility = View.VISIBLE
+                }
             }
 
         }
@@ -785,6 +810,8 @@ import kotlin.collections.LinkedHashSet
             shimmerFrameLayout_main.visibility= View.GONE
                 main_appbar_ll.visibility=View.VISIBLE
                 storeItemsRecyclerview.visibility= View.VISIBLE
+            res_header_constL.visibility= View.VISIBLE
+            store_preference_Rlay.visibility= View.VISIBLE
                 shimmerFrameLayout_main.stopShimmer()
 
 
@@ -1167,7 +1194,7 @@ import kotlin.collections.LinkedHashSet
             shimmerFrameLayout.stopShimmer()
           //  dismissIOSProgress()
             cartitemView_LLstore.visibility = View.GONE
-            cat_FloatBtn.visibility = View.GONE
+
             Log.e("stores___esponse", Gson().toJson(user))
 
             if (user.errorCode == 200) {
@@ -1577,11 +1604,13 @@ import kotlin.collections.LinkedHashSet
 
 
 
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
+                                              //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,-30)
 
                                     }else{
 
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 675)
+                                              //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 675)
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i ,-30)
 
                                     }
 
@@ -1632,11 +1661,13 @@ import kotlin.collections.LinkedHashSet
 
 
 
-                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 ,450)
+                                      //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 ,450)
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,-30)
 
                                     }else{
 
-                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 , 630)
+                                       // (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i+1 , 630)
+                                        (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,-30)
 
                                     }
                                     //storeItemsRecyclerview?.layoutManager?.scrollToPosition(i)
@@ -1719,10 +1750,9 @@ import kotlin.collections.LinkedHashSet
 
         if (countRes == 0) {
             storeItemsRecyclerview.layoutManager = LinearLayoutManager(this)
-            storeItemsRecyclerview.setHasFixedSize(false)
+            storeItemsRecyclerview.setHasFixedSize(true)
 
-            storeItemsAdapter = StoreItemsAdapter(
-                this,
+            storeItemsAdapter = StoreItemsAdapter(this,
                 this,
                 productList_,
                 fssai!!,
@@ -1762,9 +1792,9 @@ import kotlin.collections.LinkedHashSet
                             .equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
                     ) {
                         try {
-                            category_header_.visibility = View.VISIBLE
+                            category_header_.visibility = View.VISIBLE                //visible
                             category_header_.text =
-                                mainlist!!.get(scrollOutItems+1)!!.subcategory_name.toString()
+                                mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
                             category_header_TXt.text =
                                 mainlist!!.get(scrollOutItems)!!.subcategory_name.toString()
                             //Log.d("totalItem___", table_count.toString())
@@ -1809,9 +1839,9 @@ import kotlin.collections.LinkedHashSet
 
                     } else {
                         try {
-                            category_header_.visibility = View.VISIBLE
+                            category_header_.visibility = View.VISIBLE        //visible
                             category_header_.text =
-                                productListFilter!!.get(scrollOutItems+1)!!.subcategory_name.toString()
+                                productListFilter!!.get(scrollOutItems)!!.subcategory_name.toString()
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -1874,9 +1904,9 @@ import kotlin.collections.LinkedHashSet
                             .equals("") || searchEdt_ResPrd.getText().toString().startsWith(" ")
                     ) {
                         try {
-                            category_header_.visibility = View.VISIBLE
+                            category_header_.visibility = View.VISIBLE               //visible
                             category_header_.text =
-                                veg_item_list!!.get(scrollOutItems+1)!!.subcategory_name.toString()
+                                veg_item_list!!.get(scrollOutItems)!!.subcategory_name.toString()
                             category_header_TXt.text =
                                 veg_item_list!!.get(scrollOutItems)!!.subcategory_name.toString()
                             //Log.d("totalItem___", table_count.toString())
@@ -1921,9 +1951,9 @@ import kotlin.collections.LinkedHashSet
 
                     } else {
                         try {
-                            category_header_.visibility = View.VISIBLE
+                            category_header_.visibility = View.VISIBLE                         //visible
                             category_header_.text =
-                                productListFilter!!.get(scrollOutItems+1)!!.subcategory_name.toString()
+                                productListFilter!!.get(scrollOutItems)!!.subcategory_name.toString()
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -2060,7 +2090,7 @@ import kotlin.collections.LinkedHashSet
                         table_count = c.toInt()
                     })
 
-                isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllProducts2(totalItem.toString())
+                    isVegApplied = restaurantProductsDatabase!!.resProductsDaoAccess()!!.getAllProducts2(totalItem.toString())
 
 
 
@@ -2213,6 +2243,8 @@ import kotlin.collections.LinkedHashSet
             shimmerFrameLayout_main.visibility= View.VISIBLE
             main_appbar_ll.visibility=View.GONE
             storeItemsRecyclerview.visibility=View.GONE
+            res_header_constL.visibility= View.GONE
+            store_preference_Rlay.visibility= View.GONE
             shimmerFrameLayout_main.startShimmer()
           //  showIOSProgress()
 
@@ -2313,6 +2345,7 @@ import kotlin.collections.LinkedHashSet
                 storeItemsRecyclerview.visibility= View.GONE
                 shimmerFrameLayout.startShimmer()
                // showIOSProgress()
+                cat_FloatBtn.visibility = View.GONE
                 customIdsList!!.clear()
                 customNamesList!!.clear()
                 if (productId != null) {
@@ -2755,6 +2788,7 @@ import kotlin.collections.LinkedHashSet
             storeItemsRecyclerview.visibility= View.GONE
             shimmerFrameLayout.startShimmer()
           //  showIOSProgress()
+            cat_FloatBtn.visibility = View.GONE
             customIdsList!!.clear()
             customNamesList!!.clear()
             viewmodel?.customizeProductApi(
@@ -2863,7 +2897,23 @@ import kotlin.collections.LinkedHashSet
     }
 
     override fun onResume() {
+
+//        if (mainlist.isNullOrEmpty()){
+//            restaurantProductsDatabase = Room.databaseBuilder(
+//                applicationContext,
+//                RestaurantProductsDatabase::class.java, RestaurantProductsDatabase.DB_NAME
+//            )
+//                .fallbackToDestructiveMigration()
+//                .build()
+//
+//
+//            getRoomData()
+//        }
+
         super.onResume()
+
+
+
         storeID = intent.getStringExtra("storeId")!!
         storeIDCheckOnCart = storeID
 
@@ -2902,6 +2952,14 @@ import kotlin.collections.LinkedHashSet
     }
 
     override fun onBackPressed() {
+
+        if (useconstants.searchFrag_visible){
+        //    searchKeyETxtAct.text.clear()
+            back_listener= this as search_fragListener
+            back_listener!!.detach_searchFrah()
+        }else
+
+
         if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
             AppUtils.finishActivityLeftToRight(this)
         } else {
@@ -3120,6 +3178,11 @@ import kotlin.collections.LinkedHashSet
          shimmerFrameLayout.visibility= View.VISIBLE
          handleresponce=0
          cat_FloatBtn.visibility= View.VISIBLE
+         toolbar.visibility= View.VISIBLE
+         store_items_screen_header.visibility= View.VISIBLE
+         app_bar.visibility=View.VISIBLE
+         main_appbar_ll.visibility= View.VISIBLE
+
          getRoomData()
 
          Handler().postDelayed({
@@ -3130,14 +3193,16 @@ import kotlin.collections.LinkedHashSet
 
              shimmerFrameLayout.visibility= View.GONE
              handleresponce=1
+             store_preference_Rlay.visibility= View.VISIBLE
              shimmerFrameLayout.stopShimmer()
 
 
          }, 1000)
      }
 
-
-
-
+    override fun onDestroy() {
+        super.onDestroy()
+        deleteRoomDataBase()
+    }
 
  }

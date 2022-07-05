@@ -1,5 +1,7 @@
 package com.fidoo.user.fragments
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -16,6 +18,7 @@ import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -54,11 +57,10 @@ import com.fidoo.user.restaurants.model.CustomizeProductResponseModel
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
 import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 import com.fidoo.user.restaurants.viewmodel.StoreDetailsViewModel
-import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.hideKeyboard
 import com.fidoo.user.utils.showAlertDialog
-import com.fidoo.user.utils.showKeyboard
+import com.fidoo.user.utils.showSoftKeyboard
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
@@ -77,6 +79,7 @@ import kotlinx.android.synthetic.main.no_internet_connection.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import java.math.RoundingMode
+
 
 class newhotel_ProductSearch():Fragment(), AdapterClick,
     CustomCartPlusMinusClick,
@@ -199,10 +202,12 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         mView= inflater.inflate(R.layout.activity_new_product_search, container, false)
 
 
-
-
-
         return mView
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        searchQuery(search_value)
+        rvStoreItemlisting(productListFilter!!)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -232,6 +237,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
 
+
         Thread {
             restaurantProductsDatabase = Room.databaseBuilder(
                 requireContext(),
@@ -249,6 +255,16 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         viewmodelusertrack = ViewModelProvider(requireActivity()).get(UserTrackerViewModel::class.java)
 
 
+        showSoftKeyboard(searchKeyETxtAct_new)
+        searchKeyETxtAct_new.isCursorVisible= true
+
+
+//        searchKeyETxtAct.let {
+//            requireActivity().showSoftKeyboard(it)
+//        }
+
+
+
         cartitemView_LLstore1.setOnClickListener {
             if (SessionTwiclo(requireContext()).isLoggedIn) {
                 startActivity(
@@ -264,68 +280,94 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
 
 
+
+
         backIcon_Btn.setOnClickListener {
-            searchKeyETxtAct.text.clear()
+            searchKeyETxtAct_new.text.clear()
+            searchKeyETxtAct_new.let {
+                requireActivity().hideKeyboard(it)
+            }
 
 
             back_listener= activity as search_fragListener
             back_listener!!.detach_searchFrah()
             //  onDetach()
             // newSearch_frag.visibility= View.GONE
-
-
         }
 
 
-        search_cardvv.setOnClickListener {
-            searchKeyETxtAct.isCursorVisible = true
 
-            showKeyboard()
+
+        searchKeyETxtAct_new.setOnClickListener {
+
+
+
+
+            searchKeyETxtAct_new.isCursorVisible = true
+
+            searchKeyETxtAct_new.let {
+                requireActivity().showSoftKeyboard(it)
+            }
 
         }
 
-        searchKeyETxtAct.setOnEditorActionListener { v, actionId, event ->
+        editTxtAct.setOnClickListener {
+            searchKeyETxtAct_new.text.clear()
+            searchQuery("")
+            rvStoreItemlisting(productListFilter!!)
+        }
+
+        searchKeyETxtAct_new.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                tvResturnt_name.text= bundle!!.getString("storeName")
-                search_cardvv.visibility= View.GONE
-                editTxtAct.visibility= View.GONE
+                //tvResturnt_name.text= bundle!!.getString("storeName")
+//                search_cardvv.visibility= View.GONE
+//                editTxtAct.visibility= View.GONE
                 showres_ll.visibility= View.VISIBLE
-                search_cardvvname.visibility= View.VISIBLE
-                search_ingrl.visibility= View.VISIBLE
-                showingResult.text= " You Searched \"${searchKeyETxtAct.text}\" "
+                //search_cardvvname.visibility= View.VISIBLE
+                //search_ingrl.visibility= View.VISIBLE
+                showingResult.text= " You Searched \"${searchKeyETxtAct_new.text}\" "
+                searchKeyETxtAct_new.isCursorVisible = false
                 hideKeyboard()
             }
             false
         }
 
-        searchImg_changeAdd221.setOnClickListener {
-            search_cardvv.visibility= View.VISIBLE
-            editTxtAct.visibility= View.VISIBLE
-            search_cardvvname.visibility= View.GONE
-            search_ingrl.visibility= View.GONE
-            showingResult.text= "Showing Result "
-            searchKeyETxtAct.isCursorVisible = true
-            showKeyboard()
-        }
+//        searchImg_changeAdd221.setOnClickListener {
+//            search_cardvv.visibility= View.VISIBLE
+//            editTxtAct.visibility= View.VISIBLE
+//            search_cardvvname.visibility= View.GONE
+//            search_ingrl.visibility= View.GONE
+//            showingResult.text= "Showing Result "
+//            searchKeyETxtAct.isCursorVisible = true
+//            showKeyboard()
+//        }
 
 
 
 
 
-        searchKeyETxtAct?.addTextChangedListener(object  : TextWatcher {
+        searchKeyETxtAct_new?.addTextChangedListener(object  : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 editTxtAct.setTextColor(resources.getColor(R.color.colorTextGray))
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 search_value = p0.toString()
 
 
 
+//                if (p3 < 1) {
+//                    mainlist_new!!.clear()
+//                    storeItemsAdapter2.notifyDataSetChanged()
+//                }
 
-                showIOSProgress()
-                searchQuery(search_value)
-                rvStoreItemlisting(productListFilter!!)
+
+
+
+                        showIOSProgress()
+                        searchQuery(search_value)
+                        rvStoreItemlisting(productListFilter!!)
 
 
             }
@@ -335,6 +377,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             }
 
         })
+
+
 
 //
 
@@ -1117,8 +1161,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
                     //	 Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem--$--"+mainlist!!.get(firstvisibleItem)!!.subcategory_name.toString());
 
-                    if (searchKeyETxtAct.getText().toString()
-                            .equals("") || searchKeyETxtAct.getText().toString()
+                    if (searchKeyETxtAct_new.getText().toString()
+                            .equals("") || searchKeyETxtAct_new.getText().toString()
                             .startsWith(" ")
                     ) {
                         try {
@@ -1237,8 +1281,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
 
                     //	 Log.d("value_gg_", "$dy-$currentItems---$totalItems---$scrollOutItems---$firstvisibleItem--$--"+mainlist!!.get(firstvisibleItem)!!.subcategory_name.toString());
 
-                    if (searchKeyETxtAct.getText().toString()
-                            .equals("") || searchKeyETxtAct.getText().toString()
+                    if (searchKeyETxtAct_new.getText().toString()
+                            .equals("") || searchKeyETxtAct_new.getText().toString()
                             .startsWith(" ")
                     ) {
                         try {
@@ -1317,7 +1361,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
             {
                 restaurantProductsDatabase!!.resProductsDaoAccess()!!
                     .searchQuery(search_key)
-                    .observe(this, Observer { search ->
+                    .observe(viewLifecycleOwner, Observer { search ->
                         if (!query.equals("")) {
                             productListFilter = search as ArrayList<StoreItemProductsEntity>
                             storeItemsAdapter2.updateData(
@@ -1396,8 +1440,8 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
     //get data from room
     private fun getRoomData() {
         Handler(Looper.getMainLooper()).postDelayed({
-            if (searchKeyETxtAct.getText().toString()
-                    .equals("") || searchKeyETxtAct.getText()
+            if (searchKeyETxtAct_new.getText().toString()
+                    .equals("") || searchKeyETxtAct_new.getText()
                     .toString().startsWith(" ")
             ) {
 
@@ -2208,8 +2252,23 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         Toast.makeText(context, toast_string, Toast.LENGTH_SHORT).show()
     }
 
+
+
     override fun onDetach() {
         super.onDetach()
+    }
+
+    fun showSoftKeyboard(view: View) {
+        val inputMethodManager: InputMethodManager =
+            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        view.requestFocus()
+        inputMethodManager.showSoftInput(view, 0)
+    }
+
+    private fun hideSoftKeyboard(activity: Activity) {
+        val inputMethodManager =
+            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
     }
 
 }

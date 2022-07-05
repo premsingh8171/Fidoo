@@ -25,19 +25,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.fidoo.user.R
 import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.adapter.AddressSearchAdapter
+import com.fidoo.user.addressmodule.adapter.AddressadapterNew
 import com.fidoo.user.addressmodule.adapter.AddressesAdapter
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
+import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.activity.CartActivity.Companion.storeLat
 import com.fidoo.user.cartview.activity.CartActivity.Companion.storeLong
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
-import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
-import com.fidoo.user.utils.BaseActivity
-import com.fidoo.user.utils.hideKeyboard
-import com.fidoo.user.utils.showAlertDialog
+import com.fidoo.user.utils.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
@@ -49,6 +49,22 @@ import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_saved_addresses.*
+import kotlinx.android.synthetic.main.activity_saved_addresses.addDividerLl
+import kotlinx.android.synthetic.main.activity_saved_addresses.add_addressfm
+import kotlinx.android.synthetic.main.activity_saved_addresses.addressesRecyclerView
+import kotlinx.android.synthetic.main.activity_saved_addresses.backIcon_saved_address
+import kotlinx.android.synthetic.main.activity_saved_addresses.clear_searchImg
+import kotlinx.android.synthetic.main.activity_saved_addresses.current_locLL
+import kotlinx.android.synthetic.main.activity_saved_addresses.emptyLastTxt
+import kotlinx.android.synthetic.main.activity_saved_addresses.emptyScren_ll
+import kotlinx.android.synthetic.main.activity_saved_addresses.emptyTxt
+import kotlinx.android.synthetic.main.activity_saved_addresses.headingaddItxt
+import kotlinx.android.synthetic.main.activity_saved_addresses.locationViewll
+import kotlinx.android.synthetic.main.activity_saved_addresses.searchAdd_cardView
+import kotlinx.android.synthetic.main.activity_saved_addresses.searchEdt_new_fgmt
+import kotlinx.android.synthetic.main.activity_saved_addresses.search_add_rv
+import kotlinx.android.synthetic.main.activity_saved_addresses.search_iconImg
+import kotlinx.android.synthetic.main.activity_saved_addresses_new.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
 import java.util.*
 import kotlin.collections.LinkedHashSet
@@ -62,9 +78,8 @@ class SavedAddressesActivity : BaseActivity() {
     var logoutDiolog: Dialog? = null
     private var mMixpanel: MixpanelAPI? = null
 
-
     companion object {
-        var savedAddressesActivity: SavedAddressesActivity? = null
+        var savedAddressesActivity: SavedAddressesActivityNew? = null
         var editAdd: Int? = 0
         var addAddressOrNot: String? = ""
         var lat_long: Int = 0
@@ -83,7 +98,7 @@ class SavedAddressesActivity : BaseActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         setContentView(R.layout.activity_saved_addresses)
-        savedAddressesActivity = this
+
         placesClient = Places.createClient(this)
         val token = AutocompleteSessionToken.newInstance()
         pref = SessionTwiclo(this)
@@ -98,12 +113,22 @@ class SavedAddressesActivity : BaseActivity() {
         // where=intent.getStringExtra("where")
         where = pref!!.guestLogin
         Log.d("where_where", where!!)
+//        if (navigateFromCart == 1){
+//            addressesRecyclerView.visibility = View.GONE
+//        }
+
+
+
+
+        if (CartActivity.addNewAddressFromCart == 1){
+            addressesRecyclerView.visibility = View.GONE
+            CartActivity.addNewAddressFromCart = 0
+        }
         if (where.equals("guest")) {
             //  linear_progress_indicator.visibility = View.GONE
-
-        } else {
+        }
+        else {
             Log.e("store lat", storeLat)
-
             if (isNetworkConnected) {
                 showIOSProgress()
 
@@ -114,7 +139,8 @@ class SavedAddressesActivity : BaseActivity() {
                         storeLat,
                         storeLong
                     )
-                } else {
+                }
+                else {
                     viewmodel?.getAddressesApi(
                         SessionTwiclo(this).loggedInUserDetail.accountId,
                         SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -130,93 +156,103 @@ class SavedAddressesActivity : BaseActivity() {
                     StoreListActivity.serive_id_,
                     SessionTwiclo(this).deviceToken
                 )
-
-            } else {
+            }
+            else {
                 showInternetToast()
             }
         }
 
-        if (ProfileFragment.addManages.equals("add_manage")) {
-            locationViewll.visibility = View.GONE
-            searchAdd_cardView.visibility = View.GONE
-            addDividerLl.visibility = View.GONE
-            headingaddItxt.visibility = View.VISIBLE
-            add_addressfm.visibility = View.VISIBLE
-
-        } else {
-            locationViewll.visibility = View.VISIBLE
-            searchAdd_cardView.visibility = View.VISIBLE
-            addDividerLl.visibility = View.VISIBLE
-            headingaddItxt.visibility = View.GONE
-            add_addressfm.visibility = View.GONE
-        }
+//        if (ProfileFragment.addManages.equals("add_manage")) {
+//            tv_yourAddresses_New.visibility = View.GONE
+//            locationViewll.visibility = View.GONE
+//            searchAdd_cardView.visibility = View.GONE
+//            addDividerLl.visibility = View.GONE
+//            headingaddItxt.visibility = View.VISIBLE
+//            add_addressfm.visibility = View.VISIBLE
+//        }
+//        else {
+//            locationViewll.visibility = View.VISIBLE
+//            searchAdd_cardView.visibility = View.VISIBLE
+//            searchAdd_cardView.setOnClickListener {
+//                tv_yourAddresses_New.visibility = View.GONE
+//            }
+//            headingaddItxt.visibility = View.GONE
+//            add_addressfm.visibility = View.GONE
+//            if (ProfileFragment.addManages.equals("  ")){
+//                addressesRecyclerView.visibility= View.GONE
+//            }
+//
+//        }
 
         add_addressfm.setOnClickListener {
-            addAddressOrNot = "new_add"
-            startActivityForResult(
-                Intent(this, NewAddAddressActivity::class.java)
-                    .putExtra("where", where), 1
-            )
-        }
 
+//
+//            tv_yourAddresses_New.visibility = View.GONE
+//            add_addressfm.visibility= View.GONE
+//            headingaddItxt.visibility = View.GONE
+//            addDividerLl.visibility = View.VISIBLE
+//            addressesRecyclerView.visibility= View.GONE
+//            searchAdd_cardView.visibility = View.VISIBLE
+//            locationViewll.visibility = View.VISIBLE
+
+
+            AppUtils.startActivityRightToLeft(
+                this,
+                Intent(this, SavedAddressesActivityNew::class.java).putExtra("list_show", "no")
+            )
+
+//            addAddressOrNot = "new_add"
+//            startActivityForResult(
+//                Intent(this, NewAddAddressActivityNew::class.java)
+//                    .putExtra("where", where), 1
+//            )
+        }
         backIcon_saved_address.setOnClickListener {
+
             finish()
             AppUtils.finishActivityLeftToRight(this)
         }
-//        tv_add_address.setOnClickListener {
-//            var intent = Intent(applicationContext, AddAddressActivity::class.java)
-//            startActivity(intent)
-//        }
 
         viewmodel?.getAddressesResponse?.observe(this, Observer { user ->
             dismissIOSProgress()
             Log.e("addresses_response", Gson().toJson(user))
             //  linear_progress_indicator.visibility = View.GONE
-
             if(user.errorCode==200) {
                 if (user.addressList.isNullOrEmpty()) {
                     SessionTwiclo(this).userAddress = ""
 //                emptyTxt.visibility = View.VISIBLE
 //                emptyTxt.visibility = View.VISIBLE
-                    // emptyScren_ll.visibility = View.VISIBLE
 
-                } else {
-                    //  emptyTxt.visibility = View.GONE
-                    // emptyLastTxt.visibility = View.GONE
-
-                    // emptyScren_ll.visibility = View.GONE
+                }
+                else {
+//                    emptyTxt.visibility = View.GONE
+//                    emptyLastTxt.visibility = View.GONE
+//                    emptyScren_ll.visibility = View.GONE
                 }
 
 
-                if (!user.addressList.isNullOrEmpty()) {
-                    val adapter = AddressesAdapter(
-                        this,
-                        user.addressList,
-                        object : AddressesAdapter.SetOnDeteleAddListener {
-                            override fun onDelete(
-                                add_id: String,
-                                addressList: GetAddressModel.AddressList
-                            ) {
-                                //hit api
-                                // Log.e("adadd_id", add_id)
-                                deleteAddDialog(add_id)
+                val adapter = AddressadapterNew(this, user.addressList, object : AddressadapterNew.SetOnDeteleAddListener {
+                    override fun onDelete(
+                        add_id: String,
+                        addressList: GetAddressModel.AddressList
+                    ) {
+                        //hit api
+                        // Log.e("adadd_id", add_id)
+                        deleteAddDialog(add_id)
 
-                            }
+                    }
+                },
+                    intent.getStringExtra("type")
+                )
+                addressesRecyclerView?.layoutManager = GridLayoutManager(this, 1)
+                addressesRecyclerView?.setHasFixedSize(true)
+                addressesRecyclerView?.adapter = adapter
 
-                        },
-                        intent.getStringExtra("type")
-                    )
-                    addressesRecyclerView?.layoutManager = GridLayoutManager(this, 1)
-                    addressesRecyclerView?.setHasFixedSize(true)
-                    addressesRecyclerView?.adapter = adapter
-                }
-            }else if (user.errorCode==101){
-                showAlertDialog(this)
-            }else{
 
             }
-
-            //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
+            else if (user.errorCode==101){
+                showAlertDialog(this)
+            }
         })
 
         viewmodel?.removeAddressResponse?.observe(this, Observer { user ->
@@ -241,73 +277,37 @@ class SavedAddressesActivity : BaseActivity() {
             Log.e("cart response", Gson().toJson(user))
             showToast(user)
 
-
             //   Toast.makeText(this, "welcocsd", Toast.LENGTH_LONG).show()
         })
+
 //        backIcon.setOnClickListener {
 //            finish()
 //        }
 
-        tv_add_address.setOnClickListener {
-            addAddressOrNot = "new_add"
-            startActivityForResult(
-                Intent(this, NewAddAddressActivity::class.java)
-                    .putExtra("where", where), 1
-            )
-        }
+//        tv_add_address.setOnClickListener {
+//            addAddressOrNot = "new_add"
+//            startActivityForResult(
+//                Intent(this, NewAddAddressActivity::class.java)
+//                    .putExtra("where", where), 1
+//            )
+//        }
 
         current_locLL.setOnClickListener {
-            addAddressOrNot = "current_location"
-            lat_long = 0
+            SavedAddressesActivityNew.addAddressOrNot = "current_location"
+            // Search_key=""
+            SavedAddressesActivityNew.lat_long = 0
             startActivityForResult(
-                Intent(this, NewAddAddressActivity::class.java)
+                Intent(this, NewAddAddressActivityNew::class.java)
                     .putExtra("where", where), 1
             )
         }
 
-
-        searchEdt_new_fgmt?.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {}
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-                search_value = s.toString()
-                if (search_value!!.length > 0) {
-                    emptyScren_ll.visibility = View.GONE
-                    addressesRecyclerView.visibility = View.GONE
-                    search_iconImg.visibility = View.GONE
-                    clear_searchImg.visibility = View.VISIBLE
-                    search_add_rv.visibility = View.VISIBLE
-                    searchAdd(search_value!!, token)
-                } else {
-                    search_add_rv.visibility = View.GONE
-                    clear_searchImg.visibility = View.GONE
-                    search_iconImg.visibility = View.VISIBLE
-                    addressesRecyclerView.visibility = View.VISIBLE
-                    searchAddList.clear()
-                }
-
-            }
-        })
-
-        clear_searchImg.setOnClickListener {
-            searchAddList.clear()
-            searchEdt_new_fgmt.getText().clear()
-            search_add_rv.visibility = View.GONE
-            search_iconImg.visibility = View.GONE
-            clear_searchImg.visibility = View.VISIBLE
-            addressesRecyclerView.visibility = View.VISIBLE
-            searchAdd("", token)
+        searchEdt_new_fgmt.setOnClickListener {
+            searchEdt_new_fgmt.isCursorVisible= true
+            showSoftKeyboard(searchEdt_new_fgmt)
         }
+
+
 
 
     }
@@ -339,16 +339,15 @@ class SavedAddressesActivity : BaseActivity() {
                             searchAddList.addAll(s)
                             //  Log.i("predictionList___d", searchAddList.get(0).toString())
                             searchAddRecyclerview(searchAddList)
-                        } catch (e: Exception) {
+                        }
+                        catch (e: Exception) {
 
                         }
-
                     }
                 } else {
                     Log.i("mytag", "prediction fetching task unsuccessful")
                 }
             }
-
     }
 
     private fun searchAddRecyclerview(searchAddList: ArrayList<String>) {
@@ -359,21 +358,20 @@ class SavedAddressesActivity : BaseActivity() {
                         return
                     }
                     hideKeyboard()
-                    Search_key = value
-                    lat_long = 1
-                    Log.d("editAddf___", Search_key)
+                    SavedAddressesActivityNew.Search_key = value
+                    SavedAddressesActivityNew.lat_long = 1
+                    Log.d("editAddf___", SavedAddressesActivityNew.Search_key)
                     openSomeActivityForResult()
 //                startActivityForResult(Intent(this@SavedAddressesActivity, NewAddAddressActivity::class.java)
 //                    .putExtra("where",where),1)
                     // getGeoLocation(value)
                 }
-
             })
         search_add_rv?.adapter = addressSearchAdapter
     }
 
     fun openSomeActivityForResult() {
-        val intent = Intent(this, NewAddAddressActivity::class.java)
+        val intent = Intent(this, NewAddAddressActivityNew::class.java)
         intent.putExtra("where", where)
         // resultLauncher.launch(intent)
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
@@ -384,15 +382,24 @@ class SavedAddressesActivity : BaseActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 // There are no request codes
                 //val data: Intent? = result.data
-
             }
         }
 
 
+
     override fun onResume() {
+
         super.onResume()
-        Log.d("editAdd___", editAdd.toString())
-        if (editAdd == 1) {
+        viewmodel?.getAddressesApi(
+            SessionTwiclo(this).loggedInUserDetail.accountId,
+            SessionTwiclo(this).loggedInUserDetail.accessToken,
+            "",
+            ""
+        )
+
+
+        Log.d("editAdd___", SavedAddressesActivityNew.editAdd.toString())
+        if (SavedAddressesActivityNew.editAdd == 1) {
             if (isNetworkConnected) {
                 showIOSProgress()
                 if (intent.getStringExtra("type") == "order") {
@@ -410,14 +417,13 @@ class SavedAddressesActivity : BaseActivity() {
                         ""
                     )
                 }
-                editAdd = 0
-            } else {
+                SavedAddressesActivityNew.editAdd = 0
+            }
+            else {
                 showInternetToast()
             }
         }
-
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -434,7 +440,7 @@ class SavedAddressesActivity : BaseActivity() {
                     )
                 } else {
                     try {
-                        if (editAdd == 1) {
+                        if (SavedAddressesActivityNew.editAdd == 1) {
                             if (SessionTwiclo(this).loggedInUserDetail.accountId.isNotEmpty()) {
                                 showIOSProgress()
 
@@ -449,20 +455,17 @@ class SavedAddressesActivity : BaseActivity() {
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-
                 }
-
-            } else {
+            }
+            else {
                 showInternetToast()
             }
         }
-
 
         if (requestCode == 100 && resultCode == RESULT_OK) {
             var place: com.google.android.libraries.places.api.model.Place =
                 Autocomplete.getPlaceFromIntent(data!!)
             ed_search.setText(place.address)
-
 
             var locationName = String.format("Locality Name : %s", place.name)
             var latLng = place.latLng

@@ -1,55 +1,43 @@
-package com.fidoo.user.restaurants.adapter
-
+package com.fidoo.user.restaurants.activity
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Paint
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.text.Html
-
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-
 import com.bumptech.glide.Glide
-import com.example.myapplication.adapter.userViewHolder
 import com.fidoo.user.R
 import com.fidoo.user.activity.AuthActivity
 import com.fidoo.user.activity.MainActivity
 import com.fidoo.user.activity.MainActivity.Companion.tempProductList
-
+import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.interfaces.AdapterAddRemoveClick
 import com.fidoo.user.interfaces.AdapterClick
-import com.fidoo.user.restaurants.activity.NewDBStoreItemsActivity
 import com.fidoo.user.restaurants.listener.AdapterCartAddRemoveClick
 import com.fidoo.user.restaurants.model.StoreDetailsModel
 import com.fidoo.user.restaurants.model.vegDiffUtil
 import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
-import com.google.gson.Gson
-
-
-import kotlinx.android.synthetic.main.grocery_adapter.view.*
-import kotlinx.android.synthetic.main.new_headeritems_store.view.*
 import kotlinx.android.synthetic.main.store_product.view.*
-import kotlinx.android.synthetic.main.store_product.view.offerPrice
 import java.util.concurrent.Executors
 
 class StoreItemsAdapter(
     val con: Context,
     private val adapterClick: AdapterClick,
-     var productList: ArrayList<StoreItemProductsEntity>,
+    private var productList: ArrayList<StoreItemProductsEntity>,
     var fssai: String,
     var restaurantName: String,
     var service_id: String,
@@ -58,7 +46,7 @@ class StoreItemsAdapter(
     private val adapterCartAddRemoveClick: AdapterCartAddRemoveClick,
     var total_item_count: Int,
     private val storeID: String
-    ) : RecyclerView.Adapter<StoreItemsAdapter.UserViewHolder>() {
+) : RecyclerView.Adapter<StoreItemsAdapter.UserViewHolder>() {
 
     var arraylist: ArrayList<StoreDetailsModel.Product> = ArrayList()
     var count: Int = 0
@@ -73,14 +61,14 @@ class StoreItemsAdapter(
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val index = productList[position]
 
-         Log.d("indexindex", restaurantName + "--" + restaurantAddress)
+        Log.d("indexindex", restaurantName + "--" + restaurantAddress)
 
         holder.fssaitxt.text = fssai
         holder.restaurant_nametxt.text = restaurantName
         holder.restaurant_addtxt.text = restaurantAddress
 
-       //  try {
-       // Log.d("indexindex", index.price!! + "--" + index.offerPrice)
+        //  try {
+        // Log.d("indexindex", index.price!! + "--" + index.offerPrice)
 
         if (!index.price!!.equals(index.offerPrice!!)) {
 
@@ -113,7 +101,6 @@ class StoreItemsAdapter(
 //        }
 
         if (index.offerPrice.equals("0")){
-
             holder.offerPrice.visibility=View.GONE
         }else{
             holder.offerPrice.visibility=View.VISIBLE
@@ -123,7 +110,7 @@ class StoreItemsAdapter(
             if (index.headerActiveornot.equals("1")) {
                 if (position == 0) {
                     holder.devider_catLL.visibility = View.GONE
-                    holder.category_nameheader.visibility = View.VISIBLE
+                    holder.category_nameheader.visibility = View.GONE
                     holder.category_nameheader.text = index.subcategory_name.toString()
 
                 } else {
@@ -146,34 +133,7 @@ class StoreItemsAdapter(
 
         holder.itemName.text = index.productName
 
-        if (index.product_desc?.length!! > 50){
-            holder.itemView.product_desc_txt.text= Html.fromHtml(index.product_desc!!.substring(0, 50)
-            +"..."+ "<font color='black'><b>More</b></font>")
-        }else {
-
-            holder.itemView.product_desc_txt.text = index.product_desc
-        }
-
-        holder.itemView.product_desc_txt.setOnClickListener {
-
-
-            if (index.product_desc?.length!! > 50) {
-
-                if (holder.itemView.product_desc_txt.text.toString().endsWith("Less")) {
-                    holder.itemView.product_desc_txt.text = Html.fromHtml(
-                        index.product_desc!!.substring(0, 50)
-                                + "..." + "<font color='black'><b>More </b></font>"
-                    )
-                } else {
-                    holder.itemView.product_desc_txt.text = Html.fromHtml(
-                        index.product_desc
-                                + " " + "<font color='black'><b>Less</b></font>"
-                    )
-                }
-            }
-
-
-        }
+        holder.itemView.product_desc_txt.text = index.product_desc
 
         if (index.image!!.isNotEmpty()) {
 //            if (index.image!!.startsWith("http")){
@@ -185,13 +145,13 @@ class StoreItemsAdapter(
 //                    .into(holder.storeImg)
 //            }else{
 
-                Glide.with(con)
-                    .load(index.image).thumbnail(0.05f)
-                    .fitCenter()
-                    .error(R.drawable.default_item)
-                    .into(holder.storeImg)
+            Glide.with(con)
+                .load(index.image).thumbnail(0.05f)
+                .fitCenter()
+                .error(R.drawable.default_item)
+                .into(holder.storeImg)
 
-         //   }
+            //   }
 
             holder.storeImg.visibility = View.VISIBLE
         } else {
@@ -209,11 +169,11 @@ class StoreItemsAdapter(
             holder.vegIcon.setImageResource(R.drawable.veg)
             //holder.vegIcon.setColorFilter(Color.rgb(53, 156, 71))
         } else if (productList[position].isNonveg!!.equals("1")) {
-                if (productList[position].contains_egg.equals("1")){
-                    holder.vegIcon.setImageResource(R.drawable.egg_icon)
-                }else{
-                    holder.vegIcon.setImageResource(R.drawable.non_veg)
-                }
+            if (productList[position].contains_egg.equals("1")){
+                holder.vegIcon.setImageResource(R.drawable.egg_icon)
+            }else{
+                holder.vegIcon.setImageResource(R.drawable.non_veg)
+            }
         }
 
         if (index.cartQuantity == 0) {
@@ -242,7 +202,7 @@ class StoreItemsAdapter(
 //            MainActivity.addCartTempList!!.add(addCartInputModel)
 //            Log.e("llll", Gson().toJson(tempProductList))
 
-           // count = index.cartQuantity!!
+            // count = index.cartQuantity!!
 
             holder.countValue.text = index.cartQuantity.toString()
         }
@@ -259,7 +219,6 @@ class StoreItemsAdapter(
                             count++
                             holder.countValue.text = count.toString()
 
-                            useconstants.offerPrice= index.offerPrice!!
                             adapterClick.onItemClick(
                                 index.productId,
                                 "custom",
@@ -274,7 +233,6 @@ class StoreItemsAdapter(
                             SessionTwiclo(con).serviceId = MainActivity.service_idStr
                         } else {
                             count++
-                            useconstants.offerPrice= index.offerPrice!!
                             //Log.d("countcountcountcot",count.toString())
                             holder.countValue.text = count.toString()
                             holder.add_new_lay.visibility = View.GONE
@@ -379,8 +337,6 @@ class StoreItemsAdapter(
                         if (holder.countValue.text.toString().toInt() > 0) {
                             count--
                             holder.countValue.text = count.toString()
-                            NewDBStoreItemsActivity.is_deleting_search = "0"
-                            NewDBStoreItemsActivity.is_adding_search = "0"
                             adapterCartAddRemoveClick.onRemoveItemClick(
                                 index.productId,
                                 count.toString(),
@@ -426,7 +382,7 @@ class StoreItemsAdapter(
             holder.stock_status.visibility = View.VISIBLE
         }
 
-        if (productList.size - 1 == position) {
+        if (total_item_count - 1 == position) {
             holder.store_bottom_ll.visibility = View.VISIBLE
         } else {
             holder.store_bottom_ll.visibility = View.GONE
@@ -463,7 +419,7 @@ class StoreItemsAdapter(
 
         //performing positive action
         builder.setPositiveButton("Login") { _, which ->
-         //   con.startActivity(Intent(con, LoginActivity::class.java))
+            //   con.startActivity(Intent(con, LoginActivity::class.java))
             con.startActivity(Intent( con, AuthActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
 
 

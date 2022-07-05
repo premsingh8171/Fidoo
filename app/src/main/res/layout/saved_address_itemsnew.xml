@@ -69,7 +69,7 @@
                     android:layout_marginStart="@dimen/dimen_8dp"
                     android:id="@+id/editdeletell"
                     android:layout_marginTop="@dimen/dimen_5dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_below="@id/ll_addressSection"
                     android:layout_height="wrap_content">
                     <TextView

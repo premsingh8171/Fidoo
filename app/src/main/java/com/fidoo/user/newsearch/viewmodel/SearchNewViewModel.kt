@@ -55,11 +55,11 @@ class SearchNewViewModel(application: Application) : AndroidViewModel(applicatio
         user_long: String,
         page_count: String,
         service_id: String,
-        search_type: String
+        search_type:String
     ) {
         Log.d(
             "searchSuggestionsApi",
-            "$accountId--$accessToken$keyword--$user_lat$user_long--$page_count--$service_id"
+            "$accountId--$accessToken$keyword--$user_lat$user_long--$page_count--$service_id--$search_type"
         )
 
         WebServiceClient.client.create(BackEndApi::class.java)

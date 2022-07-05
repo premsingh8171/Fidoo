@@ -354,7 +354,10 @@ interface BackEndApi {
         @Field("promo_id") promo_id: String?,
         @Field("delivery_instructions") delivery_instructions: String?,
         @Field("payment_mode") payment_mode: String?,
-        @Field("merchant_instructions") merchant_instructions: String?
+        @Field("merchant_instructions") merchant_instructions: String?,
+        @Field("cart_discount") cart_discount:String?,
+        @Field("coupon_id") coupon_id:String?,
+        @Field("other_taxes_and_charges") other_taxes_and_charges:String?
     ): Call<OrderPlaceModel>
 
     @FormUrlEncoded
@@ -773,7 +776,7 @@ interface BackEndApi {
         @Field("user_lat") user_lat: String?,
         @Field("user_long") user_long: String?,
         @Field("page_count") page_count: String?,
-        @Field("service_id") service_id: String?,
+        @Field("service_id") service_id: String,
         @Field("search_type") search_type: String?
     ): Call<KeywordBasedSearchSuggestionsModel>
 

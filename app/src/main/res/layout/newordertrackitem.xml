@@ -80,7 +80,7 @@
                 android:drawableStart="@drawable/call_24"
                 android:drawablePadding="@dimen/margin_8dp"
                 android:visibility="gone"
-                android:text="Call Merchant"
+                android:text="Call Restaurant"
                 android:textStyle="bold"
                 />
 

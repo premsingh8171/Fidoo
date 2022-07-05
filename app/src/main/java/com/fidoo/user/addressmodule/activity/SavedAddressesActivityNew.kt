@@ -31,15 +31,13 @@ import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
 import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.cartview.activity.CartActivity.Companion.storeLat
 import com.fidoo.user.cartview.activity.CartActivity.Companion.storeLong
+import com.fidoo.user.constants.useconstants
 import com.fidoo.user.constants.useconstants.navigateFromCart
 import com.fidoo.user.data.session.SessionTwiclo
 import com.fidoo.user.profile.ui.ProfileFragment
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
-import com.fidoo.user.utils.AUTOCOMPLETE_REQUEST_CODE
-import com.fidoo.user.utils.BaseActivity
-import com.fidoo.user.utils.hideKeyboard
-import com.fidoo.user.utils.showAlertDialog
+import com.fidoo.user.utils.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
@@ -52,6 +50,7 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
 import kotlinx.android.synthetic.main.activity_saved_addresses_new.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
+import okhttp3.internal.notify
 import java.util.*
 import kotlin.collections.LinkedHashSet
 
@@ -102,6 +101,16 @@ class SavedAddressesActivityNew : BaseActivity() {
 //        if (navigateFromCart == 1){
 //            addressesRecyclerView.visibility = View.GONE
 //        }
+
+
+        var listshow= intent.getStringExtra("list_show")
+        if (listshow!!.equals("no")){
+            addressesRecyclerView.visibility= View.GONE
+        }else if (listshow!!.equals("yes")){
+            addressesRecyclerView.visibility= View.VISIBLE
+        }
+
+
         if (CartActivity.addNewAddressFromCart == 1){
             addressesRecyclerView.visibility = View.GONE
             CartActivity.addNewAddressFromCart = 0
@@ -144,15 +153,20 @@ class SavedAddressesActivityNew : BaseActivity() {
             }
         }
 
-        if (ProfileFragment.addManages.equals("add_manage")) {
-            tv_yourAddresses_New.visibility = View.GONE
-            locationViewll.visibility = View.GONE
-            searchAdd_cardView.visibility = View.GONE
-            addDividerLl.visibility = View.GONE
-            headingaddItxt.visibility = View.VISIBLE
-            add_addressfm.visibility = View.VISIBLE
-        }
-        else {
+
+
+
+
+
+//        if (ProfileFragment.addManages.equals("add_manage")) {
+//            tv_yourAddresses_New.visibility = View.GONE
+//            locationViewll.visibility = View.GONE
+//            searchAdd_cardView.visibility = View.GONE
+//            addDividerLl.visibility = View.GONE
+//            headingaddItxt.visibility = View.VISIBLE
+//            add_addressfm.visibility = View.VISIBLE
+//        }
+//        else {
             locationViewll.visibility = View.VISIBLE
             searchAdd_cardView.visibility = View.VISIBLE
             searchAdd_cardView.setOnClickListener {
@@ -160,16 +174,45 @@ class SavedAddressesActivityNew : BaseActivity() {
             }
             headingaddItxt.visibility = View.GONE
             add_addressfm.visibility = View.GONE
+
+
+  //      }
+
+        if (useconstants.sendpackage){
+            tv_yourAddresses_New.visibility = View.GONE
+            addressesRecyclerView.visibility= View.VISIBLE
+            topLay.visibility= View.VISIBLE
+            searchAdd_cardView.visibility= View.VISIBLE
+            searchEdt_new_fgmt.visibility= View.VISIBLE
+            locationViewll.visibility= View.VISIBLE
+            current_locLL.visibility= View.VISIBLE
+            headingaddItxt.visibility=View.GONE
+            add_addressfm.visibility=View.GONE
         }
 
         add_addressfm.setOnClickListener {
-            addAddressOrNot = "new_add"
-            startActivityForResult(
-                Intent(this, NewAddAddressActivityNew::class.java)
-                    .putExtra("where", where), 1
-            )
+
+            useconstants.fromprofile=true
+
+            tv_yourAddresses_New.visibility = View.GONE
+            add_addressfm.visibility= View.GONE
+            headingaddItxt.visibility = View.GONE
+            addDividerLl.visibility = View.VISIBLE
+            addressesRecyclerView.visibility= View.GONE
+            searchAdd_cardView.visibility = View.VISIBLE
+            locationViewll.visibility = View.VISIBLE
+
+
+
+//            addAddressOrNot = "new_add"
+//            startActivityForResult(
+//                Intent(this, NewAddAddressActivityNew::class.java)
+//                    .putExtra("where", where), 1
+//            )
         }
         backIcon_saved_address.setOnClickListener {
+            useconstants.showeditdelete= false
+            useconstants.sendpackage= false
             finish()
             AppUtils.finishActivityLeftToRight(this)
         }
@@ -191,7 +234,7 @@ class SavedAddressesActivityNew : BaseActivity() {
                      emptyScren_ll.visibility = View.GONE
                 }
 
-                if (!user.addressList.isNullOrEmpty()) {
+
                     val adapter = AddressesAdapter(this, user.addressList, object : AddressesAdapter.SetOnDeteleAddListener {
                             override fun onDelete(
                                 add_id: String,
@@ -200,6 +243,7 @@ class SavedAddressesActivityNew : BaseActivity() {
                                 //hit api
                                 // Log.e("adadd_id", add_id)
                                 deleteAddDialog(add_id)
+
                             }
                         },
                         intent.getStringExtra("type")
@@ -207,7 +251,8 @@ class SavedAddressesActivityNew : BaseActivity() {
                     addressesRecyclerView?.layoutManager = GridLayoutManager(this, 1)
                     addressesRecyclerView?.setHasFixedSize(true)
                     addressesRecyclerView?.adapter = adapter
-                }
+
+
             }
             else if (user.errorCode==101){
                 showAlertDialog(this)
@@ -261,6 +306,11 @@ class SavedAddressesActivityNew : BaseActivity() {
             )
         }
 
+        searchEdt_new_fgmt.setOnClickListener {
+            searchEdt_new_fgmt.isCursorVisible= true
+            showSoftKeyboard(searchEdt_new_fgmt)
+        }
+
 
         searchEdt_new_fgmt?.addTextChangedListener(object : TextWatcher {
 
@@ -303,7 +353,7 @@ class SavedAddressesActivityNew : BaseActivity() {
             searchEdt_new_fgmt.getText().clear()
             search_add_rv.visibility = View.GONE
             search_iconImg.visibility = View.GONE
-            clear_searchImg.visibility = View.VISIBLE
+            clear_searchImg.visibility = View.GONE
             addressesRecyclerView.visibility = View.VISIBLE
             searchAdd("", token)
         }
@@ -382,8 +432,20 @@ class SavedAddressesActivityNew : BaseActivity() {
             }
         }
 
+
+
     override fun onResume() {
+
         super.onResume()
+
+        if (!useconstants.showSavedActivity){
+
+
+                useconstants.showSavedActivity = true
+                AppUtils.finishActivityLeftToRight(this)
+                finish()
+
+        }
         Log.d("editAdd___", editAdd.toString())
         if (editAdd == 1) {
             if (isNetworkConnected) {
@@ -506,6 +568,11 @@ class SavedAddressesActivityNew : BaseActivity() {
 
     override fun onBackPressed() {
         AppUtils.finishActivityLeftToRight(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        useconstants.editAddress= false
     }
 
 //     val builder = AlertDialog.Builder(this@SavedAddressesActivity)

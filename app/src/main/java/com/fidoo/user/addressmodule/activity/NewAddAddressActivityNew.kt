@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.ContentResolver
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -32,7 +31,6 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.android.volley.Request
 import com.android.volley.Response
@@ -45,10 +43,11 @@ import com.fidoo.user.activity.SplashActivity
 import com.fidoo.user.addressmodule.activity.ChangeAddressActivity.Companion.value_current_loc
 import com.fidoo.user.addressmodule.model.GetAddressModel
 import com.fidoo.user.addressmodule.viewmodel.AddressViewModel
-import com.fidoo.user.cartview.activity.CartActivity
 import com.fidoo.user.constants.useconstants
 import com.fidoo.user.constants.useconstants.navigateFromCart
 import com.fidoo.user.data.session.SessionTwiclo
+import com.fidoo.user.profile.ui.ProfileFragment
+import com.fidoo.user.sendpackages.activity.SendPackageActivity
 import com.fidoo.user.store.activity.StoreListActivity
 import com.fidoo.user.user_tracker.viewmodel.UserTrackerViewModel
 import com.fidoo.user.utils.BaseActivity
@@ -78,10 +77,11 @@ import kotlinx.android.synthetic.main.content_map.*
 import java.util.*
 
 @Suppress("DEPRECATION")
-open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, LocationListener {
+open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, LocationListener{
 
     companion object {
         val MY_PERMISSIONS_REQUEST_CODE = 123
+
         var checkCount = 0
     }
     var handleOtherButtonAddress : Boolean = false
@@ -102,7 +102,11 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
     var userPhone : String = ""
     var addressType: String = "1"
     var defaultValue: String = "0"
+    var namelength=0
+    var othernamelength=0
+    var mobilenumberlength=0
 
+    var AddressId:String= ""
     var tempAddressId: String = ""
     var where: String? = ""
     var contact_type: String? = ""
@@ -155,17 +159,46 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
         viewmodelusertrack = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(UserTrackerViewModel::class.java)
         where = pref!!.guestLogin
+        namelength= ed_address.text!!.length
+        othernamelength= ed_name.text!!.length
+        mobilenumberlength= ed_phone.text!!.length
         homeRadioBtn.setOnClickListener {
+            ed_name.text!!.clear()
+            ed_phone.text!!.clear()
             other_add_contact_details.visibility = View.GONE
             handleOtherButtonAddress = false
+            namelength= ed_address.text!!.length
+
+            if (namelength>0){
+                btn_continue.isEnabled = true
+            }else{
+                btn_continue.isEnabled = false
+            }
         }
         officeRadioBtn.setOnClickListener {
             other_add_contact_details.visibility = View.GONE
+            ed_name.text!!.clear()
+            ed_phone.text!!.clear()
             handleOtherButtonAddress = false
+            namelength= ed_address.text!!.length
+
+            if (namelength>0){
+                btn_continue.isEnabled = true
+            }else{
+                btn_continue.isEnabled = false
+            }
         }
         otherRadioBtn.setOnClickListener {
             other_add_contact_details.visibility = View.VISIBLE
             handleOtherButtonAddress = true
+            namelength= ed_address.text!!.length
+            othernamelength= ed_name.text!!.length
+            mobilenumberlength= ed_phone.text!!.length
+            if (namelength>0 && othernamelength>0 && mobilenumberlength>9) {
+                btn_continue.isEnabled = true
+            } else {
+                btn_continue.isEnabled = false
+            }
         }
 
         if (SessionTwiclo(this).isLoggedIn == true) {
@@ -178,6 +211,21 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                 SessionTwiclo(this).deviceToken
             )
         }
+
+        if (useconstants.editAddress){
+            ProfileFragment.addManages= "  "
+            tv_SelectDeliveryAddress.visibility = View.GONE
+            live_add_1.visibility = View.GONE
+            btn_proceed.visibility = View.GONE
+            tv_AddAddress.visibility = View.VISIBLE
+            add_new_add_ll.visibility = View.VISIBLE
+            btn_continue.visibility = View.VISIBLE
+            iv_mapSlider.visibility  = View.GONE
+            iv_emptyMap.visibility = View.VISIBLE
+
+        }
+        AddressId= intent.getStringExtra("Id").toString()
+
 
         // where = intent.getStringExtra("where")
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView2) as SupportMapFragment?
@@ -250,28 +298,170 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
         ivPickContact.setOnClickListener {
             var i = Intent(Intent.ACTION_PICK)
+            SavedAddressesActivityNew.lat_long=1
             i.type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
             startActivityForResult(i,111)
         }
+        ed_name.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-        ed_address.doAfterTextChanged {
-            btn_continue.isEnabled = true
-//            live_add_1.visibility = View.GONE
-//            locationImage.visibility = View.GONE
-        }
+            }
+
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+
+                var search_value = s.toString()
+                othernamelength= search_value.length
+
+
+                if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
+                    if (namelength>0 && othernamelength>0 && mobilenumberlength>9) {
+                        btn_continue.isEnabled = true
+                    } else {
+                        btn_continue.isEnabled = false
+                    }
+                }else{
+                    if (namelength>0){
+                        btn_continue.isEnabled = true
+                    }
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+        ed_phone.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                var search_value = s.toString()
+                mobilenumberlength= search_value.length
+
+
+                if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
+                    if (namelength>0 && othernamelength>0 && mobilenumberlength>9) {
+                        btn_continue.isEnabled = true
+                    } else {
+                        btn_continue.isEnabled = false
+                    }
+                }else{
+                    if (namelength>0){
+                        btn_continue.isEnabled = true
+                    }
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        ed_address.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                var search_value = s.toString()
+
+                namelength= search_value.length
+
+                if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
+                    if (namelength>0 && othernamelength>0 && mobilenumberlength>9) {
+                        btn_continue.isEnabled = true
+                    } else {
+                        btn_continue.isEnabled = false
+                    }
+                }else{
+                    if (namelength>0){
+                        btn_continue.isEnabled = true
+                    }
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+
+
+            }
+
+        })
+
+//        ed_address.doAfterTextChanged {
+//            btn_continue.isEnabled = true
+////            live_add_1.visibility = View.GONE
+////            locationImage.visibility = View.GONE
+//        }
 
         btn_continue.setOnClickListener {
             checkCount = 1
             checkAddressSavedFromWhichActivity = "fromNewAddressActivity"
+            useconstants.addressTypeuser= true
+            useconstants.showSavedActivity= false
+            useconstants.fromprofile=false
+            useconstants.addressListShow= true
             if (!isNetworkConnected) {
                 showToast(resources.getString(R.string.provide_internet))
             }
             else {
+
+                if (!ed_landmark.text.isNullOrBlank()) {
+                    SessionTwiclo(this).userAddress =
+                        ed_address.text.toString() + ", " + ed_landmark.text.toString() + ", " + tv_Address_1.text.toString()
+                }else{
+                    SessionTwiclo(this).userAddress =
+                        ed_address.text.toString() + ", " + tv_Address_1.text.toString()
+                }
+
+                if (useconstants.sendpackage){
+                    if(useconstants.tofromsendpackage.equals("from")){
+
+                        if (ed_landmark.text.isNullOrBlank()){
+                            SendPackageActivity.selectedFromAddress= "Building: "+ed_address.text.toString() + ", "+tv_Address_1.text.toString()
+
+                        }else{
+                            SendPackageActivity.selectedFromAddress= "Building: "+ed_address.text.toString() + ", Landmark: " + ed_landmark.text.toString()+", "+tv_Address_1.text.toString()
+
+                        }
+
+                        //  SendPackageActivity.selectedFromAddress = addressList[position].location
+                        SendPackageActivity.selectedfromLat = lat!!
+                        SendPackageActivity.selectedfromLng= lng!!
+                        SendPackageActivity.fromName = ed_name.text.toString()
+                        SendPackageActivity.fromNumber = ed_phone.text.toString()
+                        useconstants.tofromsendpackage=""
+                    }else if (useconstants.tofromsendpackage.equals("to")){
+                        if (ed_landmark.text.isNullOrBlank()){
+                            SendPackageActivity.selectedToAddress= "Building: "+ed_address.text.toString() + ", "+tv_Address_1.text.toString()
+
+                        }else{
+                            SendPackageActivity.selectedToAddress= "Building: "+ed_address.text.toString() + ", Landmark: " + ed_landmark.text.toString()+", "+tv_Address_1.text.toString()
+
+                        }
+
+                        //  SendPackageActivity.selectedFromAddress = addressList[position].location
+                        SendPackageActivity.selectedtoLat = lat!!
+                        SendPackageActivity.selectedtoLng= lng!!
+                        SendPackageActivity.toName = ed_name.text.toString()
+                        SendPackageActivity.toNumber = ed_phone.text.toString()
+                        useconstants.tofromsendpackage=""
+                    }
+                }
+                SessionTwiclo(this).userLat= lat.toString()
+                SessionTwiclo(this).userLng= lng.toString()
+
                     if (where.equals("guest")) {
                         SessionTwiclo(this).userLat = lat.toString()
                         SessionTwiclo(this).userLng = lng.toString()
                         SessionTwiclo(this).userAddress = tv_Address.text.toString()
-                        SavedAddressesActivity.savedAddressesActivity!!.finish().toString()
+                       // SavedAddressesActivity.savedAddressesActivity!!.finish().toString()
                         finish()
                     }
                     else {
@@ -386,7 +576,10 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                                         showToast("Please add contact details")
                                     } else if (ed_phone.text.toString().equals("")) {
                                         showToast("Please add contact details")
-                                    } else {
+
+                                    }else if (ed_phone.text!!.length>0 && ed_phone.text!!.length<10 ){
+                                        showToast("Please enter valid contact details")
+                                    }else {
                                         showIOSProgress()
                                         if (radioGroup.checkedRadioButtonId.equals(R.id.homeRadioBtn)) {
                                             addressType = "1"
@@ -492,12 +685,33 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                             Toast.makeText(this, "unable to get location", Toast.LENGTH_SHORT).show()
                         }
                     }
+
+
             }
+            if (addressType.equals("1")) {
+                SessionTwiclo(this).addressType = "Home"
+            }else if(addressType.equals("2")){
+                SessionTwiclo(this).addressType = "Office"
+            }else if(addressType.equals("3")){
+                SessionTwiclo(this).addressType = "Other"
+            }
+
         }
 
         change_txt.setOnClickListener {
+            useconstants.showSavedActivity= true
+
+            useconstants.editAddress= false
+            viewmodel?.removeAddressApi(
+                SessionTwiclo(this).loggedInUserDetail.accountId,
+                SessionTwiclo(this).loggedInUserDetail.accessToken, AddressId
+            )
+            add_new_add_ll.visibility= View.GONE
             val intent = Intent(this,SavedAddressesActivityNew::class.java)
-            startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
+            intent.putExtra("list_show", "no")
+            startActivity(intent)
+            AppUtils.finishActivityLeftToRight(this)
+            finish()
         }
 
         viewmodel?.editAddressResponse?.observe(this) {
@@ -517,17 +731,22 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         viewmodel?.addAddressResponse?.observe(this) {
             dismissIOSProgress()
             if (it.errorCode == 200) {
-                showToast("Address added successfully")
+                if (useconstants.editmessage){
+                    showToast("Address edited successfully")
+                    useconstants.editmessage= false
+                }else {
+                    showToast("Address added successfully")
+                }
                 SavedAddressesActivityNew.editAdd = 1
                 finish()
                 AppUtils.finishActivityLeftToRight(this)
-                if (useconstants.navigateFromNewAddressActivity == 1) {
+                if (useconstants.navigateFromNewAddressActivity == 1 && !useconstants.sendpackage) {
                     val intent = Intent(this,MainActivity::class.java)
                     startActivity(intent)
                 }
                else if(navigateFromCart == 1){
-                    val intent = Intent(this, CartActivity::class.java)
-                    startActivity(intent)
+//                    val intent = Intent(this, CartActivity::class.java)
+//                    startActivity(intent)
                 }
             } else if (it.errorCode == 101) {
                 showAlertDialog(this)
@@ -727,7 +946,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                 ed_name.setText(rs.getString(1))
             }
         }
-        if (requestCode == 51) {
+        if (requestCode == 111) {
             if (resultCode == RESULT_OK) {
                 if (intent.hasExtra("data")) {
                     getDeviceLocation()

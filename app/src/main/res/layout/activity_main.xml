@@ -21,7 +21,7 @@
 
     <FrameLayout
         android:background="@color/white_tr"
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/orderStatus_fm"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_70dp"

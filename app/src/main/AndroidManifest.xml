@@ -177,6 +177,7 @@
 
         <activity
             android:name=".addressmodule.activity.SavedAddressesActivityNew"
+            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait" />
         <activity
             android:name=".addressmodule.activity.SavedAddressesActivity"
@@ -299,7 +300,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_live_iceNLz5pb15jtP" />
+            android:value="rzp_test_17ihcfTIqBGF9R" />
 
         <service
             android:name=".fcm.MyFirebaseMessagingService"
