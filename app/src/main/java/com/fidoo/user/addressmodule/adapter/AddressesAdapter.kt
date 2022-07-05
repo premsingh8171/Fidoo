@@ -323,13 +323,13 @@ class AddressesAdapter(
         // Log.d("ewwewew",stringExtra.equals("address").toString())
 
         holder.itemView.editAdd.setOnClickListener {
-            useconstants.editAddress= true
+
             if (addressList[position].phone_no.toString().equals("")||addressList[position].name.toString().equals("")){
                 SavedAddressesActivityNew.addAddressOrNot ="current_location"
             }else{
                 SavedAddressesActivityNew.addAddressOrNot ="new_add"
             }
-            useconstants.editAddress= true
+
 
 
             // Log.d("ewwewew",addressList[position].phone_no.toString())

@@ -222,7 +222,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             btn_continue.visibility = View.VISIBLE
             iv_mapSlider.visibility  = View.GONE
             iv_emptyMap.visibility = View.VISIBLE
-            useconstants.editAddress= false
+
         }
         AddressId= intent.getStringExtra("Id").toString()
 
@@ -701,10 +701,12 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         change_txt.setOnClickListener {
             useconstants.showSavedActivity= true
 
+            useconstants.editAddress= false
             viewmodel?.removeAddressApi(
                 SessionTwiclo(this).loggedInUserDetail.accountId,
                 SessionTwiclo(this).loggedInUserDetail.accessToken, AddressId
             )
+            add_new_add_ll.visibility= View.GONE
             val intent = Intent(this,SavedAddressesActivityNew::class.java)
             intent.putExtra("list_show", "no")
             startActivity(intent)
@@ -729,9 +731,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
         viewmodel?.addAddressResponse?.observe(this) {
             dismissIOSProgress()
             if (it.errorCode == 200) {
-                if (useconstants.editAddress){
+                if (useconstants.editmessage){
                     showToast("Address edited successfully")
-                    useconstants.editAddress= false
+                    useconstants.editmessage= false
                 }else {
                     showToast("Address added successfully")
                 }

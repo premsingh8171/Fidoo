@@ -296,29 +296,21 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 							if (completelocation.equals(SessionTwiclo(this).userAddress)) {
 								address_id = user.addressList[i].id
-								select_address_or_add_layout.visibility = View.GONE
-								cart_payment_lay.visibility = View.VISIBLE
+
 								break
-							}else{
-								tv_select_address.text = "Select Address"
-								select_address_or_add_layout.visibility = View.VISIBLE
-								cart_payment_lay.visibility = View.GONE
 							}
+
 						} else {
 							var completelocation =
 								user.addressList[i].flatNo + ", " + user.addressList[i].landmark + ", " + user.addressList[i].location
 
 							if (completelocation.equals(SessionTwiclo(this).userAddress)) {
 								address_id = user.addressList[i].id
-								select_address_or_add_layout.visibility = View.GONE
-								cart_payment_lay.visibility = View.VISIBLE
-								break
 
-							}else{
-								tv_select_address.text = "Select Address"
-								select_address_or_add_layout.visibility = View.VISIBLE
-								cart_payment_lay.visibility = View.GONE
+								break
 							}
+
+
 						}
 
 					}
@@ -336,7 +328,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		}
 		select_address_or_add_layout.setOnClickListener {
 
-			maxdistll.visibility= View.GONE
+
 			if(tv_select_address.text.equals("Add Address")){
 
 				val intent = Intent(this@CartActivity,SavedAddressesActivityNew::class.java)
@@ -653,7 +645,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 		delivery_addressCard.setOnClickListener {
 			checkAddressSavedFromWhichActivity = "fromCart"
-			maxdistll.visibility= View.GONE
+
 
 //			if (!isNetworkConnected) {
 //				showToast(resources.getString(R.string.provide_internet))
@@ -2050,6 +2042,12 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 			//calculateStoreCustomerDistance(it.storeLatitude+","+it.storeLongitude, SessionTwiclo(this).userLat+","+SessionTwiclo(this).userLng)
 
 		}
+		addressViewModel?.getAddressesApi(
+			accountId,
+			accessToken,
+			"",
+			""
+		)
 	}
 
 	private fun startPayment(razorpayOrderId: String?) {
@@ -2837,6 +2835,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 							start_point = "gurugram"
 							if (distanceTex != null && distanceTex < 15000) {
 								islocationValid = 1
+								maxdistll.visibility= View.GONE
 								if (check == 1) {
 									place_order_lay.visibility = View.VISIBLE
 

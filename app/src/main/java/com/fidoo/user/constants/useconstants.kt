@@ -17,6 +17,7 @@ object useconstants {
     var editAddress= false
     var adapterPosition=0
     var fromprofile = false
+    var editmessage= false
     var track_sendpackage = false
     var sendpackage =false
     var tofromsendpackage= ""
