@@ -123,6 +123,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import java.math.RoundingMode
 import java.util.*
+import java.util.concurrent.Executor
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashSet
 
@@ -793,6 +794,40 @@ import kotlin.collections.LinkedHashSet
             Log.d("cart_test", "${Gson().toJson(storeData.cart)}")
             //rvAddedStoreItemlisting(addedproductslist!! as ArrayList<CartModel.Cart> /* = java.util.ArrayList<com.fidoo.user.cartview.model.CartModel.Cart> */ , 1)
 
+
+            /*if(storeData.cart.isNotEmpty()) {
+
+                executor().execute {
+                    for (cartItem in storeData.cart) {
+                        restaurantProductsDatabase!!.resProductsDaoAccess()!!
+                            .insertResProducts(
+                                StoreItemProductsEntity(
+                                    headerActiveorNot, "943656",
+                                    sub_cat_nameStr,
+                                    cartItem.quantity.toInt(),
+                                    cartItem.companyName,
+                                    cartItem.productImage,
+                                    cartItem.in_out_of_stock_status,
+                                    cartItem.is_customize,
+                                    cartItem.is_customize_quantity.toInt(),
+                                    cartItem.is_nonveg,
+                                    cartItem.contains_egg,
+                                    cartItem.isPrescription,
+                                    cartItem.offerPrice,
+                                    cartItem.price,
+                                    cartItem.productId,
+                                    cartItem.productName,
+                                    cartItem.weight,
+                                    cartItem.unit,
+                                    cartItem.cart_id,
+                                    lastCustomized_str,
+                                    product_customize_id,
+                                    cartItem.product_desc
+                                )
+                            )
+                    }
+                }
+            }*/
 
 
           //  dismissIOSProgress()
@@ -1627,10 +1662,12 @@ import kotlin.collections.LinkedHashSet
 
     }
 
-     private fun convertModel(item: CartModel.Cart): StoreItemProductsEntity {
+     private fun convertModel(cartItem: CartModel.Cart): StoreItemProductsEntity {
          val convertedModel = StoreItemProductsEntity()
+         var tempcustid: String = ""
 
-         convertedModel.cartId = item.cart_id
+
+         /*convertedModel.cartId = item.cart_id
          convertedModel.cartQuantity = item.quantity.toInt()
          convertedModel.contains_egg = item.contains_egg
          if(item.customizeItem.size != 0) {
@@ -1645,7 +1682,32 @@ import kotlin.collections.LinkedHashSet
          convertedModel.productId = item.productId
          convertedModel.productName = item.productName
          convertedModel.isPrescription = item.isPrescription
-         convertedModel.isNonveg = item.is_nonveg
+         convertedModel.isNonveg = item.is_nonveg*/
+         if(cartItem.customizeItem.size != 0) {
+             tempcustid = cartItem.customizeItem[0].productCustomizeId.toString()
+         }
+         convertedModel.headerActiveornot = headerActiveorNot
+         convertedModel.product_sub_category_id = "943656"
+         convertedModel.subcategory_name = sub_cat_nameStr
+         convertedModel.cartQuantity = cartItem.quantity.toInt()
+         convertedModel.companyName = cartItem.companyName
+         convertedModel.image = cartItem.productImage
+         convertedModel.in_out_of_stock_status = cartItem.in_out_of_stock_status
+         convertedModel.isCustomize = cartItem.is_customize
+         convertedModel.is_customize_quantity = cartItem.is_customize_quantity.toInt()
+         convertedModel.isNonveg = cartItem.is_nonveg
+         convertedModel.contains_egg = cartItem.contains_egg
+         convertedModel.isPrescription = cartItem.isPrescription
+         convertedModel.offerPrice = cartItem.offerPrice
+         convertedModel.price = cartItem.price
+         convertedModel.productId = cartItem.productId
+         convertedModel.productName = cartItem.productName
+         convertedModel.weight = cartItem.weight
+         convertedModel.unit = cartItem.unit
+         convertedModel. cartId = cartItem.cart_id
+         convertedModel.customizeItemName = lastCustomized_str
+         convertedModel.customizeItemId = tempcustid
+         convertedModel.product_desc = cartItem.product_desc
          return convertedModel
      }
 
@@ -2481,7 +2543,9 @@ import kotlin.collections.LinkedHashSet
                 addCartInputModel.quantity = count
                 if(type == "addviasearch") {
                     addCartInputModel.message = "addviasearch"
-                } else{
+                } else if(position < NewDBStoreItemsActivity.addedSearchCount) {
+                    addCartInputModel.message = "addviasearch"
+                } else {
                 addCartInputModel.message = "add product"
                 }
                 addCartInputModel.customizeSubCatId = customIdsList!!

@@ -349,6 +349,26 @@ public class CartModel {
         @Expose
         public List<CustomizeItem> customizeItem = null;
 
+        @SerializedName("is_customize_quantity")
+        @Expose
+        public String is_customize_quantity;
+
+        @SerializedName("product_desc")
+        @Expose
+        public String product_desc;
+
+        @SerializedName("weight")
+        @Expose
+        public String weight;
+
+        @SerializedName("unit")
+        @Expose
+        public String unit;
+
+        @SerializedName("in_out_of_stock_status")
+        @Expose
+        public String in_out_of_stock_status;
+
     }
 
     public class CustomizeItem {
