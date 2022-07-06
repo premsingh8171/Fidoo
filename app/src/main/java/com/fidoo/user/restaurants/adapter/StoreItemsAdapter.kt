@@ -124,8 +124,8 @@ class StoreItemsAdapter(
             if (index.headerActiveornot.equals("1")) {
                 if (position == 0) {
                     holder.devider_catLL.visibility = View.GONE
-                    holder.category_nameheader.visibility = View.VISIBLE
-                    holder.category_nameheader.text = index.subcategory_name.toString()
+                    holder.category_nameheader.visibility = View.GONE
+                 //   holder.category_nameheader.text = index.subcategory_name.toString()
 
                 } else {
                     holder.devider_catLL.visibility = View.VISIBLE
@@ -253,6 +253,7 @@ class StoreItemsAdapter(
             holder.stock_status.visibility = View.GONE
 
             holder.add_new_lay.setOnClickListener {
+                NewDBStoreItemsActivity.currentProductPosition = position
                 if (checkForInternet(con)) {
                     count = 0
                     if (SessionTwiclo(con).isLoggedIn) {
@@ -288,7 +289,7 @@ class StoreItemsAdapter(
                                 adapterAddRemoveClick.onItemAddRemoveClick(
                                     index.productId, count.toString(), "add",
                                     index.offerPrice, "",
-                                    productList[position].cartId, 0
+                                    productList[position].cartId, position
                                 )
 
                                 SessionTwiclo(con).storeId = storeID
@@ -366,7 +367,7 @@ class StoreItemsAdapter(
                             count.toString(),
                             "add",
                             index.offerPrice, "",
-                            productList[position].cartId, 0
+                            productList[position].cartId, position
                         )
                     }
                 }

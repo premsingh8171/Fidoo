@@ -180,6 +180,7 @@ class NewDBStoreItemsActivity :
 
 
     companion object {
+        var currentProductPosition: Int = -1
         var addedSearchCount: Int = 0
         var is_adding_search: String = ""
         var is_deleting_search: String = ""
@@ -830,7 +831,7 @@ class NewDBStoreItemsActivity :
                             .insertResProducts(
                                 StoreItemProductsEntity(
                                     headerActiveorNot, "943656",
-                                    sub_cat_nameStr,
+                                    "Your Searched result",
                                     cartItem.quantity.toInt(),
                                     cartItem.companyName,
                                     cartItem.productImage,
@@ -1719,7 +1720,7 @@ class NewDBStoreItemsActivity :
          }
          convertedModel.headerActiveornot = headerActiveorNot
          convertedModel.product_sub_category_id = "943656"
-         convertedModel.subcategory_name = sub_cat_nameStr
+         convertedModel.subcategory_name = "You Searched For"
          convertedModel.cartQuantity = cartItem.quantity.toInt()
          convertedModel.companyName = cartItem.companyName
          convertedModel.image = cartItem.productImage
@@ -2414,6 +2415,25 @@ class NewDBStoreItemsActivity :
                 shimmerFrameLayout.startShimmer()
                // showIOSProgress()
 
+                addCartTempList!!.clear()
+                val addCartInputModel = AddCartInputModel()
+                addCartInputModel.productId = productId
+                addCartInputModel.quantity = count.toString()
+                if (currentProductPosition < addedproductslist!!.size){
+                    addCartInputModel.message = "addviasearch"
+                } else {
+                    addCartInputModel.message = "add product"
+                    for (item in addedproductslist!!){
+                        if (productId == item.productId){
+                            addCartInputModel.message = "addviasearch"
+                            break;
+                        }
+                    }
+                }
+                addCartInputModel.customizeSubCatId = customIdsList!!
+                addCartInputModel.isCustomize = "0"
+                addCartTempList!!.add(addCartInputModel)
+
                 viewmodel!!.addToCartApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -2588,7 +2608,13 @@ class NewDBStoreItemsActivity :
                 } else if(position < NewDBStoreItemsActivity.addedSearchCount) {
                     addCartInputModel.message = "addviasearch"
                 } else {
-                addCartInputModel.message = "add product"
+                    addCartInputModel.message = "add product"
+                    for (item in addedproductslist!!){
+                        if (productId == item.productId){
+                            addCartInputModel.message = "addviasearch"
+                            break;
+                        }
+                    }
                 }
                 addCartInputModel.customizeSubCatId = customIdsList!!
                 addCartInputModel.isCustomize = "0"
@@ -2645,6 +2671,8 @@ class NewDBStoreItemsActivity :
                     addCartInputModel.quantity = count
 
                     if (type == "addviasearch"){
+                        addCartInputModel.message = "addviasearch"
+                    } else if(position < NewDBStoreItemsActivity.addedSearchCount) {
                         addCartInputModel.message = "addviasearch"
                     } else {
                     addCartInputModel.message = "add product"
@@ -3065,7 +3093,9 @@ class NewDBStoreItemsActivity :
                                     if (/*is_search_poroduct_included != "1" &&*/ intent.getStringExtra("from_search") == "1"){
                                         Log.d("test_cart", Gson().toJson(addedproductslist))
                                         for(item in addedproductslist!!) {
-                                            mainlist!!.add(0,convertModel(item))
+                                            if (item.is_nonveg == "0"){
+                                                veg_item_list!!.add(0,convertModel(item))
+                                            }
                                         }
                                         //is_search_poroduct_included = "1"
                                     }
