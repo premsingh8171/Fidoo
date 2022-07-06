@@ -461,7 +461,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                         SessionTwiclo(this).userLat = lat.toString()
                         SessionTwiclo(this).userLng = lng.toString()
                         SessionTwiclo(this).userAddress = tv_Address.text.toString()
-                       // SavedAddressesActivity.savedAddressesActivity!!.finish().toString()
+                        SavedAddressesActivity.savedAddressesActivity!!.finish().toString()
                         finish()
                     }
                     else {
@@ -696,20 +696,30 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                 SessionTwiclo(this).addressType = "Other"
             }
 
+           if (useconstants.editmessage){
+               viewmodel?.removeAddressApi(
+                   SessionTwiclo(this).loggedInUserDetail.accountId,
+                   SessionTwiclo(this).loggedInUserDetail.accessToken, useconstants.addressId_delete
+               )
+               useconstants.editmessage= false
+
+           }
+
         }
 
         change_txt.setOnClickListener {
             useconstants.showSavedActivity= true
 
             useconstants.editAddress= false
-            viewmodel?.removeAddressApi(
-                SessionTwiclo(this).loggedInUserDetail.accountId,
-                SessionTwiclo(this).loggedInUserDetail.accessToken, AddressId
-            )
+
             add_new_add_ll.visibility= View.GONE
-            val intent = Intent(this,SavedAddressesActivityNew::class.java)
-            intent.putExtra("list_show", "no")
-            startActivity(intent)
+
+
+            val intent = Intent(this,SavedAddressesActivityNew::class.java).putExtra("list_show", "no")
+            startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
+//            val intent = Intent(this,SavedAddressesActivityNew::class.java)
+//            intent.putExtra("list_show", "no")
+//            startActivity(intent)
             AppUtils.finishActivityLeftToRight(this)
             finish()
         }
@@ -733,7 +743,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             if (it.errorCode == 200) {
                 if (useconstants.editmessage){
                     showToast("Address edited successfully")
-                    useconstants.editmessage= false
+
                 }else {
                     showToast("Address added successfully")
                 }
@@ -944,6 +954,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             if (rs?.moveToFirst()!!){
                 ed_phone.setText(rs.getString(0))
                 ed_name.setText(rs.getString(1))
+                btn_continue.isEnabled= true
             }
         }
         if (requestCode == 111) {

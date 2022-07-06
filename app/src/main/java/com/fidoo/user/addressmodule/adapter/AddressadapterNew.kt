@@ -314,6 +314,7 @@ class AddressadapterNew(val con: Context,
             // if (stringExtra.equals("address")||stringExtra.equals("from")||stringExtra.equals("to")) {
             con.startActivity(Intent(con, NewAddAddressActivityNew::class.java).putExtra("data", Gson().toJson(addressList[position])).putExtra("Id",addressList[position].id))
             //    }
+            useconstants.addressId_delete= addressList[position].id
 
             //   true
         }

@@ -271,6 +271,8 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 				if(user.addressList.size == 0){
 					tv_select_address.text = "Add Address"
 					select_address_or_add_layout.visibility = View.VISIBLE
+					select_address_or_add_layout.visibility = View.VISIBLE
+					cart_payment_lay.visibility = View.GONE
 				}
 
 				else
@@ -331,7 +333,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 
 			if(tv_select_address.text.equals("Add Address")){
 
-				val intent = Intent(this@CartActivity,SavedAddressesActivityNew::class.java)
+				val intent = Intent(this@CartActivity,SavedAddressesActivityNew::class.java).putExtra("list_show", "no")
 				startActivity(intent)
 			}
 			else {
