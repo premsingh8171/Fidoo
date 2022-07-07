@@ -1726,6 +1726,7 @@ class NewDBStoreItemsActivity :
          if(cartItem.customizeItem.size != 0) {
              tempcustid = cartItem.customizeItem[0].productCustomizeId.toString()
          }
+         Log.d("test_c", Gson().toJson(cartItem))
          convertedModel.headerActiveornot = headerActiveorNot
          convertedModel.product_sub_category_id = "943656"
          convertedModel.subcategory_name = "You Searched For"
@@ -2774,6 +2775,7 @@ class NewDBStoreItemsActivity :
                         break
                     } else {
                         addedproductslist!!.remove(item)
+                        NewDBStoreItemsActivity.addedSearchCount = addedproductslist!!.size
                         break
                     }
                 }
