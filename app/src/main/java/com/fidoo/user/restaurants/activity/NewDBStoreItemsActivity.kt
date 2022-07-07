@@ -135,7 +135,7 @@ class NewDBStoreItemsActivity :
     AdapterCartAddRemoveClick, search_fragListener {
     private var categoryy: ArrayList<CustomListModel>? = null
     private var mainlist: ArrayList<StoreItemProductsEntity>? = null
-     private var addedproductslist: List<CartModel.Cart>? = null
+     private var addedproductslist: MutableList<CartModel.Cart>? = null
 
     private var veg_item_list: ArrayList<StoreItemProductsEntity>? = null
     private var productListFilter: ArrayList<StoreItemProductsEntity>? = null
@@ -525,6 +525,14 @@ class NewDBStoreItemsActivity :
 
                 handleresponce = 1
                 // product_customize_id
+
+                // Gaurav night idea
+                for(item in addedproductslist!!) {
+                    if(tempProductId == item.productId) {
+                        item.quantity = custom_itemCount.toString()
+                        break
+                    }
+                }
                 updateProductCustomized(
                     custom_itemCount,
                     cus_itemProductId!!,
@@ -817,7 +825,7 @@ class NewDBStoreItemsActivity :
 
 
 
-            addedproductslist = storeData.cart
+            addedproductslist = storeData.cart as MutableList<CartModel.Cart>
             addedSearchCount = addedproductslist!!.size
             Log.d("cart_test", "${Gson().toJson(storeData.cart)}")
             //rvAddedStoreItemlisting(addedproductslist!! as ArrayList<CartModel.Cart> /* = java.util.ArrayList<com.fidoo.user.cartview.model.CartModel.Cart> */ , 1)
@@ -2691,6 +2699,13 @@ class NewDBStoreItemsActivity :
                 )
             }
 
+            // Gaurav night idea
+            for(item in addedproductslist!!) {
+                if(productId == item.productId) {
+                    item.quantity = count
+                    break
+                }
+            }
             updateProductS(count.toInt(), productId)
         } else {
             //  cartIcon.setImageResource(R.drawable.ic_cart)
@@ -2752,6 +2767,17 @@ class NewDBStoreItemsActivity :
 
             }
 
+            for (item in addedproductslist!!) {
+                if (productId == item.productId) {
+                    if (count.toInt() > 0) {
+                        item.quantity = count
+                        break
+                    } else {
+                        addedproductslist!!.remove(item)
+                        break
+                    }
+                }
+            }
             if (count!!.toInt() == 0) {
                 //  product_customize_id
                 updateProductCustomized(count!!.toInt(), productId!!, 0, lastCustomized_str!!)
@@ -2851,6 +2877,13 @@ class NewDBStoreItemsActivity :
                 customIdsList!!
             )
 
+            // Gaurav night idea
+            for(item in addedproductslist!!) {
+                if(productId == item.productId) {
+                    item.quantity = quantity
+                    break
+                }
+            }
             updateProductS(quantity.toInt(), productId)
         }
         // Create the AlertDialog

@@ -87,6 +87,7 @@ class EditProfileActivity : BaseActivity() {
         params.setMargins(50,contsCardHeight,50,0)
         constCardEditPro.layoutParams = params
 
+
         if (sessionTwiclo!!.profileDetail != null) {
             Log.e("profileDetail_", sessionTwiclo!!.profileDetail.account.image!!)
             nameEdt.setText(sessionTwiclo!!.profileDetail.account.name!!)
@@ -95,8 +96,8 @@ class EditProfileActivity : BaseActivity() {
             emailEdt.setSelection(emailEdt.length())
             Glide.with(this).asBitmap()
                 .load(sessionTwiclo!!.profileDetail.account.image!!)
-                .fitCenter()
-                .override(100, 100)
+//                .fitCenter()
+//                .override(100, 100)
                 .placeholder(R.drawable.ic_user_single)
                 .into(img_user)
             mobileEdt.setText("+91 " + sessionTwiclo!!.profileDetail.account.userName!!)

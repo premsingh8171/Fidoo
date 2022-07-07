@@ -292,6 +292,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
              //   dialog?.dismiss()
 			}
 		lvAddNewAdd?.setOnClickListener {
+			useconstants.showSavedActivity=true
 			startActivityForResult(
 				Intent(context, SavedAddressesActivityNew::class.java).putExtra("list_show", "yes")
 					.putExtra("type", "address")

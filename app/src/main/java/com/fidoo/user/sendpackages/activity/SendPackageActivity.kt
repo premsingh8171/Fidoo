@@ -223,6 +223,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
             addressType = "from"
             useconstants.showeditdelete= false
             useconstants.addressListShow= true
+            useconstants.showSavedActivity=true
             useconstants.tofromsendpackage= "from"
             forSendPackageAddCheck = "1"
 
@@ -238,6 +239,7 @@ class SendPackageActivity : com.fidoo.user.utils.BaseActivity(),
 
         to_address_lay.setOnClickListener {
             addressType = "to"
+            useconstants.showSavedActivity=true
             useconstants.tofromsendpackage= "to"
             useconstants.showeditdelete= false
             useconstants.addressListShow= true

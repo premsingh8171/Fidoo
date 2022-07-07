@@ -59,6 +59,7 @@ class SavedAddressesActivityNew : BaseActivity() {
     var viewmodel: AddressViewModel? = null
     var viewmodelusertrack: UserTrackerViewModel? = null
     var where: String? = ""
+    var activitypresent= 0
     var search_value: String? = ""
     var logoutDiolog: Dialog? = null
     private var mMixpanel: MixpanelAPI? = null
@@ -115,6 +116,7 @@ class SavedAddressesActivityNew : BaseActivity() {
             addressesRecyclerView.visibility = View.GONE
             CartActivity.addNewAddressFromCart = 0
         }
+        activitypresent++
         if (where.equals("guest")) {
             //  linear_progress_indicator.visibility = View.GONE
         }
@@ -354,7 +356,12 @@ class SavedAddressesActivityNew : BaseActivity() {
             search_add_rv.visibility = View.GONE
             search_iconImg.visibility = View.GONE
             clear_searchImg.visibility = View.GONE
-            addressesRecyclerView.visibility = View.VISIBLE
+            var listshow= intent.getStringExtra("list_show")
+            if (listshow.equals("yes")) {
+                addressesRecyclerView.visibility = View.VISIBLE
+            }else{
+                addressesRecyclerView.visibility = View.GONE
+            }
             searchAdd("", token)
         }
     }
@@ -441,7 +448,9 @@ class SavedAddressesActivityNew : BaseActivity() {
         if (!useconstants.showSavedActivity){
 
 
+            if (activitypresent!=1) {
                 useconstants.showSavedActivity = true
+            }
                 AppUtils.finishActivityLeftToRight(this)
                 finish()
 
@@ -573,6 +582,7 @@ class SavedAddressesActivityNew : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         useconstants.editAddress= false
+        activitypresent=0
     }
 
 //     val builder = AlertDialog.Builder(this@SavedAddressesActivity)

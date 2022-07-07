@@ -103,6 +103,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
     var addressType: String = "1"
     var defaultValue: String = "0"
     var namelength=0
+    var popup_count=0
     var othernamelength=0
     var mobilenumberlength=0
 
@@ -701,6 +702,23 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                    SessionTwiclo(this).loggedInUserDetail.accountId,
                    SessionTwiclo(this).loggedInUserDetail.accessToken, useconstants.addressId_delete
                )
+
+//               viewmodel?.addAddressDetails(
+//                   SessionTwiclo(this).loggedInUserDetail.accountId,
+//                   SessionTwiclo(this).loggedInUserDetail.accessToken,
+//                   ed_address.text.toString(),
+//                   ed_address.text.toString(),
+//                   tv_Address.text.toString(),
+//                   ed_landmark.text.toString(),
+//                   addressType,
+//                   lat.toString(),
+//                   lng.toString(),
+//                   ed_name.text.toString(),
+//                   "",
+//                   defaultValue,
+//                   ed_phone.text.toString(),
+//                   contact_type!!
+//               )
                useconstants.editmessage= false
 
            }
@@ -711,6 +729,7 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             useconstants.showSavedActivity= true
 
             useconstants.editAddress= false
+            useconstants.editmessage= true
 
             add_new_add_ll.visibility= View.GONE
 
@@ -952,9 +971,39 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             var cols = arrayOf(ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
             var rs = contentResolver.query(contactUri,cols,null,null,null)
             if (rs?.moveToFirst()!!){
-                ed_phone.setText(rs.getString(0))
+                var fixmobileno= ""
+                Log.d("rsstring",rs.getString(0))
+                if (rs.getString(0).length>10){
+
+                    val fixlength= rs.getString(0).length-10
+                    val numberarray= rs.getString(0).toCharArray()
+                    for (i in fixlength-1 .. numberarray.size-1){
+
+                        println(numberarray[i])
+                        if (i!= fixlength+4) {
+                            if (i == fixlength - 1) {
+                                fixmobileno = numberarray[i].toString()
+                            } else {
+                                fixmobileno = fixmobileno + numberarray[i]
+                            }
+                        }
+                      //  fixmobileno= fixmobileno+numberarray[i]
+                    }
+                }else{
+                    fixmobileno= rs.getString(0)
+                }
+                ed_phone.setText(fixmobileno)
                 ed_name.setText(rs.getString(1))
-                btn_continue.isEnabled= true
+
+                namelength= ed_address.text!!.length
+                othernamelength= ed_name.text!!.length
+                mobilenumberlength= ed_phone.text!!.length
+                if (namelength>0 && othernamelength>0 && mobilenumberlength==10) {
+                    btn_continue.isEnabled = true
+                } else {
+                    btn_continue.isEnabled = false
+                }
+              //  btn_continue.isEnabled= true
             }
         }
         if (requestCode == 111) {
@@ -1235,9 +1284,17 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             requestQueue.add(geocodeRequest)
         }
         else {
-            onMapPopUp(lat, lng)
-            progressindicatorAdd.visibility = View.GONE
+            if (popup_count==0) {
+                onMapPopUp(lat, lng)
+                progressindicatorAdd.visibility = View.GONE
+                popup_count++
+            }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        popup_count=0
     }
 
     private fun onMapPopUp(lat: String, lng: String) {

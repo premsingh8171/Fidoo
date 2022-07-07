@@ -700,6 +700,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 	override fun onBackPressed() {
 		super.onBackPressed()
+		fidooLoaderCancel()
 		AppUtils.finishActivityLeftToRight(this)
 	}
 
