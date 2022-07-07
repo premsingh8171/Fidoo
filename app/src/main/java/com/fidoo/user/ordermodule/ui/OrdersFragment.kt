@@ -173,7 +173,7 @@ class OrdersFragment : Fragment(),
 					)
 				} else {
 					_progressDlg!!.dismiss()
-					fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+				//	fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
 //                    Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG)
 //                        .show()
 				}
@@ -188,7 +188,12 @@ class OrdersFragment : Fragment(),
 		}
 
 		fragmentOrdersBinding?.swipeRefreshLayOrd!!.setOnRefreshListener {
-			ApiCall()
+
+			viewmodel?.getMyOrders(
+				SessionTwiclo(activity).loggedInUserDetail.accountId,
+				SessionTwiclo(activity).loggedInUserDetail.accessToken,
+				"0"
+			)
 		}
 
 		viewmodel?.failureResponse?.observe(requireActivity(), Observer { user ->
@@ -232,7 +237,7 @@ class OrdersFragment : Fragment(),
 						} else {
 							ordersList = mModelData.orders as ArrayList
 							orderRv(ordersList!!, isMore)
-							fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
+					//		fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
 						}
 						/*if (mModelData.orders.isNotEmpty()) {
 							orderRv(ordersList!!)
@@ -244,7 +249,7 @@ class OrdersFragment : Fragment(),
 						handleApiResponse = 0
 					}catch (e:Exception){
 						e.printStackTrace()
-						fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+					//	fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
 
 					}
 

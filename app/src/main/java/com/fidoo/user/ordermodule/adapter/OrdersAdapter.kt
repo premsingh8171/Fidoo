@@ -3,6 +3,7 @@ package com.fidoo.user.ordermodule.adapter
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,12 @@ class OrdersAdapter(
         holder.orderIdValue.text = orders[position].orderId
         holder.orderIdTxt.text = "Order ID: #" + orders[position].orderId
         holder.orderOnValue.text = orders[position].orderDate
-        holder.locText.text = orders[position].storeAddress
+
+        if (orders[position].storeAddress.length>32){
+            holder.locText.text= Html.fromHtml(orders[position].storeAddress.substring(0, 32)+ "...")
+        }else {
+            holder.locText.text = orders[position].storeAddress
+        }
 
         holder.totalPriceValue.text =
             context?.resources?.getString(R.string.ruppee) + orders.get(position).totalPrice
@@ -47,7 +53,11 @@ class OrdersAdapter(
           //  holder.storeName.text = context?.getString(R.string.send_package)
             holder.storeName.text = orders[position].deliverCatName
            // holder.locText.text = orders[position].fromAddress
-            holder.locText.text = orders[position].toAddress
+            if (orders[position].toAddress.length>32){
+                holder.locText.text= Html.fromHtml(orders[position].toAddress.substring(0, 32)+ "...")
+            }else {
+                holder.locText.text = orders[position].toAddress
+            }
             holder.locToText.text = orders[position].toAddress
             holder.too.visibility = View.VISIBLE
             holder.storeImg.visibility = View.VISIBLE

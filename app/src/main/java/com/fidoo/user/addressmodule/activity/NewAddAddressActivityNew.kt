@@ -170,6 +170,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             handleOtherButtonAddress = false
             namelength= ed_address.text!!.length
 
+            othernamelength= ed_name.text!!.length
+            mobilenumberlength= ed_phone.text!!.length
+
             if (namelength>0){
                 btn_continue.isEnabled = true
             }else{
@@ -182,6 +185,8 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
             ed_phone.text!!.clear()
             handleOtherButtonAddress = false
             namelength= ed_address.text!!.length
+            othernamelength= ed_name.text!!.length
+            mobilenumberlength= ed_phone.text!!.length
 
             if (namelength>0){
                 btn_continue.isEnabled = true
@@ -314,6 +319,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
                 var search_value = s.toString()
                 othernamelength= search_value.length
 
+                namelength= ed_address.text!!.length
+
+                mobilenumberlength= ed_phone.text!!.length
 
                 if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {
                     if (namelength>0 && othernamelength>0 && mobilenumberlength>9) {
@@ -342,6 +350,9 @@ open class NewAddAddressActivityNew : BaseActivity(), OnMapReadyCallback, Locati
 
                 var search_value = s.toString()
                 mobilenumberlength= search_value.length
+                namelength= ed_address.text!!.length
+                othernamelength= ed_name.text!!.length
+
 
 
                 if (radioGroup.checkedRadioButtonId.equals(R.id.otherRadioBtn)) {

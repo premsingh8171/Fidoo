@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.fidoo.user.api_request_retrofit.BackEndApi
 import com.fidoo.user.api_request_retrofit.WebServiceClient
 import com.fidoo.user.profile.model.EditProfileModel
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -34,6 +35,7 @@ class EditProfileViewModel(application: Application) : AndroidViewModel(applicat
         email: RequestBody?,
         image: MultipartBody.Part?
     ) {
+        Log.d("addupdateprofilr", "accid-${Gson().toJson(accountId)}   acctkn-${Gson().toJson(accessToken)}   name-${ Gson().toJson(name)}  email-${ Gson().toJson(email)}   image-${Gson().toJson(image)}")
 //        GlobalScope.launch(Dispatchers.IO) {
 //            var response = WebServiceClient.client.create(BackEndApi::class.java)
 //                .addUpdateProfileApi(accountId, accessToken, name, email, image)
@@ -51,6 +53,7 @@ class EditProfileViewModel(application: Application) : AndroidViewModel(applicat
                 call: Call<EditProfileModel>,
                 response: Response<EditProfileModel>
             ) {
+             //   println("response_is ${response.body()}")
                 addUpdateResponse?.value = response.body()
             }
 

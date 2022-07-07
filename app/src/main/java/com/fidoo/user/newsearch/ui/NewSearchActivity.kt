@@ -179,6 +179,10 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 //			true
 //		}
 
+		binding.searchKeyETxtAct.setOnClickListener {
+			binding.searchKeyETxtAct.isCursorVisible= true
+			showKeyboard(binding.searchKeyETxtAct)
+		}
 
 
 
@@ -186,13 +190,24 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 
 			Log.d("actoon","${actionId}")
 
-			if (actionId == EditorInfo.IME_ACTION_DONE-1){
+			if (actionId == EditorInfo.IME_ACTION_DONE){
 
+				showIOSProgress()
 				search_value= binding.searchKeyETxtAct.text.toString()
 				textchane= false
+				mainList!!.clear()
 
-				onResponse()
-				rvCategoryList(mainList!!)
+				viewModel!!.keywordBasedSearchSuggestionsApi(
+					sessionTwiclo!!.loggedInUserDetail.accountId,
+					sessionTwiclo!!.loggedInUserDetail.accessToken,
+					search_value!!,
+					sessionTwiclo!!.userLat,
+					sessionTwiclo!!.userLng,
+					page_count.toString(), service_id!!, searchType
+				)
+
+//				onResponse()
+//				rvCategoryList(mainList!!)
 				hideKeyboard(binding.searchKeyETxtAct)
 				binding.searchKeyETxtAct.isCursorVisible= false
 			}
@@ -206,6 +221,7 @@ class NewSearchActivity : BaseActivity(), ClickEventOfDashboard {
 	private fun onResponse() {
 		viewModel!!.keywordBasedSearchSuggestionsRes!!.observe(this) {
 
+			dismissIOSProgress()
 			if (it.error_code == 200) {
 				hit = 0
 				isMore = it.more_value
