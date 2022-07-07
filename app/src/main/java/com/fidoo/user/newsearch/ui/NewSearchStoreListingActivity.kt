@@ -279,7 +279,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                     Intent(this@NewSearchStoreListingActivity, NewDBStoreItemsActivity::class.java)
                         .putExtra("storeId", searchStoreId)
                         .putExtra("search_value", search_value)
-                        .putExtra("storeName", searchStoreModel!!.store_id)
+                        .putExtra("storeName", searchStoreModel!!.store_name)
                         .putExtra("store_location", store_location)
                         .putExtra("delivery_time", delivery_time)
                         .putExtra("cuisine_types",cusins_type)
