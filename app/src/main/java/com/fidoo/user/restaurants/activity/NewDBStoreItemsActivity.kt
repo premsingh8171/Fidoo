@@ -135,7 +135,7 @@ class NewDBStoreItemsActivity :
     AdapterCartAddRemoveClick, search_fragListener {
     private var categoryy: ArrayList<CustomListModel>? = null
     private var mainlist: ArrayList<StoreItemProductsEntity>? = null
-     private var addedproductslist: List<CartModel.Cart>? = null
+     private var addedproductslist: MutableList<CartModel.Cart>? = null
 
     private var veg_item_list: ArrayList<StoreItemProductsEntity>? = null
     private var productListFilter: ArrayList<StoreItemProductsEntity>? = null
@@ -180,6 +180,7 @@ class NewDBStoreItemsActivity :
 
 
     companion object {
+        var currentProductPosition: Int = -1
         var addedSearchCount: Int = 0
         var is_adding_search: String = ""
         var is_deleting_search: String = ""
@@ -524,6 +525,14 @@ class NewDBStoreItemsActivity :
 
                 handleresponce = 1
                 // product_customize_id
+
+                // Gaurav night idea
+                for(item in addedproductslist!!) {
+                    if(tempProductId == item.productId) {
+                        item.quantity = custom_itemCount.toString()
+                        break
+                    }
+                }
                 updateProductCustomized(
                     custom_itemCount,
                     cus_itemProductId!!,
@@ -816,7 +825,7 @@ class NewDBStoreItemsActivity :
 
 
 
-            addedproductslist = storeData.cart
+            addedproductslist = storeData.cart as MutableList<CartModel.Cart>
             addedSearchCount = addedproductslist!!.size
             Log.d("cart_test", "${Gson().toJson(storeData.cart)}")
             //rvAddedStoreItemlisting(addedproductslist!! as ArrayList<CartModel.Cart> /* = java.util.ArrayList<com.fidoo.user.cartview.model.CartModel.Cart> */ , 1)
@@ -830,7 +839,7 @@ class NewDBStoreItemsActivity :
                             .insertResProducts(
                                 StoreItemProductsEntity(
                                     headerActiveorNot, "943656",
-                                    sub_cat_nameStr,
+                                    "Your Searched result",
                                     cartItem.quantity.toInt(),
                                     cartItem.companyName,
                                     cartItem.productImage,
@@ -1719,7 +1728,7 @@ class NewDBStoreItemsActivity :
          }
          convertedModel.headerActiveornot = headerActiveorNot
          convertedModel.product_sub_category_id = "943656"
-         convertedModel.subcategory_name = sub_cat_nameStr
+         convertedModel.subcategory_name = "You Searched For"
          convertedModel.cartQuantity = cartItem.quantity.toInt()
          convertedModel.companyName = cartItem.companyName
          convertedModel.image = cartItem.productImage
@@ -2414,6 +2423,25 @@ class NewDBStoreItemsActivity :
                 shimmerFrameLayout.startShimmer()
                // showIOSProgress()
 
+                addCartTempList!!.clear()
+                val addCartInputModel = AddCartInputModel()
+                addCartInputModel.productId = productId
+                addCartInputModel.quantity = count.toString()
+                if (currentProductPosition < addedproductslist!!.size){
+                    addCartInputModel.message = "addviasearch"
+                } else {
+                    addCartInputModel.message = "add product"
+                    for (item in addedproductslist!!){
+                        if (productId == item.productId){
+                            addCartInputModel.message = "addviasearch"
+                            break;
+                        }
+                    }
+                }
+                addCartInputModel.customizeSubCatId = customIdsList!!
+                addCartInputModel.isCustomize = "0"
+                addCartTempList!!.add(addCartInputModel)
+
                 viewmodel!!.addToCartApi(
                     SessionTwiclo(this).loggedInUserDetail.accountId,
                     SessionTwiclo(this).loggedInUserDetail.accessToken,
@@ -2588,7 +2616,13 @@ class NewDBStoreItemsActivity :
                 } else if(position < NewDBStoreItemsActivity.addedSearchCount) {
                     addCartInputModel.message = "addviasearch"
                 } else {
-                addCartInputModel.message = "add product"
+                    addCartInputModel.message = "add product"
+                    for (item in addedproductslist!!){
+                        if (productId == item.productId){
+                            addCartInputModel.message = "addviasearch"
+                            break;
+                        }
+                    }
                 }
                 addCartInputModel.customizeSubCatId = customIdsList!!
                 addCartInputModel.isCustomize = "0"
@@ -2646,6 +2680,8 @@ class NewDBStoreItemsActivity :
 
                     if (type == "addviasearch"){
                         addCartInputModel.message = "addviasearch"
+                    } else if(position < NewDBStoreItemsActivity.addedSearchCount) {
+                        addCartInputModel.message = "addviasearch"
                     } else {
                     addCartInputModel.message = "add product"
                     }
@@ -2663,6 +2699,13 @@ class NewDBStoreItemsActivity :
                 )
             }
 
+            // Gaurav night idea
+            for(item in addedproductslist!!) {
+                if(productId == item.productId) {
+                    item.quantity = count
+                    break
+                }
+            }
             updateProductS(count.toInt(), productId)
         } else {
             //  cartIcon.setImageResource(R.drawable.ic_cart)
@@ -2724,6 +2767,17 @@ class NewDBStoreItemsActivity :
 
             }
 
+            for (item in addedproductslist!!) {
+                if (productId == item.productId) {
+                    if (count.toInt() > 0) {
+                        item.quantity = count
+                        break
+                    } else {
+                        addedproductslist!!.remove(item)
+                        break
+                    }
+                }
+            }
             if (count!!.toInt() == 0) {
                 //  product_customize_id
                 updateProductCustomized(count!!.toInt(), productId!!, 0, lastCustomized_str!!)
@@ -2823,6 +2877,13 @@ class NewDBStoreItemsActivity :
                 customIdsList!!
             )
 
+            // Gaurav night idea
+            for(item in addedproductslist!!) {
+                if(productId == item.productId) {
+                    item.quantity = quantity
+                    break
+                }
+            }
             updateProductS(quantity.toInt(), productId)
         }
         // Create the AlertDialog
@@ -3065,7 +3126,9 @@ class NewDBStoreItemsActivity :
                                     if (/*is_search_poroduct_included != "1" &&*/ intent.getStringExtra("from_search") == "1"){
                                         Log.d("test_cart", Gson().toJson(addedproductslist))
                                         for(item in addedproductslist!!) {
-                                            mainlist!!.add(0,convertModel(item))
+                                            if (item.is_nonveg == "0"){
+                                                veg_item_list!!.add(0,convertModel(item))
+                                            }
                                         }
                                         //is_search_poroduct_included = "1"
                                     }

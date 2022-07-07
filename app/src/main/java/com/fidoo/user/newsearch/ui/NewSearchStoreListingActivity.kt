@@ -73,6 +73,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
     private var mModelDataTemp: CustomizeProductResponseModel? = null
     lateinit var storeID: String
     var searchStoreModel: Store? = null
+    var searchProductModel: Product? = null
     var localSearchList: List<CartModel.Cart>? = null
 
     var searchStoreId: String? = ""
@@ -446,13 +447,30 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                         MainActivity.addCartTempList!!,
                         ""
                     )
+                    //behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    /*AppUtils.startActivityRightToLeft(
+                        this@NewSearchStoreListingActivity,
+                        Intent(this@NewSearchStoreListingActivity, NewDBStoreItemsActivity::class.java)
+                            .putExtra("storeId", searchStoreModel!!.store_id)
+                            .putExtra("search_value", search_value)
+                            .putExtra("storeName", searchStoreModel!!.store_name)
+                            .putExtra("store_location", store_location)
+                            .putExtra("delivery_time", delivery_time)
+                            .putExtra("cuisine_types", searchStoreModel!!.cuisines.joinToString(separator = ", "))
+                            .putExtra("search_type", searchType)
+                            .putExtra("coupon_desc", "")
+                            .putExtra("is_custom", searchProductModel!!.is_customize)
+                            .putExtra("distance", searchStoreModel!!.distance)
+                            .putExtra("product_id", searchProductModel!!.product_id)
+                            .putExtra("from_search", "1")
+                    )*/
                 }
                 else {
                     MainActivity.addCartTempList!!.clear()
                     val addCartInputModel = AddCartInputModel()
                     addCartInputModel.productId = cus_itemProductId
                     addCartInputModel.quantity = "1"
-                    addCartInputModel.message = "add product"
+                    addCartInputModel.message = "addviasearch"
                     addCartInputModel.customizeSubCatId = customIdsList!!
                     addCartInputModel.isCustomize = "1"
                     MainActivity.addCartTempList!!.add(0, addCartInputModel)
@@ -650,6 +668,7 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                     searchStoreId = modelStore.store_id
                     searchStoreModel = modelStore
                     store_Name = modelStore.store_name
+                    searchProductModel = model
                     cusins_type = modelStore.cuisines.joinToString(separator = ", ")
                     checkSearchDish = 1
                     Log.d("onPrdItemClick__", "$mainPos--${Gson().toJson(modelStore)}--$pos--${Gson().toJson(model)}--$type-$count")
@@ -1064,6 +1083,22 @@ class NewSearchStoreListingActivity : BaseActivity() , CustomCartPlusMinusClick,
                 SessionTwiclo(this).loggedInUserDetail.accessToken
             )
             updateProductS(custom_itemCount, cus_itemProductId)
+            AppUtils.startActivityRightToLeft(
+                this@NewSearchStoreListingActivity,
+                Intent(this@NewSearchStoreListingActivity, NewDBStoreItemsActivity::class.java)
+                    .putExtra("storeId", searchStoreModel!!.store_id)
+                    .putExtra("search_value", search_value)
+                    .putExtra("storeName", searchStoreModel!!.store_name)
+                    .putExtra("store_location", store_location)
+                    .putExtra("delivery_time", delivery_time)
+                    .putExtra("cuisine_types", searchStoreModel!!.cuisines.joinToString(separator = ", "))
+                    .putExtra("search_type", searchType)
+                    .putExtra("coupon_desc", "")
+                    .putExtra("is_custom", searchProductModel!!.is_customize)
+                    .putExtra("distance", searchStoreModel!!.distance)
+                    .putExtra("product_id", searchProductModel!!.product_id)
+                    .putExtra("from_search", "1")
+            )
         }
         builder.setNegativeButton("No") { dialogInterface, which -> }
         val alertDialog: AlertDialog = builder.create()
