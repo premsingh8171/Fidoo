@@ -666,6 +666,7 @@ class NewDBStoreItemsActivity :
         store_nameTxt.text =
             storeName.split(' ').joinToString(" ") { it.capitalize(Locale.getDefault()) }
 
+        Log.d("test_storeName", storeName.split(' ').joinToString(" ") { it.capitalize(Locale.getDefault()) })
          restaurantName=  storeName.split(' ').joinToString(" ") { it.capitalize(Locale.getDefault()) }
          restaurantAddress= intent.getStringExtra("store_location").toString().replace(" ,", ", ")
 
