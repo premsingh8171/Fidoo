@@ -173,7 +173,11 @@ class OrdersFragment : Fragment(),
 					)
 				} else {
 					_progressDlg!!.dismiss()
+<<<<<<< HEAD
 					//fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+=======
+				//	fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+>>>>>>> f58a0b17462b64189da8db53b5d9d1245db789c5
 //                    Toast.makeText(requireContext(), "Please login to proceed", Toast.LENGTH_LONG)
 //                        .show()
 				}
@@ -188,6 +192,10 @@ class OrdersFragment : Fragment(),
 		}
 
 		fragmentOrdersBinding?.swipeRefreshLayOrd!!.setOnRefreshListener {
+<<<<<<< HEAD
+=======
+
+>>>>>>> f58a0b17462b64189da8db53b5d9d1245db789c5
 			viewmodel?.getMyOrders(
 				SessionTwiclo(activity).loggedInUserDetail.accountId,
 				SessionTwiclo(activity).loggedInUserDetail.accessToken,
@@ -236,7 +244,7 @@ class OrdersFragment : Fragment(),
 						} else {
 							ordersList = mModelData.orders as ArrayList
 							orderRv(ordersList!!, isMore)
-							fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
+					//		fragmentOrdersBinding?.noOrdersTxt?.visibility = View.GONE
 						}
 						/*if (mModelData.orders.isNotEmpty()) {
 							orderRv(ordersList!!)
@@ -248,7 +256,11 @@ class OrdersFragment : Fragment(),
 						handleApiResponse = 0
 					}catch (e:Exception){
 						e.printStackTrace()
+<<<<<<< HEAD
 						//fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+=======
+					//	fragmentOrdersBinding?.noOrdersTxt?.visibility = View.VISIBLE
+>>>>>>> f58a0b17462b64189da8db53b5d9d1245db789c5
 
 					}
 

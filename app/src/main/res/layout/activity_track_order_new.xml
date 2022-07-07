@@ -408,7 +408,7 @@
                         android:layout_above="@+id/lastlayout"
 
                         android:background="@drawable/et_round_new"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <TextView
                             android:id="@+id/orderDetailsTxt1"
@@ -417,7 +417,7 @@
                             android:layout_centerInParent="true"
                             android:fontFamily="@font/proximanovasemibold"
                             android:padding="@dimen/margin_5dp"
-                            android:text="View All Order list"
+                            android:text="View Order Details"
                             android:textColor="#359C47" />
                     </RelativeLayout>
 

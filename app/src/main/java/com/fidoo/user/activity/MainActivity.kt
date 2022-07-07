@@ -613,8 +613,13 @@ class MainActivity : BaseActivity(), android.location.LocationListener, Location
     }
 
     override fun onDestroy() {
+        SessionTwiclo(this).currentlyAddress=""
+        SessionTwiclo(this).currentLat=""
+        SessionTwiclo(this).currentLng=""
         super.onDestroy()
         useconstants.addressTypeuser= false
+
+
     }
 
     override fun onResume() {

@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.provider.Settings
 import android.util.DisplayMetrics
@@ -83,6 +84,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.premsinghdaksha.startactivityanimationlibrary.AppUtils
+import kotlinx.android.synthetic.main.activity_new_track_send_packages_order.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_newui.*
 import org.json.JSONObject
@@ -106,6 +108,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 	var width = 0
 	var address_id: String = ""
 	var catIconWidth = 0
+	var timer1: CountDownTimer?= null
 	var currentPage = 0
 	var timer: Timer? = null
 	val DELAY_MS: Long = 8000
@@ -780,10 +783,49 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 	override fun onResume() {
 		Log.d("Home", "onResume: ")
+
+
+
+
 		if (!useconstants.addressTypeuser){
 			val manager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 			if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 //			dialog?.setCanceledOnTouchOutside(false)
+
+
+
+					timer1 = object : CountDownTimer(2000, 8000) {
+						override fun onTick(millisUntilFinished: Long) {
+							Log.e("_Timer", "seconds remaining: " + millisUntilFinished / 1000)
+
+							fragmentHomeBinding?.userAddressNewDesh?.text =
+								SessionTwiclo(context).currentlyAddress
+
+							if (!useconstants.addressTypeuser) {
+								SessionTwiclo(requireContext()).userLat =
+									SessionTwiclo(requireContext()).currentLat
+								SessionTwiclo(requireContext()).userLng =
+									SessionTwiclo(requireContext()).currentLng
+
+							}
+
+						}
+
+						override fun onFinish() {
+
+							if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+								timer1!!.start()
+							} else {
+								timer1!!.cancel()
+							}
+
+
+						}
+					}
+
+				if (SessionTwiclo(requireContext()).currentlyAddress.isNullOrBlank()) {
+					timer1!!.start()
+				}
 
 
 				cancelabledialog= true
@@ -799,8 +841,14 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 			}else{
 				cancelabledialog= false
 				dialog?.dismiss()
+				if (timer1!=null) {
+					timer1!!.cancel()
+				}
 			}
 		}else{
+			if (timer1!=null) {
+				timer1!!.cancel()
+			}
 			dialog?.dismiss()
 		}
 		super.onResume()

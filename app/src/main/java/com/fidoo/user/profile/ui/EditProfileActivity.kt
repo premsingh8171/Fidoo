@@ -233,7 +233,7 @@ class EditProfileActivity : BaseActivity() {
             RequestBody.create(
                 "text/plain".toMediaTypeOrNull(),
                 SessionTwiclo(this).loginDetail.accessToken.toString()
-            )  // Parameter request body
+            )  // Parameter request bodySessionTwiclo(this).loginDetail.accessToken = "3b85ab8b01ce8ea9cbdd4b75fecd1382"
         val name =
             RequestBody.create("text/plain".toMediaTypeOrNull(), nameEdt.text.toString())
         val email =
