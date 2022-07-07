@@ -228,9 +228,20 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 		swipeRefreshLay!!.setOnRefreshListener {
 			loader=1
-			swipeRefreshLay.isRefreshing=false
+			swipeRefreshLay.isRefreshing=true
 			deleteRoomDataBase()
-			apicall(serive_id_)
+			storeListingViewModel!!.getStores(
+				SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accountId,
+				SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accessToken,
+				serive_id_!!,
+				SessionTwiclo(this@StoreListActivity).userLat,
+				SessionTwiclo(this@StoreListActivity).userLng,
+				"",
+				"",
+				selectedValue,
+				cuisine_to_search,
+				"0"
+			)
 		}
 
 //		storeVisibilityNested.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
@@ -337,7 +348,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			check_ = "0"
 		}
 
-		ratingTxt.setOnClickListener {
+		/*ratingTxt.setOnClickListener {
 
 			relevanceTxt.setTextColor(getResources().getColor(R.color.black))
 			ratingTxt.setTextColor(getResources().getColor(R.color.primary_color))
@@ -362,9 +373,9 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 
 			// adapterStore!!.setFilter(sortedList!!)
 			check_ = "1"
-		}
+		}*/
 
-		timingTxt.setOnClickListener {
+		/*timingTxt.setOnClickListener {
 			relevanceTxt.setTextColor(getResources().getColor(R.color.black))
 			ratingTxt.setTextColor(getResources().getColor(R.color.black))
 			timingTxt.setTextColor(getResources().getColor(R.color.primary_color))
@@ -387,7 +398,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			overridePendingTransition(R.anim.bottom_up, R.anim.nothing)
 
 			check_ = "2"
-		}
+		}*/
 
 		search_stores_icon?.setOnClickListener {
 			if (serive_id_!!.isNotEmpty()) {
@@ -628,6 +639,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 						adapterStore!!.updateData(storeList!!, isMore)
 						adapterStore!!.notifyDataSetChanged()
 					} else {
+						storeList!!.clear()
 						storeList = mModelData.store_list as ArrayList
 						storeListRv(storeList!!, isMore)
 
@@ -758,7 +770,24 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			relevanceTxt.setTextColor(getResources().getColor(R.color.primary_color))
 			ratingTxt.setTextColor(getResources().getColor(R.color.black))
 			timingTxt.setTextColor(getResources().getColor(R.color.black))
+
+			pagecount = 0
+			selectedValue = ""
+			storeListingViewModel!!.getStores(
+				SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accountId,
+				SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accessToken,
+				serive_id_!!,
+				SessionTwiclo(this@StoreListActivity).userLat,
+				SessionTwiclo(this@StoreListActivity).userLng,
+				"",
+				"",
+				selectedValue,
+				cuisine_to_search,
+				pagecount.toString()
+			)
+			//apicall(serive_id_)
 			check_ = "0"
+			fidooLoader!!.show()
 		}
 
 		RatingTxt_!!.setOnClickListener {
@@ -767,8 +796,8 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			// Log.d("sortedList",Gson().toJson(sortedList))
 			//  adapterStore!!.setFilter(sortedList!!)
 
-			sortRl.visibility = View.GONE
-			restaurant_curationll.visibility = View.GONE
+			//sortRl.visibility = View.GONE
+			//restaurant_curationll.visibility = View.GONE
 
 			relevance.setTextColor(getResources().getColor(R.color.black))
 			RatingTxt_!!.setTextColor(getResources().getColor(R.color.primary_color))
@@ -779,16 +808,33 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			timingTxt.setTextColor(getResources().getColor(R.color.black))
 			sortRlheader.visibility = View.VISIBLE
 
-			val intent = Intent(this@StoreListActivity, StoreFilterListActivity::class.java)
+			/*val intent = Intent(this@StoreListActivity, StoreFilterListActivity::class.java)
 				.putExtra("selectedValue", "rating")
 				.putExtra("serviceId", serive_id_)
 				.putExtra("serviceName", intent.getStringExtra("serviceName"))
 				.putExtra("cuisine_to_search", cuisine_to_search)
 				.putExtra("cusineName", "")
-			startActivity(intent)
-			overridePendingTransition(R.anim.bottom_up, R.anim.nothing)
+			startActivity(intent)*/
+			//overridePendingTransition(R.anim.bottom_up, R.anim.nothing)
+
+			pagecount = 0
+			selectedValue = "rating"
+			//apicall(serive_id_)
+			storeListingViewModel!!.getStores(
+				SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accountId,
+				SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accessToken,
+				serive_id_!!,
+				SessionTwiclo(this@StoreListActivity).userLat,
+				SessionTwiclo(this@StoreListActivity).userLng,
+				"",
+				"",
+				selectedValue,
+				cuisine_to_search,
+				pagecount.toString()
+			)
 
 			check_ = "1"
+			fidooLoader!!.show()
 		}
 
 		delivery_timeTxt!!.setOnClickListener {
@@ -798,9 +844,9 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 //           // Log.d("sortedList",Gson().toJson(sortedList))
 //            adapterStore!!.setFilter(sortedList!!)
 
-			sortRl.visibility = View.GONE
+			/*sortRl.visibility = View.GONE
 			restaurant_curationll.visibility = View.GONE
-			sortRlheader.visibility = View.VISIBLE
+			sortRlheader.visibility = View.VISIBLE*/
 
 			relevance.setTextColor(getResources().getColor(R.color.black))
 			RatingTxt_!!.setTextColor(getResources().getColor(R.color.black))
@@ -810,15 +856,32 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			ratingTxt.setTextColor(getResources().getColor(R.color.black))
 			timingTxt.setTextColor(getResources().getColor(R.color.primary_color))
 
-			val intent = Intent(this@StoreListActivity, StoreFilterListActivity::class.java)
+			/*val intent = Intent(this@StoreListActivity, StoreFilterListActivity::class.java)
 				.putExtra("selectedValue", "distance")
 				.putExtra("serviceId", serive_id_)
 				.putExtra("serviceName", intent.getStringExtra("serviceName"))
 				.putExtra("cuisine_to_search", cuisine_to_search)
 				.putExtra("cusineName", "")
 			startActivity(intent)
-			overridePendingTransition(R.anim.bottom_up, R.anim.nothing)
+			overridePendingTransition(R.anim.bottom_up, R.anim.nothing)*/
+			pagecount = 0
+			selectedValue = "distance"
+			//apicall(serive_id_)
+			storeListingViewModel!!.getStores(
+				SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accountId,
+				SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accessToken,
+				serive_id_!!,
+				SessionTwiclo(this@StoreListActivity).userLat,
+				SessionTwiclo(this@StoreListActivity).userLng,
+				"",
+				"",
+				selectedValue,
+				cuisine_to_search,
+				pagecount.toString()
+			)
+
 			check_ = "2"
+			fidooLoader!!.show()
 		}
 
 	}
