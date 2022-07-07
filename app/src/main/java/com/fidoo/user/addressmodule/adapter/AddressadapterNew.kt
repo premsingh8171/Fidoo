@@ -306,7 +306,7 @@ class AddressadapterNew(val con: Context,
             }else{
                 SavedAddressesActivityNew.addAddressOrNot ="new_add"
             }
-            useconstants.editmessage= true
+          //  useconstants.editmessage= true
             useconstants.editAddress= true
 
 

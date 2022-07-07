@@ -1723,6 +1723,7 @@ class CartActivity : BaseActivity(), CartItemsAdapter.AdapterCartAddRemoveClick,
 		lvAddNewAdd?.setOnClickListener {
 			addNewAddressFromCart = 1
 			navigateFromNewAddressActivity = 0
+			useconstants.showSavedActivity=true
 			startActivityForResult(
 				Intent(this, SavedAddressesActivityNew::class.java).putExtra("list_show", "no")
 					.putExtra("type", "address")

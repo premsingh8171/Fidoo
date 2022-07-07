@@ -186,6 +186,7 @@ class SavedAddressesActivity : BaseActivity() {
 
         add_addressfm.setOnClickListener {
 
+            useconstants.showSavedActivity=true
 //
 //            tv_yourAddresses_New.visibility = View.GONE
 //            add_addressfm.visibility= View.GONE
