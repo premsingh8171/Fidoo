@@ -2150,6 +2150,11 @@ class NewDBStoreItemsActivity :
 
                             if (handleresponce == 0) {
 
+                                mainlist = it as ArrayList<StoreItemProductsEntity>?
+                                val s: Set<StoreItemProductsEntity> =
+                                    LinkedHashSet<StoreItemProductsEntity>(mainlist)
+                                mainlist!!.clear()
+
                                 if (is_search_poroduct_included != "1" && intent.getStringExtra("from_search") == "1"){
                                     Log.d("test_cart", Gson().toJson(addedproductslist))
                                     for(item in addedproductslist!!) {
@@ -2157,12 +2162,6 @@ class NewDBStoreItemsActivity :
                                     }
                                     is_search_poroduct_included = "1"
                                 }
-                                mainlist = it as ArrayList<StoreItemProductsEntity>?
-                                val s: Set<StoreItemProductsEntity> =
-                                    LinkedHashSet<StoreItemProductsEntity>(mainlist)
-                                mainlist!!.clear()
-
-
 
                                 mainlist!!.addAll(s)
 
@@ -2955,7 +2954,14 @@ class NewDBStoreItemsActivity :
                     cart_id,
                     customIdsList!!
                 )
-                if (is_deleting_search == "1"){
+
+                if (quantity?.toInt() == 0){
+                    for (item in addedproductslist!!){
+                        addedproductslist!!.remove(item)
+                        NewDBStoreItemsActivity.addedSearchCount = addedproductslist!!.size
+                    }
+                }
+                /*if (is_deleting_search == "1"){
                     viewmodel?.addRemoveCartResponse?.observe(this){
                         if (it.cart_quantity != "0") {
                             addedproductslist!![searchItemPosition].cart_id = it.cart_id
@@ -2963,7 +2969,7 @@ class NewDBStoreItemsActivity :
                             storeItemsAdapter2.notifyDataSetChanged()
                         }
                     }
-                }
+                }*/
 
                 Log.d("test_rem", "${Gson().toJson(customIdsList)}")
 
