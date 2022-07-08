@@ -135,6 +135,8 @@ class StoreItemsAdapter(
                 }
             }else{
                 if (position==0){
+                    //holder.devider_catLL.visibility = View.GONE
+                    holder.category_nameheader.visibility = View.GONE
                 }else {
                     holder.devider_catLL.visibility = View.GONE
                     holder.category_nameheader.visibility = View.GONE

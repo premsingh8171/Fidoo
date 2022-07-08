@@ -367,6 +367,11 @@ class NewDBStoreItemsActivity :
 
             newSearch_frag.visibility=View.VISIBLE
 
+            if (behavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                //searchLay.visibility = View.GONE
+            }
+
 
             useconstants.searchFrag_visible= true
             cat_FloatBtn.visibility= View.GONE
@@ -1646,12 +1651,12 @@ class NewDBStoreItemsActivity :
 
 
                                               //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,-30)
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,-63)
 
                                     }else{
 
                                               //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 675)
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i ,-30)
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i ,-63)
 
                                     }
 
@@ -1759,7 +1764,7 @@ class NewDBStoreItemsActivity :
              tempcustid = cartItem.customizeItem[0].productCustomizeId.toString()
          }
          Log.d("test_c", Gson().toJson(cartItem))
-         convertedModel.headerActiveornot = headerActiveorNot
+         convertedModel.headerActiveornot = "0"
          convertedModel.product_sub_category_id = "943656"
          convertedModel.subcategory_name = "You Searched For"
          convertedModel.cartQuantity = cartItem.quantity.toInt()
