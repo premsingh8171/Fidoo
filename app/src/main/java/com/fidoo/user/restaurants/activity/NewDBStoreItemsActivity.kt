@@ -526,13 +526,6 @@ class NewDBStoreItemsActivity :
                 handleresponce = 1
                 // product_customize_id
 
-                // Gaurav night idea
-                for(item in addedproductslist!!) {
-                    if(tempProductId == item.productId) {
-                        item.quantity = custom_itemCount.toString()
-                        break
-                    }
-                }
                 updateProductCustomized(
                     custom_itemCount,
                     cus_itemProductId!!,
@@ -546,6 +539,10 @@ class NewDBStoreItemsActivity :
                     addCartTempList!!,
                     cartId
                 )
+
+
+
+
 
                 Log.d("test_add_api", "add to cart")
                 behavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -1109,6 +1106,23 @@ class NewDBStoreItemsActivity :
                 try {
                     product_customize_id = user.product_customize_id
                     searchItemCartId = user.cart_id
+                    cartId = user.cart_id
+
+                    // Gaurav night idea
+                    for(item in addedproductslist!!) {
+                        if(tempProductId == item.productId) {
+                            if (user.cart_quantity.toInt() > 0) {
+                                item.quantity = user.cart_quantity
+                                item.customizeItem[0].productCustomizeId = product_customize_id
+                                item.cart_id = searchItemCartId
+                                item.is_customize_quantity = user.is_customize_quantity
+                                break
+                            } else {
+                                addedproductslist!!.remove(item)
+                                NewDBStoreItemsActivity.addedSearchCount = addedproductslist!!.size
+                            }
+                        }
+                    }
                     Thread {
                         updateByCartIdProductCustomized(
                             user.cart_quantity!!.toInt(),
@@ -1170,6 +1184,18 @@ class NewDBStoreItemsActivity :
                 }
                 try {
                     product_customize_id = user.product_customize_id
+                    cartId = user.cart_id
+
+                    // Gaurav night idea
+                    for(item in addedproductslist!!) {
+                        if(tempProductId == item.productId) {
+                            item.quantity = user.cart_quantity
+                            item.is_customize_quantity = user.is_customize_quantity
+                            item.customizeItem[0].productCustomizeId = product_customize_id
+                            item.cart_id = cartId
+                            break
+                        }
+                    }
                     Thread {
                         if (user.cart_quantity.equals("0")) {
                         } else {
