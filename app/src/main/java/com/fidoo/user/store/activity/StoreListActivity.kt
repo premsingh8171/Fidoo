@@ -189,7 +189,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 									hit = 1
 								}
 								isScrolling = false
-								isMore = false
+								//isMore = false
 							}
 
 						}
