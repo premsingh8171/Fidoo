@@ -101,6 +101,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 		storeList = ArrayList()
 		storeListUpdated = ArrayList()
 
+		check_ = intent.getStringExtra("check")
 		Log.d("storemain_list", "storemain")
 		val mainText = "<span style=\"color:#339347\">Choose </span> <span>Your <br/>Favorite</span> <span style=\"color:#339347\">Store</span></string>"
 

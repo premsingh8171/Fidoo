@@ -936,7 +936,7 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 				requireActivity(),
 				Intent(requireActivity(), StoreListActivity::class.java).putExtra(
 					"serviceId", model.id
-				).putExtra("serviceName", model.service_name)
+				).putExtra("serviceName", model.service_name).putExtra("check", "0")
 			)
 		}
 		else if (model.id.equals("4")) {
