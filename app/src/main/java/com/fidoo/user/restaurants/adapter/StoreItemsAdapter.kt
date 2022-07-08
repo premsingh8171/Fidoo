@@ -122,6 +122,7 @@ class StoreItemsAdapter(
 
         try {
             if (index.headerActiveornot.equals("1")) {
+
                 if (position == 0) {
                     holder.devider_catLL.visibility = View.GONE
                 //    holder.category_nameheader.visibility = View.GONE

@@ -939,9 +939,13 @@ class NewDBStoreItemsActivity :
                                 val productData = storeData.subcategory[i].product[j]
                                 productList.add(productData)
                                 if (storeData.subcategory[i].product[j].is_nonveg.equals("0")){
-                                    new_veggielist.add(storeData.subcategory[i])
+
+                                    if (!new_veggielist.contains(storeData.subcategory[i])) {
+                                        new_veggielist.add(storeData.subcategory[i])
+}
 
                                 }
+
 
                                 if(!catList.contains(storeData.subcategory[i])) {
                                     catList.add(storeData.subcategory[i])
@@ -1603,6 +1607,7 @@ class NewDBStoreItemsActivity :
             new_veggielist.clear()
             new_veggielist.addAll(s)
 
+            Log.d("veggielistt----", new_veggielist[0].subcategory_name)
             veg_rvcategory(new_veggielist)
         }else {
             val s: Set<Subcategory> =
@@ -1633,7 +1638,7 @@ class NewDBStoreItemsActivity :
                         for (i in mainlist!!.indices) {
                             if (mainlist!![i].subcategory_name.equals(category.subcategory_name.toString())) {
                                 if (clickevent == 1) {
-                                    Log.e("product_sub_category_id_", i.toString())
+                                    Log.e("product_sub_category_id", i.toString())
                                     clickevent = 0
 
                                     if (store_details_lay.isVisible) {
@@ -3138,6 +3143,11 @@ class NewDBStoreItemsActivity :
 
                                 productsListing_Count = veg_item_list!!.size
                                 if (!isonlyveg) {
+                                    for(item in addedproductslist!!) {
+                                        if (item.is_nonveg == "0"){
+                                            veg_item_list!!.add(0,convertModel(item))
+                                        }
+                                    }
                                     Log.d("dudi", "Second: $productsListing_Count")
                                     vegStoreItemlisting(veg_item_list!!)
                                 }
