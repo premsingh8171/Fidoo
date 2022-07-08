@@ -220,7 +220,7 @@ class NewDBStoreItemsActivity :
     var isCustomizeOpen: Int = 0
     var filterActive: Int = 0// for handle filter api call response
     var cart_count: Int = 0
-    lateinit var storeItemsAdapter: com.fidoo.user.restaurants.adapter.StoreItemsAdapter
+    lateinit var storeItemsAdapter: StoreItemsAdapter
     lateinit var storeItemsAdapter2: StoreItemAdapter2
     lateinit var restaurantCategoryAdapter: NewDbRestaurantCategoryAdapter
     lateinit var categoryHeaderAdapter: CategoryHeaderAdapter
