@@ -27,6 +27,7 @@ import com.fidoo.user.grocery.roomdatabase.database.ProductsDatabase
 import com.fidoo.user.grocerynewui.activity.GroceryNewUiActivity
 import com.fidoo.user.newsearch.ui.NewSearchActivity
 import com.fidoo.user.restaurants.roomdatabase.database.RestaurantProductsDatabase
+import com.fidoo.user.restaurants.roomdatabase.entity.StoreItemProductsEntity
 import com.fidoo.user.store.activity.StoreListActivity.Companion.check_
 import com.fidoo.user.store.activity.StoreListActivity.Companion.onBackPressHandle
 import com.fidoo.user.store.adapter.StoreAdapter
@@ -192,9 +193,9 @@ class StoreFilterListActivity : BaseActivity() {
             Log.e("stores_response_h_", Gson().toJson(user))
             if (!user.error) {
                 dismissIOSProgress()
-                storeList!!.clear()
+
                 val mModelData: StoreListingModel2 = user
-                storeList = mModelData.store_list as ArrayList
+            //    storeList = mModelData.store_list as ArrayList
                 hit = 0
                 isMore = user.more_value
 
@@ -205,15 +206,22 @@ class StoreFilterListActivity : BaseActivity() {
                     adapterStore!!.updateData(storeList!!, isMore)
                     adapterStore!!.notifyDataSetChanged()
                 } else {
+
                     storeList = mModelData.store_list as ArrayList
+
+                    val s: Set<StoreListingModel2.Store> =
+                        LinkedHashSet<StoreListingModel2.Store>(storeList)
+
+                    storeList!!.clear()
+                    storeList!!.addAll(s)
                     storeListRv(storeList!!)
 
                 }
-                if (storeList!!.size != 0) {
-                    no_shop_ll.visibility = View.GONE
-                } else {
-                    no_shop_ll.visibility = View.VISIBLE
-                }
+//                if (storeList!!.size != 0) {
+//                    no_shop_ll.visibility = View.GONE
+//                } else {
+//                    no_shop_ll.visibility = View.VISIBLE
+//                }
 
             } else {
                 if (user.error_code == 101) {
