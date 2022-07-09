@@ -17,8 +17,8 @@ android {
         applicationId "com.fidoo.user"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 69
-        versionName "1.0.53"
+        versionCode 70
+        versionName "1.0.54"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
