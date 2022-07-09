@@ -173,6 +173,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 										Log.d("totalItem___", "aaya--+"+serive_id_)
 
 										if (serive_id_ != null) {
+Log.d("test_r","$serive_id_ ${SessionTwiclo(this@StoreListActivity).userLat} ${SessionTwiclo(this@StoreListActivity).userLng} $selectedValue $cuisine_to_search $pagecount")
 											storeListingViewModel!!.getStores(
 												SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accountId,
 												SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accessToken,
@@ -190,7 +191,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 									hit = 1
 								}
 								isScrolling = false
-								//isMore = false
+								isMore = false
 							}
 
 						}
@@ -231,6 +232,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 			loader=1
 			swipeRefreshLay.isRefreshing=true
 			deleteRoomDataBase()
+			pagecount = 0
 			storeListingViewModel!!.getStores(
 				SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accountId,
 				SessionTwiclo(this@StoreListActivity).loggedInUserDetail.accessToken,
@@ -458,6 +460,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 						"",
 						selectedValue, cuisine_to_search, pagecount.toString()
 					)
+					Log.d("test_r","${SessionTwiclo(this).loggedInUserDetail.accountId} ${SessionTwiclo(this).loggedInUserDetail.accessToken} $serive_id_ ${SessionTwiclo(this@StoreListActivity).userLat} ${SessionTwiclo(this@StoreListActivity).userLng} $selectedValue $cuisine_to_search $pagecount")
 
 					Log.d("test_payload", "${SessionTwiclo(this).loggedInUserDetail.accountId},${SessionTwiclo(this).loggedInUserDetail.accessToken}, $serive_id, ${SessionTwiclo(this).userLat}, ${SessionTwiclo(this).userLng}, $selectedValue, $cuisine_to_search, $pagecount")
 				}
@@ -640,7 +643,8 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 						adapterStore!!.updateData(storeList!!, isMore)
 						adapterStore!!.notifyDataSetChanged()
 					} else {
-						storeList!!.clear()
+						//storeList!!.clear()
+						Log.d("test_r1","11111 here")
 						storeList = mModelData.store_list as ArrayList
 						storeListRv(storeList!!, isMore)
 
@@ -650,6 +654,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 						no_shop_ll.visibility = View.GONE
 					} else {
 						no_shop_ll.visibility = View.VISIBLE
+						Log.d("test_r1","3333 here")
 					}
 
 				} else {
@@ -675,7 +680,7 @@ class StoreListActivity : com.fidoo.user.utils.BaseActivity() {
 		storesRecyclerView.setHasFixedSize(true)
 		storesRecyclerView.adapter = adapterStore
 		storesRecyclerView.layoutManager = manager
-
+		Log.d("test_r1","2222 here")
 
 	}
 

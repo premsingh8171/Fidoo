@@ -143,6 +143,7 @@ class OrdersFragment : Fragment(),
 										)
 									}
 								isScrolling = false
+								//isMore = false
 							}
 
 						}
@@ -196,11 +197,15 @@ class OrdersFragment : Fragment(),
 //=======
 
 //>>>>>>> f58a0b17462b64189da8db53b5d9d1245db789c5
+			//ordersList!!.clear()
+			pageCount=0
 			viewmodel?.getMyOrders(
 				SessionTwiclo(activity).loggedInUserDetail.accountId,
 				SessionTwiclo(activity).loggedInUserDetail.accessToken,
 				"0"
 			)
+
+			//isMore = false
 		}
 
 		viewmodel?.failureResponse?.observe(requireActivity(), Observer { user ->

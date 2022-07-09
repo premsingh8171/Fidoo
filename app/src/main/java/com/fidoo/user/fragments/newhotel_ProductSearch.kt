@@ -1673,6 +1673,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         countValue.text = tempCount
         cus_itemProductId = productId!!
         custom_itemCount = count!!.toInt()
+        hideKeyboard()
 
         if (type == "custom") {
             if (mCustomizeCount == 0) {
@@ -1896,6 +1897,7 @@ class newhotel_ProductSearch():Fragment(), AdapterClick,
         Log.d("count__addID", productId!!)
         // showIOSProgress()
 
+        hideKeyboard()
         if (type.equals("add")) {
             //  cartIcon.setImageResource(R.drawable.cart_icon)
 

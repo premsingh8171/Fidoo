@@ -220,7 +220,7 @@ class NewDBStoreItemsActivity :
     var isCustomizeOpen: Int = 0
     var filterActive: Int = 0// for handle filter api call response
     var cart_count: Int = 0
-    lateinit var storeItemsAdapter: com.fidoo.user.restaurants.adapter.StoreItemsAdapter
+    lateinit var storeItemsAdapter: StoreItemsAdapter
     lateinit var storeItemsAdapter2: StoreItemAdapter2
     lateinit var restaurantCategoryAdapter: NewDbRestaurantCategoryAdapter
     lateinit var categoryHeaderAdapter: CategoryHeaderAdapter
@@ -1651,12 +1651,12 @@ class NewDBStoreItemsActivity :
 
 
                                               //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 430)
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,-30)
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i,-63)
 
                                     }else{
 
                                               //  (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i + 1, 675)
-                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i ,-30)
+                                                (storeItemsRecyclerview.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i ,-63)
 
                                     }
 
@@ -1764,7 +1764,7 @@ class NewDBStoreItemsActivity :
              tempcustid = cartItem.customizeItem[0].productCustomizeId.toString()
          }
          Log.d("test_c", Gson().toJson(cartItem))
-         convertedModel.headerActiveornot = headerActiveorNot
+         convertedModel.headerActiveornot = "0"
          convertedModel.product_sub_category_id = "943656"
          convertedModel.subcategory_name = "You Searched For"
          convertedModel.cartQuantity = cartItem.quantity.toInt()
@@ -2150,6 +2150,11 @@ class NewDBStoreItemsActivity :
 
                             if (handleresponce == 0) {
 
+                                mainlist = it as ArrayList<StoreItemProductsEntity>?
+                                val s: Set<StoreItemProductsEntity> =
+                                    LinkedHashSet<StoreItemProductsEntity>(mainlist)
+                                mainlist!!.clear()
+
                                 if (is_search_poroduct_included != "1" && intent.getStringExtra("from_search") == "1"){
                                     Log.d("test_cart", Gson().toJson(addedproductslist))
                                     for(item in addedproductslist!!) {
@@ -2157,12 +2162,6 @@ class NewDBStoreItemsActivity :
                                     }
                                     is_search_poroduct_included = "1"
                                 }
-                                mainlist = it as ArrayList<StoreItemProductsEntity>?
-                                val s: Set<StoreItemProductsEntity> =
-                                    LinkedHashSet<StoreItemProductsEntity>(mainlist)
-                                mainlist!!.clear()
-
-
 
                                 mainlist!!.addAll(s)
 
@@ -2955,7 +2954,14 @@ class NewDBStoreItemsActivity :
                     cart_id,
                     customIdsList!!
                 )
-                if (is_deleting_search == "1"){
+
+                if (quantity?.toInt() == 0){
+                    for (item in addedproductslist!!){
+                        addedproductslist!!.remove(item)
+                        NewDBStoreItemsActivity.addedSearchCount = addedproductslist!!.size
+                    }
+                }
+                /*if (is_deleting_search == "1"){
                     viewmodel?.addRemoveCartResponse?.observe(this){
                         if (it.cart_quantity != "0") {
                             addedproductslist!![searchItemPosition].cart_id = it.cart_id
@@ -2963,7 +2969,7 @@ class NewDBStoreItemsActivity :
                             storeItemsAdapter2.notifyDataSetChanged()
                         }
                     }
-                }
+                }*/
 
                 Log.d("test_rem", "${Gson().toJson(customIdsList)}")
 

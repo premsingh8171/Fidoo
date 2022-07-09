@@ -18,10 +18,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/categoryTypeConsLl"
-            android:layout_width="wrap_content"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_prd_item"
-            android:padding="@dimen/dimen_5dp"
+            android:padding="8dp"
             tools:ignore="MissingConstraints">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -43,22 +43,22 @@
                 android:layout_width="@dimen/margin_20dp"
                 android:layout_height="@dimen/margin_20dp"
                 android:layout_marginLeft="@dimen/dimen_7dp"
-                android:layout_marginTop="@dimen/dimen_5dp"
                 android:src="@drawable/veg"
+                app:layout_constraintBottom_toBottomOf="@+id/categoryTypeTxtChild"
                 app:layout_constraintStart_toEndOf="@+id/categoryImgTxtChild"
-                app:layout_constraintTop_toTopOf="@+id/categoryImgTxtChild" />
+                app:layout_constraintTop_toTopOf="@+id/categoryTypeTxtChild" />
 
             <TextView
                 android:id="@+id/categoryTypeTxtChild"
-                android:layout_width="wrap_content"
+                android:layout_width="175dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_7dp"
-                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/proxima"
                 android:maxLines="1"
                 android:text="jhghghjgjhgjhgj"
                 android:textColor="@color/colorTitle"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/vegOrNonVeg"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -66,23 +66,23 @@
             <TextView
                 android:id="@+id/productPriceTxt"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_7dp"
-                android:layout_marginTop="@dimen/dimen_5dp"
                 android:fontFamily="@font/proxima"
                 android:maxLines="1"
-                android:text=""
+                android:text="000"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/add_item_lay_child"
                 app:layout_constraintStart_toEndOf="@+id/vegOrNonVeg"
-                app:layout_constraintTop_toBottomOf="@+id/categoryTypeTxtChild" />
+                app:layout_constraintTop_toTopOf="@+id/add_item_lay_child" />
 
             <LinearLayout
                 android:id="@+id/add_item_lay_child"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginStart="@dimen/margin_10"
+                android:layout_marginTop="8dp"
                 android:layout_weight=".01"
                 android:background="@drawable/black_rounded_solid"
                 android:gravity="end"
@@ -90,7 +90,7 @@
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/productPriceTxt">
+                app:layout_constraintTop_toBottomOf="@id/categoryTypeTxtChild">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -99,10 +99,11 @@
                     android:layout_marginStart="@dimen/dimen_5dp"
                     android:layout_marginEnd="@dimen/dimen_7dp"
                     android:fontFamily="@font/proxima"
+                    android:textFontWeight="600"
                     android:padding="@dimen/margin_5dp"
                     android:text="Add To Cart"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_12sp" />
+                    android:textSize="13sp" />
 
 
             </LinearLayout>
@@ -116,9 +117,11 @@
                 android:layout_weight=".01"
                 android:orientation="horizontal"
                 android:visibility="gone"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/categoryTypeTxtChild"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/productPriceTxt">
+                >
 
                 <ImageView
                     android:id="@+id/btn_minus"
