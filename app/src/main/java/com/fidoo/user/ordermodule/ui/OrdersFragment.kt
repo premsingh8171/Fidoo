@@ -240,6 +240,7 @@ class OrdersFragment : Fragment(),
 					try {
 						val mModelData: MyOrdersModel = user
 						isMore = user.more_value
+						pageCount = user.page_count.toInt()
 						Log.e("ordersResponse", Gson().toJson(mModelData))
 
 						if (pageCount > 0) {
