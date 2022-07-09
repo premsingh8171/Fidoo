@@ -367,6 +367,11 @@ class NewDBStoreItemsActivity :
 
             newSearch_frag.visibility=View.VISIBLE
 
+            if (behavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                //searchLay.visibility = View.GONE
+            }
+
 
             useconstants.searchFrag_visible= true
             cat_FloatBtn.visibility= View.GONE
@@ -2613,7 +2618,7 @@ class NewDBStoreItemsActivity :
         }
 
         tempPricee = tempOfferPrice!!.toDouble() + tempPricee!!
-        customAddBtn.text = resources.getString(R.string.ruppee) + tempPricee.toString()
+        customAddBtn.text = "Add | " + resources.getString(R.string.ruppee) + tempPricee.toString()
     }
 
     override fun onItemAddRemoveClick(

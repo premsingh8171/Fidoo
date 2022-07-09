@@ -794,12 +794,23 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 
 
-					timer1 = object : CountDownTimer(2000, 8000) {
+					timer1 = object : CountDownTimer(2000, 20000) {
 						override fun onTick(millisUntilFinished: Long) {
 							Log.e("_Timer", "seconds remaining: " + millisUntilFinished / 1000)
 
-							fragmentHomeBinding?.userAddressNewDesh?.text =
-								SessionTwiclo(context).currentlyAddress
+							if (!useconstants.addressTypeuser) {
+								if (!SessionTwiclo(context).currentlyAddress.isNullOrBlank()) {
+									fragmentHomeBinding?.userAddressNewDesh?.text =
+										SessionTwiclo(context).currentlyAddress
+								}
+							}else{
+								if (useconstants.addressTypeuser) {
+									fragmentHomeBinding?.userAddressNewDesh?.text =
+										SessionTwiclo(context).userAddress
+
+									timer1!!.cancel()
+								}
+							}
 
 							if (!useconstants.addressTypeuser) {
 								SessionTwiclo(requireContext()).userLat =
@@ -821,11 +832,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 
 
 						}
-					}
+					}.start()
 
-				if (SessionTwiclo(requireContext()).currentlyAddress.isNullOrBlank()) {
-					timer1!!.start()
-				}
+//				if (SessionTwiclo(requireContext()).currentlyAddress.isNullOrBlank()) {
+//					timer1!!.start()
+//				}
 
 
 				cancelabledialog= true
@@ -848,6 +859,11 @@ class HomeNewUiFragment : BaseFragment(), ClickEventOfDashboard {
 		}else{
 			if (timer1!=null) {
 				timer1!!.cancel()
+			}
+			if (useconstants.addressTypeuser) {
+				fragmentHomeBinding?.userAddressNewDesh?.text =
+					SessionTwiclo(context).userAddress
+
 			}
 			dialog?.dismiss()
 		}
